@@ -10,11 +10,11 @@
 *.cs        text diff=csharp merge=csharp
 *.csproj    text
 *.sln       text
-.editorconfig   text
 
 # Other source code we might encounter
 *.md        text diff=markdown merge=markdown
 *.sh        text
+.editorconfig   text
 
 # allow git to normalize its own settings files
 .gitignore      text

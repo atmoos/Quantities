@@ -2,6 +2,8 @@
 
 public interface IDimension { /* marker interface */ }
 
+public interface ILinear { /* marker interface */ }
+
 public interface ISquare<out TDimension> : ITimes<TDimension, TDimension>
 where TDimension : IDimension
 {

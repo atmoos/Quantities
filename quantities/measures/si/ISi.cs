@@ -1,4 +1,4 @@
-﻿namespace Quantities.Measures.Core;
+﻿namespace Quantities.Measures.Si;
 
 public interface ISi : IRepresentable
 {

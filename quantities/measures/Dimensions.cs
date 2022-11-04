@@ -1,4 +1,4 @@
-﻿namespace Quantities.Measures.Core;
+﻿namespace Quantities.Measures;
 
 public interface IDimension
 {

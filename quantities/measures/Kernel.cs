@@ -1,5 +1,5 @@
-﻿
-namespace Quantities.Measures.Core;
+﻿using Quantities.Measures.Si;
+namespace Quantities.Measures;
 
 internal interface IKernel
 {
@@ -12,7 +12,7 @@ internal interface IKernel
         where TKernel : IKernel;
 }
 
-public readonly struct SiKernel<TSiSelf> : IKernel
+public readonly struct SiKernel<TSiSelf> : IKernel, IRepresentable
     where TSiSelf : ISi
 {
     public static Double To<TSi>(in Double value)
@@ -28,10 +28,11 @@ public readonly struct SiKernel<TSiSelf> : IKernel
         return TNonSi.FromSi(in normalizedSiValue);
     }
     static Double IKernel.Map<TKernel>(in Double value) => TKernel.To<TSiSelf>(in value);
+    public static String Representation => TSiSelf.Representation;
 }
 
-public readonly struct OtherKernel<TNonSiSelf> : IKernel
-    where TNonSiSelf : ITransform
+public readonly struct OtherKernel<TNonSiSelf> : IKernel, IRepresentable
+    where TNonSiSelf : ITransform, IRepresentable
 {
     public static Double To<TSi>(in Double value)
         where TSi : ISi
@@ -46,4 +47,5 @@ public readonly struct OtherKernel<TNonSiSelf> : IKernel
         return TNonSi.FromSi(in siValue);
     }
     static Double IKernel.Map<TKernel>(in Double value) => TKernel.ToOther<TNonSiSelf>(in value);
+    public static String Representation => TNonSiSelf.Representation;
 }

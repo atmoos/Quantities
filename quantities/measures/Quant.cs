@@ -5,10 +5,15 @@ public readonly struct Quant : IEquatable<Quant>, IFormattable
 {
     private readonly Map map;
     public Double Value { get; }
-    internal Quant(in Double value, Map map)
+    internal Quant(in Double value, in Map map)
     {
         this.map = map;
         this.Value = value;
+    }
+
+    public Double Project<TKernel>() where TKernel : IKernel
+    {
+        return this.map.Value<TKernel>(this.Value);
     }
 
     public Boolean Equals(Quant other)

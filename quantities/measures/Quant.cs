@@ -1,4 +1,5 @@
 using System.Globalization;
+using Quantities.Measures.Si;
 
 namespace Quantities.Measures;
 public abstract class Quant : /*IEquatable<Quant>,*/ IFormattable
@@ -6,6 +7,16 @@ public abstract class Quant : /*IEquatable<Quant>,*/ IFormattable
     private protected delegate Double Math(Double left, Double right);
     public Double Value { get; }
     private protected Quant(in Double value) => Value = value;
+    public Quant To<TSi>()
+        where TSi : ISi
+    {
+        return new Impl<SiKernel<TSi>>(ValueOf<SiKernel<TSi>>());
+    }
+    public Quant ToOther<TOther>()
+        where TOther : ITransform, IRepresentable
+    {
+        return new Impl<OtherKernel<TOther>>(ValueOf<OtherKernel<TOther>>());
+    }
     public Quant Add(Quant right) => Compute(right, (l, r) => l + r);
     public Quant Subtract(Quant right) => Compute(right, (l, r) => l - r);
     private protected abstract Double ValueOf<TKernel>() where TKernel : IKernel;

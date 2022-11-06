@@ -1,7 +1,7 @@
 ﻿using Quantities.Measures.Si;
 namespace Quantities.Measures;
 
-internal interface IKernel
+public interface IKernel
 {
     static abstract Double To<TSi>(in Double value)
         where TSi : ISi;
@@ -27,7 +27,7 @@ public readonly struct SiKernel<TSiSelf> : IKernel, IRepresentable
         var normalizedSiValue = TSiSelf.Normalise(in value);
         return TNonSi.FromSi(in normalizedSiValue);
     }
-    static Double IKernel.Map<TKernel>(in Double value) => TKernel.To<TSiSelf>(in value);
+    public static Double Map<TKernel>(in Double value) where TKernel : IKernel => TKernel.To<TSiSelf>(in value);
     public static String Representation => TSiSelf.Representation;
 }
 
@@ -46,6 +46,6 @@ public readonly struct OtherKernel<TNonSiSelf> : IKernel, IRepresentable
         Double siValue = TNonSiSelf.ToSi(value);
         return TNonSi.FromSi(in siValue);
     }
-    static Double IKernel.Map<TKernel>(in Double value) => TKernel.ToOther<TNonSiSelf>(in value);
+    public static Double Map<TKernel>(in Double value) where TKernel : IKernel => TKernel.ToOther<TNonSiSelf>(in value);
     public static String Representation => TNonSiSelf.Representation;
 }

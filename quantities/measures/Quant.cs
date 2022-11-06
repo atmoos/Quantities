@@ -1,49 +1,38 @@
-using System.Globalization;
-using Quantities.Measures.Si;
-
 namespace Quantities.Measures;
-public abstract class Quant : /*IEquatable<Quant>,*/ IFormattable
+public readonly struct Quant
 {
-    private protected delegate Double Math(Double left, Double right);
+    private readonly Map map;
     public Double Value { get; }
-    private protected Quant(in Double value) => Value = value;
-    public Quant To<TSi>()
-        where TSi : ISi
+    internal Quant(in Double value, Map map)
     {
-        return new Impl<SiKernel<TSi>>(ValueOf<SiKernel<TSi>>());
+        this.map = map;
+        this.Value = value;
     }
-    public Quant ToOther<TOther>()
-        where TOther : ITransform, IRepresentable
+    public static Quant operator +(Quant left, Quant right)
     {
-        return new Impl<OtherKernel<TOther>>(ValueOf<OtherKernel<TOther>>());
+        var rightValue = left.map.Project(right.map, right.Value);
+        return new(left.Value + rightValue, left.map);
     }
-    public Quant Add(Quant right) => Compute(right, (l, r) => l + r);
-    public Quant Subtract(Quant right) => Compute(right, (l, r) => l - r);
-    private protected abstract Double ValueOf<TKernel>() where TKernel : IKernel;
-    private protected abstract Quant Compute(Quant right, Math operation);
-
-    public override String ToString() => ToString("g5", CultureInfo.CurrentCulture);
-
-    public abstract String ToString(String? format, IFormatProvider? formatProvider);
-    internal static Quant Create<TKernel>(in Double value)
-    where TKernel : IKernel, IRepresentable
+    public static Quant operator -(Quant left, Quant right)
     {
-        return new Impl<TKernel>(in value);
+        var rightValue = left.map.Project(right.map, right.Value);
+        return new(left.Value - rightValue, left.map);
     }
-    internal sealed class Impl<TKernel> : Quant
-        where TKernel : IKernel, IRepresentable
+    public static Quant operator *(Double scalar, Quant right)
     {
-        public Impl(in Double value) : base(in value) { }
-        private protected override Double ValueOf<TOtherKernel>() => TKernel.Map<TOtherKernel>(Value);
-        private protected override Quant Compute(Quant other, Math operation)
-        {
-            var right = other.ValueOf<TKernel>();
-            return new Impl<TKernel>(operation(Value, right));
-        }
-
-        public override String ToString(String? format, IFormatProvider? formatProvider)
-        {
-            return $"{Value.ToString(format, formatProvider)} {TKernel.Representation}";
-        }
+        return new(scalar * right.Value, right.map);
+    }
+    public static Quant operator *(Quant left, Double scalar)
+    {
+        return new(scalar * left.Value, left.map);
+    }
+    public static Quant operator /(Quant left, Double scalar)
+    {
+        return new(left.Value / scalar, left.map);
+    }
+    public static Double operator /(Quant left, Quant right)
+    {
+        var rightValue = left.map.Project(right.map, right.Value);
+        return left.Value / rightValue;
     }
 }

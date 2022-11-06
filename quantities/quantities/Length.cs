@@ -14,13 +14,13 @@ public readonly struct Length : ILength
         where TPrefix : IPrefix
         where TUnit : ISiUnit, ILength
     {
-        return new(Length<TPrefix, TUnit>.Create(in this.quant));
+        return new(Build<Si<TPrefix, TUnit>>.With(in this.quant));
     }
 
     public Length Create<TPrefix, TUnit>(in Double value)
         where TPrefix : IPrefix
         where TUnit : ISiUnit, ILength
     {
-        return new(Length<TPrefix, TUnit>.Create(value));
+        return new(Build<Si<TPrefix, TUnit>>.With(in value));
     }
 }

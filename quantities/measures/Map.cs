@@ -1,8 +1,4 @@
 namespace Quantities.Measures;
-public interface IMeasure
-{
-    static abstract Quant Create(in Double value);
-}
 
 internal abstract class Map
 {
@@ -14,7 +10,7 @@ internal abstract class Map
 internal sealed class Map<TKernel> : Map
     where TKernel : IKernel, IRepresentable
 {
-    public override Double Value<TOtherKernel>(in Double value) => TKernel.Map<TOtherKernel>(in value);
+    public override Double Value<TOtherKernel>(in Double value) => TOtherKernel.Map<TKernel>(in value);
     public override Double Project(Map map, in Double value) => map.Value<TKernel>(in value);
     public override String Append(String value) => $"{value} {TKernel.Representation}";
 }

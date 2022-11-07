@@ -1,6 +1,3 @@
 ﻿namespace Quantities.Unit;
 
-public interface IUnit
-{
-    static abstract String Representation { get; }
-}
+public interface IUnit : IRepresentable { /* mostly marker interface*/ }

@@ -1,0 +1,113 @@
+using Quantities.Prefixes;
+using Quantities.Quantities;
+using Quantities.Unit.Imperial.Length;
+using Quantities.Unit.Si;
+using Quantities.Unit.Si.Accepted;
+using static Quantities.Test.Convenience;
+
+namespace Quantities.Test;
+
+public sealed class LengthTest
+{
+    private const Double KILOMETRE_IN_MILES = 1d / 1.609344d;
+
+    [Fact]
+    public void MetreToKilometre()
+    {
+        Length metres = Length.Si<Metre>(1000);
+        Length kilometres = metres.To<Kilo, Metre>();
+        Assert.Equal(1d, kilometres, SiPrecision);
+    }
+
+    [Fact]
+    public void MetreToMillimetre()
+    {
+        Length metres = Length.Si<Metre>(1);
+        Length millimetres = metres.To<Milli, Metre>();
+        Assert.Equal(1000d, millimetres, SiPrecision);
+    }
+
+    [Fact]
+    public void MillimetreToKilometre()
+    {
+        Length millimetres = Length.Si<Milli, Metre>(2e6);
+        Length kilometres = millimetres.To<Kilo, Metre>();
+        Assert.Equal(2d, kilometres, SiPrecision);
+    }
+
+    [Fact]
+    public void MileToKilometre()
+    {
+        Length miles = Length.Imperial<Mile>(1);
+        Length kilometres = miles.To<Kilo, Metre>();
+        Assert.Equal(1.609344, kilometres, SiPrecision);
+    }
+
+    [Fact]
+    public void KilometreToMile()
+    {
+        Length kilometres = Length.Si<Kilo, Metre>(1.609344);
+        Length miles = kilometres.ToImperial<Mile>();
+        Assert.Equal(1d, miles, SiPrecision);
+    }
+    [Fact]
+    public void FootToMile()
+    {
+        Length feet = Length.Imperial<Foot>(5280);
+        Length expected = Length.Imperial<Mile>(1);
+        Length actual = feet.ToImperial<Mile>();
+        actual.Matches(expected);
+    }
+
+    [Fact]
+    public void AddMetresToKiloMetres()
+    {
+        Length kilometres = Length.Si<Kilo, Metre>(10);
+        Length metres = Length.Si<Metre>(20);
+        Length result = kilometres + metres;
+        Assert.Equal(10.02, result, SiPrecision);
+    }
+    [Fact]
+    public void AddKilometresToMiles()
+    {
+        Length kilometres = Length.Si<Kilo, Metre>(1);
+        Length miles = Length.Imperial<Mile>(1);
+        Length result = miles + kilometres;
+        Assert.Equal(1 + KILOMETRE_IN_MILES, result, SiPrecision);
+    }
+    [Fact]
+    public void AddMilesToKilometres()
+    {
+        Length kilometres = Length.Si<Kilo, Metre>(1);
+        Length miles = Length.Imperial<Mile>(1);
+        Length result = kilometres + miles;
+        Assert.Equal(2.609344, result, SiPrecision);
+    }
+    [Fact]
+    public void SubtractKilometresFromMetres()
+    {
+        Length metres = Length.Si<Metre>(2000);
+        Length kilometres = Length.Si<Kilo, Metre>(0.5);
+        Length result = metres - kilometres;
+        Assert.Equal(1500d, result, SiPrecision);
+    }
+
+    [Fact]
+    public void SubtractMilesFromKilometres()
+    {
+        Length kilometres = Length.Si<Kilo, Metre>(2.609344);
+        Length miles = Length.Imperial<Mile>(1);
+        Length result = kilometres - miles;
+        Assert.Equal(1d, result, SiPrecision);
+    }
+    [Fact]
+    public void OneMileInYards()
+    {
+        Length length = Length.Imperial<Mile>(1);
+        Length expected = Length.Imperial<Yard>(1760);
+
+        Length actual = length.ToImperial<Yard>();
+
+        actual.Matches(expected, ImperialPrecision);
+    }
+}

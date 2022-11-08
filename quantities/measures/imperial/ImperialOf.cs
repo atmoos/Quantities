@@ -3,8 +3,8 @@ internal readonly struct ImperialOf<TDim, TImperial> : ITransform, IRepresentabl
 where TDim : IDimension
 where TImperial : Dimensions.IDimension, ITransform, IRepresentable, Dimensions.ILinear
 {
-    private static readonly Double scaling = Math.Pow(10, TDim.Exponent);
-    public static Double ToSi(in Double value) => scaling * TImperial.ToSi(in value);
-    public static Double FromSi(in Double value) => TImperial.FromSi(in value) / scaling;
+    private static readonly Double scaling = Math.Pow(TImperial.ToSi(1d), TDim.Exponent);
+    public static Double ToSi(in Double value) => scaling * value;
+    public static Double FromSi(in Double value) => value / scaling;
     public static String Representation { get; } = $"{TImperial.Representation}{TDim.Representation}";
 }

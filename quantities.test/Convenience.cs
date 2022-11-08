@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Quantities.Quantities;
-
 namespace Quantities.Test;
 public static class Convenience
 {
@@ -14,6 +8,14 @@ public static class Convenience
         actual.Matches(expected, SiPrecision);
     }
     public static void Matches(this Length actual, Length expected, Int32 precision)
+    {
+        Assert.Equal((Double)expected, (Double)actual, precision);
+    }
+    public static void Matches(this Area actual, Area expected)
+    {
+        actual.Matches(expected, SiPrecision);
+    }
+    public static void Matches(this Area actual, Area expected, Int32 precision)
     {
         Assert.Equal((Double)expected, (Double)actual, precision);
     }

@@ -8,7 +8,7 @@ public interface ISi : IRepresentable
 
 public interface ISi<TDim, TDimension> : ISi
     where TDim : IDimension
-    where TDimension : Dimensions.IDimension, Dimensions.ILinear
+    where TDimension : ISi, Dimensions.ILinear
 {
 
 }

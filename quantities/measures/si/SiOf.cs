@@ -1,9 +1,10 @@
-﻿using Quantities.Prefixes;
+﻿using Quantities.Dimensions;
+using Quantities.Prefixes;
 using Quantities.Unit.Si;
 
 namespace Quantities.Measures.Si;
 
-internal readonly struct Si<TPrefix, TUnit> : ISi
+internal readonly struct Si<TPrefix, TUnit> : ISi, ILinear
     where TPrefix : IPrefix
     where TUnit : ISiUnit
 {
@@ -15,11 +16,10 @@ internal readonly struct Si<TPrefix, TUnit> : ISi
 
 internal readonly struct SiOf<TDim, TSiMeasure> : ISi<TDim, TSiMeasure>
     where TDim : IDimension
-    where TSiMeasure : Dimensions.IDimension, ISi, Dimensions.ILinear
+    where TSiMeasure : ISi, ILinear
 {
-
-    private static readonly Double scaling = Math.Pow(10, TDim.Exponent);
-    public static Double Normalise(in Double value) => scaling * TSiMeasure.Normalise(in value);
-    public static Double Renormalise(in Double value) => TSiMeasure.Renormalise(in value) / scaling;
+    private static readonly Double scaling = Math.Pow(TSiMeasure.Normalise(1d), TDim.Exponent);
+    public static Double Normalise(in Double value) => scaling * value;
+    public static Double Renormalise(in Double value) => value / scaling;
     public static String Representation { get; } = $"{TSiMeasure.Representation}{TDim.Representation}";
 }

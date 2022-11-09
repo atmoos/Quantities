@@ -103,4 +103,26 @@ public sealed class LengthTest
 
         actual.Matches(expected, ImperialPrecision);
     }
+    [Fact]
+    public void SiLengthBySiLengthIsSiArea()
+    {
+        Length length = Length.Si<Kilo, Metre>(2);
+        Length width = Length.Si<Hecto, Metre>(1);
+        Area expected = Area.Square<Kilo, Metre>(0.2);
+
+        Area actual = length * width;
+
+        actual.Matches(expected);
+    }
+    [Fact]
+    public void OtherLengthByOtherLengthIsOtherArea()
+    {
+        Length length = Length.Imperial<Mile>(2);
+        Length width = Length.Imperial<Yard>(1760 / 2);
+        Area expected = Area.SquareImperial<Mile>(1);
+
+        Area actual = length * width;
+
+        actual.Matches(expected, ImperialPrecision);
+    }
 }

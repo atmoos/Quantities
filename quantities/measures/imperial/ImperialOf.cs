@@ -1,10 +1,21 @@
 namespace Quantities.Measures.Imperial;
-internal readonly struct ImperialOf<TDim, TImperial> : ITransform, IRepresentable
-where TDim : IDimension
-where TImperial : Dimensions.IDimension, ITransform, IRepresentable, Dimensions.ILinear
+
+internal readonly struct Imperial<TUnit> : IOther, Dimensions.ILinear
+    where TUnit : ITransform, IRepresentable
 {
-    private static readonly Double scaling = Math.Pow(TImperial.ToSi(1d), TDim.Exponent);
+    public static Double ToSi(in Double value) => TUnit.ToSi(in value);
+    public static Double FromSi(in Double value) => TUnit.FromSi(in value);
+    public static T Inject<T>(in ICreateLinear<T> creator, in Double value) => creator.CreateOther<Imperial<TUnit>>(in value);
+    public static String Representation => TUnit.Representation;
+}
+
+internal readonly struct ImperialOf<TDim, TImperial> : IOther
+    where TDim : IDimension
+    where TImperial : IOther, Dimensions.ILinear
+{
+    private static readonly Double scaling = System.Math.Pow(TImperial.ToSi(1d), TDim.Exponent);
     public static Double ToSi(in Double value) => scaling * value;
     public static Double FromSi(in Double value) => value / scaling;
+    public static T Inject<T>(in ICreateLinear<T> creator, in Double value) => creator.CreateOther<TImperial>(in value);
     public static String Representation { get; } = $"{TImperial.Representation}{TDim.Representation}";
 }

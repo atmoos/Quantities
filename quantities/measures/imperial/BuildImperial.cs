@@ -1,6 +1,5 @@
 namespace Quantities.Measures.Imperial;
-public static class BuildImperial<TImperial>
-    where TImperial : ITransform, IRepresentable
+internal static class BuildImperial<TImperial> where TImperial : IOther
 {
     private static readonly Map map = new Map<OtherKernel<TImperial>>();
     public static Quant With(in Double value) => new(value, in map);

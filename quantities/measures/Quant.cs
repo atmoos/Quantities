@@ -1,7 +1,8 @@
 using System.Globalization;
 
 namespace Quantities.Measures;
-public readonly struct Quant : IEquatable<Quant>, IFormattable
+
+internal readonly struct Quant : IEquatable<Quant>, IFormattable
 {
     private readonly Map map;
     public Double Value { get; }
@@ -16,6 +17,12 @@ public readonly struct Quant : IEquatable<Quant>, IFormattable
         return this.map.Value<TKernel>(this.Value);
     }
 
+    public Quant Times(in Quant other, in ICreate<Quant> creator)
+    {
+        Double product = this.Value * this.map.Project(other.map, other.Value);
+        return this.map.Inject(new Creator<Quant>(in product, creator));
+    }
+
     public Boolean Equals(Quant other)
     {
         const Double min = 1d - 2e-15;
@@ -26,7 +33,7 @@ public readonly struct Quant : IEquatable<Quant>, IFormattable
 
     public override Boolean Equals(Object? obj)
     {
-        if(obj is Quant quant) {
+        if (obj is Quant quant) {
             return Equals(quant);
         }
         return false;

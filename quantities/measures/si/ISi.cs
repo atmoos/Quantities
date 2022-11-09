@@ -1,14 +1,14 @@
 ﻿namespace Quantities.Measures.Si;
 
-public interface ISi : IRepresentable
+internal interface ISi : IInjectLinear, IRepresentable
 {
     static abstract Double Normalise(in Double value);
     static abstract Double Renormalise(in Double value);
 }
 
-public interface ISi<TDim, TDimension> : ISi
+internal interface ISi<TDim, TSi> : ISi
     where TDim : IDimension
-    where TDimension : ISi, Dimensions.ILinear
+    where TSi : ISi, Dimensions.ILinear
 {
 
 }

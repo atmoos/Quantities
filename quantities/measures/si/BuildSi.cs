@@ -1,5 +1,6 @@
 namespace Quantities.Measures.Si;
-public static class BuildSi<TSi> where TSi : ISi
+
+internal static class BuildSi<TSi> where TSi : ISi
 {
     private static readonly Map map = new Map<SiKernel<TSi>>();
     public static Quant With(in Double value) => new(value, in map);

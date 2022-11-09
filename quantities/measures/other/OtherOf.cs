@@ -1,15 +1,15 @@
-namespace Quantities.Measures.Imperial;
+namespace Quantities.Measures.Other;
 
-internal readonly struct Imperial<TUnit> : IOther, Dimensions.ILinear
+internal readonly struct Other<TUnit> : IOther, Dimensions.ILinear
     where TUnit : ITransform, IRepresentable
 {
     public static Double ToSi(in Double value) => TUnit.ToSi(in value);
     public static Double FromSi(in Double value) => TUnit.FromSi(in value);
-    public static T Inject<T>(in ICreateLinear<T> creator, in Double value) => creator.CreateOther<Imperial<TUnit>>(in value);
+    public static T Inject<T>(in ICreateLinear<T> creator, in Double value) => creator.CreateOther<Other<TUnit>>(in value);
     public static String Representation => TUnit.Representation;
 }
 
-internal readonly struct ImperialOf<TDim, TImperial> : IOther
+internal readonly struct OtherOf<TDim, TImperial> : IOther
     where TDim : IDimension
     where TImperial : IOther, Dimensions.ILinear
 {

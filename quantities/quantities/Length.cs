@@ -1,6 +1,6 @@
 using Quantities.Dimensions;
 using Quantities.Measures;
-using Quantities.Measures.Imperial;
+using Quantities.Measures.Other;
 using Quantities.Measures.Si;
 using Quantities.Prefixes;
 using Quantities.Unit.Imperial;
@@ -21,7 +21,7 @@ public readonly struct Length : ILength, IEquatable<Length>, IFormattable
     public Length ToImperial<TUnit>()
     where TUnit : IImperial, ILength
     {
-        return new(BuildImperial<Imperial<TUnit>>.With(in this.quant));
+        return new(BuildOther<Other<TUnit>>.With(in this.quant));
     }
     public static Length Si<TUnit>(in Double value)
         where TUnit : ISiUnit, ILength
@@ -38,7 +38,7 @@ public readonly struct Length : ILength, IEquatable<Length>, IFormattable
     public static Length Imperial<TUnit>(in Double value)
     where TUnit : IImperial, ILength
     {
-        return new(BuildImperial<Imperial<TUnit>>.With(in value));
+        return new(BuildOther<Other<TUnit>>.With(in value));
     }
 
     public Boolean Equals(Length other) => this.quant.Equals(other.quant);
@@ -53,7 +53,7 @@ public readonly struct Length : ILength, IEquatable<Length>, IFormattable
     public static implicit operator Double(Length length) => length.quant.Value;
     public static Length operator +(Length left, Length right) => new(left.quant + right.quant);
     public static Length operator -(Length left, Length right) => new(left.quant - right.quant);
-    public static Area operator *(Length left, Length right) => Area.From(left.quant, right.quant);
+    public static Area operator *(Length left, Length right) => Area.From(in left.quant, in right.quant);
     public static Length operator *(Double scalar, Length right) => new(scalar * right.quant);
     public static Length operator *(Length left, Double scalar) => new(scalar * left.quant);
     public static Length operator /(Length left, Double scalar) => new(left.quant / scalar);

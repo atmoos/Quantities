@@ -1,7 +1,7 @@
 using Quantities.Dimensions;
 using Quantities.Measures;
-using Quantities.Measures.Imperial;
 using Quantities.Measures.Math;
+using Quantities.Measures.Other;
 using Quantities.Measures.Si;
 using Quantities.Prefixes;
 using Quantities.Unit.Imperial;
@@ -11,7 +11,7 @@ namespace Quantities.Quantities;
 
 public readonly struct Area : IArea<Length>, IEquatable<Area>, IFormattable
 {
-    private static readonly LinearMap<Quant> creator = new(new PowerOf<Square>());
+    private static readonly ICreate<Quant> creator = new LinearMap<Quant>(new PowerOf<Square>());
     private readonly Quant quant;
     private Area(in Quant quant) => this.quant = quant;
     public Area ToSquare<TUnit>()
@@ -28,12 +28,12 @@ public readonly struct Area : IArea<Length>, IEquatable<Area>, IFormattable
     public Area ToImperial<TUnit>()
     where TUnit : IImperial, IArea<ILength>
     {
-        return new(BuildImperial<Imperial<TUnit>>.With(in this.quant));
+        return new(BuildOther<Other<TUnit>>.With(in this.quant));
     }
     public Area ToSquareImperial<TLength>()
     where TLength : IImperial, ILength
     {
-        return new(BuildImperial<ImperialOf<Square, Imperial<TLength>>>.With(in this.quant));
+        return new(BuildOther<OtherOf<Square, Other<TLength>>>.With(in this.quant));
     }
     public static Area Square<TUnit>(in Double value)
         where TUnit : ISiUnit, ILength
@@ -49,16 +49,16 @@ public readonly struct Area : IArea<Length>, IEquatable<Area>, IFormattable
     public static Area SquareImperial<TLength>(Double value)
         where TLength : IImperial, ILength
     {
-        return new(BuildImperial<ImperialOf<Square, Imperial<TLength>>>.With(in value));
+        return new(BuildOther<OtherOf<Square, Other<TLength>>>.With(in value));
     }
     public static Area Imperial<TArea>(Double value)
         where TArea : IImperial, IArea<ILength>
     {
-        return new(BuildImperial<Imperial<TArea>>.With(in value));
+        return new(BuildOther<Other<TArea>>.With(in value));
     }
-    internal static Area From(Quant left, Quant right)
+    internal static Area From(in Quant left, in Quant right)
     {
-        return new(left.Times(right, creator));
+        return new(left.Times(in right, in creator));
     }
 
     public Boolean Equals(Area other) => this.quant.Equals(other.quant);

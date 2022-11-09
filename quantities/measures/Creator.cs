@@ -1,4 +1,4 @@
-using Quantities.Measures.Imperial;
+using Quantities.Measures.Other;
 using Quantities.Measures.Si;
 
 namespace Quantities.Measures;

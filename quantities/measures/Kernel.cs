@@ -1,5 +1,6 @@
-﻿using Quantities.Measures.Imperial;
+﻿using Quantities.Measures.Other;
 using Quantities.Measures.Si;
+
 namespace Quantities.Measures;
 
 internal interface IKernel
@@ -7,7 +8,7 @@ internal interface IKernel
     static abstract Double To<TSi>(in Double value)
         where TSi : ISi;
     static abstract Double ToOther<TNonSi>(in Double value)
-        where TNonSi : ITransform;
+        where TNonSi : IOther;
 
     static abstract Double Map<TKernel>(in Double value)
         where TKernel : IKernel;
@@ -24,7 +25,7 @@ internal readonly struct SiKernel<TSiSelf> : IKernel, IRepresentable
         return TSi.Renormalise(in siValue);
     }
     public static Double ToOther<TNonSi>(in Double value)
-        where TNonSi : ITransform
+        where TNonSi : IOther
     {
         var normalizedSiValue = TSiSelf.Normalise(in value);
         return TNonSi.FromSi(in normalizedSiValue);
@@ -44,7 +45,7 @@ internal readonly struct OtherKernel<TNonSiSelf> : IKernel, IRepresentable
         return TSi.Renormalise(in siValue);
     }
     public static Double ToOther<TNonSi>(in Double value)
-        where TNonSi : ITransform
+        where TNonSi : IOther
     {
         Double siValue = TNonSiSelf.ToSi(value);
         return TNonSi.FromSi(in siValue);

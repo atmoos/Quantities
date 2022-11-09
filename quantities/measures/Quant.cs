@@ -1,9 +1,12 @@
 using System.Globalization;
+using Quantities.Measures.Transformations;
 
 namespace Quantities.Measures;
 
 internal readonly struct Quant : IEquatable<Quant>, IFormattable
 {
+    private static readonly ICreate<Quant> lower = new LinearMap<Quant>(new LowerToLinear());
+    private static readonly ICreate<Quant> square = new LinearMap<Quant>(new RaiseTo<Square>());
     private readonly Map map;
     public Double Value { get; }
     internal Quant(in Double value, in Map map)
@@ -17,10 +20,10 @@ internal readonly struct Quant : IEquatable<Quant>, IFormattable
         return this.map.Value<TKernel>(this.Value);
     }
 
-    public Quant Times(in Quant other, in ICreate<Quant> creator)
+    public Quant PseudoDivision(in Quant denominator)
     {
-        Double product = this.Value * this.map.Project(other.map, other.Value);
-        return this.map.Inject(new Creator<Quant>(in product, creator));
+        var lowered = this.map.Inject(new Creator<Quant>(this.Value, in lower));
+        return new Quant(lowered / denominator, in lowered.map);
     }
 
     public Boolean Equals(Quant other)
@@ -53,6 +56,11 @@ internal readonly struct Quant : IEquatable<Quant>, IFormattable
     {
         var rightValue = left.map.Project(right.map, right.Value);
         return new(left.Value - rightValue, left.map);
+    }
+    public static Quant operator *(in Quant left, in Quant right)
+    {
+        var product = left.Value * left.map.Project(right.map, right.Value);
+        return left.map.Inject(new Creator<Quant>(in product, in square));
     }
     public static Quant operator *(Double scalar, Quant right)
     {

@@ -2,9 +2,9 @@ using Quantities.Dimensions;
 using Quantities.Measures.Other;
 using Quantities.Measures.Si;
 
-namespace Quantities.Measures.Math;
+namespace Quantities.Measures.Transformations;
 
-internal sealed class PowerOf<TDim> : ICreateLinear<Quant>
+internal sealed class RaiseTo<TDim> : ICreateLinear<Quant>
     where TDim : IDimension
 {
     public Quant CreateOther<TOther>(in Double value) where TOther : IOther, ILinear

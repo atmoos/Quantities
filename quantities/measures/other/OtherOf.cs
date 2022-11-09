@@ -13,9 +13,10 @@ internal readonly struct OtherOf<TDim, TImperial> : IOther
     where TDim : IDimension
     where TImperial : IOther, Dimensions.ILinear
 {
-    private static readonly Double scaling = System.Math.Pow(TImperial.ToSi(1d), TDim.Exponent);
-    public static Double ToSi(in Double value) => scaling * value;
-    public static Double FromSi(in Double value) => value / scaling;
+    private static readonly Double toSi = Math.Pow(TImperial.ToSi(1d), TDim.Exponent);
+    private static readonly Double fromSi = Math.Pow(TImperial.FromSi(1d), TDim.Exponent);
+    public static Double ToSi(in Double value) => toSi * value;
+    public static Double FromSi(in Double value) => fromSi * value;
     public static T Inject<T>(in ICreateLinear<T> creator, in Double value) => creator.CreateOther<TImperial>(in value);
     public static String Representation { get; } = $"{TImperial.Representation}{TDim.Representation}";
 }

@@ -1,8 +1,8 @@
 using Quantities.Dimensions;
 using Quantities.Measures;
-using Quantities.Measures.Math;
 using Quantities.Measures.Other;
 using Quantities.Measures.Si;
+using Quantities.Measures.Transformations;
 using Quantities.Prefixes;
 using Quantities.Unit.Imperial;
 using Quantities.Unit.Si;
@@ -11,7 +11,6 @@ namespace Quantities.Quantities;
 
 public readonly struct Area : IArea<Length>, IEquatable<Area>, IFormattable
 {
-    private static readonly ICreate<Quant> creator = new LinearMap<Quant>(new PowerOf<Square>());
     private readonly Quant quant;
     private Area(in Quant quant) => this.quant = quant;
     public Area ToSquare<TUnit>()
@@ -58,7 +57,7 @@ public readonly struct Area : IArea<Length>, IEquatable<Area>, IFormattable
     }
     internal static Area From(in Quant left, in Quant right)
     {
-        return new(left.Times(in right, in creator));
+        return new(left * right);
     }
 
     public Boolean Equals(Area other) => this.quant.Equals(other.quant);
@@ -75,6 +74,7 @@ public readonly struct Area : IArea<Length>, IEquatable<Area>, IFormattable
     public static Area operator -(Area left, Area right) => new(left.quant - right.quant);
     public static Area operator *(Double scalar, Area right) => new(scalar * right.quant);
     public static Area operator *(Area left, Double scalar) => new(scalar * left.quant);
+    public static Length operator /(Area left, Length right) => Length.From(in left.quant, in right);
     public static Area operator /(Area left, Double scalar) => new(left.quant / scalar);
     public static Double operator /(Area left, Area right) => left.quant / right.quant;
 }

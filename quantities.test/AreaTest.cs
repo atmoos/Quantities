@@ -1,4 +1,4 @@
-
+using Quantities.Unit.Imperial.Area;
 namespace Quantities.Test;
 public class AreaTest
 {
@@ -48,13 +48,13 @@ public class AreaTest
 
         actual.Matches(expected, ImperialPrecision);
     }
-    /*
+
     [Fact]
     public void SquareMetresDividedByMetre()
     {
         Area area = Area.Square<Deca, Metre>(48.40);
         Length length = Length.Si<Metre>(605);
-        Length expected = Length.Si<Metre>(8);
+        Length expected = Length.Si<Deca, Metre>(0.8);
 
         Length actual = area / length;
 
@@ -76,12 +76,22 @@ public class AreaTest
     {
         Area area = Area.SquareImperial<Foot>(27);
         Length length = Length.Imperial<Yard>(1);
-        Length expected = Length.Imperial<Yard>(3);
+        Length expected = Length.Imperial<Foot>(9);
 
         Length actual = area / length;
 
-        actual.Matches(expected);
+        actual.Matches(expected, ImperialPrecision);
     }
+
+    [Fact]
+    public void AcreDividedBySquareFeet()
+    {
+        Area acres = Area.Imperial<Acre>(2);
+        Area squareFeet = Area.SquareImperial<Foot>(2 * 43560);
+
+        Assert.Equal(acres, squareFeet);
+    }
+    /*
     [Fact]
     public void SquareMetersTimesMetres()
     {

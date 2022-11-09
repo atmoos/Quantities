@@ -9,7 +9,9 @@ public static class Convenience
     }
     public static void Matches(this Length actual, Length expected, Int32 precision)
     {
-        Assert.Equal((Double)expected, (Double)actual, precision);
+        Double aValue = actual;
+        Double eValue = expected;
+        Assert.Equal(eValue, aValue, precision);
     }
     public static void Matches(this Area actual, Area expected)
     {
@@ -17,6 +19,8 @@ public static class Convenience
     }
     public static void Matches(this Area actual, Area expected, Int32 precision)
     {
-        Assert.Equal((Double)expected, (Double)actual, precision);
+        Double aValue = actual;
+        Double eValue = expected;
+        Assert.Equal(eValue, aValue, precision);
     }
 }

@@ -1,3 +1,5 @@
+using Xunit.Sdk;
+
 namespace Quantities.Test;
 public static class Convenience
 {
@@ -9,9 +11,8 @@ public static class Convenience
     }
     public static void Matches(this Length actual, Length expected, Int32 precision)
     {
-        Double aValue = actual;
-        Double eValue = expected;
-        Assert.Equal(eValue, aValue, precision);
+        PrecisionIsBounded(expected, actual, precision);
+        Assert.Equal(expected.ToString(), actual.ToString());
     }
     public static void Matches(this Area actual, Area expected)
     {
@@ -19,8 +20,16 @@ public static class Convenience
     }
     public static void Matches(this Area actual, Area expected, Int32 precision)
     {
-        Double aValue = actual;
-        Double eValue = expected;
-        Assert.Equal(eValue, aValue, precision);
+        PrecisionIsBounded(expected, actual, precision);
+        Assert.Equal(expected.ToString(), actual.ToString());
+    }
+
+    private static void PrecisionIsBounded(Double expected, Double actual, Int32 precision)
+    {
+        const Int32 maxPrecision = 15;
+        Assert.Equal(expected, actual, precision);
+        if (precision < maxPrecision) {
+            Assert.Throws<EqualException>(() => Assert.Equal(expected, actual, precision + 1));
+        }
     }
 }

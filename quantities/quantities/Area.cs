@@ -2,8 +2,8 @@ using Quantities.Dimensions;
 using Quantities.Measures;
 using Quantities.Measures.Other;
 using Quantities.Measures.Si;
-using Quantities.Measures.Transformations;
 using Quantities.Prefixes;
+using Quantities.Unit;
 using Quantities.Unit.Imperial;
 using Quantities.Unit.Si;
 
@@ -25,9 +25,9 @@ public readonly struct Area : IArea<Length>, IEquatable<Area>, IFormattable
         return new(BuildSi<SiOf<Square, Si<TPrefix, TUnit>>>.With(in this.quant));
     }
     public Area ToImperial<TUnit>()
-    where TUnit : IImperial, IArea<ILength>
+    where TUnit : IImperial, IArea<ILength>, IUnitInject<ILength>
     {
-        return new(BuildOther<Other<TUnit>>.With(in this.quant));
+        return new(BuildOther<Alias<TUnit, ILength>>.With(in this.quant));
     }
     public Area ToSquareImperial<TLength>()
     where TLength : IImperial, ILength
@@ -51,9 +51,9 @@ public readonly struct Area : IArea<Length>, IEquatable<Area>, IFormattable
         return new(BuildOther<OtherOf<Square, Other<TLength>>>.With(in value));
     }
     public static Area Imperial<TArea>(Double value)
-        where TArea : IImperial, IArea<ILength>
+        where TArea : IImperial, IArea<ILength>, IUnitInject<ILength>
     {
-        return new(BuildOther<Other<TArea>>.With(in value));
+        return new(BuildOther<Alias<TArea, ILength>>.With(in value));
     }
     internal static Area From(in Quant left, in Quant right)
     {

@@ -1,4 +1,16 @@
+using Quantities.Unit;
+
 namespace Quantities.Measures.Other;
+
+internal readonly struct Alias<TUnit, TAlias> : IOther, Dimensions.ILinear
+    where TUnit : ITransform, IRepresentable, IUnitInject<TAlias>
+    where TAlias : Dimensions.IDimension
+{
+    public static Double ToSi(in Double value) => TUnit.ToSi(in value);
+    public static Double FromSi(in Double value) => TUnit.FromSi(in value);
+    public static T Inject<T>(in ICreateLinear<T> creator, in Double value) => TUnit.Inject(new AliasInject<TAlias, T>(creator), in value);
+    public static String Representation => TUnit.Representation;
+}
 
 internal readonly struct Other<TUnit> : IOther, Dimensions.ILinear
     where TUnit : ITransform, IRepresentable

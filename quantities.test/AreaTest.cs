@@ -63,13 +63,13 @@ public class AreaTest
     [Fact]
     public void PureArealDimensionDividedByLength()
     {
-        Area area = Area.Imperial<Acre>(1);
-        Length length = Length.Imperial<Yard>(605);
-        Length expected = Length.Imperial<Yard>(8);
+        Area area = Area.Imperial<Acre>(2);
+        Length length = Length.Imperial<Foot>(1815);
+        Length expected = Length.Imperial<Yard>(16);
 
         Length actual = area / length;
 
-        actual.Matches(expected, ImperialPrecision);
+        actual.Matches(expected);
     }
     [Fact]
     public void SquareYardsDividedByFeet()

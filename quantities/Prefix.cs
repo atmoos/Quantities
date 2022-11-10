@@ -30,12 +30,6 @@ public interface IPrefix
     internal static abstract String Representation { get; }
 }
 
-public readonly struct Foo : IPrefix
-{
-    static Int32 IPrefix.Exponent => 3;
-    static String IPrefix.Representation => "3";
-}
-
 public readonly struct Yotta : IPrefix, IScaleUp
 {
     static Int32 IPrefix.Exponent => 24;

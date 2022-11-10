@@ -101,7 +101,7 @@ public sealed class LengthTest
 
         Length actual = length.ToImperial<Yard>();
 
-        actual.Matches(expected, ImperialPrecision);
+        actual.Matches(expected);
     }
     [Fact]
     public void SiLengthBySiLengthIsSiArea()
@@ -123,6 +123,6 @@ public sealed class LengthTest
 
         Area actual = length * width;
 
-        actual.Matches(expected, ImperialPrecision);
+        actual.Matches(expected);
     }
 }

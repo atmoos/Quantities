@@ -2,7 +2,6 @@ using Quantities.Dimensions;
 using Quantities.Measures;
 using Quantities.Measures.Other;
 using Quantities.Measures.Si;
-using Quantities.Measures.Transformations;
 using Quantities.Prefixes;
 using Quantities.Unit.Imperial;
 using Quantities.Unit.Si;
@@ -11,7 +10,6 @@ namespace Quantities.Quantities;
 
 public readonly struct Length : ILength, IEquatable<Length>, IFormattable
 {
-    private static readonly ICreate<Quant> lowerToLength = new LinearMap<Quant>(new LowerToLinear());
     private readonly Quant quant;
     private Length(in Quant quant) => this.quant = quant;
     public Length To<TPrefix, TUnit>()

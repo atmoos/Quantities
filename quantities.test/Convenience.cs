@@ -24,6 +24,16 @@ public static class Convenience
         Assert.Equal(expected.ToString(), actual.ToString());
     }
 
+    public static void Matches(this Time actual, Time expected)
+    {
+        actual.Matches(expected, SiPrecision);
+    }
+    public static void Matches(this Time actual, Time expected, Int32 precision)
+    {
+        PrecisionIsBounded(expected, actual, precision);
+        Assert.Equal(expected.ToString(), actual.ToString());
+    }
+
     private static void PrecisionIsBounded(Double expected, Double actual, Int32 precision)
     {
         const Int32 maxPrecision = 15;

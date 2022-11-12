@@ -6,7 +6,7 @@ internal static class Build<TMeasure> where TMeasure : IMeasure
     public static Quant With(in Double value) => new(value, in map);
     public static Quant With(in Quant value)
     {
-        var siValue = value.Project<TMeasure>();
-        return new(in siValue, in map);
+        var projection = value.Project<TMeasure>();
+        return new(in projection, in map);
     }
 }

@@ -5,8 +5,8 @@ namespace Quantities.Measures;
 
 internal readonly struct Quant : IEquatable<Quant>, IFormattable
 {
-    private static readonly ICreate<Quant> lower = new LinearMap<Quant>(new LowerToLinear());
-    private static readonly ICreate<Quant> square = new LinearMap<Quant>(new RaiseTo<Square>());
+    private static readonly ICreate<Quant> lower = new LowerToLinear();
+    private static readonly ICreate<Quant> square = new RaiseTo<Square>();
     private readonly Map map;
     private readonly Double value;
     public Double Value => this.value;
@@ -23,7 +23,7 @@ internal readonly struct Quant : IEquatable<Quant>, IFormattable
 
     public Quant PseudoDivision(in Quant denominator)
     {
-        var lowered = this.map.Inject(new Creator<Quant>(in this.value, in lower));
+        var lowered = this.map.Inject(in lower, in this.value);
         return new Quant(lowered / denominator, in lowered.map);
     }
 
@@ -61,7 +61,7 @@ internal readonly struct Quant : IEquatable<Quant>, IFormattable
     public static Quant operator *(in Quant left, in Quant right)
     {
         var product = left.value * left.map.Project(right.map, in right.value);
-        return left.map.Inject(new Creator<Quant>(in product, in square));
+        return left.map.Inject(in square, in product);
     }
     public static Quant operator *(Double scalar, Quant right)
     {

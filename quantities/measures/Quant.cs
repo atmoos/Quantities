@@ -44,7 +44,7 @@ internal readonly struct Quant : IEquatable<Quant>, IFormattable
 
     public override Int32 GetHashCode() => this.Value.GetHashCode() ^ this.map.GetHashCode();
     public override String ToString() => ToString("g5", CultureInfo.CurrentCulture);
-    public String ToString(String? format, IFormatProvider? provider) => this.map.Append(this.Value.ToString(format, provider));
+    public String ToString(String? format, IFormatProvider? provider) => $"{this.Value.ToString(format, provider)} {this.map.Representation}";
     public static Boolean operator ==(Quant left, Quant right) => left.Equals(right);
     public static Boolean operator !=(Quant left, Quant right) => !left.Equals(right);
     public static Quant operator +(Quant left, Quant right)

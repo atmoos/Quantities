@@ -1,19 +1,15 @@
 using Quantities.Dimensions;
-using Quantities.Measures.Other;
-using Quantities.Measures.Si;
 
 namespace Quantities.Measures;
 
 internal interface ICreate<out T>
 {
-    T CreateSi<TSi>(in Double value) where TSi : ISi;
-    T CreateOther<TOther>(in Double value) where TOther : IOther;
+    T Create<TMeasure>(in Double value) where TMeasure : IMeasure;
 }
 
 internal interface ICreateLinear<out T>
 {
-    T CreateSi<TSi>(in Double value) where TSi : ISi, ILinear;
-    T CreateOther<TOther>(in Double value) where TOther : IOther, ILinear;
+    T Create<TMeasure>(in Double value) where TMeasure : IMeasure, ILinear;
 }
 
 internal interface IInjectLinear

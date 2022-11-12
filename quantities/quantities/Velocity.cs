@@ -1,7 +1,5 @@
 using Quantities.Dimensions;
 using Quantities.Measures;
-using Quantities.Measures.Other;
-using Quantities.Measures.Si;
 using Quantities.Prefixes;
 using Quantities.Quantities.Builders;
 using Quantities.Unit.Imperial;
@@ -18,12 +16,12 @@ public readonly struct Velocity : IVelocity, IEquatable<Velocity>, IFormattable
         where TPrefix : IPrefix
         where TUnit : ISiUnit, ILength
     {
-        return new SiTo<Velocity, Si<TPrefix, TUnit>>(in this.quant);
+        return new Transform<Velocity, Si<TPrefix, TUnit>>(in this.quant);
     }
     public IBuilder<Velocity> ToImperial<TUnit>()
     where TUnit : IImperial, ILength
     {
-        return new OtherTo<Velocity, Other<TUnit>>(in this.quant);
+        return new Transform<Velocity, Other<TUnit>>(in this.quant);
     }
     public static IBuilder<Velocity> Si<TUnit>(in Double value)
         where TUnit : ISiUnit, ILength => Si<UnitPrefix, TUnit>(in value);
@@ -31,17 +29,17 @@ public readonly struct Velocity : IVelocity, IEquatable<Velocity>, IFormattable
     where TPrefix : IPrefix
     where TUnit : ISiUnit, ILength
     {
-        return new SiBuilder<Velocity, Si<TPrefix, TUnit>>(in value);
+        return new Builder<Velocity, Si<TPrefix, TUnit>>(in value);
     }
     public static IBuilder<Velocity> Imperial<TUnit>(in Double value)
     where TUnit : IImperial, ILength
     {
-        return new OtherBuilder<Velocity, Other<TUnit>>(in value);
+        return new Builder<Velocity, Other<TUnit>>(in value);
     }
 
     public Boolean Equals(Velocity other) => this.quant.Equals(other.quant);
 
-    public override Boolean Equals(Object? obj) => obj is Velocity velocity && this.Equals(velocity);
+    public override Boolean Equals(Object? obj) => obj is Velocity velocity && Equals(velocity);
 
     public override Int32 GetHashCode() => this.quant.GetHashCode();
     public override String ToString() => this.quant.ToString();

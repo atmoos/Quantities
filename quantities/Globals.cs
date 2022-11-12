@@ -1,1 +1,3 @@
-global using static Quantities.Measures.Quant;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("quantities.test")]

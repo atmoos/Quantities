@@ -1,7 +1,5 @@
 using Quantities.Dimensions;
 using Quantities.Measures;
-using Quantities.Measures.Other;
-using Quantities.Measures.Si;
 using Quantities.Prefixes;
 using Quantities.Unit.Si;
 
@@ -16,12 +14,12 @@ public readonly struct Time : ITime, IEquatable<Time>, IFormattable
         where TPrefix : IPrefix, IScaleDown
         where TUnit : ISiUnit, ITime
     {
-        return new(BuildSi<Si<TPrefix, TUnit>>.With(in this.quant));
+        return new(Build<Si<TPrefix, TUnit>>.With(in this.quant));
     }
     public Time To<TUnit>()
     where TUnit : ISiAcceptedUnit, ITransform, ITime
     {
-        return new(BuildOther<Other<TUnit>>.With(in this.quant));
+        return new(Build<Other<TUnit>>.With(in this.quant));
     }
     public TimeSpan ToTimeSpan() => TimeSpan.FromSeconds(ToSeconds());
 
@@ -30,18 +28,18 @@ public readonly struct Time : ITime, IEquatable<Time>, IFormattable
     where TPrefix : IPrefix, IScaleDown
     where TUnit : ISiUnit, ITime
     {
-        return new(BuildSi<Si<TPrefix, TUnit>>.With(in value));
+        return new(Build<Si<TPrefix, TUnit>>.With(in value));
     }
     public static Time In<TUnit>(in Double value)
         where TUnit : ISiAcceptedUnit, ITransform, ITime
     {
-        return new(BuildOther<Other<TUnit>>.With(in value));
+        return new(Build<Other<TUnit>>.With(in value));
     }
 
 
     public Boolean Equals(Time other) => this.quant.Equals(other.quant);
 
-    public override Boolean Equals(Object? obj) => obj is Time time && this.Equals(time);
+    public override Boolean Equals(Object? obj) => obj is Time time && Equals(time);
 
     public override Int32 GetHashCode() => this.quant.GetHashCode();
     public override String ToString() => this.quant.ToString();

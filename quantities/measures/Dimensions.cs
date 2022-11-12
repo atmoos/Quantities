@@ -1,21 +1,21 @@
 ﻿namespace Quantities.Measures;
 
-public interface IDimension
+internal interface IDimension
 {
     internal static abstract Int32 Exponent { get; }
     public static abstract String Representation { get; }
 }
-public sealed class Linear : IDimension
+internal readonly struct Linear : IDimension
 {
     static Int32 IDimension.Exponent => 1;
     public static String Representation => String.Empty;
 }
-public sealed class Square : IDimension
+internal readonly struct Square : IDimension
 {
     static Int32 IDimension.Exponent => 2;
     public static String Representation => "²";
 }
-public sealed class Cube : IDimension
+internal readonly struct Cube : IDimension
 {
     static Int32 IDimension.Exponent => 3;
     public static String Representation => "³";

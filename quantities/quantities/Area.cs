@@ -1,7 +1,5 @@
 using Quantities.Dimensions;
 using Quantities.Measures;
-using Quantities.Measures.Other;
-using Quantities.Measures.Si;
 using Quantities.Prefixes;
 using Quantities.Unit;
 using Quantities.Unit.Imperial;
@@ -22,17 +20,17 @@ public readonly struct Area : IArea<Length>, IEquatable<Area>, IFormattable
         where TPrefix : IPrefix
         where TUnit : ISiUnit, ILength
     {
-        return new(BuildSi<SiOf<Square, Si<TPrefix, TUnit>>>.With(in this.quant));
+        return new(Build<Power<Square, Si<TPrefix, TUnit>>>.With(in this.quant));
     }
     public Area ToImperial<TUnit>()
     where TUnit : IImperial, IArea<ILength>, IUnitInject<ILength>
     {
-        return new(BuildOther<Alias<TUnit, ILength>>.With(in this.quant));
+        return new(Build<Alias<TUnit, ILength>>.With(in this.quant));
     }
     public Area ToSquareImperial<TLength>()
     where TLength : IImperial, ILength
     {
-        return new(BuildOther<OtherOf<Square, Other<TLength>>>.With(in this.quant));
+        return new(Build<Power<Square, Other<TLength>>>.With(in this.quant));
     }
     public static Area Square<TUnit>(in Double value)
         where TUnit : ISiUnit, ILength
@@ -43,17 +41,17 @@ public readonly struct Area : IArea<Length>, IEquatable<Area>, IFormattable
         where TPrefix : IPrefix
         where TUnit : ISiUnit, ILength
     {
-        return new(BuildSi<SiOf<Square, Si<TPrefix, TUnit>>>.With(in value));
+        return new(Build<Power<Square, Si<TPrefix, TUnit>>>.With(in value));
     }
     public static Area SquareImperial<TLength>(Double value)
         where TLength : IImperial, ILength
     {
-        return new(BuildOther<OtherOf<Square, Other<TLength>>>.With(in value));
+        return new(Build<Power<Square, Other<TLength>>>.With(in value));
     }
     public static Area Imperial<TArea>(Double value)
         where TArea : IImperial, IArea<ILength>, IUnitInject<ILength>
     {
-        return new(BuildOther<Alias<TArea, ILength>>.With(in value));
+        return new(Build<Alias<TArea, ILength>>.With(in value));
     }
     internal static Area From(in Quant left, in Quant right)
     {
@@ -62,7 +60,7 @@ public readonly struct Area : IArea<Length>, IEquatable<Area>, IFormattable
 
     public Boolean Equals(Area other) => this.quant.Equals(other.quant);
 
-    public override Boolean Equals(Object? obj) => obj is Area Area && this.Equals(Area);
+    public override Boolean Equals(Object? obj) => obj is Area Area && Equals(Area);
 
     public override Int32 GetHashCode() => this.quant.GetHashCode();
     public override String ToString() => this.quant.ToString();

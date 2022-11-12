@@ -1,7 +1,5 @@
 using Quantities.Dimensions;
 using Quantities.Measures;
-using Quantities.Measures.Other;
-using Quantities.Measures.Si;
 using Quantities.Prefixes;
 using Quantities.Unit.Imperial;
 using Quantities.Unit.Si;
@@ -16,28 +14,28 @@ public readonly struct Length : ILength, IEquatable<Length>, IFormattable
         where TPrefix : IPrefix
         where TUnit : ISiUnit, ILength
     {
-        return new(BuildSi<Si<TPrefix, TUnit>>.With(in this.quant));
+        return new(Build<Si<TPrefix, TUnit>>.With(in this.quant));
     }
     public Length ToImperial<TUnit>()
     where TUnit : IImperial, ILength
     {
-        return new(BuildOther<Other<TUnit>>.With(in this.quant));
+        return new(Build<Other<TUnit>>.With(in this.quant));
     }
     public static Length Si<TUnit>(in Double value)
         where TUnit : ISiUnit, ILength
     {
-        return new(BuildSi<Si<UnitPrefix, TUnit>>.With(in value));
+        return new(Build<Si<UnitPrefix, TUnit>>.With(in value));
     }
     public static Length Si<TPrefix, TUnit>(in Double value)
     where TPrefix : IPrefix
     where TUnit : ISiUnit, ILength
     {
-        return new(BuildSi<Si<TPrefix, TUnit>>.With(in value));
+        return new(Build<Si<TPrefix, TUnit>>.With(in value));
     }
     public static Length Imperial<TUnit>(in Double value)
     where TUnit : IImperial, ILength
     {
-        return new(BuildOther<Other<TUnit>>.With(in value));
+        return new(Build<Other<TUnit>>.With(in value));
     }
     internal static Length From(in Quant area, in Length length)
     {
@@ -46,7 +44,7 @@ public readonly struct Length : ILength, IEquatable<Length>, IFormattable
 
     public Boolean Equals(Length other) => this.quant.Equals(other.quant);
 
-    public override Boolean Equals(Object? obj) => obj is Length length && this.Equals(length);
+    public override Boolean Equals(Object? obj) => obj is Length length && Equals(length);
 
     public override Int32 GetHashCode() => this.quant.GetHashCode();
     public override String ToString() => this.quant.ToString();

@@ -25,6 +25,16 @@ public static class Convenience
         Assert.Equal(expected.ToString(), actual.ToString());
     }
 
+    public static void Matches(this Volume actual, Volume expected)
+    {
+        actual.Matches(expected, SiPrecision);
+    }
+    public static void Matches(this Volume actual, Volume expected, Int32 precision)
+    {
+        PrecisionIsBounded(expected, actual, precision);
+        Assert.Equal(expected.ToString(), actual.ToString());
+    }
+
     public static void Matches(this Time actual, Time expected)
     {
         actual.Matches(expected, SiPrecision);

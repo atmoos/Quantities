@@ -125,4 +125,40 @@ public sealed class LengthTest
 
         actual.Matches(expected);
     }
+
+    /*
+    [Fact]
+    public void SiLengthBySiTimeIsVelocity()
+    {
+        Length distance = Length.Si<Milli, Metre>(100);
+        Time duration = Time.Seconds(20);
+        Velocity expected = Velocity.Si<Milli, Metre>(5).PerSecond();
+
+        Velocity actual = distance / duration;
+
+        actual.Matches(expected);
+    }
+    [Fact]
+    public void SiLengthByOtherTimeIsVelocity()
+    {
+        Length distance = Length.Si<Kilo, Metre>(120);
+        Time duration = Time.SiAccepted<Hour>(10);
+        Velocity expected = Velocity.Si<Kilo, Metre>(12).Per<Hour>();
+
+        Velocity actual = distance / duration;
+
+        actual.Matches(expected);
+    }
+    [Fact]
+    public void OtherLengthByTimeIsVelocity()
+    {
+        Length distance = Length.Imperial<Mile>(70);
+        Time duration = Time.SiAccepted<Hour>(2);
+        Velocity expected = Velocity.Imperial<Mile>(35).Per<Hour>();
+
+        Velocity actual = distance / duration;
+
+        actual.Matches(expected);
+    }
+    */
 }

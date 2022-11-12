@@ -80,7 +80,7 @@ public class AreaTest
 
         Length actual = area / length;
 
-        actual.Matches(expected, ImperialPrecision);
+        actual.Matches(expected);
     }
 
     [Fact]
@@ -91,12 +91,11 @@ public class AreaTest
 
         Assert.Equal(acres, squareFeet);
     }
-    /*
     [Fact]
     public void SquareMetersTimesMetres()
     {
         Area area = Area.Square<Metre>(27);
-        Length length = Length.Si<Metre>(3);
+        Length length = Length.Si<Deci, Metre>(30);
         Volume expected = Volume.Cubic<Metre>(81);
 
         Volume actual = area * length;
@@ -108,11 +107,10 @@ public class AreaTest
     {
         Area area = Area.SquareImperial<Foot>(27);
         Length length = Length.Imperial<Yard>(2);
-        Volume expected = Volume.CubicImperial<Yard>(6);
+        Volume expected = Volume.CubicImperial<Foot>(162);
 
         Volume actual = area * length;
 
-        actual.Matches(expected, ImperialPrecision);
+        actual.Matches(expected);
     }
-    */
 }

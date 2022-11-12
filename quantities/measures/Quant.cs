@@ -5,8 +5,6 @@ namespace Quantities.Measures;
 
 internal readonly struct Quant : IEquatable<Quant>, IFormattable
 {
-    private static readonly ICreate<Quant> lower = new LowerToLinear();
-    private static readonly ICreate<Quant> square = new RaiseTo<Square>();
     private readonly Map map;
     private readonly Double value;
     public Double Value => this.value;
@@ -20,11 +18,16 @@ internal readonly struct Quant : IEquatable<Quant>, IFormattable
     {
         return this.map.MapTo<TMeasure>(in this.value);
     }
-
-    public Quant PseudoDivision(in Quant denominator)
+    public Quant Transform(in ICreate<Quant> transformation) => this.map.Inject(in transformation, in this.value);
+    public Quant PseudoMultiply(in Quant right)
     {
-        var lowered = this.map.Inject(in lower, in this.value);
-        return new Quant(lowered / denominator, in lowered.map);
+        var projected = this.map.Project(right.map, in right.value);
+        return new(this.value * projected, this.map);
+    }
+    public Quant PseudoDivide(in Quant denominator)
+    {
+        var projected = this.map.Project(denominator.map, in denominator.value);
+        return new(this.value / projected, this.map);
     }
 
     public Boolean Equals(Quant other)
@@ -57,11 +60,6 @@ internal readonly struct Quant : IEquatable<Quant>, IFormattable
     {
         var rightValue = left.map.Project(right.map, in right.value);
         return new(left.value - rightValue, left.map);
-    }
-    public static Quant operator *(in Quant left, in Quant right)
-    {
-        var product = left.value * left.map.Project(right.map, in right.value);
-        return left.map.Inject(in square, in product);
     }
     public static Quant operator *(Double scalar, Quant right)
     {

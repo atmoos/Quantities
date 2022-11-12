@@ -4,41 +4,41 @@ using Quantities.Prefixes;
 using Quantities.Unit.Imperial;
 using Quantities.Unit.Si;
 
-namespace Quantities;
+namespace Quantities.Quantities;
 
 public readonly struct Mass : IMass, IEquatable<Mass>, IFormattable
 {
     private readonly Quant quant;
     private Mass(in Quant quant) => this.quant = quant;
     public Mass To<TUnit>()
-        where TUnit : ISiUnit, IMass, new()
+        where TUnit : ISiUnit, IMass
     {
         return new(Build<Si<UnitPrefix, TUnit>>.With(in this.quant));
     }
     public Mass To<TPrefix, TUnit>()
-        where TPrefix : IPrefix, new()
-        where TUnit : ISiDerivedUnit, IMass, new()
+        where TPrefix : IPrefix
+        where TUnit : ISiDerivedUnit, IMass
     {
         return new(Build<Si<TPrefix, TUnit>>.With(in this.quant));
     }
     public Mass ToImperial<TUnit>()
-        where TUnit : IImperial, IMass, new()
+        where TUnit : IImperial, IMass
     {
         return new(Build<Other<TUnit>>.With(in this.quant));
     }
     public static Mass Si<TUnit>(in Double value)
-        where TUnit : ISiUnit, IMass, new()
+        where TUnit : ISiUnit, IMass
     {
         return new(Build<Si<UnitPrefix, TUnit>>.With(in value));
     }
     public static Mass Si<TPrefix, TUnit>(in Double value)
-        where TPrefix : IPrefix, new()
-        where TUnit : ISiDerivedUnit, IMass, new()
+        where TPrefix : IPrefix
+        where TUnit : ISiDerivedUnit, IMass
     {
         return new(Build<Si<TPrefix, TUnit>>.With(in value));
     }
     public static Mass Imperial<TUnit>(Double value)
-        where TUnit : IImperial, IMass, new()
+        where TUnit : IImperial, IMass
     {
         return new(Build<Other<TUnit>>.With(in value));
     }

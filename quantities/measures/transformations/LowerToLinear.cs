@@ -1,6 +1,6 @@
 namespace Quantities.Measures.Transformations;
 
-internal sealed class LowerToLinear : ICreate<Quant>
+internal sealed class ToLinear : ICreate<Quant>
 {
     public Quant Create<TMeasure>(in Double value) where TMeasure : IMeasure
     {

@@ -1,5 +1,6 @@
 using Quantities.Dimensions;
 using Quantities.Measures;
+using Quantities.Measures.Transformations;
 using Quantities.Prefixes;
 using Quantities.Unit.Imperial;
 using Quantities.Unit.Si;
@@ -8,7 +9,9 @@ namespace Quantities.Quantities;
 
 public readonly struct Length : ILength, IEquatable<Length>, IFormattable
 {
+    private static readonly ICreate<Quant> linear = new ToLinear();
     private readonly Quant quant;
+    internal Quant Quant => this.quant;
     private Length(in Quant quant) => this.quant = quant;
     public Length To<TPrefix, TUnit>()
         where TPrefix : IPrefix
@@ -37,9 +40,16 @@ public readonly struct Length : ILength, IEquatable<Length>, IFormattable
     {
         return new(Build<Other<TUnit>>.With(in value));
     }
-    internal static Length From(in Quant area, in Length length)
+    internal static Length From(in Area area, in Length length)
     {
-        return new Length(area.PseudoDivision(in length.quant));
+        var pseudoArea = area.Quant.Transform(in linear);
+        return new(pseudoArea.PseudoDivide(length.Quant));
+    }
+    internal static Length From(in Volume volume, in Area area)
+    {
+        var pseudoArea = area.Quant.Transform(in linear);
+        var pseudoVolume = volume.Quant.Transform(in linear);
+        return new(pseudoVolume.PseudoDivide(in pseudoArea));
     }
 
     public Boolean Equals(Length other) => this.quant.Equals(other.quant);
@@ -54,7 +64,8 @@ public readonly struct Length : ILength, IEquatable<Length>, IFormattable
     public static implicit operator Double(Length length) => length.quant.Value;
     public static Length operator +(Length left, Length right) => new(left.quant + right.quant);
     public static Length operator -(Length left, Length right) => new(left.quant - right.quant);
-    public static Area operator *(Length left, Length right) => Area.From(in left.quant, in right.quant);
+    public static Area operator *(Length left, Length right) => Area.From(in left, in right);
+    public static Volume operator *(Length length, Area area) => Volume.Times(length, area);
     public static Length operator *(Double scalar, Length right) => new(scalar * right.quant);
     public static Length operator *(Length left, Double scalar) => new(scalar * left.quant);
     public static Length operator /(Length left, Double scalar) => new(left.quant / scalar);

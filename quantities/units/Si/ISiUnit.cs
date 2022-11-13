@@ -1,6 +1,6 @@
 ﻿namespace Quantities.Unit.Si;
 
-public interface ISiUnit : IUnit
+// ToDo: Try to remove ITransform from this interface again
+public interface ISiUnit : ITransform, IUnit
 {
-    internal static abstract Int32 Offset { get; }
 }

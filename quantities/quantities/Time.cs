@@ -17,7 +17,7 @@ public readonly struct Time : ITime, IEquatable<Time>, IFormattable
         return new(Build<Si<TPrefix, TUnit>>.With(in this.quant));
     }
     public Time To<TUnit>()
-    where TUnit : ISiAcceptedUnit, ITransform, ITime
+    where TUnit : ISiAcceptedUnit, ITime
     {
         return new(Build<Other<TUnit>>.With(in this.quant));
     }
@@ -31,7 +31,7 @@ public readonly struct Time : ITime, IEquatable<Time>, IFormattable
         return new(Build<Si<TPrefix, TUnit>>.With(in value));
     }
     public static Time In<TUnit>(in Double value)
-        where TUnit : ISiAcceptedUnit, ITransform, ITime
+        where TUnit : ISiAcceptedUnit, ITime
     {
         return new(Build<Other<TUnit>>.With(in value));
     }

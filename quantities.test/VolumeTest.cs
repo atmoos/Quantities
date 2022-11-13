@@ -13,7 +13,7 @@ public sealed class VolumeTest
         Volume result = left + right;
         Assert.Equal(30d, result, SiPrecision);
     }
-    [Fact(Skip = "Litre not properly implemented")]
+    [Fact]
     public void FromSiToLitre()
     {
         Volume si = Volume.Cubic<Metre>(1);
@@ -22,7 +22,7 @@ public sealed class VolumeTest
         Volume actual = si.ToSi<Litre>();
         Assert.Equal(expected, actual);
     }
-    [Fact(Skip = "Litre not properly implemented")]
+    [Fact]
     public void FromSiToHectoLitre()
     {
         Volume si = Volume.Cubic<Metre>(1);
@@ -31,7 +31,7 @@ public sealed class VolumeTest
         Volume actual = si.ToSi<Hecto, Litre>();
         Assert.Equal(expected, actual);
     }
-    [Fact(Skip = "Litre not properly implemented")]
+    [Fact]
     public void FromMilliLitreToCubicCentimetre()
     {
         Volume litre = Volume.Si<Milli, Litre>(1);
@@ -40,7 +40,7 @@ public sealed class VolumeTest
         Volume actual = litre.ToCubic<Centi, Metre>();
         Assert.Equal(expected, actual);
     }
-    [Fact(Skip = "Litre not properly implemented")]
+    [Fact]
     public void FromCubicMillimetreToMicroLitre()
     {
         Volume si = Volume.Cubic<Milli, Metre>(5);
@@ -94,7 +94,7 @@ public sealed class VolumeTest
         Volume actual = imperial.ToSi<Litre>();
         Assert.Equal(expected, actual);
     }
-    [Fact(Skip = "Litre not properly implemented")]
+    [Fact]
     public void FromMillilitreToImperialFluidOunce()
     {
         Volume si = Volume.Si<Milli, Litre>(2 * 28.4130625);
@@ -114,7 +114,7 @@ public sealed class VolumeTest
 
         actual.Matches(expected);
     }
-    [Fact(Skip = "Litre not properly implemented")]
+    [Fact]
     public void DividePureVolumeByLength()
     {
         Volume volume = Volume.Si<Hecto, Litre>(300);

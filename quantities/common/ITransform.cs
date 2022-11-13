@@ -2,6 +2,6 @@ namespace Quantities;
 
 public interface ITransform
 {
-    static abstract Double ToSi(in Double nonSiValue);
-    static abstract Double FromSi(in Double siValue);
+    static abstract Double ToSi(in Double value);
+    static abstract Double FromSi(in Double value);
 }

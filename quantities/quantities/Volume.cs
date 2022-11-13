@@ -27,15 +27,15 @@ public readonly struct Volume : IVolume<ILength>, IEquatable<Volume>, IFormattab
         return new(Build<Power<Cube, Si<TPrefix, TUnit>>>.With(in this.quant));
     }
     public Volume ToSi<TUnit>()
-    where TUnit : ISiAcceptedUnit, ITransform, IVolume<ILength>, IUnitInject<ILength>
+    where TUnit : ISiAcceptedUnit, IVolume<ILength>, IUnitInject<ILength>
     {
         return new(Build<Alias<TUnit, ILength>>.With(in this.quant));
     }
     public Volume ToSi<TPrefix, TUnit>()
         where TPrefix : IPrefix
-        where TUnit : ISiAcceptedUnit, ITransform, IVolume<ILength>, IUnitInject<ILength>
+        where TUnit : ISiAcceptedUnit, IVolume<ILength>, IUnitInject<ILength>
     {
-        return new(Build<Alias<TUnit, ILength>>.With(in this.quant));
+        return new(Build<Alias<TPrefix, TUnit, ILength>>.With(in this.quant));
     }
     public Volume ToImperial<TUnit>()
         where TUnit : IImperial, IVolume<ILength>, IUnitInject<ILength>
@@ -59,15 +59,15 @@ public readonly struct Volume : IVolume<ILength>, IEquatable<Volume>, IFormattab
         return new(Build<Power<Cube, Si<TPrefix, TUnit>>>.With(in value));
     }
     public static Volume Si<TVolume>(Double value)
-        where TVolume : ISiAcceptedUnit, ITransform, IVolume<ILength>, IUnitInject<ILength>
+        where TVolume : ISiAcceptedUnit, IVolume<ILength>, IUnitInject<ILength>
     {
         return new(Build<Alias<TVolume, ILength>>.With(in value));
     }
     public static Volume Si<TPrefix, TVolume>(Double value)
         where TPrefix : IPrefix
-        where TVolume : ISiAcceptedUnit, ITransform, IVolume<ILength>, IUnitInject<ILength>
+        where TVolume : ISiAcceptedUnit, IVolume<ILength>, IUnitInject<ILength>
     {
-        return new(Build<Alias<TVolume, ILength>>.With(in value));
+        return new(Build<Alias<TPrefix, TVolume, ILength>>.With(in value));
     }
     public static Volume Imperial<TVolume>(Double value)
         where TVolume : IImperial, IVolume<ILength>, IUnitInject<ILength>

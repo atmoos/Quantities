@@ -1,13 +1,17 @@
-﻿using Quantities.Prefixes;
+﻿
+using Quantities.Prefixes;
 
 namespace Quantities.Unit.Si;
 
 public interface ISiDerivedUnit : ISiUnit
 {
-    static Int32 ISiUnit.Offset => 0;
+    static Double ITransform.ToSi(in Double value) => value;
+    static Double ITransform.FromSi(in Double value) => value;
 }
-public interface ISiDerivedUnit<TPrefixOffset> : ISiDerivedUnit
-    where TPrefixOffset : IPrefix
+
+public interface ISiDerivedUnit<TPrefix> : ISiDerivedUnit
+    where TPrefix : IPrefix
 {
-    static Int32 ISiUnit.Offset => TPrefixOffset.Exponent;
+    static Double ITransform.ToSi(in Double value) => TPrefix.ToSi(in value);
+    static Double ITransform.FromSi(in Double value) => TPrefix.FromSi(in value);
 }

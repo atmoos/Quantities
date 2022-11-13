@@ -9,7 +9,7 @@ namespace Quantities;
 public static class Extensions
 {
     public static Velocity Per<TUnit>(this IBuilder<Velocity> builder)
-       where TUnit : ISiAcceptedUnit, ITransform, ITime => new(builder.By<TUnit>());
+       where TUnit : ISiAcceptedUnit, ITime => new(builder.By<TUnit>());
     public static Velocity Per<TPrefix, TUnit>(this IBuilder<Velocity> builder)
        where TPrefix : IPrefix, IScaleDown
        where TUnit : ISiUnit, ITime => new(builder.By<TPrefix, TUnit>());

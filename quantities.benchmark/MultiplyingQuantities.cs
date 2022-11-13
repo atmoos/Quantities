@@ -46,8 +46,8 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
 
 |           Method |       Mean |     Error |    StdDev |  Ratio | RatioSD | Gen 0 | Gen 1 | Gen 2 | Allocated |
 |----------------- |-----------:|----------:|----------:|-------:|--------:|------:|------:|------:|----------:|
-|          Trivial |  0.0728 ns | 0.0054 ns | 0.0048 ns |   1.00 |    0.00 |     - |     - |     - |         - |
-|       MultiplySi | 19.0518 ns | 0.0919 ns | 0.0859 ns | 262.59 |   16.90 |     - |     - |     - |         - |
-| MultiplyImperial | 19.3571 ns | 0.0565 ns | 0.0472 ns | 265.77 |   17.14 |     - |     - |     - |         - |
-|    MultiplyMixed | 19.5089 ns | 0.0803 ns | 0.0712 ns | 268.84 |   17.02 |     - |     - |     - |         - |
+|          Trivial |  0.1016 ns | 0.0196 ns | 0.0184 ns |   1.00 |    0.00 |     - |     - |     - |         - |
+|       MultiplySi | 18.7131 ns | 0.0726 ns | 0.0643 ns | 186.93 |   35.54 |     - |     - |     - |         - |
+| MultiplyImperial | 18.8582 ns | 0.3355 ns | 0.3138 ns | 192.21 |   39.05 |     - |     - |     - |         - |
+|    MultiplyMixed | 18.9553 ns | 0.2303 ns | 0.2155 ns | 192.87 |   37.44 |     - |     - |     - |         - |
 */

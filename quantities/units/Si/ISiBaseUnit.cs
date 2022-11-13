@@ -2,5 +2,6 @@
 
 public interface ISiBaseUnit : ISiUnit
 {
-    static Int32 ISiUnit.Offset => 0;
+    static Double ITransform.ToSi(in Double value) => value;
+    static Double ITransform.FromSi(in Double value) => value;
 }

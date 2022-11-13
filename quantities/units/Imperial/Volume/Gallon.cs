@@ -6,12 +6,14 @@ namespace Quantities.Unit.Imperial.Volume;
 
 public readonly struct Gallon : IImperial, IVolume<ILength>, IUnitInject<ILength>
 {
-    private static readonly Transform transform = new(4.54609e-3 /* m³ */);
+    internal const Double ToCuMetre = 4.54609e-3; // gal -> m³
+    private static readonly Transform transform = new(ToCuMetre);
     public static Double ToSi(in Double nonSiValue) => transform.ToSi(in nonSiValue);
     public static Double FromSi(in Double siValue) => transform.FromSi(in siValue);
-    public static T Inject<T>(in IInject<ILength, T> inject, in Double self)
+    static T IUnitInject<ILength>.Inject<T>(in IInject<ILength, T> inject, in Double self)
     {
-        return inject.Inject<Foot>(4.54609e-3 / (0.3048 * 0.3048 * 0.3048) * self);
+        const Double galToCuFt = ToCuMetre / (Foot.ToMetre * Foot.ToMetre * Foot.ToMetre);
+        return inject.Inject<Foot>(galToCuFt * self);
     }
     public static String Representation => "gal";
 }

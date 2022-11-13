@@ -6,14 +6,14 @@ namespace Quantities.Unit.Imperial.Volume;
 
 public readonly struct FluidOunce : IImperial, IVolume<ILength>, IUnitInject<ILength>
 {
-    private static readonly Transform transform = new(0.0284130625e-3 /* m³ */);
+    internal const Double ToCuMeter = 0.0284130625e-3; // fl oz -> m³
+    private static readonly Transform transform = new(ToCuMeter);
     public static Double ToSi(in Double nonSiValue) => transform.ToSi(in nonSiValue);
     public static Double FromSi(in Double siValue) => transform.FromSi(in siValue);
-    public static T Inject<T>(in IInject<ILength, T> inject, in Double self)
+    static T IUnitInject<ILength>.Inject<T>(in IInject<ILength, T> inject, in Double self)
     {
-        // 1 fluid ounce is ~1.733871 cubic inch
-        return inject.Inject<Inch>(0.0284130625e-3 / (0.0254 * 0.0254 * 0.0254) * self);
+        const Double flOzToCuIn = ToCuMeter / (Inch.ToMetre * Inch.ToMetre * Inch.ToMetre);
+        return inject.Inject<Inch>(flOzToCuIn * self);
     }
-
     public static String Representation => "fl oz";
 }

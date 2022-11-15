@@ -13,7 +13,7 @@ public readonly struct FluidOunce : IImperial, IVolume<ILength>, IUnitInject<ILe
     static T IUnitInject<ILength>.Inject<T>(in IInject<ILength, T> inject, in Double self)
     {
         const Double flOzToCuIn = ToCuMeter / (Inch.ToMetre * Inch.ToMetre * Inch.ToMetre);
-        return inject.Inject<Inch>(flOzToCuIn * self);
+        return inject.InjectOther<Inch>(flOzToCuIn * self);
     }
     public static String Representation => "fl oz";
 }

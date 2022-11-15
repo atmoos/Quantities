@@ -13,7 +13,7 @@ public readonly struct Acre : IImperial, IArea<ILength>, IUnitInject<ILength>
     static T IUnitInject<ILength>.Inject<T>(in IInject<ILength, T> inject, in Double self)
     {
         const Double acreToSqYard = 4840;
-        return inject.Inject<Yard>(acreToSqYard * self);
+        return inject.InjectOther<Yard>(acreToSqYard * self);
     }
     public static String Representation => "ac";
 }

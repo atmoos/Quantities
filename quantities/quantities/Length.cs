@@ -15,7 +15,7 @@ public readonly struct Length : ILength, IEquatable<Length>, IFormattable
     private Length(in Quant quant) => this.quant = quant;
     public Length To<TPrefix, TUnit>()
         where TPrefix : IPrefix
-        where TUnit : ISiUnit, ILength
+        where TUnit : ISiBaseUnit, ILength
     {
         return new(Build<Si<TPrefix, TUnit>>.With(in this.quant));
     }
@@ -25,13 +25,13 @@ public readonly struct Length : ILength, IEquatable<Length>, IFormattable
         return new(Build<Other<TUnit>>.With(in this.quant));
     }
     public static Length Si<TUnit>(in Double value)
-        where TUnit : ISiUnit, ILength
+        where TUnit : ISiBaseUnit, ILength
     {
-        return new(Build<Si<UnitPrefix, TUnit>>.With(in value));
+        return new(Build<Si<TUnit>>.With(in value));
     }
     public static Length Si<TPrefix, TUnit>(in Double value)
     where TPrefix : IPrefix
-    where TUnit : ISiUnit, ILength
+    where TUnit : ISiBaseUnit, ILength
     {
         return new(Build<Si<TPrefix, TUnit>>.With(in value));
     }

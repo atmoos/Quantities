@@ -1,5 +1,4 @@
 using System.Globalization;
-using Quantities.Measures.Transformations;
 
 namespace Quantities.Measures;
 
@@ -13,20 +12,18 @@ internal readonly struct Quant : IEquatable<Quant>, IFormattable
         this.map = map;
         this.value = value;
     }
-
-    public Double Project<TMeasure>() where TMeasure : IMeasure
-    {
-        return this.map.MapTo<TMeasure>(in this.value);
-    }
+    public Double Project<TMeasure>() where TMeasure : IMeasure => this.map.MapTo<TMeasure>(in this.value);
+    public Double Project(in Quant other) => ReferenceEquals(this.map, other.map)
+        ? other.value : this.map.Project(other.map, in other.value);
     public Quant Transform(in ICreate<Quant> transformation) => this.map.Inject(in transformation, in this.value);
     public Quant PseudoMultiply(in Quant right)
     {
-        var projected = this.map.Project(right.map, in right.value);
+        var projected = Project(in right);
         return new(this.value * projected, this.map);
     }
     public Quant PseudoDivide(in Quant denominator)
     {
-        var projected = this.map.Project(denominator.map, in denominator.value);
+        var projected = Project(in denominator);
         return new(this.value / projected, this.map);
     }
 
@@ -53,12 +50,12 @@ internal readonly struct Quant : IEquatable<Quant>, IFormattable
     public static Boolean operator !=(Quant left, Quant right) => !left.Equals(right);
     public static Quant operator +(Quant left, Quant right)
     {
-        var rightValue = left.map.Project(right.map, in right.value);
+        var rightValue = left.Project(in right);
         return new(left.value + rightValue, left.map);
     }
     public static Quant operator -(Quant left, Quant right)
     {
-        var rightValue = left.map.Project(right.map, in right.value);
+        var rightValue = left.Project(in right);
         return new(left.value - rightValue, left.map);
     }
     public static Quant operator *(Double scalar, Quant right)
@@ -75,7 +72,7 @@ internal readonly struct Quant : IEquatable<Quant>, IFormattable
     }
     public static Double operator /(Quant left, Quant right)
     {
-        var rightValue = left.map.Project(right.map, in right.value);
+        var rightValue = left.Project(in right);
         return left.Value / rightValue;
     }
 }

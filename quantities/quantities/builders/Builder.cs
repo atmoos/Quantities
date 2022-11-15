@@ -9,13 +9,5 @@ internal sealed class Builder<TQuantity, TNominator> : IBuilder<TQuantity>
 {
     private readonly Double value;
     public Builder(in Double value) => this.value = value;
-    Quant IBuilder<TQuantity>.By<TUnit>()
-    {
-        return Build<Divide<TNominator, Other<TUnit>>>.With(in this.value);
-    }
-
-    Quant IBuilder<TQuantity>.By<TPrefix, TUnit>()
-    {
-        return Build<Divide<TNominator, Si<TPrefix, TUnit>>>.With(in this.value);
-    }
+    Quant IBuilder<TQuantity>.By<TMeasure>() => Build<Divide<TNominator, TMeasure>>.With(in this.value);
 }

@@ -11,10 +11,14 @@ public readonly struct Velocity : IVelocity, IEquatable<Velocity>, IFormattable
 {
     private readonly Quant quant;
     internal Velocity(in Quant quant) => this.quant = quant;
-    public IBuilder<Velocity> To<TUnit>() where TUnit : ISiUnit, ILength => To<UnitPrefix, TUnit>();
+    public IBuilder<Velocity> To<TUnit>() where TUnit : ISiBaseUnit, ILength
+    {
+        return new Transform<Velocity, Si<TUnit>>(in this.quant);
+    }
+
     public IBuilder<Velocity> To<TPrefix, TUnit>()
         where TPrefix : IPrefix
-        where TUnit : ISiUnit, ILength
+        where TUnit : ISiBaseUnit, ILength
     {
         return new Transform<Velocity, Si<TPrefix, TUnit>>(in this.quant);
     }
@@ -24,10 +28,10 @@ public readonly struct Velocity : IVelocity, IEquatable<Velocity>, IFormattable
         return new Transform<Velocity, Other<TUnit>>(in this.quant);
     }
     public static IBuilder<Velocity> Si<TUnit>(in Double value)
-        where TUnit : ISiUnit, ILength => Si<UnitPrefix, TUnit>(in value);
+        where TUnit : ISiBaseUnit, ILength => new Builder<Velocity, Si<TUnit>>(in value);
     public static IBuilder<Velocity> Si<TPrefix, TUnit>(in Double value)
     where TPrefix : IPrefix
-    where TUnit : ISiUnit, ILength
+    where TUnit : ISiBaseUnit, ILength
     {
         return new Builder<Velocity, Si<TPrefix, TUnit>>(in value);
     }

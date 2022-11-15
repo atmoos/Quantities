@@ -8,42 +8,85 @@ using static System.Math;
 
 namespace Quantities.Measures;
 
-internal readonly struct Si<TPrefix, TUnit> : IMeasure, ILinear
-    where TPrefix : IPrefix
-    where TUnit : ISiUnit, ITransform
+internal readonly struct Si<TUnit> : ISiMeasure<TUnit>, ILinear
+    where TUnit : ISiBaseUnit
 {
-    public static Double ToSi(in Double value) => TPrefix.ToSi(TUnit.ToSi(in value));
-    public static Double FromSi(in Double value) => TPrefix.FromSi(TUnit.FromSi(in value));
+    public static Double ToSi(in Double value) => value;
+    public static Double FromSi(in Double value) => value;
+    public static T Inject<T>(in ICreate<T> creator, in Double value) => creator.Create<Si<TUnit>>(in value);
+    public static String Representation => TUnit.Representation;
+}
+internal readonly struct Si<TPrefix, TUnit> : ISiMeasure<TUnit>, ILinear
+    where TPrefix : IPrefix
+    where TUnit : ISiBaseUnit
+{
+    public static Double ToSi(in Double value) => TPrefix.ToSi(in value);
+    public static Double FromSi(in Double value) => TPrefix.FromSi(in value);
     public static T Inject<T>(in ICreate<T> creator, in Double value) => creator.Create<Si<TPrefix, TUnit>>(in value);
     public static String Representation { get; } = $"{TPrefix.Representation}{TUnit.Representation}";
 }
-
-internal readonly struct Other<TUnit> : IMeasure, ILinear
-    where TUnit : ITransform, IRepresentable
+internal readonly struct SiDerived<TUnit> : ISiMeasure<TUnit>, ILinear
+    where TUnit : ISiDerivedUnit
+{
+    public static Double ToSi(in Double value) => TUnit.ToSi(in value);
+    public static Double FromSi(in Double value) => TUnit.FromSi(in value);
+    public static T Inject<T>(in ICreate<T> creator, in Double value) => creator.Create<SiDerived<TUnit>>(in value);
+    public static String Representation => TUnit.Representation;
+}
+internal readonly struct SiDerived<TPrefix, TUnit> : ISiMeasure<TUnit>, ILinear
+    where TPrefix : IPrefix
+    where TUnit : ISiDerivedUnit
+{
+    public static Double ToSi(in Double value) => TPrefix.ToSi(TUnit.ToSi(in value));
+    public static Double FromSi(in Double value) => TPrefix.FromSi(TUnit.FromSi(in value));
+    public static T Inject<T>(in ICreate<T> creator, in Double value) => creator.Create<SiDerived<TPrefix, TUnit>>(in value);
+    public static String Representation { get; } = $"{TPrefix.Representation}{TUnit.Representation}";
+}
+internal readonly struct Other<TUnit> : IOtherMeasure<TUnit>, ILinear
+    where TUnit : IUnit, ITransform, IRepresentable
 {
     public static Double ToSi(in Double value) => TUnit.ToSi(in value);
     public static Double FromSi(in Double value) => TUnit.FromSi(in value);
     public static T Inject<T>(in ICreate<T> creator, in Double value) => creator.Create<Other<TUnit>>(in value);
     public static String Representation => TUnit.Representation;
 }
-internal readonly struct Alias<TUnit, TAlias> : IMeasure, ILinear
-    where TUnit : ITransform, IRepresentable, IUnitInject<TAlias>
-    where TAlias : Dimensions.IDimension
+internal readonly struct SiAccepted<TUnit> : ISiAccepted<TUnit>, ILinear
+    where TUnit : ISiAcceptedUnit
 {
     public static Double ToSi(in Double value) => TUnit.ToSi(in value);
     public static Double FromSi(in Double value) => TUnit.FromSi(in value);
-    public static T Inject<T>(in ICreate<T> creator, in Double value) => TUnit.Inject(new InjectAlias<TAlias, T>(creator), in value);
+    public static T Inject<T>(in ICreate<T> creator, in Double value) => creator.Create<SiAccepted<TUnit>>(in value);
     public static String Representation => TUnit.Representation;
 }
-internal readonly struct Alias<TPrefix, TUnit, TAlias> : IMeasure, ILinear
+internal readonly struct SiAccepted<TPrefix, TUnit> : ISiAccepted<TUnit>, ILinear
     where TPrefix : IPrefix
-    where TUnit : ITransform, IRepresentable, IUnitInject<TAlias>
-    where TAlias : Dimensions.IDimension
+    where TUnit : ISiAcceptedUnit
 {
     public static Double ToSi(in Double value) => TPrefix.ToSi(TUnit.ToSi(in value));
     public static Double FromSi(in Double value) => TPrefix.FromSi(TUnit.FromSi(in value));
-    public static T Inject<T>(in ICreate<T> creator, in Double value) => TUnit.Inject(new InjectAlias<TAlias, T>(creator), TPrefix.ToSi(in value));
+    public static T Inject<T>(in ICreate<T> creator, in Double value) => creator.Create<SiAccepted<TPrefix, TUnit>>(in value);
     public static String Representation { get; } = $"{TPrefix.Representation}{TUnit.Representation}";
+}
+internal readonly struct Alias<TMeasure, TUnit, TAlias> : IMeasure, ILinear
+    where TMeasure : IMeasure
+    where TUnit : IUnit, IUnitInject<TAlias>
+    where TAlias : Dimensions.IDimension
+{
+    public static Double ToSi(in Double value) => TMeasure.ToSi(in value);
+    public static Double FromSi(in Double value) => TMeasure.FromSi(in value);
+    public static T Inject<T>(in ICreate<T> creator, in Double value) => TUnit.Inject(new InjectAlias<TAlias, T>(creator), in value);
+    public static String Representation => TMeasure.Representation;
+}
+internal readonly struct Alias<TMeasure, TPrefix, TUnit, TAlias> : IMeasure, ILinear
+    where TMeasure : ISiAccepted<TUnit>
+    where TPrefix : IPrefix
+    where TUnit : ISiAcceptedUnit, IUnitInject<TAlias>
+    where TAlias : Dimensions.IDimension
+{
+    public static Double ToSi(in Double value) => TMeasure.ToSi(in value);
+    public static Double FromSi(in Double value) => TMeasure.FromSi(in value);
+    public static T Inject<T>(in ICreate<T> creator, in Double value) => TUnit.Inject(new InjectAlias<TAlias, T>(creator), TPrefix.ToSi(in value));
+    public static String Representation => TMeasure.Representation;
 }
 internal readonly struct Divide<TNominator, TDenominator> : IMeasure
     where TNominator : IMeasure

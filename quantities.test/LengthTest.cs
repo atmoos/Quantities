@@ -1,3 +1,5 @@
+using Quantities.Unit.Si.Accepted;
+
 namespace Quantities.Test;
 
 public sealed class LengthTest
@@ -124,6 +126,18 @@ public sealed class LengthTest
         Area actual = length * width;
 
         actual.Matches(expected);
+    }
+    [Fact]
+    public void LengthByDivisionIsEqualToLengthByConstruction()
+    {
+        Volume volume = Volume.Si<Hecto, Litre>(300);
+        Area area = Area.Square<Metre>(6);
+        Length expected = Length.Si<Metre>(5);
+
+        Length actual = volume / area;
+
+        actual.Matches(expected);
+        Assert.Equal(expected, actual);
     }
 
     /*

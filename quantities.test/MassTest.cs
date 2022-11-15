@@ -8,7 +8,7 @@ public sealed class MassTest
     private const Double gramsInPound = 453.59237;
     private static readonly Mass onePound = Mass.Imperial<Pound>(1);
     [Fact]
-    public void KilogramToString() => FormattingMatches(v => Mass.Si<Kilogram>(v), "kg");
+    public void KilogramToString() => FormattingMatches(v => Mass.Kilogram(v), "kg");
     [Fact]
     public void GramToString() => FormattingMatches(v => Mass.Si<Gram>(v), "g");
     [Fact]
@@ -24,7 +24,7 @@ public sealed class MassTest
     [Fact]
     public void KilogramKiloGramEquivalence()
     {
-        Mass siKilogram = Mass.Si<Kilogram>(0.3251);
+        Mass siKilogram = Mass.Kilogram(0.3251);
         Mass pseudoKiloGram = Mass.Si<Kilo, Gram>(0.3251);
 
         Assert.Equal(siKilogram, pseudoKiloGram);
@@ -33,16 +33,16 @@ public sealed class MassTest
     public void GramToKilogram()
     {
         Mass mass = Mass.Si<Gram>(1600);
-        Mass expected = Mass.Si<Kilogram>(1.6);
+        Mass expected = Mass.Kilogram(1.6);
 
-        Mass actual = mass.To<Kilogram>();
+        Mass actual = mass.ToKilogram();
 
         actual.Matches(expected);
     }
     [Fact]
     public void KilogramToGram()
     {
-        Mass mass = Mass.Si<Kilogram>(0.8);
+        Mass mass = Mass.Kilogram(0.8);
         Mass expected = Mass.Si<Gram>(800);
 
         Mass actual = mass.To<Gram>();
@@ -53,16 +53,16 @@ public sealed class MassTest
     public void TonneToKilogram()
     {
         Mass mass = Mass.Si<Tonne>(0.2);
-        Mass expected = Mass.Si<Kilogram>(200);
+        Mass expected = Mass.Kilogram(200);
 
-        Mass actual = mass.To<Kilogram>();
+        Mass actual = mass.ToKilogram();
 
         actual.Matches(expected);
     }
     [Fact]
     public void KilogramToTonne()
     {
-        Mass mass = Mass.Si<Kilogram>(1200);
+        Mass mass = Mass.Kilogram(1200);
         Mass expected = Mass.Si<Tonne>(1.2);
 
         Mass actual = mass.To<Tonne>();
@@ -167,7 +167,7 @@ public sealed class MassTest
     [Fact]
     public void DefinitionOfPoundHolds()
     {
-        Assert.Equal(Mass.Si<Kilogram>(1), Mass.Imperial<Pound>(1000d / gramsInPound));
+        Assert.Equal(Mass.Kilogram(1), Mass.Imperial<Pound>(1000d / gramsInPound));
     }
     [Fact]
     public void DefinitionOfStoneHolds()
@@ -192,6 +192,6 @@ public sealed class MassTest
     [Fact]
     public void DefinitionOfSlugHolds()
     {
-        Assert.Equal(Mass.Si<Kilogram>(14.59390294), Mass.Imperial<Slug>(1));
+        Assert.Equal(Mass.Kilogram(14.59390294), Mass.Imperial<Slug>(1));
     }
 }

@@ -1,5 +1,3 @@
-using Quantities.Dimensions;
-
 namespace Quantities.Measures.Transformations;
 
 internal sealed class RaiseTo<TDim> : ICreate<Quant>

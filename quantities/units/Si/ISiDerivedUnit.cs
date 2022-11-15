@@ -3,7 +3,7 @@ using Quantities.Prefixes;
 
 namespace Quantities.Unit.Si;
 
-public interface ISiDerivedUnit : ISiUnit
+public interface ISiDerivedUnit : ISiUnit, ITransform
 {
     static Double ITransform.ToSi(in Double value) => value;
     static Double ITransform.FromSi(in Double value) => value;

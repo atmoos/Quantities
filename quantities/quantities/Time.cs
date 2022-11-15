@@ -9,10 +9,11 @@ public readonly struct Time : ITime, IEquatable<Time>, IFormattable
 {
     private readonly Quant quant;
     private Time(in Quant quant) => this.quant = quant;
-    public Time ToSeconds() => To<UnitPrefix, Second>();
+    public Time ToSeconds() => new(Build<Si<Second>>.With(in this.quant));
+
     public Time To<TPrefix, TUnit>()
         where TPrefix : IPrefix, IScaleDown
-        where TUnit : ISiUnit, ITime
+        where TUnit : ISiBaseUnit, ITime
     {
         return new(Build<Si<TPrefix, TUnit>>.With(in this.quant));
     }
@@ -23,10 +24,10 @@ public readonly struct Time : ITime, IEquatable<Time>, IFormattable
     }
     public TimeSpan ToTimeSpan() => TimeSpan.FromSeconds(ToSeconds());
 
-    public static Time Seconds(in Double value) => Si<UnitPrefix, Second>(in value);
+    public static Time Seconds(in Double value) => new(Build<Si<Second>>.With(in value));
     public static Time Si<TPrefix, TUnit>(in Double value)
     where TPrefix : IPrefix, IScaleDown
-    where TUnit : ISiUnit, ITime
+    where TUnit : ISiBaseUnit, ITime
     {
         return new(Build<Si<TPrefix, TUnit>>.With(in value));
     }

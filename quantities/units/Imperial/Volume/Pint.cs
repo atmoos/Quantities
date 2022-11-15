@@ -13,7 +13,7 @@ public readonly struct Pint : IImperial, IVolume<ILength>, IUnitInject<ILength>
     static T IUnitInject<ILength>.Inject<T>(in IInject<ILength, T> inject, in Double self)
     {
         const Double ptTuCuIn = ToCuMetre / (Inch.ToMetre * Inch.ToMetre * Inch.ToMetre);
-        return inject.Inject<Inch>(ptTuCuIn * self);
+        return inject.InjectOther<Inch>(ptTuCuIn * self);
     }
     public static String Representation => "pt";
 }

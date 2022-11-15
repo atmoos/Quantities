@@ -10,32 +10,34 @@ public readonly struct Mass : IMass, IEquatable<Mass>, IFormattable
 {
     private readonly Quant quant;
     private Mass(in Quant quant) => this.quant = quant;
+    public Mass ToKilogram() => new(Build<Si<Kilogram>>.With(in this.quant));
     public Mass To<TUnit>()
-        where TUnit : ISiUnit, IMass
+        where TUnit : ISiDerivedUnit, IMass
     {
-        return new(Build<Si<UnitPrefix, TUnit>>.With(in this.quant));
+        return new(Build<SiDerived<TUnit>>.With(in this.quant));
     }
     public Mass To<TPrefix, TUnit>()
         where TPrefix : IPrefix
         where TUnit : ISiDerivedUnit, IMass
     {
-        return new(Build<Si<TPrefix, TUnit>>.With(in this.quant));
+        return new(Build<SiDerived<TPrefix, TUnit>>.With(in this.quant));
     }
     public Mass ToImperial<TUnit>()
         where TUnit : IImperial, IMass
     {
         return new(Build<Other<TUnit>>.With(in this.quant));
     }
+    public static Mass Kilogram(in Double value) => new(Build<Si<Kilogram>>.With(in value));
     public static Mass Si<TUnit>(in Double value)
-        where TUnit : ISiUnit, IMass
+        where TUnit : ISiDerivedUnit, IMass
     {
-        return new(Build<Si<UnitPrefix, TUnit>>.With(in value));
+        return new(Build<SiDerived<TUnit>>.With(in value));
     }
     public static Mass Si<TPrefix, TUnit>(in Double value)
         where TPrefix : IPrefix
         where TUnit : ISiDerivedUnit, IMass
     {
-        return new(Build<Si<TPrefix, TUnit>>.With(in value));
+        return new(Build<SiDerived<TPrefix, TUnit>>.With(in value));
     }
     public static Mass Imperial<TUnit>(Double value)
         where TUnit : IImperial, IMass

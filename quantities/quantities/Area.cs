@@ -16,20 +16,20 @@ public readonly struct Area : IArea<Length>, IEquatable<Area>, IFormattable
     internal Quant Quant => this.quant;
     private Area(in Quant quant) => this.quant = quant;
     public Area ToSquare<TUnit>()
-        where TUnit : ISiUnit, ILength
+        where TUnit : ISiBaseUnit, ILength
     {
-        return ToSquare<UnitPrefix, TUnit>();
+        return new(Build<Power<Square, Si<TUnit>>>.With(in this.quant));
     }
     public Area ToSquare<TPrefix, TUnit>()
         where TPrefix : IPrefix
-        where TUnit : ISiUnit, ILength
+        where TUnit : ISiBaseUnit, ILength
     {
         return new(Build<Power<Square, Si<TPrefix, TUnit>>>.With(in this.quant));
     }
     public Area ToImperial<TUnit>()
     where TUnit : IImperial, IArea<ILength>, IUnitInject<ILength>
     {
-        return new(Build<Alias<TUnit, ILength>>.With(in this.quant));
+        return new(Build<Alias<Other<TUnit>, TUnit, ILength>>.With(in this.quant));
     }
     public Area ToSquareImperial<TLength>()
     where TLength : IImperial, ILength
@@ -37,13 +37,13 @@ public readonly struct Area : IArea<Length>, IEquatable<Area>, IFormattable
         return new(Build<Power<Square, Other<TLength>>>.With(in this.quant));
     }
     public static Area Square<TUnit>(in Double value)
-        where TUnit : ISiUnit, ILength
+        where TUnit : ISiBaseUnit, ILength
     {
-        return Square<UnitPrefix, TUnit>(in value);
+        return new(Build<Power<Square, Si<TUnit>>>.With(in value));
     }
     public static Area Square<TPrefix, TUnit>(in Double value)
         where TPrefix : IPrefix
-        where TUnit : ISiUnit, ILength
+        where TUnit : ISiBaseUnit, ILength
     {
         return new(Build<Power<Square, Si<TPrefix, TUnit>>>.With(in value));
     }
@@ -55,7 +55,7 @@ public readonly struct Area : IArea<Length>, IEquatable<Area>, IFormattable
     public static Area Imperial<TArea>(Double value)
         where TArea : IImperial, IArea<ILength>, IUnitInject<ILength>
     {
-        return new(Build<Alias<TArea, ILength>>.With(in value));
+        return new(Build<Alias<Other<TArea>, TArea, ILength>>.With(in value));
     }
     internal static Area From(in Length left, in Length right)
     {

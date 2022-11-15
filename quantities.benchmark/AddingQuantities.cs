@@ -11,18 +11,15 @@ namespace Quantities.Benchmark;
 [MemoryDiagnoser]
 public class AddingQuantities
 {
-    private const Double kilo = 1e3;
-    private const Double micro = 1e-6;
     private Length largeMetric = Length.Si<Kilo, Metre>(3);
     private Length smallMetric = Length.Si<Micro, Metre>(23);
     private Length largeImperial = Length.Imperial<Mile>(-3);
     private Length smallImperial = Length.Imperial<Inch>(55);
-
-    private Double largeTrivial = 3;
-    private Double smallTrivial = 5;
+    private Trivial<Metre> largeTrivial = Trivial<Metre>.Si(Prefix.Kilo, 3);
+    private Trivial<Metre> smallTrivial = Trivial<Metre>.Si(Prefix.Micro, 12);
 
     [Benchmark(Baseline = true)]
-    public Double Trivial() => this.largeTrivial + micro * this.smallTrivial / kilo;
+    public Double Trivial() => this.largeTrivial + this.smallTrivial;
 
     [Benchmark]
     public Double AddSi() => this.largeMetric + this.smallMetric;
@@ -46,8 +43,8 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
 
 |      Method |      Mean |     Error |    StdDev | Ratio | RatioSD | Gen 0 | Gen 1 | Gen 2 | Allocated |
 |------------ |----------:|----------:|----------:|------:|--------:|------:|------:|------:|----------:|
-|     Trivial | 0.3227 ns | 0.0105 ns | 0.0088 ns |  1.00 |    0.00 |     - |     - |     - |         - |
-|       AddSi | 7.0637 ns | 0.1214 ns | 0.1135 ns | 21.98 |    0.75 |     - |     - |     - |         - |
-| AddImperial | 7.0393 ns | 0.0479 ns | 0.0400 ns | 21.83 |    0.63 |     - |     - |     - |         - |
-|    AddMixed | 6.8587 ns | 0.0264 ns | 0.0234 ns | 21.26 |    0.60 |     - |     - |     - |         - |
+|     Trivial | 0.3517 ns | 0.0187 ns | 0.0166 ns |  1.00 |    0.00 |     - |     - |     - |         - |
+|       AddSi | 6.7108 ns | 0.0693 ns | 0.0648 ns | 19.13 |    0.77 |     - |     - |     - |         - |
+| AddImperial | 7.5308 ns | 0.0636 ns | 0.0564 ns | 21.45 |    0.92 |     - |     - |     - |         - |
+|    AddMixed | 7.1750 ns | 0.0481 ns | 0.0401 ns | 20.38 |    0.98 |     - |     - |     - |         - |
 */

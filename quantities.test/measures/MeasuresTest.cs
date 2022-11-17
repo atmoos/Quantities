@@ -21,9 +21,9 @@ public class MeasuresTest
     [Fact]
     public void MapValue()
     {
-        var centiMap = new Map<Si<Centi, Metre>>();
+        var centiProjection = new Projection<Si<Centi, Metre>>();
 
-        var decaMetre = centiMap.MapTo<Si<Deca, Metre>>(2000);
+        var decaMetre = centiProjection.MapTo<Si<Deca, Metre>>(2000);
 
         Assert.Equal(2, decaMetre);
     }

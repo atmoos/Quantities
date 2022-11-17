@@ -10,4 +10,5 @@ internal sealed class Transform<TQuantity, TNominator> : IBuilder<TQuantity>
     private readonly Quant quant;
     public Transform(in Quant quant) => this.quant = quant;
     Quant IBuilder<TQuantity>.By<TMeasure>() => Build<Divide<TNominator, TMeasure>>.With(in this.quant);
+    Quant IBuilder<TQuantity>.By<TMeasure, TInject>() => Build<Divide<TNominator, TMeasure>>.With<TInject>(in this.quant);
 }

@@ -18,66 +18,66 @@ public readonly struct Volume : IVolume<ILength>, IEquatable<Volume>, IFormattab
     public Volume ToCubic<TUnit>()
        where TUnit : ISiBaseUnit, ILength
     {
-        return new(Build<Power<Cube, Si<TUnit>>>.With(in this.quant));
+        return new(this.quant.To<Cube, Si<TUnit>>());
     }
     public Volume ToCubic<TPrefix, TUnit>()
         where TPrefix : IPrefix
         where TUnit : ISiBaseUnit, ILength
     {
-        return new(Build<Power<Cube, Si<TPrefix, TUnit>>>.With(in this.quant));
+        return new(this.quant.To<Cube, Si<TPrefix, TUnit>>());
     }
     public Volume ToSi<TUnit>()
     where TUnit : ISiAcceptedUnit, IVolume<ILength>, IUnitInject<ILength>
     {
-        return new(Build<Alias<Other<TUnit>, TUnit, ILength>>.With(in this.quant));
+        return new(this.quant.As<SiAccepted<TUnit>, Alias<TUnit, ILength>>());
     }
     public Volume ToSi<TPrefix, TUnit>()
         where TPrefix : IPrefix
         where TUnit : ISiAcceptedUnit, IVolume<ILength>, IUnitInject<ILength>
     {
-        return new(Build<Alias<SiAccepted<TPrefix, TUnit>, TPrefix, TUnit, ILength>>.With(in this.quant));
+        return new(this.quant.As<SiAccepted<TPrefix, TUnit>, Alias<TPrefix, TUnit, ILength>>());
     }
     public Volume ToImperial<TUnit>()
         where TUnit : IImperial, IVolume<ILength>, IUnitInject<ILength>
     {
-        return new(Build<Alias<Other<TUnit>, TUnit, ILength>>.With(in this.quant));
+        return new(this.quant.As<Other<TUnit>, Alias<TUnit, ILength>>());
     }
     public Volume ToCubicImperial<TLength>()
         where TLength : IImperial, ILength
     {
-        return new(Build<Power<Cube, Other<TLength>>>.With(in this.quant));
+        return new(this.quant.To<Cube, Other<TLength>>());
     }
     public static Volume Cubic<TUnit>(in Double value)
         where TUnit : ISiBaseUnit, ILength
     {
-        return new(Build<Power<Cube, Si<TUnit>>>.With(in value));
+        return new(value.To<Cube, Si<TUnit>>());
     }
     public static Volume Cubic<TPrefix, TUnit>(in Double value)
         where TPrefix : IPrefix
         where TUnit : ISiBaseUnit, ILength
     {
-        return new(Build<Power<Cube, Si<TPrefix, TUnit>>>.With(in value));
+        return new(value.To<Cube, Si<TPrefix, TUnit>>());
     }
     public static Volume Si<TVolume>(Double value)
         where TVolume : ISiAcceptedUnit, IVolume<ILength>, IUnitInject<ILength>
     {
-        return new(Build<Alias<SiAccepted<TVolume>, TVolume, ILength>>.With(in value));
+        return new(value.As<SiAccepted<TVolume>, Alias<TVolume, ILength>>());
     }
     public static Volume Si<TPrefix, TVolume>(Double value)
         where TPrefix : IPrefix
         where TVolume : ISiAcceptedUnit, IVolume<ILength>, IUnitInject<ILength>
     {
-        return new(Build<Alias<SiAccepted<TPrefix, TVolume>, TPrefix, TVolume, ILength>>.With(in value));
+        return new(value.As<SiAccepted<TPrefix, TVolume>, Alias<TPrefix, TVolume, ILength>>());
     }
     public static Volume Imperial<TVolume>(Double value)
         where TVolume : IImperial, IVolume<ILength>, IUnitInject<ILength>
     {
-        return new(Build<Alias<Other<TVolume>, TVolume, ILength>>.With(in value));
+        return new(value.As<Other<TVolume>, Alias<TVolume, ILength>>());
     }
     public static Volume CubicImperial<TImperialUnit>(Double value)
         where TImperialUnit : IImperial, ILength
     {
-        return new(Build<Power<Cube, Other<TImperialUnit>>>.With(in value));
+        return new(value.To<Cube, Other<TImperialUnit>>());
     }
 
     public static Area operator /(Volume volume, Length length)

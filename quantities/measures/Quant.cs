@@ -12,10 +12,10 @@ internal readonly struct Quant : IEquatable<Quant>, IFormattable
         this.map = map;
         this.value = value;
     }
-    public Double Project<TMeasure>() where TMeasure : IMeasure => this.map.MapTo<TMeasure>(in this.value);
+    public Double Project<TMeasure>() where TMeasure : IMeasure => this.map.Projection.MapTo<TMeasure>(in this.value);
     public Double Project(in Quant other) => ReferenceEquals(this.map, other.map)
-        ? other.value : this.map.Project(other.map, in other.value);
-    public Quant Transform(in ICreate<Quant> transformation) => this.map.Inject(in transformation, in this.value);
+        ? other.value : this.map.Projection.Project(other.map.Projection, in other.value);
+    public Quant Transform(in ICreate<Quant> transformation) => this.map.Injector.Inject(in transformation, in this.value);
     public Quant PseudoMultiply(in Quant right)
     {
         var projected = Project(in right);

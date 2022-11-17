@@ -17,28 +17,28 @@ public readonly struct Length : ILength, IEquatable<Length>, IFormattable
         where TPrefix : IPrefix
         where TUnit : ISiBaseUnit, ILength
     {
-        return new(Build<Si<TPrefix, TUnit>>.With(in this.quant));
+        return new(this.quant.As<Si<TPrefix, TUnit>>());
     }
     public Length ToImperial<TUnit>()
     where TUnit : IImperial, ILength
     {
-        return new(Build<Other<TUnit>>.With(in this.quant));
+        return new(this.quant.As<Other<TUnit>>());
     }
     public static Length Si<TUnit>(in Double value)
         where TUnit : ISiBaseUnit, ILength
     {
-        return new(Build<Si<TUnit>>.With(in value));
+        return new(value.As<Si<TUnit>>());
     }
     public static Length Si<TPrefix, TUnit>(in Double value)
     where TPrefix : IPrefix
     where TUnit : ISiBaseUnit, ILength
     {
-        return new(Build<Si<TPrefix, TUnit>>.With(in value));
+        return new(value.As<Si<TPrefix, TUnit>>());
     }
     public static Length Imperial<TUnit>(in Double value)
     where TUnit : IImperial, ILength
     {
-        return new(Build<Other<TUnit>>.With(in value));
+        return new(value.As<Other<TUnit>>());
     }
     internal static Length From(in Area area, in Length length)
     {

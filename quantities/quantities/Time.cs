@@ -9,32 +9,32 @@ public readonly struct Time : ITime, IEquatable<Time>, IFormattable
 {
     private readonly Quant quant;
     private Time(in Quant quant) => this.quant = quant;
-    public Time ToSeconds() => new(Build<Si<Second>>.With(in this.quant));
+    public Time ToSeconds() => new(this.quant.As<Si<Second>>());
 
     public Time To<TPrefix, TUnit>()
         where TPrefix : IPrefix, IScaleDown
         where TUnit : ISiBaseUnit, ITime
     {
-        return new(Build<Si<TPrefix, TUnit>>.With(in this.quant));
+        return new(this.quant.As<Si<TPrefix, TUnit>>());
     }
     public Time To<TUnit>()
     where TUnit : ISiAcceptedUnit, ITime
     {
-        return new(Build<Other<TUnit>>.With(in this.quant));
+        return new(this.quant.As<SiAccepted<TUnit>>());
     }
     public TimeSpan ToTimeSpan() => TimeSpan.FromSeconds(ToSeconds());
 
-    public static Time Seconds(in Double value) => new(Build<Si<Second>>.With(in value));
+    public static Time Seconds(in Double value) => new(value.As<Si<Second>>());
     public static Time Si<TPrefix, TUnit>(in Double value)
     where TPrefix : IPrefix, IScaleDown
     where TUnit : ISiBaseUnit, ITime
     {
-        return new(Build<Si<TPrefix, TUnit>>.With(in value));
+        return new(value.As<Si<TPrefix, TUnit>>());
     }
     public static Time In<TUnit>(in Double value)
         where TUnit : ISiAcceptedUnit, ITime
     {
-        return new(Build<Other<TUnit>>.With(in value));
+        return new(value.As<Other<TUnit>>());
     }
 
 

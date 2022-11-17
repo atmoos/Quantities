@@ -18,44 +18,44 @@ public readonly struct Area : IArea<Length>, IEquatable<Area>, IFormattable
     public Area ToSquare<TUnit>()
         where TUnit : ISiBaseUnit, ILength
     {
-        return new(Build<Power<Square, Si<TUnit>>>.With(in this.quant));
+        return new(this.quant.To<Square, Si<TUnit>>());
     }
     public Area ToSquare<TPrefix, TUnit>()
         where TPrefix : IPrefix
         where TUnit : ISiBaseUnit, ILength
     {
-        return new(Build<Power<Square, Si<TPrefix, TUnit>>>.With(in this.quant));
+        return new(this.quant.To<Square, Si<TPrefix, TUnit>>());
     }
-    public Area ToImperial<TUnit>()
-    where TUnit : IImperial, IArea<ILength>, IUnitInject<ILength>
+    public Area ToImperial<TArea>()
+    where TArea : IImperial, IArea<ILength>, IUnitInject<ILength>
     {
-        return new(Build<Alias<Other<TUnit>, TUnit, ILength>>.With(in this.quant));
+        return new(this.quant.As<Other<TArea>, Alias<TArea, ILength>>());
     }
     public Area ToSquareImperial<TLength>()
     where TLength : IImperial, ILength
     {
-        return new(Build<Power<Square, Other<TLength>>>.With(in this.quant));
+        return new(this.quant.To<Square, Other<TLength>>());
     }
     public static Area Square<TUnit>(in Double value)
         where TUnit : ISiBaseUnit, ILength
     {
-        return new(Build<Power<Square, Si<TUnit>>>.With(in value));
+        return new(value.To<Square, Si<TUnit>>());
     }
     public static Area Square<TPrefix, TUnit>(in Double value)
         where TPrefix : IPrefix
         where TUnit : ISiBaseUnit, ILength
     {
-        return new(Build<Power<Square, Si<TPrefix, TUnit>>>.With(in value));
+        return new(value.To<Square, Si<TPrefix, TUnit>>());
     }
     public static Area SquareImperial<TLength>(Double value)
         where TLength : IImperial, ILength
     {
-        return new(Build<Power<Square, Other<TLength>>>.With(in value));
+        return new(value.To<Square, Other<TLength>>());
     }
     public static Area Imperial<TArea>(Double value)
         where TArea : IImperial, IArea<ILength>, IUnitInject<ILength>
     {
-        return new(Build<Alias<Other<TArea>, TArea, ILength>>.With(in value));
+        return new(value.As<Other<TArea>, Alias<TArea, ILength>>());
     }
     internal static Area From(in Length left, in Length right)
     {

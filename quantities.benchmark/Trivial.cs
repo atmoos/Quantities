@@ -57,4 +57,10 @@ public readonly struct Trivial<TUnit>
         Double product = left.ToSi() * right.ToSi() / Math.Pow(10, (Int32)prefix);
         return new Trivial<TUnit>(in product, in prefix);
     }
+    public static Trivial<TUnit> operator /(Trivial<TUnit> left, Trivial<TUnit> right)
+    {
+        Prefix prefix = left.Prefix & ~right.Prefix;
+        Double product = Math.Pow(10, (Int32)prefix) * left.ToSi() / right.ToSi();
+        return new Trivial<TUnit>(in product, in prefix);
+    }
 }

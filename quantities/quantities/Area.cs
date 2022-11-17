@@ -27,7 +27,7 @@ public readonly struct Area : IArea<Length>, IEquatable<Area>, IFormattable
         return new(this.quant.To<Square, Si<TPrefix, TUnit>>());
     }
     public Area ToImperial<TArea>()
-    where TArea : IImperial, IArea<ILength>, IUnitInject<ILength>
+    where TArea : IImperial, IArea<ILength>, IInjectUnit<ILength>
     {
         return new(this.quant.As<Other<TArea>, Alias<TArea, ILength>>());
     }
@@ -53,7 +53,7 @@ public readonly struct Area : IArea<Length>, IEquatable<Area>, IFormattable
         return new(value.To<Square, Other<TLength>>());
     }
     public static Area Imperial<TArea>(Double value)
-        where TArea : IImperial, IArea<ILength>, IUnitInject<ILength>
+        where TArea : IImperial, IArea<ILength>, IInjectUnit<ILength>
     {
         return new(value.As<Other<TArea>, Alias<TArea, ILength>>());
     }

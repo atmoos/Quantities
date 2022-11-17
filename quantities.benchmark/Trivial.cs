@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 using Quantities.Prefixes;
 using Quantities.Unit;
 
@@ -43,12 +44,12 @@ public readonly struct Trivial<TUnit>
     public static implicit operator Double(Trivial<TUnit> trivial) => trivial.value;
     public static Trivial<TUnit> operator +(Trivial<TUnit> left, Trivial<TUnit> right)
     {
-        Double sum = left.ToSi() + right.ToSi();
+        Double sum = Add(left.ToSi(), right.ToSi());
         return left.FromSi(in sum);
     }
     public static Trivial<TUnit> operator -(Trivial<TUnit> left, Trivial<TUnit> right)
     {
-        Double sum = left.ToSi() - right.ToSi();
+        Double sum = Subtract(left.ToSi(), right.ToSi());
         return left.FromSi(in sum);
     }
     public static Trivial<TUnit> operator *(Trivial<TUnit> left, Trivial<TUnit> right)
@@ -63,4 +64,12 @@ public readonly struct Trivial<TUnit>
         Double product = Math.Pow(10, (Int32)prefix) * left.ToSi() / right.ToSi();
         return new Trivial<TUnit>(in product, in prefix);
     }
+
+    // Use these functions to simulate at least one call to a static function that has not been inlined.
+    // Otherwise, the addition and subtraction operators of this trivial impl. may get inlined...
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private static Double Add(Double left, Double right) => left + right;
+
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private static Double Subtract(Double left, Double right) => left - right;
 }

@@ -27,18 +27,18 @@ public readonly struct Volume : IVolume<ILength>, IEquatable<Volume>, IFormattab
         return new(this.quant.To<Cube, Si<TPrefix, TUnit>>());
     }
     public Volume ToSi<TUnit>()
-    where TUnit : ISiAcceptedUnit, IVolume<ILength>, IUnitInject<ILength>
+    where TUnit : ISiAcceptedUnit, IVolume<ILength>, IInjectUnit<ILength>
     {
         return new(this.quant.As<SiAccepted<TUnit>, Alias<TUnit, ILength>>());
     }
     public Volume ToSi<TPrefix, TUnit>()
         where TPrefix : IPrefix
-        where TUnit : ISiAcceptedUnit, IVolume<ILength>, IUnitInject<ILength>
+        where TUnit : ISiAcceptedUnit, IVolume<ILength>, IInjectUnit<ILength>
     {
         return new(this.quant.As<SiAccepted<TPrefix, TUnit>, Alias<TPrefix, TUnit, ILength>>());
     }
     public Volume ToImperial<TUnit>()
-        where TUnit : IImperial, IVolume<ILength>, IUnitInject<ILength>
+        where TUnit : IImperial, IVolume<ILength>, IInjectUnit<ILength>
     {
         return new(this.quant.As<Other<TUnit>, Alias<TUnit, ILength>>());
     }
@@ -59,18 +59,18 @@ public readonly struct Volume : IVolume<ILength>, IEquatable<Volume>, IFormattab
         return new(value.To<Cube, Si<TPrefix, TUnit>>());
     }
     public static Volume Si<TVolume>(Double value)
-        where TVolume : ISiAcceptedUnit, IVolume<ILength>, IUnitInject<ILength>
+        where TVolume : ISiAcceptedUnit, IVolume<ILength>, IInjectUnit<ILength>
     {
         return new(value.As<SiAccepted<TVolume>, Alias<TVolume, ILength>>());
     }
     public static Volume Si<TPrefix, TVolume>(Double value)
         where TPrefix : IPrefix
-        where TVolume : ISiAcceptedUnit, IVolume<ILength>, IUnitInject<ILength>
+        where TVolume : ISiAcceptedUnit, IVolume<ILength>, IInjectUnit<ILength>
     {
         return new(value.As<SiAccepted<TPrefix, TVolume>, Alias<TPrefix, TVolume, ILength>>());
     }
     public static Volume Imperial<TVolume>(Double value)
-        where TVolume : IImperial, IVolume<ILength>, IUnitInject<ILength>
+        where TVolume : IImperial, IVolume<ILength>, IInjectUnit<ILength>
     {
         return new(value.As<Other<TVolume>, Alias<TVolume, ILength>>());
     }

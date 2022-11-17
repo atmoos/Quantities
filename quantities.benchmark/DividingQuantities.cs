@@ -48,11 +48,11 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
   DefaultJob : .NET Core 7.0.0 (CoreCLR 7.0.22.56001, CoreFX 7.0.22.56001), X64 RyuJIT
 
 
-|         Method |     Mean |    Error |   StdDev | Ratio | RatioSD |  Gen 0 | Gen 1 | Gen 2 | Allocated |
-|--------------- |---------:|---------:|---------:|------:|--------:|-------:|------:|------:|----------:|
-|        Trivial | 17.03 ns | 0.089 ns | 0.083 ns |  1.00 |    0.00 |      - |     - |     - |         - |
-|       DivideSi | 31.09 ns | 0.280 ns | 0.262 ns |  1.83 |    0.02 |      - |     - |     - |         - |
-| DivideImperial | 31.14 ns | 0.212 ns | 0.198 ns |  1.83 |    0.02 |      - |     - |     - |         - |
-|    DivideMixed | 32.90 ns | 0.351 ns | 0.329 ns |  1.93 |    0.03 |      - |     - |     - |         - |
-|  DivideAliased | 71.14 ns | 1.175 ns | 0.982 ns |  4.18 |    0.07 | 0.0114 |     - |     - |      48 B |
+|         Method |     Mean |    Error |   StdDev | Ratio | RatioSD | Gen 0 | Gen 1 | Gen 2 | Allocated |
+|--------------- |---------:|---------:|---------:|------:|--------:|------:|------:|------:|----------:|
+|        Trivial | 17.65 ns | 0.156 ns | 0.138 ns |  1.00 |    0.00 |     - |     - |     - |         - |
+|       DivideSi | 30.41 ns | 0.237 ns | 0.221 ns |  1.72 |    0.02 |     - |     - |     - |         - |
+| DivideImperial | 31.84 ns | 0.216 ns | 0.202 ns |  1.80 |    0.02 |     - |     - |     - |         - |
+|    DivideMixed | 31.82 ns | 0.208 ns | 0.184 ns |  1.80 |    0.02 |     - |     - |     - |         - |
+|  DivideAliased | 43.34 ns | 0.276 ns | 0.258 ns |  2.46 |    0.02 |     - |     - |     - |         - |
 */

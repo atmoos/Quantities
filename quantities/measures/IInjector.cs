@@ -1,5 +1,4 @@
 using Quantities.Dimensions;
-using Quantities.Measures.Transformations;
 using Quantities.Prefixes;
 using Quantities.Unit;
 
@@ -17,16 +16,16 @@ internal sealed class Linear<TMeasure> : IInjector
 }
 
 internal sealed class Alias<TUnit, TAlias> : IInjector
-    where TUnit : IUnitInject<TAlias>
+    where TUnit : IInjectUnit<TAlias>
     where TAlias : Dimensions.IDimension
 {
-    public T Inject<T>(in ICreate<T> creator, in Double value) => TUnit.Inject(new InjectAlias<TAlias, T>(creator), in value);
+    public T Inject<T>(in ICreate<T> creator, in Double value) => TUnit.Inject(new Creator<TAlias, T>(creator), in value);
 }
 
 internal sealed class Alias<TPrefix, TUnit, TAlias> : IInjector
     where TPrefix : IPrefix
-    where TUnit : IUnitInject<TAlias>
+    where TUnit : IInjectUnit<TAlias>
     where TAlias : Dimensions.IDimension
 {
-    public T Inject<T>(in ICreate<T> creator, in Double value) => TUnit.Inject(new InjectAlias<TAlias, T>(creator), TPrefix.ToSi(in value));
+    public T Inject<T>(in ICreate<T> creator, in Double value) => TUnit.Inject(new Creator<TAlias, T>(creator), TPrefix.ToSi(in value));
 }

@@ -11,6 +11,7 @@ namespace Quantities.Benchmark;
 [MemoryDiagnoser]
 public class AddingQuantities
 {
+    private Length sameMetric = Length.Si<Kilo, Metre>(-7);
     private Length largeMetric = Length.Si<Kilo, Metre>(3);
     private Length smallMetric = Length.Si<Micro, Metre>(23);
     private Length largeImperial = Length.Imperial<Mile>(-3);
@@ -23,6 +24,9 @@ public class AddingQuantities
 
     [Benchmark]
     public Double AddSi() => this.largeMetric + this.smallMetric;
+
+    [Benchmark]
+    public Double AddSiSame() => this.sameMetric + this.largeMetric;
 
     [Benchmark]
     public Double AddImperial() => this.largeImperial + this.smallImperial;
@@ -43,8 +47,9 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
 
 |      Method |     Mean |     Error |    StdDev | Ratio | RatioSD | Gen 0 | Gen 1 | Gen 2 | Allocated |
 |------------ |---------:|----------:|----------:|------:|--------:|------:|------:|------:|----------:|
-|     Trivial | 1.536 ns | 0.0512 ns | 0.0479 ns |  1.00 |    0.00 |     - |     - |     - |         - |
-|       AddSi | 7.524 ns | 0.0340 ns | 0.0318 ns |  4.90 |    0.15 |     - |     - |     - |         - |
-| AddImperial | 7.882 ns | 0.0511 ns | 0.0453 ns |  5.12 |    0.16 |     - |     - |     - |         - |
-|    AddMixed | 8.128 ns | 0.1766 ns | 0.3606 ns |  5.57 |    0.12 |     - |     - |     - |         - |
+|     Trivial | 1.389 ns | 0.0318 ns | 0.0297 ns |  1.00 |    0.00 |     - |     - |     - |         - |
+|       AddSi | 7.413 ns | 0.0393 ns | 0.0367 ns |  5.34 |    0.10 |     - |     - |     - |         - |
+|   AddSiSame | 2.036 ns | 0.0080 ns | 0.0071 ns |  1.46 |    0.03 |     - |     - |     - |         - |
+| AddImperial | 7.422 ns | 0.0384 ns | 0.0340 ns |  5.34 |    0.11 |     - |     - |     - |         - |
+|    AddMixed | 7.685 ns | 0.0426 ns | 0.0377 ns |  5.53 |    0.12 |     - |     - |     - |         - |
 */

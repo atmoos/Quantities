@@ -64,6 +64,15 @@ public static class Convenience
         PrecisionIsBounded(expected, actual, precision);
         Assert.Equal(expected.ToString(), actual.ToString());
     }
+    public static void Matches(this Temperature actual, Temperature expected)
+    {
+        actual.Matches(expected, SiPrecision);
+    }
+    public static void Matches(this Temperature actual, Temperature expected, Int32 precision)
+    {
+        PrecisionIsBounded(expected, actual, precision);
+        Assert.Equal(expected.ToString(), actual.ToString());
+    }
 
     private static void PrecisionIsBounded(Double expected, Double actual, Int32 precision)
     {

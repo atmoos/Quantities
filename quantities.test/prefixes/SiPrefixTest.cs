@@ -4,12 +4,6 @@ public class SiPrefixTest
 {
     private static readonly IPrefixInject<Double> injector = new GetValue();
 
-    [Fact]
-    public void Debug()
-    {
-        ScalesAllValuesWithinOneAndThousand(-2);
-    }
-
     [Theory]
     [MemberData(nameof(SiExponents))]
     public void ScaleSiPrefixes(Int32 exponent)

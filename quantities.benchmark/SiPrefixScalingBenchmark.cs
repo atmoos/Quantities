@@ -60,20 +60,20 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
   DefaultJob : .NET Core 7.0.0 (CoreCLR 7.0.22.56001, CoreFX 7.0.22.56001), X64 RyuJIT
 
 
-|          Method | Exponent |     Mean |    Error |   StdDev | Ratio | RatioSD |
-|---------------- |--------- |---------:|---------:|---------:|------:|--------:|
-|        Baseline |      -20 | 24.84 ns | 0.529 ns | 0.885 ns |  1.00 |    0.00 |
-| SiPrefixScaling |      -20 | 24.34 ns | 0.484 ns | 0.453 ns |  0.95 |    0.02 |
-|                 |          |          |          |          |       |         |
-|        Baseline |       -4 | 24.92 ns | 0.074 ns | 0.062 ns |  1.00 |    0.00 |
-| SiPrefixScaling |       -4 | 25.23 ns | 0.482 ns | 0.451 ns |  1.01 |    0.02 |
-|                 |          |          |          |          |       |         |
-|        Baseline |        0 | 24.15 ns | 0.477 ns | 0.469 ns |  1.00 |    0.00 |
-| SiPrefixScaling |        0 | 21.46 ns | 0.102 ns | 0.095 ns |  0.89 |    0.02 |
-|                 |          |          |          |          |       |         |
-|        Baseline |        5 | 24.37 ns | 0.081 ns | 0.068 ns |  1.00 |    0.00 |
-| SiPrefixScaling |        5 | 24.16 ns | 0.160 ns | 0.125 ns |  0.99 |    0.01 |
-|                 |          |          |          |          |       |         |
-|        Baseline |       23 | 24.27 ns | 0.382 ns | 0.357 ns |  1.00 |    0.00 |
-| SiPrefixScaling |       23 | 23.84 ns | 0.036 ns | 0.030 ns |  0.98 |    0.02 |
+|          Method | Exponent |      Mean |     Error |    StdDev | Ratio |
+|---------------- |--------- |----------:|----------:|----------:|------:|
+|        Baseline |      -20 | 25.365 ns | 0.0823 ns | 0.0729 ns |  1.00 |
+| SiPrefixScaling |      -20 | 12.804 ns | 0.2343 ns | 0.2191 ns |  0.50 |
+|                 |          |           |           |           |       |
+|        Baseline |       -4 | 24.450 ns | 0.1296 ns | 0.1213 ns |  1.00 |
+| SiPrefixScaling |       -4 | 10.208 ns | 0.0420 ns | 0.0351 ns |  0.42 |
+|                 |          |           |           |           |       |
+|        Baseline |        0 | 14.674 ns | 0.0476 ns | 0.0422 ns |  1.00 |
+| SiPrefixScaling |        0 |  6.171 ns | 0.0270 ns | 0.0239 ns |  0.42 |
+|                 |          |           |           |           |       |
+|        Baseline |        5 | 23.392 ns | 0.1361 ns | 0.1206 ns |  1.00 |
+| SiPrefixScaling |        5 |  8.328 ns | 0.0277 ns | 0.0245 ns |  0.36 |
+|                 |          |           |           |           |       |
+|        Baseline |       23 | 24.292 ns | 0.5050 ns | 0.4723 ns |  1.00 |
+| SiPrefixScaling |       23 |  6.965 ns | 0.1434 ns | 0.1341 ns |  0.29 |
 */

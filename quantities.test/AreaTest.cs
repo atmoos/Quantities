@@ -1,4 +1,6 @@
 using Quantities.Unit.Imperial.Area;
+using Quantities.Unit.Si.Accepted;
+
 namespace Quantities.Test;
 public class AreaTest
 {
@@ -108,6 +110,38 @@ public class AreaTest
         Area area = Area.SquareImperial<Foot>(27);
         Length length = Length.Imperial<Yard>(2);
         Volume expected = Volume.CubicImperial<Foot>(162);
+
+        Volume actual = area * length;
+
+        actual.Matches(expected);
+    }
+
+    [Fact]
+    public void AreToSiDefinition()
+    {
+        Area are = Area.Si<Are>(1);
+        Area expected = Area.Square<Metre>(100);
+
+        Area actual = are.ToSquare<Metre>();
+
+        actual.Matches(expected);
+    }
+    [Fact]
+    public void AreToHectare()
+    {
+        Area are = Area.Si<Are>(100);
+        Area expected = Area.Si<Hecto, Are>(1);
+
+        Area actual = are.ToSi<Hecto, Are>();
+
+        actual.Matches(expected);
+    }
+    [Fact]
+    public void AreTimesMeterIsCubicMetre()
+    {
+        Area area = Area.Si<Are>(1);
+        Length length = Length.Si<Metre>(10);
+        Volume expected = Volume.Cubic<Metre>(10 * 10 * 10);
 
         Volume actual = area * length;
 

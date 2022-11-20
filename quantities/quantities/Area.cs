@@ -26,6 +26,17 @@ public readonly struct Area : IArea<Length>, IEquatable<Area>, IFormattable
     {
         return new(this.quant.To<Square, Si<TPrefix, TUnit>>());
     }
+    public Area ToSi<TUnit>()
+        where TUnit : ISiAcceptedUnit, IArea<ILength>, IInjectUnit<ILength>
+    {
+        return new(this.quant.As<SiAccepted<TUnit>, Alias<TUnit, ILength>>());
+    }
+    public Area ToSi<TPrefix, TUnit>()
+        where TPrefix : IPrefix
+        where TUnit : ISiAcceptedUnit, IArea<ILength>, IInjectUnit<ILength>
+    {
+        return new(this.quant.As<SiAccepted<TPrefix, TUnit>, Alias<TPrefix, TUnit, ILength>>());
+    }
     public Area ToImperial<TArea>()
     where TArea : IImperial, IArea<ILength>, IInjectUnit<ILength>
     {
@@ -46,6 +57,17 @@ public readonly struct Area : IArea<Length>, IEquatable<Area>, IFormattable
         where TUnit : ISiBaseUnit, ILength
     {
         return new(value.To<Square, Si<TPrefix, TUnit>>());
+    }
+    public static Area Si<TArea>(Double value)
+    where TArea : ISiAcceptedUnit, IArea<ILength>, IInjectUnit<ILength>
+    {
+        return new(value.As<SiAccepted<TArea>, Alias<TArea, ILength>>());
+    }
+    public static Area Si<TPrefix, TArea>(Double value)
+        where TPrefix : IPrefix
+        where TArea : ISiAcceptedUnit, IArea<ILength>, IInjectUnit<ILength>
+    {
+        return new(value.As<SiAccepted<TPrefix, TArea>, Alias<TPrefix, TArea, ILength>>());
     }
     public static Area SquareImperial<TLength>(Double value)
         where TLength : IImperial, ILength

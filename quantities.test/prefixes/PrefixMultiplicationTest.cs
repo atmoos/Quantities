@@ -18,19 +18,6 @@ public class PrefixMultiplicationTest
         Assert.Equal(expected, actual);
     }
 
-    [Fact]
-    public void MultiplicationAvoidsHectoOhm()
-    {
-        Quant volts = 9d.As<SiDerived<Milli, Volt>>();
-        Quant ampere = 30d.As<Si<Micro, Ampere>>();
-        String expected = 300d.As<SiDerived<Ohm>>().ToString();
-
-        Double siOhm = volts / ampere;
-        Quant actual = SiPrefix.ScaleThree(siOhm, new MakeOhm());
-
-        Assert.Equal(expected, actual.ToString());
-    }
-
     private sealed class MakeOhm : IPrefixInject<Quant>
     {
         public Quant Identity(in Double value)

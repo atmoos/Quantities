@@ -5,6 +5,27 @@ public class SiPrefixTest
     private static readonly IPrefixInject<Double> injector = new GetValue();
 
     [Theory]
+    [InlineData(1.2)]
+    [InlineData(-12)]
+    [InlineData(968)]
+    public void ScaleThreeSkipsExponentsSmallerThanKilo(Double value)
+    {
+        Double actualValue = SiPrefix.ScaleThree(value, injector);
+        Assert.Equal(value, actualValue);
+    }
+
+    [Theory]
+    [InlineData(0.2231)]
+    [InlineData(-0.0582349)]
+    [InlineData(-0.0023402173071)]
+    public void ScaleThreeSkipsExponentsLargerThanMilli(Double value)
+    {
+        // Everything usually scaled to deci ot centi should be milli!
+        Double actualValue = SiPrefix.ScaleThree(value, injector);
+        Assert.Equal(value * 1e3, actualValue);
+    }
+
+    [Theory]
     [MemberData(nameof(SiExponents))]
     public void ScaleSiPrefixes(Int32 exponent)
     {

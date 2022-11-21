@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.CompilerServices;
 using Quantities.Prefixes;
-using Quantities.Unit;
+using Quantities.Units;
 
 namespace Quantities.Benchmark;
 

@@ -1,5 +1,5 @@
-using Quantities.Unit;
-using Quantities.Unit.Si;
+using Quantities.Units;
+using Quantities.Units.Si;
 
 namespace Quantities.Measures;
 

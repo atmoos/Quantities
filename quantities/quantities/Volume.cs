@@ -2,9 +2,9 @@
 using Quantities.Measures;
 using Quantities.Measures.Transformations;
 using Quantities.Prefixes;
-using Quantities.Unit;
-using Quantities.Unit.Imperial;
-using Quantities.Unit.Si;
+using Quantities.Units;
+using Quantities.Units.Imperial;
+using Quantities.Units.Si;
 
 namespace Quantities.Quantities;
 
@@ -101,16 +101,16 @@ public readonly struct Volume : IVolume<ILength>, IEquatable<Volume>, IFormattab
     {
         // ToDo: one transform could be enough...
         var pseudoArea = area.Quant.Transform(in linear);
-        var pseuoVolume = length.Quant.PseudoMultiply(in pseudoArea);
-        return new(pseuoVolume.Transform(in cube));
+        var pseudoVolume = length.Quant.PseudoMultiply(in pseudoArea);
+        return new(pseudoVolume.Transform(in cube));
     }
 
     internal static Volume Times(in Area area, in Length length)
     {
         // ToDo: one transform could be enough...
         var pseudoArea = area.Quant.Transform(in linear);
-        var pseuoVolume = pseudoArea.PseudoMultiply(length.Quant);
-        return new(pseuoVolume.Transform(in cube));
+        var pseudoVolume = pseudoArea.PseudoMultiply(length.Quant);
+        return new(pseudoVolume.Transform(in cube));
     }
 
     public static Boolean operator ==(Volume left, Volume right) => left.Equals(right);

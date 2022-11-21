@@ -1,7 +1,7 @@
 ﻿using Quantities.Dimensions;
-using Quantities.Unit.Transformation;
+using Quantities.Units.Transformation;
 
-namespace Quantities.Unit.Si.Accepted;
+namespace Quantities.Units.Si.Accepted;
 
 public readonly struct Minute : ISiAcceptedUnit, IInjectUnit<ITime>, ITime
 {

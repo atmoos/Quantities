@@ -1,8 +1,8 @@
 ﻿using Quantities.Dimensions;
-using Quantities.Unit.Imperial.Length;
-using Quantities.Unit.Transformation;
+using Quantities.Units.Imperial.Length;
+using Quantities.Units.Transformation;
 
-namespace Quantities.Unit.Imperial.Volume;
+namespace Quantities.Units.Imperial.Volume;
 
 public readonly struct FluidOunce : IImperial, IVolume<ILength>, IInjectUnit<ILength>
 {

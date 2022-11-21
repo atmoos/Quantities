@@ -1,7 +1,7 @@
 ﻿using Quantities.Dimensions;
-using Quantities.Unit.Transformation;
+using Quantities.Units.Transformation;
 
-namespace Quantities.Unit.Other.Temperature;
+namespace Quantities.Units.Other.Temperature;
 
 // [K] = [°Ré] × ​5⁄4 + 273.15
 // See: https://en.wikipedia.org/wiki/Conversion_of_units#Temperature

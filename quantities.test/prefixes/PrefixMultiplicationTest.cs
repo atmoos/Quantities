@@ -1,5 +1,5 @@
 using Quantities.Measures;
-using Quantities.Unit.Si.Derived;
+using Quantities.Units.Si.Derived;
 
 namespace Quantities.Test.Prefixes;
 

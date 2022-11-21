@@ -1,6 +1,6 @@
 ﻿using Quantities.Dimensions;
 
-namespace Quantities.Unit.Other.Temperature;
+namespace Quantities.Units.Other.Temperature;
 
 // [K] = ([°Rø] − 7.5) × ​40⁄21 + 273.15
 // See: https://en.wikipedia.org/wiki/Conversion_of_units#Temperature

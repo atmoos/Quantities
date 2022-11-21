@@ -3,8 +3,8 @@ using Quantities.Measures;
 using Quantities.Prefixes;
 using Quantities.Quantities;
 using Quantities.Quantities.Builders;
-using Quantities.Unit;
-using Quantities.Unit.Si;
+using Quantities.Units;
+using Quantities.Units.Si;
 
 namespace Quantities;
 

@@ -1,6 +1,6 @@
 ﻿using Quantities.Dimensions;
 
-namespace Quantities.Unit.Imperial.Temperature;
+namespace Quantities.Units.Imperial.Temperature;
 
 // [K] ≡ [°R] × 5/9
 // See: https://en.wikipedia.org/wiki/Conversion_of_units#Temperature

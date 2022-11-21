@@ -2,8 +2,8 @@ using Quantities.Dimensions;
 using Quantities.Measures;
 using Quantities.Measures.Transformations;
 using Quantities.Prefixes;
-using Quantities.Unit.Imperial;
-using Quantities.Unit.Si;
+using Quantities.Units.Imperial;
+using Quantities.Units.Si;
 
 namespace Quantities.Quantities;
 

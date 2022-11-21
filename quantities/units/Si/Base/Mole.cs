@@ -1,6 +1,6 @@
 ﻿using Quantities.Dimensions;
 
-namespace Quantities.Unit.Si;
+namespace Quantities.Units.Si;
 
 public readonly struct Mole : ISiBaseUnit, IAmountOfSubstance
 {

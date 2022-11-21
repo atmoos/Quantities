@@ -1,7 +1,7 @@
 ﻿using Quantities.Dimensions;
 using Quantities.Prefixes;
 
-namespace Quantities.Unit.Si.Derived;
+namespace Quantities.Units.Si.Derived;
 
 public readonly struct Gram : ISiDerivedUnit<Milli>, IMass
 {

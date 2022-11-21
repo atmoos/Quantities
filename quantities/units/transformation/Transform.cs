@@ -1,4 +1,4 @@
-﻿namespace Quantities.Unit.Transformation;
+﻿namespace Quantities.Units.Transformation;
 
 internal readonly struct Transform
 {

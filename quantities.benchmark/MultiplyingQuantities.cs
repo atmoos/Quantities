@@ -3,8 +3,8 @@ using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Diagnosers;
 using Quantities.Prefixes;
 using Quantities.Quantities;
-using Quantities.Unit.Imperial.Length;
-using Quantities.Unit.Si;
+using Quantities.Units.Imperial.Length;
+using Quantities.Units.Si;
 
 namespace Quantities.Benchmark;
 

@@ -1,5 +1,5 @@
-﻿using Quantities.Unit.Imperial.Mass;
-using Quantities.Unit.Si.Derived;
+﻿using Quantities.Units.Imperial.Mass;
+using Quantities.Units.Si.Derived;
 
 namespace Quantities.Test;
 

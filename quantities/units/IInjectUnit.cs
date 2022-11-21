@@ -1,7 +1,7 @@
 using Quantities.Measures;
-using Quantities.Unit.Si;
+using Quantities.Units.Si;
 
-namespace Quantities.Unit;
+namespace Quantities.Units;
 
 public interface IInjectUnit<TDimension>
     where TDimension : Dimensions.IDimension

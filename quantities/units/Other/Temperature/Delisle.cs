@@ -1,6 +1,6 @@
 ﻿using Quantities.Dimensions;
 
-namespace Quantities.Unit.Other.Temperature;
+namespace Quantities.Units.Other.Temperature;
 
 // [K] = 373.15 − [°De] × ​2⁄3
 // See: https://en.wikipedia.org/wiki/Conversion_of_units#Temperature

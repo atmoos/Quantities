@@ -1,7 +1,7 @@
 ﻿using Quantities.Dimensions;
-using Quantities.Unit.Transformation;
+using Quantities.Units.Transformation;
 
-namespace Quantities.Unit.Imperial.Mass;
+namespace Quantities.Units.Imperial.Mass;
 
 public readonly struct Quarter : IImperial, IMass
 {

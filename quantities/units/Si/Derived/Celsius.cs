@@ -1,6 +1,6 @@
 ﻿using Quantities.Dimensions;
 
-namespace Quantities.Unit.Si.Derived;
+namespace Quantities.Units.Si.Derived;
 
 // [K] ≡ [°C] + 273.15
 // Celsius is officially an SI derived unit.

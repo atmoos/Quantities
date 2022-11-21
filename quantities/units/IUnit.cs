@@ -1,4 +1,3 @@
-﻿// ToDo: Fix namespace!
-namespace Quantities.Unit;
+﻿namespace Quantities.Units;
 
 public interface IUnit : IRepresentable { /* mostly marker interface*/ }

@@ -1,7 +1,7 @@
 ﻿using Quantities.Dimensions;
-using Quantities.Unit.Transformation;
+using Quantities.Units.Transformation;
 
-namespace Quantities.Unit.Imperial.Area;
+namespace Quantities.Units.Imperial.Area;
 
 public readonly struct Rood : IImperial, IArea<ILength>
 {

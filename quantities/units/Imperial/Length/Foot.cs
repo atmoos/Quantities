@@ -1,7 +1,7 @@
 ﻿using Quantities.Dimensions;
-using Quantities.Unit.Transformation;
+using Quantities.Units.Transformation;
 
-namespace Quantities.Unit.Imperial.Length;
+namespace Quantities.Units.Imperial.Length;
 
 public readonly struct Foot : IImperial, ILength
 {

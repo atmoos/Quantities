@@ -1,5 +1,5 @@
-﻿using Quantities.Unit.Imperial.Temperature;
-using Quantities.Unit.Other.Temperature;
+﻿using Quantities.Units.Imperial.Temperature;
+using Quantities.Units.Other.Temperature;
 
 namespace Quantities.Test;
 

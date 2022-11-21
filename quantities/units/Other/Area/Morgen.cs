@@ -1,9 +1,9 @@
 using Quantities.Dimensions;
-using Quantities.Unit;
-using Quantities.Unit.Other;
-using Quantities.Unit.Si;
+using Quantities.Units;
+using Quantities.Units.Other;
+using Quantities.Units.Si;
 
-namespace Quantities.Units.Other.Area;
+namespace Quantities.Unitss.Other.Area;
 
 // See: https://de.wikipedia.org/wiki/Morgen_(Einheit)
 public readonly struct Morgen : IOther, IArea<ILength>, IInjectUnit<ILength>

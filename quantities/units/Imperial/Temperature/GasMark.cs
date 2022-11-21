@@ -1,7 +1,7 @@
 ﻿using Quantities.Dimensions;
-using Quantities.Unit.Transformation;
+using Quantities.Units.Transformation;
 
-namespace Quantities.Unit.Imperial.Temperature;
+namespace Quantities.Units.Imperial.Temperature;
 
 // [K] ≡ [GM] × ​125⁄9 + 394.261 
 // See: https://en.wikipedia.org/wiki/Conversion_of_units#Temperature

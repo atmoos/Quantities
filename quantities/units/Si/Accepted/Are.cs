@@ -1,6 +1,6 @@
 using Quantities.Dimensions;
 
-namespace Quantities.Unit.Si.Accepted;
+namespace Quantities.Units.Si.Accepted;
 
 public readonly struct Are : ISiAcceptedUnit, IArea<ILength>, IInjectUnit<ILength>
 {

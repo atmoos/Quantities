@@ -1,8 +1,8 @@
 ﻿using Quantities.Dimensions;
-using Quantities.Unit.Imperial.Length;
-using Quantities.Unit.Transformation;
+using Quantities.Units.Imperial.Length;
+using Quantities.Units.Transformation;
 
-namespace Quantities.Unit.Imperial.Area;
+namespace Quantities.Units.Imperial.Area;
 
 public readonly struct Acre : IImperial, IArea<ILength>, IInjectUnit<ILength>
 {

@@ -1,10 +1,10 @@
 ﻿using Quantities.Dimensions;
 using Quantities.Measures;
 using Quantities.Prefixes;
-using Quantities.Unit.Imperial;
-using Quantities.Unit.Other;
-using Quantities.Unit.Si;
-using Quantities.Unit.Si.Derived;
+using Quantities.Units.Imperial;
+using Quantities.Units.Other;
+using Quantities.Units.Si;
+using Quantities.Units.Si.Derived;
 
 namespace Quantities;
 

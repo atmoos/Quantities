@@ -1,7 +1,7 @@
 ﻿using Quantities.Dimensions;
-using Quantities.Unit.Transformation;
+using Quantities.Units.Transformation;
 
-namespace Quantities.Unit.Imperial.Volume;
+namespace Quantities.Units.Imperial.Volume;
 
 public readonly struct Gill : IImperial, IVolume<ILength>
 {

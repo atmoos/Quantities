@@ -1,4 +1,4 @@
-﻿namespace Quantities.Unit.Si.Derived;
+﻿namespace Quantities.Units.Si.Derived;
 
 public readonly struct Newton : ISiDerivedUnit
 {

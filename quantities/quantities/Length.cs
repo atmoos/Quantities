@@ -1,3 +1,4 @@
+using System.Numerics;
 using Quantities.Dimensions;
 using Quantities.Measures;
 using Quantities.Measures.Transformations;
@@ -8,6 +9,8 @@ using Quantities.Units.Si;
 namespace Quantities.Quantities;
 
 public readonly struct Length : IQuantity<Length>, ILength
+    , IMultiplyOperators<Length, Length, Area>
+    , IMultiplyOperators<Length, Area, Volume>
 {
     private static readonly ICreate<Quant> linear = new ToLinear();
     private readonly Quant quant;
@@ -53,12 +56,11 @@ public readonly struct Length : IQuantity<Length>, ILength
     }
 
     public Boolean Equals(Length other) => this.quant.Equals(other.quant);
-
     public override Boolean Equals(Object? obj) => obj is Length length && Equals(length);
-
     public override Int32 GetHashCode() => this.quant.GetHashCode();
     public override String ToString() => this.quant.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.quant.ToString(format, provider);
+
     public static Boolean operator ==(Length left, Length right) => left.Equals(right);
     public static Boolean operator !=(Length left, Length right) => !left.Equals(right);
     public static implicit operator Double(Length length) => length.quant.Value;

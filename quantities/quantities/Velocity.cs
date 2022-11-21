@@ -7,7 +7,7 @@ using Quantities.Units.Si;
 
 namespace Quantities.Quantities;
 
-public readonly struct Velocity : IVelocity, IEquatable<Velocity>, IFormattable
+public readonly struct Velocity : IQuantity<Velocity>, IVelocity<Length, Time>
 {
     private readonly Quant quant;
     internal Velocity(in Quant quant) => this.quant = quant;

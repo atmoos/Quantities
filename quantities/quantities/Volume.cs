@@ -8,7 +8,7 @@ using Quantities.Units.Si;
 
 namespace Quantities.Quantities;
 
-public readonly struct Volume : IVolume<ILength>, IEquatable<Volume>, IFormattable
+public readonly struct Volume : IQuantity<Volume>, IVolume<Length>
 {
     private static readonly ICreate<Quant> cube = new RaiseTo<Cube>();
     private static readonly ICreate<Quant> linear = new ToLinear();

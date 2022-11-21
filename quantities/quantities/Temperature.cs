@@ -8,7 +8,7 @@ using Quantities.Units.Si.Derived;
 
 namespace Quantities;
 
-public readonly struct Temperature : ITemperature, IEquatable<Temperature>, IFormattable
+public readonly struct Temperature : IQuantity<Temperature>, ITemperature
 {
     private readonly Quant quant;
     internal Quant Quant => this.quant;

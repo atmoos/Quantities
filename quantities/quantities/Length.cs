@@ -7,7 +7,7 @@ using Quantities.Units.Si;
 
 namespace Quantities.Quantities;
 
-public readonly struct Length : ILength, IEquatable<Length>, IFormattable
+public readonly struct Length : IQuantity<Length>, ILength
 {
     private static readonly ICreate<Quant> linear = new ToLinear();
     private readonly Quant quant;

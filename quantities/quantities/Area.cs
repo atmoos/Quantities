@@ -9,7 +9,7 @@ using Quantities.Units.Si;
 
 namespace Quantities.Quantities;
 
-public readonly struct Area : IArea<Length>, IEquatable<Area>, IFormattable
+public readonly struct Area : IQuantity<Area>, IArea<Length>
 {
     private static readonly ICreate<Quant> square = new RaiseTo<Square>();
     private static readonly ICreate<Quant> linear = new ToLinear();

@@ -6,7 +6,7 @@ using Quantities.Units.Si;
 
 namespace Quantities.Quantities;
 
-public readonly struct Mass : IMass, IEquatable<Mass>, IFormattable
+public readonly struct Mass : IQuantity<Mass>, IMass
 {
     private readonly Quant quant;
     private Mass(in Quant quant) => this.quant = quant;

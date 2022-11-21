@@ -6,74 +6,17 @@ public static class Convenience
 {
     public static Int32 SiPrecision => 15;
     public static Int32 ImperialPrecision => 14;
-    public static void Matches(this Length actual, Length expected)
+    public static void Matches<TQuantity>(this TQuantity actual, TQuantity expected)
+        where TQuantity : struct, IQuantity<TQuantity>, Dimensions.IDimension
     {
         actual.Matches(expected, SiPrecision);
     }
-    public static void Matches(this Length actual, Length expected, Int32 precision)
+    public static void Matches<TQuantity>(this TQuantity actual, TQuantity expected, Int32 precision)
+        where TQuantity : struct, IQuantity<TQuantity>, Dimensions.IDimension
     {
         PrecisionIsBounded(expected, actual, precision);
         Assert.Equal(expected.ToString(), actual.ToString());
     }
-    public static void Matches(this Area actual, Area expected)
-    {
-        actual.Matches(expected, SiPrecision);
-    }
-    public static void Matches(this Area actual, Area expected, Int32 precision)
-    {
-        PrecisionIsBounded(expected, actual, precision);
-        Assert.Equal(expected.ToString(), actual.ToString());
-    }
-
-    public static void Matches(this Volume actual, Volume expected)
-    {
-        actual.Matches(expected, SiPrecision);
-    }
-    public static void Matches(this Volume actual, Volume expected, Int32 precision)
-    {
-        PrecisionIsBounded(expected, actual, precision);
-        Assert.Equal(expected.ToString(), actual.ToString());
-    }
-
-    public static void Matches(this Time actual, Time expected)
-    {
-        actual.Matches(expected, SiPrecision);
-    }
-    public static void Matches(this Time actual, Time expected, Int32 precision)
-    {
-        PrecisionIsBounded(expected, actual, precision);
-        Assert.Equal(expected.ToString(), actual.ToString());
-    }
-
-    public static void Matches(this Velocity actual, Velocity expected)
-    {
-        actual.Matches(expected, SiPrecision);
-    }
-    public static void Matches(this Velocity actual, Velocity expected, Int32 precision)
-    {
-        PrecisionIsBounded(expected, actual, precision);
-        Assert.Equal(expected.ToString(), actual.ToString());
-    }
-
-    public static void Matches(this Mass actual, Mass expected)
-    {
-        actual.Matches(expected, SiPrecision);
-    }
-    public static void Matches(this Mass actual, Mass expected, Int32 precision)
-    {
-        PrecisionIsBounded(expected, actual, precision);
-        Assert.Equal(expected.ToString(), actual.ToString());
-    }
-    public static void Matches(this Temperature actual, Temperature expected)
-    {
-        actual.Matches(expected, SiPrecision);
-    }
-    public static void Matches(this Temperature actual, Temperature expected, Int32 precision)
-    {
-        PrecisionIsBounded(expected, actual, precision);
-        Assert.Equal(expected.ToString(), actual.ToString());
-    }
-
     private static void PrecisionIsBounded(Double expected, Double actual, Int32 precision)
     {
         const Int32 maxPrecision = 15;

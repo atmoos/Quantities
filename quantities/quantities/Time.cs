@@ -5,7 +5,7 @@ using Quantities.Units.Si;
 
 namespace Quantities.Quantities;
 
-public readonly struct Time : ITime, IEquatable<Time>, IFormattable
+public readonly struct Time : IQuantity<Time>, ITime
 {
     private readonly Quant quant;
     private Time(in Quant quant) => this.quant = quant;

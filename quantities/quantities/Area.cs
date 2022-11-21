@@ -4,6 +4,7 @@ using Quantities.Measures.Transformations;
 using Quantities.Prefixes;
 using Quantities.Unit;
 using Quantities.Unit.Imperial;
+using Quantities.Unit.Other;
 using Quantities.Unit.Si;
 
 namespace Quantities.Quantities;
@@ -38,14 +39,19 @@ public readonly struct Area : IArea<Length>, IEquatable<Area>, IFormattable
         return new(this.quant.As<SiAccepted<TPrefix, TUnit>, Alias<TPrefix, TUnit, ILength>>());
     }
     public Area ToImperial<TArea>()
-    where TArea : IImperial, IArea<ILength>, IInjectUnit<ILength>
+        where TArea : IImperial, IArea<ILength>, IInjectUnit<ILength>
     {
         return new(this.quant.As<Other<TArea>, Alias<TArea, ILength>>());
     }
     public Area ToSquareImperial<TLength>()
-    where TLength : IImperial, ILength
+        where TLength : IImperial, ILength
     {
         return new(this.quant.To<Square, Other<TLength>>());
+    }
+    public Area ToOther<TArea>()
+        where TArea : IOther, IArea<ILength>, IInjectUnit<ILength>
+    {
+        return new(this.quant.As<Other<TArea>, Alias<TArea, ILength>>());
     }
     public static Area Square<TUnit>(in Double value)
         where TUnit : ISiBaseUnit, ILength
@@ -59,7 +65,7 @@ public readonly struct Area : IArea<Length>, IEquatable<Area>, IFormattable
         return new(value.To<Square, Si<TPrefix, TUnit>>());
     }
     public static Area Si<TArea>(Double value)
-    where TArea : ISiAcceptedUnit, IArea<ILength>, IInjectUnit<ILength>
+        where TArea : ISiAcceptedUnit, IArea<ILength>, IInjectUnit<ILength>
     {
         return new(value.As<SiAccepted<TArea>, Alias<TArea, ILength>>());
     }
@@ -76,6 +82,11 @@ public readonly struct Area : IArea<Length>, IEquatable<Area>, IFormattable
     }
     public static Area Imperial<TArea>(Double value)
         where TArea : IImperial, IArea<ILength>, IInjectUnit<ILength>
+    {
+        return new(value.As<Other<TArea>, Alias<TArea, ILength>>());
+    }
+    public static Area Other<TArea>(Double value)
+        where TArea : IOther, IArea<ILength>, IInjectUnit<ILength>
     {
         return new(value.As<Other<TArea>, Alias<TArea, ILength>>());
     }

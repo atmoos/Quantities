@@ -1,5 +1,6 @@
 using Quantities.Unit.Imperial.Area;
 using Quantities.Unit.Si.Accepted;
+using Quantities.Units.Other.Area;
 
 namespace Quantities.Test;
 public class AreaTest
@@ -133,6 +134,16 @@ public class AreaTest
         Area expected = Area.Si<Hecto, Are>(1);
 
         Area actual = are.ToSi<Hecto, Are>();
+
+        actual.Matches(expected);
+    }
+    [Fact]
+    public void MorgenToHectare()
+    {
+        Area morgen = Area.Other<Morgen>(2);
+        Area expected = Area.Square<Metre>(5000);
+
+        Area actual = morgen.ToSquare<Metre>();
 
         actual.Matches(expected);
     }

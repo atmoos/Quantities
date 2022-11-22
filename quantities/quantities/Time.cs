@@ -34,7 +34,7 @@ public readonly struct Time : IQuantity<Time>, ITime
     public static Time In<TUnit>(in Double value)
         where TUnit : ISiAcceptedUnit, ITime
     {
-        return new(value.As<Other<TUnit>>());
+        return new(value.As<SiAccepted<TUnit>>());
     }
 
 

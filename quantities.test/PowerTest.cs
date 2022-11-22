@@ -1,4 +1,5 @@
-﻿using Quantities.Units.Si.Derived;
+﻿using Quantities.Units.Si.Accepted;
+using Quantities.Units.Si.Derived;
 
 namespace Quantities.Test;
 
@@ -53,5 +54,42 @@ public sealed class PowerTest
         Power power = ohm * ampere * ampere;
 
         power.Matches(expected);
+    }
+
+    [Fact]
+    public void DefinitionOfMetricHorsepower()
+    {
+        Power metricHorsePower = Power.Metric<HorsePower>(1);
+        Power expected = Power.Si<Watt>(735.49875);
+
+        Power watt = metricHorsePower.To<Watt>();
+
+        watt.Matches(expected);
+    }
+    [Fact]
+    public void DefinitionOfImperialHorsepower()
+    {
+        Power imperialHorsePower = Power.Imperial<Units.Imperial.Power.HorsePower>(1);
+        Power expected = Power.Si<Watt>(745.699871515585);
+
+        Power watt = imperialHorsePower.To<Watt>();
+
+        watt.Matches(expected);
+    }
+    [Fact]
+    public void ImperialHorsePowerIsNotEqualToMetricHorsePower()
+    {
+        Power metricHorsePower = Power.Metric<HorsePower>(1);
+        Power imperialHorsePower = Power.Imperial<Units.Imperial.Power.HorsePower>(1);
+
+        Assert.NotEqual(metricHorsePower, imperialHorsePower);
+    }
+    [Fact]
+    public void ImperialAndMetricHorsePowerUseSameRepresentation()
+    {
+        Power metricHorsePower = Power.Metric<HorsePower>(1);
+        Power imperialHorsePower = Power.Imperial<Units.Imperial.Power.HorsePower>(1);
+
+        Assert.Equal(metricHorsePower.ToString(), imperialHorsePower.ToString());
     }
 }

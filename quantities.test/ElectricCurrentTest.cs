@@ -32,28 +32,26 @@ public sealed class ElectricCurrentTest
 
         current.Matches(expected);
     }
-    /* ToDo!
-        [Fact]
-        public void PowerLawInBaseUnits()
-        {
-            Power watts = Power.Si<Watt>(1380);
-            ElectricPotential volts = ElectricPotential.Si<Volt>(230);
-            ElectricCurrent expected = ElectricCurrent.Si<Ampere>(6);
+    [Fact]
+    public void PowerLawInBaseUnits()
+    {
+        Power watts = Power.Si<Watt>(1380);
+        ElectricPotential volts = ElectricPotential.Si<Volt>(230);
+        ElectricCurrent expected = ElectricCurrent.Si<Ampere>(6);
 
-            ElectricCurrent current = watts / volts;
+        ElectricCurrent current = watts / volts;
 
-            current.Matches(expected);
-        }
-        [Fact]
-        public void PowerLawInPrefixedUnits()
-        {
-            Power watts = Power.Si<Mega, Watt>(9);
-            ElectricPotential volts = ElectricPotential.Si<Kilo, Volt>(15);
-            ElectricCurrent expected = ElectricCurrent.Si<Kilo, Ampere>(0.6);
+        current.Matches(expected);
+    }
+    [Fact]
+    public void PowerLawInPrefixedUnits()
+    {
+        Power watts = Power.Si<Mega, Watt>(9);
+        ElectricPotential volts = ElectricPotential.Si<Kilo, Volt>(15);
+        ElectricCurrent expected = ElectricCurrent.Si<Ampere>(600);
 
-            ElectricCurrent current = watts / volts;
+        ElectricCurrent current = watts / volts;
 
-            current.Matches(expected);
-        }
-    */
+        current.Matches(expected);
+    }
 }

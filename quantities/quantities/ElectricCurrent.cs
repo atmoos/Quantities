@@ -5,9 +5,10 @@ using Quantities.Prefixes;
 using Quantities.Units.Si;
 using Quantities.Units.Si.Derived;
 
-namespace Quantities;
+namespace Quantities.Quantities;
 
 public readonly struct ElectricCurrent : IQuantity<ElectricCurrent>, IElectricCurrent
+    , IMultiplyOperators<ElectricCurrent, ElectricPotential, Power>
     , IMultiplyOperators<ElectricCurrent, ElectricalResistance, ElectricPotential>
 {
     private static readonly Creator create = new();
@@ -48,6 +49,12 @@ public readonly struct ElectricCurrent : IQuantity<ElectricCurrent>, IElectricCu
         Double siResistance = resistance.To<Ohm>();
         return new(SiPrefix.ScaleThree(siPotential / siResistance, create));
     }
+    internal static ElectricCurrent From(in Power power, in ElectricPotential potential)
+    {
+        Double siPower = power.To<Watt>();
+        Double siPotential = potential.To<Volt>();
+        return new(SiPrefix.ScaleThree(siPower / siPotential, create));
+    }
     public static Boolean operator ==(ElectricCurrent left, ElectricCurrent right) => left.Equals(right);
     public static Boolean operator !=(ElectricCurrent left, ElectricCurrent right) => !left.Equals(right);
     public static implicit operator Double(ElectricCurrent current) => current.quant.Value;
@@ -60,6 +67,7 @@ public readonly struct ElectricCurrent : IQuantity<ElectricCurrent>, IElectricCu
 
     // Ohm's Law
     public static ElectricPotential operator *(ElectricCurrent current, ElectricalResistance resistance) => ElectricPotential.From(in current, in resistance);
+    public static Power operator *(ElectricCurrent left, ElectricPotential right) => Power.From(in right, in left);
 
     private sealed class Creator : IPrefixInject<Quant>
     {

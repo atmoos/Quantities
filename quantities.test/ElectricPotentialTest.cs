@@ -45,31 +45,29 @@ public sealed class ElectricPotentialTest
 
         potential.Matches(expected);
     }
-    /* ToDo
-        [Fact]
-        public void PowerLawInBaseUnits()
-        {
-            Power watts = Power.Si<Watt>(1380);
-            ElectricCurrent ampere = ElectricCurrent.Si<Ampere>(6);
-            ElectricPotential expected = ElectricPotential.Si<Volt>(230);
+    [Fact]
+    public void PowerLawInBaseUnits()
+    {
+        Power watts = Power.Si<Watt>(1380);
+        ElectricCurrent ampere = ElectricCurrent.Si<Ampere>(6);
+        ElectricPotential expected = ElectricPotential.Si<Volt>(230);
 
-            ElectricPotential potential = watts / ampere;
+        ElectricPotential potential = watts / ampere;
 
-            potential.Matches(expected);
-        }
-        [Fact]
-        public void PowerLawInPrefixedUnits()
-        {
-            Power watts = Power.Si<Mega, Watt>(9);
-            _ = ElectricPotential.Si<Kilo, Volt>(15);
-            ElectricCurrent ampere = ElectricCurrent.Si<Ampere>(600);
+        potential.Matches(expected);
+    }
+    [Fact]
+    public void PowerLawInPrefixedUnits()
+    {
+        Power watts = Power.Si<Mega, Watt>(9);
+        _ = ElectricPotential.Si<Kilo, Volt>(15);
+        ElectricCurrent ampere = ElectricCurrent.Si<Ampere>(600);
 
-            // ToDo: Implement rounding based on value!
-            ElectricPotential expected = ElectricPotential.Si<Mega, Volt>(0.015);
+        // ToDo: Implement rounding based on value!
+        ElectricPotential expected = ElectricPotential.Si<Kilo, Volt>(15);
 
-            ElectricPotential potential = watts / ampere;
+        ElectricPotential potential = watts / ampere;
 
-            potential.Matches(expected);
-        }
-    */
+        potential.Matches(expected);
+    }
 }

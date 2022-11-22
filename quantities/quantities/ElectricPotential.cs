@@ -5,9 +5,10 @@ using Quantities.Prefixes;
 using Quantities.Units.Si;
 using Quantities.Units.Si.Derived;
 
-namespace Quantities;
+namespace Quantities.Quantities;
 
 public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectricPotential
+    , IMultiplyOperators<ElectricPotential, ElectricCurrent, Power>
     , IDivisionOperators<ElectricPotential, ElectricCurrent, ElectricalResistance>
     , IDivisionOperators<ElectricPotential, ElectricalResistance, ElectricCurrent>
 {
@@ -49,6 +50,12 @@ public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectr
         Double siResistance = resistance.To<Ohm>();
         return new(SiPrefix.ScaleThree(siCurrent * siResistance, create));
     }
+    internal static ElectricPotential From(in Power power, in ElectricCurrent current)
+    {
+        Double siPower = power.To<Watt>();
+        Double siCurrent = current.To<Ampere>();
+        return new(SiPrefix.ScaleThree(siPower / siCurrent, create));
+    }
 
     public static Boolean operator ==(ElectricPotential left, ElectricPotential right) => left.Equals(right);
     public static Boolean operator !=(ElectricPotential left, ElectricPotential right) => !left.Equals(right);
@@ -63,7 +70,10 @@ public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectr
     #region Ohm's Law
     public static ElectricalResistance operator /(ElectricPotential left, ElectricCurrent right) => ElectricalResistance.From(in left, in right);
     public static ElectricCurrent operator /(ElectricPotential left, ElectricalResistance right) => ElectricCurrent.From(in left, in right);
+
     #endregion Ohm's Law
+
+    public static Power operator *(ElectricPotential left, ElectricCurrent right) => Power.From(in left, in right);
 
     private sealed class Creator : IPrefixInject<Quant>
     {

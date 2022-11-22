@@ -6,7 +6,7 @@ using Quantities.Units.Other;
 using Quantities.Units.Si;
 using Quantities.Units.Si.Derived;
 
-namespace Quantities;
+namespace Quantities.Quantities;
 
 public readonly struct Temperature : IQuantity<Temperature>, ITemperature
 {

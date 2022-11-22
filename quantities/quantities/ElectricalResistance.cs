@@ -5,7 +5,7 @@ using Quantities.Prefixes;
 using Quantities.Units.Si;
 using Quantities.Units.Si.Derived;
 
-namespace Quantities;
+namespace Quantities.Quantities;
 
 public readonly struct ElectricalResistance : IQuantity<ElectricalResistance>, IElectricalResistance
     , IMultiplyOperators<ElectricalResistance, ElectricCurrent, ElectricPotential>

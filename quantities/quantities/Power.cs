@@ -11,6 +11,8 @@ namespace Quantities.Quantities;
 public readonly struct Power : IQuantity<Power>, IPower
     , IDivisionOperators<Power, ElectricCurrent, ElectricPotential>
     , IDivisionOperators<Power, ElectricPotential, ElectricCurrent>
+    , IDivisionOperators<Power, Force, Velocity>
+    , IDivisionOperators<Power, Velocity, Force>
 {
     private static readonly Creator create = new();
     private readonly Quant quant;
@@ -54,6 +56,12 @@ public readonly struct Power : IQuantity<Power>, IPower
         Double siPotential = potential.To<Volt>();
         return new(SiPrefix.ScaleThree(siPotential * siCurrent, create));
     }
+    internal static Power From(in Force force, in Velocity velocity)
+    {
+        Double siForce = force.To<Newton>();
+        Double siVelocity = velocity.To<Metre>().PerSecond();
+        return new(SiPrefix.ScaleThree(siForce * siVelocity, create));
+    }
 
     public Boolean Equals(Power other) => this.quant.Equals(other.quant);
     public override Boolean Equals(Object? obj) => obj is Power power && Equals(power);
@@ -71,14 +79,11 @@ public readonly struct Power : IQuantity<Power>, IPower
     public static Power operator /(Power left, Double scalar) => new(left.quant / scalar);
     public static Double operator /(Power left, Power right) => left.quant / right.quant;
 
-    public static ElectricPotential operator /(Power power, ElectricCurrent current)
-    {
-        return ElectricPotential.From(in power, in current);
-    }
-    public static ElectricCurrent operator /(Power power, ElectricPotential potential)
-    {
-        return ElectricCurrent.From(in power, in potential);
-    }
+    public static ElectricPotential operator /(Power power, ElectricCurrent current) => ElectricPotential.From(in power, in current);
+    public static ElectricCurrent operator /(Power power, ElectricPotential potential) => ElectricCurrent.From(in power, in potential);
+    public static Velocity operator /(Power power, Force force) => Velocity.From(in power, in force);
+    public static Force operator /(Power power, Velocity velocity) => Force.From(in power, in velocity);
+
     private sealed class Creator : IPrefixInject<Quant>
     {
         public Quant Identity(in Double value) => value.As<SiDerived<Watt>>();

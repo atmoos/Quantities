@@ -6,11 +6,11 @@ using Quantities.Units.Si;
 namespace Quantities.Quantities;
 
 public readonly struct Time : IQuantity<Time>, ITime
+// ToDo: Can't apply ISi, or IOther interfaces...
 {
     private readonly Quant quant;
     private Time(in Quant quant) => this.quant = quant;
     public Time ToSeconds() => new(this.quant.As<Si<Second>>());
-
     public Time To<TPrefix, TUnit>()
         where TPrefix : IPrefix, IScaleDown
         where TUnit : ISiBaseUnit, ITime

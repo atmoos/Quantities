@@ -9,6 +9,8 @@ using Quantities.Units.Si;
 namespace Quantities.Quantities;
 
 public readonly struct Length : IQuantity<Length>, ILength
+    , ISi<Length, ILength>
+    , IImperial<Length, ILength>
     , IMultiplyOperators<Length, Length, Area>
     , IMultiplyOperators<Length, Area, Volume>
 {
@@ -16,6 +18,11 @@ public readonly struct Length : IQuantity<Length>, ILength
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     private Length(in Quant quant) => this.quant = quant;
+    public Length To<TUnit>()
+        where TUnit : ISiBaseUnit, ILength
+    {
+        return new(this.quant.As<Si<TUnit>>());
+    }
     public Length To<TPrefix, TUnit>()
         where TPrefix : IPrefix
         where TUnit : ISiBaseUnit, ILength

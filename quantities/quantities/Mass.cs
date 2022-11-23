@@ -7,6 +7,8 @@ using Quantities.Units.Si;
 namespace Quantities.Quantities;
 
 public readonly struct Mass : IQuantity<Mass>, IMass
+    , ISiDerived<Mass, IMass> // ToDo: Should be ISi<>. This is something of an unfortunate happenstance...
+    , IImperial<Mass, IMass>
 {
     private readonly Quant quant;
     private Mass(in Quant quant) => this.quant = quant;
@@ -39,7 +41,7 @@ public readonly struct Mass : IQuantity<Mass>, IMass
     {
         return new(value.As<SiDerived<TPrefix, TUnit>>());
     }
-    public static Mass Imperial<TUnit>(Double value)
+    public static Mass Imperial<TUnit>(in Double value)
         where TUnit : IImperial, IMass
     {
         return new(value.As<Other<TUnit>>());

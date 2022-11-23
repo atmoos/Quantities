@@ -10,6 +10,9 @@ using Quantities.Units.Si.Derived;
 namespace Quantities.Quantities;
 
 public readonly struct Force : IQuantity<Force>, IForce<Mass, Length, Time>
+    , ISiDerived<Force, IForce>
+    , IImperial<Force, IForce>
+    , IOther<Force, IForce>
     , IMultiplyOperators<Force, Velocity, Power>
 {
     private static readonly Creator create = new();
@@ -48,12 +51,12 @@ public readonly struct Force : IQuantity<Force>, IForce<Mass, Length, Time>
     {
         return new(value.As<SiDerived<TPrefix, TUnit>>());
     }
-    public static Force Imperial<TUnit>(Double value)
+    public static Force Imperial<TUnit>(in Double value)
         where TUnit : IImperial, IForce
     {
         return new(value.As<Other<TUnit>>());
     }
-    public static Force Other<TUnit>(Double value)
+    public static Force Other<TUnit>(in Double value)
         where TUnit : IOther, IForce
     {
         return new(value.As<Other<TUnit>>());

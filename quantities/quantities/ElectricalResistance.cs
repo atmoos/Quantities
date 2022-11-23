@@ -8,6 +8,7 @@ using Quantities.Units.Si.Derived;
 namespace Quantities.Quantities;
 
 public readonly struct ElectricalResistance : IQuantity<ElectricalResistance>, IElectricalResistance
+    , ISiDerived<ElectricalResistance, IElectricalResistance>
     , IMultiplyOperators<ElectricalResistance, ElectricCurrent, ElectricPotential>
 {
     private static readonly Creator create = new();

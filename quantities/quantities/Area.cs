@@ -1,3 +1,4 @@
+using System.Numerics;
 using Quantities.Dimensions;
 using Quantities.Measures;
 using Quantities.Measures.Transformations;
@@ -10,6 +11,8 @@ using Quantities.Units.Si;
 namespace Quantities.Quantities;
 
 public readonly struct Area : IQuantity<Area>, IArea<Length>
+    , IMultiplyOperators<Area, Length, Volume>
+    , IDivisionOperators<Area, Length, Length>
 {
     private static readonly ICreate<Quant> square = new RaiseTo<Square>();
     private static readonly ICreate<Quant> linear = new ToLinear();
@@ -64,12 +67,12 @@ public readonly struct Area : IQuantity<Area>, IArea<Length>
     {
         return new(value.To<Square, Si<TPrefix, TUnit>>());
     }
-    public static Area Si<TArea>(Double value)
+    public static Area Si<TArea>(in Double value)
         where TArea : ISiAcceptedUnit, IArea<ILength>, IInjectUnit<ILength>
     {
         return new(value.As<SiAccepted<TArea>, Alias<TArea, ILength>>());
     }
-    public static Area Si<TPrefix, TArea>(Double value)
+    public static Area Si<TPrefix, TArea>(in Double value)
         where TPrefix : IPrefix
         where TArea : ISiAcceptedUnit, IArea<ILength>, IInjectUnit<ILength>
     {

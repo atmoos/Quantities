@@ -9,6 +9,9 @@ using Quantities.Units.Si.Derived;
 namespace Quantities.Quantities;
 
 public readonly struct Temperature : IQuantity<Temperature>, ITemperature
+    , ISi<Temperature, ITemperature>
+    , IImperial<Temperature, ITemperature>
+    , IOther<Temperature, ITemperature>
 {
     private readonly Quant quant;
     internal Quant Quant => this.quant;
@@ -50,12 +53,12 @@ public readonly struct Temperature : IQuantity<Temperature>, ITemperature
     {
         return new(value.As<SiDerived<Celsius>>());
     }
-    public static Temperature Imperial<TUnit>(Double value)
+    public static Temperature Imperial<TUnit>(in Double value)
         where TUnit : IImperial, ITemperature
     {
         return new(value.As<Other<TUnit>>());
     }
-    public static Temperature Other<TUnit>(Double value)
+    public static Temperature Other<TUnit>(in Double value)
         where TUnit : IOther, ITemperature
     {
         return new(value.As<Other<TUnit>>());

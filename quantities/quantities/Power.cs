@@ -9,6 +9,9 @@ using Quantities.Units.Si.Derived;
 namespace Quantities.Quantities;
 
 public readonly struct Power : IQuantity<Power>, IPower
+    , ISiDerived<Power, IPower>
+    , IImperial<Power, IPower>
+    , IMetric<Power, IPower>
     , IDivisionOperators<Power, ElectricCurrent, ElectricPotential>
     , IDivisionOperators<Power, ElectricPotential, ElectricCurrent>
     , IDivisionOperators<Power, Force, Velocity>
@@ -56,7 +59,7 @@ public readonly struct Power : IQuantity<Power>, IPower
     {
         return new(value.As<SiDerived<TPrefix, TUnit>>());
     }
-    public static Power Imperial<TUnit>(Double value)
+    public static Power Imperial<TUnit>(in Double value)
         where TUnit : IImperial, IPower
     {
         return new(value.As<Other<TUnit>>());

@@ -8,6 +8,7 @@ using Quantities.Units.Si.Derived;
 namespace Quantities.Quantities;
 
 public readonly struct ElectricCurrent : IQuantity<ElectricCurrent>, IElectricCurrent
+    , ISi<ElectricCurrent, IElectricCurrent>
     , IMultiplyOperators<ElectricCurrent, ElectricPotential, Power>
     , IMultiplyOperators<ElectricCurrent, ElectricalResistance, ElectricPotential>
 {

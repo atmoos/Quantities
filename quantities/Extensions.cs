@@ -3,7 +3,6 @@ using Quantities.Measures;
 using Quantities.Prefixes;
 using Quantities.Quantities;
 using Quantities.Quantities.Builders;
-using Quantities.Units;
 using Quantities.Units.Si;
 
 namespace Quantities;
@@ -11,7 +10,7 @@ namespace Quantities;
 public static class Extensions
 {
     public static Velocity Per<TUnit>(this IBuilder<Velocity> builder)
-       where TUnit : ISiAcceptedUnit, IInjectUnit<ITime>, ITime => new(builder.By<SiAccepted<TUnit>, Alias<TUnit, ITime>>());
+       where TUnit : ISiAcceptedUnit, ITime => new(builder.By<SiAccepted<TUnit>>());
     public static Velocity Per<TPrefix, TUnit>(this IBuilder<Velocity> builder)
        where TPrefix : IPrefix, IScaleDown
        where TUnit : ISiBaseUnit, ITime => new(builder.By<Si<TPrefix, TUnit>>());

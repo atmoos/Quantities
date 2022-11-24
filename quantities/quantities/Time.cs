@@ -1,3 +1,4 @@
+using System.Numerics;
 using Quantities.Dimensions;
 using Quantities.Measures;
 using Quantities.Prefixes;
@@ -6,8 +7,10 @@ using Quantities.Units.Si;
 namespace Quantities.Quantities;
 
 public readonly struct Time : IQuantity<Time>, ITime
+    , IMultiplyOperators<Time, Power, Energy>
 // ToDo: Can't apply ISi, or IOther interfaces...
 {
+    private static readonly Creator create = new();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     private Time(in Quant quant) => this.quant = quant;
@@ -37,6 +40,12 @@ public readonly struct Time : IQuantity<Time>, ITime
         return new(value.As<SiAccepted<TUnit>>());
     }
 
+    internal static Time From(in Energy energy, in Power power)
+    {
+        // ToDo: Extract the time component!
+        return new(SiPrefix.ScaleThree(energy.Quant.SiDivide(power.Quant), create));
+    }
+
     public Boolean Equals(Time other) => this.quant.Equals(other.quant);
     public override Boolean Equals(Object? obj) => obj is Time time && Equals(time);
     public override Int32 GetHashCode() => this.quant.GetHashCode();
@@ -52,4 +61,11 @@ public readonly struct Time : IQuantity<Time>, ITime
     public static Time operator *(Time left, Double scalar) => new(scalar * left.quant);
     public static Time operator /(Time left, Double scalar) => new(left.quant / scalar);
     public static Double operator /(Time left, Time right) => left.quant / right.quant;
+    public static Energy operator *(Time left, Power right) => Energy.From(in right, in left);
+
+    private sealed class Creator : IPrefixInject<Quant>
+    {
+        public Quant Identity(in Double value) => value.As<Si<Second>>();
+        public Quant Inject<TPrefix>(in Double value) where TPrefix : IPrefix => value.As<Si<TPrefix, Second>>();
+    }
 }

@@ -57,7 +57,15 @@ internal readonly struct SiAccepted<TPrefix, TUnit> : ISiAccepted<TUnit>, ILinea
     public static Double FromSi(in Double value) => TPrefix.FromSi(TUnit.FromSi(in value));
     public static String Representation { get; } = $"{TPrefix.Representation}{TUnit.Representation}";
 }
-internal readonly struct Divide<TNominator, TDenominator> : IMeasure
+internal readonly struct Product<TLeft, TRight> : IMeasure
+    where TLeft : IMeasure
+    where TRight : IMeasure
+{
+    public static Double ToSi(in Double value) => TLeft.ToSi(TRight.ToSi(in value));
+    public static Double FromSi(in Double value) => TRight.ToSi(TLeft.FromSi(in value));
+    public static String Representation { get; } = $"{TLeft.Representation}\u2009{TRight.Representation}"; // U+2009 is thin space.
+}
+internal readonly struct Fraction<TNominator, TDenominator> : IMeasure
     where TNominator : IMeasure
     where TDenominator : IMeasure
 {
@@ -65,7 +73,6 @@ internal readonly struct Divide<TNominator, TDenominator> : IMeasure
     public static Double FromSi(in Double value) => TDenominator.ToSi(TNominator.FromSi(in value));
     public static String Representation { get; } = $"{TNominator.Representation}/{TDenominator.Representation}";
 }
-
 internal readonly struct Power<TDim, TMeasure> : IMeasure
     where TDim : IDimension
     where TMeasure : IMeasure

@@ -92,4 +92,15 @@ public sealed class PowerTest
 
         Assert.Equal(metricHorsePower.ToString(), imperialHorsePower.ToString());
     }
+    [Fact]
+    public void PowerFromEnergyDividedByTime()
+    {
+        Energy energy = Energy.SiAccepted<Giga, Watt, Hour>(48);
+        Time time = Time.In<Day>(200);
+        Power expected = Power.Si<Mega, Watt>(10);
+
+        Power actual = energy / time;
+
+        actual.Matches(expected);
+    }
 }

@@ -1,4 +1,5 @@
 ﻿using Quantities.Units.Si.Accepted;
+using Quantities.Units.Si.Derived;
 
 namespace Quantities.Test;
 
@@ -68,5 +69,17 @@ public sealed class TimeTest
         Time expected = Time.In<Hour>(2d + 72d / 60 + 30d / 3600);
 
         sum.Matches(expected);
+    }
+
+    [Fact]
+    public void TimeFromEnergyDividedByPower()
+    {
+        Power power = Power.Si<Kilo, Watt>(3);
+        Energy energy = Energy.Si<Mega, Joule>(2.4);
+        Time expected = Time.Seconds(800);
+
+        Time actual = energy / power;
+
+        actual.Matches(expected);
     }
 }

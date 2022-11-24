@@ -1,6 +1,3 @@
-using Quantities;
-using Quantities.Measures;
-
 namespace Quantities.Measures.Transformations;
 
 internal sealed class Divide : ICreate<ICreate<Quant>>
@@ -11,6 +8,6 @@ internal sealed class Divide : ICreate<ICreate<Quant>>
     {
         private readonly Double nominator;
         public Nominator(in Double nominator) => this.nominator = nominator;
-        public Quant Create<TMeasure>(in Double value) where TMeasure : IMeasure => Build<Divide<TNominator, TMeasure>>.With(this.nominator / value);
+        public Quant Create<TMeasure>(in Double value) where TMeasure : IMeasure => Build<Fraction<TNominator, TMeasure>>.With(this.nominator / value);
     }
 }

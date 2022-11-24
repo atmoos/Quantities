@@ -12,6 +12,7 @@ internal readonly struct Quant : IEquatable<Quant>, IFormattable
     , IDivisionOperators<Quant, Quant, Double>
 {
     private static readonly ICreate<ICreate<Quant>> division = new Divide();
+    private static readonly ICreate<ICreate<Quant>> multiplication = new Multiply();
     private readonly Map map;
     private readonly Double value;
     public Double Value => this.value;
@@ -40,6 +41,11 @@ internal readonly struct Quant : IEquatable<Quant>, IFormattable
     {
         var nominator = this.map.Injector.Inject(in division, in this.value);
         return right.map.Injector.Inject(in nominator, in right.value);
+    }
+    public Quant Multiply(in Quant right)
+    {
+        var leftTerm = this.map.Injector.Inject(in multiplication, in this.value);
+        return right.map.Injector.Inject(in leftTerm, in right.value);
     }
 
     public Boolean Equals(Quant other)

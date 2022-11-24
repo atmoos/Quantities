@@ -12,6 +12,7 @@ public readonly struct Power : IQuantity<Power>, IPower
     , ISiDerived<Power, IPower>
     , IImperial<Power, IPower>
     , IMetric<Power, IPower>
+    , IMultiplyOperators<Power, Time, Energy>
     , IDivisionOperators<Power, ElectricCurrent, ElectricPotential>
     , IDivisionOperators<Power, ElectricPotential, ElectricCurrent>
     , IDivisionOperators<Power, Force, Velocity>
@@ -85,6 +86,10 @@ public readonly struct Power : IQuantity<Power>, IPower
     {
         return new(SiPrefix.ScaleThree(force.Quant.SiMultiply(velocity.Quant), create));
     }
+    internal static Power From(in Energy energy, in Time time)
+    {
+        return new(SiPrefix.ScaleThree(energy.Quant.SiDivide(time.Quant), create));
+    }
 
     public Boolean Equals(Power other) => this.quant.Equals(other.quant);
     public override Boolean Equals(Object? obj) => obj is Power power && Equals(power);
@@ -106,6 +111,7 @@ public readonly struct Power : IQuantity<Power>, IPower
     public static ElectricCurrent operator /(Power power, ElectricPotential potential) => ElectricCurrent.From(in power, in potential);
     public static Velocity operator /(Power power, Force force) => Velocity.From(in power, in force);
     public static Force operator /(Power power, Velocity velocity) => Force.From(in power, in velocity);
+    public static Energy operator *(Power left, Time right) => Energy.From(in left, in right);
 
     private sealed class Creator : IPrefixInject<Quant>
     {

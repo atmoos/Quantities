@@ -1,7 +1,6 @@
 using System.Numerics;
 using Quantities.Dimensions;
 using Quantities.Measures;
-using Quantities.Measures.Transformations;
 using Quantities.Prefixes;
 using Quantities.Quantities.Builders;
 using Quantities.Units.Imperial;
@@ -71,7 +70,7 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity<Length, Time>
 
     private sealed class Creator : IPrefixInject<Quant>
     {
-        public Quant Identity(in Double value) => Build<Divide<Si<Metre>, Si<Second>>>.With(in value);
-        public Quant Inject<TPrefix>(in Double value) where TPrefix : IPrefix => Build<Divide<Si<TPrefix, Metre>, Si<Second>>>.With(in value);
+        public Quant Identity(in Double value) => value.AsFraction<Si<Metre>, Si<Second>>();
+        public Quant Inject<TPrefix>(in Double value) where TPrefix : IPrefix => value.AsFraction<Si<TPrefix, Metre>, Si<Second>>();
     }
 }

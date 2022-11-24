@@ -1,11 +1,11 @@
 using System.Numerics;
 using Quantities.Dimensions;
 using Quantities.Measures;
+using Quantities.Measures.Transformations;
 using Quantities.Prefixes;
 using Quantities.Quantities.Builders;
 using Quantities.Units.Imperial;
 using Quantities.Units.Si;
-using Quantities.Units.Si.Derived;
 
 namespace Quantities.Quantities;
 
@@ -20,7 +20,6 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity<Length, Time>
     {
         return new Transform<Velocity, Si<TUnit>>(in this.quant);
     }
-
     public IBuilder<Velocity> To<TPrefix, TUnit>()
         where TPrefix : IPrefix
         where TUnit : ISiBaseUnit, ILength
@@ -49,6 +48,7 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity<Length, Time>
     {
         return new(SiPrefix.Scale(power.Quant.SiDivide(force.Quant), create));
     }
+    internal static Velocity From(in Length length, in Time time) => new(length.Quant.Divide(time.Quant));
 
     public Boolean Equals(Velocity other) => this.quant.Equals(other.quant);
 

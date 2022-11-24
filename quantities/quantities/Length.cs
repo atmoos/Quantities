@@ -13,6 +13,7 @@ public readonly struct Length : IQuantity<Length>, ILength
     , IImperial<Length, ILength>
     , IMultiplyOperators<Length, Length, Area>
     , IMultiplyOperators<Length, Area, Volume>
+    , IDivisionOperators<Length, Time, Velocity>
 {
     private static readonly ICreate<Quant> linear = new ToLinear();
     private readonly Quant quant;
@@ -79,4 +80,5 @@ public readonly struct Length : IQuantity<Length>, ILength
     public static Length operator *(Length left, Double scalar) => new(scalar * left.quant);
     public static Length operator /(Length left, Double scalar) => new(left.quant / scalar);
     public static Double operator /(Length left, Length right) => left.quant / right.quant;
+    public static Velocity operator /(Length left, Time right) => Velocity.From(in left, in right);
 }

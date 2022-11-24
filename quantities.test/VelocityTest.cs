@@ -65,4 +65,41 @@ public sealed class VelocityTest
 
         actual.Matches(expected);
     }
+
+
+    [Fact]
+    public void VelocityFromDivisionOfLengthWithTime_SiUnits()
+    {
+        Length length = Length.Si<Metre>(12);
+        Time time = Time.Seconds(2);
+        Velocity expected = Velocity.Si<Metre>(6).PerSecond();
+
+        Velocity actual = length / time;
+
+        actual.Matches(expected);
+    }
+    [Fact]
+    public void VelocityFromDivisionOfLengthWithTime_OtherUnits()
+    {
+        Length length = Length.Imperial<Mile>(18);
+        Time time = Time.In<Hour>(2);
+        Velocity expected = Velocity.Imperial<Mile>(9).Per<Hour>();
+
+        Velocity actual = length / time;
+
+        actual.Matches(expected);
+    }
+
+
+    [Fact]
+    public void VelocityFromDivision_Equal_DirectVelocity()
+    {
+        Length length = Length.Imperial<Mile>(18);
+        Time time = Time.In<Hour>(2);
+        Velocity expected = Velocity.Imperial<Mile>(9).Per<Hour>();
+
+        Velocity actual = length / time;
+
+        Assert.Equal(expected, actual);
+    }
 }

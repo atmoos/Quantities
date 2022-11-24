@@ -79,15 +79,11 @@ public readonly struct Power : IQuantity<Power>, IPower
 
     internal static Power From(in ElectricPotential potential, in ElectricCurrent current)
     {
-        Double siCurrent = current.To<Ampere>();
-        Double siPotential = potential.To<Volt>();
-        return new(SiPrefix.ScaleThree(siPotential * siCurrent, create));
+        return new(SiPrefix.ScaleThree(potential.Quant.SiMultiply(current.Quant), create));
     }
     internal static Power From(in Force force, in Velocity velocity)
     {
-        Double siForce = force.To<Newton>();
-        Double siVelocity = velocity.To<Metre>().PerSecond();
-        return new(SiPrefix.ScaleThree(siForce * siVelocity, create));
+        return new(SiPrefix.ScaleThree(force.Quant.SiMultiply(velocity.Quant), create));
     }
 
     public Boolean Equals(Power other) => this.quant.Equals(other.quant);

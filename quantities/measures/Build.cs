@@ -3,8 +3,9 @@ namespace Quantities.Measures;
 internal static class Build<TMeasure> where TMeasure : IMeasure
 {
     private static readonly Map defaultMap = new() {
-        Projection = new Projection<TMeasure>(),
         Injector = new Default(),
+        ToSi = TMeasure.ToSi,
+        FromSi = TMeasure.FromSi,
         Representation = TMeasure.Representation
     };
     public static Quant With(in Double value) => new(value, in defaultMap);
@@ -15,13 +16,13 @@ internal static class Build<TMeasure> where TMeasure : IMeasure
     }
     public static Quant With(in Quant value)
     {
-        var projection = value.Project<TMeasure>();
+        Double projection = TMeasure.FromSi(value.ToSi());
         return new(in projection, in defaultMap);
     }
     public static Quant With<TInjector>(in Quant value)
         where TInjector : IInjector, new()
     {
-        var projection = value.Project<TMeasure>();
+        Double projection = TMeasure.FromSi(value.ToSi());
         return new(in projection, in MapPool<TInjector>.Item);
     }
 

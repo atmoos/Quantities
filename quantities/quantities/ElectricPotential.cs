@@ -47,9 +47,7 @@ public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectr
     public override String ToString() => this.quant.ToString();
     internal static ElectricPotential From(in ElectricCurrent current, in ElectricalResistance resistance)
     {
-        Double siCurrent = current.To<Ampere>();
-        Double siResistance = resistance.To<Ohm>();
-        return new(SiPrefix.ScaleThree(siCurrent * siResistance, create));
+        return new(SiPrefix.ScaleThree(current.Quant.SiMultiply(resistance.Quant), create));
     }
     internal static ElectricPotential From(in Power power, in ElectricCurrent current)
     {

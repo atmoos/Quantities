@@ -3,7 +3,6 @@ using Quantities.Dimensions;
 using Quantities.Measures;
 using Quantities.Prefixes;
 using Quantities.Units.Si;
-using Quantities.Units.Si.Derived;
 
 namespace Quantities.Quantities;
 
@@ -46,15 +45,11 @@ public readonly struct ElectricCurrent : IQuantity<ElectricCurrent>, IElectricCu
     public override String ToString() => this.quant.ToString();
     internal static ElectricCurrent From(in ElectricPotential potential, in ElectricalResistance resistance)
     {
-        Double siPotential = potential.To<Volt>();
-        Double siResistance = resistance.To<Ohm>();
-        return new(SiPrefix.ScaleThree(siPotential / siResistance, create));
+        return new(SiPrefix.ScaleThree(potential.Quant.SiDivide(resistance.Quant), create));
     }
     internal static ElectricCurrent From(in Power power, in ElectricPotential potential)
     {
-        Double siPower = power.To<Watt>();
-        Double siPotential = potential.To<Volt>();
-        return new(SiPrefix.ScaleThree(siPower / siPotential, create));
+        return new(SiPrefix.ScaleThree(power.Quant.SiDivide(potential.Quant), create));
     }
     public static Boolean operator ==(ElectricCurrent left, ElectricCurrent right) => left.Equals(right);
     public static Boolean operator !=(ElectricCurrent left, ElectricCurrent right) => !left.Equals(right);

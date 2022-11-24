@@ -14,6 +14,7 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity<Length, Time>
 {
     private static readonly Creator create = new();
     private readonly Quant quant;
+    internal Quant Quant => this.quant;
     internal Velocity(in Quant quant) => this.quant = quant;
     public IBuilder<Velocity> To<TUnit>() where TUnit : ISiBaseUnit, ILength
     {
@@ -44,12 +45,9 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity<Length, Time>
     {
         return new Builder<Velocity, Other<TUnit>>(in value);
     }
-
     internal static Velocity From(in Power power, in Force force)
     {
-        Double siPower = power.To<Watt>();
-        Double siForce = force.To<Newton>();
-        return new(SiPrefix.Scale(siPower / siForce, create));
+        return new(SiPrefix.Scale(power.Quant.SiDivide(force.Quant), create));
     }
 
     public Boolean Equals(Velocity other) => this.quant.Equals(other.quant);

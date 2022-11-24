@@ -45,9 +45,7 @@ public readonly struct ElectricalResistance : IQuantity<ElectricalResistance>, I
     public String ToString(String? format, IFormatProvider? provider) => this.quant.ToString(format, provider);
     internal static ElectricalResistance From(in ElectricPotential potential, in ElectricCurrent current)
     {
-        Double siPotential = potential.To<Volt>();
-        Double siCurrent = current.To<Ampere>();
-        return new(SiPrefix.ScaleThree(siPotential / siCurrent, create));
+        return new(SiPrefix.ScaleThree(potential.Quant.SiDivide(current.Quant), create));
     }
     public static Boolean operator ==(ElectricalResistance left, ElectricalResistance right) => left.Equals(right);
     public static Boolean operator !=(ElectricalResistance left, ElectricalResistance right) => !left.Equals(right);

@@ -7,6 +7,7 @@ using Quantities.Units.Imperial.Area;
 using Quantities.Units.Imperial.Length;
 using Quantities.Units.Si;
 using Quantities.Units.Si.Accepted;
+using Quantities.Units.Si.Derived;
 
 namespace Quantities.Benchmark;
 
@@ -19,6 +20,8 @@ public class DividingQuantities
     private Area imperialPureArea = Area.Imperial<Acre>(23);
     private Volume imperialVolume = Volume.CubicImperial<Mile>(-3);
     private Area imperialArea = Area.SquareImperial<Yard>(55);
+    private ElectricPotential potential = ElectricPotential.Si<Kilo, Volt>(33);
+    private ElectricCurrent current = ElectricCurrent.Si<Deca, Ampere>(98);
     private Trivial<Metre> largeTrivial = Trivial<Metre>.Si(Prefix.Kilo, 3);
     private Trivial<Metre> smallTrivial = Trivial<Metre>.Si(Prefix.Micro, 12);
 
@@ -36,6 +39,9 @@ public class DividingQuantities
 
     [Benchmark]
     public Double DivideAliased() => this.metricAcceptedVolume / this.imperialPureArea;
+
+    [Benchmark]
+    public Double DividePureSi() => this.potential / this.current;
 }
 
 /*
@@ -48,11 +54,12 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
   DefaultJob : .NET Core 7.0.0 (CoreCLR 7.0.22.56001, CoreFX 7.0.22.56001), X64 RyuJIT
 
 
-|         Method |     Mean |    Error |   StdDev | Ratio | RatioSD | Gen 0 | Gen 1 | Gen 2 | Allocated |
-|--------------- |---------:|---------:|---------:|------:|--------:|------:|------:|------:|----------:|
-|        Trivial | 17.65 ns | 0.156 ns | 0.138 ns |  1.00 |    0.00 |     - |     - |     - |         - |
-|       DivideSi | 30.41 ns | 0.237 ns | 0.221 ns |  1.72 |    0.02 |     - |     - |     - |         - |
-| DivideImperial | 31.84 ns | 0.216 ns | 0.202 ns |  1.80 |    0.02 |     - |     - |     - |         - |
-|    DivideMixed | 31.82 ns | 0.208 ns | 0.184 ns |  1.80 |    0.02 |     - |     - |     - |         - |
-|  DivideAliased | 43.34 ns | 0.276 ns | 0.258 ns |  2.46 |    0.02 |     - |     - |     - |         - |
+|         Method |     Mean |    Error |   StdDev | Ratio | Gen 0 | Gen 1 | Gen 2 | Allocated |
+|--------------- |---------:|---------:|---------:|------:|------:|------:|------:|----------:|
+|        Trivial | 16.06 ns | 0.043 ns | 0.036 ns |  1.00 |     - |     - |     - |         - |
+|       DivideSi | 30.35 ns | 0.061 ns | 0.057 ns |  1.89 |     - |     - |     - |         - |
+| DivideImperial | 27.27 ns | 0.054 ns | 0.048 ns |  1.70 |     - |     - |     - |         - |
+|    DivideMixed | 27.91 ns | 0.013 ns | 0.011 ns |  1.74 |     - |     - |     - |         - |
+|  DivideAliased | 38.82 ns | 0.072 ns | 0.063 ns |  2.42 |     - |     - |     - |         - |
+|   DividePureSi | 12.48 ns | 0.048 ns | 0.045 ns |  0.78 |     - |     - |     - |         - |
 */

@@ -47,11 +47,11 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
   DefaultJob : .NET Core 7.0.0 (CoreCLR 7.0.22.56001, CoreFX 7.0.22.56001), X64 RyuJIT
 
 
-|           Method |     Mean |    Error |   StdDev | Ratio | RatioSD | Gen 0 | Gen 1 | Gen 2 | Allocated |
-|----------------- |---------:|---------:|---------:|------:|--------:|------:|------:|------:|----------:|
-|          Trivial | 17.30 ns | 0.269 ns | 0.252 ns |  1.00 |    0.00 |     - |     - |     - |         - |
-|       MultiplySi | 19.59 ns | 0.343 ns | 0.304 ns |  1.13 |    0.02 |     - |     - |     - |         - |
-| MultiplyImperial | 22.95 ns | 0.362 ns | 0.338 ns |  1.33 |    0.03 |     - |     - |     - |         - |
-|    MultiplyMixed | 20.72 ns | 0.446 ns | 0.815 ns |  1.25 |    0.05 |     - |     - |     - |         - |
-|   MultiplyPureSi | 27.68 ns | 0.061 ns | 0.051 ns |  1.60 |    0.02 |     - |     - |     - |         - |
+|           Method |     Mean |    Error |   StdDev | Ratio | Gen 0 | Gen 1 | Gen 2 | Allocated |
+|----------------- |---------:|---------:|---------:|------:|------:|------:|------:|----------:|
+|          Trivial | 15.68 ns | 0.057 ns | 0.051 ns |  1.00 |     - |     - |     - |         - |
+|       MultiplySi | 16.95 ns | 0.011 ns | 0.008 ns |  1.08 |     - |     - |     - |         - |
+| MultiplyImperial | 16.78 ns | 0.029 ns | 0.023 ns |  1.07 |     - |     - |     - |         - |
+|    MultiplyMixed | 16.97 ns | 0.058 ns | 0.049 ns |  1.08 |     - |     - |     - |         - |
+|   MultiplyPureSi | 11.81 ns | 0.057 ns | 0.054 ns |  0.75 |     - |     - |     - |         - |
 */

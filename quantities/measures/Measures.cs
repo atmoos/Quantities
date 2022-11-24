@@ -3,8 +3,6 @@ using Quantities.Prefixes;
 using Quantities.Units;
 using Quantities.Units.Si;
 
-using static System.Math;
-
 namespace Quantities.Measures;
 
 internal readonly struct Si<TUnit> : ISiMeasure<TUnit>, ILinear
@@ -72,8 +70,8 @@ internal readonly struct Power<TDim, TMeasure> : IMeasure
     where TDim : IDimension
     where TMeasure : IMeasure
 {
-    private static readonly Double toSi = Pow(TMeasure.ToSi(1d), TDim.Exponent);
-    private static readonly Double fromSi = Pow(TMeasure.FromSi(1d), TDim.Exponent);
+    private static readonly Double toSi = TDim.Pow(TMeasure.ToSi(1d));
+    private static readonly Double fromSi = TDim.Pow(TMeasure.FromSi(1d));
     public static Double ToSi(in Double value) => toSi * value;
     public static Double FromSi(in Double value) => fromSi * value;
     public static String Representation { get; } = $"{TMeasure.Representation}{TDim.Representation}";

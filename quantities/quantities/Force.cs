@@ -64,9 +64,7 @@ public readonly struct Force : IQuantity<Force>, IForce<Mass, Length, Time>
 
     internal static Force From(in Power power, in Velocity velocity)
     {
-        Double siPower = power.To<Watt>();
-        Double siVelocity = velocity.To<Metre>().PerSecond();
-        return new(SiPrefix.ScaleThree(siPower / siVelocity, create));
+        return new(SiPrefix.ScaleThree(power.Quant.SiDivide(velocity.Quant), create));
     }
 
     public Boolean Equals(Force other) => this.quant.Equals(other.quant);

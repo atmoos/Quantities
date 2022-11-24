@@ -18,13 +18,4 @@ public class MeasuresTest
 
         Assert.Equal(1000d, millimetre);
     }
-    [Fact]
-    public void MapValue()
-    {
-        var centiProjection = new Projection<Si<Centi, Metre>>();
-
-        var decaMetre = centiProjection.MapTo<Si<Deca, Metre>>(2000);
-
-        Assert.Equal(2, decaMetre);
-    }
 }

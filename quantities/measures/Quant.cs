@@ -12,9 +12,9 @@ internal readonly struct Quant : IEquatable<Quant>, IFormattable
         this.map = map;
         this.value = value;
     }
-    public Double Project<TMeasure>() where TMeasure : IMeasure => this.map.Projection.MapTo<TMeasure>(in this.value);
-    public Double Project(in Quant other) => ReferenceEquals(this.map, other.map)
-        ? other.value : this.map.Projection.Project(other.map.Projection, in other.value);
+    public Double ToSi() => this.map.ToSi(in this.value);
+    private Double Project(in Quant other) => ReferenceEquals(this.map, other.map)
+        ? other.value : this.map.FromSi(other.map.ToSi(in other.value));
     public Quant Transform(in ICreate<Quant> transformation) => this.map.Injector.Inject(in transformation, in this.value);
     public Quant PseudoMultiply(in Quant right)
     {
@@ -26,6 +26,8 @@ internal readonly struct Quant : IEquatable<Quant>, IFormattable
         var projected = Project(in denominator);
         return new(this.value / projected, this.map);
     }
+    public Double SiMultiply(in Quant right) => this.map.ToSi(in this.value) * right.map.ToSi(in right.value);
+    public Double SiDivide(in Quant right) => this.map.ToSi(in this.value) / right.map.ToSi(in right.value);
 
     public Boolean Equals(Quant other)
     {

@@ -2,21 +2,21 @@
 
 internal interface IDimension
 {
-    internal static abstract Int32 Exponent { get; }
+    internal static abstract Double Pow(in Double value);
     public static abstract String Representation { get; }
 }
 internal readonly struct Linear : IDimension
 {
-    static Int32 IDimension.Exponent => 1;
+    public static Double Pow(in Double value) => value;
     public static String Representation => String.Empty;
 }
 internal readonly struct Square : IDimension
 {
-    static Int32 IDimension.Exponent => 2;
+    public static Double Pow(in Double value) => value * value;
     public static String Representation => "²";
 }
 internal readonly struct Cube : IDimension
 {
-    static Int32 IDimension.Exponent => 3;
+    public static Double Pow(in Double value) => value * value * value;
     public static String Representation => "³";
 }

@@ -20,7 +20,9 @@ internal static class SiPrefix
             var peta when peta < 1e18 => Scale<Peta>(in injector, in value),
             var exa when exa < 1e21 => Scale<Exa>(in injector, in value),
             var zetta when zetta < 1e24 => Scale<Zetta>(in injector, in value),
-            _ => Scale<Yotta>(in injector, in value)
+            var yotta when yotta < 1e27 => Scale<Yotta>(in injector, in value),
+            var ronna when ronna < 1e30 => Scale<Ronna>(in injector, in value),
+            _ => Scale<Quetta>(in injector, in value)
         };
 
         static T ScaleDown(in Double value, IPrefixInject<T> injector) => Abs(value) switch {
@@ -33,7 +35,9 @@ internal static class SiPrefix
             var femto when femto >= 1e-15 => Scale<Femto>(in injector, in value),
             var atto when atto >= 1e-18 => Scale<Atto>(in injector, in value),
             var zepto when zepto >= 1e-21 => Scale<Zepto>(in injector, in value),
-            _ => Scale<Yocto>(in injector, in value)
+            var yocto when yocto >= 1e-24 => Scale<Yocto>(in injector, in value),
+            var ronto when ronto >= 1e-27 => Scale<Ronto>(in injector, in value),
+            _ => Scale<Quecto>(in injector, in value)
         };
 
         static T Scale<TPrefix>(in IPrefixInject<T> injector, in Double value)
@@ -56,7 +60,9 @@ internal static class SiPrefix
             var peta when peta < 1e18 => Scale<Peta>(in injector, in value),
             var exa when exa < 1e21 => Scale<Exa>(in injector, in value),
             var zetta when zetta < 1e24 => Scale<Zetta>(in injector, in value),
-            _ => Scale<Yotta>(in injector, in value)
+            var yotta when yotta < 1e27 => Scale<Yotta>(in injector, in value),
+            var ronna when ronna < 1e30 => Scale<Ronna>(in injector, in value),
+            _ => Scale<Quetta>(in injector, in value)
         };
 
         static T ScaleDown(in Double value, IPrefixInject<T> injector) => Abs(value) switch {
@@ -67,7 +73,9 @@ internal static class SiPrefix
             var femto when femto >= 1e-15 => Scale<Femto>(in injector, in value),
             var atto when atto >= 1e-18 => Scale<Atto>(in injector, in value),
             var zepto when zepto >= 1e-21 => Scale<Zepto>(in injector, in value),
-            _ => Scale<Yocto>(in injector, in value)
+            var yocto when yocto >= 1e-24 => Scale<Yocto>(in injector, in value),
+            var ronto when ronto >= 1e-27 => Scale<Ronto>(in injector, in value),
+            _ => Scale<Quecto>(in injector, in value)
         };
 
         static T Scale<TPrefix>(in IPrefixInject<T> injector, in Double value)

@@ -2,6 +2,7 @@ namespace Quantities.Test.Prefixes;
 
 public class SiPrefixTest
 {
+    private const Int32 precision = 12;
     private static readonly IPrefixInject<Double> injector = new GetValue();
 
     [Theory]
@@ -26,22 +27,20 @@ public class SiPrefixTest
     }
 
     [Theory]
-    [MemberData(nameof(SiExponents))]
-    public void ScaleSiPrefixes(Int32 exponent)
+    [MemberData(nameof(SiMaxValues))]
+    public void ScaleSiPrefixes(Double valueToNormalize)
     {
-        Double valueToNormalize = Math.Pow(10, exponent);
         Double actualValue = SiPrefix.Scale(valueToNormalize, injector);
-        Double actualExponent = (Int32)Math.Log10(actualValue);
 
-        Assert.Equal(0, actualExponent);
+        Assert.Equal(1d, actualValue, precision);
     }
     [Theory]
-    [MemberData(nameof(SiExponents))]
-    public void ScalesAllValuesWithinOneAndThousand(Int32 exponent)
+    [MemberData(nameof(SiMaxValues))]
+    public void ScalesAllValuesWithinOneAndThousand(Double value)
     {
         var seed = Math.Sqrt(2) * Math.E / (2d * Math.E);
         var range = new Double[] { (1d + Math.Pow(10, -12)) / seed, 2, 4, 5, 6, 8, 9 }.Select(r => seed * r).ToArray();
-        var inputValues = Enumerable.Range(exponent, 3).SelectMany(e => range.Select(r => r * Math.Pow(10, e))).ToArray();
+        var inputValues = Enumerable.Range(0, 3).SelectMany(e => range.Select(r => r * value * Math.Pow(10, e))).ToArray();
 
         var actual = inputValues.Select(v => SiPrefix.Scale(v, injector)).ToArray();
 
@@ -49,102 +48,108 @@ public class SiPrefixTest
     }
 
     [Theory]
-    [MemberData(nameof(SmallPowerThreeExponents))]
-    public void ScaleSmallPowerOfThreePrefixes(Int32 exponent)
+    [MemberData(nameof(SmallPowerThreeMaxValues))]
+    public void ScaleSmallPowerOfThreePrefixes(Double value)
     {
-        Int32[] expectedExponents = new[] { 0, 1, 2 };
-
-        var valuesToNormalize = Enumerable.Range(exponent, expectedExponents.Length).Select(e => Math.Pow(10, e)).ToArray();
+        Double[] expectedValues = new[] { -3.8, 78, -647 };
+        var valuesToNormalize = expectedValues.Select(e => value * e).ToArray();
         var actualValues = valuesToNormalize.Select(v => SiPrefix.Scale(v, injector)).ToArray();
-        var actualExponents = actualValues.Select(v => (Int32)Math.Log10(v)).ToArray();
 
-        Assert.Equal(expectedExponents, actualExponents);
+        Assert.All(expectedValues.Zip(actualValues, (e, a) => (e, a)), c => Assert.Equal(c.e, c.a, precision));
     }
 
     [Theory]
-    [MemberData(nameof(LargePowerThreeExponents))]
-    public void ScaleLargePowerOfThreePrefixes(Int32 exponent)
+    [MemberData(nameof(LargePowerThreeMaxValues))]
+    public void ScaleLargePowerOfThreePrefixes(Double value)
     {
-        Int32[] expectedExponents = new[] { 0, 1, 2 };
-        var valuesToNormalize = Enumerable.Range(exponent, expectedExponents.Length).Select(e => Math.Pow(10, e)).ToArray();
+        Double[] expectedValues = new[] { 1.2, -18, 243 };
+        var valuesToNormalize = expectedValues.Select(e => value * e).ToArray();
         var actualValues = valuesToNormalize.Select(v => SiPrefix.Scale(v, injector)).ToArray();
-        var actualExponents = actualValues.Select(v => (Int32)Math.Log10(v)).ToArray();
 
-        Assert.Equal(expectedExponents, actualExponents);
+        Assert.All(expectedValues.Zip(actualValues, (e, a) => (e, a)), c => Assert.Equal(c.e, c.a, precision));
     }
 
     [Theory]
-    [MemberData(nameof(VerySmallExponents))]
-    public void ScaleVerySmallValues(Int32 exponent)
+    [MemberData(nameof(VerySmallMaxValues))]
+    public void ScaleVerySmallValues(Double valueToNormalize)
     {
-        Double valueToNormalize = Math.Pow(10, exponent);
+        Double expectedValue = Normalize<Quecto>(valueToNormalize);
         Double actualValue = SiPrefix.Scale(valueToNormalize, injector);
-        Double actualExponent = (Int32)Math.Log10(actualValue);
 
-        Int32 expectedExponent = exponent - Yocto.Exp;
-        Assert.Equal(expectedExponent, actualExponent);
+        Assert.Equal(expectedValue, actualValue);
     }
 
     [Theory]
-    [MemberData(nameof(VeryLargeExponents))]
-    public void ScaleVeryLargeValues(Int32 exponent)
+    [MemberData(nameof(VeryLargeMaxValues))]
+    public void ScaleVeryLargeValues(Double valueToNormalize)
     {
-        Double valueToNormalize = Math.Pow(10, exponent);
+        Double expectedValue = Normalize<Quetta>(valueToNormalize);
         Double actualValue = SiPrefix.Scale(valueToNormalize, injector);
-        Double actualExponent = (Int32)Math.Log10(actualValue);
 
-        Int32 expectedExponent = exponent - Yotta.Exp;
-        Assert.Equal(expectedExponent, actualExponent);
+        Assert.Equal(expectedValue, actualValue);
     }
 
-    public static IEnumerable<Object[]> SiExponents()
+    public static IEnumerable<Object[]> SiMaxValues()
     {
-        return AllSiExponents().Select(i => new Object[] { i });
+        return AllSiMaxValues().Select(i => new Object[] { i });
     }
 
-    public static IEnumerable<Object[]> LargePowerThreeExponents()
+    public static IEnumerable<Object[]> LargePowerThreeMaxValues()
     {
-        return AllSiExponents().Where(e => e >= Kilo.Exp).Select(i => new Object[] { i });
+        Double kiloMaxValue = MaxValue<Kilo>();
+        return AllSiMaxValues().Where(e => e >= kiloMaxValue).Select(i => new Object[] { i });
     }
-    public static IEnumerable<Object[]> SmallPowerThreeExponents()
+    public static IEnumerable<Object[]> SmallPowerThreeMaxValues()
     {
-        return AllSiExponents().Where(e => e < Milli.Exp).Select(i => new Object[] { i });
-    }
-
-    public static IEnumerable<Object[]> VeryLargeExponents()
-    {
-        return Enumerable.Range(Yotta.Exp, 5).Select(i => new Object[] { i });
+        Double milliMaxValue = MaxValue<Milli>();
+        return AllSiMaxValues().Where(e => e < milliMaxValue).Select(i => new Object[] { i });
     }
 
-    public static IEnumerable<Object[]> VerySmallExponents()
+    public static IEnumerable<Object[]> VeryLargeMaxValues()
     {
-        return Enumerable.Range(0, 5).Select(i => new Object[] { Yocto.Exp - i });
+        Double quettaMaxValue = MaxValue<Quetta>();
+        return Enumerable.Range(0, 5).Select(e => new Object[] { Math.Pow(10, e) * quettaMaxValue });
     }
 
-    private static IEnumerable<Int32> AllSiExponents()
+    public static IEnumerable<Object[]> VerySmallMaxValues()
     {
-        yield return Yotta.Exp;
-        yield return Zetta.Exp;
-        yield return Exa.Exp;
-        yield return Peta.Exp;
-        yield return Tera.Exp;
-        yield return Giga.Exp;
-        yield return Mega.Exp;
-        yield return Kilo.Exp;
-        yield return Hecto.Exp;
-        yield return Deca.Exp;
-        yield return UnitPrefix.Exp;
-        yield return Deci.Exp;
-        yield return Centi.Exp;
-        yield return Milli.Exp;
-        yield return Micro.Exp;
-        yield return Nano.Exp;
-        yield return Pico.Exp;
-        yield return Femto.Exp;
-        yield return Atto.Exp;
-        yield return Zepto.Exp;
-        yield return Yocto.Exp;
+        Double quectoMaxValue = MaxValue<Quecto>();
+        return Enumerable.Range(0, 5).Select(e => new Object[] { quectoMaxValue / Math.Pow(10, e) });
     }
+
+    private static IEnumerable<Double> AllSiMaxValues()
+    {
+        yield return MaxValue<Quetta>();
+        yield return MaxValue<Ronna>();
+        yield return MaxValue<Yotta>();
+        yield return MaxValue<Zetta>();
+        yield return MaxValue<Exa>();
+        yield return MaxValue<Peta>();
+        yield return MaxValue<Tera>();
+        yield return MaxValue<Giga>();
+        yield return MaxValue<Mega>();
+        yield return MaxValue<Kilo>();
+        yield return MaxValue<Hecto>();
+        yield return MaxValue<Deca>();
+        yield return MaxValue<UnitPrefix>();
+        yield return MaxValue<Deci>();
+        yield return MaxValue<Centi>();
+        yield return MaxValue<Milli>();
+        yield return MaxValue<Micro>();
+        yield return MaxValue<Nano>();
+        yield return MaxValue<Pico>();
+        yield return MaxValue<Femto>();
+        yield return MaxValue<Atto>();
+        yield return MaxValue<Zepto>();
+        yield return MaxValue<Yocto>();
+        yield return MaxValue<Ronto>();
+        yield return MaxValue<Quecto>();
+    }
+
+    private static Double MaxValue<TPrefix>()
+        where TPrefix : IPrefix => TPrefix.ToSi(1d);
+    private static Double Normalize<TPrefix>(Double value)
+        where TPrefix : IPrefix => TPrefix.FromSi(in value);
 
     private sealed class GetValue : IPrefixInject<Double>
     {

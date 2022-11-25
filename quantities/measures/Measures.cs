@@ -61,9 +61,10 @@ internal readonly struct Product<TLeft, TRight> : IMeasure
     where TLeft : IMeasure
     where TRight : IMeasure
 {
+    const String narrowNoBreakSpace = "\u202F";
     public static Double ToSi(in Double value) => TLeft.ToSi(TRight.ToSi(in value));
     public static Double FromSi(in Double value) => TRight.ToSi(TLeft.FromSi(in value));
-    public static String Representation { get; } = $"{TLeft.Representation}\u2009{TRight.Representation}"; // U+2009 is thin space.
+    public static String Representation { get; } = $"{TLeft.Representation}{narrowNoBreakSpace}{TRight.Representation}";
 }
 internal readonly struct Fraction<TNominator, TDenominator> : IMeasure
     where TNominator : IMeasure

@@ -31,6 +31,8 @@ public static class Convenience
         const Double value = Math.PI;
         IFormattable formattable = formatterFactory(value);
         CultureInfo formatProvider = CultureInfo.CurrentCulture;
-        Assert.Equal($"{value.ToString(format, formatProvider)} {unit}", formattable.ToString(format, formatProvider));
+        String actual = formattable.ToString(format, formatProvider);
+        String expected = $"{value.ToString(format, formatProvider)} {unit}";
+        Assert.Equal(expected, actual);
     }
 }

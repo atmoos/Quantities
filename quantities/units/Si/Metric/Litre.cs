@@ -1,8 +1,8 @@
 ﻿using Quantities.Dimensions;
 
-namespace Quantities.Units.Si.Accepted;
+namespace Quantities.Units.Si.Metric;
 
-public readonly struct Litre : ISiAcceptedUnit, IVolume<ILength>, IInjectUnit<ILength>
+public readonly struct Litre : IMetricUnit, IVolume<ILength>, IInjectUnit<ILength>
 {
     internal const Double InCubicMetre = 1e3; // 1000 ℓ in 1 m³
     public static Double ToSi(in Double value) => value / InCubicMetre;

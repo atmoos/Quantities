@@ -12,6 +12,7 @@ namespace Quantities.Quantities;
 public readonly struct Force : IQuantity<Force>, IForce<Mass, Length, Time>
     , ISiDerived<Force, IForce>
     , IImperial<Force, IForce>
+    , IMetric<Force, IForce>
     , IOther<Force, IForce>
     , IMultiplyOperators<Force, Velocity, Power>
 {
@@ -29,6 +30,16 @@ public readonly struct Force : IQuantity<Force>, IForce<Mass, Length, Time>
         where TUnit : ISiDerivedUnit, IForce
     {
         return new(this.quant.As<SiDerived<TPrefix, TUnit>>());
+    }
+    public Force ToMetric<TUnit>() where TUnit : IMetricUnit, IForce
+    {
+        return new(this.quant.As<Metric<TUnit>>());
+    }
+    public Force ToMetric<TPrefix, TUnit>()
+        where TPrefix : IPrefix
+        where TUnit : IMetricUnit, IForce
+    {
+        return new(this.quant.As<Metric<TPrefix, TUnit>>());
     }
     public Force ToImperial<TUnit>()
         where TUnit : IImperial, IForce
@@ -50,6 +61,17 @@ public readonly struct Force : IQuantity<Force>, IForce<Mass, Length, Time>
         where TUnit : ISiDerivedUnit, IForce
     {
         return new(value.As<SiDerived<TPrefix, TUnit>>());
+    }
+    public static Force Metric<TUnit>(in Double value) where TUnit : IMetricUnit, IForce
+    {
+        return new(value.As<Metric<TUnit>>());
+    }
+
+    public static Force Metric<TPrefix, TUnit>(in Double value)
+        where TPrefix : IPrefix
+        where TUnit : IMetricUnit, IForce
+    {
+        return new(value.As<Metric<TPrefix, TUnit>>());
     }
     public static Force Imperial<TUnit>(in Double value)
         where TUnit : IImperial, IForce

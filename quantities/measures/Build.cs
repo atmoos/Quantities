@@ -16,6 +16,8 @@ internal static class Build<TMeasure> where TMeasure : IMeasure
     }
     public static Quant With(in Quant value)
     {
+        // ToDo: Check reference equality of the default map and quant's map.
+        //       When equal, no projection needs to be done...
         Double projection = TMeasure.FromSi(value.ToSi());
         return new(in projection, in defaultMap);
     }

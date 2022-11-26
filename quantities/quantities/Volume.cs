@@ -26,16 +26,16 @@ public readonly struct Volume : IQuantity<Volume>, IVolume<Length>
     {
         return new(this.quant.To<Cube, Si<TPrefix, TUnit>>());
     }
-    public Volume ToSi<TUnit>()
-    where TUnit : ISiAcceptedUnit, IVolume<ILength>, IInjectUnit<ILength>
+    public Volume ToMetric<TVolume>()
+    where TVolume : IMetricUnit, IVolume<ILength>, IInjectUnit<ILength>
     {
-        return new(this.quant.As<SiAccepted<TUnit>, Alias<TUnit, ILength>>());
+        return new(this.quant.As<Metric<TVolume>, Alias<TVolume, ILength>>());
     }
-    public Volume ToSi<TPrefix, TUnit>()
+    public Volume ToMetric<TPrefix, TUnit>()
         where TPrefix : IPrefix
-        where TUnit : ISiAcceptedUnit, IVolume<ILength>, IInjectUnit<ILength>
+        where TUnit : IMetricUnit, IVolume<ILength>, IInjectUnit<ILength>
     {
-        return new(this.quant.As<SiAccepted<TPrefix, TUnit>, Alias<TPrefix, TUnit, ILength>>());
+        return new(this.quant.As<Metric<TPrefix, TUnit>, Alias<TPrefix, TUnit, ILength>>());
     }
     public Volume ToImperial<TUnit>()
         where TUnit : IImperial, IVolume<ILength>, IInjectUnit<ILength>
@@ -58,16 +58,16 @@ public readonly struct Volume : IQuantity<Volume>, IVolume<Length>
     {
         return new(value.To<Cube, Si<TPrefix, TUnit>>());
     }
-    public static Volume Si<TVolume>(Double value)
-        where TVolume : ISiAcceptedUnit, IVolume<ILength>, IInjectUnit<ILength>
+    public static Volume Metric<TVolume>(Double value)
+        where TVolume : IMetricUnit, IVolume<ILength>, IInjectUnit<ILength>
     {
-        return new(value.As<SiAccepted<TVolume>, Alias<TVolume, ILength>>());
+        return new(value.As<Metric<TVolume>, Alias<TVolume, ILength>>());
     }
-    public static Volume Si<TPrefix, TVolume>(Double value)
+    public static Volume Metric<TPrefix, TVolume>(Double value)
         where TPrefix : IPrefix
-        where TVolume : ISiAcceptedUnit, IVolume<ILength>, IInjectUnit<ILength>
+        where TVolume : IMetricUnit, IVolume<ILength>, IInjectUnit<ILength>
     {
-        return new(value.As<SiAccepted<TPrefix, TVolume>, Alias<TPrefix, TVolume, ILength>>());
+        return new(value.As<Metric<TPrefix, TVolume>, Alias<TPrefix, TVolume, ILength>>());
     }
     public static Volume Imperial<TVolume>(Double value)
         where TVolume : IImperial, IVolume<ILength>, IInjectUnit<ILength>

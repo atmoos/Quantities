@@ -1,5 +1,6 @@
 ﻿using Quantities.Units.Imperial.Mass;
 using Quantities.Units.Si.Derived;
+using Quantities.Units.Si.Metric;
 
 namespace Quantities.Test;
 
@@ -12,15 +13,15 @@ public sealed class MassTest
     [Fact]
     public void GramToString() => FormattingMatches(v => Mass.Si<Gram>(v), "g");
     [Fact]
-    public void TonneToString() => FormattingMatches(v => Mass.Si<Tonne>(v), "t");
+    public void TonneToString() => FormattingMatches(v => Mass.Metric<Tonne>(v), "t");
     [Fact]
     public void KiloGramToString() => FormattingMatches(v => Mass.Si<Kilo, Gram>(v), "Kg");
     [Fact]
     public void MicroGramToString() => FormattingMatches(v => Mass.Si<Micro, Gram>(v), "μg");
     [Fact]
-    public void KiloTonneToString() => FormattingMatches(v => Mass.Si<Kilo, Tonne>(v), "Kt");
+    public void KiloTonneToString() => FormattingMatches(v => Mass.Metric<Kilo, Tonne>(v), "Kt");
     [Fact]
-    public void MegaTonneToString() => FormattingMatches(v => Mass.Si<Mega, Tonne>(v), "Mt");
+    public void MegaTonneToString() => FormattingMatches(v => Mass.Metric<Mega, Tonne>(v), "Mt");
     [Fact]
     public void KilogramKiloGramEquivalence()
     {
@@ -52,7 +53,7 @@ public sealed class MassTest
     [Fact]
     public void TonneToKilogram()
     {
-        Mass mass = Mass.Si<Tonne>(0.2);
+        Mass mass = Mass.Metric<Tonne>(0.2);
         Mass expected = Mass.Kilogram(200);
 
         Mass actual = mass.ToKilogram();
@@ -63,9 +64,9 @@ public sealed class MassTest
     public void KilogramToTonne()
     {
         Mass mass = Mass.Kilogram(1200);
-        Mass expected = Mass.Si<Tonne>(1.2);
+        Mass expected = Mass.Metric<Tonne>(1.2);
 
-        Mass actual = mass.To<Tonne>();
+        Mass actual = mass.ToMetric<Tonne>();
 
         actual.Matches(expected);
     }
@@ -73,16 +74,16 @@ public sealed class MassTest
     public void GramToTonne()
     {
         Mass mass = Mass.Si<Kilo, Gram>(1500);
-        Mass expected = Mass.Si<Tonne>(1.5);
+        Mass expected = Mass.Metric<Tonne>(1.5);
 
-        Mass actual = mass.To<Tonne>();
+        Mass actual = mass.ToMetric<Tonne>();
 
         actual.Matches(expected);
     }
     [Fact]
     public void TonneToGram()
     {
-        Mass mass = Mass.Si<Tonne>(0.003);
+        Mass mass = Mass.Metric<Tonne>(0.003);
         Mass expected = Mass.Si<Gram>(3000);
 
         Mass actual = mass.To<Gram>();

@@ -6,8 +6,8 @@ using Quantities.Quantities;
 using Quantities.Units.Imperial.Area;
 using Quantities.Units.Imperial.Length;
 using Quantities.Units.Si;
-using Quantities.Units.Si.Accepted;
 using Quantities.Units.Si.Derived;
+using Quantities.Units.Si.Metric;
 
 namespace Quantities.Benchmark;
 
@@ -15,7 +15,7 @@ namespace Quantities.Benchmark;
 public class DividingQuantities
 {
     private Volume metricVolume = Volume.Cubic<Kilo, Metre>(3);
-    private Volume metricAcceptedVolume = Volume.Si<Kilo, Litre>(3);
+    private Volume metricAcceptedVolume = Volume.Metric<Kilo, Litre>(3);
     private Area metricArea = Area.Square<Deca, Metre>(23);
     private Area imperialPureArea = Area.Imperial<Acre>(23);
     private Volume imperialVolume = Volume.CubicImperial<Mile>(-3);

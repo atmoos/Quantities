@@ -22,9 +22,9 @@ public readonly ref struct Creator<TAlias, T>
     {
         return this.creator.Create<SiDerived<TInjectedUnit>>(in value);
     }
-    public T SiAccepted<TInjectedUnit>(in Double value) where TInjectedUnit : ISiAcceptedUnit, TAlias
+    public T Metric<TInjectedUnit>(in Double value) where TInjectedUnit : IMetricUnit, TAlias
     {
-        return this.creator.Create<SiAccepted<TInjectedUnit>>(in value);
+        return this.creator.Create<Metric<TInjectedUnit>>(in value);
     }
     public T Other<TInjectedUnit>(in Double value) where TInjectedUnit : IUnit, ITransform, TAlias
     {

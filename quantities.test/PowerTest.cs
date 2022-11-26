@@ -1,5 +1,5 @@
-﻿using Quantities.Units.Si.Accepted;
-using Quantities.Units.Si.Derived;
+﻿using Quantities.Units.Si.Derived;
+using Quantities.Units.Si.Metric;
 
 namespace Quantities.Test;
 
@@ -95,7 +95,7 @@ public sealed class PowerTest
     [Fact]
     public void PowerFromEnergyDividedByTime()
     {
-        Energy energy = Energy.SiAccepted<Giga, Watt, Hour>(48);
+        Energy energy = Energy.Metric<Giga, Watt, Hour>(48);
         Time time = Time.In<Day>(200);
         Power expected = Power.Si<Mega, Watt>(10);
 

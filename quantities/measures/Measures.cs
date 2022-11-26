@@ -42,16 +42,16 @@ internal readonly struct Other<TUnit> : IOtherMeasure<TUnit>, ILinear
     public static Double FromSi(in Double value) => TUnit.FromSi(in value);
     public static String Representation => TUnit.Representation;
 }
-internal readonly struct SiAccepted<TUnit> : ISiAccepted<TUnit>, ILinear
-    where TUnit : ISiAcceptedUnit
+internal readonly struct Metric<TUnit> : ISiAccepted<TUnit>, ILinear
+    where TUnit : IMetricUnit
 {
     public static Double ToSi(in Double value) => TUnit.ToSi(in value);
     public static Double FromSi(in Double value) => TUnit.FromSi(in value);
     public static String Representation => TUnit.Representation;
 }
-internal readonly struct SiAccepted<TPrefix, TUnit> : ISiAccepted<TUnit>, ILinear
+internal readonly struct Metric<TPrefix, TUnit> : ISiAccepted<TUnit>, ILinear
     where TPrefix : IPrefix
-    where TUnit : ISiAcceptedUnit
+    where TUnit : IMetricUnit
 {
     public static Double ToSi(in Double value) => TPrefix.ToSi(TUnit.ToSi(in value));
     public static Double FromSi(in Double value) => TPrefix.FromSi(TUnit.FromSi(in value));
@@ -63,7 +63,7 @@ internal readonly struct Product<TLeft, TRight> : IMeasure
 {
     const String narrowNoBreakSpace = "\u202F";
     public static Double ToSi(in Double value) => TLeft.ToSi(TRight.ToSi(in value));
-    public static Double FromSi(in Double value) => TRight.ToSi(TLeft.FromSi(in value));
+    public static Double FromSi(in Double value) => TRight.FromSi(TLeft.FromSi(in value));
     public static String Representation { get; } = $"{TLeft.Representation}{narrowNoBreakSpace}{TRight.Representation}";
 }
 internal readonly struct Fraction<TNominator, TDenominator> : IMeasure
@@ -71,7 +71,7 @@ internal readonly struct Fraction<TNominator, TDenominator> : IMeasure
     where TDenominator : IMeasure
 {
     public static Double ToSi(in Double value) => TDenominator.FromSi(TNominator.ToSi(in value));
-    public static Double FromSi(in Double value) => TDenominator.ToSi(TNominator.FromSi(in value));
+    public static Double FromSi(in Double value) => TNominator.FromSi(TDenominator.ToSi(in value));
     public static String Representation { get; } = $"{TNominator.Representation}/{TDenominator.Representation}";
 }
 internal readonly struct Power<TDim, TMeasure> : IMeasure

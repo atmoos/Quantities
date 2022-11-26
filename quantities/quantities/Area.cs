@@ -30,16 +30,16 @@ public readonly struct Area : IQuantity<Area>, IArea<Length>
     {
         return new(this.quant.To<Square, Si<TPrefix, TUnit>>());
     }
-    public Area ToSi<TUnit>()
-        where TUnit : ISiAcceptedUnit, IArea<ILength>, IInjectUnit<ILength>
+    public Area ToMetric<TArea>()
+        where TArea : IMetricUnit, IArea<ILength>, IInjectUnit<ILength>
     {
-        return new(this.quant.As<SiAccepted<TUnit>, Alias<TUnit, ILength>>());
+        return new(this.quant.As<Metric<TArea>, Alias<TArea, ILength>>());
     }
-    public Area ToSi<TPrefix, TUnit>()
+    public Area ToMetric<TPrefix, TArea>()
         where TPrefix : IPrefix
-        where TUnit : ISiAcceptedUnit, IArea<ILength>, IInjectUnit<ILength>
+        where TArea : IMetricUnit, IArea<ILength>, IInjectUnit<ILength>
     {
-        return new(this.quant.As<SiAccepted<TPrefix, TUnit>, Alias<TPrefix, TUnit, ILength>>());
+        return new(this.quant.As<Metric<TPrefix, TArea>, Alias<TPrefix, TArea, ILength>>());
     }
     public Area ToImperial<TArea>()
         where TArea : IImperial, IArea<ILength>, IInjectUnit<ILength>
@@ -67,16 +67,16 @@ public readonly struct Area : IQuantity<Area>, IArea<Length>
     {
         return new(value.To<Square, Si<TPrefix, TUnit>>());
     }
-    public static Area Si<TArea>(in Double value)
-        where TArea : ISiAcceptedUnit, IArea<ILength>, IInjectUnit<ILength>
+    public static Area Metric<TArea>(in Double value)
+        where TArea : IMetricUnit, IArea<ILength>, IInjectUnit<ILength>
     {
-        return new(value.As<SiAccepted<TArea>, Alias<TArea, ILength>>());
+        return new(value.As<Metric<TArea>, Alias<TArea, ILength>>());
     }
-    public static Area Si<TPrefix, TArea>(in Double value)
+    public static Area Metric<TPrefix, TArea>(in Double value)
         where TPrefix : IPrefix
-        where TArea : ISiAcceptedUnit, IArea<ILength>, IInjectUnit<ILength>
+        where TArea : IMetricUnit, IArea<ILength>, IInjectUnit<ILength>
     {
-        return new(value.As<SiAccepted<TPrefix, TArea>, Alias<TPrefix, TArea, ILength>>());
+        return new(value.As<Metric<TPrefix, TArea>, Alias<TPrefix, TArea, ILength>>());
     }
     public static Area SquareImperial<TLength>(Double value)
         where TLength : IImperial, ILength

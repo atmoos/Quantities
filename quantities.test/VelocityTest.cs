@@ -1,4 +1,4 @@
-﻿using Quantities.Units.Si.Accepted;
+﻿using Quantities.Units.Si.Metric;
 
 namespace Quantities.Test;
 

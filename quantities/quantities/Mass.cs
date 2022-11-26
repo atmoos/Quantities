@@ -8,6 +8,7 @@ namespace Quantities.Quantities;
 
 public readonly struct Mass : IQuantity<Mass>, IMass
     , ISiDerived<Mass, IMass> // ToDo: Should be ISi<>. This is something of an unfortunate happenstance...
+    , IMetric<Mass, IMass>
     , IImperial<Mass, IMass>
 {
     private readonly Quant quant;
@@ -23,6 +24,16 @@ public readonly struct Mass : IQuantity<Mass>, IMass
         where TUnit : ISiDerivedUnit, IMass
     {
         return new(this.quant.As<SiDerived<TPrefix, TUnit>>());
+    }
+    public Mass ToMetric<TUnit>() where TUnit : IMetricUnit, IMass
+    {
+        return new(this.quant.As<Metric<TUnit>>());
+    }
+    public Mass ToMetric<TPrefix, TUnit>()
+        where TPrefix : IPrefix
+        where TUnit : IMetricUnit, IMass
+    {
+        return new(this.quant.As<Metric<TPrefix, TUnit>>());
     }
     public Mass ToImperial<TUnit>()
         where TUnit : IImperial, IMass
@@ -41,6 +52,16 @@ public readonly struct Mass : IQuantity<Mass>, IMass
     {
         return new(value.As<SiDerived<TPrefix, TUnit>>());
     }
+    public static Mass Metric<TUnit>(in Double value) where TUnit : IMetricUnit, IMass
+    {
+        return new(value.As<Metric<TUnit>>());
+    }
+    public static Mass Metric<TPrefix, TUnit>(in Double value)
+        where TPrefix : IPrefix
+        where TUnit : IMetricUnit, IMass
+    {
+        return new(value.As<Metric<TPrefix, TUnit>>());
+    }
     public static Mass Imperial<TUnit>(in Double value)
         where TUnit : IImperial, IMass
     {
@@ -54,6 +75,7 @@ public readonly struct Mass : IQuantity<Mass>, IMass
     public override Int32 GetHashCode() => this.quant.GetHashCode();
     public override String ToString() => this.quant.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.quant.ToString(format, provider);
+
     public static Boolean operator ==(Mass left, Mass right) => left.Equals(right);
     public static Boolean operator !=(Mass left, Mass right) => !left.Equals(right);
     public static implicit operator Double(Mass mass) => mass.quant.Value;

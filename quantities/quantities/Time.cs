@@ -22,22 +22,22 @@ public readonly struct Time : IQuantity<Time>, ITime
         return new(this.quant.As<Si<TPrefix, TUnit>>());
     }
     public Time To<TUnit>()
-    where TUnit : ISiAcceptedUnit, ITime
+        where TUnit : IMetricUnit, ITime
     {
-        return new(this.quant.As<SiAccepted<TUnit>>());
+        return new(this.quant.As<Metric<TUnit>>());
     }
     public TimeSpan ToTimeSpan() => TimeSpan.FromSeconds(ToSeconds());
     public static Time Seconds(in Double value) => new(value.As<Si<Second>>());
     public static Time Si<TPrefix, TUnit>(in Double value)
-    where TPrefix : IPrefix, IScaleDown
-    where TUnit : ISiBaseUnit, ITime
+        where TPrefix : IPrefix, IScaleDown
+        where TUnit : ISiBaseUnit, ITime
     {
         return new(value.As<Si<TPrefix, TUnit>>());
     }
     public static Time In<TUnit>(in Double value)
-        where TUnit : ISiAcceptedUnit, ITime
+        where TUnit : IMetricUnit, ITime
     {
-        return new(value.As<SiAccepted<TUnit>>());
+        return new(value.As<Metric<TUnit>>());
     }
 
     internal static Time From(in Energy energy, in Power power)

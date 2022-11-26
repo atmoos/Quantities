@@ -1,8 +1,8 @@
 using Quantities.Dimensions;
 
-namespace Quantities.Units.Si.Accepted;
+namespace Quantities.Units.Si.Metric;
 
-public readonly struct Are : ISiAcceptedUnit, IArea<ILength>, IInjectUnit<ILength>
+public readonly struct Are : IMetricUnit, IArea<ILength>, IInjectUnit<ILength>
 {
     internal const Double ToSquareMetre = 1e2; // a -> m²
     public static Double ToSi(in Double value) => ToSquareMetre * value;

@@ -1,4 +1,4 @@
-using Quantities.Units.Si.Accepted;
+using Quantities.Units.Si.Metric;
 
 namespace Quantities.Test;
 
@@ -130,7 +130,7 @@ public sealed class LengthTest
     [Fact]
     public void LengthByDivisionIsEqualToLengthByConstruction()
     {
-        Volume volume = Volume.Si<Hecto, Litre>(300);
+        Volume volume = Volume.Metric<Hecto, Litre>(300);
         Area area = Area.Square<Metre>(6);
         Length expected = Length.Si<Metre>(5);
 
@@ -139,8 +139,6 @@ public sealed class LengthTest
         actual.Matches(expected);
         Assert.Equal(expected, actual);
     }
-
-    /*
     [Fact]
     public void SiLengthBySiTimeIsVelocity()
     {
@@ -156,7 +154,7 @@ public sealed class LengthTest
     public void SiLengthByOtherTimeIsVelocity()
     {
         Length distance = Length.Si<Kilo, Metre>(120);
-        Time duration = Time.SiAccepted<Hour>(10);
+        Time duration = Time.In<Hour>(10);
         Velocity expected = Velocity.Si<Kilo, Metre>(12).Per<Hour>();
 
         Velocity actual = distance / duration;
@@ -167,12 +165,11 @@ public sealed class LengthTest
     public void OtherLengthByTimeIsVelocity()
     {
         Length distance = Length.Imperial<Mile>(70);
-        Time duration = Time.SiAccepted<Hour>(2);
+        Time duration = Time.In<Hour>(2);
         Velocity expected = Velocity.Imperial<Mile>(35).Per<Hour>();
 
         Velocity actual = distance / duration;
 
         actual.Matches(expected);
     }
-    */
 }

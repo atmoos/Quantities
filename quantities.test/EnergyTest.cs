@@ -1,5 +1,5 @@
-using Quantities.Units.Si.Accepted;
 using Quantities.Units.Si.Derived;
+using Quantities.Units.Si.Metric;
 
 namespace Quantities.Test;
 
@@ -12,7 +12,7 @@ public sealed class EnergyTest
     [Fact]
     public void FemtoJouleToString() => FormattingMatches(v => Energy.Si<Femto, Joule>(v), "fJ");
     [Fact]
-    public void KiloWattHourToString() => FormattingMatches(v => Energy.SiAccepted<Kilo, Watt, Hour>(v), "KW h");
+    public void KiloWattHourToString() => FormattingMatches(v => Energy.Metric<Kilo, Watt, Hour>(v), "KW h");
     [Fact]
     public void WattSecondToJoule()
     {
@@ -26,10 +26,21 @@ public sealed class EnergyTest
     [Fact]
     public void JouleToKiloWattHour()
     {
-        var energy = Energy.SiAccepted<Kilo, Watt, Hour>(1);
+        var energy = Energy.Metric<Kilo, Watt, Hour>(1);
         var expected = Energy.Si<Kilo, Joule>(3600);
 
         var actual = energy.To<Kilo, Joule>();
+
+        actual.Matches(expected);
+    }
+
+    [Fact]
+    public void DefinitionOfKiloWattHour()
+    {
+        var oneKiloWattHourInJoule = Energy.Si<Mega, Joule>(3.6);
+        var expected = Energy.Metric<Kilo, Watt, Hour>(1);
+
+        var actual = oneKiloWattHourInJoule.ToMetric<Kilo, Watt, Hour>();
 
         actual.Matches(expected);
     }
@@ -39,7 +50,7 @@ public sealed class EnergyTest
     {
         var time = Time.In<Hour>(2);
         var power = Power.Si<Kilo, Watt>(3);
-        var expected = Energy.SiAccepted<Kilo, Watt, Hour>(6);
+        var expected = Energy.Metric<Kilo, Watt, Hour>(6);
 
         var actual = power * time;
 

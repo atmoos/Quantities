@@ -34,15 +34,15 @@ public readonly struct Power : IQuantity<Power>, IPower
         return new(this.quant.As<SiDerived<TPrefix, TUnit>>());
     }
     public Power ToMetric<TUnit>()
-        where TUnit : ISiAcceptedUnit, IPower
+        where TUnit : IMetricUnit, IPower
     {
-        return new(this.quant.As<SiAccepted<TUnit>>());
+        return new(this.quant.As<Metric<TUnit>>());
     }
     public Power ToMetric<TPrefix, TUnit>()
         where TPrefix : IPrefix
-        where TUnit : ISiAcceptedUnit, IPower
+        where TUnit : IMetricUnit, IPower
     {
-        return new(this.quant.As<SiAccepted<TPrefix, TUnit>>());
+        return new(this.quant.As<Metric<TPrefix, TUnit>>());
     }
     public Power ToImperial<TUnit>()
         where TUnit : IImperial, IPower
@@ -65,17 +65,16 @@ public readonly struct Power : IQuantity<Power>, IPower
     {
         return new(value.As<Other<TUnit>>());
     }
-    // ToDo: Consider renaming ISiAccepted to Metric
     public static Power Metric<TUnit>(in Double value)
-        where TUnit : ISiAcceptedUnit, IPower
+        where TUnit : IMetricUnit, IPower
     {
-        return new(value.As<SiAccepted<TUnit>>());
+        return new(value.As<Metric<TUnit>>());
     }
     public static Power Metric<TPrefix, TUnit>(in Double value)
         where TPrefix : IPrefix
-        where TUnit : ISiAcceptedUnit, IPower
+        where TUnit : IMetricUnit, IPower
     {
-        return new(value.As<SiAccepted<TPrefix, TUnit>>());
+        return new(value.As<Metric<TPrefix, TUnit>>());
     }
 
     internal static Power From(in ElectricPotential potential, in ElectricCurrent current)

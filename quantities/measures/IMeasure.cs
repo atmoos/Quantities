@@ -11,8 +11,14 @@ internal interface ISiMeasure<in TUnit> : IMeasure
 {
     /* marker interface*/
 }
+/// <summary>
+/// SI accepts certain units for use in the SI system. However they are not regarded as actual SI units. 
+/// </summary>
+/// <remarks>
+/// An example of this is the litre which is defined in terms of the metre as: 1000 ℓ in 1 m³
+/// </remarks>
 internal interface ISiAccepted<in TUnit> : IMeasure
-    where TUnit : ISiAcceptedUnit
+    where TUnit : IMetricUnit
 {
     /* marker interface*/
 }

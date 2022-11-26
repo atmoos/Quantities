@@ -1,0 +1,28 @@
+# To force normalize the files in the working tree, execute:
+# git add --renormalize .
+
+# Unset line ending normalization for all files by default
+# This enables "as is" check-ins
+*           -text
+
+# Set dotnet source code files to be normalized.
+# This prevents us from having mixed endings
+*.cs        text diff=csharp merge=csharp
+*.csproj    text
+*.sln       text
+.editorconfig   text
+
+# Other source code we might encounter
+*.md        text diff=markdown merge=markdown
+*.sh        text
+
+# allow git to normalize its own settings files
+.gitignore      text
+.gitattributes  text
+
+# nuget configuration
+nuget.config text
+
+# Note: core.autocrlf will only affect files not listed here.
+#       This ought to amount to processing no files as we
+#       have the wildcard * specified at the top.

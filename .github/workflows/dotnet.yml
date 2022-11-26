@@ -10,9 +10,12 @@ on:
     branches: [ "master" ]
 
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
+  tests:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    
+    runs-on: ${{matrix.os}}
 
     steps:
     - uses: actions/checkout@v3
@@ -23,6 +26,6 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --configuration Release --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal

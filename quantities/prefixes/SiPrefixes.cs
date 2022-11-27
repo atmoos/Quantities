@@ -114,13 +114,6 @@ public readonly struct Deca : ISiPrefix, IScaleUp
     static Double ITransform.FromSi(in Double value) => value / 1e1;
     static String IRepresentable.Representation => "da";
 }
-[DebuggerDisplay("1")]
-internal readonly struct UnitPrefix : ISiPrefix, IScaleUp, IScaleDown // Since we use it by default on unit-less instantiations.
-{
-    static Double ITransform.ToSi(in Double value) => value;
-    static Double ITransform.FromSi(in Double value) => value;
-    static String IRepresentable.Representation => String.Empty;
-}
 [DebuggerDisplay(nameof(Deci))]
 public readonly struct Deci : ISiPrefix, IScaleDown
 {

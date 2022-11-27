@@ -131,7 +131,7 @@ public class SiPrefixTest
         yield return MaxValue<Kilo>();
         yield return MaxValue<Hecto>();
         yield return MaxValue<Deca>();
-        yield return MaxValue<UnitPrefix>();
+        yield return 1d; // unit prefix
         yield return MaxValue<Deci>();
         yield return MaxValue<Centi>();
         yield return MaxValue<Milli>();

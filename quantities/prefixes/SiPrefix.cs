@@ -41,7 +41,7 @@ internal static class SiPrefix
         };
 
         static T Scale<TPrefix>(in IPrefixInject<T> injector, in Double value)
-            where TPrefix : IPrefix
+            where TPrefix : ISiPrefix
         {
             return injector.Inject<TPrefix>(TPrefix.FromSi(in value));
         }
@@ -79,7 +79,7 @@ internal static class SiPrefix
         };
 
         static T Scale<TPrefix>(in IPrefixInject<T> injector, in Double value)
-            where TPrefix : IPrefix
+            where TPrefix : ISiPrefix
         {
             return injector.Inject<TPrefix>(TPrefix.FromSi(in value));
         }

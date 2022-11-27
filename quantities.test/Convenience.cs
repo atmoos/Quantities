@@ -17,11 +17,19 @@ public static class Convenience
         PrecisionIsBounded(expected, actual, precision);
         Assert.Equal(expected.ToString(), actual.ToString());
     }
-    private static void PrecisionIsBounded(Double expected, Double actual, Int32 precision)
+    public static void PrecisionIsBounded(Double expected, Double actual, Int32 precision)
     {
-        const Int32 maxPrecision = 15;
+        const Int32 maxDoublePrecision = 16;
+        const Int32 maxRoundingPrecision = maxDoublePrecision - 1;
+        if (precision >= maxDoublePrecision) {
+            if (precision == maxDoublePrecision) {
+                Assert.Equal(expected, actual);
+                return;
+            }
+            throw new ArgumentOutOfRangeException(nameof(precision), precision, $"Doubles can't be compared to precisions higher than {maxDoublePrecision}.");
+        }
         Assert.Equal(expected, actual, precision);
-        if (precision < maxPrecision) {
+        if (precision < maxRoundingPrecision) {
             Assert.Throws<EqualException>(() => Assert.Equal(expected, actual, precision + 1));
         }
     }

@@ -15,6 +15,12 @@ public static class Extensions
        where TPrefix : ISiPrefix, IScaleDown
        where TUnit : ISiBaseUnit, ITime => new(builder.By<Si<TPrefix, TUnit>>());
     public static Velocity PerSecond(this IBuilder<Velocity> builder) => new(builder.By<Si<Second>>());
+    public static DataRate Per<TUnit>(this IBuilder<DataRate> builder)
+       where TUnit : IMetricUnit, ITime => new(builder.By<Metric<TUnit>>());
+    public static DataRate Per<TPrefix, TUnit>(this IBuilder<DataRate> builder)
+       where TPrefix : ISiPrefix, IScaleDown
+       where TUnit : ISiBaseUnit, ITime => new(builder.By<Si<TPrefix, TUnit>>());
+    public static DataRate PerSecond(this IBuilder<DataRate> builder) => new(builder.By<Si<Second>>());
     internal static Quant To<TDim, TMeasure>(this Double value)
       where TDim : Measures.IDimension where TMeasure : IMeasure, ILinear
       => Build<Power<TDim, TMeasure>>.With<Linear<TMeasure>>(in value);

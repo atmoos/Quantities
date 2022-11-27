@@ -4,7 +4,7 @@ using Quantities.Measures;
 namespace Quantities.Quantities.Builders;
 
 internal sealed class Builder<TQuantity, TNominator> : IBuilder<TQuantity>
-    where TQuantity : Dimensions.IDimension, IEquatable<TQuantity>, IFormattable
+    where TQuantity : struct, IQuantity<TQuantity>, Dimensions.IDimension
     where TNominator : IMeasure, ILinear
 {
     private readonly Double value;

@@ -16,7 +16,7 @@ public readonly struct Time : IQuantity<Time>, ITime
     private Time(in Quant quant) => this.quant = quant;
     public Time ToSeconds() => new(this.quant.As<Si<Second>>());
     public Time To<TPrefix, TUnit>()
-        where TPrefix : IPrefix, IScaleDown
+        where TPrefix : ISiPrefix, IScaleDown
         where TUnit : ISiBaseUnit, ITime
     {
         return new(this.quant.As<Si<TPrefix, TUnit>>());
@@ -29,7 +29,7 @@ public readonly struct Time : IQuantity<Time>, ITime
     public TimeSpan ToTimeSpan() => TimeSpan.FromSeconds(ToSeconds());
     public static Time Seconds(in Double value) => new(value.As<Si<Second>>());
     public static Time Si<TPrefix, TUnit>(in Double value)
-        where TPrefix : IPrefix, IScaleDown
+        where TPrefix : ISiPrefix, IScaleDown
         where TUnit : ISiBaseUnit, ITime
     {
         return new(value.As<Si<TPrefix, TUnit>>());

@@ -23,7 +23,7 @@ public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectr
         return new(this.quant.As<SiDerived<TUnit>>());
     }
     public ElectricPotential To<TPrefix, TUnit>()
-        where TPrefix : IPrefix
+        where TPrefix : ISiPrefix
         where TUnit : ISiDerivedUnit, IElectricPotential
     {
         return new(this.quant.As<SiDerived<TPrefix, TUnit>>());
@@ -34,7 +34,7 @@ public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectr
         return new(value.As<SiDerived<TUnit>>());
     }
     public static ElectricPotential Si<TPrefix, TUnit>(in Double value)
-        where TPrefix : IPrefix
+        where TPrefix : ISiPrefix
         where TUnit : ISiDerivedUnit, IElectricPotential
     {
         return new(value.As<SiDerived<TPrefix, TUnit>>());

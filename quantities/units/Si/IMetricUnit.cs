@@ -8,7 +8,7 @@ namespace Quantities.Units.Si;
 /// </summary>
 public interface IMetricUnit : ITransform, IUnit { /* marker interface */ }
 public interface IMetricUnit<TPrefix> : IMetricUnit
-    where TPrefix : IPrefix
+    where TPrefix : ISiPrefix
 {
     static Double ITransform.ToSi(in Double value) => TPrefix.ToSi(in value);
     static Double ITransform.FromSi(in Double value) => TPrefix.FromSi(in value);

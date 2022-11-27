@@ -147,9 +147,9 @@ public class SiPrefixTest
     }
 
     private static Double MaxValue<TPrefix>()
-        where TPrefix : IPrefix => TPrefix.ToSi(1d);
+        where TPrefix : ISiPrefix => TPrefix.ToSi(1d);
     private static Double Normalize<TPrefix>(Double value)
-        where TPrefix : IPrefix => TPrefix.FromSi(in value);
+        where TPrefix : ISiPrefix => TPrefix.FromSi(in value);
 
     private sealed class GetValue : IPrefixInject<Double>
     {

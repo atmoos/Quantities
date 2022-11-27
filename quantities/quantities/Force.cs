@@ -26,7 +26,7 @@ public readonly struct Force : IQuantity<Force>, IForce<Mass, Length, Time>
         return new(this.quant.As<SiDerived<TUnit>>());
     }
     public Force To<TPrefix, TUnit>()
-        where TPrefix : IPrefix
+        where TPrefix : ISiPrefix
         where TUnit : ISiDerivedUnit, IForce
     {
         return new(this.quant.As<SiDerived<TPrefix, TUnit>>());
@@ -36,7 +36,7 @@ public readonly struct Force : IQuantity<Force>, IForce<Mass, Length, Time>
         return new(this.quant.As<Metric<TUnit>>());
     }
     public Force ToMetric<TPrefix, TUnit>()
-        where TPrefix : IPrefix
+        where TPrefix : ISiPrefix
         where TUnit : IMetricUnit, IForce
     {
         return new(this.quant.As<Metric<TPrefix, TUnit>>());
@@ -57,7 +57,7 @@ public readonly struct Force : IQuantity<Force>, IForce<Mass, Length, Time>
         return new(value.As<SiDerived<TUnit>>());
     }
     public static Force Si<TPrefix, TUnit>(in Double value)
-        where TPrefix : IPrefix
+        where TPrefix : ISiPrefix
         where TUnit : ISiDerivedUnit, IForce
     {
         return new(value.As<SiDerived<TPrefix, TUnit>>());
@@ -68,7 +68,7 @@ public readonly struct Force : IQuantity<Force>, IForce<Mass, Length, Time>
     }
 
     public static Force Metric<TPrefix, TUnit>(in Double value)
-        where TPrefix : IPrefix
+        where TPrefix : ISiPrefix
         where TUnit : IMetricUnit, IForce
     {
         return new(value.As<Metric<TPrefix, TUnit>>());

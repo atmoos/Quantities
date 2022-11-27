@@ -1,5 +1,3 @@
 ﻿namespace Quantities.Units.Si;
 
-public interface ISiBaseUnit : ISiUnit
-{
-}
+public interface ISiBaseUnit : ISiUnit { /* marker interface */ }

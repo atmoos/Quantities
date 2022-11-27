@@ -20,7 +20,7 @@ public readonly struct Mass : IQuantity<Mass>, IMass
         return new(this.quant.As<SiDerived<TUnit>>());
     }
     public Mass To<TPrefix, TUnit>()
-        where TPrefix : IPrefix
+        where TPrefix : ISiPrefix
         where TUnit : ISiDerivedUnit, IMass
     {
         return new(this.quant.As<SiDerived<TPrefix, TUnit>>());
@@ -30,7 +30,7 @@ public readonly struct Mass : IQuantity<Mass>, IMass
         return new(this.quant.As<Metric<TUnit>>());
     }
     public Mass ToMetric<TPrefix, TUnit>()
-        where TPrefix : IPrefix
+        where TPrefix : ISiPrefix
         where TUnit : IMetricUnit, IMass
     {
         return new(this.quant.As<Metric<TPrefix, TUnit>>());
@@ -47,7 +47,7 @@ public readonly struct Mass : IQuantity<Mass>, IMass
         return new(value.As<SiDerived<TUnit>>());
     }
     public static Mass Si<TPrefix, TUnit>(in Double value)
-        where TPrefix : IPrefix
+        where TPrefix : ISiPrefix
         where TUnit : ISiDerivedUnit, IMass
     {
         return new(value.As<SiDerived<TPrefix, TUnit>>());
@@ -57,7 +57,7 @@ public readonly struct Mass : IQuantity<Mass>, IMass
         return new(value.As<Metric<TUnit>>());
     }
     public static Mass Metric<TPrefix, TUnit>(in Double value)
-        where TPrefix : IPrefix
+        where TPrefix : ISiPrefix
         where TUnit : IMetricUnit, IMass
     {
         return new(value.As<Metric<TPrefix, TUnit>>());

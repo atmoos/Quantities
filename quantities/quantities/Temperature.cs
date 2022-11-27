@@ -22,7 +22,7 @@ public readonly struct Temperature : IQuantity<Temperature>, ITemperature
         return new(this.quant.As<Si<TUnit>>());
     }
     public Temperature To<TPrefix, TUnit>()
-        where TPrefix : IPrefix
+        where TPrefix : ISiPrefix
         where TUnit : ISiBaseUnit, ITemperature
     {
         return new(this.quant.As<Si<TPrefix, TUnit>>());
@@ -44,7 +44,7 @@ public readonly struct Temperature : IQuantity<Temperature>, ITemperature
         return new(value.As<Si<TUnit>>());
     }
     public static Temperature Si<TPrefix, TUnit>(in Double value)
-        where TPrefix : IPrefix
+        where TPrefix : ISiPrefix
         where TUnit : ISiBaseUnit, ITemperature
     {
         return new(value.As<Si<TPrefix, TUnit>>());

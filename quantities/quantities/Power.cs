@@ -28,7 +28,7 @@ public readonly struct Power : IQuantity<Power>, IPower
         return new(this.quant.As<SiDerived<TUnit>>());
     }
     public Power To<TPrefix, TUnit>()
-        where TPrefix : IPrefix
+        where TPrefix : ISiPrefix
         where TUnit : ISiDerivedUnit, IPower
     {
         return new(this.quant.As<SiDerived<TPrefix, TUnit>>());
@@ -39,7 +39,7 @@ public readonly struct Power : IQuantity<Power>, IPower
         return new(this.quant.As<Metric<TUnit>>());
     }
     public Power ToMetric<TPrefix, TUnit>()
-        where TPrefix : IPrefix
+        where TPrefix : ISiPrefix
         where TUnit : IMetricUnit, IPower
     {
         return new(this.quant.As<Metric<TPrefix, TUnit>>());
@@ -55,7 +55,7 @@ public readonly struct Power : IQuantity<Power>, IPower
         return new(value.As<SiDerived<TUnit>>());
     }
     public static Power Si<TPrefix, TUnit>(in Double value)
-        where TPrefix : IPrefix
+        where TPrefix : ISiPrefix
         where TUnit : ISiDerivedUnit, IPower
     {
         return new(value.As<SiDerived<TPrefix, TUnit>>());
@@ -71,7 +71,7 @@ public readonly struct Power : IQuantity<Power>, IPower
         return new(value.As<Metric<TUnit>>());
     }
     public static Power Metric<TPrefix, TUnit>(in Double value)
-        where TPrefix : IPrefix
+        where TPrefix : ISiPrefix
         where TUnit : IMetricUnit, IPower
     {
         return new(value.As<Metric<TPrefix, TUnit>>());

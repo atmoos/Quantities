@@ -21,7 +21,7 @@ public readonly struct ElectricCurrent : IQuantity<ElectricCurrent>, IElectricCu
         return new(this.quant.As<Si<TUnit>>());
     }
     public ElectricCurrent To<TPrefix, TUnit>()
-        where TPrefix : IPrefix
+        where TPrefix : ISiPrefix
         where TUnit : ISiBaseUnit, IElectricCurrent
     {
         return new(this.quant.As<Si<TPrefix, TUnit>>());
@@ -32,7 +32,7 @@ public readonly struct ElectricCurrent : IQuantity<ElectricCurrent>, IElectricCu
         return new(value.As<Si<TUnit>>());
     }
     public static ElectricCurrent Si<TPrefix, TUnit>(in Double value)
-        where TPrefix : IPrefix
+        where TPrefix : ISiPrefix
         where TUnit : ISiBaseUnit, IElectricCurrent
     {
         return new(value.As<Si<TPrefix, TUnit>>());

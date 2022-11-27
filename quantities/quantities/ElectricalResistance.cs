@@ -21,7 +21,7 @@ public readonly struct ElectricalResistance : IQuantity<ElectricalResistance>, I
         return new(this.quant.As<SiDerived<TUnit>>());
     }
     public ElectricalResistance To<TPrefix, TUnit>()
-        where TPrefix : IPrefix
+        where TPrefix : ISiPrefix
         where TUnit : ISiDerivedUnit, IElectricalResistance
     {
         return new(this.quant.As<SiDerived<TPrefix, TUnit>>());
@@ -32,7 +32,7 @@ public readonly struct ElectricalResistance : IQuantity<ElectricalResistance>, I
         return new(value.As<SiDerived<TUnit>>());
     }
     public static ElectricalResistance Si<TPrefix, TUnit>(in Double value)
-        where TPrefix : IPrefix
+        where TPrefix : ISiPrefix
         where TUnit : ISiDerivedUnit, IElectricalResistance
     {
         return new(value.As<SiDerived<TPrefix, TUnit>>());

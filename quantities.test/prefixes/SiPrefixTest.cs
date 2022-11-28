@@ -11,7 +11,7 @@ public class SiPrefixTest
     [InlineData(968)]
     public void ScaleThreeSkipsExponentsSmallerThanKilo(Double value)
     {
-        Double actualValue = SiPrefix.ScaleThree(value, injector);
+        Double actualValue = MetricPrefix.ScaleThree(value, injector);
         Assert.Equal(value, actualValue);
     }
 
@@ -22,7 +22,7 @@ public class SiPrefixTest
     public void ScaleThreeSkipsExponentsLargerThanMilli(Double value)
     {
         // Everything usually scaled to deci ot centi should be milli!
-        Double actualValue = SiPrefix.ScaleThree(value, injector);
+        Double actualValue = MetricPrefix.ScaleThree(value, injector);
         Assert.Equal(value * 1e3, actualValue);
     }
 
@@ -30,7 +30,7 @@ public class SiPrefixTest
     [MemberData(nameof(SiMaxValues))]
     public void ScaleSiPrefixes(Double valueToNormalize)
     {
-        Double actualValue = SiPrefix.Scale(valueToNormalize, injector);
+        Double actualValue = MetricPrefix.Scale(valueToNormalize, injector);
 
         Assert.Equal(1d, actualValue, precision);
     }
@@ -42,7 +42,7 @@ public class SiPrefixTest
         var range = new Double[] { (1d + Math.Pow(10, -12)) / seed, 2, 4, 5, 6, 8, 9 }.Select(r => seed * r).ToArray();
         var inputValues = Enumerable.Range(0, 3).SelectMany(e => range.Select(r => r * value * Math.Pow(10, e))).ToArray();
 
-        var actual = inputValues.Select(v => SiPrefix.Scale(v, injector)).ToArray();
+        var actual = inputValues.Select(v => MetricPrefix.Scale(v, injector)).ToArray();
 
         Assert.All(actual, a => Assert.InRange(a, 1d, 1000d));
     }
@@ -53,7 +53,7 @@ public class SiPrefixTest
     {
         Double[] expectedValues = new[] { -3.8, 78, -647 };
         var valuesToNormalize = expectedValues.Select(e => value * e).ToArray();
-        var actualValues = valuesToNormalize.Select(v => SiPrefix.Scale(v, injector)).ToArray();
+        var actualValues = valuesToNormalize.Select(v => MetricPrefix.Scale(v, injector)).ToArray();
 
         Assert.All(expectedValues.Zip(actualValues, (e, a) => (e, a)), c => Assert.Equal(c.e, c.a, precision));
     }
@@ -64,7 +64,7 @@ public class SiPrefixTest
     {
         Double[] expectedValues = new[] { 1.2, -18, 243 };
         var valuesToNormalize = expectedValues.Select(e => value * e).ToArray();
-        var actualValues = valuesToNormalize.Select(v => SiPrefix.Scale(v, injector)).ToArray();
+        var actualValues = valuesToNormalize.Select(v => MetricPrefix.Scale(v, injector)).ToArray();
 
         Assert.All(expectedValues.Zip(actualValues, (e, a) => (e, a)), c => Assert.Equal(c.e, c.a, precision));
     }
@@ -74,7 +74,7 @@ public class SiPrefixTest
     public void ScaleVerySmallValues(Double valueToNormalize)
     {
         Double expectedValue = Normalize<Quecto>(valueToNormalize);
-        Double actualValue = SiPrefix.Scale(valueToNormalize, injector);
+        Double actualValue = MetricPrefix.Scale(valueToNormalize, injector);
 
         Assert.Equal(expectedValue, actualValue);
     }
@@ -84,7 +84,7 @@ public class SiPrefixTest
     public void ScaleVeryLargeValues(Double valueToNormalize)
     {
         Double expectedValue = Normalize<Quetta>(valueToNormalize);
-        Double actualValue = SiPrefix.Scale(valueToNormalize, injector);
+        Double actualValue = MetricPrefix.Scale(valueToNormalize, injector);
 
         Assert.Equal(expectedValue, actualValue);
     }
@@ -147,9 +147,9 @@ public class SiPrefixTest
     }
 
     private static Double MaxValue<TPrefix>()
-        where TPrefix : ISiPrefix => TPrefix.ToSi(1d);
+        where TPrefix : IMetricPrefix => TPrefix.ToSi(1d);
     private static Double Normalize<TPrefix>(Double value)
-        where TPrefix : ISiPrefix => TPrefix.FromSi(in value);
+        where TPrefix : IMetricPrefix => TPrefix.FromSi(in value);
 
     private sealed class GetValue : IPrefixInject<Double>
     {

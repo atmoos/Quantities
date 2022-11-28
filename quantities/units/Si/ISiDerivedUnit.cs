@@ -10,7 +10,7 @@ public interface ISiDerivedUnit : ISiUnit, ITransform
 }
 
 public interface ISiDerivedUnit<TPrefix> : ISiDerivedUnit
-    where TPrefix : ISiPrefix
+    where TPrefix : IMetricPrefix
 {
     static Double ITransform.ToSi(in Double value) => TPrefix.ToSi(in value);
     static Double ITransform.FromSi(in Double value) => TPrefix.FromSi(in value);

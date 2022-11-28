@@ -25,7 +25,7 @@ public readonly struct Length : IQuantity<Length>, ILength
         return new(this.quant.As<Si<TUnit>>());
     }
     public Length To<TPrefix, TUnit>()
-        where TPrefix : ISiPrefix
+        where TPrefix : IMetricPrefix
         where TUnit : ISiBaseUnit, ILength
     {
         return new(this.quant.As<Si<TPrefix, TUnit>>());
@@ -41,7 +41,7 @@ public readonly struct Length : IQuantity<Length>, ILength
         return new(value.As<Si<TUnit>>());
     }
     public static Length Si<TPrefix, TUnit>(in Double value)
-    where TPrefix : ISiPrefix
+    where TPrefix : IMetricPrefix
     where TUnit : ISiBaseUnit, ILength
     {
         return new(value.As<Si<TPrefix, TUnit>>());

@@ -25,7 +25,7 @@ public readonly struct Area : IQuantity<Area>, IArea<Length>
         return new(this.quant.To<Square, Si<TUnit>>());
     }
     public Area ToSquare<TPrefix, TUnit>()
-        where TPrefix : ISiPrefix
+        where TPrefix : IMetricPrefix
         where TUnit : ISiBaseUnit, ILength
     {
         return new(this.quant.To<Square, Si<TPrefix, TUnit>>());
@@ -36,7 +36,7 @@ public readonly struct Area : IQuantity<Area>, IArea<Length>
         return new(this.quant.As<Metric<TArea>, Alias<TArea, ILength>>());
     }
     public Area ToMetric<TPrefix, TArea>()
-        where TPrefix : ISiPrefix
+        where TPrefix : IMetricPrefix
         where TArea : IMetricUnit, IArea<ILength>, IInjectUnit<ILength>
     {
         return new(this.quant.As<Metric<TPrefix, TArea>, Alias<TPrefix, TArea, ILength>>());
@@ -62,7 +62,7 @@ public readonly struct Area : IQuantity<Area>, IArea<Length>
         return new(value.To<Square, Si<TUnit>>());
     }
     public static Area Square<TPrefix, TUnit>(in Double value)
-        where TPrefix : ISiPrefix
+        where TPrefix : IMetricPrefix
         where TUnit : ISiBaseUnit, ILength
     {
         return new(value.To<Square, Si<TPrefix, TUnit>>());
@@ -73,7 +73,7 @@ public readonly struct Area : IQuantity<Area>, IArea<Length>
         return new(value.As<Metric<TArea>, Alias<TArea, ILength>>());
     }
     public static Area Metric<TPrefix, TArea>(in Double value)
-        where TPrefix : ISiPrefix
+        where TPrefix : IMetricPrefix
         where TArea : IMetricUnit, IArea<ILength>, IInjectUnit<ILength>
     {
         return new(value.As<Metric<TPrefix, TArea>, Alias<TPrefix, TArea, ILength>>());

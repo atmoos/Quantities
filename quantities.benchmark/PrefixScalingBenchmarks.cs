@@ -6,7 +6,7 @@ using Quantities.Prefixes;
 
 namespace Quantities.Benchmark;
 
-public class SiPrefixScalingBenchmark
+public class PrefixScalingBenchmarks
 {
     private static readonly Random rand = new();
     private static readonly ToDouble toDouble = new();
@@ -33,7 +33,7 @@ public class SiPrefixScalingBenchmark
     }
 
     [Benchmark]
-    public Double SiPrefixScaling() => SiPrefix.Scale(in this.value, toDouble);
+    public Double SiPrefixScaling() => MetricPrefix.Scale(in this.value, toDouble);
 
     private sealed class ToDouble : IPrefixInject<Double>
     {

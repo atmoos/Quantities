@@ -12,7 +12,7 @@ public interface IMetricUnit : ITransform, IUnit
     static Double ITransform.FromSi(in Double value) => value;
 }
 public interface IMetricUnit<TPrefix> : IMetricUnit
-    where TPrefix : ISiPrefix
+    where TPrefix : IMetricPrefix
 {
     static Double ITransform.ToSi(in Double value) => TPrefix.ToSi(in value);
     static Double ITransform.FromSi(in Double value) => TPrefix.FromSi(in value);

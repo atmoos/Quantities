@@ -12,13 +12,13 @@ public static class Extensions
     public static Velocity Per<TUnit>(this IBuilder<Velocity> builder)
        where TUnit : IMetricUnit, ITime => new(builder.By<Metric<TUnit>>());
     public static Velocity Per<TPrefix, TUnit>(this IBuilder<Velocity> builder)
-       where TPrefix : ISiPrefix, IScaleDown
+       where TPrefix : IMetricPrefix, IScaleDown
        where TUnit : ISiBaseUnit, ITime => new(builder.By<Si<TPrefix, TUnit>>());
     public static Velocity PerSecond(this IBuilder<Velocity> builder) => new(builder.By<Si<Second>>());
     public static DataRate Per<TUnit>(this IBuilder<DataRate> builder)
        where TUnit : IMetricUnit, ITime => new(builder.By<Metric<TUnit>>());
     public static DataRate Per<TPrefix, TUnit>(this IBuilder<DataRate> builder)
-       where TPrefix : ISiPrefix, IScaleDown
+       where TPrefix : IMetricPrefix, IScaleDown
        where TUnit : ISiBaseUnit, ITime => new(builder.By<Si<TPrefix, TUnit>>());
     public static DataRate PerSecond(this IBuilder<DataRate> builder) => new(builder.By<Si<Second>>());
     internal static Quant To<TDim, TMeasure>(this Double value)

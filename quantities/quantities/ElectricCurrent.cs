@@ -21,7 +21,7 @@ public readonly struct ElectricCurrent : IQuantity<ElectricCurrent>, IElectricCu
         return new(this.quant.As<Si<TUnit>>());
     }
     public ElectricCurrent To<TPrefix, TUnit>()
-        where TPrefix : ISiPrefix
+        where TPrefix : IMetricPrefix
         where TUnit : ISiBaseUnit, IElectricCurrent
     {
         return new(this.quant.As<Si<TPrefix, TUnit>>());
@@ -32,7 +32,7 @@ public readonly struct ElectricCurrent : IQuantity<ElectricCurrent>, IElectricCu
         return new(value.As<Si<TUnit>>());
     }
     public static ElectricCurrent Si<TPrefix, TUnit>(in Double value)
-        where TPrefix : ISiPrefix
+        where TPrefix : IMetricPrefix
         where TUnit : ISiBaseUnit, IElectricCurrent
     {
         return new(value.As<Si<TPrefix, TUnit>>());
@@ -45,11 +45,11 @@ public readonly struct ElectricCurrent : IQuantity<ElectricCurrent>, IElectricCu
     public override String ToString() => this.quant.ToString();
     internal static ElectricCurrent From(in ElectricPotential potential, in ElectricalResistance resistance)
     {
-        return new(SiPrefix.ScaleThree(potential.Quant.SiDivide(resistance.Quant), create));
+        return new(MetricPrefix.ScaleThree(potential.Quant.SiDivide(resistance.Quant), create));
     }
     internal static ElectricCurrent From(in Power power, in ElectricPotential potential)
     {
-        return new(SiPrefix.ScaleThree(power.Quant.SiDivide(potential.Quant), create));
+        return new(MetricPrefix.ScaleThree(power.Quant.SiDivide(potential.Quant), create));
     }
     public static Boolean operator ==(ElectricCurrent left, ElectricCurrent right) => left.Equals(right);
     public static Boolean operator !=(ElectricCurrent left, ElectricCurrent right) => !left.Equals(right);

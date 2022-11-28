@@ -2,7 +2,7 @@ using static System.Math;
 
 namespace Quantities.Prefixes;
 
-internal static class SiPrefix
+internal static class MetricPrefix
 {
     public static T Scale<T>(in Double value, IPrefixInject<T> injector)
     {
@@ -41,7 +41,7 @@ internal static class SiPrefix
         };
 
         static T Scale<TPrefix>(in IPrefixInject<T> injector, in Double value)
-            where TPrefix : ISiPrefix
+            where TPrefix : IMetricPrefix
         {
             return injector.Inject<TPrefix>(TPrefix.FromSi(in value));
         }
@@ -79,7 +79,7 @@ internal static class SiPrefix
         };
 
         static T Scale<TPrefix>(in IPrefixInject<T> injector, in Double value)
-            where TPrefix : ISiPrefix
+            where TPrefix : IMetricPrefix
         {
             return injector.Inject<TPrefix>(TPrefix.FromSi(in value));
         }

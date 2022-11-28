@@ -21,7 +21,7 @@ public readonly struct ElectricalResistance : IQuantity<ElectricalResistance>, I
         return new(this.quant.As<SiDerived<TUnit>>());
     }
     public ElectricalResistance To<TPrefix, TUnit>()
-        where TPrefix : ISiPrefix
+        where TPrefix : IMetricPrefix
         where TUnit : ISiDerivedUnit, IElectricalResistance
     {
         return new(this.quant.As<SiDerived<TPrefix, TUnit>>());
@@ -32,7 +32,7 @@ public readonly struct ElectricalResistance : IQuantity<ElectricalResistance>, I
         return new(value.As<SiDerived<TUnit>>());
     }
     public static ElectricalResistance Si<TPrefix, TUnit>(in Double value)
-        where TPrefix : ISiPrefix
+        where TPrefix : IMetricPrefix
         where TUnit : ISiDerivedUnit, IElectricalResistance
     {
         return new(value.As<SiDerived<TPrefix, TUnit>>());
@@ -45,7 +45,7 @@ public readonly struct ElectricalResistance : IQuantity<ElectricalResistance>, I
     public String ToString(String? format, IFormatProvider? provider) => this.quant.ToString(format, provider);
     internal static ElectricalResistance From(in ElectricPotential potential, in ElectricCurrent current)
     {
-        return new(SiPrefix.ScaleThree(potential.Quant.SiDivide(current.Quant), create));
+        return new(MetricPrefix.ScaleThree(potential.Quant.SiDivide(current.Quant), create));
     }
     public static Boolean operator ==(ElectricalResistance left, ElectricalResistance right) => left.Equals(right);
     public static Boolean operator !=(ElectricalResistance left, ElectricalResistance right) => !left.Equals(right);

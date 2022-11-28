@@ -20,7 +20,7 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity<Length, Time>
         return new Transform<Velocity, Si<TUnit>>(in this.quant);
     }
     public IBuilder<Velocity> To<TPrefix, TUnit>()
-        where TPrefix : ISiPrefix
+        where TPrefix : IMetricPrefix
         where TUnit : ISiBaseUnit, ILength
     {
         return new Transform<Velocity, Si<TPrefix, TUnit>>(in this.quant);
@@ -33,7 +33,7 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity<Length, Time>
     public static IBuilder<Velocity> Si<TUnit>(in Double value)
         where TUnit : ISiBaseUnit, ILength => new Builder<Velocity, Si<TUnit>>(in value);
     public static IBuilder<Velocity> Si<TPrefix, TUnit>(in Double value)
-    where TPrefix : ISiPrefix
+    where TPrefix : IMetricPrefix
     where TUnit : ISiBaseUnit, ILength
     {
         return new Builder<Velocity, Si<TPrefix, TUnit>>(in value);
@@ -45,7 +45,7 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity<Length, Time>
     }
     internal static Velocity From(in Power power, in Force force)
     {
-        return new(SiPrefix.Scale(power.Quant.SiDivide(force.Quant), create));
+        return new(MetricPrefix.Scale(power.Quant.SiDivide(force.Quant), create));
     }
     internal static Velocity From(in Length length, in Time time) => new(length.Quant.Divide(time.Quant));
 

@@ -98,7 +98,7 @@ public sealed class MassTest
 
         Mass actual = mass.ToImperial<Pound>();
 
-        actual.Matches(expected);
+        actual.Matches(expected, MediumPrecision);
     }
     [Fact]
     public void PoundToGram()

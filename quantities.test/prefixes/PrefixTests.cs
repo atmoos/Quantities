@@ -1,43 +1,40 @@
 namespace Quantities.Test.Prefixes;
 
-internal sealed class PrefixTests
+internal static class PrefixTests
 {
-    private readonly Int32 precision;
-    public PrefixTests(Int32 precision) => this.precision = precision;
-
-    public void ToSiScalesAsExpected(ITestPrefix prefix)
+    public static void ToSiScalesAsExpected(ITestPrefix prefix, Int32 precision)
     {
         Double scalingFactor = prefix.ToSi(1d);
         Double normalisedFactor = scalingFactor / prefix.Factor;
 
-        PrecisionIsBounded(1d, normalisedFactor, this.precision);
+        PrecisionIsBounded(1d, normalisedFactor, precision);
     }
 
-    public void FromSiScalesAsExpected(ITestPrefix prefix)
+    public static void FromSiScalesAsExpected(ITestPrefix prefix, Int32 precision)
     {
         Double scalingFactor = prefix.FromSi(1d);
         Double normalisedFactor = scalingFactor * prefix.Factor;
 
-        PrecisionIsBounded(1d, normalisedFactor, this.precision);
+        PrecisionIsBounded(1d, normalisedFactor, precision);
     }
 
-    public void ToSiRoundRobinEquality(ITestPrefix prefix)
+    public static void ToSiRoundRobinEquality(ITestPrefix prefix, Int32 precision)
     {
         const Double expected = 2d;
 
         Double siValue = prefix.ToSi(expected);
         Double actual = prefix.FromSi(siValue);
 
-        PrecisionIsBounded(expected, actual, this.precision);
+        PrecisionIsBounded(expected, actual, precision);
     }
 
-    public void FromSiRoundRobinEquality(ITestPrefix prefix)
+    public static void FromSiRoundRobinEquality(ITestPrefix prefix, Int32 precision)
     {
         const Double expected = 2d;
 
         Double siValue = prefix.FromSi(expected);
         Double actual = prefix.ToSi(siValue);
 
-        PrecisionIsBounded(expected, actual, this.precision);
+        PrecisionIsBounded(expected, actual, precision);
     }
 }

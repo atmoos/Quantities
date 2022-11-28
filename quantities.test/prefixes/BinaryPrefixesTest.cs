@@ -2,22 +2,21 @@ namespace Quantities.Test.Prefixes;
 
 public class BinaryPrefixesTest
 {
-    private static readonly PrefixTests tests = new(precision: 16);
     [Theory]
     [MemberData(nameof(AllBinaryPrefixes))]
-    public void ToSiScalesAsExpected(ITestPrefix prefix) => tests.ToSiScalesAsExpected(prefix);
+    public void ToSiScalesAsExpected(ITestPrefix prefix) => PrefixTests.ToSiScalesAsExpected(prefix, FullPrecision);
 
     [Theory]
     [MemberData(nameof(AllBinaryPrefixes))]
-    public void FromSiScalesAsExpected(ITestPrefix prefix) => tests.FromSiScalesAsExpected(prefix);
+    public void FromSiScalesAsExpected(ITestPrefix prefix) => PrefixTests.FromSiScalesAsExpected(prefix, FullPrecision);
 
     [Theory]
     [MemberData(nameof(AllBinaryPrefixes))]
-    public void ToSiRoundRobinEquality(ITestPrefix prefix) => tests.ToSiRoundRobinEquality(prefix);
+    public void ToSiRoundRobinEquality(ITestPrefix prefix) => PrefixTests.ToSiRoundRobinEquality(prefix, FullPrecision);
 
     [Theory]
     [MemberData(nameof(AllBinaryPrefixes))]
-    public void FromSiRoundRobinEquality(ITestPrefix prefix) => tests.FromSiRoundRobinEquality(prefix);
+    public void FromSiRoundRobinEquality(ITestPrefix prefix) => PrefixTests.FromSiRoundRobinEquality(prefix, FullPrecision);
     public static IEnumerable<Object[]> AllBinaryPrefixes()
     {
         return BinaryPrefixes().Select(p => new Object[] { p });

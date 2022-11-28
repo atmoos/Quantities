@@ -9,7 +9,7 @@ namespace Quantities.Benchmark;
 public class PrefixScalingBenchmarks
 {
     private static readonly Random rand = new();
-    private static readonly ToDouble toDouble = new();
+    private static readonly IPrefixInject<Double> toDouble = new ToDouble();
     private Double value;
 
     [Params(-20, -4, 0, 5, 23)]
@@ -52,28 +52,27 @@ public class PrefixScalingBenchmarks
 
 /*
 // * Summary *
-
-BenchmarkDotNet=v0.12.1, OS=arch 
+BenchmarkDotNet=v0.13.2, OS=arch 
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET Core SDK=7.0.100
-  [Host]     : .NET Core 7.0.0 (CoreCLR 7.0.22.56001, CoreFX 7.0.22.56001), X64 RyuJIT
-  DefaultJob : .NET Core 7.0.0 (CoreCLR 7.0.22.56001, CoreFX 7.0.22.56001), X64 RyuJIT
+.NET SDK=7.0.100
+  [Host]     : .NET 7.0.0 (7.0.22.56001), X64 RyuJIT AVX2
+  DefaultJob : .NET 7.0.0 (7.0.22.56001), X64 RyuJIT AVX2
 
 
-|          Method | Exponent |      Mean |     Error |    StdDev |    Median | Ratio | RatioSD |
-|---------------- |--------- |----------:|----------:|----------:|----------:|------:|--------:|
-|        Baseline |      -20 | 24.889 ns | 0.5345 ns | 0.9774 ns | 24.363 ns |  1.00 |    0.00 |
-| SiPrefixScaling |      -20 | 10.329 ns | 0.0296 ns | 0.0262 ns | 10.330 ns |  0.39 |    0.00 |
-|                 |          |           |           |           |           |       |         |
-|        Baseline |       -4 | 24.296 ns | 0.1143 ns | 0.1069 ns | 24.313 ns |  1.00 |    0.00 |
-| SiPrefixScaling |       -4 |  9.180 ns | 0.0385 ns | 0.0341 ns |  9.178 ns |  0.38 |    0.00 |
-|                 |          |           |           |           |           |       |         |
-|        Baseline |        0 | 14.965 ns | 0.0466 ns | 0.0389 ns | 14.959 ns |  1.00 |    0.00 |
-| SiPrefixScaling |        0 |  3.008 ns | 0.0073 ns | 0.0061 ns |  3.006 ns |  0.20 |    0.00 |
-|                 |          |           |           |           |           |       |         |
-|        Baseline |        5 | 24.376 ns | 0.2641 ns | 0.2471 ns | 24.264 ns |  1.00 |    0.00 |
-| SiPrefixScaling |        5 |  7.807 ns | 0.0225 ns | 0.0210 ns |  7.802 ns |  0.32 |    0.00 |
-|                 |          |           |           |           |           |       |         |
-|        Baseline |       23 | 24.242 ns | 0.5083 ns | 0.6428 ns | 23.734 ns |  1.00 |    0.00 |
-| SiPrefixScaling |       23 | 11.652 ns | 0.2653 ns | 0.2482 ns | 11.512 ns |  0.48 |    0.02 |
+|          Method | Exponent |      Mean |     Error |    StdDev | Ratio |
+|---------------- |--------- |----------:|----------:|----------:|------:|
+|        Baseline |      -20 | 24.759 ns | 0.1024 ns | 0.0799 ns |  1.00 |
+| SiPrefixScaling |      -20 |  9.348 ns | 0.0531 ns | 0.0471 ns |  0.38 |
+|                 |          |           |           |           |       |
+|        Baseline |       -4 | 24.927 ns | 0.1148 ns | 0.1074 ns |  1.00 |
+| SiPrefixScaling |       -4 |  7.765 ns | 0.1489 ns | 0.1392 ns |  0.31 |
+|                 |          |           |           |           |       |
+|        Baseline |        0 | 24.186 ns | 0.1129 ns | 0.1056 ns |  1.00 |
+| SiPrefixScaling |        0 |  3.368 ns | 0.0240 ns | 0.0225 ns |  0.14 |
+|                 |          |           |           |           |       |
+|        Baseline |        5 | 24.935 ns | 0.0541 ns | 0.0506 ns |  1.00 |
+| SiPrefixScaling |        5 |  7.988 ns | 0.0556 ns | 0.0520 ns |  0.32 |
+|                 |          |           |           |           |       |
+|        Baseline |       23 | 23.809 ns | 0.1636 ns | 0.1530 ns |  1.00 |
+| SiPrefixScaling |       23 | 10.629 ns | 0.0630 ns | 0.0589 ns |  0.45 |
 */

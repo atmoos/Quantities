@@ -8,7 +8,7 @@ internal static class BinaryPrefix
 {
     public static T Scale<T>(in Double value, IPrefixInject<T> injector)
     {
-        // ToDo: Experiment with taking the binary logarithm!
+        // This is faster than taking the base 2 logarithm!
         return Abs(value) switch {
             var identity when identity < Kibi.Factor => injector.Identity(in value),
             var deca when deca < Mebi.Factor => Scale<Kibi>(in injector, in value),

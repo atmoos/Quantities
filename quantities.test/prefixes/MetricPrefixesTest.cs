@@ -2,7 +2,7 @@ using Xunit.Sdk;
 
 namespace Quantities.Test.Prefixes;
 
-public class SiPrefixesTest
+public class MetricPrefixesTest
 {
     private const Int32 fullPrecision = 16;
     private const Int32 mediumPrecision = fullPrecision - 1;

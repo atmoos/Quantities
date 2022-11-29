@@ -1,6 +1,6 @@
 namespace Quantities.Test.Prefixes;
 
-public class SiPrefixTest
+public class MetricPrefixTest
 {
     private const Int32 precision = 12;
     private static readonly IPrefixInject<Double> injector = new GetValue();

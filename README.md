@@ -2,7 +2,7 @@
 A library to safely handle various types of quantities, typically physical quantities.
 
 [![master status](https://github.com/atmoos/Quantities/actions/workflows/dotnet.yml/badge.svg)](https://github.com/atmoos/Quantities/actions/workflows/dotnet.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/atmoos/Quantities/blob/master/LICENSE)
 
 ## Project Goals
 Dealing with quantities (Metre, Yard, etc.) is not trivial. There are many areas where things can go wrong, such as forgetting to convert from one unit to the next or converting the wrong way.
@@ -20,12 +20,17 @@ A concrete example helps to illustrate that point: A length may be represented i
 It's a library that is still evolving rapidly. Try at your own risk or - even better - contribute :-)
 
 ## ToDo
-- [ ] Enable [binary prefixes](https://en.wikipedia.org/wiki/Binary_prefix).
+- [x] Enable [binary prefixes](https://en.wikipedia.org/wiki/Binary_prefix).
   - Enabling things like "KiB", i.e. "kibi Byte".
 - [ ] Enable serialisation
 - [ ] Extend unit tests
 - [ ] More rigours benchmarking
 - [ ] Add more quantities
+- [ ] Add "Zero" and "One/Unit" static properties
+  - i.e. enabling additive and multiplicative identities.
+- [ ] Add a "Normalize()" method to each quantity
+  - This should then generate a "human readable" representation
+  - example: 3'456 Km/d => 40 m/s
 
 ## Examples
 Usage is designed to be intuitive using:

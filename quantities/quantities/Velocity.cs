@@ -10,6 +10,7 @@ namespace Quantities.Quantities;
 
 public readonly struct Velocity : IQuantity<Velocity>, IVelocity<Length, Time>
     , IMultiplyOperators<Velocity, Force, Power>
+    , IMultiplyOperators<Velocity, Time, Length>
 {
     private static readonly Creator create = new();
     private readonly Quant quant;
@@ -67,6 +68,7 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity<Length, Time>
     public static Double operator /(Velocity left, Velocity right) => left.quant / right.quant;
 
     public static Power operator *(Velocity velocity, Force force) => Power.From(in force, in velocity);
+    public static Length operator *(Velocity left, Time right) => Length.From(in left, in right);
 
     private sealed class Creator : IPrefixInject<Quant>
     {

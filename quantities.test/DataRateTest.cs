@@ -98,4 +98,15 @@ public class DataRateTest
 
         actual.Matches(expected);
     }
+    [Fact]
+    public void DataDividedByTimeIsDataRate()
+    {
+        Time time = Time.Si<Micro, Second>(12);
+        Data data = Data.Metric<Gibi, Nibble>(24);
+        DataRate expected = DataRate.Metric<Gibi, Nibble>(24 / 12).Per<Micro, Second>();
+
+        DataRate actual = data / time;
+
+        actual.Matches(expected);
+    }
 }

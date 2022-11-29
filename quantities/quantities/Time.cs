@@ -8,6 +8,8 @@ namespace Quantities.Quantities;
 
 public readonly struct Time : IQuantity<Time>, ITime
     , IMultiplyOperators<Time, Power, Energy>
+    , IMultiplyOperators<Time, Velocity, Length>
+    , IMultiplyOperators<Time, DataRate, Data>
 // ToDo: Can't apply ISi, or IOther interfaces...
 {
     private static readonly Creator create = new();
@@ -62,6 +64,9 @@ public readonly struct Time : IQuantity<Time>, ITime
     public static Time operator /(Time left, Double scalar) => new(left.quant / scalar);
     public static Double operator /(Time left, Time right) => left.quant / right.quant;
     public static Energy operator *(Time left, Power right) => Energy.From(in right, in left);
+
+    public static Length operator *(Time left, Velocity right) => Length.From(in right, in left);
+    public static Data operator *(Time left, DataRate right) => Data.From(in left, in right);
 
     private sealed class Creator : IPrefixInject<Quant>
     {

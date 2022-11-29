@@ -15,6 +15,7 @@ public readonly struct Length : IQuantity<Length>, ILength
     , IMultiplyOperators<Length, Area, Volume>
     , IDivisionOperators<Length, Time, Velocity>
 {
+    private static readonly Creator create = new();
     private static readonly ICreate<Quant> linear = new ToLinear();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
@@ -56,6 +57,11 @@ public readonly struct Length : IQuantity<Length>, ILength
         var pseudoArea = area.Quant.Transform(in linear);
         return new(pseudoArea.PseudoDivide(length.Quant));
     }
+    internal static Length From(in Velocity velocity, in Time time)
+    {
+        // ToDo: Recover length units form velocity
+        return new(MetricPrefix.Scale(velocity.Quant.SiMultiply(time.Quant), create));
+    }
     internal static Length From(in Volume volume, in Area area)
     {
         var pseudoArea = area.Quant.Transform(in linear);
@@ -81,4 +87,10 @@ public readonly struct Length : IQuantity<Length>, ILength
     public static Length operator /(Length left, Double scalar) => new(left.quant / scalar);
     public static Double operator /(Length left, Length right) => left.quant / right.quant;
     public static Velocity operator /(Length left, Time right) => Velocity.From(in left, in right);
+
+    private sealed class Creator : IPrefixInject<Quant>
+    {
+        public Quant Identity(in Double value) => value.As<Si<Metre>>();
+        public Quant Inject<TPrefix>(in Double value) where TPrefix : IPrefix => value.As<Si<TPrefix, Metre>>();
+    }
 }

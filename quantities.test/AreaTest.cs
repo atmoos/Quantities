@@ -1,6 +1,6 @@
 using Quantities.Units.Imperial.Area;
+using Quantities.Units.Other.Area;
 using Quantities.Units.Si.Metric;
-using Quantities.Unitss.Other.Area;
 
 namespace Quantities.Test;
 public class AreaTest

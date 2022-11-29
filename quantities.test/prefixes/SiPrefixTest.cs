@@ -32,7 +32,7 @@ public class SiPrefixTest
     {
         Double actualValue = MetricPrefix.Scale(valueToNormalize, injector);
 
-        Assert.Equal(1d, actualValue, precision);
+        Assert.Equal(1d, actualValue, MediumPrecision);
     }
     [Theory]
     [MemberData(nameof(SiMaxValues))]
@@ -66,7 +66,7 @@ public class SiPrefixTest
         var valuesToNormalize = expectedValues.Select(e => value * e).ToArray();
         var actualValues = valuesToNormalize.Select(v => MetricPrefix.Scale(v, injector)).ToArray();
 
-        Assert.All(expectedValues.Zip(actualValues, (e, a) => (e, a)), c => Assert.Equal(c.e, c.a, precision));
+        Assert.All(expectedValues.Zip(actualValues, (e, a) => (e, a)), c => Assert.Equal(c.e, c.a));
     }
 
     [Theory]

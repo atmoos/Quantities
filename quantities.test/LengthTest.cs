@@ -4,7 +4,8 @@ namespace Quantities.Test;
 
 public sealed class LengthTest
 {
-    private const Double KILOMETRE_IN_MILES = 1d / 1.609344d;
+    private const Double MILES_IN_KILOMETRE = 1.609344d;
+    private const Double KILOMETRE_IN_MILES = 1d / MILES_IN_KILOMETRE;
 
     [Fact]
     public void MetreToKilometre()
@@ -169,6 +170,18 @@ public sealed class LengthTest
         Velocity expected = Velocity.Imperial<Mile>(35).Per<Hour>();
 
         Velocity actual = distance / duration;
+
+        actual.Matches(expected);
+    }
+    [Fact]
+    public void VelocityTimesTimeIsLength()
+    {
+        Time duration = Time.In<Minute>(12);
+        Velocity velocity = Velocity.Imperial<Mile>(350).Per<Hour>();
+        // Miles are not yet preserved across multiplication...
+        Length expected = Length.Si<Kilo, Metre>(350 * 12 * MILES_IN_KILOMETRE / 60);
+
+        Length actual = velocity * duration;
 
         actual.Matches(expected);
     }

@@ -1,3 +1,4 @@
+using System.Numerics;
 using Quantities.Dimensions;
 using Quantities.Measures;
 using Quantities.Prefixes;
@@ -7,6 +8,7 @@ using Quantities.Units.Si;
 namespace Quantities.Quantities;
 
 public readonly struct DataRate : IQuantity<DataRate>, IInformationRate
+    , IMultiplyOperators<DataRate, Time, Data>
 {
     private readonly Quant quant;
     internal Quant Quant => this.quant;
@@ -32,6 +34,8 @@ public readonly struct DataRate : IQuantity<DataRate>, IInformationRate
         return new Builder<DataRate, Metric<TPrefix, TUnit>>(in value);
     }
 
+    internal static DataRate From(in Data data, in Time time) => new(data.Quant.Divide(time.Quant));
+
     public Boolean Equals(DataRate other) => this.quant.Equals(other.quant);
     public override Boolean Equals(Object? obj) => obj is DataRate rate && Equals(rate);
     public override Int32 GetHashCode() => this.quant.GetHashCode();
@@ -47,4 +51,6 @@ public readonly struct DataRate : IQuantity<DataRate>, IInformationRate
     public static DataRate operator *(DataRate left, Double scalar) => new(scalar * left.quant);
     public static DataRate operator /(DataRate left, Double scalar) => new(left.quant / scalar);
     public static Double operator /(DataRate left, DataRate right) => left.quant / right.quant;
+
+    public static Data operator *(DataRate left, Time right) => Data.From(in right, in left);
 }

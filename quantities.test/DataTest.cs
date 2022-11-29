@@ -76,4 +76,16 @@ public class DataTest
 
         actual.Matches(expected);
     }
+    [Fact]
+    public void DataRateTimesTimeIsAmountOfData()
+    {
+        Time time = Time.Si<Milli, Second>(12);
+        DataRate rate = DataRate.Metric<Mega, Bit>(32).PerSecond();
+        // Note that the units aren't preserved yet...
+        Data expected = Data.Metric<Kibi, Bytes>(12 * 32 / (8 * 1e3) * 1e6 / kibi);
+
+        Data actual = rate * time;
+
+        actual.Matches(expected);
+    }
 }

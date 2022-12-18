@@ -1,5 +1,3 @@
-using Quantities.Dimensions;
-using Quantities.Units.Si;
 using static System.Math;
 
 namespace Quantities.Prefixes;

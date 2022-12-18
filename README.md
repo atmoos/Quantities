@@ -65,11 +65,11 @@ Velocity imperialVelocity = miles / time; // 4 mi/h
 
 Area metricArea = kilometres * miles; // 347.62 Km²
 Area imperialArea = miles * kilometres ; // 134.22 mi²
-Console.WriteLine($"Equal area: {metricArea.Equals(imperialArea)}"); // Equal area: true
+Console.WriteLine($"Equal area: {metricArea.Equals(imperialArea)}"); // Equal area: True
 
 Length metricSum = kilometres + miles - metres; // 37.308 Km
 Length imperialSum = miles + kilometres - metres; // 23.182 mi
-Console.WriteLine($"Equal length: {imperialSum.Equals(metricSum)}"); // Equal length: true
+Console.WriteLine($"Equal length: {imperialSum.Equals(metricSum)}"); // Equal length: True
 ```
 
 ### Type Safety
@@ -105,4 +105,12 @@ Mass mass = Mass.Metric<Tonne>(0.2);
 Mass foo = mass * time;
 Time bar = time * mass;
 var fooBar = mass * time;
+```
+
+### Binary Prefixes
+Different types of prefixes are also supported. This is useful for [IEC binary prefixes](https://en.wikipedia.org/wiki/Binary_prefix).
+```csharp
+Data kibiByte = Data.Metric<Kibi, Byte>(1); // 1 KiB, binary prefix
+Data kiloByte = Data.Metric<Byte>(1024).ToMetric<Kilo, Byte>(); // 1 KB, metric prefix
+Console.WriteLine($"Equal amount of data: {kiloByte.Equals(kibiByte)}"); // Equal amount of data: True
 ```

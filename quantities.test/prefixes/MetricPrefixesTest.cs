@@ -65,6 +65,8 @@ public class MetricPrefixesTest
     public static IEnumerable<Object[]> AllMetricPrefixes() => MetricPrefixes().Select(p => new Object[] { p });
     public static IEnumerable<ITestPrefix> MetricPrefixes()
     {
+        // Excluding prefixes that cannot round exactly.
+        // They are covered with the "outlier" tests.
         yield return new TestPrefix<Ronna>(1e27);
         yield return new TestPrefix<Yotta>(1e24);
         yield return new TestPrefix<Exa>(1e18);

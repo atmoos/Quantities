@@ -110,7 +110,7 @@ var fooBar = mass * time;
 ### Binary Prefixes
 Different types of prefixes are also supported. This is useful for [IEC binary prefixes](https://en.wikipedia.org/wiki/Binary_prefix).
 ```csharp
-Data kibiByte = Data.Metric<Kibi, Byte>(1); // 1 KiB, binary prefix
-Data kiloByte = Data.Metric<Byte>(1024).ToMetric<Kilo, Byte>(); // 1 KB, metric prefix
+Data kibiByte = Data.In<Kibi, Byte>(1); // 1 KiB, binary prefix
+Data kiloByte = Data.In<Byte>(1024).To<Kilo, Byte>(); // 1 KB, metric prefix
 Console.WriteLine($"Equal amount of data: {kiloByte.Equals(kibiByte)}"); // Equal amount of data: True
 ```

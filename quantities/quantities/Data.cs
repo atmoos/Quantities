@@ -24,21 +24,21 @@ public readonly struct Data : IQuantity<Data>, IAmountOfInformation
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     private Data(in Quant quant) => this.quant = quant;
-    public Data ToMetric<TUnit>() where TUnit : IMetricUnit, IAmountOfInformation
+    public Data To<TUnit>() where TUnit : IMetricUnit, IAmountOfInformation
     {
         return new(this.quant.As<Metric<TUnit>>());
     }
-    public Data ToMetric<TPrefix, TUnit>()
+    public Data To<TPrefix, TUnit>()
         where TPrefix : IPrefix, IScaleUp// Metric & Binary Prefixes are ok!
         where TUnit : IMetricUnit, IAmountOfInformation
     {
         return new(this.quant.As<Metric<TPrefix, TUnit>>());
     }
-    public static Data Metric<TUnit>(in Double value) where TUnit : IMetricUnit, IAmountOfInformation
+    public static Data In<TUnit>(in Double value) where TUnit : IMetricUnit, IAmountOfInformation
     {
         return new(value.As<Metric<TUnit>>());
     }
-    public static Data Metric<TPrefix, TUnit>(in Double value)
+    public static Data In<TPrefix, TUnit>(in Double value)
         where TPrefix : IPrefix, IScaleUp // Metric & Binary Prefixes are ok!
         where TUnit : IMetricUnit, IAmountOfInformation
     {

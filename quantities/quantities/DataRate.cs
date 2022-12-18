@@ -13,21 +13,21 @@ public readonly struct DataRate : IQuantity<DataRate>, IInformationRate
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     internal DataRate(in Quant quant) => this.quant = quant;
-    public IBuilder<DataRate> ToMetric<TUnit>() where TUnit : IMetricUnit, IAmountOfInformation
+    public IBuilder<DataRate> To<TUnit>() where TUnit : IMetricUnit, IAmountOfInformation
     {
         return new Transform<DataRate, Metric<TUnit>>(in this.quant);
     }
-    public IBuilder<DataRate> ToMetric<TPrefix, TUnit>()
+    public IBuilder<DataRate> To<TPrefix, TUnit>()
         where TPrefix : IPrefix, IScaleUp// Metric & Binary Prefixes are ok!
         where TUnit : IMetricUnit, IAmountOfInformation
     {
         return new Transform<DataRate, Metric<TPrefix, TUnit>>(in this.quant);
     }
-    public static IBuilder<DataRate> Metric<TUnit>(in Double value) where TUnit : IMetricUnit, IAmountOfInformation
+    public static IBuilder<DataRate> In<TUnit>(in Double value) where TUnit : IMetricUnit, IAmountOfInformation
     {
         return new Builder<DataRate, Metric<TUnit>>(in value);
     }
-    public static IBuilder<DataRate> Metric<TPrefix, TUnit>(in Double value)
+    public static IBuilder<DataRate> In<TPrefix, TUnit>(in Double value)
         where TPrefix : IPrefix, IScaleUp // Metric & Binary Prefixes are ok!
         where TUnit : IMetricUnit, IAmountOfInformation
     {

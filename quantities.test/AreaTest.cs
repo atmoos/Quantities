@@ -1,6 +1,6 @@
 using Quantities.Units.Imperial.Area;
+using Quantities.Units.Other.Area;
 using Quantities.Units.Si.Metric;
-using Quantities.Unitss.Other.Area;
 
 namespace Quantities.Test;
 public class AreaTest
@@ -13,7 +13,7 @@ public class AreaTest
         Area left = Area.Square<Metre>(20);
         Area right = Area.Square<Metre>(10);
         Area result = left + right;
-        Assert.Equal(30d, result, SiPrecision);
+        PrecisionIsBounded(30d, result);
     }
     [Fact]
     public void AddSquareHectoMetresToSquareKiloMetres()
@@ -21,14 +21,14 @@ public class AreaTest
         Area left = Area.Square<Kilo, Metre>(2);
         Area right = Area.Square<Hecto, Metre>(50);
         Area result = left + right;
-        Assert.Equal(2.5d, result, SiPrecision);
+        PrecisionIsBounded(2.5d, result);
     }
     [Fact]
     public void SquareMetresToSquareKilometers()
     {
         Area squareMetres = Area.Square<Metre>(1000);
-        Area squarekilometres = squareMetres.ToSquare<Kilo, Metre>();
-        Assert.Equal(1e-3d, squarekilometres, SiPrecision);
+        Area squareKilometres = squareMetres.ToSquare<Kilo, Metre>();
+        PrecisionIsBounded(1e-3d, squareKilometres);
     }
     [Fact]
     public void SquareMilesToSquareKilometers()
@@ -49,7 +49,7 @@ public class AreaTest
 
         Area actual = squareYards.ToSquareImperial<Foot>();
 
-        actual.Matches(expected, ImperialPrecision);
+        actual.Matches(expected, MediumPrecision - 1);
     }
 
     [Fact]
@@ -61,7 +61,7 @@ public class AreaTest
 
         Length actual = area / length;
 
-        actual.Matches(expected);
+        actual.Matches(expected, MediumPrecision);
     }
     [Fact]
     public void PureArealDimensionDividedByLength()

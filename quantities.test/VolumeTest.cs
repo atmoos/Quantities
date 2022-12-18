@@ -11,7 +11,7 @@ public sealed class VolumeTest
         Volume left = Volume.Cubic<Metre>(20);
         Volume right = Volume.Cubic<Metre>(10);
         Volume result = left + right;
-        Assert.Equal(30d, result, SiPrecision);
+        PrecisionIsBounded(30d, result);
     }
     [Fact]
     public void FromSiToLitre()

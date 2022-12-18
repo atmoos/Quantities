@@ -31,175 +31,168 @@ quecto 	q 	0.000000000000000000000000000001   1e-30
 */
 
 [DebuggerDisplay(nameof(Quetta))]
-public readonly struct Quetta : IPrefix, IScaleUp
+public readonly struct Quetta : IMetricPrefix, IScaleUp
 {
     static Double ITransform.ToSi(in Double value) => 1e30 * value;
     static Double ITransform.FromSi(in Double value) => value / 1e30;
     static String IRepresentable.Representation => "Q";
 }
 [DebuggerDisplay(nameof(Ronna))]
-public readonly struct Ronna : IPrefix, IScaleUp
+public readonly struct Ronna : IMetricPrefix, IScaleUp
 {
     static Double ITransform.ToSi(in Double value) => 1e27 * value;
     static Double ITransform.FromSi(in Double value) => value / 1e27;
     static String IRepresentable.Representation => "R";
 }
 [DebuggerDisplay(nameof(Yotta))]
-public readonly struct Yotta : IPrefix, IScaleUp
+public readonly struct Yotta : IMetricPrefix, IScaleUp
 {
     static Double ITransform.ToSi(in Double value) => 1e24 * value;
     static Double ITransform.FromSi(in Double value) => value / 1e24;
     static String IRepresentable.Representation => "Y";
 }
 [DebuggerDisplay(nameof(Zetta))]
-public readonly struct Zetta : IPrefix, IScaleUp
+public readonly struct Zetta : IMetricPrefix, IScaleUp
 {
     static Double ITransform.ToSi(in Double value) => 1e21 * value;
     static Double ITransform.FromSi(in Double value) => value / 1e21;
     static String IRepresentable.Representation => "Z";
 }
 [DebuggerDisplay(nameof(Exa))]
-public readonly struct Exa : IPrefix, IScaleUp
+public readonly struct Exa : IMetricPrefix, IScaleUp
 {
     static Double ITransform.ToSi(in Double value) => 1e18 * value;
     static Double ITransform.FromSi(in Double value) => value / 1e18;
     static String IRepresentable.Representation => "E";
 }
 [DebuggerDisplay(nameof(Peta))]
-public readonly struct Peta : IPrefix, IScaleUp
+public readonly struct Peta : IMetricPrefix, IScaleUp
 {
     static Double ITransform.ToSi(in Double value) => 1e15 * value;
     static Double ITransform.FromSi(in Double value) => value / 1e15;
     static String IRepresentable.Representation => "P";
 }
 [DebuggerDisplay(nameof(Tera))]
-public readonly struct Tera : IPrefix, IScaleUp
+public readonly struct Tera : IMetricPrefix, IScaleUp
 {
     static Double ITransform.ToSi(in Double value) => 1e12 * value;
     static Double ITransform.FromSi(in Double value) => value / 1e12;
     static String IRepresentable.Representation => "T";
 }
 [DebuggerDisplay(nameof(Giga))]
-public readonly struct Giga : IPrefix, IScaleUp
+public readonly struct Giga : IMetricPrefix, IScaleUp
 {
     static Double ITransform.ToSi(in Double value) => 1e9 * value;
     static Double ITransform.FromSi(in Double value) => value / 1e9;
     static String IRepresentable.Representation => "G";
 }
 [DebuggerDisplay(nameof(Mega))]
-public readonly struct Mega : IPrefix, IScaleUp
+public readonly struct Mega : IMetricPrefix, IScaleUp
 {
     static Double ITransform.ToSi(in Double value) => 1e6 * value;
     static Double ITransform.FromSi(in Double value) => value / 1e6;
     static String IRepresentable.Representation => "M";
 }
 [DebuggerDisplay(nameof(Kilo))]
-public readonly struct Kilo : IPrefix, IScaleUp
+public readonly struct Kilo : IMetricPrefix, IScaleUp
 {
     static Double ITransform.ToSi(in Double value) => 1e3 * value;
     static Double ITransform.FromSi(in Double value) => value / 1e3;
     static String IRepresentable.Representation => "K";
 }
 [DebuggerDisplay(nameof(Hecto))]
-public readonly struct Hecto : IPrefix, IScaleUp
+public readonly struct Hecto : IMetricPrefix, IScaleUp
 {
     static Double ITransform.ToSi(in Double value) => 1e2 * value;
     static Double ITransform.FromSi(in Double value) => value / 1e2;
     static String IRepresentable.Representation => "h";
 }
 [DebuggerDisplay(nameof(Deca))]
-public readonly struct Deca : IPrefix, IScaleUp
+public readonly struct Deca : IMetricPrefix, IScaleUp
 {
     static Double ITransform.ToSi(in Double value) => 1e1 * value;
     static Double ITransform.FromSi(in Double value) => value / 1e1;
     static String IRepresentable.Representation => "da";
 }
-[DebuggerDisplay("1")]
-internal readonly struct UnitPrefix : IPrefix, IScaleUp, IScaleDown // Since we use it by default on unit-less instantiations.
-{
-    static Double ITransform.ToSi(in Double value) => value;
-    static Double ITransform.FromSi(in Double value) => value;
-    static String IRepresentable.Representation => String.Empty;
-}
 [DebuggerDisplay(nameof(Deci))]
-public readonly struct Deci : IPrefix, IScaleDown
+public readonly struct Deci : IMetricPrefix, IScaleDown
 {
     static Double ITransform.ToSi(in Double value) => value / 1e1;
     static Double ITransform.FromSi(in Double value) => 1e1 * value;
     static String IRepresentable.Representation => "d";
 }
 [DebuggerDisplay(nameof(Centi))]
-public readonly struct Centi : IPrefix, IScaleDown
+public readonly struct Centi : IMetricPrefix, IScaleDown
 {
     static Double ITransform.ToSi(in Double value) => value / 1e2;
     static Double ITransform.FromSi(in Double value) => 1e2 * value;
     static String IRepresentable.Representation => "c";
 }
 [DebuggerDisplay(nameof(Milli))]
-public readonly struct Milli : IPrefix, IScaleDown
+public readonly struct Milli : IMetricPrefix, IScaleDown
 {
     static Double ITransform.ToSi(in Double value) => value / 1e3;
     static Double ITransform.FromSi(in Double value) => 1e3 * value;
     static String IRepresentable.Representation => "m";
 }
 [DebuggerDisplay(nameof(Micro))]
-public readonly struct Micro : IPrefix, IScaleDown
+public readonly struct Micro : IMetricPrefix, IScaleDown
 {
     static Double ITransform.ToSi(in Double value) => value / 1e6;
     static Double ITransform.FromSi(in Double value) => 1e6 * value;
     static String IRepresentable.Representation => "μ";
 }
 [DebuggerDisplay(nameof(Nano))]
-public readonly struct Nano : IPrefix, IScaleDown
+public readonly struct Nano : IMetricPrefix, IScaleDown
 {
     static Double ITransform.ToSi(in Double value) => value / 1e9;
     static Double ITransform.FromSi(in Double value) => 1e9 * value;
     static String IRepresentable.Representation => "n";
 }
 [DebuggerDisplay(nameof(Pico))]
-public readonly struct Pico : IPrefix, IScaleDown
+public readonly struct Pico : IMetricPrefix, IScaleDown
 {
     static Double ITransform.ToSi(in Double value) => value / 1e12;
     static Double ITransform.FromSi(in Double value) => 1e12 * value;
     static String IRepresentable.Representation => "p";
 }
 [DebuggerDisplay(nameof(Femto))]
-public readonly struct Femto : IPrefix, IScaleDown
+public readonly struct Femto : IMetricPrefix, IScaleDown
 {
     static Double ITransform.ToSi(in Double value) => value / 1e15;
     static Double ITransform.FromSi(in Double value) => 1e15 * value;
     static String IRepresentable.Representation => "f";
 }
 [DebuggerDisplay(nameof(Atto))]
-public readonly struct Atto : IPrefix, IScaleDown
+public readonly struct Atto : IMetricPrefix, IScaleDown
 {
     static Double ITransform.ToSi(in Double value) => value / 1e18;
     static Double ITransform.FromSi(in Double value) => 1e18 * value;
     static String IRepresentable.Representation => "a";
 }
 [DebuggerDisplay(nameof(Zepto))]
-public readonly struct Zepto : IPrefix, IScaleDown
+public readonly struct Zepto : IMetricPrefix, IScaleDown
 {
     static Double ITransform.ToSi(in Double value) => value / 1e21;
     static Double ITransform.FromSi(in Double value) => 1e21 * value;
     static String IRepresentable.Representation => "z";
 }
 [DebuggerDisplay(nameof(Yocto))]
-public readonly struct Yocto : IPrefix, IScaleDown
+public readonly struct Yocto : IMetricPrefix, IScaleDown
 {
     static Double ITransform.ToSi(in Double value) => value / 1e24;
     static Double ITransform.FromSi(in Double value) => 1e24 * value;
     static String IRepresentable.Representation => "y";
 }
 [DebuggerDisplay(nameof(Ronto))]
-public readonly struct Ronto : IPrefix, IScaleDown
+public readonly struct Ronto : IMetricPrefix, IScaleDown
 {
     static Double ITransform.ToSi(in Double value) => value / 1e27;
     static Double ITransform.FromSi(in Double value) => 1e27 * value;
     static String IRepresentable.Representation => "r";
 }
 [DebuggerDisplay(nameof(Quecto))]
-public readonly struct Quecto : IPrefix, IScaleDown
+public readonly struct Quecto : IMetricPrefix, IScaleDown
 {
     static Double ITransform.ToSi(in Double value) => value / 1e30;
     static Double ITransform.FromSi(in Double value) => 1e30 * value;

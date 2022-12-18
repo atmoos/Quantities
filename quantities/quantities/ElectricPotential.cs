@@ -23,7 +23,7 @@ public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectr
         return new(this.quant.As<SiDerived<TUnit>>());
     }
     public ElectricPotential To<TPrefix, TUnit>()
-        where TPrefix : IPrefix
+        where TPrefix : IMetricPrefix
         where TUnit : ISiDerivedUnit, IElectricPotential
     {
         return new(this.quant.As<SiDerived<TPrefix, TUnit>>());
@@ -34,7 +34,7 @@ public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectr
         return new(value.As<SiDerived<TUnit>>());
     }
     public static ElectricPotential Si<TPrefix, TUnit>(in Double value)
-        where TPrefix : IPrefix
+        where TPrefix : IMetricPrefix
         where TUnit : ISiDerivedUnit, IElectricPotential
     {
         return new(value.As<SiDerived<TPrefix, TUnit>>());
@@ -47,13 +47,13 @@ public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectr
     public override String ToString() => this.quant.ToString();
     internal static ElectricPotential From(in ElectricCurrent current, in ElectricalResistance resistance)
     {
-        return new(SiPrefix.ScaleThree(current.Quant.SiMultiply(resistance.Quant), create));
+        return new(MetricPrefix.ScaleThree(current.Quant.SiMultiply(resistance.Quant), create));
     }
     internal static ElectricPotential From(in Power power, in ElectricCurrent current)
     {
         Double siPower = power.To<Watt>();
         Double siCurrent = current.To<Ampere>();
-        return new(SiPrefix.ScaleThree(siPower / siCurrent, create));
+        return new(MetricPrefix.ScaleThree(siPower / siCurrent, create));
     }
 
     public static Boolean operator ==(ElectricPotential left, ElectricPotential right) => left.Equals(right);

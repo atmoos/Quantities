@@ -8,6 +8,8 @@ namespace Quantities.Quantities;
 
 public readonly struct Time : IQuantity<Time>, ITime
     , IMultiplyOperators<Time, Power, Energy>
+    , IMultiplyOperators<Time, Velocity, Length>
+    , IMultiplyOperators<Time, DataRate, Data>
 // ToDo: Can't apply ISi, or IOther interfaces...
 {
     private static readonly Creator create = new();
@@ -16,7 +18,7 @@ public readonly struct Time : IQuantity<Time>, ITime
     private Time(in Quant quant) => this.quant = quant;
     public Time ToSeconds() => new(this.quant.As<Si<Second>>());
     public Time To<TPrefix, TUnit>()
-        where TPrefix : IPrefix, IScaleDown
+        where TPrefix : IMetricPrefix, IScaleDown
         where TUnit : ISiBaseUnit, ITime
     {
         return new(this.quant.As<Si<TPrefix, TUnit>>());
@@ -29,7 +31,7 @@ public readonly struct Time : IQuantity<Time>, ITime
     public TimeSpan ToTimeSpan() => TimeSpan.FromSeconds(ToSeconds());
     public static Time Seconds(in Double value) => new(value.As<Si<Second>>());
     public static Time Si<TPrefix, TUnit>(in Double value)
-        where TPrefix : IPrefix, IScaleDown
+        where TPrefix : IMetricPrefix, IScaleDown
         where TUnit : ISiBaseUnit, ITime
     {
         return new(value.As<Si<TPrefix, TUnit>>());
@@ -43,7 +45,7 @@ public readonly struct Time : IQuantity<Time>, ITime
     internal static Time From(in Energy energy, in Power power)
     {
         // ToDo: Extract the time component!
-        return new(SiPrefix.ScaleThree(energy.Quant.SiDivide(power.Quant), create));
+        return new(MetricPrefix.ScaleThree(energy.Quant.SiDivide(power.Quant), create));
     }
 
     public Boolean Equals(Time other) => this.quant.Equals(other.quant);
@@ -62,6 +64,9 @@ public readonly struct Time : IQuantity<Time>, ITime
     public static Time operator /(Time left, Double scalar) => new(left.quant / scalar);
     public static Double operator /(Time left, Time right) => left.quant / right.quant;
     public static Energy operator *(Time left, Power right) => Energy.From(in right, in left);
+
+    public static Length operator *(Time left, Velocity right) => Length.From(in right, in left);
+    public static Data operator *(Time left, DataRate right) => Data.From(in left, in right);
 
     private sealed class Creator : IPrefixInject<Quant>
     {

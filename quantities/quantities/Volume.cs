@@ -21,7 +21,7 @@ public readonly struct Volume : IQuantity<Volume>, IVolume<Length>
         return new(this.quant.To<Cube, Si<TUnit>>());
     }
     public Volume ToCubic<TPrefix, TUnit>()
-        where TPrefix : IPrefix
+        where TPrefix : IMetricPrefix
         where TUnit : ISiBaseUnit, ILength
     {
         return new(this.quant.To<Cube, Si<TPrefix, TUnit>>());
@@ -32,7 +32,7 @@ public readonly struct Volume : IQuantity<Volume>, IVolume<Length>
         return new(this.quant.As<Metric<TVolume>, Alias<TVolume, ILength>>());
     }
     public Volume ToMetric<TPrefix, TUnit>()
-        where TPrefix : IPrefix
+        where TPrefix : IMetricPrefix
         where TUnit : IMetricUnit, IVolume<ILength>, IInjectUnit<ILength>
     {
         return new(this.quant.As<Metric<TPrefix, TUnit>, Alias<TPrefix, TUnit, ILength>>());
@@ -53,7 +53,7 @@ public readonly struct Volume : IQuantity<Volume>, IVolume<Length>
         return new(value.To<Cube, Si<TUnit>>());
     }
     public static Volume Cubic<TPrefix, TUnit>(in Double value)
-        where TPrefix : IPrefix
+        where TPrefix : IMetricPrefix
         where TUnit : ISiBaseUnit, ILength
     {
         return new(value.To<Cube, Si<TPrefix, TUnit>>());
@@ -64,7 +64,7 @@ public readonly struct Volume : IQuantity<Volume>, IVolume<Length>
         return new(value.As<Metric<TVolume>, Alias<TVolume, ILength>>());
     }
     public static Volume Metric<TPrefix, TVolume>(Double value)
-        where TPrefix : IPrefix
+        where TPrefix : IMetricPrefix
         where TVolume : IMetricUnit, IVolume<ILength>, IInjectUnit<ILength>
     {
         return new(value.As<Metric<TPrefix, TVolume>, Alias<TPrefix, TVolume, ILength>>());

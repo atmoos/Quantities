@@ -2,7 +2,7 @@
 A library to safely handle various types of quantities, typically physical quantities.
 
 [![master status](https://github.com/atmoos/Quantities/actions/workflows/dotnet.yml/badge.svg)](https://github.com/atmoos/Quantities/actions/workflows/dotnet.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/atmoos/Quantities/blob/master/LICENSE)
 
 ## Project Goals
 Dealing with quantities (Metre, Yard, etc.) is not trivial. There are many areas where things can go wrong, such as forgetting to convert from one unit to the next or converting the wrong way.
@@ -20,12 +20,17 @@ A concrete example helps to illustrate that point: A length may be represented i
 It's a library that is still evolving rapidly. Try at your own risk or - even better - contribute :-)
 
 ## ToDo
-- [ ] Enable [binary prefixes](https://en.wikipedia.org/wiki/Binary_prefix).
+- [x] Enable [binary prefixes](https://en.wikipedia.org/wiki/Binary_prefix).
   - Enabling things like "KiB", i.e. "kibi Byte".
 - [ ] Enable serialisation
 - [ ] Extend unit tests
 - [ ] More rigours benchmarking
 - [ ] Add more quantities
+- [ ] Add "Zero" and "One/Unit" static properties
+  - i.e. enabling additive and multiplicative identities.
+- [ ] Add a "Normalize()" method to each quantity
+  - This should then generate a "human readable" representation
+  - example: 3'456 Km/d => 40 m/s
 
 ## Examples
 Usage is designed to be intuitive using:
@@ -60,11 +65,11 @@ Velocity imperialVelocity = miles / time; // 4 mi/h
 
 Area metricArea = kilometres * miles; // 347.62 Km²
 Area imperialArea = miles * kilometres ; // 134.22 mi²
-Console.WriteLine($"Equal area: {metricArea.Equals(imperialArea)}"); // Equal area: true
+Console.WriteLine($"Equal area: {metricArea.Equals(imperialArea)}"); // Equal area: True
 
 Length metricSum = kilometres + miles - metres; // 37.308 Km
 Length imperialSum = miles + kilometres - metres; // 23.182 mi
-Console.WriteLine($"Equal length: {imperialSum.Equals(metricSum)}"); // Equal length: true
+Console.WriteLine($"Equal length: {imperialSum.Equals(metricSum)}"); // Equal length: True
 ```
 
 ### Type Safety
@@ -100,4 +105,12 @@ Mass mass = Mass.Metric<Tonne>(0.2);
 Mass foo = mass * time;
 Time bar = time * mass;
 var fooBar = mass * time;
+```
+
+### Binary Prefixes
+Different types of prefixes are also supported. This is useful for [IEC binary prefixes](https://en.wikipedia.org/wiki/Binary_prefix).
+```csharp
+Data kibiByte = Data.In<Kibi, Byte>(1); // 1 KiB, binary prefix
+Data kiloByte = Data.In<Byte>(1024).To<Kilo, Byte>(); // 1 KB, metric prefix
+Console.WriteLine($"Equal amount of data: {kiloByte.Equals(kibiByte)}"); // Equal amount of data: True
 ```

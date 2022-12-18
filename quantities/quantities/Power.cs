@@ -28,7 +28,7 @@ public readonly struct Power : IQuantity<Power>, IPower
         return new(this.quant.As<SiDerived<TUnit>>());
     }
     public Power To<TPrefix, TUnit>()
-        where TPrefix : IPrefix
+        where TPrefix : IMetricPrefix
         where TUnit : ISiDerivedUnit, IPower
     {
         return new(this.quant.As<SiDerived<TPrefix, TUnit>>());
@@ -39,7 +39,7 @@ public readonly struct Power : IQuantity<Power>, IPower
         return new(this.quant.As<Metric<TUnit>>());
     }
     public Power ToMetric<TPrefix, TUnit>()
-        where TPrefix : IPrefix
+        where TPrefix : IMetricPrefix
         where TUnit : IMetricUnit, IPower
     {
         return new(this.quant.As<Metric<TPrefix, TUnit>>());
@@ -55,7 +55,7 @@ public readonly struct Power : IQuantity<Power>, IPower
         return new(value.As<SiDerived<TUnit>>());
     }
     public static Power Si<TPrefix, TUnit>(in Double value)
-        where TPrefix : IPrefix
+        where TPrefix : IMetricPrefix
         where TUnit : ISiDerivedUnit, IPower
     {
         return new(value.As<SiDerived<TPrefix, TUnit>>());
@@ -71,7 +71,7 @@ public readonly struct Power : IQuantity<Power>, IPower
         return new(value.As<Metric<TUnit>>());
     }
     public static Power Metric<TPrefix, TUnit>(in Double value)
-        where TPrefix : IPrefix
+        where TPrefix : IMetricPrefix
         where TUnit : IMetricUnit, IPower
     {
         return new(value.As<Metric<TPrefix, TUnit>>());
@@ -79,15 +79,15 @@ public readonly struct Power : IQuantity<Power>, IPower
 
     internal static Power From(in ElectricPotential potential, in ElectricCurrent current)
     {
-        return new(SiPrefix.ScaleThree(potential.Quant.SiMultiply(current.Quant), create));
+        return new(MetricPrefix.ScaleThree(potential.Quant.SiMultiply(current.Quant), create));
     }
     internal static Power From(in Force force, in Velocity velocity)
     {
-        return new(SiPrefix.ScaleThree(force.Quant.SiMultiply(velocity.Quant), create));
+        return new(MetricPrefix.ScaleThree(force.Quant.SiMultiply(velocity.Quant), create));
     }
     internal static Power From(in Energy energy, in Time time)
     {
-        return new(SiPrefix.ScaleThree(energy.Quant.SiDivide(time.Quant), create));
+        return new(MetricPrefix.ScaleThree(energy.Quant.SiDivide(time.Quant), create));
     }
 
     public Boolean Equals(Power other) => this.quant.Equals(other.quant);

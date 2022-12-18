@@ -4,14 +4,15 @@ namespace Quantities.Test;
 
 public sealed class LengthTest
 {
-    private const Double KILOMETRE_IN_MILES = 1d / 1.609344d;
+    private const Double MILES_IN_KILOMETRE = 1.609344d;
+    private const Double KILOMETRE_IN_MILES = 1d / MILES_IN_KILOMETRE;
 
     [Fact]
     public void MetreToKilometre()
     {
         Length metres = Length.Si<Metre>(1000);
         Length kilometres = metres.To<Kilo, Metre>();
-        Assert.Equal(1d, kilometres, SiPrecision);
+        PrecisionIsBounded(1d, kilometres);
     }
 
     [Fact]
@@ -19,7 +20,7 @@ public sealed class LengthTest
     {
         Length metres = Length.Si<Metre>(1);
         Length millimetres = metres.To<Milli, Metre>();
-        Assert.Equal(1000d, millimetres, SiPrecision);
+        PrecisionIsBounded(1000d, millimetres);
     }
 
     [Fact]
@@ -27,7 +28,7 @@ public sealed class LengthTest
     {
         Length millimetres = Length.Si<Milli, Metre>(2e6);
         Length kilometres = millimetres.To<Kilo, Metre>();
-        Assert.Equal(2d, kilometres, SiPrecision);
+        PrecisionIsBounded(2d, kilometres);
     }
 
     [Fact]
@@ -35,7 +36,7 @@ public sealed class LengthTest
     {
         Length miles = Length.Imperial<Mile>(1);
         Length kilometres = miles.To<Kilo, Metre>();
-        Assert.Equal(1.609344, kilometres, SiPrecision);
+        PrecisionIsBounded(1.609344, kilometres);
     }
 
     [Fact]
@@ -43,7 +44,7 @@ public sealed class LengthTest
     {
         Length kilometres = Length.Si<Kilo, Metre>(1.609344);
         Length miles = kilometres.ToImperial<Mile>();
-        Assert.Equal(1d, miles, SiPrecision);
+        PrecisionIsBounded(1d, miles);
     }
     [Fact]
     public void FootToMile()
@@ -60,7 +61,7 @@ public sealed class LengthTest
         Length kilometres = Length.Si<Kilo, Metre>(10);
         Length metres = Length.Si<Metre>(20);
         Length result = kilometres + metres;
-        Assert.Equal(10.02, result, SiPrecision);
+        PrecisionIsBounded(10.02, result);
     }
     [Fact]
     public void AddKilometresToMiles()
@@ -68,7 +69,7 @@ public sealed class LengthTest
         Length kilometres = Length.Si<Kilo, Metre>(1);
         Length miles = Length.Imperial<Mile>(1);
         Length result = miles + kilometres;
-        Assert.Equal(1 + KILOMETRE_IN_MILES, result, SiPrecision);
+        PrecisionIsBounded(1 + KILOMETRE_IN_MILES, result);
     }
     [Fact]
     public void AddMilesToKilometres()
@@ -76,7 +77,7 @@ public sealed class LengthTest
         Length kilometres = Length.Si<Kilo, Metre>(1);
         Length miles = Length.Imperial<Mile>(1);
         Length result = kilometres + miles;
-        Assert.Equal(2.609344, result, SiPrecision);
+        PrecisionIsBounded(2.609344, result);
     }
     [Fact]
     public void SubtractKilometresFromMetres()
@@ -84,7 +85,7 @@ public sealed class LengthTest
         Length metres = Length.Si<Metre>(2000);
         Length kilometres = Length.Si<Kilo, Metre>(0.5);
         Length result = metres - kilometres;
-        Assert.Equal(1500d, result, SiPrecision);
+        PrecisionIsBounded(1500d, result);
     }
 
     [Fact]
@@ -93,7 +94,7 @@ public sealed class LengthTest
         Length kilometres = Length.Si<Kilo, Metre>(2.609344);
         Length miles = Length.Imperial<Mile>(1);
         Length result = kilometres - miles;
-        Assert.Equal(1d, result, SiPrecision);
+        PrecisionIsBounded(1d, result);
     }
     [Fact]
     public void OneMileInYards()
@@ -169,6 +170,18 @@ public sealed class LengthTest
         Velocity expected = Velocity.Imperial<Mile>(35).Per<Hour>();
 
         Velocity actual = distance / duration;
+
+        actual.Matches(expected);
+    }
+    [Fact]
+    public void VelocityTimesTimeIsLength()
+    {
+        Time duration = Time.In<Minute>(12);
+        Velocity velocity = Velocity.Imperial<Mile>(350).Per<Hour>();
+        // Miles are not yet preserved across multiplication...
+        Length expected = Length.Si<Kilo, Metre>(350 * 12 * MILES_IN_KILOMETRE / 60);
+
+        Length actual = velocity * duration;
 
         actual.Matches(expected);
     }

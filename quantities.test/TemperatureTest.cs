@@ -6,7 +6,6 @@ namespace Quantities.Test;
 // For a lot of the values here, see: https://en.wikipedia.org/wiki/Conversion_of_units_of_temperature#Comparison_of_temperature_scales
 public sealed class TemperatureTest
 {
-    private static readonly Int32 imperialTemperaturePrecision = ImperialPrecision - 1;
     [Fact]
     public void KelvinToString() => FormattingMatches(v => Temperature.Si<Kelvin>(v), "K");
     [Fact]
@@ -117,7 +116,7 @@ public sealed class TemperatureTest
 
         Temperature actual = temperature.ToImperial<GasMark>();
 
-        actual.Matches(expected, imperialTemperaturePrecision);
+        actual.Matches(expected, VeryLowPrecision);
     }
 
     [Fact]
@@ -128,7 +127,7 @@ public sealed class TemperatureTest
 
         Temperature actual = temperature.ToImperial<GasMark>();
 
-        actual.Matches(expected, imperialTemperaturePrecision);
+        actual.Matches(expected, VeryLowPrecision);
     }
     [Fact]
     public void GasMarkToFahrenheit()

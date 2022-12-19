@@ -6,6 +6,7 @@ namespace Quantities.Measures;
 
 internal interface IMeasure : ITransform, IRepresentable, ISerialize
 {
+    /* marker interface*/
 }
 internal interface ISiMeasure<in TUnit> : IMeasure
     where TUnit : ISiUnit
@@ -18,7 +19,7 @@ internal interface ISiMeasure<in TUnit> : IMeasure
 /// <remarks>
 /// An example of this is the litre which is defined in terms of the metre as: 1000 ℓ in 1 m³
 /// </remarks>
-internal interface ISiAccepted<in TUnit> : IMeasure
+internal interface IMetricMeasure<in TUnit> : IMeasure
     where TUnit : IMetricUnit
 {
     /* marker interface*/

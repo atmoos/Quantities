@@ -4,7 +4,7 @@ using Quantities.Units.Si;
 
 namespace Quantities.Measures;
 
-internal interface IMeasure : ITransform, IRepresentable
+internal interface IMeasure : ITransform, IRepresentable, ISerialize
 {
 }
 internal interface ISiMeasure<in TUnit> : IMeasure

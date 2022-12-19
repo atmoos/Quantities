@@ -1,11 +1,12 @@
 namespace Quantities.Measures;
 
-internal static class Build<TMeasure> where TMeasure : IMeasure
+internal static class Build<TMeasure> where TMeasure : IMeasure, ISerialize
 {
     private static readonly Map defaultMap = new() {
         Injector = new Default(),
         ToSi = TMeasure.ToSi,
         FromSi = TMeasure.FromSi,
+        Serialize = TMeasure.Write,
         Representation = TMeasure.Representation
     };
     public static Quant With(in Double value) => new(value, in defaultMap);

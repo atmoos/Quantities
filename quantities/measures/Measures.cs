@@ -6,14 +6,14 @@ using Quantities.Units.Si;
 
 namespace Quantities.Measures;
 
-internal readonly struct Si<TUnit> : ISiMeasure<TUnit>, ILinear
+internal readonly struct Si<TUnit> : ISiMeasure<TUnit>, ISerializeMetric<TUnit>, ILinear
     where TUnit : ISiUnit
 {
     public static Double ToSi(in Double value) => value;
     public static Double FromSi(in Double value) => value;
     public static String Representation => TUnit.Representation;
 }
-internal readonly struct Si<TPrefix, TUnit> : ISiMeasure<TUnit>, ILinear
+internal readonly struct Si<TPrefix, TUnit> : ISiMeasure<TUnit>, ISerializeMetric<TPrefix, TUnit>, ILinear
     where TPrefix : IPrefix
     where TUnit : ISiUnit
 {
@@ -21,14 +21,14 @@ internal readonly struct Si<TPrefix, TUnit> : ISiMeasure<TUnit>, ILinear
     public static Double FromSi(in Double value) => TPrefix.FromSi(in value);
     public static String Representation { get; } = $"{TPrefix.Representation}{TUnit.Representation}";
 }
-internal readonly struct Metric<TUnit> : ISiAccepted<TUnit>, ILinear
+internal readonly struct Metric<TUnit> : ISiAccepted<TUnit>, ISerializeMetric<TUnit>, ILinear
     where TUnit : IMetricUnit
 {
     public static Double ToSi(in Double value) => TUnit.ToSi(in value);
     public static Double FromSi(in Double value) => TUnit.FromSi(in value);
     public static String Representation => TUnit.Representation;
 }
-internal readonly struct Metric<TPrefix, TUnit> : ISiAccepted<TUnit>, ILinear
+internal readonly struct Metric<TPrefix, TUnit> : ISiAccepted<TUnit>, ISerializeMetric<TPrefix, TUnit>, ILinear
     where TPrefix : IPrefix
     where TUnit : IMetricUnit
 {
@@ -36,14 +36,14 @@ internal readonly struct Metric<TPrefix, TUnit> : ISiAccepted<TUnit>, ILinear
     public static Double FromSi(in Double value) => TPrefix.FromSi(TUnit.FromSi(in value));
     public static String Representation { get; } = $"{TPrefix.Representation}{TUnit.Representation}";
 }
-internal readonly struct Imperial<TUnit> : IImperialMeasure<TUnit>, ILinear
+internal readonly struct Imperial<TUnit> : IImperialMeasure<TUnit>, ISerializeImperial<TUnit>, ILinear
     where TUnit : IImperialUnit, ITransform, IRepresentable
 {
     public static Double ToSi(in Double value) => TUnit.ToSi(in value);
     public static Double FromSi(in Double value) => TUnit.FromSi(in value);
     public static String Representation => TUnit.Representation;
 }
-internal readonly struct NonStandard<TUnit> : INonStandardMeasure<TUnit>, ILinear
+internal readonly struct NonStandard<TUnit> : INonStandardMeasure<TUnit>, ISerializeNonStandard<TUnit>, ILinear
     where TUnit : INoSystemUnit, ITransform, IRepresentable
 {
     public static Double ToSi(in Double value) => TUnit.ToSi(in value);
@@ -51,22 +51,36 @@ internal readonly struct NonStandard<TUnit> : INonStandardMeasure<TUnit>, ILinea
     public static String Representation => TUnit.Representation;
 }
 
-internal readonly struct Product<TLeft, TRight> : IMeasure
-    where TLeft : IMeasure
-    where TRight : IMeasure
+internal readonly struct Product<TLeft, TRight> : IMeasure, ISerialize
+    where TLeft : IMeasure, ISerialize
+    where TRight : IMeasure, ISerialize
 {
     const String narrowNoBreakSpace = "\u202F";
     public static Double ToSi(in Double value) => TLeft.ToSi(TRight.ToSi(in value));
     public static Double FromSi(in Double value) => TRight.FromSi(TLeft.FromSi(in value));
     public static String Representation { get; } = $"{TLeft.Representation}{narrowNoBreakSpace}{TRight.Representation}";
+    public static void Write(IWriter writer)
+    {
+        writer.Start("prod");
+        TLeft.Write(writer);
+        TRight.Write(writer);
+        writer.End();
+    }
 }
-internal readonly struct Fraction<TNominator, TDenominator> : IMeasure
-    where TNominator : IMeasure
-    where TDenominator : IMeasure
+internal readonly struct Fraction<TNominator, TDenominator> : IMeasure, ISerialize
+    where TNominator : IMeasure, ISerialize
+    where TDenominator : IMeasure, ISerialize
 {
     public static Double ToSi(in Double value) => TDenominator.FromSi(TNominator.ToSi(in value));
     public static Double FromSi(in Double value) => TNominator.FromSi(TDenominator.ToSi(in value));
     public static String Representation { get; } = $"{TNominator.Representation}/{TDenominator.Representation}";
+    public static void Write(IWriter writer)
+    {
+        writer.Start("frac");
+        TNominator.Write(writer);
+        TDenominator.Write(writer);
+        writer.End();
+    }
 }
 internal readonly struct Power<TDim, TMeasure> : IMeasure
     where TDim : IDimension
@@ -77,4 +91,10 @@ internal readonly struct Power<TDim, TMeasure> : IMeasure
     public static Double ToSi(in Double value) => toSi * value;
     public static Double FromSi(in Double value) => fromSi * value;
     public static String Representation { get; } = $"{TMeasure.Representation}{TDim.Representation}";
+    public static void Write(IWriter writer)
+    {
+        writer.Start(typeof(TDim).Name);
+        TMeasure.Write(writer);
+        writer.End();
+    }
 }

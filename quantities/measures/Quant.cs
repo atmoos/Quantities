@@ -4,7 +4,7 @@ using Quantities.Measures.Transformations;
 
 namespace Quantities.Measures;
 
-internal readonly struct Quant : IEquatable<Quant>, IFormattable
+internal readonly struct Quant : IEquatable<Quant>, IFormattable, ISerializable
     , IAdditionOperators<Quant, Quant, Quant>
     , ISubtractionOperators<Quant, Quant, Quant>
     , IMultiplyOperators<Quant, Double, Quant>
@@ -60,6 +60,13 @@ internal readonly struct Quant : IEquatable<Quant>, IFormattable
     public override Int32 GetHashCode() => this.value.GetHashCode() ^ this.map.GetHashCode();
     public override String ToString() => ToString("g5", CultureInfo.CurrentCulture);
     public String ToString(String? format, IFormatProvider? provider) => $"{this.value.ToString(format, provider)} {this.map.Representation}";
+
+    public void Write(IWriter writer)
+    {
+        writer.Write("value", this.value);
+        this.map.Serialize(writer);
+    }
+
     public static Boolean operator ==(Quant left, Quant right) => left.Equals(right);
     public static Boolean operator !=(Quant left, Quant right) => !left.Equals(right);
     public static Quant operator +(Quant left, Quant right)

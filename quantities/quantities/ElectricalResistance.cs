@@ -20,6 +20,7 @@ public readonly struct ElectricalResistance : IQuantity<ElectricalResistance>, I
     private ElectricalResistance(in Quant quant) => this.quant = quant;
     public static SiCreate<ElectricalResistance, IElectricalResistance> Of(in Double value) => new(in value);
     static ElectricalResistance IFactory<ElectricalResistance>.Create(in Quant quant) => new(in quant);
+    void IQuantity<ElectricalResistance>.Serialize(IWriter writer) => this.quant.Write(writer);
 
     public Boolean Equals(ElectricalResistance other) => this.quant.Equals(other.quant);
     public override Boolean Equals(Object? obj) => obj is ElectricalResistance resistance && Equals(resistance);

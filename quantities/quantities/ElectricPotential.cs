@@ -39,6 +39,7 @@ public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectr
         Double siCurrent = current.To.Si<Ampere>();
         return new(MetricPrefix.ScaleThree(siPower / siCurrent, root));
     }
+    void IQuantity<ElectricPotential>.Serialize(IWriter writer) => this.quant.Write(writer);
 
     public static Boolean operator ==(ElectricPotential left, ElectricPotential right) => left.Equals(right);
     public static Boolean operator !=(ElectricPotential left, ElectricPotential right) => !left.Equals(right);

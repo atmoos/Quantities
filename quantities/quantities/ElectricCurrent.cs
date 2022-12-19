@@ -21,6 +21,7 @@ public readonly struct ElectricCurrent : IQuantity<ElectricCurrent>, IElectricCu
     private ElectricCurrent(in Quant quant) => this.quant = quant;
     public static SiCreate<ElectricCurrent, IElectricCurrent> Of(in Double value) => new(in value);
     static ElectricCurrent IFactory<ElectricCurrent>.Create(in Quant quant) => new(in quant);
+    void IQuantity<ElectricCurrent>.Serialize(IWriter writer) => this.quant.Write(writer);
 
     public Boolean Equals(ElectricCurrent other) => this.quant.Equals(other.quant);
     public String ToString(String? format, IFormatProvider? provider) => this.quant.ToString(format, provider);

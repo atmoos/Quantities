@@ -27,6 +27,7 @@ public readonly struct Time : IQuantity<Time>, ITime
         // ToDo: Extract the time component!
         return new(MetricPrefix.ScaleThree(energy.Quant.SiDivide(power.Quant), root));
     }
+    void IQuantity<Time>.Serialize(IWriter writer) => this.quant.Write(writer);
 
     public Boolean Equals(Time other) => this.quant.Equals(other.quant);
     public override Boolean Equals(Object? obj) => obj is Time time && Equals(time);

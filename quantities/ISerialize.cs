@@ -1,3 +1,5 @@
+using Quantities.Measures;
+
 namespace Quantities;
 
 internal interface ISerialize
@@ -7,5 +9,5 @@ internal interface ISerialize
 
 internal interface ISerializable
 {
-    public void Write(IWriter writer);
+    internal Quant Quant { get; }
 }

@@ -20,6 +20,7 @@ public readonly struct Energy : IQuantity<Energy>, IEnergy<Mass, Length, Time>
     private Energy(in Quant quant) => this.quant = quant;
     public static Factory<LinearCreate> Of(in Double value) => new(new LinearCreate(in value));
     internal static Energy From(in Power power, in Time time) => new(power.Quant.Multiply(time.Quant));
+    void IQuantity<Energy>.Serialize(IWriter writer) => this.quant.Write(writer);
 
     public Boolean Equals(Energy other) => this.quant.Equals(other.quant);
     public override Boolean Equals(Object? obj) => obj is Energy energy && Equals(energy);

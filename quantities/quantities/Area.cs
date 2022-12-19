@@ -31,6 +31,7 @@ public readonly struct Area : IQuantity<Area>, IArea<ILength>
         var pseudoArea = pseudoVolume.PseudoDivide(length.Quant);
         return new(pseudoArea.Transform(in square));
     }
+    void IQuantity<Area>.Serialize(IWriter writer) => this.quant.Write(writer);
 
     public Boolean Equals(Area other) => this.quant.Equals(other.quant);
     public override Boolean Equals(Object? obj) => obj is Area Area && Equals(Area);

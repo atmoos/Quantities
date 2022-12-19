@@ -10,7 +10,6 @@ using Quantities.Units.Si;
 namespace Quantities.Quantities;
 
 public readonly struct Length : IQuantity<Length>, ILength
-    , ISerializable
     , IFactory<Length>
     , IFactory<ICompoundFactory<Length, ILength>, LinearTo<Length, ILength>, LinearCreate<Length, ILength>>
     , IMultiplyOperators<Length, Length, Area>
@@ -41,6 +40,7 @@ public readonly struct Length : IQuantity<Length>, ILength
         var pseudoVolume = volume.Quant.Transform(in linear);
         return new(pseudoVolume.PseudoDivide(in pseudoArea));
     }
+    void IQuantity<Length>.Serialize(IWriter writer) => this.quant.Write(writer);
 
     public Boolean Equals(Length other) => this.quant.Equals(other.quant);
     public override Boolean Equals(Object? obj) => obj is Length length && Equals(length);
@@ -48,7 +48,6 @@ public readonly struct Length : IQuantity<Length>, ILength
     public override String ToString() => this.quant.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.quant.ToString(format, provider);
 
-    void ISerializable.Write(IWriter writer) => this.quant.Write(writer);
     public static Boolean operator ==(Length left, Length right) => left.Equals(right);
     public static Boolean operator !=(Length left, Length right) => !left.Equals(right);
     public static implicit operator Double(Length length) => length.quant.Value;

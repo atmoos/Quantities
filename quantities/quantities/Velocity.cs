@@ -27,6 +27,7 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity<ILength, ITime>
         return new(MetricPrefix.Scale(power.Quant.SiDivide(force.Quant), root));
     }
     internal static Velocity From(in Length length, in Time time) => new(length.Quant.Divide(time.Quant));
+    void IQuantity<Velocity>.Serialize(IWriter writer) => this.quant.Write(writer);
 
     public Boolean Equals(Velocity other) => this.quant.Equals(other.quant);
     public override Boolean Equals(Object? obj) => obj is Velocity velocity && Equals(velocity);

@@ -24,6 +24,7 @@ public readonly struct Force : IQuantity<Force>, IForce<Mass, Length, Time>
     {
         return new(MetricPrefix.ScaleThree(power.Quant.SiDivide(velocity.Quant), root));
     }
+    void IQuantity<Force>.Serialize(IWriter writer) => this.quant.Write(writer);
 
     public Boolean Equals(Force other) => this.quant.Equals(other.quant);
     public override Boolean Equals(Object? obj) => obj is Force force && Equals(force);

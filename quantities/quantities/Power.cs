@@ -36,6 +36,7 @@ public readonly struct Power : IQuantity<Power>, IPower
     {
         return new(MetricPrefix.ScaleThree(energy.Quant.SiDivide(time.Quant), root));
     }
+    void IQuantity<Power>.Serialize(IWriter writer) => this.quant.Write(writer);
 
     public Boolean Equals(Power other) => this.quant.Equals(other.quant);
     public override Boolean Equals(Object? obj) => obj is Power power && Equals(power);

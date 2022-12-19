@@ -20,6 +20,7 @@ public readonly struct Volume : IQuantity<Volume>, IVolume<ILength>
     private Volume(in Quant quant) => this.quant = quant;
     public static CubicFactory<Volume, PowerFactory<Volume, CubicCreate, ILength>, IVolume<ILength>, ILength> Of(in Double value) => new(new PowerFactory<Volume, CubicCreate, ILength>(new CubicCreate(in value)));
     static Volume IFactory<Volume>.Create(in Quant quant) => new(in quant);
+    void IQuantity<Volume>.Serialize(IWriter writer) => this.quant.Write(writer);
 
     public Boolean Equals(Volume other) => this.quant.Equals(other.quant);
     public override Boolean Equals(Object? obj) => obj is Volume Volume && Equals(Volume);
@@ -54,5 +55,4 @@ public readonly struct Volume : IQuantity<Volume>, IVolume<ILength>
     public static Double operator /(Volume left, Volume right) => left.quant / right.quant;
     public static Area operator /(Volume volume, Length length) => Area.From(in volume, in length);
     public static Length operator /(Volume volume, Area area) => Length.From(in volume, area);
-
 }

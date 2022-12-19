@@ -21,14 +21,14 @@ internal readonly struct Si<TPrefix, TUnit> : ISiMeasure<TUnit>, ISerializeMetri
     public static Double FromSi(in Double value) => TPrefix.FromSi(in value);
     public static String Representation { get; } = $"{TPrefix.Representation}{TUnit.Representation}";
 }
-internal readonly struct Metric<TUnit> : ISiAccepted<TUnit>, ISerializeMetric<TUnit>, ILinear
+internal readonly struct Metric<TUnit> : IMetricMeasure<TUnit>, ISerializeMetric<TUnit>, ILinear
     where TUnit : IMetricUnit
 {
     public static Double ToSi(in Double value) => TUnit.ToSi(in value);
     public static Double FromSi(in Double value) => TUnit.FromSi(in value);
     public static String Representation => TUnit.Representation;
 }
-internal readonly struct Metric<TPrefix, TUnit> : ISiAccepted<TUnit>, ISerializeMetric<TPrefix, TUnit>, ILinear
+internal readonly struct Metric<TPrefix, TUnit> : IMetricMeasure<TUnit>, ISerializeMetric<TPrefix, TUnit>, ILinear
     where TPrefix : IPrefix
     where TUnit : IMetricUnit
 {

@@ -35,6 +35,7 @@ public readonly struct Data : IQuantity<Data>, IAmountOfInformation
         Double bytes = Units.Si.Metric.Byte.FromSi(time.Quant.SiMultiply(rate.Quant));
         return new(BinaryPrefix.Scale(in bytes, root));
     }
+    void IQuantity<Data>.Serialize(IWriter writer) => this.quant.Write(writer);
 
     public Boolean Equals(Data other) => this.quant.Equals(other.quant);
     public override Boolean Equals(Object? obj) => obj is Data data && Equals(data);

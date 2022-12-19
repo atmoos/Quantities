@@ -4,7 +4,7 @@ using Quantities.Measures.Transformations;
 
 namespace Quantities.Measures;
 
-internal readonly struct Quant : IEquatable<Quant>, IFormattable, ISerializable
+internal readonly struct Quant : IEquatable<Quant>, IFormattable
     , IAdditionOperators<Quant, Quant, Quant>
     , ISubtractionOperators<Quant, Quant, Quant>
     , IMultiplyOperators<Quant, Double, Quant>

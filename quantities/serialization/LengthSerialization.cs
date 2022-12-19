@@ -15,7 +15,7 @@ public class LengthSerialization : JsonConverter<Length>
     {
         var jsonWriter = new JsonWriter(writer);
         jsonWriter.Start("length");
-        ((ISerializable)value).Write(jsonWriter);
+        value.Quant.Write(jsonWriter);
         jsonWriter.End();
     }
 }

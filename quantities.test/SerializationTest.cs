@@ -1,5 +1,6 @@
 using System.Text.Json;
 using Quantities.Serialization;
+using Quantities.Units.Si.Metric;
 
 namespace Quantities.Test;
 
@@ -13,10 +14,12 @@ public class SerializationTest
         Length length = Length.Of(value).Si<Metre>();
         String actual = Serialize(length);
         String expected = $$"""
-        "length": {
-          "value": {{value:R}},
-          "metric": {
-            "unit": "m"
+        {
+          "length": {
+            "value": {{value:R}},
+            "metric": {
+              "unit": "m"
+            }
           }
         }
         """;
@@ -29,11 +32,13 @@ public class SerializationTest
         Length length = Length.Of(value).Si<Kilo, Metre>();
         String actual = Serialize(length);
         String expected = $$"""
-        "length": {
-          "value": {{value:R}},
-          "metric": {
-            "prefix": "K",
-            "unit": "m"
+        {
+          "length": {
+            "value": {{value:R}},
+            "metric": {
+              "prefix": "K",
+              "unit": "m"
+            }
           }
         }
         """;
@@ -46,24 +51,89 @@ public class SerializationTest
         Length length = Length.Of(value).Imperial<Yard>();
         String actual = Serialize(length);
         String expected = $$"""
-        "length": {
-          "value": {{value:R}},
-          "imperial": {
-            "unit": "yd"
+        {
+          "length": {
+            "value": {{value:R}},
+            "imperial": {
+              "unit": "yd"
+            }
+          }
+        }
+        """;
+        Assert.Equal(expected, actual);
+    }
+    [Fact]
+    public void Compound()
+    {
+        Double value = Math.PI;
+        Velocity velocity = Velocity.Of(value).Si<Kilo, Metre>().Per.Metric<Hour>();
+        String actual = Serialize(velocity);
+        String expected = $$"""
+        {
+          "velocity": {
+            "value": {{value:R}},
+            "frac": {
+              "metric": {
+                "prefix": "K",
+                "unit": "m"
+              },
+              "metric": {
+                "unit": "h"
+              }
+            }
+          }
+        }
+        """;
+        Assert.Equal(expected, actual);
+    }
+    [Fact]
+    public void Complex()
+    {
+        var person = new Person {
+            Name = "Foo Bar",
+            Height = Length.Of(1.67).Si<Metre>(),
+            Weight = Mass.Of(72).Si<Kilogram>()
+        };
+        String actual = Serialize(person);
+        String expected = """
+        {
+          "Name": "Foo Bar",
+          "Height": {
+            "length": {
+              "value": 1.67,
+              "metric": {
+                "unit": "m"
+              }
+            }
+          },
+          "Weight": {
+            "mass": {
+              "value": 72,
+              "metric": {
+                "unit": "kg"
+              }
+            }
           }
         }
         """;
         Assert.Equal(expected, actual);
     }
 
-    private static String Serialize(Length length) => JsonSerializer.Serialize(length, options);
+    private static String Serialize<T>(T value) => JsonSerializer.Serialize(value, options);
 
     private static JsonSerializerOptions Options()
     {
         var options = new JsonSerializerOptions {
-            WriteIndented = true,
+            WriteIndented = true
         };
-        options.Converters.Add(new LengthSerialization());
+        options.Converters.Add(new QuantitySerialization());
         return options;
+    }
+
+    private sealed class Person
+    {
+        public required String Name { get; init; }
+        public required Length Height { get; init; }
+        public required Mass Weight { get; init; }
     }
 }

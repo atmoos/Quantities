@@ -1,14 +1,14 @@
-# Architecture
+# Design
 
 ## Concepts
 
 Every...
 
 - quantity is a struct
-- quantity has an _internal_ [unit](../quantities/units/IUnit.cs) that is either
+- quantity has an _internal_ [unit](../quantities/units/IUnit.cs) that is part of a system of measurements:
   - [SI](../quantities/units/Si/ISiUnit.cs) based
   - [Imperial](../quantities/units/Imperial/IImperial.cs)
-  - [other](../quantities/units/Other/IOther.cs)
+  - [no-system](../quantities/units/NonStandard/INoSystem.cs)
 - SI quantity supports [prefixing](../quantities/prefixes/IPrefix.cs) with
   - a decimal prefix
   - a binary prefix

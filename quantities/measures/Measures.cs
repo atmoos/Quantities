@@ -1,6 +1,7 @@
 ﻿using Quantities.Dimensions;
 using Quantities.Prefixes;
-using Quantities.Units;
+using Quantities.Units.Imperial;
+using Quantities.Units.NonStandard;
 using Quantities.Units.Si;
 
 namespace Quantities.Measures;
@@ -35,8 +36,15 @@ internal readonly struct SiDerived<TPrefix, TUnit> : ISiMeasure<TUnit>, ILinear
     public static Double FromSi(in Double value) => TPrefix.FromSi(TUnit.FromSi(in value));
     public static String Representation { get; } = $"{TPrefix.Representation}{TUnit.Representation}";
 }
-internal readonly struct Other<TUnit> : IOtherMeasure<TUnit>, ILinear
-    where TUnit : IUnit, ITransform, IRepresentable
+internal readonly struct Imperial<TUnit> : IImperialMeasure<TUnit>, ILinear
+    where TUnit : IImperial, ITransform, IRepresentable
+{
+    public static Double ToSi(in Double value) => TUnit.ToSi(in value);
+    public static Double FromSi(in Double value) => TUnit.FromSi(in value);
+    public static String Representation => TUnit.Representation;
+}
+internal readonly struct NonStandard<TUnit> : INonStandardMeasure<TUnit>, ILinear
+    where TUnit : INoSystem, ITransform, IRepresentable
 {
     public static Double ToSi(in Double value) => TUnit.ToSi(in value);
     public static Double FromSi(in Double value) => TUnit.FromSi(in value);

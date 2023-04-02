@@ -29,7 +29,7 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity<Length, Time>
     public IBuilder<Velocity> ToImperial<TUnit>()
     where TUnit : IImperial, ILength
     {
-        return new Transform<Velocity, Other<TUnit>>(in this.quant);
+        return new Transform<Velocity, Imperial<TUnit>>(in this.quant);
     }
     public static IBuilder<Velocity> Si<TUnit>(in Double value)
         where TUnit : ISiBaseUnit, ILength => new Builder<Velocity, Si<TUnit>>(in value);
@@ -42,7 +42,7 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity<Length, Time>
     public static IBuilder<Velocity> Imperial<TUnit>(in Double value)
     where TUnit : IImperial, ILength
     {
-        return new Builder<Velocity, Other<TUnit>>(in value);
+        return new Builder<Velocity, Imperial<TUnit>>(in value);
     }
     internal static Velocity From(in Power power, in Force force)
     {

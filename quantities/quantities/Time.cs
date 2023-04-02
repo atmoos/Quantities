@@ -10,7 +10,7 @@ public readonly struct Time : IQuantity<Time>, ITime
     , IMultiplyOperators<Time, Power, Energy>
     , IMultiplyOperators<Time, Velocity, Length>
     , IMultiplyOperators<Time, DataRate, Data>
-// ToDo: Can't apply ISi, or IOther interfaces...
+// ToDo: Can't apply ISi, or INoSystem interfaces...
 {
     private static readonly Creator create = new();
     private readonly Quant quant;

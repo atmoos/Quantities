@@ -1,5 +1,5 @@
 using Quantities.Units.Imperial.Area;
-using Quantities.Units.Other.Area;
+using Quantities.Units.NonStandard.Area;
 using Quantities.Units.Si.Metric;
 
 namespace Quantities.Test;
@@ -140,7 +140,7 @@ public class AreaTest
     [Fact]
     public void MorgenToHectare()
     {
-        Area morgen = Area.Other<Morgen>(2);
+        Area morgen = Area.NonStandard<Morgen>(2);
         Area expected = Area.Square<Metre>(5000);
 
         Area actual = morgen.ToSquare<Metre>();

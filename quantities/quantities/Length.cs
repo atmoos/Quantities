@@ -34,7 +34,7 @@ public readonly struct Length : IQuantity<Length>, ILength
     public Length ToImperial<TUnit>()
     where TUnit : IImperial, ILength
     {
-        return new(this.quant.As<Other<TUnit>>());
+        return new(this.quant.As<Imperial<TUnit>>());
     }
     public static Length Si<TUnit>(in Double value)
         where TUnit : ISiBaseUnit, ILength
@@ -50,7 +50,7 @@ public readonly struct Length : IQuantity<Length>, ILength
     public static Length Imperial<TUnit>(in Double value)
     where TUnit : IImperial, ILength
     {
-        return new(value.As<Other<TUnit>>());
+        return new(value.As<Imperial<TUnit>>());
     }
     internal static Length From(in Area area, in Length length)
     {

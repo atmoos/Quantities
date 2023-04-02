@@ -79,7 +79,7 @@ public sealed class VelocityTest
         actual.Matches(expected);
     }
     [Fact]
-    public void VelocityFromDivisionOfLengthWithTime_OtherUnits()
+    public void VelocityFromDivisionOfLengthWithTime_ImperialUnits()
     {
         Length length = Length.Imperial<Mile>(18);
         Time time = Time.In<Hour>(2);

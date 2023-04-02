@@ -13,7 +13,7 @@ public readonly struct Gallon : IImperial, IVolume<ILength>, IInjectUnit<ILength
     static T IInjectUnit<ILength>.Inject<T>(in Creator<ILength, T> inject, in Double self)
     {
         const Double galToCuFt = ToCuMetre / (Foot.ToMetre * Foot.ToMetre * Foot.ToMetre);
-        return inject.Other<Foot>(galToCuFt * self);
+        return inject.Imperial<Foot>(galToCuFt * self);
     }
     public static String Representation => "gal";
 }

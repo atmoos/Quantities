@@ -3,7 +3,7 @@ using Quantities.Dimensions;
 using Quantities.Measures;
 using Quantities.Prefixes;
 using Quantities.Units.Imperial;
-using Quantities.Units.Other;
+using Quantities.Units.NonStandard;
 using Quantities.Units.Si;
 using Quantities.Units.Si.Derived;
 
@@ -13,7 +13,7 @@ public readonly struct Force : IQuantity<Force>, IForce<Mass, Length, Time>
     , ISiDerived<Force, IForce>
     , IImperial<Force, IForce>
     , IMetric<Force, IForce>
-    , IOther<Force, IForce>
+    , INoSystem<Force, IForce>
     , IMultiplyOperators<Force, Velocity, Power>
 {
     private static readonly Creator create = new();
@@ -44,12 +44,12 @@ public readonly struct Force : IQuantity<Force>, IForce<Mass, Length, Time>
     public Force ToImperial<TUnit>()
         where TUnit : IImperial, IForce
     {
-        return new(this.quant.As<Other<TUnit>>());
+        return new(this.quant.As<Imperial<TUnit>>());
     }
-    public Force ToOther<TUnit>()
-        where TUnit : IOther, IForce
+    public Force ToNonStandard<TUnit>()
+        where TUnit : INoSystem, IForce
     {
-        return new(this.quant.As<Other<TUnit>>());
+        return new(this.quant.As<NonStandard<TUnit>>());
     }
     public static Force Si<TUnit>(in Double value)
         where TUnit : ISiDerivedUnit, IForce
@@ -76,12 +76,12 @@ public readonly struct Force : IQuantity<Force>, IForce<Mass, Length, Time>
     public static Force Imperial<TUnit>(in Double value)
         where TUnit : IImperial, IForce
     {
-        return new(value.As<Other<TUnit>>());
+        return new(value.As<Imperial<TUnit>>());
     }
-    public static Force Other<TUnit>(in Double value)
-        where TUnit : IOther, IForce
+    public static Force NonStandard<TUnit>(in Double value)
+        where TUnit : INoSystem, IForce
     {
-        return new(value.As<Other<TUnit>>());
+        return new(value.As<NonStandard<TUnit>>());
     }
 
     internal static Force From(in Power power, in Velocity velocity)

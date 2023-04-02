@@ -118,7 +118,7 @@ public sealed class LengthTest
         actual.Matches(expected);
     }
     [Fact]
-    public void OtherLengthByOtherLengthIsOtherArea()
+    public void ImperialLengthByImperialLengthIsImperialArea()
     {
         Length length = Length.Imperial<Mile>(2);
         Length width = Length.Imperial<Yard>(1760 / 2);
@@ -152,7 +152,7 @@ public sealed class LengthTest
         actual.Matches(expected);
     }
     [Fact]
-    public void SiLengthByOtherTimeIsVelocity()
+    public void SiLengthByImperialTimeIsVelocity()
     {
         Length distance = Length.Si<Kilo, Metre>(120);
         Time duration = Time.In<Hour>(10);
@@ -163,7 +163,7 @@ public sealed class LengthTest
         actual.Matches(expected);
     }
     [Fact]
-    public void OtherLengthByTimeIsVelocity()
+    public void ImperialLengthByTimeIsVelocity()
     {
         Length distance = Length.Imperial<Mile>(70);
         Time duration = Time.In<Hour>(2);

@@ -1,4 +1,6 @@
 using Quantities.Measures;
+using Quantities.Units.Imperial;
+using Quantities.Units.NonStandard;
 using Quantities.Units.Si;
 
 namespace Quantities.Units;
@@ -26,8 +28,12 @@ public readonly ref struct Creator<TAlias, T>
     {
         return this.creator.Create<Metric<TInjectedUnit>>(in value);
     }
-    public T Other<TInjectedUnit>(in Double value) where TInjectedUnit : IUnit, ITransform, TAlias
+    public T Imperial<TInjectedUnit>(in Double value) where TInjectedUnit : IImperial, ITransform, TAlias
     {
-        return this.creator.Create<Other<TInjectedUnit>>(in value);
+        return this.creator.Create<Imperial<TInjectedUnit>>(in value);
+    }
+    public T NonStandard<TInjectedUnit>(in Double value) where TInjectedUnit : INoSystem, ITransform, TAlias
+    {
+        return this.creator.Create<NonStandard<TInjectedUnit>>(in value);
     }
 }

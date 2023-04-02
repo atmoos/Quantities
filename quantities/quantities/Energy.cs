@@ -37,7 +37,7 @@ public readonly struct Energy : IQuantity<Energy>, IEnergy<Mass, Length, Time>
     public Energy ToImperial<TUnit>()
         where TUnit : IImperial, IEnergy
     {
-        return new(this.quant.As<Other<TUnit>>());
+        return new(this.quant.As<Imperial<TUnit>>());
     }
     public static Energy Si<TUnit>(in Double value)
         where TUnit : ISiDerivedUnit, IEnergy
@@ -75,7 +75,7 @@ public readonly struct Energy : IQuantity<Energy>, IEnergy<Mass, Length, Time>
     public static Energy Imperial<TUnit>(in Double value)
         where TUnit : IImperial, IEnergy
     {
-        return new(value.As<Other<TUnit>>());
+        return new(value.As<Imperial<TUnit>>());
     }
     internal static Energy From(in Power power, in Time time) => new(power.Quant.Multiply(time.Quant));
 

@@ -2,7 +2,7 @@
 using Quantities.Measures;
 using Quantities.Prefixes;
 using Quantities.Units.Imperial;
-using Quantities.Units.Other;
+using Quantities.Units.NonStandard;
 using Quantities.Units.Si;
 using Quantities.Units.Si.Derived;
 
@@ -11,7 +11,7 @@ namespace Quantities.Quantities;
 public readonly struct Temperature : IQuantity<Temperature>, ITemperature
     , ISi<Temperature, ITemperature>
     , IImperial<Temperature, ITemperature>
-    , IOther<Temperature, ITemperature>
+    , INoSystem<Temperature, ITemperature>
 {
     private readonly Quant quant;
     internal Quant Quant => this.quant;
@@ -31,12 +31,12 @@ public readonly struct Temperature : IQuantity<Temperature>, ITemperature
     public Temperature ToImperial<TUnit>()
         where TUnit : IImperial, ITemperature
     {
-        return new(this.quant.As<Other<TUnit>>());
+        return new(this.quant.As<Imperial<TUnit>>());
     }
-    public Temperature ToOther<TUnit>()
-        where TUnit : IOther, ITemperature
+    public Temperature ToNonStandard<TUnit>()
+        where TUnit : INoSystem, ITemperature
     {
-        return new(this.quant.As<Other<TUnit>>());
+        return new(this.quant.As<NonStandard<TUnit>>());
     }
     public static Temperature Si<TUnit>(in Double value)
         where TUnit : ISiBaseUnit, ITemperature
@@ -56,12 +56,12 @@ public readonly struct Temperature : IQuantity<Temperature>, ITemperature
     public static Temperature Imperial<TUnit>(in Double value)
         where TUnit : IImperial, ITemperature
     {
-        return new(value.As<Other<TUnit>>());
+        return new(value.As<Imperial<TUnit>>());
     }
-    public static Temperature Other<TUnit>(in Double value)
-        where TUnit : IOther, ITemperature
+    public static Temperature NonStandard<TUnit>(in Double value)
+        where TUnit : INoSystem, ITemperature
     {
-        return new(value.As<Other<TUnit>>());
+        return new(value.As<NonStandard<TUnit>>());
     }
 
     public Boolean Equals(Temperature other) => this.quant.Equals(other.quant);

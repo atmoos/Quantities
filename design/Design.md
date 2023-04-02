@@ -133,21 +133,53 @@ classDiagram
     }
 ```
 
-## Realization of Formulae
-
-U = R * I
-
-V = L / T
-
-etc...
-
-**ToDo!!!**
-
 ## Precision
 
 For now, double precision is used. Once all quantities are implemented, it may be considered making the underlying data type a generic parameter.
 
 For now, it is already complicated enough.
+
+## Realization of Physical Laws
+
+To enable "natural" use of quantities, common physical laws are realised through C# [operator overloading](https://learn.microsoft.com/en-gb/dotnet/csharp/language-reference/operators/operator-overloading).
+
+Modelling physical laws with a C# language construct has proven to be impossible (partially due to some C# language features), hence formulae are implemented using a convention:
+
+```text
+The type of the leftmost input parameter determines on which type the formula is to be implemented.
+```
+
+Say, Ohm's law ($V = R \cdot I$) is to be implemented. Then four separate formulae, in union consisting of Ohm's law, need to be implemented:
+
+- $V = R \cdot I$
+- $V = I \cdot R$
+- $R = V \, / \, I$
+- $I = V \, / \, R$
+
+ Hence, this results in four overloads implemented on three structs:
+
+```csharp
+public readonly struct Voltage
+{
+    // ...
+    public static Resistance operator /(Voltage left, Current right);
+    public static Current operator /(Voltage left, Resistance right);
+}
+
+public readonly struct Current
+{
+    // ...
+    public static Voltage operator *(Current left, Resistance right);
+}
+
+public readonly struct Resistance
+{
+    // ...
+    public static Voltage operator *(Resistance left, Current right);
+}
+```
+
+This convention makes it easy to locate the relevant implementation in the source code.
 
 ## Definitions & Spelling
 

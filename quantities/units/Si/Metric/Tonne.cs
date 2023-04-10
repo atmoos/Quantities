@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using Quantities.Dimensions;
 using Quantities.Prefixes;
 

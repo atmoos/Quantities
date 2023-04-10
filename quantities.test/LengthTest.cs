@@ -152,7 +152,7 @@ public sealed class LengthTest
         actual.Matches(expected);
     }
     [Fact]
-    public void SiLengthByImperialTimeIsVelocity()
+    public void SiLengthByMetricTimeIsVelocity()
     {
         Length distance = Length.Si<Kilo, Metre>(120);
         Time duration = Time.In<Hour>(10);

@@ -38,7 +38,7 @@ public readonly struct Mass : IQuantity<Mass>, IMass
     public Mass ToImperial<TUnit>()
         where TUnit : IImperial, IMass
     {
-        return new(this.quant.As<Other<TUnit>>());
+        return new(this.quant.As<Imperial<TUnit>>());
     }
     public static Mass Kilogram(in Double value) => new(value.As<Si<Kilogram>>());
     public static Mass Si<TUnit>(in Double value)
@@ -65,7 +65,7 @@ public readonly struct Mass : IQuantity<Mass>, IMass
     public static Mass Imperial<TUnit>(in Double value)
         where TUnit : IImperial, IMass
     {
-        return new(value.As<Other<TUnit>>());
+        return new(value.As<Imperial<TUnit>>());
     }
 
     public Boolean Equals(Mass other) => this.quant.Equals(other.quant);

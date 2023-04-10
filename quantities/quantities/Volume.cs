@@ -40,12 +40,12 @@ public readonly struct Volume : IQuantity<Volume>, IVolume<Length>
     public Volume ToImperial<TUnit>()
         where TUnit : IImperial, IVolume<ILength>, IInjectUnit<ILength>
     {
-        return new(this.quant.As<Other<TUnit>, Alias<TUnit, ILength>>());
+        return new(this.quant.As<Imperial<TUnit>, Alias<TUnit, ILength>>());
     }
     public Volume ToCubicImperial<TLength>()
         where TLength : IImperial, ILength
     {
-        return new(this.quant.To<Cube, Other<TLength>>());
+        return new(this.quant.To<Cube, Imperial<TLength>>());
     }
     public static Volume Cubic<TUnit>(in Double value)
         where TUnit : ISiBaseUnit, ILength
@@ -72,12 +72,12 @@ public readonly struct Volume : IQuantity<Volume>, IVolume<Length>
     public static Volume Imperial<TVolume>(Double value)
         where TVolume : IImperial, IVolume<ILength>, IInjectUnit<ILength>
     {
-        return new(value.As<Other<TVolume>, Alias<TVolume, ILength>>());
+        return new(value.As<Imperial<TVolume>, Alias<TVolume, ILength>>());
     }
     public static Volume CubicImperial<TImperialUnit>(Double value)
         where TImperialUnit : IImperial, ILength
     {
-        return new(value.To<Cube, Other<TImperialUnit>>());
+        return new(value.To<Cube, Imperial<TImperialUnit>>());
     }
 
     public static Area operator /(Volume volume, Length length)

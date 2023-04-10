@@ -1,11 +1,11 @@
 ﻿using Quantities.Dimensions;
 using Quantities.Units.Transformation;
 
-namespace Quantities.Units.Other.Temperature;
+namespace Quantities.Units.NonStandard.Temperature;
 
 // [K] = [°N] × ​100⁄33 + 273.15
 // See: https://en.wikipedia.org/wiki/Conversion_of_units#Temperature
-public readonly struct Newton : IOther, ITemperature
+public readonly struct Newton : INoSystem, ITemperature
 {
     private static readonly LinearTransform transform = new(100m, 33m, 273.15m);
     public static Double ToSi(in Double nonSiValue) => transform.ToSi(in nonSiValue);

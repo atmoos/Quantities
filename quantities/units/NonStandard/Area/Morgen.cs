@@ -1,10 +1,10 @@
 using Quantities.Dimensions;
 using Quantities.Units.Si;
 
-namespace Quantities.Units.Other.Area;
+namespace Quantities.Units.NonStandard.Area;
 
 // See: https://de.wikipedia.org/wiki/Morgen_(Einheit)
-public readonly struct Morgen : IOther, IArea<ILength>, IInjectUnit<ILength>
+public readonly struct Morgen : INoSystem, IArea<ILength>, IInjectUnit<ILength>
 {
     internal const Double ToSquareMetre = 2500; // Mg -> m²
     public static Double ToSi(in Double value) => ToSquareMetre * value;

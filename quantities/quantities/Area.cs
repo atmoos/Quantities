@@ -5,7 +5,7 @@ using Quantities.Measures.Transformations;
 using Quantities.Prefixes;
 using Quantities.Units;
 using Quantities.Units.Imperial;
-using Quantities.Units.Other;
+using Quantities.Units.NonStandard;
 using Quantities.Units.Si;
 
 namespace Quantities.Quantities;
@@ -44,17 +44,17 @@ public readonly struct Area : IQuantity<Area>, IArea<Length>
     public Area ToImperial<TArea>()
         where TArea : IImperial, IArea<ILength>, IInjectUnit<ILength>
     {
-        return new(this.quant.As<Other<TArea>, Alias<TArea, ILength>>());
+        return new(this.quant.As<Imperial<TArea>, Alias<TArea, ILength>>());
     }
     public Area ToSquareImperial<TLength>()
         where TLength : IImperial, ILength
     {
-        return new(this.quant.To<Square, Other<TLength>>());
+        return new(this.quant.To<Square, Imperial<TLength>>());
     }
-    public Area ToOther<TArea>()
-        where TArea : IOther, IArea<ILength>, IInjectUnit<ILength>
+    public Area ToNonStandard<TArea>()
+        where TArea : INoSystem, IArea<ILength>, IInjectUnit<ILength>
     {
-        return new(this.quant.As<Other<TArea>, Alias<TArea, ILength>>());
+        return new(this.quant.As<NonStandard<TArea>, Alias<TArea, ILength>>());
     }
     public static Area Square<TUnit>(in Double value)
         where TUnit : ISiBaseUnit, ILength
@@ -81,17 +81,17 @@ public readonly struct Area : IQuantity<Area>, IArea<Length>
     public static Area SquareImperial<TLength>(Double value)
         where TLength : IImperial, ILength
     {
-        return new(value.To<Square, Other<TLength>>());
+        return new(value.To<Square, Imperial<TLength>>());
     }
     public static Area Imperial<TArea>(Double value)
         where TArea : IImperial, IArea<ILength>, IInjectUnit<ILength>
     {
-        return new(value.As<Other<TArea>, Alias<TArea, ILength>>());
+        return new(value.As<Imperial<TArea>, Alias<TArea, ILength>>());
     }
-    public static Area Other<TArea>(Double value)
-        where TArea : IOther, IArea<ILength>, IInjectUnit<ILength>
+    public static Area NonStandard<TArea>(Double value)
+        where TArea : INoSystem, IArea<ILength>, IInjectUnit<ILength>
     {
-        return new(value.As<Other<TArea>, Alias<TArea, ILength>>());
+        return new(value.As<NonStandard<TArea>, Alias<TArea, ILength>>());
     }
     internal static Area From(in Length left, in Length right)
     {

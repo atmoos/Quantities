@@ -1,4 +1,6 @@
 using Quantities.Units;
+using Quantities.Units.Imperial;
+using Quantities.Units.NonStandard;
 using Quantities.Units.Si;
 
 namespace Quantities.Measures;
@@ -22,8 +24,13 @@ internal interface ISiAccepted<in TUnit> : IMeasure
 {
     /* marker interface*/
 }
-internal interface IOtherMeasure<in TUnit> : IMeasure
-    where TUnit : IUnit, ITransform, IRepresentable
+internal interface IImperialMeasure<in TUnit> : IMeasure
+    where TUnit : IImperial, ITransform, IRepresentable
+{
+    /* marker interface*/
+}
+internal interface INonStandardMeasure<in TUnit> : IMeasure
+    where TUnit : INoSystem, ITransform, IRepresentable
 {
     /* marker interface*/
 }

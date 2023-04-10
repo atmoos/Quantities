@@ -1,5 +1,5 @@
 ﻿using Quantities.Units.Imperial.Temperature;
-using Quantities.Units.Other.Temperature;
+using Quantities.Units.NonStandard.Temperature;
 
 namespace Quantities.Test;
 
@@ -11,13 +11,13 @@ public sealed class TemperatureTest
     [Fact]
     public void CelsiusToString() => FormattingMatches(v => Temperature.Celsius(v), "°C");
     [Fact]
-    public void DelisleToString() => FormattingMatches(v => Temperature.Other<Delisle>(v), "°De");
+    public void DelisleToString() => FormattingMatches(v => Temperature.NonStandard<Delisle>(v), "°De");
     [Fact]
-    public void NewtonToString() => FormattingMatches(v => Temperature.Other<Newton>(v), "°N");
+    public void NewtonToString() => FormattingMatches(v => Temperature.NonStandard<Newton>(v), "°N");
     [Fact]
-    public void RéaumurToString() => FormattingMatches(v => Temperature.Other<Réaumur>(v), "°Ré");
+    public void RéaumurToString() => FormattingMatches(v => Temperature.NonStandard<Réaumur>(v), "°Ré");
     [Fact]
-    public void RømerToString() => FormattingMatches(v => Temperature.Other<Rømer>(v), "°Rø");
+    public void RømerToString() => FormattingMatches(v => Temperature.NonStandard<Rømer>(v), "°Rø");
     [Fact]
     public void FahrenheitToString() => FormattingMatches(v => Temperature.Imperial<Fahrenheit>(v), "°F");
     [Fact]
@@ -193,16 +193,16 @@ public sealed class TemperatureTest
     public void KelvinToDelisle()
     {
         Temperature temperature = Temperature.Si<Kelvin>(273.16);
-        Temperature expected = Temperature.Other<Delisle>(149.985);
+        Temperature expected = Temperature.NonStandard<Delisle>(149.985);
 
-        Temperature actual = temperature.ToOther<Delisle>();
+        Temperature actual = temperature.ToNonStandard<Delisle>();
 
         actual.Matches(expected);
     }
     [Fact]
     public void DelisleToKelvin()
     {
-        Temperature temperature = Temperature.Other<Delisle>(176.67);
+        Temperature temperature = Temperature.NonStandard<Delisle>(176.67);
         Temperature expected = Temperature.Si<Kelvin>(255.37);
 
         Temperature actual = temperature.To<Kelvin>();
@@ -213,16 +213,16 @@ public sealed class TemperatureTest
     public void KelvinToNewton()
     {
         Temperature temperature = Temperature.Si<Kelvin>(373.15);
-        Temperature expected = Temperature.Other<Newton>(33);
+        Temperature expected = Temperature.NonStandard<Newton>(33);
 
-        Temperature actual = temperature.ToOther<Newton>();
+        Temperature actual = temperature.ToNonStandard<Newton>();
 
         actual.Matches(expected);
     }
     [Fact]
     public void NewtonToKelvin()
     {
-        Temperature temperature = Temperature.Other<Newton>(0);
+        Temperature temperature = Temperature.NonStandard<Newton>(0);
         Temperature expected = Temperature.Si<Kelvin>(273.15);
 
         Temperature actual = temperature.To<Kelvin>();
@@ -233,16 +233,16 @@ public sealed class TemperatureTest
     public void KelvinToRéaumur()
     {
         Temperature temperature = Temperature.Si<Kelvin>(1941);
-        Temperature expected = Temperature.Other<Réaumur>(1334.28);
+        Temperature expected = Temperature.NonStandard<Réaumur>(1334.28);
 
-        Temperature actual = temperature.ToOther<Réaumur>();
+        Temperature actual = temperature.ToNonStandard<Réaumur>();
 
         actual.Matches(expected);
     }
     [Fact]
     public void RéaumurToKelvin()
     {
-        Temperature temperature = Temperature.Other<Réaumur>(-14.22);
+        Temperature temperature = Temperature.NonStandard<Réaumur>(-14.22);
         Temperature expected = Temperature.Si<Kelvin>(255.375);
 
         Temperature actual = temperature.To<Kelvin>();
@@ -253,16 +253,16 @@ public sealed class TemperatureTest
     public void KelvinToRømer()
     {
         Temperature temperature = Temperature.Si<Kelvin>(255.37);
-        Temperature expected = Temperature.Other<Rømer>(-1.8345);
+        Temperature expected = Temperature.NonStandard<Rømer>(-1.8345);
 
-        Temperature actual = temperature.ToOther<Rømer>();
+        Temperature actual = temperature.ToNonStandard<Rømer>();
 
         actual.Matches(expected);
     }
     [Fact]
     public void RømerToKelvin()
     {
-        Temperature temperature = Temperature.Other<Rømer>(7.50525);
+        Temperature temperature = Temperature.NonStandard<Rømer>(7.50525);
         Temperature expected = Temperature.Si<Kelvin>(273.16);
 
         Temperature actual = temperature.To<Kelvin>();

@@ -3,12 +3,15 @@ using Quantities.Dimensions;
 using Quantities.Measures;
 using Quantities.Measures.Transformations;
 using Quantities.Prefixes;
+using Quantities.Systems;
 using Quantities.Units.Imperial;
 using Quantities.Units.Si;
 
 namespace Quantities.Quantities;
 
 public readonly struct Length : IQuantity<Length>, ILength
+    , IQuantityBuilder<Linear<Length, ILength>>
+    , IQuantityFactory<Length, ILength>
     , ISi<Length, ILength>
     , IImperial<Length, ILength>
     , IMultiplyOperators<Length, Length, Area>
@@ -19,6 +22,7 @@ public readonly struct Length : IQuantity<Length>, ILength
     private static readonly ICreate<Quant> linear = new ToLinear();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
+    Quant IQuantityFactory<Length, ILength>.Quant => this.quant;
     private Length(in Quant quant) => this.quant = quant;
     public Length To<TUnit>()
         where TUnit : ISiBaseUnit, ILength
@@ -36,6 +40,7 @@ public readonly struct Length : IQuantity<Length>, ILength
     {
         return new(this.quant.As<Imperial<TUnit>>());
     }
+    static Length IQuantityFactory<Length, ILength>.Create(in Quant quant) => new(in quant);
     public static Length Si<TUnit>(in Double value)
         where TUnit : ISiBaseUnit, ILength
     {
@@ -74,6 +79,8 @@ public readonly struct Length : IQuantity<Length>, ILength
     public override Int32 GetHashCode() => this.quant.GetHashCode();
     public override String ToString() => this.quant.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.quant.ToString(format, provider);
+
+    public static Linear<Length, ILength> Of(in Double value) => new(in value);
 
     public static Boolean operator ==(Length left, Length right) => left.Equals(right);
     public static Boolean operator !=(Length left, Length right) => !left.Equals(right);

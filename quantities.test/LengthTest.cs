@@ -143,6 +143,7 @@ public sealed class LengthTest
     [Fact]
     public void SiLengthBySiTimeIsVelocity()
     {
+        Length a = Length.Of(3).Si<Milli, Metre>();
         Length distance = Length.Si<Milli, Metre>(100);
         Time duration = Time.Seconds(20);
         Velocity expected = Velocity.Si<Milli, Metre>(5).PerSecond();

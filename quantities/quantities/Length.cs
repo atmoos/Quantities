@@ -21,6 +21,7 @@ public readonly struct Length : IQuantity<Length>, ILength
     private static readonly ICreate<Quant> linear = new ToLinear();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
+    Quant IQuantityFactory<Length, ILength>.Quant => this.quant;
     private Length(in Quant quant) => this.quant = quant;
     public Length To<TUnit>()
         where TUnit : ISiUnit, ILength

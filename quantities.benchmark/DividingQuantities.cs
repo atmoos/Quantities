@@ -20,7 +20,7 @@ public class DividingQuantities
     private Area imperialPureArea = Area.Imperial<Acre>(23);
     private Volume imperialVolume = Volume.CubicImperial<Mile>(-3);
     private Area imperialArea = Area.SquareImperial<Yard>(55);
-    private ElectricPotential potential = ElectricPotential.Si<Kilo, Volt>(33);
+    private ElectricPotential potential = ElectricPotential.Of(33).Si<Kilo, Volt>();
     private ElectricCurrent current = ElectricCurrent.Si<Deca, Ampere>(98);
     private Trivial<Metre> largeTrivial = Trivial<Metre>.Si(Prefix.Kilo, 3);
     private Trivial<Metre> smallTrivial = Trivial<Metre>.Si(Prefix.Micro, 12);

@@ -14,7 +14,7 @@ public sealed class PowerTest
     [Fact]
     public void PowerLawInBaseUnits()
     {
-        ElectricPotential volts = ElectricPotential.Si<Volt>(12);
+        ElectricPotential volts = ElectricPotential.Of(12).Si<Volt>();
         ElectricCurrent ampere = ElectricCurrent.Si<Ampere>(3);
         Power expected = Power.Si<Watt>(36);
 
@@ -25,7 +25,7 @@ public sealed class PowerTest
     [Fact]
     public void OhmsLawInPrefixedUnits()
     {
-        ElectricPotential volts = ElectricPotential.Si<Kilo, Volt>(70);
+        ElectricPotential volts = ElectricPotential.Of(70).Si<Kilo, Volt>();
         ElectricCurrent ampere = ElectricCurrent.Si<Milli, Ampere>(300);
         Power expected = Power.Si<Kilo, Watt>(21);
 
@@ -36,7 +36,7 @@ public sealed class PowerTest
     [Fact]
     public void OhmsLawSquarePotentialPerResistance()
     {
-        ElectricPotential volts = ElectricPotential.Si<Kilo, Volt>(0.6);
+        ElectricPotential volts = ElectricPotential.Of(0.6).Si<Kilo, Volt>();
         ElectricalResistance ohm = ElectricalResistance.Si<Kilo, Ohm>(3);
         Power expected = Power.Si<Watt>(120);
 

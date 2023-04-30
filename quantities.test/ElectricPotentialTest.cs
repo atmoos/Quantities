@@ -5,17 +5,17 @@ namespace Quantities.Test;
 public sealed class ElectricPotentialTest
 {
     [Fact]
-    public void VoltToString() => FormattingMatches(v => ElectricPotential.Si<Volt>(v), "V");
+    public void VoltToString() => FormattingMatches(v => ElectricPotential.Of(v).Si<Volt>(), "V");
     [Fact]
-    public void MegaVoltToString() => FormattingMatches(v => ElectricPotential.Si<Mega, Volt>(v), "MV");
+    public void MegaVoltToString() => FormattingMatches(v => ElectricPotential.Of(v).Si<Mega, Volt>(), "MV");
     [Fact]
-    public void MilliVoltToString() => FormattingMatches(v => ElectricPotential.Si<Milli, Volt>(v), "mV");
+    public void MilliVoltToString() => FormattingMatches(v => ElectricPotential.Of(v).Si<Milli, Volt>(), "mV");
     [Fact]
     public void OhmsLawInBaseUnits()
     {
         ElectricalResistance ohm = ElectricalResistance.Si<Ohm>(7);
         ElectricCurrent ampere = ElectricCurrent.Si<Ampere>(3);
-        ElectricPotential expected = ElectricPotential.Si<Volt>(21);
+        ElectricPotential expected = ElectricPotential.Of(21).Si<Volt>();
 
         ElectricPotential potential = ohm * ampere;
 
@@ -26,7 +26,7 @@ public sealed class ElectricPotentialTest
     {
         ElectricalResistance ohm = ElectricalResistance.Si<Kilo, Ohm>(7);
         ElectricCurrent ampere = ElectricCurrent.Si<Micro, Ampere>(3);
-        ElectricPotential expected = ElectricPotential.Si<Milli, Volt>(21);
+        ElectricPotential expected = ElectricPotential.Of(21).Si<Milli, Volt>();
 
         ElectricPotential potential = ohm * ampere;
 
@@ -39,7 +39,7 @@ public sealed class ElectricPotentialTest
         ElectricCurrent ampere = ElectricCurrent.Si<Kilo, Ampere>(3);
 
         // 7e1Ω * 3e3A = 21e4V, since e4 is no prefix: expect 210e3 V
-        ElectricPotential expected = ElectricPotential.Si<Kilo, Volt>(210);
+        ElectricPotential expected = ElectricPotential.Of(210).Si<Kilo, Volt>();
 
         ElectricPotential potential = ohm * ampere;
 
@@ -50,7 +50,7 @@ public sealed class ElectricPotentialTest
     {
         Power watts = Power.Si<Watt>(1380);
         ElectricCurrent ampere = ElectricCurrent.Si<Ampere>(6);
-        ElectricPotential expected = ElectricPotential.Si<Volt>(230);
+        ElectricPotential expected = ElectricPotential.Of(230).Si<Volt>();
 
         ElectricPotential potential = watts / ampere;
 
@@ -60,11 +60,11 @@ public sealed class ElectricPotentialTest
     public void PowerLawInPrefixedUnits()
     {
         Power watts = Power.Si<Mega, Watt>(9);
-        _ = ElectricPotential.Si<Kilo, Volt>(15);
+        _ = ElectricPotential.Of(15).Si<Kilo, Volt>();
         ElectricCurrent ampere = ElectricCurrent.Si<Ampere>(600);
 
         // ToDo: Implement rounding based on value!
-        ElectricPotential expected = ElectricPotential.Si<Kilo, Volt>(15);
+        ElectricPotential expected = ElectricPotential.Of(15).Si<Kilo, Volt>();
 
         ElectricPotential potential = watts / ampere;
 

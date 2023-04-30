@@ -13,7 +13,7 @@ public sealed class ElectricCurrentTest
     [Fact]
     public void OhmsLawInBaseUnits()
     {
-        ElectricPotential volts = ElectricPotential.Si<Volt>(12);
+        ElectricPotential volts = ElectricPotential.Of(12).Si<Volt>();
         ElectricalResistance ohm = ElectricalResistance.Si<Ohm>(3);
         ElectricCurrent expected = ElectricCurrent.Si<Ampere>(4);
 
@@ -24,7 +24,7 @@ public sealed class ElectricCurrentTest
     [Fact]
     public void OhmsLawInPrefixedUnits()
     {
-        ElectricPotential volts = ElectricPotential.Si<Kilo, Volt>(12);
+        ElectricPotential volts = ElectricPotential.Of(12).Si<Kilo, Volt>();
         ElectricalResistance ohm = ElectricalResistance.Si<Mega, Ohm>(3);
         ElectricCurrent expected = ElectricCurrent.Si<Milli, Ampere>(4);
 
@@ -36,7 +36,7 @@ public sealed class ElectricCurrentTest
     public void PowerLawInBaseUnits()
     {
         Power watts = Power.Si<Watt>(1380);
-        ElectricPotential volts = ElectricPotential.Si<Volt>(230);
+        ElectricPotential volts = ElectricPotential.Of(230).Si<Volt>();
         ElectricCurrent expected = ElectricCurrent.Si<Ampere>(6);
 
         ElectricCurrent current = watts / volts;
@@ -47,7 +47,7 @@ public sealed class ElectricCurrentTest
     public void PowerLawInPrefixedUnits()
     {
         Power watts = Power.Si<Mega, Watt>(9);
-        ElectricPotential volts = ElectricPotential.Si<Kilo, Volt>(15);
+        ElectricPotential volts = ElectricPotential.Of(15).Si<Kilo, Volt>();
         ElectricCurrent expected = ElectricCurrent.Si<Ampere>(600);
 
         ElectricCurrent current = watts / volts;

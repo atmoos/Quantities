@@ -2,6 +2,7 @@
 using Quantities.Dimensions;
 using Quantities.Measures;
 using Quantities.Prefixes;
+using Quantities.Quantities.Roots;
 using Quantities.Units.Imperial;
 using Quantities.Units.Si;
 using Quantities.Units.Si.Derived;
@@ -18,7 +19,7 @@ public readonly struct Power : IQuantity<Power>, IPower
     , IDivisionOperators<Power, Force, Velocity>
     , IDivisionOperators<Power, Velocity, Force>
 {
-    private static readonly Creator create = new();
+    private static readonly IRoot root = new UnitRoot<Watt>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     private Power(in Quant quant) => this.quant = quant;
@@ -79,15 +80,15 @@ public readonly struct Power : IQuantity<Power>, IPower
 
     internal static Power From(in ElectricPotential potential, in ElectricCurrent current)
     {
-        return new(MetricPrefix.ScaleThree(potential.Quant.SiMultiply(current.Quant), create));
+        return new(MetricPrefix.ScaleThree(potential.Quant.SiMultiply(current.Quant), root));
     }
     internal static Power From(in Force force, in Velocity velocity)
     {
-        return new(MetricPrefix.ScaleThree(force.Quant.SiMultiply(velocity.Quant), create));
+        return new(MetricPrefix.ScaleThree(force.Quant.SiMultiply(velocity.Quant), root));
     }
     internal static Power From(in Energy energy, in Time time)
     {
-        return new(MetricPrefix.ScaleThree(energy.Quant.SiDivide(time.Quant), create));
+        return new(MetricPrefix.ScaleThree(energy.Quant.SiDivide(time.Quant), root));
     }
 
     public Boolean Equals(Power other) => this.quant.Equals(other.quant);
@@ -111,10 +112,4 @@ public readonly struct Power : IQuantity<Power>, IPower
     public static Velocity operator /(Power power, Force force) => Velocity.From(in power, in force);
     public static Force operator /(Power power, Velocity velocity) => Force.From(in power, in velocity);
     public static Energy operator *(Power left, Time right) => Energy.From(in left, in right);
-
-    private sealed class Creator : IPrefixInject<Quant>
-    {
-        public Quant Identity(in Double value) => value.As<Si<Watt>>();
-        public Quant Inject<TPrefix>(in Double value) where TPrefix : IPrefix => value.As<Si<TPrefix, Watt>>();
-    }
 }

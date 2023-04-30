@@ -2,6 +2,7 @@
 using Quantities.Dimensions;
 using Quantities.Measures;
 using Quantities.Prefixes;
+using Quantities.Quantities.Roots;
 using Quantities.Units.Si;
 using Quantities.Units.Si.Derived;
 
@@ -11,7 +12,7 @@ public readonly struct ElectricalResistance : IQuantity<ElectricalResistance>, I
     , ISi<ElectricalResistance, IElectricalResistance>
     , IMultiplyOperators<ElectricalResistance, ElectricCurrent, ElectricPotential>
 {
-    private static readonly Creator create = new();
+    private static readonly IRoot root = new UnitRoot<Ohm>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     private ElectricalResistance(in Quant quant) => this.quant = quant;
@@ -45,7 +46,7 @@ public readonly struct ElectricalResistance : IQuantity<ElectricalResistance>, I
     public String ToString(String? format, IFormatProvider? provider) => this.quant.ToString(format, provider);
     internal static ElectricalResistance From(in ElectricPotential potential, in ElectricCurrent current)
     {
-        return new(MetricPrefix.ScaleThree(potential.Quant.SiDivide(current.Quant), create));
+        return new(MetricPrefix.ScaleThree(potential.Quant.SiDivide(current.Quant), root));
     }
     public static Boolean operator ==(ElectricalResistance left, ElectricalResistance right) => left.Equals(right);
     public static Boolean operator !=(ElectricalResistance left, ElectricalResistance right) => !left.Equals(right);
@@ -59,10 +60,4 @@ public readonly struct ElectricalResistance : IQuantity<ElectricalResistance>, I
 
     // Ohm's Law
     public static ElectricPotential operator *(ElectricalResistance resistance, ElectricCurrent current) => ElectricPotential.From(in current, in resistance);
-
-    private sealed class Creator : IPrefixInject<Quant>
-    {
-        public Quant Identity(in Double value) => value.As<Si<Ohm>>();
-        public Quant Inject<TPrefix>(in Double value) where TPrefix : IPrefix => value.As<Si<TPrefix, Ohm>>();
-    }
 }

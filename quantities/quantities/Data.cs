@@ -2,6 +2,7 @@ using System.Numerics;
 using Quantities.Dimensions;
 using Quantities.Measures;
 using Quantities.Prefixes;
+using Quantities.Quantities.Roots;
 using Quantities.Units.Si;
 
 namespace Quantities.Quantities;
@@ -20,7 +21,7 @@ namespace Quantities.Quantities;
 public readonly struct Data : IQuantity<Data>, IAmountOfInformation
     , IDivisionOperators<Data, Time, DataRate>
 {
-    private static readonly Creator create = new();
+    private static readonly IRoot root = new Creator();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     private Data(in Quant quant) => this.quant = quant;
@@ -47,9 +48,9 @@ public readonly struct Data : IQuantity<Data>, IAmountOfInformation
 
     internal static Data From(in Time time, in DataRate rate)
     {
-        // ToDo: Recover data units form data rate
+        // ToDo: Recover data units from data rate
         Double bytes = Units.Si.Metric.Byte.FromSi(time.Quant.SiMultiply(rate.Quant));
-        return new(BinaryPrefix.Scale(in bytes, create));
+        return new(BinaryPrefix.Scale(in bytes, root));
     }
 
     public Boolean Equals(Data other) => this.quant.Equals(other.quant);
@@ -70,8 +71,11 @@ public readonly struct Data : IQuantity<Data>, IAmountOfInformation
 
     public static DataRate operator /(Data left, Time right) => DataRate.From(in left, in right);
 
-    private sealed class Creator : IPrefixInject<Quant>
+    private sealed class Creator : IRoot
     {
+        public static Quant One { get; } = 1d.As<Metric<Units.Si.Metric.Byte>>();
+        public static Quant Zero { get; } = 0d.As<Metric<Units.Si.Metric.Byte>>();
+
         // As bytes are way more common, use them to create data values by default.
         public Quant Identity(in Double value) => value.As<Metric<Units.Si.Metric.Byte>>();
         public Quant Inject<TPrefix>(in Double value) where TPrefix : IPrefix => value.As<Metric<TPrefix, Units.Si.Metric.Byte>>();

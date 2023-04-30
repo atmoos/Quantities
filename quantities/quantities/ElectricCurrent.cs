@@ -2,6 +2,7 @@
 using Quantities.Dimensions;
 using Quantities.Measures;
 using Quantities.Prefixes;
+using Quantities.Quantities.Roots;
 using Quantities.Units.Si;
 
 namespace Quantities.Quantities;
@@ -11,7 +12,7 @@ public readonly struct ElectricCurrent : IQuantity<ElectricCurrent>, IElectricCu
     , IMultiplyOperators<ElectricCurrent, ElectricPotential, Power>
     , IMultiplyOperators<ElectricCurrent, ElectricalResistance, ElectricPotential>
 {
-    private static readonly Creator create = new();
+    private static readonly IRoot root = new UnitRoot<Ampere>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     private ElectricCurrent(in Quant quant) => this.quant = quant;
@@ -45,11 +46,11 @@ public readonly struct ElectricCurrent : IQuantity<ElectricCurrent>, IElectricCu
     public override String ToString() => this.quant.ToString();
     internal static ElectricCurrent From(in ElectricPotential potential, in ElectricalResistance resistance)
     {
-        return new(MetricPrefix.ScaleThree(potential.Quant.SiDivide(resistance.Quant), create));
+        return new(MetricPrefix.ScaleThree(potential.Quant.SiDivide(resistance.Quant), root));
     }
     internal static ElectricCurrent From(in Power power, in ElectricPotential potential)
     {
-        return new(MetricPrefix.ScaleThree(power.Quant.SiDivide(potential.Quant), create));
+        return new(MetricPrefix.ScaleThree(power.Quant.SiDivide(potential.Quant), root));
     }
     public static Boolean operator ==(ElectricCurrent left, ElectricCurrent right) => left.Equals(right);
     public static Boolean operator !=(ElectricCurrent left, ElectricCurrent right) => !left.Equals(right);
@@ -64,10 +65,4 @@ public readonly struct ElectricCurrent : IQuantity<ElectricCurrent>, IElectricCu
     // Ohm's Law
     public static ElectricPotential operator *(ElectricCurrent current, ElectricalResistance resistance) => ElectricPotential.From(in current, in resistance);
     public static Power operator *(ElectricCurrent left, ElectricPotential right) => Power.From(in right, in left);
-
-    private sealed class Creator : IPrefixInject<Quant>
-    {
-        public Quant Identity(in Double value) => value.As<Si<Ampere>>();
-        public Quant Inject<TPrefix>(in Double value) where TPrefix : IPrefix => value.As<Si<TPrefix, Ampere>>();
-    }
 }

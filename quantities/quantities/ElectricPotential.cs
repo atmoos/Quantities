@@ -2,6 +2,7 @@
 using Quantities.Dimensions;
 using Quantities.Measures;
 using Quantities.Prefixes;
+using Quantities.Quantities.Roots;
 using Quantities.Units.Si;
 using Quantities.Units.Si.Derived;
 
@@ -13,8 +14,7 @@ public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectr
     , IDivisionOperators<ElectricPotential, ElectricCurrent, ElectricalResistance>
     , IDivisionOperators<ElectricPotential, ElectricalResistance, ElectricCurrent>
 {
-    // ToDo: Create a generic version of the Creator!
-    private static readonly Creator create = new();
+    private static readonly IRoot root = new UnitRoot<Volt>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     private ElectricPotential(in Quant quant) => this.quant = quant;
@@ -48,13 +48,13 @@ public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectr
     public override String ToString() => this.quant.ToString();
     internal static ElectricPotential From(in ElectricCurrent current, in ElectricalResistance resistance)
     {
-        return new(MetricPrefix.ScaleThree(current.Quant.SiMultiply(resistance.Quant), create));
+        return new(MetricPrefix.ScaleThree(current.Quant.SiMultiply(resistance.Quant), root));
     }
     internal static ElectricPotential From(in Power power, in ElectricCurrent current)
     {
         Double siPower = power.To<Watt>();
         Double siCurrent = current.To<Ampere>();
-        return new(MetricPrefix.ScaleThree(siPower / siCurrent, create));
+        return new(MetricPrefix.ScaleThree(siPower / siCurrent, root));
     }
 
     public static Boolean operator ==(ElectricPotential left, ElectricPotential right) => left.Equals(right);
@@ -74,10 +74,4 @@ public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectr
     #endregion Ohm's Law
 
     public static Power operator *(ElectricPotential left, ElectricCurrent right) => Power.From(in left, in right);
-
-    private sealed class Creator : IPrefixInject<Quant>
-    {
-        public Quant Identity(in Double value) => value.As<Si<Volt>>();
-        public Quant Inject<TPrefix>(in Double value) where TPrefix : IPrefix => value.As<Si<TPrefix, Volt>>();
-    }
 }

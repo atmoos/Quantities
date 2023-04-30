@@ -2,6 +2,7 @@ using System.Numerics;
 using Quantities.Dimensions;
 using Quantities.Measures;
 using Quantities.Prefixes;
+using Quantities.Quantities.Roots;
 using Quantities.Units.Imperial;
 using Quantities.Units.NonStandard;
 using Quantities.Units.Si;
@@ -16,7 +17,7 @@ public readonly struct Force : IQuantity<Force>, IForce<Mass, Length, Time>
     , INoSystem<Force, IForce>
     , IMultiplyOperators<Force, Velocity, Power>
 {
-    private static readonly Creator create = new();
+    private static readonly IRoot root = new UnitRoot<Newton>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     private Force(in Quant quant) => this.quant = quant;
@@ -86,7 +87,7 @@ public readonly struct Force : IQuantity<Force>, IForce<Mass, Length, Time>
 
     internal static Force From(in Power power, in Velocity velocity)
     {
-        return new(MetricPrefix.ScaleThree(power.Quant.SiDivide(velocity.Quant), create));
+        return new(MetricPrefix.ScaleThree(power.Quant.SiDivide(velocity.Quant), root));
     }
 
     public Boolean Equals(Force other) => this.quant.Equals(other.quant);
@@ -106,10 +107,4 @@ public readonly struct Force : IQuantity<Force>, IForce<Mass, Length, Time>
     public static Double operator /(Force left, Force right) => left.quant / right.quant;
 
     public static Power operator *(Force force, Velocity velocity) => Power.From(in force, in velocity);
-
-    private sealed class Creator : IPrefixInject<Quant>
-    {
-        public Quant Identity(in Double value) => value.As<Si<Newton>>();
-        public Quant Inject<TPrefix>(in Double value) where TPrefix : IPrefix => value.As<Si<TPrefix, Newton>>();
-    }
 }

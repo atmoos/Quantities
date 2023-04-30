@@ -2,6 +2,7 @@ using System.Numerics;
 using Quantities.Dimensions;
 using Quantities.Measures;
 using Quantities.Prefixes;
+using Quantities.Quantities.Roots;
 using Quantities.Units.Si;
 
 namespace Quantities.Quantities;
@@ -12,7 +13,7 @@ public readonly struct Time : IQuantity<Time>, ITime
     , IMultiplyOperators<Time, DataRate, Data>
 // ToDo: Can't apply ISi, or INoSystem interfaces...
 {
-    private static readonly Creator create = new();
+    private static readonly IRoot root = new UnitRoot<Second>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     private Time(in Quant quant) => this.quant = quant;
@@ -45,7 +46,7 @@ public readonly struct Time : IQuantity<Time>, ITime
     internal static Time From(in Energy energy, in Power power)
     {
         // ToDo: Extract the time component!
-        return new(MetricPrefix.ScaleThree(energy.Quant.SiDivide(power.Quant), create));
+        return new(MetricPrefix.ScaleThree(energy.Quant.SiDivide(power.Quant), root));
     }
 
     public Boolean Equals(Time other) => this.quant.Equals(other.quant);
@@ -67,10 +68,4 @@ public readonly struct Time : IQuantity<Time>, ITime
 
     public static Length operator *(Time left, Velocity right) => Length.From(in right, in left);
     public static Data operator *(Time left, DataRate right) => Data.From(in left, in right);
-
-    private sealed class Creator : IPrefixInject<Quant>
-    {
-        public Quant Identity(in Double value) => value.As<Si<Second>>();
-        public Quant Inject<TPrefix>(in Double value) where TPrefix : IPrefix => value.As<Si<TPrefix, Second>>();
-    }
 }

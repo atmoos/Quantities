@@ -3,6 +3,7 @@ using Quantities.Dimensions;
 using Quantities.Measures;
 using Quantities.Prefixes;
 using Quantities.Quantities.Builders;
+using Quantities.Quantities.Roots;
 using Quantities.Units.Imperial;
 using Quantities.Units.Si;
 
@@ -12,7 +13,7 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity<Length, Time>
     , IMultiplyOperators<Velocity, Force, Power>
     , IMultiplyOperators<Velocity, Time, Length>
 {
-    private static readonly Creator create = new();
+    private static readonly IRoot root = new FractionalRoot<Metre, Second>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     internal Velocity(in Quant quant) => this.quant = quant;
@@ -46,7 +47,7 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity<Length, Time>
     }
     internal static Velocity From(in Power power, in Force force)
     {
-        return new(MetricPrefix.Scale(power.Quant.SiDivide(force.Quant), create));
+        return new(MetricPrefix.Scale(power.Quant.SiDivide(force.Quant), root));
     }
     internal static Velocity From(in Length length, in Time time) => new(length.Quant.Divide(time.Quant));
 
@@ -69,10 +70,4 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity<Length, Time>
 
     public static Power operator *(Velocity velocity, Force force) => Power.From(in force, in velocity);
     public static Length operator *(Velocity left, Time right) => Length.From(in left, in right);
-
-    private sealed class Creator : IPrefixInject<Quant>
-    {
-        public Quant Identity(in Double value) => value.AsFraction<Si<Metre>, Si<Second>>();
-        public Quant Inject<TPrefix>(in Double value) where TPrefix : IPrefix => value.AsFraction<Si<TPrefix, Metre>, Si<Second>>();
-    }
 }

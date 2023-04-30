@@ -8,7 +8,7 @@ using Quantities.Units.Si.Derived;
 namespace Quantities.Quantities;
 
 public readonly struct ElectricalResistance : IQuantity<ElectricalResistance>, IElectricalResistance
-    , ISiDerived<ElectricalResistance, IElectricalResistance>
+    , ISi<ElectricalResistance, IElectricalResistance>
     , IMultiplyOperators<ElectricalResistance, ElectricCurrent, ElectricPotential>
 {
     private static readonly Creator create = new();
@@ -16,26 +16,26 @@ public readonly struct ElectricalResistance : IQuantity<ElectricalResistance>, I
     internal Quant Quant => this.quant;
     private ElectricalResistance(in Quant quant) => this.quant = quant;
     public ElectricalResistance To<TUnit>()
-        where TUnit : ISiDerivedUnit, IElectricalResistance
+        where TUnit : ISiUnit, IElectricalResistance
     {
-        return new(this.quant.As<SiDerived<TUnit>>());
+        return new(this.quant.As<Si<TUnit>>());
     }
     public ElectricalResistance To<TPrefix, TUnit>()
         where TPrefix : IMetricPrefix
-        where TUnit : ISiDerivedUnit, IElectricalResistance
+        where TUnit : ISiUnit, IElectricalResistance
     {
-        return new(this.quant.As<SiDerived<TPrefix, TUnit>>());
+        return new(this.quant.As<Si<TPrefix, TUnit>>());
     }
     public static ElectricalResistance Si<TUnit>(in Double value)
-        where TUnit : ISiDerivedUnit, IElectricalResistance
+        where TUnit : ISiUnit, IElectricalResistance
     {
-        return new(value.As<SiDerived<TUnit>>());
+        return new(value.As<Si<TUnit>>());
     }
     public static ElectricalResistance Si<TPrefix, TUnit>(in Double value)
         where TPrefix : IMetricPrefix
-        where TUnit : ISiDerivedUnit, IElectricalResistance
+        where TUnit : ISiUnit, IElectricalResistance
     {
-        return new(value.As<SiDerived<TPrefix, TUnit>>());
+        return new(value.As<Si<TPrefix, TUnit>>());
     }
 
     public Boolean Equals(ElectricalResistance other) => this.quant.Equals(other.quant);
@@ -62,7 +62,7 @@ public readonly struct ElectricalResistance : IQuantity<ElectricalResistance>, I
 
     private sealed class Creator : IPrefixInject<Quant>
     {
-        public Quant Identity(in Double value) => value.As<SiDerived<Ohm>>();
-        public Quant Inject<TPrefix>(in Double value) where TPrefix : IPrefix => value.As<SiDerived<TPrefix, Ohm>>();
+        public Quant Identity(in Double value) => value.As<Si<Ohm>>();
+        public Quant Inject<TPrefix>(in Double value) where TPrefix : IPrefix => value.As<Si<TPrefix, Ohm>>();
     }
 }

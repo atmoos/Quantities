@@ -19,7 +19,7 @@ public readonly struct Time : IQuantity<Time>, ITime
     public Time ToSeconds() => new(this.quant.As<Si<Second>>());
     public Time To<TPrefix, TUnit>()
         where TPrefix : IMetricPrefix, IScaleDown
-        where TUnit : ISiBaseUnit, ITime
+        where TUnit : ISiUnit, ITime
     {
         return new(this.quant.As<Si<TPrefix, TUnit>>());
     }
@@ -32,7 +32,7 @@ public readonly struct Time : IQuantity<Time>, ITime
     public static Time Seconds(in Double value) => new(value.As<Si<Second>>());
     public static Time Si<TPrefix, TUnit>(in Double value)
         where TPrefix : IMetricPrefix, IScaleDown
-        where TUnit : ISiBaseUnit, ITime
+        where TUnit : ISiUnit, ITime
     {
         return new(value.As<Si<TPrefix, TUnit>>());
     }

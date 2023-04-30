@@ -16,13 +16,13 @@ public readonly struct Volume : IQuantity<Volume>, IVolume<Length>
     internal Quant Quant => this.quant;
     private Volume(in Quant quant) => this.quant = quant;
     public Volume ToCubic<TUnit>()
-       where TUnit : ISiBaseUnit, ILength
+       where TUnit : ISiUnit, ILength
     {
         return new(this.quant.To<Cube, Si<TUnit>>());
     }
     public Volume ToCubic<TPrefix, TUnit>()
         where TPrefix : IMetricPrefix
-        where TUnit : ISiBaseUnit, ILength
+        where TUnit : ISiUnit, ILength
     {
         return new(this.quant.To<Cube, Si<TPrefix, TUnit>>());
     }
@@ -48,13 +48,13 @@ public readonly struct Volume : IQuantity<Volume>, IVolume<Length>
         return new(this.quant.To<Cube, Imperial<TLength>>());
     }
     public static Volume Cubic<TUnit>(in Double value)
-        where TUnit : ISiBaseUnit, ILength
+        where TUnit : ISiUnit, ILength
     {
         return new(value.To<Cube, Si<TUnit>>());
     }
     public static Volume Cubic<TPrefix, TUnit>(in Double value)
         where TPrefix : IMetricPrefix
-        where TUnit : ISiBaseUnit, ILength
+        where TUnit : ISiUnit, ILength
     {
         return new(value.To<Cube, Si<TPrefix, TUnit>>());
     }

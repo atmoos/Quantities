@@ -2,7 +2,7 @@
 
 namespace Quantities.Units.Si;
 
-public readonly struct Candela : ISiBaseUnit, ILuminousIntensity
+public readonly struct Candela : ISiUnit, ILuminousIntensity
 {
     public static String Representation => "cd";
 }

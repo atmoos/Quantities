@@ -7,23 +7,22 @@ using Quantities.Units.Si;
 namespace Quantities.Quantities;
 
 public readonly struct Mass : IQuantity<Mass>, IMass
-    , ISiDerived<Mass, IMass> // ToDo: Should be ISi<>. This is something of an unfortunate happenstance...
+    , ISi<Mass, IMass>
     , IMetric<Mass, IMass>
     , IImperial<Mass, IMass>
 {
     private readonly Quant quant;
     private Mass(in Quant quant) => this.quant = quant;
-    public Mass ToKilogram() => new(this.quant.As<Si<Kilogram>>());
     public Mass To<TUnit>()
-        where TUnit : ISiDerivedUnit, IMass
+        where TUnit : ISiUnit, IMass
     {
-        return new(this.quant.As<SiDerived<TUnit>>());
+        return new(this.quant.As<Si<TUnit>>());
     }
     public Mass To<TPrefix, TUnit>()
         where TPrefix : IMetricPrefix
-        where TUnit : ISiDerivedUnit, IMass
+        where TUnit : ISiUnit, IMass
     {
-        return new(this.quant.As<SiDerived<TPrefix, TUnit>>());
+        return new(this.quant.As<Si<TPrefix, TUnit>>());
     }
     public Mass ToMetric<TUnit>() where TUnit : IMetricUnit, IMass
     {
@@ -40,17 +39,16 @@ public readonly struct Mass : IQuantity<Mass>, IMass
     {
         return new(this.quant.As<Imperial<TUnit>>());
     }
-    public static Mass Kilogram(in Double value) => new(value.As<Si<Kilogram>>());
     public static Mass Si<TUnit>(in Double value)
-        where TUnit : ISiDerivedUnit, IMass
+        where TUnit : ISiUnit, IMass
     {
-        return new(value.As<SiDerived<TUnit>>());
+        return new(value.As<Si<TUnit>>());
     }
     public static Mass Si<TPrefix, TUnit>(in Double value)
         where TPrefix : IMetricPrefix
-        where TUnit : ISiDerivedUnit, IMass
+        where TUnit : ISiUnit, IMass
     {
-        return new(value.As<SiDerived<TPrefix, TUnit>>());
+        return new(value.As<Si<TPrefix, TUnit>>());
     }
     public static Mass Metric<TUnit>(in Double value) where TUnit : IMetricUnit, IMass
     {

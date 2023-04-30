@@ -2,7 +2,7 @@
 
 namespace Quantities.Units.Si;
 
-public readonly struct Ampere : ISiBaseUnit, IElectricCurrent
+public readonly struct Ampere : ISiUnit, IElectricCurrent
 {
     public static String Representation => "A";
 }

@@ -17,17 +17,17 @@ public readonly struct Temperature : IQuantity<Temperature>, ITemperature
     internal Quant Quant => this.quant;
     private Temperature(in Quant quant) => this.quant = quant;
     public Temperature To<TUnit>()
-        where TUnit : ISiBaseUnit, ITemperature
+        where TUnit : ISiUnit, ITemperature
     {
         return new(this.quant.As<Si<TUnit>>());
     }
     public Temperature To<TPrefix, TUnit>()
         where TPrefix : IMetricPrefix
-        where TUnit : ISiBaseUnit, ITemperature
+        where TUnit : ISiUnit, ITemperature
     {
         return new(this.quant.As<Si<TPrefix, TUnit>>());
     }
-    public Temperature ToCelsius() => new(this.quant.As<SiDerived<Celsius>>());
+    public Temperature ToCelsius() => new(this.quant.As<Metric<Celsius>>());
     public Temperature ToImperial<TUnit>()
         where TUnit : IImperial, ITemperature
     {
@@ -39,19 +39,19 @@ public readonly struct Temperature : IQuantity<Temperature>, ITemperature
         return new(this.quant.As<NonStandard<TUnit>>());
     }
     public static Temperature Si<TUnit>(in Double value)
-        where TUnit : ISiBaseUnit, ITemperature
+        where TUnit : ISiUnit, ITemperature
     {
         return new(value.As<Si<TUnit>>());
     }
     public static Temperature Si<TPrefix, TUnit>(in Double value)
         where TPrefix : IMetricPrefix
-        where TUnit : ISiBaseUnit, ITemperature
+        where TUnit : ISiUnit, ITemperature
     {
         return new(value.As<Si<TPrefix, TUnit>>());
     }
     public static Temperature Celsius(in Double value)
     {
-        return new(value.As<SiDerived<Celsius>>());
+        return new(value.As<Metric<Celsius>>());
     }
     public static Temperature Imperial<TUnit>(in Double value)
         where TUnit : IImperial, ITemperature

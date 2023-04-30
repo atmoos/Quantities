@@ -2,7 +2,7 @@
 
 namespace Quantities.Units.Si.Derived;
 
-public readonly struct Newton : ISiDerivedUnit, IForce
+public readonly struct Newton : ISiUnit, IForce
 {
     public static String Representation => "N";
 }

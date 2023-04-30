@@ -2,7 +2,7 @@
 
 namespace Quantities.Units.Si;
 
-public readonly struct Kelvin : ISiBaseUnit, ITemperature
+public readonly struct Kelvin : ISiUnit, ITemperature
 {
     public static String Representation => "K";
 }

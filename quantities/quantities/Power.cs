@@ -9,7 +9,7 @@ using Quantities.Units.Si.Derived;
 namespace Quantities.Quantities;
 
 public readonly struct Power : IQuantity<Power>, IPower
-    , ISiDerived<Power, IPower>
+    , ISi<Power, IPower>
     , IImperial<Power, IPower>
     , IMetric<Power, IPower>
     , IMultiplyOperators<Power, Time, Energy>
@@ -23,15 +23,15 @@ public readonly struct Power : IQuantity<Power>, IPower
     internal Quant Quant => this.quant;
     private Power(in Quant quant) => this.quant = quant;
     public Power To<TUnit>()
-        where TUnit : ISiDerivedUnit, IPower
+        where TUnit : ISiUnit, IPower
     {
-        return new(this.quant.As<SiDerived<TUnit>>());
+        return new(this.quant.As<Si<TUnit>>());
     }
     public Power To<TPrefix, TUnit>()
         where TPrefix : IMetricPrefix
-        where TUnit : ISiDerivedUnit, IPower
+        where TUnit : ISiUnit, IPower
     {
-        return new(this.quant.As<SiDerived<TPrefix, TUnit>>());
+        return new(this.quant.As<Si<TPrefix, TUnit>>());
     }
     public Power ToMetric<TUnit>()
         where TUnit : IMetricUnit, IPower
@@ -50,15 +50,15 @@ public readonly struct Power : IQuantity<Power>, IPower
         return new(this.quant.As<Imperial<TUnit>>());
     }
     public static Power Si<TUnit>(in Double value)
-        where TUnit : ISiDerivedUnit, IPower
+        where TUnit : ISiUnit, IPower
     {
-        return new(value.As<SiDerived<TUnit>>());
+        return new(value.As<Si<TUnit>>());
     }
     public static Power Si<TPrefix, TUnit>(in Double value)
         where TPrefix : IMetricPrefix
-        where TUnit : ISiDerivedUnit, IPower
+        where TUnit : ISiUnit, IPower
     {
-        return new(value.As<SiDerived<TPrefix, TUnit>>());
+        return new(value.As<Si<TPrefix, TUnit>>());
     }
     public static Power Imperial<TUnit>(in Double value)
         where TUnit : IImperial, IPower
@@ -114,7 +114,7 @@ public readonly struct Power : IQuantity<Power>, IPower
 
     private sealed class Creator : IPrefixInject<Quant>
     {
-        public Quant Identity(in Double value) => value.As<SiDerived<Watt>>();
-        public Quant Inject<TPrefix>(in Double value) where TPrefix : IPrefix => value.As<SiDerived<TPrefix, Watt>>();
+        public Quant Identity(in Double value) => value.As<Si<Watt>>();
+        public Quant Inject<TPrefix>(in Double value) where TPrefix : IPrefix => value.As<Si<TPrefix, Watt>>();
     }
 }

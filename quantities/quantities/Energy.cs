@@ -8,7 +8,7 @@ using Quantities.Units.Si;
 namespace Quantities.Quantities;
 
 public readonly struct Energy : IQuantity<Energy>, IEnergy<Mass, Length, Time>
-    , ISiDerived<Energy, IEnergy>
+    , ISi<Energy, IEnergy>
     , IImperial<Energy, IEnergy>
     , IDivisionOperators<Energy, Time, Power>
     , IDivisionOperators<Energy, Power, Time>
@@ -17,22 +17,22 @@ public readonly struct Energy : IQuantity<Energy>, IEnergy<Mass, Length, Time>
     internal Quant Quant => this.quant;
     private Energy(in Quant quant) => this.quant = quant;
     public Energy To<TUnit>()
-        where TUnit : ISiDerivedUnit, IEnergy
+        where TUnit : ISiUnit, IEnergy
     {
-        return new(this.quant.As<SiDerived<TUnit>>());
+        return new(this.quant.As<Si<TUnit>>());
     }
     public Energy To<TPrefix, TUnit>()
         where TPrefix : IMetricPrefix
-        where TUnit : ISiDerivedUnit, IEnergy
+        where TUnit : ISiUnit, IEnergy
     {
-        return new(this.quant.As<SiDerived<TPrefix, TUnit>>());
+        return new(this.quant.As<Si<TPrefix, TUnit>>());
     }
     public Energy ToMetric<TPrefix, TPowerUnit, TTimeUnit>()
         where TPrefix : IMetricPrefix
-        where TPowerUnit : ISiDerivedUnit, IPower
+        where TPowerUnit : ISiUnit, IPower
         where TTimeUnit : IMetricUnit, ITransform, ITime
     {
-        return new(this.quant.AsProduct<SiDerived<TPrefix, TPowerUnit>, Metric<TTimeUnit>>());
+        return new(this.quant.AsProduct<Si<TPrefix, TPowerUnit>, Metric<TTimeUnit>>());
     }
     public Energy ToImperial<TUnit>()
         where TUnit : IImperial, IEnergy
@@ -40,37 +40,37 @@ public readonly struct Energy : IQuantity<Energy>, IEnergy<Mass, Length, Time>
         return new(this.quant.As<Imperial<TUnit>>());
     }
     public static Energy Si<TUnit>(in Double value)
-        where TUnit : ISiDerivedUnit, IEnergy
+        where TUnit : ISiUnit, IEnergy
     {
-        return new(value.As<SiDerived<TUnit>>());
+        return new(value.As<Si<TUnit>>());
     }
     public static Energy Si<TPrefix, TUnit>(in Double value)
         where TPrefix : IMetricPrefix
-        where TUnit : ISiDerivedUnit, IEnergy
+        where TUnit : ISiUnit, IEnergy
     {
-        return new(value.As<SiDerived<TPrefix, TUnit>>());
+        return new(value.As<Si<TPrefix, TUnit>>());
     }
     public static Energy Si<TPrefix, TPowerUnit, TTimeUnit>(in Double value)
         where TPrefix : IMetricPrefix
-        where TPowerUnit : ISiDerivedUnit, IPower
-        where TTimeUnit : ISiBaseUnit, ITime
+        where TPowerUnit : ISiUnit, IPower
+        where TTimeUnit : ISiUnit, ITime
     {
-        return new(value.AsProduct<SiDerived<TPrefix, TPowerUnit>, Si<TTimeUnit>>());
+        return new(value.AsProduct<Si<TPrefix, TPowerUnit>, Si<TTimeUnit>>());
     }
     public static Energy Si<TPowerPrefix, TPowerUnit, TTimePrefix, TTimeUnit>(in Double value)
         where TPowerPrefix : IPrefix
-        where TPowerUnit : ISiDerivedUnit, IPower
+        where TPowerUnit : ISiUnit, IPower
         where TTimePrefix : IPrefix
-        where TTimeUnit : ISiBaseUnit, ITime
+        where TTimeUnit : ISiUnit, ITime
     {
-        return new(value.AsProduct<SiDerived<TPowerPrefix, TPowerUnit>, Si<TTimePrefix, TTimeUnit>>());
+        return new(value.AsProduct<Si<TPowerPrefix, TPowerUnit>, Si<TTimePrefix, TTimeUnit>>());
     }
     public static Energy Metric<TPrefix, TPowerUnit, TTimeUnit>(in Double value)
         where TPrefix : IMetricPrefix
-        where TPowerUnit : ISiDerivedUnit, IPower
+        where TPowerUnit : ISiUnit, IPower
         where TTimeUnit : IMetricUnit, ITransform, ITime
     {
-        return new(value.AsProduct<SiDerived<TPrefix, TPowerUnit>, Metric<TTimeUnit>>());
+        return new(value.AsProduct<Si<TPrefix, TPowerUnit>, Metric<TTimeUnit>>());
     }
     public static Energy Imperial<TUnit>(in Double value)
         where TUnit : IImperial, IEnergy

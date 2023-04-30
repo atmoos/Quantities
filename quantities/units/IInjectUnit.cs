@@ -16,13 +16,9 @@ public readonly ref struct Creator<TAlias, T>
 {
     private readonly ICreate<T> creator;
     internal Creator(in ICreate<T> creator) => this.creator = creator;
-    public T Si<TInjectedUnit>(in Double value) where TInjectedUnit : ISiBaseUnit, TAlias
+    public T Si<TInjectedUnit>(in Double value) where TInjectedUnit : ISiUnit, TAlias
     {
         return this.creator.Create<Si<TInjectedUnit>>(in value);
-    }
-    public T SiDerived<TInjectedUnit>(in Double value) where TInjectedUnit : ISiDerivedUnit, TAlias
-    {
-        return this.creator.Create<SiDerived<TInjectedUnit>>(in value);
     }
     public T Metric<TInjectedUnit>(in Double value) where TInjectedUnit : IMetricUnit, TAlias
     {

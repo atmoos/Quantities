@@ -16,24 +16,24 @@ public readonly struct ElectricCurrent : IQuantity<ElectricCurrent>, IElectricCu
     internal Quant Quant => this.quant;
     private ElectricCurrent(in Quant quant) => this.quant = quant;
     public ElectricCurrent To<TUnit>()
-        where TUnit : ISiBaseUnit, IElectricCurrent
+        where TUnit : ISiUnit, IElectricCurrent
     {
         return new(this.quant.As<Si<TUnit>>());
     }
     public ElectricCurrent To<TPrefix, TUnit>()
         where TPrefix : IMetricPrefix
-        where TUnit : ISiBaseUnit, IElectricCurrent
+        where TUnit : ISiUnit, IElectricCurrent
     {
         return new(this.quant.As<Si<TPrefix, TUnit>>());
     }
     public static ElectricCurrent Si<TUnit>(in Double value)
-        where TUnit : ISiBaseUnit, IElectricCurrent
+        where TUnit : ISiUnit, IElectricCurrent
     {
         return new(value.As<Si<TUnit>>());
     }
     public static ElectricCurrent Si<TPrefix, TUnit>(in Double value)
         where TPrefix : IMetricPrefix
-        where TUnit : ISiBaseUnit, IElectricCurrent
+        where TUnit : ISiUnit, IElectricCurrent
     {
         return new(value.As<Si<TPrefix, TUnit>>());
     }

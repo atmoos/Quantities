@@ -20,13 +20,13 @@ public readonly struct Area : IQuantity<Area>, IArea<Length>
     internal Quant Quant => this.quant;
     private Area(in Quant quant) => this.quant = quant;
     public Area ToSquare<TUnit>()
-        where TUnit : ISiBaseUnit, ILength
+        where TUnit : ISiUnit, ILength
     {
         return new(this.quant.To<Square, Si<TUnit>>());
     }
     public Area ToSquare<TPrefix, TUnit>()
         where TPrefix : IMetricPrefix
-        where TUnit : ISiBaseUnit, ILength
+        where TUnit : ISiUnit, ILength
     {
         return new(this.quant.To<Square, Si<TPrefix, TUnit>>());
     }
@@ -57,13 +57,13 @@ public readonly struct Area : IQuantity<Area>, IArea<Length>
         return new(this.quant.As<NonStandard<TArea>, Alias<TArea, ILength>>());
     }
     public static Area Square<TUnit>(in Double value)
-        where TUnit : ISiBaseUnit, ILength
+        where TUnit : ISiUnit, ILength
     {
         return new(value.To<Square, Si<TUnit>>());
     }
     public static Area Square<TPrefix, TUnit>(in Double value)
         where TPrefix : IMetricPrefix
-        where TUnit : ISiBaseUnit, ILength
+        where TUnit : ISiUnit, ILength
     {
         return new(value.To<Square, Si<TPrefix, TUnit>>());
     }

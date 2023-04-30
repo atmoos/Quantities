@@ -10,7 +10,7 @@ using Quantities.Units.Si.Derived;
 namespace Quantities.Quantities;
 
 public readonly struct Force : IQuantity<Force>, IForce<Mass, Length, Time>
-    , ISiDerived<Force, IForce>
+    , ISi<Force, IForce>
     , IImperial<Force, IForce>
     , IMetric<Force, IForce>
     , INoSystem<Force, IForce>
@@ -21,15 +21,15 @@ public readonly struct Force : IQuantity<Force>, IForce<Mass, Length, Time>
     internal Quant Quant => this.quant;
     private Force(in Quant quant) => this.quant = quant;
     public Force To<TUnit>()
-        where TUnit : ISiDerivedUnit, IForce
+        where TUnit : ISiUnit, IForce
     {
-        return new(this.quant.As<SiDerived<TUnit>>());
+        return new(this.quant.As<Si<TUnit>>());
     }
     public Force To<TPrefix, TUnit>()
         where TPrefix : IMetricPrefix
-        where TUnit : ISiDerivedUnit, IForce
+        where TUnit : ISiUnit, IForce
     {
-        return new(this.quant.As<SiDerived<TPrefix, TUnit>>());
+        return new(this.quant.As<Si<TPrefix, TUnit>>());
     }
     public Force ToMetric<TUnit>() where TUnit : IMetricUnit, IForce
     {
@@ -52,15 +52,15 @@ public readonly struct Force : IQuantity<Force>, IForce<Mass, Length, Time>
         return new(this.quant.As<NonStandard<TUnit>>());
     }
     public static Force Si<TUnit>(in Double value)
-        where TUnit : ISiDerivedUnit, IForce
+        where TUnit : ISiUnit, IForce
     {
-        return new(value.As<SiDerived<TUnit>>());
+        return new(value.As<Si<TUnit>>());
     }
     public static Force Si<TPrefix, TUnit>(in Double value)
         where TPrefix : IMetricPrefix
-        where TUnit : ISiDerivedUnit, IForce
+        where TUnit : ISiUnit, IForce
     {
-        return new(value.As<SiDerived<TPrefix, TUnit>>());
+        return new(value.As<Si<TPrefix, TUnit>>());
     }
     public static Force Metric<TUnit>(in Double value) where TUnit : IMetricUnit, IForce
     {
@@ -109,7 +109,7 @@ public readonly struct Force : IQuantity<Force>, IForce<Mass, Length, Time>
 
     private sealed class Creator : IPrefixInject<Quant>
     {
-        public Quant Identity(in Double value) => value.As<SiDerived<Newton>>();
-        public Quant Inject<TPrefix>(in Double value) where TPrefix : IPrefix => value.As<SiDerived<TPrefix, Newton>>();
+        public Quant Identity(in Double value) => value.As<Si<Newton>>();
+        public Quant Inject<TPrefix>(in Double value) where TPrefix : IPrefix => value.As<Si<TPrefix, Newton>>();
     }
 }

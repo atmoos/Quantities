@@ -16,13 +16,13 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity<Length, Time>
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     internal Velocity(in Quant quant) => this.quant = quant;
-    public IBuilder<Velocity> To<TUnit>() where TUnit : ISiBaseUnit, ILength
+    public IBuilder<Velocity> To<TUnit>() where TUnit : ISiUnit, ILength
     {
         return new Transform<Velocity, Si<TUnit>>(in this.quant);
     }
     public IBuilder<Velocity> To<TPrefix, TUnit>()
         where TPrefix : IMetricPrefix
-        where TUnit : ISiBaseUnit, ILength
+        where TUnit : ISiUnit, ILength
     {
         return new Transform<Velocity, Si<TPrefix, TUnit>>(in this.quant);
     }
@@ -32,10 +32,10 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity<Length, Time>
         return new Transform<Velocity, Imperial<TUnit>>(in this.quant);
     }
     public static IBuilder<Velocity> Si<TUnit>(in Double value)
-        where TUnit : ISiBaseUnit, ILength => new Builder<Velocity, Si<TUnit>>(in value);
+        where TUnit : ISiUnit, ILength => new Builder<Velocity, Si<TUnit>>(in value);
     public static IBuilder<Velocity> Si<TPrefix, TUnit>(in Double value)
     where TPrefix : IMetricPrefix
-    where TUnit : ISiBaseUnit, ILength
+    where TUnit : ISiUnit, ILength
     {
         return new Builder<Velocity, Si<TPrefix, TUnit>>(in value);
     }

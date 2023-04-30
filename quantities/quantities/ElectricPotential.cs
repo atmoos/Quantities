@@ -8,36 +8,37 @@ using Quantities.Units.Si.Derived;
 namespace Quantities.Quantities;
 
 public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectricPotential
-    , ISiDerived<ElectricPotential, IElectricPotential>
+    , ISi<ElectricPotential, IElectricPotential>
     , IMultiplyOperators<ElectricPotential, ElectricCurrent, Power>
     , IDivisionOperators<ElectricPotential, ElectricCurrent, ElectricalResistance>
     , IDivisionOperators<ElectricPotential, ElectricalResistance, ElectricCurrent>
 {
+    // ToDo: Create a generic version of the Creator!
     private static readonly Creator create = new();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     private ElectricPotential(in Quant quant) => this.quant = quant;
     public ElectricPotential To<TUnit>()
-        where TUnit : ISiDerivedUnit, IElectricPotential
+        where TUnit : ISiUnit, IElectricPotential
     {
-        return new(this.quant.As<SiDerived<TUnit>>());
+        return new(this.quant.As<Si<TUnit>>());
     }
     public ElectricPotential To<TPrefix, TUnit>()
         where TPrefix : IMetricPrefix
-        where TUnit : ISiDerivedUnit, IElectricPotential
+        where TUnit : ISiUnit, IElectricPotential
     {
-        return new(this.quant.As<SiDerived<TPrefix, TUnit>>());
+        return new(this.quant.As<Si<TPrefix, TUnit>>());
     }
     public static ElectricPotential Si<TUnit>(in Double value)
-        where TUnit : ISiDerivedUnit, IElectricPotential
+        where TUnit : ISiUnit, IElectricPotential
     {
-        return new(value.As<SiDerived<TUnit>>());
+        return new(value.As<Si<TUnit>>());
     }
     public static ElectricPotential Si<TPrefix, TUnit>(in Double value)
         where TPrefix : IMetricPrefix
-        where TUnit : ISiDerivedUnit, IElectricPotential
+        where TUnit : ISiUnit, IElectricPotential
     {
-        return new(value.As<SiDerived<TPrefix, TUnit>>());
+        return new(value.As<Si<TPrefix, TUnit>>());
     }
 
     public Boolean Equals(ElectricPotential other) => this.quant.Equals(other.quant);
@@ -76,7 +77,7 @@ public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectr
 
     private sealed class Creator : IPrefixInject<Quant>
     {
-        public Quant Identity(in Double value) => value.As<SiDerived<Volt>>();
-        public Quant Inject<TPrefix>(in Double value) where TPrefix : IPrefix => value.As<SiDerived<TPrefix, Volt>>();
+        public Quant Identity(in Double value) => value.As<Si<Volt>>();
+        public Quant Inject<TPrefix>(in Double value) where TPrefix : IPrefix => value.As<Si<TPrefix, Volt>>();
     }
 }

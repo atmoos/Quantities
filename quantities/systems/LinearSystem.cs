@@ -1,5 +1,3 @@
-
-
 using Quantities.Dimensions;
 using Quantities.Measures;
 using Quantities.Prefixes;
@@ -9,27 +7,17 @@ using Quantities.Units.Si;
 
 namespace Quantities.Systems;
 
-public interface ISystem
-{
-
-}
-
-public interface IQuantityBuilder<out TSystem>
-    where TSystem : ISystem
-{
-    public static abstract TSystem Of(in Double value);
-}
-
-public readonly struct Linear<TSelf, TDimension> : ISystem
+public readonly struct LinearSystem<TSelf, TDimension>
+    : ISiFactory<TSelf, TDimension>, IMetricFactory<TSelf, TDimension>, IImperialFactory<TSelf, TDimension>, INonStandardFactory<TSelf, TDimension>
     where TDimension : Dimensions.IDimension, ILinear
     where TSelf : struct, IQuantity<TSelf>, IQuantityFactory<TSelf, TDimension>, TDimension
 {
     private readonly Double value;
-    internal Linear(in Double value) => this.value = value;
-    public TSelf Si<TUnit>() where TUnit : ISiBaseUnit, TDimension => TSelf.Create(this.value.As<Si<TUnit>>());
+    internal LinearSystem(in Double value) => this.value = value;
+    public TSelf Si<TUnit>() where TUnit : ISiUnit, TDimension => TSelf.Create(this.value.As<Si<TUnit>>());
     public TSelf Si<TPrefix, TUnit>()
         where TPrefix : IMetricPrefix
-        where TUnit : ISiBaseUnit, TDimension => TSelf.Create(this.value.As<Si<TPrefix, TUnit>>());
+        where TUnit : ISiUnit, TDimension => TSelf.Create(this.value.As<Si<TPrefix, TUnit>>());
     public TSelf Metric<TUnit>() where TUnit : IMetricUnit, TDimension => TSelf.Create(this.value.As<Metric<TUnit>>());
     public TSelf Metric<TPrefix, TUnit>()
         where TPrefix : IMetricPrefix
@@ -37,6 +25,5 @@ public readonly struct Linear<TSelf, TDimension> : ISystem
 
     public TSelf Imperial<TUnit>() where TUnit : IImperial, TDimension => TSelf.Create(this.value.As<Imperial<TUnit>>());
     public TSelf NonStandard<TUnit>() where TUnit : INoSystem, TDimension => TSelf.Create(this.value.As<NonStandard<TUnit>>());
-
 }
 

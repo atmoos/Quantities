@@ -4,6 +4,7 @@ using Quantities.Measures;
 using Quantities.Measures.Transformations;
 using Quantities.Prefixes;
 using Quantities.Quantities.Roots;
+using Quantities.Systems;
 using Quantities.Units.Imperial;
 using Quantities.Units.Si;
 
@@ -11,8 +12,7 @@ namespace Quantities.Quantities;
 
 public readonly struct Length : IQuantity<Length>, ILength
     , IQuantityFactory<Length, ILength>
-    , ISi<Length, ILength>
-    , IImperial<Length, ILength>
+    , IFactory<LinearSystem<Length, ILength>>
     , IMultiplyOperators<Length, Length, Area>
     , IMultiplyOperators<Length, Area, Volume>
     , IDivisionOperators<Length, Time, Velocity>
@@ -21,7 +21,6 @@ public readonly struct Length : IQuantity<Length>, ILength
     private static readonly ICreate<Quant> linear = new ToLinear();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
-    Quant IQuantityFactory<Length, ILength>.Quant => this.quant;
     private Length(in Quant quant) => this.quant = quant;
     public Length To<TUnit>()
         where TUnit : ISiUnit, ILength
@@ -40,22 +39,9 @@ public readonly struct Length : IQuantity<Length>, ILength
         return new(this.quant.As<Imperial<TUnit>>());
     }
     static Length IQuantityFactory<Length, ILength>.Create(in Quant quant) => new(in quant);
-    public static Length Si<TUnit>(in Double value)
-        where TUnit : ISiUnit, ILength
-    {
-        return new(value.As<Si<TUnit>>());
-    }
-    public static Length Si<TPrefix, TUnit>(in Double value)
-    where TPrefix : IMetricPrefix
-    where TUnit : ISiUnit, ILength
-    {
-        return new(value.As<Si<TPrefix, TUnit>>());
-    }
-    public static Length Imperial<TUnit>(in Double value)
-    where TUnit : IImperial, ILength
-    {
-        return new(value.As<Imperial<TUnit>>());
-    }
+
+    public static LinearSystem<Length, ILength> Of(in Double value) => new(in value);
+
     internal static Length From(in Area area, in Length length)
     {
         var pseudoArea = area.Quant.Transform(in linear);

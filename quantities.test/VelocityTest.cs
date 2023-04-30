@@ -70,7 +70,7 @@ public sealed class VelocityTest
     [Fact]
     public void VelocityFromDivisionOfLengthWithTime_SiUnits()
     {
-        Length length = Length.Si<Metre>(12);
+        Length length = Length.Of(12).Si<Metre>();
         Time time = Time.Seconds(2);
         Velocity expected = Velocity.Si<Metre>(6).PerSecond();
 
@@ -81,7 +81,7 @@ public sealed class VelocityTest
     [Fact]
     public void VelocityFromDivisionOfLengthWithTime_ImperialUnits()
     {
-        Length length = Length.Imperial<Mile>(18);
+        Length length = Length.Of(18).Imperial<Mile>();
         Time time = Time.In<Hour>(2);
         Velocity expected = Velocity.Imperial<Mile>(9).Per<Hour>();
 
@@ -94,7 +94,7 @@ public sealed class VelocityTest
     [Fact]
     public void VelocityFromDivision_Equal_DirectVelocity()
     {
-        Length length = Length.Imperial<Mile>(18);
+        Length length = Length.Of(18).Imperial<Mile>();
         Time time = Time.In<Hour>(2);
         Velocity expected = Velocity.Imperial<Mile>(9).Per<Hour>();
 

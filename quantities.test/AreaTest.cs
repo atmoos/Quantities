@@ -56,8 +56,8 @@ public class AreaTest
     public void SquareMetresDividedByMetre()
     {
         Area area = Area.Square<Deca, Metre>(48.40);
-        Length length = Length.Si<Metre>(605);
-        Length expected = Length.Si<Deca, Metre>(0.8);
+        Length length = Length.Of(605).Si<Metre>();
+        Length expected = Length.Of(0.8).Si<Deca, Metre>();
 
         Length actual = area / length;
 
@@ -67,8 +67,8 @@ public class AreaTest
     public void PureArealDimensionDividedByLength()
     {
         Area area = Area.Imperial<Acre>(2);
-        Length length = Length.Imperial<Foot>(1815);
-        Length expected = Length.Imperial<Yard>(16);
+        Length length = Length.Of(1815).Imperial<Foot>();
+        Length expected = Length.Of(16).Imperial<Yard>();
 
         Length actual = area / length;
 
@@ -78,8 +78,8 @@ public class AreaTest
     public void SquareYardsDividedByFeet()
     {
         Area area = Area.SquareImperial<Foot>(27);
-        Length length = Length.Imperial<Yard>(1);
-        Length expected = Length.Imperial<Foot>(9);
+        Length length = Length.Of(1).Imperial<Yard>();
+        Length expected = Length.Of(9).Imperial<Foot>();
 
         Length actual = area / length;
 
@@ -98,7 +98,7 @@ public class AreaTest
     public void SquareMetersTimesMetres()
     {
         Area area = Area.Square<Metre>(27);
-        Length length = Length.Si<Deci, Metre>(30);
+        Length length = Length.Of(30).Si<Deci, Metre>();
         Volume expected = Volume.Cubic<Metre>(81);
 
         Volume actual = area * length;
@@ -109,7 +109,7 @@ public class AreaTest
     public void SquareFeetTimesYards()
     {
         Area area = Area.SquareImperial<Foot>(27);
-        Length length = Length.Imperial<Yard>(2);
+        Length length = Length.Of(2).Imperial<Yard>();
         Volume expected = Volume.CubicImperial<Foot>(162);
 
         Volume actual = area * length;
@@ -151,7 +151,7 @@ public class AreaTest
     public void AreTimesMeterIsCubicMetre()
     {
         Area area = Area.Metric<Are>(1);
-        Length length = Length.Si<Metre>(10);
+        Length length = Length.Of(10).Si<Metre>();
         Volume expected = Volume.Cubic<Metre>(10 * 10 * 10);
 
         Volume actual = area * length;

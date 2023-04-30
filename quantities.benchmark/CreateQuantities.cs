@@ -38,7 +38,7 @@ public class CreateQuantities
     public DummyStruct CreateStruct() => new DummyStruct(this.value);
 
     [Benchmark]
-    public Length CreateLength() => Length.Si<Kilo, Metre>(in this.value);
+    public Length CreateLength() => Length.Of(in this.value).Si<Kilo, Metre>();
 
     [Benchmark]
     public Velocity CreateVelocity() => Velocity.Si<Kilo, Metre>(in this.value).Per<Hour>();
@@ -47,18 +47,18 @@ public class CreateQuantities
 /*
 // * Summary *
 
-BenchmarkDotNet=v0.12.1, OS=arch 
+BenchmarkDotNet=v0.13.2, OS=arch 
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET Core SDK=7.0.100
-  [Host]     : .NET Core 7.0.0 (CoreCLR 7.0.22.56001, CoreFX 7.0.22.56001), X64 RyuJIT
-  DefaultJob : .NET Core 7.0.0 (CoreCLR 7.0.22.56001, CoreFX 7.0.22.56001), X64 RyuJIT
+.NET SDK=7.0.103
+  [Host]     : .NET 7.0.3 (7.0.323.12801), X64 RyuJIT AVX2
+  DefaultJob : .NET 7.0.3 (7.0.323.12801), X64 RyuJIT AVX2
 
 
-|         Method |       Mean |     Error |    StdDev | Ratio | RatioSD |  Gen 0 | Gen 1 | Gen 2 | Allocated |
-|--------------- |-----------:|----------:|----------:|------:|--------:|-------:|------:|------:|----------:|
-|   CreateObject |  6.6147 ns | 0.0908 ns | 0.0805 ns | 1.000 |    0.00 | 0.0057 |     - |     - |      24 B |
-| CreateObjectIn |  6.0880 ns | 0.0495 ns | 0.0463 ns | 0.921 |    0.01 | 0.0057 |     - |     - |      24 B |
-|   CreateStruct |  0.0547 ns | 0.0147 ns | 0.0138 ns | 0.008 |    0.00 |      - |     - |     - |         - |
-|   CreateLength |  4.2311 ns | 0.0568 ns | 0.0504 ns | 0.640 |    0.01 |      - |     - |     - |         - |
-| CreateVelocity | 10.0543 ns | 0.0173 ns | 0.0135 ns | 1.522 |    0.02 | 0.0057 |     - |     - |      24 B |
+|         Method |       Mean |     Error |    StdDev | Ratio | RatioSD |   Gen0 | Allocated | Alloc Ratio |
+|--------------- |-----------:|----------:|----------:|------:|--------:|-------:|----------:|------------:|
+|   CreateObject |  6.1821 ns | 0.1096 ns | 0.1025 ns |  1.00 |    0.00 | 0.0057 |      24 B |        1.00 |
+| CreateObjectIn |  6.7297 ns | 0.0760 ns | 0.0711 ns |  1.09 |    0.03 | 0.0057 |      24 B |        1.00 |
+|   CreateStruct |  0.3338 ns | 0.0049 ns | 0.0043 ns |  0.05 |    0.00 |      - |         - |        0.00 |
+|   CreateLength |  4.3623 ns | 0.0216 ns | 0.0192 ns |  0.71 |    0.01 |      - |         - |        0.00 |
+| CreateVelocity | 10.5074 ns | 0.0638 ns | 0.0597 ns |  1.70 |    0.03 | 0.0057 |      24 B |        1.00 |
 */

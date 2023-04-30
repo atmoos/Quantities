@@ -107,7 +107,7 @@ public sealed class VolumeTest
     public void DivideCubicMetreByMetre()
     {
         Volume volume = Volume.Cubic<Metre>(81);
-        Length length = Length.Si<Metre>(3);
+        Length length = Length.Of(3).Si<Metre>();
         Area expected = Area.Square<Metre>(27);
 
         Area actual = volume / length;
@@ -118,7 +118,7 @@ public sealed class VolumeTest
     public void DividePureVolumeByLength()
     {
         Volume volume = Volume.Metric<Hecto, Litre>(300);
-        Length length = Length.Si<Metre>(5);
+        Length length = Length.Of(5).Si<Metre>();
         Area expected = Area.Square<Metre>(6);
 
         Area actual = volume / length;

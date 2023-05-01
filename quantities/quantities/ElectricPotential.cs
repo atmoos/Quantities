@@ -10,8 +10,8 @@ using Quantities.Units.Si.Derived;
 namespace Quantities.Quantities;
 
 public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectricPotential
-    , IQuantityFactory<ElectricPotential, IElectricPotential>
-    , IFactory<SiCreateFactory<ElectricPotential, IElectricPotential>>
+    , IQuantFactory<ElectricPotential>
+    , IFactory<ISiFactory<ElectricPotential, IElectricPotential>, SiTo<ElectricPotential, IElectricPotential>, SiCreate<ElectricPotential, IElectricPotential>>
     , IMultiplyOperators<ElectricPotential, ElectricCurrent, Power>
     , IDivisionOperators<ElectricPotential, ElectricCurrent, ElectricalResistance>
     , IDivisionOperators<ElectricPotential, ElectricalResistance, ElectricCurrent>
@@ -19,21 +19,10 @@ public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectr
     private static readonly IRoot root = new UnitRoot<Volt>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
-    Quant IQuantityFactory<ElectricPotential, IElectricPotential>.Quant => this.quant;
+    public SiTo<ElectricPotential, IElectricPotential> To => new(in this.quant);
     private ElectricPotential(in Quant quant) => this.quant = quant;
-    public ElectricPotential To<TUnit>()
-        where TUnit : ISiUnit, IElectricPotential
-    {
-        return new(this.quant.As<Si<TUnit>>());
-    }
-    public ElectricPotential To<TPrefix, TUnit>()
-        where TPrefix : IMetricPrefix
-        where TUnit : ISiUnit, IElectricPotential
-    {
-        return new(this.quant.As<Si<TPrefix, TUnit>>());
-    }
-    static ElectricPotential IQuantityFactory<ElectricPotential, IElectricPotential>.Create(in Quant quant) => new(in quant);
-    public static SiCreateFactory<ElectricPotential, IElectricPotential> Of(in Double value) => new(in value);
+    public static SiCreate<ElectricPotential, IElectricPotential> Of(in Double value) => new(in value);
+    static ElectricPotential IQuantFactory<ElectricPotential>.Create(in Quant quant) => new(in quant);
 
     public Boolean Equals(ElectricPotential other) => this.quant.Equals(other.quant);
     public String ToString(String? format, IFormatProvider? provider) => this.quant.ToString(format, provider);

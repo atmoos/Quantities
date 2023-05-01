@@ -5,14 +5,13 @@ using Quantities.Measures;
 using Quantities.Measures.Transformations;
 using Quantities.Prefixes;
 using Quantities.Quantities.Roots;
-using Quantities.Units.Imperial;
 using Quantities.Units.Si;
 
 namespace Quantities.Quantities;
 
 public readonly struct Length : IQuantity<Length>, ILength
-    , IQuantityFactory<Length, ILength>
-    , IFactory<LinearCreateFactory<Length, ILength>>
+    , IQuantFactory<Length>
+    , IFactory<ICompoundFactory<Length, ILength>, LinearTo<Length, ILength>, LinearCreate<Length, ILength>>
     , IMultiplyOperators<Length, Length, Area>
     , IMultiplyOperators<Length, Area, Volume>
     , IDivisionOperators<Length, Time, Velocity>
@@ -21,28 +20,10 @@ public readonly struct Length : IQuantity<Length>, ILength
     private static readonly ICreate<Quant> linear = new ToLinear();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
-    Quant IQuantityFactory<Length, ILength>.Quant => this.quant;
+    public LinearTo<Length, ILength> To => new(in this.quant);
     private Length(in Quant quant) => this.quant = quant;
-    public Length To<TUnit>()
-        where TUnit : ISiUnit, ILength
-    {
-        return new(this.quant.As<Si<TUnit>>());
-    }
-    public Length To<TPrefix, TUnit>()
-        where TPrefix : IMetricPrefix
-        where TUnit : ISiUnit, ILength
-    {
-        return new(this.quant.As<Si<TPrefix, TUnit>>());
-    }
-    public Length ToImperial<TUnit>()
-    where TUnit : IImperial, ILength
-    {
-        return new(this.quant.As<Imperial<TUnit>>());
-    }
-    static Length IQuantityFactory<Length, ILength>.Create(in Quant quant) => new(in quant);
-
-    public static LinearCreateFactory<Length, ILength> Of(in Double value) => new(in value);
-
+    public static LinearCreate<Length, ILength> Of(in Double value) => new(in value);
+    static Length IQuantFactory<Length>.Create(in Quant quant) => new(in quant);
     internal static Length From(in Area area, in Length length)
     {
         var pseudoArea = area.Quant.Transform(in linear);

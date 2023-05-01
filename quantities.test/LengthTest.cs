@@ -11,7 +11,7 @@ public sealed class LengthTest
     public void MetreToKilometre()
     {
         Length metres = Length.Of(1000).Si<Metre>();
-        Length kilometres = metres.To<Kilo, Metre>();
+        Length kilometres = metres.To.Si<Kilo, Metre>();
         PrecisionIsBounded(1d, kilometres);
     }
 
@@ -19,7 +19,7 @@ public sealed class LengthTest
     public void MetreToMillimetre()
     {
         Length metres = Length.Of(1).Si<Metre>();
-        Length millimetres = metres.To<Milli, Metre>();
+        Length millimetres = metres.To.Si<Milli, Metre>();
         PrecisionIsBounded(1000d, millimetres);
     }
 
@@ -27,7 +27,7 @@ public sealed class LengthTest
     public void ÅngströmToNanoMetre()
     {
         Length ångström = Length.Of(10).Metric<Ångström>();
-        Length nanoMetres = ångström.To<Nano, Metre>();
+        Length nanoMetres = ångström.To.Si<Nano, Metre>();
         PrecisionIsBounded(1d, nanoMetres);
     }
 
@@ -35,7 +35,7 @@ public sealed class LengthTest
     public void MillimetreToKilometre()
     {
         Length millimetres = Length.Of(2e6).Si<Milli, Metre>();
-        Length kilometres = millimetres.To<Kilo, Metre>();
+        Length kilometres = millimetres.To.Si<Kilo, Metre>();
         PrecisionIsBounded(2d, kilometres);
     }
 
@@ -43,7 +43,7 @@ public sealed class LengthTest
     public void MileToKilometre()
     {
         Length miles = Length.Of(1).Imperial<Mile>();
-        Length kilometres = miles.To<Kilo, Metre>();
+        Length kilometres = miles.To.Si<Kilo, Metre>();
         PrecisionIsBounded(1.609344, kilometres);
     }
 
@@ -51,7 +51,7 @@ public sealed class LengthTest
     public void KilometreToMile()
     {
         Length kilometres = Length.Of(1.609344).Si<Kilo, Metre>();
-        Length miles = kilometres.ToImperial<Mile>();
+        Length miles = kilometres.To.Imperial<Mile>();
         PrecisionIsBounded(1d, miles);
     }
     [Fact]
@@ -59,7 +59,7 @@ public sealed class LengthTest
     {
         Length feet = Length.Of(5280).Imperial<Foot>();
         Length expected = Length.Of(1).Imperial<Mile>();
-        Length actual = feet.ToImperial<Mile>();
+        Length actual = feet.To.Imperial<Mile>();
         actual.Matches(expected);
     }
 
@@ -109,7 +109,7 @@ public sealed class LengthTest
         Length length = Length.Of(1).Imperial<Mile>();
         Length expected = Length.Of(1760).Imperial<Yard>();
 
-        Length actual = length.ToImperial<Yard>();
+        Length actual = length.To.Imperial<Yard>();
 
         actual.Matches(expected);
     }

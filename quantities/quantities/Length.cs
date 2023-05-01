@@ -1,10 +1,10 @@
 using System.Numerics;
 using Quantities.Dimensions;
+using Quantities.Factories;
 using Quantities.Measures;
 using Quantities.Measures.Transformations;
 using Quantities.Prefixes;
 using Quantities.Quantities.Roots;
-using Quantities.Systems;
 using Quantities.Units.Imperial;
 using Quantities.Units.Si;
 
@@ -12,7 +12,7 @@ namespace Quantities.Quantities;
 
 public readonly struct Length : IQuantity<Length>, ILength
     , IQuantityFactory<Length, ILength>
-    , IFactory<LinearSystem<Length, ILength>>
+    , IFactory<LinearCreateFactory<Length, ILength>>
     , IMultiplyOperators<Length, Length, Area>
     , IMultiplyOperators<Length, Area, Volume>
     , IDivisionOperators<Length, Time, Velocity>
@@ -41,7 +41,7 @@ public readonly struct Length : IQuantity<Length>, ILength
     }
     static Length IQuantityFactory<Length, ILength>.Create(in Quant quant) => new(in quant);
 
-    public static LinearSystem<Length, ILength> Of(in Double value) => new(in value);
+    public static LinearCreateFactory<Length, ILength> Of(in Double value) => new(in value);
 
     internal static Length From(in Area area, in Length length)
     {

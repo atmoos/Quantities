@@ -1,9 +1,9 @@
 ﻿using System.Numerics;
 using Quantities.Dimensions;
+using Quantities.Factories;
 using Quantities.Measures;
 using Quantities.Prefixes;
 using Quantities.Quantities.Roots;
-using Quantities.Systems;
 using Quantities.Units.Si;
 using Quantities.Units.Si.Derived;
 
@@ -11,7 +11,7 @@ namespace Quantities.Quantities;
 
 public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectricPotential
     , IQuantityFactory<ElectricPotential, IElectricPotential>
-    , IFactory<SiSystem<ElectricPotential, IElectricPotential>>
+    , IFactory<SiCreateFactory<ElectricPotential, IElectricPotential>>
     , IMultiplyOperators<ElectricPotential, ElectricCurrent, Power>
     , IDivisionOperators<ElectricPotential, ElectricCurrent, ElectricalResistance>
     , IDivisionOperators<ElectricPotential, ElectricalResistance, ElectricCurrent>
@@ -33,7 +33,7 @@ public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectr
         return new(this.quant.As<Si<TPrefix, TUnit>>());
     }
     static ElectricPotential IQuantityFactory<ElectricPotential, IElectricPotential>.Create(in Quant quant) => new(in quant);
-    public static SiSystem<ElectricPotential, IElectricPotential> Of(in Double value) => new(in value);
+    public static SiCreateFactory<ElectricPotential, IElectricPotential> Of(in Double value) => new(in value);
 
     public Boolean Equals(ElectricPotential other) => this.quant.Equals(other.quant);
     public String ToString(String? format, IFormatProvider? provider) => this.quant.ToString(format, provider);

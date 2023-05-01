@@ -11,7 +11,7 @@ public interface IVelocity<out TLength, out TTime> : IPer<TLength, TTime>, IVelo
     where TLength : ILength
     where TTime : ITime
 { /* marker interface */ }
-public interface IForce : IDimension { /* marker interface */ }
+public interface IForce : IDimension, ILinear { /* marker interface */ }
 public interface IForce<out TMass, out TLength, out TTime> : IPer<ITimes<TMass, TLength>, ISquare<TTime>>, IForce
     where TMass : IMass
     where TLength : ILength

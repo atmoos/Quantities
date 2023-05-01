@@ -7,7 +7,7 @@ namespace Quantities.Factories;
 
 public readonly struct SiTo<TQuantity, TDimension> : ISiFactory<TQuantity, TDimension>
     where TDimension : Dimensions.IDimension, ILinear
-    where TQuantity : IQuantFactory<TQuantity>
+    where TQuantity : IFactory<TQuantity>
 {
     private readonly Quant value;
     internal SiTo(in Quant value) => this.value = value;
@@ -18,7 +18,7 @@ public readonly struct SiTo<TQuantity, TDimension> : ISiFactory<TQuantity, TDime
 }
 public readonly struct SiCreate<TQuantity, TDimension> : ISiFactory<TQuantity, TDimension>
     where TDimension : Dimensions.IDimension, ILinear
-    where TQuantity : IQuantFactory<TQuantity>
+    where TQuantity : IFactory<TQuantity>
 {
     private readonly Double value;
     internal SiCreate(in Double value) => this.value = value;

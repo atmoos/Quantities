@@ -10,7 +10,7 @@ using Quantities.Units.Si;
 namespace Quantities.Quantities;
 
 public readonly struct Length : IQuantity<Length>, ILength
-    , IQuantFactory<Length>
+    , IFactory<Length>
     , IFactory<ICompoundFactory<Length, ILength>, LinearTo<Length, ILength>, LinearCreate<Length, ILength>>
     , IMultiplyOperators<Length, Length, Area>
     , IMultiplyOperators<Length, Area, Volume>
@@ -23,7 +23,7 @@ public readonly struct Length : IQuantity<Length>, ILength
     public LinearTo<Length, ILength> To => new(in this.quant);
     private Length(in Quant quant) => this.quant = quant;
     public static LinearCreate<Length, ILength> Of(in Double value) => new(in value);
-    static Length IQuantFactory<Length>.Create(in Quant quant) => new(in quant);
+    static Length IFactory<Length>.Create(in Quant quant) => new(in quant);
     internal static Length From(in Area area, in Length length)
     {
         var pseudoArea = area.Quant.Transform(in linear);

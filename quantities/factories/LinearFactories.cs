@@ -9,7 +9,7 @@ namespace Quantities.Factories;
 
 public readonly struct LinearTo<TQuantity, TDimension> : ICompoundFactory<TQuantity, TDimension>
     where TDimension : Dimensions.IDimension, ILinear
-    where TQuantity : IQuantFactory<TQuantity>
+    where TQuantity : IFactory<TQuantity>
 {
     private readonly Quant value;
     internal LinearTo(in Quant value) => this.value = value;
@@ -20,14 +20,14 @@ public readonly struct LinearTo<TQuantity, TDimension> : ICompoundFactory<TQuant
     public TQuantity Metric<TUnit>() where TUnit : IMetricUnit, TDimension => TQuantity.Create(this.value.As<Metric<TUnit>>());
     public TQuantity Metric<TPrefix, TUnit>()
         where TPrefix : IMetricPrefix
-        where TUnit : IMetricUnit, TDimension => TQuantity.Create(this.value.As<Metric<TUnit>>());
+        where TUnit : IMetricUnit, TDimension => TQuantity.Create(this.value.As<Metric<TPrefix, TUnit>>());
 
     public TQuantity Imperial<TUnit>() where TUnit : IImperial, TDimension => TQuantity.Create(this.value.As<Imperial<TUnit>>());
     public TQuantity NonStandard<TUnit>() where TUnit : INoSystem, TDimension => TQuantity.Create(this.value.As<NonStandard<TUnit>>());
 }
 public readonly struct LinearCreate<TQuantity, TDimension> : ICompoundFactory<TQuantity, TDimension>
     where TDimension : Dimensions.IDimension, ILinear
-    where TQuantity : IQuantFactory<TQuantity>
+    where TQuantity : IFactory<TQuantity>
 {
     private readonly Double value;
     internal LinearCreate(in Double value) => this.value = value;
@@ -38,7 +38,7 @@ public readonly struct LinearCreate<TQuantity, TDimension> : ICompoundFactory<TQ
     public TQuantity Metric<TUnit>() where TUnit : IMetricUnit, TDimension => TQuantity.Create(this.value.As<Metric<TUnit>>());
     public TQuantity Metric<TPrefix, TUnit>()
         where TPrefix : IMetricPrefix
-        where TUnit : IMetricUnit, TDimension => TQuantity.Create(this.value.As<Metric<TUnit>>());
+        where TUnit : IMetricUnit, TDimension => TQuantity.Create(this.value.As<Metric<TPrefix, TUnit>>());
 
     public TQuantity Imperial<TUnit>() where TUnit : IImperial, TDimension => TQuantity.Create(this.value.As<Imperial<TUnit>>());
     public TQuantity NonStandard<TUnit>() where TUnit : INoSystem, TDimension => TQuantity.Create(this.value.As<NonStandard<TUnit>>());

@@ -10,7 +10,7 @@ using Quantities.Units.Si.Derived;
 namespace Quantities.Quantities;
 
 public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectricPotential
-    , IQuantFactory<ElectricPotential>
+    , IFactory<ElectricPotential>
     , IFactory<ISiFactory<ElectricPotential, IElectricPotential>, SiTo<ElectricPotential, IElectricPotential>, SiCreate<ElectricPotential, IElectricPotential>>
     , IMultiplyOperators<ElectricPotential, ElectricCurrent, Power>
     , IDivisionOperators<ElectricPotential, ElectricCurrent, ElectricalResistance>
@@ -22,7 +22,7 @@ public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectr
     public SiTo<ElectricPotential, IElectricPotential> To => new(in this.quant);
     private ElectricPotential(in Quant quant) => this.quant = quant;
     public static SiCreate<ElectricPotential, IElectricPotential> Of(in Double value) => new(in value);
-    static ElectricPotential IQuantFactory<ElectricPotential>.Create(in Quant quant) => new(in quant);
+    static ElectricPotential IFactory<ElectricPotential>.Create(in Quant quant) => new(in quant);
 
     public Boolean Equals(ElectricPotential other) => this.quant.Equals(other.quant);
     public String ToString(String? format, IFormatProvider? provider) => this.quant.ToString(format, provider);

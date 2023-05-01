@@ -8,7 +8,7 @@ internal interface INoSystem<out TSelf, in TDimension>
     where TDimension : IDimension
 {
     public TSelf ToNonStandard<TUnit>()
-        where TUnit : INoSystem, TDimension;
+        where TUnit : INoSystemUnit, TDimension;
     public static abstract TSelf NonStandard<TUnit>(in Double value)
-        where TUnit : INoSystem, TDimension;
+        where TUnit : INoSystemUnit, TDimension;
 }

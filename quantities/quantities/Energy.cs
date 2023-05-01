@@ -35,7 +35,7 @@ public readonly struct Energy : IQuantity<Energy>, IEnergy<Mass, Length, Time>
         return new(this.quant.AsProduct<Si<TPrefix, TPowerUnit>, Metric<TTimeUnit>>());
     }
     public Energy ToImperial<TUnit>()
-        where TUnit : IImperial, IEnergy
+        where TUnit : IImperialUnit, IEnergy
     {
         return new(this.quant.As<Imperial<TUnit>>());
     }
@@ -73,7 +73,7 @@ public readonly struct Energy : IQuantity<Energy>, IEnergy<Mass, Length, Time>
         return new(value.AsProduct<Si<TPrefix, TPowerUnit>, Metric<TTimeUnit>>());
     }
     public static Energy Imperial<TUnit>(in Double value)
-        where TUnit : IImperial, IEnergy
+        where TUnit : IImperialUnit, IEnergy
     {
         return new(value.As<Imperial<TUnit>>());
     }

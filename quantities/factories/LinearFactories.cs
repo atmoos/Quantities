@@ -22,8 +22,8 @@ public readonly struct LinearTo<TQuantity, TDimension> : ICompoundFactory<TQuant
         where TPrefix : IMetricPrefix
         where TUnit : IMetricUnit, TDimension => TQuantity.Create(this.value.As<Metric<TPrefix, TUnit>>());
 
-    public TQuantity Imperial<TUnit>() where TUnit : IImperial, TDimension => TQuantity.Create(this.value.As<Imperial<TUnit>>());
-    public TQuantity NonStandard<TUnit>() where TUnit : INoSystem, TDimension => TQuantity.Create(this.value.As<NonStandard<TUnit>>());
+    public TQuantity Imperial<TUnit>() where TUnit : IImperialUnit, TDimension => TQuantity.Create(this.value.As<Imperial<TUnit>>());
+    public TQuantity NonStandard<TUnit>() where TUnit : INoSystemUnit, TDimension => TQuantity.Create(this.value.As<NonStandard<TUnit>>());
 }
 public readonly struct LinearCreate<TQuantity, TDimension> : ICompoundFactory<TQuantity, TDimension>
     where TDimension : Dimensions.IDimension, ILinear
@@ -40,6 +40,6 @@ public readonly struct LinearCreate<TQuantity, TDimension> : ICompoundFactory<TQ
         where TPrefix : IMetricPrefix
         where TUnit : IMetricUnit, TDimension => TQuantity.Create(this.value.As<Metric<TPrefix, TUnit>>());
 
-    public TQuantity Imperial<TUnit>() where TUnit : IImperial, TDimension => TQuantity.Create(this.value.As<Imperial<TUnit>>());
-    public TQuantity NonStandard<TUnit>() where TUnit : INoSystem, TDimension => TQuantity.Create(this.value.As<NonStandard<TUnit>>());
+    public TQuantity Imperial<TUnit>() where TUnit : IImperialUnit, TDimension => TQuantity.Create(this.value.As<Imperial<TUnit>>());
+    public TQuantity NonStandard<TUnit>() where TUnit : INoSystemUnit, TDimension => TQuantity.Create(this.value.As<NonStandard<TUnit>>());
 }

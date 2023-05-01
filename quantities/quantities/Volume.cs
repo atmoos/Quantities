@@ -38,12 +38,12 @@ public readonly struct Volume : IQuantity<Volume>, IVolume<Length>
         return new(this.quant.As<Metric<TPrefix, TUnit>, Alias<TPrefix, TUnit, ILength>>());
     }
     public Volume ToImperial<TUnit>()
-        where TUnit : IImperial, IVolume<ILength>, IInjectUnit<ILength>
+        where TUnit : IImperialUnit, IVolume<ILength>, IInjectUnit<ILength>
     {
         return new(this.quant.As<Imperial<TUnit>, Alias<TUnit, ILength>>());
     }
     public Volume ToCubicImperial<TLength>()
-        where TLength : IImperial, ILength
+        where TLength : IImperialUnit, ILength
     {
         return new(this.quant.To<Cube, Imperial<TLength>>());
     }
@@ -70,12 +70,12 @@ public readonly struct Volume : IQuantity<Volume>, IVolume<Length>
         return new(value.As<Metric<TPrefix, TVolume>, Alias<TPrefix, TVolume, ILength>>());
     }
     public static Volume Imperial<TVolume>(Double value)
-        where TVolume : IImperial, IVolume<ILength>, IInjectUnit<ILength>
+        where TVolume : IImperialUnit, IVolume<ILength>, IInjectUnit<ILength>
     {
         return new(value.As<Imperial<TVolume>, Alias<TVolume, ILength>>());
     }
     public static Volume CubicImperial<TImperialUnit>(Double value)
-        where TImperialUnit : IImperial, ILength
+        where TImperialUnit : IImperialUnit, ILength
     {
         return new(value.To<Cube, Imperial<TImperialUnit>>());
     }

@@ -3,7 +3,7 @@ using Quantities.Units.Transformation;
 
 namespace Quantities.Units.Imperial.Length;
 
-public readonly struct Foot : IImperial, ILength
+public readonly struct Foot : IImperialUnit, ILength
 {
     internal const Double ToMetre = 0.3048; // ft -> m
     private static readonly Transform transform = new(ToMetre);

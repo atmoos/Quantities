@@ -28,7 +28,7 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity<Length, Time>
         return new Transform<Velocity, Si<TPrefix, TUnit>>(in this.quant);
     }
     public IBuilder<Velocity> ToImperial<TUnit>()
-    where TUnit : IImperial, ILength
+    where TUnit : IImperialUnit, ILength
     {
         return new Transform<Velocity, Imperial<TUnit>>(in this.quant);
     }
@@ -41,7 +41,7 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity<Length, Time>
         return new Builder<Velocity, Si<TPrefix, TUnit>>(in value);
     }
     public static IBuilder<Velocity> Imperial<TUnit>(in Double value)
-    where TUnit : IImperial, ILength
+    where TUnit : IImperialUnit, ILength
     {
         return new Builder<Velocity, Imperial<TUnit>>(in value);
     }

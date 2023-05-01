@@ -3,7 +3,7 @@ using Quantities.Units.Transformation;
 
 namespace Quantities.Units.Imperial.Length;
 
-public readonly struct Furlong : IImperial, ILength
+public readonly struct Furlong : IImperialUnit, ILength
 {
     private static readonly Transform transform = new(201.168 /* m */);
     public static Double ToSi(in Double nonSiValue) => transform.ToSi(in nonSiValue);

@@ -8,7 +8,7 @@ internal interface IImperial<out TSelf, in TDimension>
     where TDimension : IDimension
 {
     public TSelf ToImperial<TUnit>()
-        where TUnit : IImperial, TDimension;
+        where TUnit : IImperialUnit, TDimension;
     public static abstract TSelf Imperial<TUnit>(in Double value)
-        where TUnit : IImperial, TDimension;
+        where TUnit : IImperialUnit, TDimension;
 }

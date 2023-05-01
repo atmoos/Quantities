@@ -24,12 +24,12 @@ internal interface ISiAccepted<in TUnit> : IMeasure
     /* marker interface*/
 }
 internal interface IImperialMeasure<in TUnit> : IMeasure
-    where TUnit : IImperial, ITransform, IRepresentable
+    where TUnit : IImperialUnit, ITransform, IRepresentable
 {
     /* marker interface*/
 }
 internal interface INonStandardMeasure<in TUnit> : IMeasure
-    where TUnit : INoSystem, ITransform, IRepresentable
+    where TUnit : INoSystemUnit, ITransform, IRepresentable
 {
     /* marker interface*/
 }

@@ -10,33 +10,33 @@ public class AreaTest
     [Fact]
     public void AddSquareMetres()
     {
-        Area left = Area.Square<Metre>(20);
-        Area right = Area.Square<Metre>(10);
+        Area left = Area.Of(20).Square.Si<Metre>();
+        Area right = Area.Of(10).Square.Si<Metre>();
         Area result = left + right;
         PrecisionIsBounded(30d, result);
     }
     [Fact]
     public void AddSquareHectoMetresToSquareKiloMetres()
     {
-        Area left = Area.Square<Kilo, Metre>(2);
-        Area right = Area.Square<Hecto, Metre>(50);
+        Area left = Area.Of(2).Square.Si<Kilo, Metre>();
+        Area right = Area.Of(50).Square.Si<Hecto, Metre>();
         Area result = left + right;
         PrecisionIsBounded(2.5d, result);
     }
     [Fact]
     public void SquareMetresToSquareKilometers()
     {
-        Area squareMetres = Area.Square<Metre>(1000);
-        Area squareKilometres = squareMetres.ToSquare<Kilo, Metre>();
+        Area squareMetres = Area.Of(1000).Square.Si<Metre>();
+        Area squareKilometres = squareMetres.To.Square.Si<Kilo, Metre>();
         PrecisionIsBounded(1e-3d, squareKilometres);
     }
     [Fact]
     public void SquareMilesToSquareKilometers()
     {
-        Area squareMiles = Area.SquareImperial<Mile>(2);
-        Area expected = Area.Square<Kilo, Metre>(2 * SQUARE_MILE_IN_SQUARE_KILOMETRES);
+        Area squareMiles = Area.Of(2).Square.Imperial<Mile>();
+        Area expected = Area.Of(2 * SQUARE_MILE_IN_SQUARE_KILOMETRES).Square.Si<Kilo, Metre>();
 
-        Area actual = squareMiles.ToSquare<Kilo, Metre>();
+        Area actual = squareMiles.To.Square.Si<Kilo, Metre>();
 
         actual.Matches(expected);
     }
@@ -44,10 +44,10 @@ public class AreaTest
     [Fact]
     public void SquareYardToSquareFeet()
     {
-        Area squareYards = Area.SquareImperial<Yard>(3);
-        Area expected = Area.SquareImperial<Foot>(27);
+        Area squareYards = Area.Of(3).Square.Imperial<Yard>();
+        Area expected = Area.Of(27).Square.Imperial<Foot>();
 
-        Area actual = squareYards.ToSquareImperial<Foot>();
+        Area actual = squareYards.To.Square.Imperial<Foot>();
 
         actual.Matches(expected, MediumPrecision - 1);
     }
@@ -55,7 +55,7 @@ public class AreaTest
     [Fact]
     public void SquareMetresDividedByMetre()
     {
-        Area area = Area.Square<Deca, Metre>(48.40);
+        Area area = Area.Of(48.40).Square.Si<Deca, Metre>();
         Length length = Length.Of(605).Si<Metre>();
         Length expected = Length.Of(0.8).Si<Deca, Metre>();
 
@@ -66,7 +66,7 @@ public class AreaTest
     [Fact]
     public void PureArealDimensionDividedByLength()
     {
-        Area area = Area.Imperial<Acre>(2);
+        Area area = Area.Of(2).Imperial<Acre>();
         Length length = Length.Of(1815).Imperial<Foot>();
         Length expected = Length.Of(16).Imperial<Yard>();
 
@@ -77,7 +77,7 @@ public class AreaTest
     [Fact]
     public void SquareYardsDividedByFeet()
     {
-        Area area = Area.SquareImperial<Foot>(27);
+        Area area = Area.Of(27).Square.Imperial<Foot>();
         Length length = Length.Of(1).Imperial<Yard>();
         Length expected = Length.Of(9).Imperial<Foot>();
 
@@ -89,15 +89,15 @@ public class AreaTest
     [Fact]
     public void AcreDividedBySquareFeet()
     {
-        Area acres = Area.Imperial<Acre>(2);
-        Area squareFeet = Area.SquareImperial<Foot>(2 * 43560);
+        Area acres = Area.Of(2).Imperial<Acre>();
+        Area squareFeet = Area.Of(2 * 43560).Square.Imperial<Foot>();
 
         Assert.Equal(acres, squareFeet);
     }
     [Fact]
     public void SquareMetersTimesMetres()
     {
-        Area area = Area.Square<Metre>(27);
+        Area area = Area.Of(27).Square.Si<Metre>();
         Length length = Length.Of(30).Si<Deci, Metre>();
         Volume expected = Volume.Cubic<Metre>(81);
 
@@ -108,7 +108,7 @@ public class AreaTest
     [Fact]
     public void SquareFeetTimesYards()
     {
-        Area area = Area.SquareImperial<Foot>(27);
+        Area area = Area.Of(27).Square.Imperial<Foot>();
         Length length = Length.Of(2).Imperial<Yard>();
         Volume expected = Volume.CubicImperial<Foot>(162);
 
@@ -120,37 +120,37 @@ public class AreaTest
     [Fact]
     public void AreToSiDefinition()
     {
-        Area are = Area.Metric<Are>(1);
-        Area expected = Area.Square<Metre>(100);
+        Area are = Area.Of(1).Metric<Are>();
+        Area expected = Area.Of(100).Square.Si<Metre>();
 
-        Area actual = are.ToSquare<Metre>();
+        Area actual = are.To.Square.Si<Metre>();
 
         actual.Matches(expected);
     }
     [Fact]
     public void AreToHectare()
     {
-        Area are = Area.Metric<Are>(100);
-        Area expected = Area.Metric<Hecto, Are>(1);
+        Area are = Area.Of(100).Metric<Are>();
+        Area expected = Area.Of(1).Metric<Hecto, Are>();
 
-        Area actual = are.ToMetric<Hecto, Are>();
+        Area actual = are.To.Metric<Hecto, Are>();
 
         actual.Matches(expected);
     }
     [Fact]
     public void MorgenToHectare()
     {
-        Area morgen = Area.NonStandard<Morgen>(2);
-        Area expected = Area.Square<Metre>(5000);
+        Area morgen = Area.Of(2).NonStandard<Morgen>();
+        Area expected = Area.Of(5000).Square.Si<Metre>();
 
-        Area actual = morgen.ToSquare<Metre>();
+        Area actual = morgen.To.Square.Si<Metre>();
 
         actual.Matches(expected);
     }
     [Fact]
     public void AreTimesMeterIsCubicMetre()
     {
-        Area area = Area.Metric<Are>(1);
+        Area area = Area.Of(1).Metric<Are>();
         Length length = Length.Of(10).Si<Metre>();
         Volume expected = Volume.Cubic<Metre>(10 * 10 * 10);
 

@@ -24,11 +24,11 @@ public readonly ref struct Creator<TAlias, T>
     {
         return this.creator.Create<Metric<TInjectedUnit>>(in value);
     }
-    public T Imperial<TInjectedUnit>(in Double value) where TInjectedUnit : IImperial, ITransform, TAlias
+    public T Imperial<TInjectedUnit>(in Double value) where TInjectedUnit : IImperialUnit, ITransform, TAlias
     {
         return this.creator.Create<Imperial<TInjectedUnit>>(in value);
     }
-    public T NonStandard<TInjectedUnit>(in Double value) where TInjectedUnit : INoSystem, ITransform, TAlias
+    public T NonStandard<TInjectedUnit>(in Double value) where TInjectedUnit : INoSystemUnit, ITransform, TAlias
     {
         return this.creator.Create<NonStandard<TInjectedUnit>>(in value);
     }

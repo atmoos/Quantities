@@ -16,10 +16,10 @@ public class DividingQuantities
 {
     private Volume metricVolume = Volume.Cubic<Kilo, Metre>(3);
     private Volume metricAcceptedVolume = Volume.Metric<Kilo, Litre>(3);
-    private Area metricArea = Area.Square<Deca, Metre>(23);
-    private Area imperialPureArea = Area.Imperial<Acre>(23);
+    private Area metricArea = Area.Of(23).Square.Si<Deca, Metre>();
+    private Area imperialPureArea = Area.Of(23).Imperial<Acre>();
     private Volume imperialVolume = Volume.CubicImperial<Mile>(-3);
-    private Area imperialArea = Area.SquareImperial<Yard>(55);
+    private Area imperialArea = Area.Of(55).Square.Imperial<Yard>();
     private ElectricPotential potential = ElectricPotential.Of(33).Si<Kilo, Volt>();
     private ElectricCurrent current = ElectricCurrent.Si<Deca, Ampere>(98);
     private Trivial<Metre> largeTrivial = Trivial<Metre>.Si(Prefix.Kilo, 3);
@@ -47,19 +47,19 @@ public class DividingQuantities
 /*
 // * Summary *
 
-BenchmarkDotNet=v0.12.1, OS=arch 
+BenchmarkDotNet=v0.13.2, OS=arch 
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET Core SDK=7.0.100
-  [Host]     : .NET Core 7.0.0 (CoreCLR 7.0.22.56001, CoreFX 7.0.22.56001), X64 RyuJIT
-  DefaultJob : .NET Core 7.0.0 (CoreCLR 7.0.22.56001, CoreFX 7.0.22.56001), X64 RyuJIT
+.NET SDK=7.0.103
+  [Host]     : .NET 7.0.3 (7.0.323.12801), X64 RyuJIT AVX2
+  DefaultJob : .NET 7.0.3 (7.0.323.12801), X64 RyuJIT AVX2
 
 
-|         Method |     Mean |    Error |   StdDev | Ratio | Gen 0 | Gen 1 | Gen 2 | Allocated |
-|--------------- |---------:|---------:|---------:|------:|------:|------:|------:|----------:|
-|        Trivial | 16.06 ns | 0.043 ns | 0.036 ns |  1.00 |     - |     - |     - |         - |
-|       DivideSi | 30.35 ns | 0.061 ns | 0.057 ns |  1.89 |     - |     - |     - |         - |
-| DivideImperial | 27.27 ns | 0.054 ns | 0.048 ns |  1.70 |     - |     - |     - |         - |
-|    DivideMixed | 27.91 ns | 0.013 ns | 0.011 ns |  1.74 |     - |     - |     - |         - |
-|  DivideAliased | 38.82 ns | 0.072 ns | 0.063 ns |  2.42 |     - |     - |     - |         - |
-|   DividePureSi | 12.48 ns | 0.048 ns | 0.045 ns |  0.78 |     - |     - |     - |         - |
+|         Method |     Mean |    Error |   StdDev | Ratio | RatioSD | Allocated | Alloc Ratio |
+|--------------- |---------:|---------:|---------:|------:|--------:|----------:|------------:|
+|        Trivial | 16.57 ns | 0.127 ns | 0.112 ns |  1.00 |    0.00 |         - |          NA |
+|       DivideSi | 31.98 ns | 0.642 ns | 0.569 ns |  1.93 |    0.03 |         - |          NA |
+| DivideImperial | 30.06 ns | 0.195 ns | 0.173 ns |  1.81 |    0.02 |         - |          NA |
+|    DivideMixed | 28.86 ns | 0.117 ns | 0.103 ns |  1.74 |    0.01 |         - |          NA |
+|  DivideAliased | 42.24 ns | 0.478 ns | 0.447 ns |  2.55 |    0.03 |         - |          NA |
+|   DividePureSi | 11.35 ns | 0.043 ns | 0.038 ns |  0.69 |    0.00 |         - |          NA |
 */

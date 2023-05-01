@@ -46,7 +46,7 @@ public readonly struct Power : IQuantity<Power>, IPower
         return new(this.quant.As<Metric<TPrefix, TUnit>>());
     }
     public Power ToImperial<TUnit>()
-        where TUnit : IImperial, IPower
+        where TUnit : IImperialUnit, IPower
     {
         return new(this.quant.As<Imperial<TUnit>>());
     }
@@ -62,7 +62,7 @@ public readonly struct Power : IQuantity<Power>, IPower
         return new(value.As<Si<TPrefix, TUnit>>());
     }
     public static Power Imperial<TUnit>(in Double value)
-        where TUnit : IImperial, IPower
+        where TUnit : IImperialUnit, IPower
     {
         return new(value.As<Imperial<TUnit>>());
     }

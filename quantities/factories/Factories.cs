@@ -23,11 +23,11 @@ public interface IMetricFactory<out TQuantity, in TDimension> : IFactory
 public interface IImperialFactory<out TQuantity, in TDimension>
     where TDimension : IDimension
 {
-    public TQuantity Imperial<TUnit>() where TUnit : IImperial, TDimension;
+    public TQuantity Imperial<TUnit>() where TUnit : IImperialUnit, TDimension;
 }
 
 public interface INonStandardFactory<out TQuantity, in TDimension>
     where TDimension : IDimension
 {
-    public TQuantity NonStandard<TUnit>() where TUnit : INoSystem, TDimension;
+    public TQuantity NonStandard<TUnit>() where TUnit : INoSystemUnit, TDimension;
 }

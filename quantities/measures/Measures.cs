@@ -37,14 +37,14 @@ internal readonly struct Metric<TPrefix, TUnit> : ISiAccepted<TUnit>, ILinear
     public static String Representation { get; } = $"{TPrefix.Representation}{TUnit.Representation}";
 }
 internal readonly struct Imperial<TUnit> : IImperialMeasure<TUnit>, ILinear
-    where TUnit : IImperial, ITransform, IRepresentable
+    where TUnit : IImperialUnit, ITransform, IRepresentable
 {
     public static Double ToSi(in Double value) => TUnit.ToSi(in value);
     public static Double FromSi(in Double value) => TUnit.FromSi(in value);
     public static String Representation => TUnit.Representation;
 }
 internal readonly struct NonStandard<TUnit> : INonStandardMeasure<TUnit>, ILinear
-    where TUnit : INoSystem, ITransform, IRepresentable
+    where TUnit : INoSystemUnit, ITransform, IRepresentable
 {
     public static Double ToSi(in Double value) => TUnit.ToSi(in value);
     public static Double FromSi(in Double value) => TUnit.FromSi(in value);

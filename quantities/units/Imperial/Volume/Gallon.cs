@@ -4,7 +4,7 @@ using Quantities.Units.Transformation;
 
 namespace Quantities.Units.Imperial.Volume;
 
-public readonly struct Gallon : IImperial, IVolume<ILength>, IInjectUnit<ILength>
+public readonly struct Gallon : IImperialUnit, IVolume<ILength>, IInjectUnit<ILength>
 {
     internal const Double ToCubicMetre = 4.54609e-3; // gal -> m³
     private static readonly Transform transform = new(ToCubicMetre);

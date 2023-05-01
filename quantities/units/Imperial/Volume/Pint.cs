@@ -4,7 +4,7 @@ using Quantities.Units.Transformation;
 
 namespace Quantities.Units.Imperial.Volume;
 
-public readonly struct Pint : IImperial, IVolume<ILength>, IInjectUnit<ILength>
+public readonly struct Pint : IImperialUnit, IVolume<ILength>, IInjectUnit<ILength>
 {
     internal const Double ToCubicMetre = 0.56826125e-3; // pt -> m³ 
     private static readonly Transform transform = new(ToCubicMetre);

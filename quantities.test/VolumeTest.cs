@@ -108,7 +108,7 @@ public sealed class VolumeTest
     {
         Volume volume = Volume.Cubic<Metre>(81);
         Length length = Length.Of(3).Si<Metre>();
-        Area expected = Area.Square<Metre>(27);
+        Area expected = Area.Of(27).Square.Si<Metre>();
 
         Area actual = volume / length;
 
@@ -119,7 +119,7 @@ public sealed class VolumeTest
     {
         Volume volume = Volume.Metric<Hecto, Litre>(300);
         Length length = Length.Of(5).Si<Metre>();
-        Area expected = Area.Square<Metre>(6);
+        Area expected = Area.Of(6).Square.Si<Metre>();
 
         Area actual = volume / length;
 

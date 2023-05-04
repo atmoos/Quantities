@@ -7,8 +7,8 @@ using Quantities.Units.Si;
 
 namespace Quantities.Factories;
 
-public readonly struct PowerFactory<TQuantity, TCreate, TLinear> : ICompoundFactory<TQuantity, TLinear>, IPowerCreate<TQuantity>
-    where TCreate : IPowerCreate<TQuantity>
+public readonly struct PowerFactory<TQuantity, TCreate, TLinear> : ICompoundFactory<TQuantity, TLinear>, ILinearCreate<TQuantity>, ILinearInjectCreate<TQuantity>
+    where TCreate : ILinearCreate<TQuantity>, ILinearInjectCreate<TQuantity>
     where TLinear : Dimensions.IDimension, ILinear
 {
     private readonly TCreate creator;
@@ -23,7 +23,7 @@ public readonly struct PowerFactory<TQuantity, TCreate, TLinear> : ICompoundFact
         where TUnit : IMetricUnit, TLinear => this.creator.Create<Metric<TPrefix, TUnit>>();
     public TQuantity Imperial<TUnit>() where TUnit : IImperialUnit, TLinear => this.creator.Create<Imperial<TUnit>>();
     public TQuantity NonStandard<TUnit>() where TUnit : INoSystemUnit, TLinear => this.creator.Create<NonStandard<TUnit>>();
-    TQuantity IPowerCreate<TQuantity>.Create<TMeasure>() => this.creator.Create<TMeasure>();
-    TQuantity IPowerCreate<TQuantity>.Create<TMeasure, TAlias>() => this.creator.Create<TMeasure, TAlias>();
+    TQuantity ILinearCreate<TQuantity>.Create<TMeasure>() => this.creator.Create<TMeasure>();
+    TQuantity ILinearInjectCreate<TQuantity>.Create<TMeasure, TAlias>() => this.creator.Create<TMeasure, TAlias>();
 
 }

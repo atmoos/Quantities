@@ -7,14 +7,14 @@ internal interface ICreate<out TResult>
     TResult Create<TMeasure>(in Double value) where TMeasure : IMeasure;
 }
 
-public interface ILinearCreate<out TResult>
+public interface ICreate
 {
-    internal TResult Create<TMeasure>()
+    internal Quant Create<TMeasure>()
       where TMeasure : IMeasure, ILinear;
 }
 
-public interface ILinearInjectCreate<out TResult>
+public interface IInjectCreate
 {
-    internal TResult Create<TMeasure, TAlias>()
+    internal Quant Create<TMeasure, TAlias>()
       where TMeasure : IMeasure, ILinear where TAlias : IInjector, new();
 }

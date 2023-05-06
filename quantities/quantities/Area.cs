@@ -8,7 +8,7 @@ namespace Quantities.Quantities;
 
 public readonly struct Area : IQuantity<Area>, IArea<ILength>
     , IFactory<Area>
-    , IFactory<IFactory, SquareFactory<Area, PowerFactory<Area, SquareTo<Area>, ILength>, IArea<ILength>, ILength>, SquareFactory<Area, PowerFactory<Area, SquareCreate<Area>, ILength>, IArea<ILength>, ILength>>
+    , IFactory<IFactory, SquareFactory<Area, PowerFactory<Area, SquareTo, ILength>, IArea<ILength>, ILength>, SquareFactory<Area, PowerFactory<Area, SquareCreate, ILength>, IArea<ILength>, ILength>>
     , IMultiplyOperators<Area, Length, Volume>
     , IDivisionOperators<Area, Length, Length>
 {
@@ -16,9 +16,9 @@ public readonly struct Area : IQuantity<Area>, IArea<ILength>
     private static readonly ICreate<Quant> linear = new ToLinear();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
-    public SquareFactory<Area, PowerFactory<Area, SquareTo<Area>, ILength>, IArea<ILength>, ILength> To => new(new PowerFactory<Area, SquareTo<Area>, ILength>(new SquareTo<Area>(in this.quant)));
+    public SquareFactory<Area, PowerFactory<Area, SquareTo, ILength>, IArea<ILength>, ILength> To => new(new PowerFactory<Area, SquareTo, ILength>(new SquareTo(in this.quant)));
     private Area(in Quant quant) => this.quant = quant;
-    public static SquareFactory<Area, PowerFactory<Area, SquareCreate<Area>, ILength>, IArea<ILength>, ILength> Of(in Double value) => new(new PowerFactory<Area, SquareCreate<Area>, ILength>(new SquareCreate<Area>(in value)));
+    public static SquareFactory<Area, PowerFactory<Area, SquareCreate, ILength>, IArea<ILength>, ILength> Of(in Double value) => new(new PowerFactory<Area, SquareCreate, ILength>(new SquareCreate(in value)));
     static Area IFactory<Area>.Create(in Quant quant) => new(in quant);
     internal static Area From(in Length left, in Length right)
     {

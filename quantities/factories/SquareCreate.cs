@@ -2,20 +2,18 @@ using Quantities.Measures;
 
 namespace Quantities.Factories;
 
-public readonly struct SquareTo<TQuantity> : ILinearCreate<TQuantity>, ILinearInjectCreate<TQuantity>
-    where TQuantity : IFactory<TQuantity>
+public readonly struct SquareTo : ICreate, IInjectCreate
 {
     private readonly Quant value;
     internal SquareTo(in Quant value) => this.value = value;
-    TQuantity ILinearCreate<TQuantity>.Create<TMeasure>() => TQuantity.Create(this.value.To<Square, TMeasure>());
-    TQuantity ILinearInjectCreate<TQuantity>.Create<TMeasure, TAlias>() => TQuantity.Create(this.value.As<TMeasure, TAlias>());
+    Quant ICreate.Create<TMeasure>() => this.value.To<Square, TMeasure>();
+    Quant IInjectCreate.Create<TMeasure, TAlias>() => this.value.As<TMeasure, TAlias>();
 }
 
-public readonly struct SquareCreate<TQuantity> : ILinearCreate<TQuantity>, ILinearInjectCreate<TQuantity>
-    where TQuantity : IFactory<TQuantity>
+public readonly struct SquareCreate : ICreate, IInjectCreate
 {
     private readonly Double value;
     internal SquareCreate(in Double value) => this.value = value;
-    TQuantity ILinearCreate<TQuantity>.Create<TMeasure>() => TQuantity.Create(this.value.To<Square, TMeasure>());
-    TQuantity ILinearInjectCreate<TQuantity>.Create<TMeasure, TAlias>() => TQuantity.Create(this.value.As<TMeasure, TAlias>());
+    Quant ICreate.Create<TMeasure>() => this.value.To<Square, TMeasure>();
+    Quant IInjectCreate.Create<TMeasure, TAlias>() => this.value.As<TMeasure, TAlias>();
 }

@@ -16,6 +16,7 @@ public readonly struct SiTo<TQuantity, TDimension> : ISiFactory<TQuantity, TDime
         where TPrefix : IMetricPrefix
         where TUnit : ISiUnit, TDimension => TQuantity.Create(this.value.As<Si<TPrefix, TUnit>>());
 }
+
 public readonly struct SiCreate<TQuantity, TDimension> : ISiFactory<TQuantity, TDimension>
     where TDimension : Dimensions.IDimension, ILinear
     where TQuantity : IFactory<TQuantity>

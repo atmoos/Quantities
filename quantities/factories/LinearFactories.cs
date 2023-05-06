@@ -8,8 +8,8 @@ using Quantities.Units.Si;
 namespace Quantities.Factories;
 
 public readonly struct LinearTo<TQuantity, TDimension> : ICompoundFactory<TQuantity, TDimension>
-    where TDimension : Dimensions.IDimension, ILinear
     where TQuantity : IFactory<TQuantity>
+    where TDimension : Dimensions.IDimension, ILinear
 {
     private readonly Quant value;
     internal LinearTo(in Quant value) => this.value = value;
@@ -25,9 +25,10 @@ public readonly struct LinearTo<TQuantity, TDimension> : ICompoundFactory<TQuant
     public TQuantity Imperial<TUnit>() where TUnit : IImperialUnit, TDimension => TQuantity.Create(this.value.As<Imperial<TUnit>>());
     public TQuantity NonStandard<TUnit>() where TUnit : INoSystemUnit, TDimension => TQuantity.Create(this.value.As<NonStandard<TUnit>>());
 }
+
 public readonly struct LinearCreate<TQuantity, TDimension> : ICompoundFactory<TQuantity, TDimension>
-    where TDimension : Dimensions.IDimension, ILinear
     where TQuantity : IFactory<TQuantity>
+    where TDimension : Dimensions.IDimension, ILinear
 {
     private readonly Double value;
     internal LinearCreate(in Double value) => this.value = value;

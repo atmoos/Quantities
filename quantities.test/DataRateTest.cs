@@ -101,7 +101,7 @@ public class DataRateTest
     [Fact]
     public void DataDividedByTimeIsDataRate()
     {
-        Time time = Time.Si<Micro, Second>(12);
+        Time time = Time.Of(12).Si<Micro, Second>();
         Data data = Data.In<Gibi, Nibble>(24);
         DataRate expected = DataRate.In<Gibi, Nibble>(24 / 12).Per<Micro, Second>();
 

@@ -138,7 +138,7 @@ public sealed class LengthTest
     [Fact]
     public void LengthByDivisionIsEqualToLengthByConstruction()
     {
-        Volume volume = Volume.Metric<Hecto, Litre>(300);
+        Volume volume = Volume.Of(300).Metric<Hecto, Litre>();
         Area area = Area.Of(6).Square.Si<Metre>();
         Length expected = Length.Of(5).Si<Metre>();
 
@@ -151,7 +151,7 @@ public sealed class LengthTest
     public void SiLengthBySiTimeIsVelocity()
     {
         Length distance = Length.Of(100).Si<Milli, Metre>();
-        Time duration = Time.Seconds(20);
+        Time duration = Time.Of(20).Si<Second>();
         Velocity expected = Velocity.Si<Milli, Metre>(5).PerSecond();
 
         Velocity actual = distance / duration;
@@ -162,7 +162,7 @@ public sealed class LengthTest
     public void SiLengthByMetricTimeIsVelocity()
     {
         Length distance = Length.Of(120).Si<Kilo, Metre>();
-        Time duration = Time.In<Hour>(10);
+        Time duration = Time.Of(10).Metric<Hour>();
         Velocity expected = Velocity.Si<Kilo, Metre>(12).Per<Hour>();
 
         Velocity actual = distance / duration;
@@ -173,7 +173,7 @@ public sealed class LengthTest
     public void ImperialLengthByTimeIsVelocity()
     {
         Length distance = Length.Of(70).Imperial<Mile>();
-        Time duration = Time.In<Hour>(2);
+        Time duration = Time.Of(2).Metric<Hour>();
         Velocity expected = Velocity.Imperial<Mile>(35).Per<Hour>();
 
         Velocity actual = distance / duration;
@@ -183,7 +183,7 @@ public sealed class LengthTest
     [Fact]
     public void VelocityTimesTimeIsLength()
     {
-        Time duration = Time.In<Minute>(12);
+        Time duration = Time.Of(12).Metric<Minute>();
         Velocity velocity = Velocity.Imperial<Mile>(350).Per<Hour>();
         // Miles are not yet preserved across multiplication...
         Length expected = Length.Of(350 * 12 * miles_in_kilometre / 60).Si<Kilo, Metre>();

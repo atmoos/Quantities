@@ -8,7 +8,7 @@ namespace Quantities.Quantities;
 
 public readonly struct Area : IQuantity<Area>, IArea<ILength>
     , IFactory<Area>
-    , IFactory<IFactory, SquareFactory<Area, PowerFactory<Area, SquareTo, ILength>, IArea<ILength>, ILength>, SquareFactory<Area, PowerFactory<Area, SquareCreate, ILength>, IArea<ILength>, ILength>>
+    , IFactory<ISquareFactory<Area, IArea<ILength>, ILength>, SquareFactory<Area, PowerFactory<Area, SquareTo, ILength>, IArea<ILength>, ILength>, SquareFactory<Area, PowerFactory<Area, SquareCreate, ILength>, IArea<ILength>, ILength>>
     , IMultiplyOperators<Area, Length, Volume>
     , IDivisionOperators<Area, Length, Length>
 {

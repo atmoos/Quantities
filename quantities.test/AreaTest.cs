@@ -99,7 +99,7 @@ public class AreaTest
     {
         Area area = Area.Of(27).Square.Si<Metre>();
         Length length = Length.Of(30).Si<Deci, Metre>();
-        Volume expected = Volume.Cubic<Metre>(81);
+        Volume expected = Volume.Of(81).Cubic.Si<Metre>();
 
         Volume actual = area * length;
 
@@ -110,7 +110,7 @@ public class AreaTest
     {
         Area area = Area.Of(27).Square.Imperial<Foot>();
         Length length = Length.Of(2).Imperial<Yard>();
-        Volume expected = Volume.CubicImperial<Foot>(162);
+        Volume expected = Volume.Of(162).Cubic.Imperial<Foot>();
 
         Volume actual = area * length;
 
@@ -152,7 +152,7 @@ public class AreaTest
     {
         Area area = Area.Of(1).Metric<Are>();
         Length length = Length.Of(10).Si<Metre>();
-        Volume expected = Volume.Cubic<Metre>(10 * 10 * 10);
+        Volume expected = Volume.Of(10 * 10 * 10).Cubic.Si<Metre>();
 
         Volume actual = area * length;
 

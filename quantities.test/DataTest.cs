@@ -79,7 +79,7 @@ public class DataTest
     [Fact]
     public void DataRateTimesTimeIsAmountOfData()
     {
-        Time time = Time.Si<Milli, Second>(12);
+        Time time = Time.Of(12).Si<Milli, Second>();
         DataRate rate = DataRate.In<Mega, Bit>(32).PerSecond();
         // Note that the units aren't preserved yet...
         Data expected = Data.In<Kibi, Bytes>(12 * 32 / (8 * 1e3) * 1e6 / kibi);

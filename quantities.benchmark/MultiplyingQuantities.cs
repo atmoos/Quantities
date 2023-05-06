@@ -16,8 +16,8 @@ public class MultiplyingQuantities
     private Length smallMetric = Length.Of(23).Si<Micro, Metre>();
     private Length largeImperial = Length.Of(-3).Imperial<Mile>();
     private Length smallImperial = Length.Of(55).Imperial<Inch>();
-    private ElectricCurrent current = ElectricCurrent.Si<Micro, Ampere>(200);
-    private ElectricalResistance resistance = ElectricalResistance.Si<Kilo, Ohm>(734);
+    private ElectricCurrent current = ElectricCurrent.Of(200).Si<Micro, Ampere>();
+    private ElectricalResistance resistance = ElectricalResistance.Of(734).Si<Kilo, Ohm>();
     private Trivial<Metre> largeTrivial = Trivial<Metre>.Si(Prefix.Kilo, 3);
     private Trivial<Metre> smallTrivial = Trivial<Metre>.Si(Prefix.Micro, 12);
 

@@ -7,16 +7,23 @@ using Quantities.Units.Si;
 
 namespace Quantities.Factories;
 
-public interface ISquareFactory<out TQuantity, out TCompound, TPower, TLinear> : IHighDimFactory<TQuantity, TPower, TLinear>
-    where TPower : IDimension
+public interface ISquareFactory<out TQuantity, TPower, TLinear> : IHighDimFactory<TQuantity, TPower, ISquare<TLinear>, TLinear>
+    where TPower : ISquare<TLinear>
     where TLinear : IDimension, ILinear
-    where TCompound : ICompoundFactory<TQuantity, TLinear>
 {
-    public TCompound Square { get; }
+    internal ICompoundFactory<TQuantity, TLinear> Square { get; }
 }
 
-public interface IHighDimFactory<out TQuantity, TPower, TLinear> : IFactory
-    where TPower : IDimension
+public interface ICubicFactory<out TQuantity, TPower, TLinear> : IHighDimFactory<TQuantity, TPower, ICubic<TLinear>, TLinear>
+    where TPower : ICubic<TLinear>
+    where TLinear : IDimension, ILinear
+{
+    internal ICompoundFactory<TQuantity, TLinear> Cubic { get; }
+}
+
+public interface IHighDimFactory<out TQuantity, TPower, TDim, TLinear> : IFactory
+    where TPower : TDim
+    where TDim : IDimension
     where TLinear : IDimension, ILinear
 {
     public TQuantity Metric<TUnit>() where TUnit : IMetricUnit, TPower, IInjectUnit<TLinear>;

@@ -14,14 +14,14 @@ namespace Quantities.Benchmark;
 [MemoryDiagnoser]
 public class DividingQuantities
 {
-    private Volume metricVolume = Volume.Cubic<Kilo, Metre>(3);
-    private Volume metricAcceptedVolume = Volume.Metric<Kilo, Litre>(3);
+    private Volume metricVolume = Volume.Of(3).Cubic.Si<Kilo, Metre>();
+    private Volume metricAcceptedVolume = Volume.Of(3).Metric<Kilo, Litre>();
     private Area metricArea = Area.Of(23).Square.Si<Deca, Metre>();
     private Area imperialPureArea = Area.Of(23).Imperial<Acre>();
-    private Volume imperialVolume = Volume.CubicImperial<Mile>(-3);
+    private Volume imperialVolume = Volume.Of(-3).Cubic.Imperial<Mile>();
     private Area imperialArea = Area.Of(55).Square.Imperial<Yard>();
     private ElectricPotential potential = ElectricPotential.Of(33).Si<Kilo, Volt>();
-    private ElectricCurrent current = ElectricCurrent.Si<Deca, Ampere>(98);
+    private ElectricCurrent current = ElectricCurrent.Of(98).Si<Deca, Ampere>();
     private Trivial<Metre> largeTrivial = Trivial<Metre>.Si(Prefix.Kilo, 3);
     private Trivial<Metre> smallTrivial = Trivial<Metre>.Si(Prefix.Micro, 12);
 

@@ -1,49 +1,32 @@
 ﻿using System.Numerics;
 using Quantities.Dimensions;
+using Quantities.Factories;
 using Quantities.Measures;
 using Quantities.Prefixes;
 using Quantities.Quantities.Roots;
-using Quantities.Units.Si;
 using Quantities.Units.Si.Derived;
 
 namespace Quantities.Quantities;
 
 public readonly struct ElectricalResistance : IQuantity<ElectricalResistance>, IElectricalResistance
-    , ISi<ElectricalResistance, IElectricalResistance>
+    , IFactory<ElectricalResistance>
+    , IFactory<ISiFactory<ElectricalResistance, IElectricalResistance>, SiTo<ElectricalResistance, IElectricalResistance>, SiCreate<ElectricalResistance, IElectricalResistance>>
     , IMultiplyOperators<ElectricalResistance, ElectricCurrent, ElectricPotential>
 {
     private static readonly IRoot root = new UnitRoot<Ohm>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
+    public SiTo<ElectricalResistance, IElectricalResistance> To => new(in this.quant);
     private ElectricalResistance(in Quant quant) => this.quant = quant;
-    public ElectricalResistance To<TUnit>()
-        where TUnit : ISiUnit, IElectricalResistance
-    {
-        return new(this.quant.As<Si<TUnit>>());
-    }
-    public ElectricalResistance To<TPrefix, TUnit>()
-        where TPrefix : IMetricPrefix
-        where TUnit : ISiUnit, IElectricalResistance
-    {
-        return new(this.quant.As<Si<TPrefix, TUnit>>());
-    }
-    public static ElectricalResistance Si<TUnit>(in Double value)
-        where TUnit : ISiUnit, IElectricalResistance
-    {
-        return new(value.As<Si<TUnit>>());
-    }
-    public static ElectricalResistance Si<TPrefix, TUnit>(in Double value)
-        where TPrefix : IMetricPrefix
-        where TUnit : ISiUnit, IElectricalResistance
-    {
-        return new(value.As<Si<TPrefix, TUnit>>());
-    }
+    public static SiCreate<ElectricalResistance, IElectricalResistance> Of(in Double value) => new(in value);
+    static ElectricalResistance IFactory<ElectricalResistance>.Create(in Quant quant) => new(in quant);
 
     public Boolean Equals(ElectricalResistance other) => this.quant.Equals(other.quant);
     public override Boolean Equals(Object? obj) => obj is ElectricalResistance resistance && Equals(resistance);
     public override Int32 GetHashCode() => this.quant.GetHashCode();
     public override String ToString() => this.quant.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.quant.ToString(format, provider);
+
     internal static ElectricalResistance From(in ElectricPotential potential, in ElectricCurrent current)
     {
         return new(MetricPrefix.ScaleThree(potential.Quant.SiDivide(current.Quant), root));

@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 using Quantities.Dimensions;
+using Quantities.Factories;
 using Quantities.Measures;
 using Quantities.Prefixes;
 using Quantities.Quantities.Roots;
@@ -8,36 +9,18 @@ using Quantities.Units.Si;
 namespace Quantities.Quantities;
 
 public readonly struct ElectricCurrent : IQuantity<ElectricCurrent>, IElectricCurrent
-    , ISi<ElectricCurrent, IElectricCurrent>
+    , IFactory<ElectricCurrent>
+    , IFactory<ISiFactory<ElectricCurrent, IElectricCurrent>, SiTo<ElectricCurrent, IElectricCurrent>, SiCreate<ElectricCurrent, IElectricCurrent>>
     , IMultiplyOperators<ElectricCurrent, ElectricPotential, Power>
     , IMultiplyOperators<ElectricCurrent, ElectricalResistance, ElectricPotential>
 {
     private static readonly IRoot root = new UnitRoot<Ampere>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
+    public SiTo<ElectricCurrent, IElectricCurrent> To => new(in this.quant);
     private ElectricCurrent(in Quant quant) => this.quant = quant;
-    public ElectricCurrent To<TUnit>()
-        where TUnit : ISiUnit, IElectricCurrent
-    {
-        return new(this.quant.As<Si<TUnit>>());
-    }
-    public ElectricCurrent To<TPrefix, TUnit>()
-        where TPrefix : IMetricPrefix
-        where TUnit : ISiUnit, IElectricCurrent
-    {
-        return new(this.quant.As<Si<TPrefix, TUnit>>());
-    }
-    public static ElectricCurrent Si<TUnit>(in Double value)
-        where TUnit : ISiUnit, IElectricCurrent
-    {
-        return new(value.As<Si<TUnit>>());
-    }
-    public static ElectricCurrent Si<TPrefix, TUnit>(in Double value)
-        where TPrefix : IMetricPrefix
-        where TUnit : ISiUnit, IElectricCurrent
-    {
-        return new(value.As<Si<TPrefix, TUnit>>());
-    }
+    public static SiCreate<ElectricCurrent, IElectricCurrent> Of(in Double value) => new(in value);
+    static ElectricCurrent IFactory<ElectricCurrent>.Create(in Quant quant) => new(in quant);
 
     public Boolean Equals(ElectricCurrent other) => this.quant.Equals(other.quant);
     public String ToString(String? format, IFormatProvider? provider) => this.quant.ToString(format, provider);

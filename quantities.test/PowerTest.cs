@@ -15,7 +15,7 @@ public sealed class PowerTest
     public void PowerLawInBaseUnits()
     {
         ElectricPotential volts = ElectricPotential.Of(12).Si<Volt>();
-        ElectricCurrent ampere = ElectricCurrent.Si<Ampere>(3);
+        ElectricCurrent ampere = ElectricCurrent.Of(3).Si<Ampere>();
         Power expected = Power.Si<Watt>(36);
 
         Power power = volts * ampere;
@@ -26,7 +26,7 @@ public sealed class PowerTest
     public void OhmsLawInPrefixedUnits()
     {
         ElectricPotential volts = ElectricPotential.Of(70).Si<Kilo, Volt>();
-        ElectricCurrent ampere = ElectricCurrent.Si<Milli, Ampere>(300);
+        ElectricCurrent ampere = ElectricCurrent.Of(300).Si<Milli, Ampere>();
         Power expected = Power.Si<Kilo, Watt>(21);
 
         Power power = ampere * volts;
@@ -37,7 +37,7 @@ public sealed class PowerTest
     public void OhmsLawSquarePotentialPerResistance()
     {
         ElectricPotential volts = ElectricPotential.Of(0.6).Si<Kilo, Volt>();
-        ElectricalResistance ohm = ElectricalResistance.Si<Kilo, Ohm>(3);
+        ElectricalResistance ohm = ElectricalResistance.Of(3).Si<Kilo, Ohm>();
         Power expected = Power.Si<Watt>(120);
 
         Power power = volts * (volts / ohm);
@@ -47,8 +47,8 @@ public sealed class PowerTest
     [Fact]
     public void OhmsLawSquareCurrentTimesResistance()
     {
-        ElectricCurrent ampere = ElectricCurrent.Si<Kilo, Ampere>(8);
-        ElectricalResistance ohm = ElectricalResistance.Si<Milli, Ohm>(2);
+        ElectricCurrent ampere = ElectricCurrent.Of(8).Si<Kilo, Ampere>();
+        ElectricalResistance ohm = ElectricalResistance.Of(2).Si<Milli, Ohm>();
         Power expected = Power.Si<Kilo, Watt>(128);
 
         Power power = ohm * ampere * ampere;
@@ -96,7 +96,7 @@ public sealed class PowerTest
     public void PowerFromEnergyDividedByTime()
     {
         Energy energy = Energy.Metric<Giga, Watt, Hour>(48);
-        Time time = Time.In<Day>(200);
+        Time time = Time.Of(200).Metric<Day>();
         Power expected = Power.Si<Mega, Watt>(10);
 
         Power actual = energy / time;

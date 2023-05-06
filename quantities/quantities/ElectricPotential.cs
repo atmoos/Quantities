@@ -36,7 +36,7 @@ public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectr
     internal static ElectricPotential From(in Power power, in ElectricCurrent current)
     {
         Double siPower = power.To<Watt>();
-        Double siCurrent = current.To<Ampere>();
+        Double siCurrent = current.To.Si<Ampere>();
         return new(MetricPrefix.ScaleThree(siPower / siCurrent, root));
     }
 

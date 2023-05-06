@@ -8,14 +8,15 @@ using Quantities.Units.Si;
 
 namespace Quantities.Factories;
 
-public readonly struct SquareFactory<TQuantity, TCompound, TSquare, TLinear> : ISquareFactory<TQuantity, TCompound, TSquare, TLinear>
+public readonly struct SquareFactory<TQuantity, TCompound, TSquare, TLinear> : ISquareFactory<TQuantity, TSquare, TLinear>
     where TLinear : Dimensions.IDimension, ILinear
-    where TSquare : Dimensions.IDimension
+    where TSquare : ISquare<TLinear>
     where TCompound : ICompoundFactory<TQuantity, TLinear>, IInjectCreate
     where TQuantity : IFactory<TQuantity>
 {
     private readonly TCompound squareFactory;
     public TCompound Square => this.squareFactory;
+    ICompoundFactory<TQuantity, TLinear> ISquareFactory<TQuantity, TSquare, TLinear>.Square => this.squareFactory;
     internal SquareFactory(in TCompound compound) => this.squareFactory = compound;
     public TQuantity Metric<TUnit>() where TUnit : IMetricUnit, TSquare, IInjectUnit<TLinear>
     {

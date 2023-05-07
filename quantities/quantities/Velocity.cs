@@ -11,18 +11,18 @@ namespace Quantities.Quantities;
 
 public readonly struct Velocity : IQuantity<Velocity>, IVelocity<ILength, ITime>
     , IFactory<Velocity>
-    , IFactory<ICompoundFactory<Denominator<Velocity, IVelocity<ILength, ITime>, ITime>, ILength>, Nominator<Velocity, IVelocity<ILength, ITime>, ILength, ITime>, Nominator<Velocity, IVelocity<ILength, ITime>, ILength, ITime>>
+    , IFactory<ICompoundFactory<Denominator<Velocity, IVelocity<ILength, ITime>, ITime>, ILength>, Nominator<Velocity, IVelocity<ILength, ITime>, To<Velocity>, ILength, ITime>, Nominator<Velocity, IVelocity<ILength, ITime>, Create<Velocity>, ILength, ITime>>
     , IMultiplyOperators<Velocity, Force, Power>
     , IMultiplyOperators<Velocity, Time, Length>
 {
     private static readonly IRoot root = new FractionalRoot<Metre, Second>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
-    public Nominator<Velocity, IVelocity<ILength, ITime>, ILength, ITime> To => new(new ToFactory<Velocity>(in this.quant));
+    public Nominator<Velocity, IVelocity<ILength, ITime>, To<Velocity>, ILength, ITime> To => new(new To<Velocity>(in this.quant));
     internal Velocity(in Quant quant) => this.quant = quant;
-    public static Nominator<Velocity, IVelocity<ILength, ITime>, ILength, ITime> Of(in Double value)
+    public static Nominator<Velocity, IVelocity<ILength, ITime>, Create<Velocity>, ILength, ITime> Of(in Double value)
     {
-        return new(new CreateFactory<Velocity>(in value));
+        return new(new Create<Velocity>(in value));
     }
     static Velocity IFactory<Velocity>.Create(in Quant quant) => new(in quant);
     internal static Velocity From(in Power power, in Force force)

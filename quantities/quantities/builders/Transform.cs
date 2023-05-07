@@ -11,10 +11,10 @@ internal sealed class Transform<TQuantity, TNominator> : IBuilder<TQuantity>
     Quant IBuilder<TQuantity>.By<TMeasure>() => Build<Fraction<TNominator, TMeasure>>.With(in this.value);
 }
 
-internal sealed class ToFactory<TQuantity> : ICreate<IBuilder<TQuantity>>
+public readonly struct To<TQuantity> : ICreate<IBuilder<TQuantity>>
     where TQuantity : struct, IQuantity<TQuantity>, Dimensions.IDimension
 {
     private readonly Quant value;
-    public ToFactory(in Quant value) => this.value = value;
+    internal To(in Quant value) => this.value = value;
     IBuilder<TQuantity> ICreate<IBuilder<TQuantity>>.Create<TMeasure>() => new Transform<TQuantity, TMeasure>(in this.value);
 }

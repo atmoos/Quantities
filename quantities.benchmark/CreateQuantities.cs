@@ -52,8 +52,8 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
 
 |         Method |       Mean |     Error |    StdDev | Ratio | RatioSD |   Gen0 | Allocated | Alloc Ratio |
 |--------------- |-----------:|----------:|----------:|------:|--------:|-------:|----------:|------------:|
-|   CreateObject |  4.8410 ns | 0.0928 ns | 0.0868 ns | 1.000 |    0.00 | 0.0057 |      24 B |        1.00 |
-|   CreateStruct |  0.0286 ns | 0.0116 ns | 0.0108 ns | 0.006 |    0.00 |      - |         - |        0.00 |
-|   CreateLength |  1.8248 ns | 0.0354 ns | 0.0422 ns | 0.375 |    0.01 |      - |         - |        0.00 |
-| CreateVelocity | 30.1156 ns | 0.0903 ns | 0.0754 ns | 6.188 |    0.06 | 0.0114 |      48 B |        2.00 |
+|   CreateObject |  4.7630 ns | 0.0353 ns | 0.0313 ns |  1.00 |    0.00 | 0.0057 |      24 B |        1.00 |
+|   CreateStruct |  0.0597 ns | 0.0053 ns | 0.0050 ns |  0.01 |    0.00 |      - |         - |        0.00 |
+|   CreateLength |  1.7603 ns | 0.0074 ns | 0.0062 ns |  0.37 |    0.00 |      - |         - |        0.00 |
+| CreateVelocity | 20.1067 ns | 0.2936 ns | 0.2602 ns |  4.22 |    0.05 | 0.0057 |      24 B |        1.00 |
 */

@@ -7,7 +7,11 @@ public interface ICreate
     internal Quant Create<TMeasure>()
       where TMeasure : IMeasure, ILinear;
 }
-
+internal interface ICreate<out TResult>
+{
+    internal TResult Create<TMeasure>()
+      where TMeasure : IMeasure, ILinear;
+}
 public interface IAliasingCreate
 {
     internal Quant Create<TMeasure, TAlias>()

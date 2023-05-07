@@ -152,7 +152,7 @@ public sealed class LengthTest
     {
         Length distance = Length.Of(100).Si<Milli, Metre>();
         Time duration = Time.Of(20).Si<Second>();
-        Velocity expected = Velocity.Si<Milli, Metre>(5).PerSecond();
+        Velocity expected = Velocity.Of(5).Si<Milli, Metre>().Per.Si<Second>();
 
         Velocity actual = distance / duration;
 
@@ -163,7 +163,7 @@ public sealed class LengthTest
     {
         Length distance = Length.Of(120).Si<Kilo, Metre>();
         Time duration = Time.Of(10).Metric<Hour>();
-        Velocity expected = Velocity.Si<Kilo, Metre>(12).Per<Hour>();
+        Velocity expected = Velocity.Of(12).Si<Kilo, Metre>().Per.Metric<Hour>();
 
         Velocity actual = distance / duration;
 
@@ -174,7 +174,7 @@ public sealed class LengthTest
     {
         Length distance = Length.Of(70).Imperial<Mile>();
         Time duration = Time.Of(2).Metric<Hour>();
-        Velocity expected = Velocity.Imperial<Mile>(35).Per<Hour>();
+        Velocity expected = Velocity.Of(35).Imperial<Mile>().Per.Metric<Hour>();
 
         Velocity actual = distance / duration;
 
@@ -184,7 +184,7 @@ public sealed class LengthTest
     public void VelocityTimesTimeIsLength()
     {
         Time duration = Time.Of(12).Metric<Minute>();
-        Velocity velocity = Velocity.Imperial<Mile>(350).Per<Hour>();
+        Velocity velocity = Velocity.Of(350).Imperial<Mile>().Per.Metric<Hour>();
         // Miles are not yet preserved across multiplication...
         Length expected = Length.Of(350 * 12 * miles_in_kilometre / 60).Si<Kilo, Metre>();
 

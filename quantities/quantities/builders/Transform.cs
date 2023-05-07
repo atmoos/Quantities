@@ -1,13 +1,20 @@
-using Quantities.Dimensions;
 using Quantities.Measures;
 
 namespace Quantities.Quantities.Builders;
 
 internal sealed class Transform<TQuantity, TNominator> : IBuilder<TQuantity>
     where TQuantity : struct, IQuantity<TQuantity>, Dimensions.IDimension
-    where TNominator : IMeasure, ILinear
+    where TNominator : IMeasure
 {
-    private readonly Quant quant;
-    public Transform(in Quant quant) => this.quant = quant;
-    Quant IBuilder<TQuantity>.By<TMeasure>() => Build<Fraction<TNominator, TMeasure>>.With(in this.quant);
+    private readonly Quant value;
+    public Transform(in Quant value) => this.value = value;
+    Quant IBuilder<TQuantity>.By<TMeasure>() => Build<Fraction<TNominator, TMeasure>>.With(in this.value);
+}
+
+internal sealed class ToFactory<TQuantity> : ICreate<IBuilder<TQuantity>>
+    where TQuantity : struct, IQuantity<TQuantity>, Dimensions.IDimension
+{
+    private readonly Quant value;
+    public ToFactory(in Quant value) => this.value = value;
+    IBuilder<TQuantity> ICreate<IBuilder<TQuantity>>.Create<TMeasure>() => new Transform<TQuantity, TMeasure>(in this.value);
 }

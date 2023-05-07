@@ -12,8 +12,8 @@ public readonly struct Area : IQuantity<Area>, IArea<ILength>
     , IMultiplyOperators<Area, Length, Volume>
     , IDivisionOperators<Area, Length, Length>
 {
-    private static readonly ICreate<Quant> square = new RaiseTo<Square>();
-    private static readonly ICreate<Quant> linear = new ToLinear();
+    private static readonly IInject<Quant> square = new RaiseTo<Square>();
+    private static readonly IInject<Quant> linear = new ToLinear();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     public SquareFactory<Area, PowerFactory<Area, SquareTo, ILength>, IArea<ILength>, ILength> To => new(new PowerFactory<Area, SquareTo, ILength>(new SquareTo(in this.quant)));

@@ -2,8 +2,8 @@ using Quantities.Dimensions;
 
 namespace Quantities.Factories;
 
-public interface ICompoundFactory<out TQuantity, in TDimension>
-    : ISiFactory<TQuantity, TDimension>, IMetricFactory<TQuantity, TDimension>, IImperialFactory<TQuantity, TDimension>, INonStandardFactory<TQuantity, TDimension>
+public interface ICompoundFactory<out TResult, in TDimension>
+    : ISiFactory<TResult, TDimension>, IMetricFactory<TResult, TDimension>, IImperialFactory<TResult, TDimension>, INonStandardFactory<TResult, TDimension>
     where TDimension : IDimension
 {
 

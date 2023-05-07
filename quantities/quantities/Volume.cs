@@ -13,8 +13,8 @@ public readonly struct Volume : IQuantity<Volume>, IVolume<ILength>
     , IFactory<Volume>
     , IFactory<ICubicFactory<Volume, IVolume<ILength>, ILength>, CubicFactory<Volume, PowerFactory<Volume, CubicTo, ILength>, IVolume<ILength>, ILength>, CubicFactory<Volume, PowerFactory<Volume, CubicCreate, ILength>, IVolume<ILength>, ILength>>
 {
-    private static readonly ICreate<Quant> cube = new RaiseTo<Cube>();
-    private static readonly ICreate<Quant> linear = new ToLinear();
+    private static readonly IInject<Quant> cube = new RaiseTo<Cube>();
+    private static readonly IInject<Quant> linear = new ToLinear();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     public CubicFactory<Volume, PowerFactory<Volume, CubicTo, ILength>, IVolume<ILength>, ILength> To => new(new PowerFactory<Volume, CubicTo, ILength>(new CubicTo(in this.quant)));

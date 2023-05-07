@@ -1,8 +1,8 @@
 namespace Quantities.Measures.Transformations;
 
-internal sealed class ToLinear : ICreate<Quant>
+internal sealed class ToLinear : IInject<Quant>
 {
-    public Quant Create<TMeasure>(in Double value) where TMeasure : IMeasure
+    public Quant Inject<TMeasure>(in Double value) where TMeasure : IMeasure
     {
         return Build<TMeasure>.With(in value);
     }

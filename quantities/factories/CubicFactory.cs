@@ -11,7 +11,7 @@ namespace Quantities.Factories;
 public readonly struct CubicFactory<TQuantity, TCompound, TCubic, TLinear> : ICubicFactory<TQuantity, TCubic, TLinear>
     where TLinear : Dimensions.IDimension, ILinear
     where TCubic : ICubic<TLinear>
-    where TCompound : ICompoundFactory<TQuantity, TLinear>, IInjectCreate
+    where TCompound : ICompoundFactory<TQuantity, TLinear>, IAliasingCreate
     where TQuantity : IFactory<TQuantity>
 {
     private readonly TCompound cubicFactory;

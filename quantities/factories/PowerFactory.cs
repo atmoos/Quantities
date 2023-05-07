@@ -7,8 +7,8 @@ using Quantities.Units.Si;
 
 namespace Quantities.Factories;
 
-public readonly struct PowerFactory<TQuantity, TCreate, TLinear> : ICompoundFactory<TQuantity, TLinear>, ICreate, IInjectCreate
-    where TCreate : ICreate, IInjectCreate
+public readonly struct PowerFactory<TQuantity, TCreate, TLinear> : ICompoundFactory<TQuantity, TLinear>, ICreate, IAliasingCreate
+    where TCreate : ICreate, IAliasingCreate
     where TLinear : Dimensions.IDimension, ILinear
     where TQuantity : IFactory<TQuantity>
 {
@@ -25,6 +25,6 @@ public readonly struct PowerFactory<TQuantity, TCreate, TLinear> : ICompoundFact
     public TQuantity Imperial<TUnit>() where TUnit : IImperialUnit, TLinear => TQuantity.Create(this.creator.Create<Imperial<TUnit>>());
     public TQuantity NonStandard<TUnit>() where TUnit : INoSystemUnit, TLinear => TQuantity.Create(this.creator.Create<NonStandard<TUnit>>());
     Quant ICreate.Create<TMeasure>() => this.creator.Create<TMeasure>();
-    Quant IInjectCreate.Create<TMeasure, TAlias>() => this.creator.Create<TMeasure, TAlias>();
+    Quant IAliasingCreate.Create<TMeasure, TAlias>() => this.creator.Create<TMeasure, TAlias>();
 
 }

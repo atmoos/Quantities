@@ -13,7 +13,7 @@ public readonly struct ElectricalResistance : IQuantity<ElectricalResistance>, I
     , IFactory<ISiFactory<ElectricalResistance, IElectricalResistance>, SiTo<ElectricalResistance, IElectricalResistance>, SiCreate<ElectricalResistance, IElectricalResistance>>
     , IMultiplyOperators<ElectricalResistance, ElectricCurrent, ElectricPotential>
 {
-    private static readonly IRoot root = new UnitRoot<Ohm>();
+    private static readonly IRoot root = new SiRoot<Ohm>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     public SiTo<ElectricalResistance, IElectricalResistance> To => new(in this.quant);

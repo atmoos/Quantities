@@ -21,7 +21,7 @@ namespace Quantities.Quantities;
 public readonly struct Data : IQuantity<Data>, IAmountOfInformation
     , IDivisionOperators<Data, Time, DataRate>
 {
-    private static readonly IRoot root = new Creator();
+    private static readonly IRoot root = new MetricRoot<Units.Si.Metric.Byte>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     private Data(in Quant quant) => this.quant = quant;
@@ -70,14 +70,4 @@ public readonly struct Data : IQuantity<Data>, IAmountOfInformation
     public static Double operator /(Data left, Data right) => left.quant / right.quant;
 
     public static DataRate operator /(Data left, Time right) => DataRate.From(in left, in right);
-
-    private sealed class Creator : IRoot
-    {
-        public static Quant One { get; } = 1d.As<Metric<Units.Si.Metric.Byte>>();
-        public static Quant Zero { get; } = 0d.As<Metric<Units.Si.Metric.Byte>>();
-
-        // As bytes are way more common, use them to create data values by default.
-        public Quant Identity(in Double value) => value.As<Metric<Units.Si.Metric.Byte>>();
-        public Quant Inject<TPrefix>(in Double value) where TPrefix : IPrefix => value.As<Metric<TPrefix, Units.Si.Metric.Byte>>();
-    }
 }

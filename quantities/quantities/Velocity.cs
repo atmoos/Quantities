@@ -20,10 +20,7 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity<ILength, ITime>
     internal Quant Quant => this.quant;
     public Nominator<Velocity, IVelocity<ILength, ITime>, To<Velocity>, ILength, ITime> To => new(new To<Velocity>(in this.quant));
     internal Velocity(in Quant quant) => this.quant = quant;
-    public static Nominator<Velocity, IVelocity<ILength, ITime>, Create<Velocity>, ILength, ITime> Of(in Double value)
-    {
-        return new(new Create<Velocity>(in value));
-    }
+    public static Nominator<Velocity, IVelocity<ILength, ITime>, Create<Velocity>, ILength, ITime> Of(in Double value) => new(new Create<Velocity>(in value));
     static Velocity IFactory<Velocity>.Create(in Quant quant) => new(in quant);
     internal static Velocity From(in Power power, in Force force)
     {

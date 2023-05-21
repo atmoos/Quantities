@@ -19,7 +19,7 @@ public readonly struct Power : IQuantity<Power>, IPower
     , IDivisionOperators<Power, Force, Velocity>
     , IDivisionOperators<Power, Velocity, Force>
 {
-    private static readonly IRoot root = new UnitRoot<Watt>();
+    private static readonly IRoot root = new SiRoot<Watt>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     private Power(in Quant quant) => this.quant = quant;

@@ -1,17 +1,16 @@
-﻿using Quantities.Dimensions;
+﻿using System.Numerics;
+using Quantities.Dimensions;
 using Quantities.Factories;
 using Quantities.Measures;
 using Quantities.Measures.Transformations;
-using Quantities.Prefixes;
-using Quantities.Units;
-using Quantities.Units.Imperial;
-using Quantities.Units.Si;
 
 namespace Quantities.Quantities;
 
 public readonly struct Volume : IQuantity<Volume>, IVolume<ILength>
     , IFactory<Volume>
     , IFactory<ICubicFactory<Volume, IVolume<ILength>, ILength>, CubicFactory<Volume, PowerFactory<Volume, CubicTo, ILength>, IVolume<ILength>, ILength>, CubicFactory<Volume, PowerFactory<Volume, CubicCreate, ILength>, IVolume<ILength>, ILength>>
+    , IDivisionOperators<Volume, Area, Length>
+    , IDivisionOperators<Volume, Length, Area>
 {
     private static readonly IInject<Quant> cube = new RaiseTo<Cube>();
     private static readonly IInject<Quant> linear = new ToLinear();

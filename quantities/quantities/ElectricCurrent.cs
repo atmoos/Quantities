@@ -14,7 +14,7 @@ public readonly struct ElectricCurrent : IQuantity<ElectricCurrent>, IElectricCu
     , IMultiplyOperators<ElectricCurrent, ElectricPotential, Power>
     , IMultiplyOperators<ElectricCurrent, ElectricalResistance, ElectricPotential>
 {
-    private static readonly IRoot root = new UnitRoot<Ampere>();
+    private static readonly IRoot root = new SiRoot<Ampere>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     public SiTo<ElectricCurrent, IElectricCurrent> To => new(in this.quant);

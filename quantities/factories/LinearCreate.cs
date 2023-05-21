@@ -13,5 +13,5 @@ public readonly struct LinearCreate : ICreate
 {
     private readonly Double value;
     internal LinearCreate(in Double value) => this.value = value;
-    Quant ICreate.Create<TMeasure>() => this.value.As<TMeasure>();
+    Quant ICreate.Create<TMeasure>() => this.value.To<TMeasure>();
 }

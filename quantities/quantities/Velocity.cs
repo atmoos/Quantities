@@ -3,7 +3,7 @@ using Quantities.Dimensions;
 using Quantities.Factories;
 using Quantities.Measures;
 using Quantities.Prefixes;
-using Quantities.Quantities.Builders;
+using Quantities.Quantities.Creation;
 using Quantities.Quantities.Roots;
 using Quantities.Units.Si;
 
@@ -11,21 +11,16 @@ namespace Quantities.Quantities;
 
 public readonly struct Velocity : IQuantity<Velocity>, IVelocity<ILength, ITime>
     , IFactory<Velocity>
-    , IFactory<
-        ICompoundFactory<Denominator<LinearFactory<Velocity, ITime>>, ILength>,
-        Nominator<Velocity, To, ILength, LinearFactory<Velocity, ITime>>,
-        Nominator<Velocity, Create, ILength, LinearFactory<Velocity, ITime>>
-      >
+    , IFactory<ICompoundFactory<Denominator<LinearFactory<Velocity, ITime>>, ILength>, Nominator<To, ILength, LinearFactory<Velocity, ITime>>, Nominator<Create, ILength, LinearFactory<Velocity, ITime>>>
     , IMultiplyOperators<Velocity, Force, Power>
     , IMultiplyOperators<Velocity, Time, Length>
 {
     private static readonly IRoot root = new FractionalRoot<Metre, Second>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
-
-    public Nominator<Velocity, To, ILength, LinearFactory<Velocity, ITime>> To => new(new To(in this.quant));
-
+    public Nominator<To, ILength, LinearFactory<Velocity, ITime>> To => new(new To(in this.quant));
     internal Velocity(in Quant quant) => this.quant = quant;
+    public static Nominator<Create, ILength, LinearFactory<Velocity, ITime>> Of(in Double value) => new(new Create(in value));
     static Velocity IFactory<Velocity>.Create(in Quant quant) => new(in quant);
     internal static Velocity From(in Power power, in Force force)
     {
@@ -38,8 +33,6 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity<ILength, ITime>
     public override Int32 GetHashCode() => this.quant.GetHashCode();
     public override String ToString() => this.quant.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.quant.ToString(format, provider);
-
-    public static Nominator<Velocity, Create, ILength, LinearFactory<Velocity, ITime>> Of(in Double value) => new(new Create(in value));
 
     public static Boolean operator ==(Velocity left, Velocity right) => left.Equals(right);
     public static Boolean operator !=(Velocity left, Velocity right) => !left.Equals(right);

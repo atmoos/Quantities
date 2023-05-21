@@ -16,7 +16,6 @@ public readonly struct CubicFactory<TQuantity, TCompound, TCubic, TLinear> : ICu
 {
     private readonly TCompound cubicFactory;
     public TCompound Cubic => this.cubicFactory;
-    ICompoundFactory<TQuantity, TLinear> ICubicFactory<TQuantity, TCubic, TLinear>.Cubic => this.cubicFactory;
     internal CubicFactory(in TCompound compound) => this.cubicFactory = compound;
     public TQuantity Metric<TUnit>() where TUnit : IMetricUnit, TCubic, IInjectUnit<TLinear>
     {

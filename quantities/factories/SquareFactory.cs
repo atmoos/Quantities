@@ -16,7 +16,6 @@ public readonly struct SquareFactory<TQuantity, TCompound, TSquare, TLinear> : I
 {
     private readonly TCompound squareFactory;
     public TCompound Square => this.squareFactory;
-    ICompoundFactory<TQuantity, TLinear> ISquareFactory<TQuantity, TSquare, TLinear>.Square => this.squareFactory;
     internal SquareFactory(in TCompound compound) => this.squareFactory = compound;
     public TQuantity Metric<TUnit>() where TUnit : IMetricUnit, TSquare, IInjectUnit<TLinear>
     {

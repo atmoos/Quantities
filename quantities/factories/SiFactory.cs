@@ -23,8 +23,8 @@ public readonly struct SiCreate<TQuantity, TDimension> : ISiFactory<TQuantity, T
 {
     private readonly Double value;
     internal SiCreate(in Double value) => this.value = value;
-    public TQuantity Si<TUnit>() where TUnit : ISiUnit, TDimension => TQuantity.Create(this.value.As<Si<TUnit>>());
+    public TQuantity Si<TUnit>() where TUnit : ISiUnit, TDimension => TQuantity.Create(this.value.To<Si<TUnit>>());
     public TQuantity Si<TPrefix, TUnit>()
         where TPrefix : IMetricPrefix
-        where TUnit : ISiUnit, TDimension => TQuantity.Create(this.value.As<Si<TPrefix, TUnit>>());
+        where TUnit : ISiUnit, TDimension => TQuantity.Create(this.value.To<Si<TPrefix, TUnit>>());
 }

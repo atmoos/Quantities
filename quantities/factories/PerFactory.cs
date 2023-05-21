@@ -16,41 +16,21 @@ public readonly struct Denominator<TFactory>
     internal Denominator(in ICreate builder) => this.creator = builder;
 }
 
-
-public readonly struct Nominator<TQuantity, TCreate, TNominator, TFactory> : ICompoundFactory<Denominator<TFactory>, TNominator>
+public readonly struct Nominator<TCreate, TNominator, TFactory> : ICompoundFactory<Denominator<TFactory>, TNominator>
     where TNominator : IDimension, ILinear
     where TCreate : struct, ICreate<ICreate>
     where TFactory : ICreatable<TFactory>, IFactory
-    where TQuantity : struct, IQuantity<TQuantity>, IDimension
 {
     private readonly TCreate creator;
     internal Nominator(in TCreate creator) => this.creator = creator;
-    public Denominator<TFactory> Imperial<TUnit>() where TUnit : IImperialUnit, TNominator
-    {
-        return new(this.creator.Create<Imperial<TUnit>>());
-    }
-    public Denominator<TFactory> Metric<TUnit>() where TUnit : IMetricUnit, TNominator
-    {
-        return new(this.creator.Create<Metric<TUnit>>());
-    }
+    public Denominator<TFactory> Imperial<TUnit>() where TUnit : IImperialUnit, TNominator => new(this.creator.Create<Imperial<TUnit>>());
+    public Denominator<TFactory> Metric<TUnit>() where TUnit : IMetricUnit, TNominator => new(this.creator.Create<Metric<TUnit>>());
     public Denominator<TFactory> Metric<TPrefix, TUnit>()
         where TPrefix : IMetricPrefix
-        where TUnit : IMetricUnit, TNominator
-    {
-        return new(this.creator.Create<Metric<TPrefix, TUnit>>());
-    }
-    public Denominator<TFactory> NonStandard<TUnit>() where TUnit : INoSystemUnit, TNominator
-    {
-        return new(this.creator.Create<NonStandard<TUnit>>());
-    }
-    public Denominator<TFactory> Si<TUnit>() where TUnit : ISiUnit, TNominator
-    {
-        return new(this.creator.Create<Si<TUnit>>());
-    }
+        where TUnit : IMetricUnit, TNominator => new(this.creator.Create<Metric<TPrefix, TUnit>>());
+    public Denominator<TFactory> NonStandard<TUnit>() where TUnit : INoSystemUnit, TNominator => new(this.creator.Create<NonStandard<TUnit>>());
+    public Denominator<TFactory> Si<TUnit>() where TUnit : ISiUnit, TNominator => new(this.creator.Create<Si<TUnit>>());
     public Denominator<TFactory> Si<TPrefix, TUnit>()
         where TPrefix : IMetricPrefix
-        where TUnit : ISiUnit, TNominator
-    {
-        return new(this.creator.Create<Si<TPrefix, TUnit>>());
-    }
+        where TUnit : ISiUnit, TNominator => new(this.creator.Create<Si<TPrefix, TUnit>>());
 }

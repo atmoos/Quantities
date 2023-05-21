@@ -20,6 +20,12 @@ public interface IMetricFactory<out TQuantity, in TDimension> : IFactory
     public TQuantity Metric<TPrefix, TUnit>() where TPrefix : IMetricPrefix where TUnit : IMetricUnit, TDimension;
 }
 
+public interface IBinaryFactory<out TQuantity, in TDimension> : IFactory
+    where TDimension : IDimension
+{
+    public TQuantity Binary<TPrefix, TUnit>() where TPrefix : IBinaryPrefix where TUnit : IMetricUnit, TDimension;
+}
+
 public interface IImperialFactory<out TQuantity, in TDimension>
     where TDimension : IDimension
 {

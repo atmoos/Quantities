@@ -1,4 +1,5 @@
 ﻿namespace Quantities;
 
-public interface IScaleUp { /* marker interface */ }
-public interface IScaleDown { /* marker interface */ }
+public interface IScale { /* marker interface */ }
+public interface IScaleUp : IScale { /* marker interface */ }
+public interface IScaleDown : IScale { /* marker interface */ }

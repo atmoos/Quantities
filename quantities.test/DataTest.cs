@@ -11,68 +11,68 @@ public class DataTest
     private const Double gibi = kibi * mebi;
 
     [Fact]
-    public void BitToString() => FormattingMatches(v => Data.In<Bit>(v), "bit");
+    public void BitToString() => FormattingMatches(v => Data.Of(v).Metric<Bit>(), "bit");
     [Fact]
-    public void ByteToString() => FormattingMatches(v => Data.In<Bytes>(v), "B");
+    public void ByteToString() => FormattingMatches(v => Data.Of(v).Metric<Bytes>(), "B");
     [Fact]
-    public void NibbleToString() => FormattingMatches(v => Data.In<Nibble>(v), "N");
+    public void NibbleToString() => FormattingMatches(v => Data.Of(v).Metric<Nibble>(), "N");
     [Fact]
-    public void KibiBitToString() => FormattingMatches(v => Data.In<Kibi, Bit>(v), "Kibit");
+    public void KibiBitToString() => FormattingMatches(v => Data.Of(v).Binary<Kibi, Bit>(), "Kibit");
     [Fact]
-    public void KiloBitToString() => FormattingMatches(v => Data.In<Kilo, Bit>(v), "Kbit");
+    public void KiloBitToString() => FormattingMatches(v => Data.Of(v).Metric<Kilo, Bit>(), "Kbit");
     [Fact]
-    public void KiloByteToString() => FormattingMatches(v => Data.In<Kilo, Bytes>(v), "KB");
+    public void KiloByteToString() => FormattingMatches(v => Data.Of(v).Metric<Kilo, Bytes>(), "KB");
     [Fact]
-    public void KibiByteToString() => FormattingMatches(v => Data.In<Kibi, Bytes>(v), "KiB");
+    public void KibiByteToString() => FormattingMatches(v => Data.Of(v).Binary<Kibi, Bytes>(), "KiB");
     [Fact]
     public void DefinitionOfNibble()
     {
-        Data definition = Data.In<Bit>(4);
-        Data oneNibble = Data.In<Nibble>(1);
+        Data definition = Data.Of(4).Metric<Bit>();
+        Data oneNibble = Data.Of(1).Metric<Nibble>();
 
         Assert.Equal(definition, oneNibble);
     }
     [Fact]
     public void DefinitionOfByte()
     {
-        Data definition = Data.In<Bit>(8);
-        Data oneByte = Data.In<Bytes>(1);
+        Data definition = Data.Of(8).Metric<Bit>();
+        Data oneByte = Data.Of(1).Metric<Bytes>();
 
         Assert.Equal(definition, oneByte);
     }
     [Fact]
     public void DefinitionOfKiloByte()
     {
-        Data definition = Data.In<Bit>(8 * 1000);
-        Data oneByte = Data.In<Kilo, Bytes>(1);
+        Data definition = Data.Of(8 * 1000).Metric<Bit>();
+        Data oneByte = Data.Of(1).Metric<Kilo, Bytes>();
 
         Assert.Equal(definition, oneByte);
     }
     [Fact]
     public void DefinitionOfKibiByte()
     {
-        Data definition = Data.In<Bit>(8 * kibi);
-        Data oneByte = Data.In<Kibi, Bytes>(1);
+        Data definition = Data.Of(8 * kibi).Metric<Bit>();
+        Data oneByte = Data.Of(1).Binary<Kibi, Bytes>();
 
         Assert.Equal(definition, oneByte);
     }
     [Fact]
     public void MebiByteToMegaByte()
     {
-        Data expected = Data.In<Mega, Bytes>(3 * mebi / 1e6);
-        Data mebiBytes = Data.In<Mebi, Bytes>(3);
+        Data expected = Data.Of(3 * mebi / 1e6).Metric<Mega, Bytes>();
+        Data mebiBytes = Data.Of(3).Binary<Mebi, Bytes>();
 
-        Data actual = mebiBytes.To<Mega, Bytes>();
+        Data actual = mebiBytes.To.Metric<Mega, Bytes>();
 
         actual.Matches(expected);
     }
     [Fact]
     public void GigaByteToGibiByte()
     {
-        Data expected = Data.In<Gibi, Bytes>(22 * 1e9 / gibi);
-        Data mebiBytes = Data.In<Giga, Bytes>(22);
+        Data expected = Data.Of(22 * 1e9 / gibi).Binary<Gibi, Bytes>();
+        Data mebiBytes = Data.Of(22).Metric<Giga, Bytes>();
 
-        Data actual = mebiBytes.To<Gibi, Bytes>();
+        Data actual = mebiBytes.To.Binary<Gibi, Bytes>();
 
         actual.Matches(expected);
     }
@@ -82,7 +82,7 @@ public class DataTest
         Time time = Time.Of(12).Si<Milli, Second>();
         DataRate rate = DataRate.In<Mega, Bit>(32).PerSecond();
         // Note that the units aren't preserved yet...
-        Data expected = Data.In<Kibi, Bytes>(12 * 32 / (8 * 1e3) * 1e6 / kibi);
+        Data expected = Data.Of(12 * 32 / (8 * 1e3) * 1e6 / kibi).Binary<Kibi, Bytes>();
 
         Data actual = rate * time;
 

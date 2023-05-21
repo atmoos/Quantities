@@ -12,9 +12,9 @@ namespace Quantities.Quantities;
 public readonly struct Velocity : IQuantity<Velocity>, IVelocity<ILength, ITime>
     , IFactory<Velocity>
     , IFactory<
-        ICompoundFactory<Denominator<Velocity, Factory<Velocity, ITime>>, ILength>,
-        Nominator<Velocity, To<Velocity>, ILength, Factory<Velocity, ITime>>,
-        Nominator<Velocity, Create<Velocity>, ILength, Factory<Velocity, ITime>>
+        ICompoundFactory<Denominator<LinearFactory<Velocity, ITime>>, ILength>,
+        Nominator<Velocity, To, ILength, LinearFactory<Velocity, ITime>>,
+        Nominator<Velocity, Create, ILength, LinearFactory<Velocity, ITime>>
       >
     , IMultiplyOperators<Velocity, Force, Power>
     , IMultiplyOperators<Velocity, Time, Length>
@@ -23,7 +23,7 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity<ILength, ITime>
     private readonly Quant quant;
     internal Quant Quant => this.quant;
 
-    public Nominator<Velocity, To<Velocity>, ILength, Factory<Velocity, ITime>> To => new(new To<Velocity>(in this.quant));
+    public Nominator<Velocity, To, ILength, LinearFactory<Velocity, ITime>> To => new(new To(in this.quant));
 
     internal Velocity(in Quant quant) => this.quant = quant;
     static Velocity IFactory<Velocity>.Create(in Quant quant) => new(in quant);
@@ -39,7 +39,7 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity<ILength, ITime>
     public override String ToString() => this.quant.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.quant.ToString(format, provider);
 
-    public static Nominator<Velocity, Create<Velocity>, ILength, Factory<Velocity, ITime>> Of(in Double value) => new(new Create<Velocity>(in value));
+    public static Nominator<Velocity, Create, ILength, LinearFactory<Velocity, ITime>> Of(in Double value) => new(new Create(in value));
 
     public static Boolean operator ==(Velocity left, Velocity right) => left.Equals(right);
     public static Boolean operator !=(Velocity left, Velocity right) => !left.Equals(right);

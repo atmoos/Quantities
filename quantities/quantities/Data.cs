@@ -60,7 +60,7 @@ public readonly struct Data : IQuantity<Data>, IAmountOfInformation
         where TCreate : struct, ICreate
     {
         private readonly TCreate create;
-        public DataFactory(in TCreate create) => this.create = create;
+        internal DataFactory(in TCreate create) => this.create = create;
         public Data Binary<TPrefix, TUnit>()
             where TPrefix : IBinaryPrefix
             where TUnit : IMetricUnit, IAmountOfInformation => new(this.create.Create<Metric<TPrefix, TUnit>>());

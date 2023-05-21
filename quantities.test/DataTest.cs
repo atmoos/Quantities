@@ -80,7 +80,7 @@ public class DataTest
     public void DataRateTimesTimeIsAmountOfData()
     {
         Time time = Time.Of(12).Si<Milli, Second>();
-        DataRate rate = DataRate.In<Mega, Bit>(32).PerSecond();
+        DataRate rate = DataRate.Of(32).Metric<Mega, Bit>().Per.Si<Second>();
         // Note that the units aren't preserved yet...
         Data expected = Data.Of(12 * 32 / (8 * 1e3) * 1e6 / kibi).Binary<Kibi, Bytes>();
 

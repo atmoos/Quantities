@@ -17,3 +17,9 @@ public interface IAliasingCreate
     internal Quant Create<TMeasure, TAlias>()
       where TMeasure : IMeasure, ILinear where TAlias : IInjector, new();
 }
+
+public interface ICreatable<out TSelf>
+    where TSelf : ICreatable<TSelf>
+{
+    internal static abstract TSelf Create(in ICreate creator);
+}

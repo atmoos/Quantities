@@ -44,3 +44,24 @@ public readonly struct LinearCreate<TQuantity, TDimension> : ICompoundFactory<TQ
     public TQuantity Imperial<TUnit>() where TUnit : IImperialUnit, TDimension => TQuantity.Create(this.value.As<Imperial<TUnit>>());
     public TQuantity NonStandard<TUnit>() where TUnit : INoSystemUnit, TDimension => TQuantity.Create(this.value.As<NonStandard<TUnit>>());
 }
+
+public readonly struct LinearFactory<TQuantity, TDimension> : ICompoundFactory<TQuantity, TDimension>, ICreatable<LinearFactory<TQuantity, TDimension>>
+    where TQuantity : IFactory<TQuantity>
+    where TDimension : Dimensions.IDimension, ILinear
+{
+    private readonly ICreate creator;
+    private LinearFactory(in ICreate value) => this.creator = value;
+    public TQuantity Si<TUnit>() where TUnit : ISiUnit, TDimension => TQuantity.Create(this.creator.Create<Si<TUnit>>());
+    public TQuantity Si<TPrefix, TUnit>()
+        where TPrefix : IMetricPrefix
+        where TUnit : ISiUnit, TDimension => TQuantity.Create(this.creator.Create<Si<TPrefix, TUnit>>());
+    public TQuantity Metric<TUnit>() where TUnit : IMetricUnit, TDimension => TQuantity.Create(this.creator.Create<Metric<TUnit>>());
+    public TQuantity Metric<TPrefix, TUnit>()
+        where TPrefix : IMetricPrefix
+        where TUnit : IMetricUnit, TDimension => TQuantity.Create(this.creator.Create<Metric<TPrefix, TUnit>>());
+
+    public TQuantity Imperial<TUnit>() where TUnit : IImperialUnit, TDimension => TQuantity.Create(this.creator.Create<Imperial<TUnit>>());
+    public TQuantity NonStandard<TUnit>() where TUnit : INoSystemUnit, TDimension => TQuantity.Create(this.creator.Create<NonStandard<TUnit>>());
+
+    static LinearFactory<TQuantity, TDimension> ICreatable<LinearFactory<TQuantity, TDimension>>.Create(in ICreate creator) => new(in creator);
+}

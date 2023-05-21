@@ -23,7 +23,7 @@ public interface IPower<out TMass, out TLength, out TTime> : IPer<ITimes<TMass, 
     where TLength : ILength
     where TTime : ITime
 { /* marker interface */ }
-public interface IEnergy : IDimension { /* marker interface */ }
+public interface IEnergy : IDimension, ILinear { /* marker interface */ }
 public interface IEnergy<out TMass, out TLength, out TTime> : IPer<ITimes<TMass, ISquare<TLength>>, ISquare<TTime>>, IEnergy
     where TMass : IMass
     where TLength : ILength

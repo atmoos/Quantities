@@ -5,7 +5,7 @@ namespace Quantities.Measures;
 public interface ICreate
 {
     internal Quant Create<TMeasure>()
-      where TMeasure : IMeasure, ILinear;
+      where TMeasure : IMeasure;
 }
 public interface ICreate<out TResult>
 {

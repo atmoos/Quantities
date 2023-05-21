@@ -15,7 +15,7 @@ internal interface IInjector
 }
 
 internal sealed class Linear<TMeasure> : IInjector
-    where TMeasure : IMeasure, ILinear
+    where TMeasure : IMeasure
 {
     public T Inject<T>(in IInject<T> creator, in Double value) => creator.Inject<TMeasure>(in value);
 }

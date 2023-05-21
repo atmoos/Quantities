@@ -49,7 +49,7 @@ public sealed class EnergyTest
     public void EnergyFromMultiplicationEqualsDirectCreation()
     {
         var time = Time.Of(2).Metric<Hour>();
-        var power = Power.Si<Kilo, Watt>(3);
+        var power = Power.Of(3).Si<Kilo, Watt>();
         var expected = Energy.Metric<Kilo, Watt, Hour>(6);
 
         var actual = power * time;

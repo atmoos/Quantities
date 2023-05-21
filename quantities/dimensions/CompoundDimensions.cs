@@ -17,7 +17,7 @@ public interface IForce<out TMass, out TLength, out TTime> : IPer<ITimes<TMass, 
     where TLength : ILength
     where TTime : ITime
 { /* marker interface */ }
-public interface IPower : IDimension { /* marker interface */ }
+public interface IPower : IDimension, ILinear { /* marker interface */ }
 public interface IPower<out TMass, out TLength, out TTime> : IPer<ITimes<TMass, ISquare<TLength>>, ICubic<TTime>>, IPower
     where TMass : IMass
     where TLength : ILength

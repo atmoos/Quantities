@@ -1,18 +1,16 @@
 ﻿using System.Numerics;
 using Quantities.Dimensions;
+using Quantities.Factories;
 using Quantities.Measures;
 using Quantities.Prefixes;
 using Quantities.Quantities.Roots;
-using Quantities.Units.Imperial;
-using Quantities.Units.Si;
 using Quantities.Units.Si.Derived;
 
 namespace Quantities.Quantities;
 
 public readonly struct Power : IQuantity<Power>, IPower
-    , ISi<Power, IPower>
-    , IImperial<Power, IPower>
-    , IMetric<Power, IPower>
+    , IFactory<Power>
+    , IFactory<ICompoundFactory<Power, IPower>, LinearTo<Power, IPower>, LinearCreate<Power, IPower>>
     , IMultiplyOperators<Power, Time, Energy>
     , IDivisionOperators<Power, ElectricCurrent, ElectricPotential>
     , IDivisionOperators<Power, ElectricPotential, ElectricCurrent>
@@ -22,62 +20,10 @@ public readonly struct Power : IQuantity<Power>, IPower
     private static readonly IRoot root = new SiRoot<Watt>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
+    public LinearTo<Power, IPower> To => new(in this.quant);
     private Power(in Quant quant) => this.quant = quant;
-    public Power To<TUnit>()
-        where TUnit : ISiUnit, IPower
-    {
-        return new(this.quant.As<Si<TUnit>>());
-    }
-    public Power To<TPrefix, TUnit>()
-        where TPrefix : IMetricPrefix
-        where TUnit : ISiUnit, IPower
-    {
-        return new(this.quant.As<Si<TPrefix, TUnit>>());
-    }
-    public Power ToMetric<TUnit>()
-        where TUnit : IMetricUnit, IPower
-    {
-        return new(this.quant.As<Metric<TUnit>>());
-    }
-    public Power ToMetric<TPrefix, TUnit>()
-        where TPrefix : IMetricPrefix
-        where TUnit : IMetricUnit, IPower
-    {
-        return new(this.quant.As<Metric<TPrefix, TUnit>>());
-    }
-    public Power ToImperial<TUnit>()
-        where TUnit : IImperialUnit, IPower
-    {
-        return new(this.quant.As<Imperial<TUnit>>());
-    }
-    public static Power Si<TUnit>(in Double value)
-        where TUnit : ISiUnit, IPower
-    {
-        return new(value.As<Si<TUnit>>());
-    }
-    public static Power Si<TPrefix, TUnit>(in Double value)
-        where TPrefix : IMetricPrefix
-        where TUnit : ISiUnit, IPower
-    {
-        return new(value.As<Si<TPrefix, TUnit>>());
-    }
-    public static Power Imperial<TUnit>(in Double value)
-        where TUnit : IImperialUnit, IPower
-    {
-        return new(value.As<Imperial<TUnit>>());
-    }
-    public static Power Metric<TUnit>(in Double value)
-        where TUnit : IMetricUnit, IPower
-    {
-        return new(value.As<Metric<TUnit>>());
-    }
-    public static Power Metric<TPrefix, TUnit>(in Double value)
-        where TPrefix : IMetricPrefix
-        where TUnit : IMetricUnit, IPower
-    {
-        return new(value.As<Metric<TPrefix, TUnit>>());
-    }
-
+    public static LinearCreate<Power, IPower> Of(in Double value) => new(in value);
+    static Power IFactory<Power>.Create(in Quant quant) => new(in quant);
     internal static Power From(in ElectricPotential potential, in ElectricCurrent current)
     {
         return new(MetricPrefix.ScaleThree(potential.Quant.SiMultiply(current.Quant), root));

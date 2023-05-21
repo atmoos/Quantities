@@ -62,10 +62,10 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
 
 |                       Method |      Mean |     Error |    StdDev | Ratio | RatioSD |   Gen0 | Allocated | Alloc Ratio |
 |----------------------------- |----------:|----------:|----------:|------:|--------:|-------:|----------:|------------:|
-|                 CreateObject |  6.661 ns | 0.0832 ns | 0.0778 ns |  1.00 |    0.00 | 0.0057 |      24 B |        1.00 |
-|                 CreateStruct |  1.160 ns | 0.0442 ns | 0.0413 ns |  0.17 |    0.01 |      - |         - |        0.00 |
-|           CreateFastQuantity |  4.259 ns | 0.0191 ns | 0.0169 ns |  0.64 |    0.01 |      - |         - |        0.00 |
-| CreateFastQuantityWithoutOpt |  8.429 ns | 0.0283 ns | 0.0265 ns |  1.27 |    0.02 |      - |         - |        0.00 |
-|           CreateSlowQuantity |  6.738 ns | 0.0590 ns | 0.0523 ns |  1.01 |    0.01 |      - |         - |        0.00 |
-|     CreateAllocatingQuantity | 21.105 ns | 0.0615 ns | 0.0545 ns |  3.17 |    0.04 | 0.0057 |      24 B |        1.00 |
+|                 CreateObject |  6.680 ns | 0.0787 ns | 0.0736 ns |  1.00 |    0.00 | 0.0057 |      24 B |        1.00 |
+|                 CreateStruct |  1.220 ns | 0.0244 ns | 0.0228 ns |  0.18 |    0.00 |      - |         - |        0.00 |
+|           CreateFastQuantity |  4.372 ns | 0.0549 ns | 0.0513 ns |  0.65 |    0.01 |      - |         - |        0.00 |
+| CreateFastQuantityWithoutOpt |  8.770 ns | 0.1276 ns | 0.1194 ns |  1.31 |    0.02 |      - |         - |        0.00 |
+|           CreateSlowQuantity |  6.709 ns | 0.0739 ns | 0.0655 ns |  1.01 |    0.02 |      - |         - |        0.00 |
+|     CreateAllocatingQuantity | 17.676 ns | 0.1354 ns | 0.1267 ns |  2.65 |    0.03 | 0.0057 |      24 B |        1.00 |
 */

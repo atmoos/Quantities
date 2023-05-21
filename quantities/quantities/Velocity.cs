@@ -11,16 +11,21 @@ namespace Quantities.Quantities;
 
 public readonly struct Velocity : IQuantity<Velocity>, IVelocity<ILength, ITime>
     , IFactory<Velocity>
-    , IFactory<ICompoundFactory<Denominator<Velocity, IVelocity<ILength, ITime>, ITime>, ILength>, Nominator<Velocity, IVelocity<ILength, ITime>, To<Velocity>, ILength, ITime>, Nominator<Velocity, IVelocity<ILength, ITime>, Create<Velocity>, ILength, ITime>>
+    , IFactory<
+        ICompoundFactory<Denominator<Velocity, Factory<Velocity, ITime>>, ILength>,
+        Nominator<Velocity, To<Velocity>, ILength, Factory<Velocity, ITime>>,
+        Nominator<Velocity, Create<Velocity>, ILength, Factory<Velocity, ITime>>
+      >
     , IMultiplyOperators<Velocity, Force, Power>
     , IMultiplyOperators<Velocity, Time, Length>
 {
     private static readonly IRoot root = new FractionalRoot<Metre, Second>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
-    public Nominator<Velocity, IVelocity<ILength, ITime>, To<Velocity>, ILength, ITime> To => new(new To<Velocity>(in this.quant));
+
+    public Nominator<Velocity, To<Velocity>, ILength, Factory<Velocity, ITime>> To => new(new To<Velocity>(in this.quant));
+
     internal Velocity(in Quant quant) => this.quant = quant;
-    public static Nominator<Velocity, IVelocity<ILength, ITime>, Create<Velocity>, ILength, ITime> Of(in Double value) => new(new Create<Velocity>(in value));
     static Velocity IFactory<Velocity>.Create(in Quant quant) => new(in quant);
     internal static Velocity From(in Power power, in Force force)
     {
@@ -33,6 +38,8 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity<ILength, ITime>
     public override Int32 GetHashCode() => this.quant.GetHashCode();
     public override String ToString() => this.quant.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.quant.ToString(format, provider);
+
+    public static Nominator<Velocity, Create<Velocity>, ILength, Factory<Velocity, ITime>> Of(in Double value) => new(new Create<Velocity>(in value));
 
     public static Boolean operator ==(Velocity left, Velocity right) => left.Equals(right);
     public static Boolean operator !=(Velocity left, Velocity right) => !left.Equals(right);

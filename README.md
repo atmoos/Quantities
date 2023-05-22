@@ -51,19 +51,19 @@ Usage is designed to be intuitive using:
 ### Instantiation
 
 ```csharp
-Length metres = Length.Si<Metre>(4);
-Length miles = Length.Imperial<Mile>(12);
-Length kilometres = Length.Si<Kilo, Metre>(18);
-Velocity kilometresPerHour = Velocity.Si<Kilo, Metre>(4).Per<Hour>();
+Length metres = Length.Of(4).Si<Metre>();
+Length miles = Length.Of(12).Imperial<Mile>();
+Length kilometres = Length.Of(18).Si<Kilo, Metre>();
+Velocity kilometresPerHour = Velocity.Of(4).Si<Kilo, Metre>().Per.Metric<Hour>();
 ```
 
 ### Conversion
 
 ```csharp
-Length miles = metres.ToImperial<Mile>();
-Length kilometres = metres.ToSi<Kilo, Metre>();
-Velocity metresPerSecond = kilometresPerHour.To<Metre>().PerSecond();
-Velocity milesPerHour = kilometresPerHour.ToImperial<Mile>().Per<Hour>();
+Length miles = metres.To.Imperial<Mile>();
+Length kilometres = metres.To.Si<Kilo, Metre>();
+Velocity metresPerSecond = kilometresPerHour.To.Si<Metre>().Per.Si<Second>();
+Velocity milesPerHour = kilometresPerHour.To.Imperial<Mile>().Per.Metric<Hour>();
 ```
 
 ### Operator Overloads
@@ -71,13 +71,13 @@ Velocity milesPerHour = kilometresPerHour.ToImperial<Mile>().Per<Hour>();
 Quantities support common operations such as addition, subtraction, multiplication and division. The operations are "left associative", meaning the units of the left operand are "carried over" to the result when possible.
 
 ```csharp
-Time time = Time.In<Hour>(3);
+Time time = Time.Of(3).Metric<Hour>();
 
 Velocity metricVelocity = kilometres / time; // 6 km/h
 Velocity imperialVelocity = miles / time; // 4 mi/h
 
 Area metricArea = kilometres * miles; // 347.62 Km²
-Area imperialArea = miles * kilometres ; // 134.22 mi²
+Area imperialArea = miles * kilometres; // 134.22 mi²
 Console.WriteLine($"Equal area: {metricArea.Equals(imperialArea)}"); // Equal area: True
 
 Length metricSum = kilometres + miles - metres; // 37.308 Km
@@ -92,8 +92,8 @@ As one of the primary goals it to ensure safety when using quantities, type safe
 Additive operations only work on instances of the same type
 
 ```csharp
-Power power = Power.Si<Watt>(36);
-Mass mass = Mass.Metric<Tonne>(0.2);
+Power power = Power.Of(36).Si<Watt>();
+Mass mass = Mass.Of(0.2).Metric<Tonne>();
 
 // Doesn't compile:
 // Cannot implicitly convert type 'double' to 'Power'
@@ -105,16 +105,16 @@ Multiplication of different quantities is very common, hence compile errors are 
 
 ```csharp
 // Common operation: Ohm's Law
-ElectricCurrent ampere = ElectricCurrent.Si<Ampere>(3);
-ElectricalResistance ohm = ElectricalResistance.Si<Ohm>(7);
+ElectricCurrent ampere = ElectricCurrent.Of(3).Si<Ampere>();
+ElectricalResistance ohm = ElectricalResistance.Of(7).Si<Ohm>();
 
 // U = R * I
 // The multiplicative result is a different type: ElectricPotential
 ElectricPotential potential = ohm * ampere; // 21 V
 
 // Eccentric operation
-Time time = Time.In<Hour>(5);
-Mass mass = Mass.Metric<Tonne>(0.2);
+Time time = Time.Of(5).Metric<Hour>();
+Mass mass = Mass.Of(0.2).Metric<Tonne>();
 
 // Doesn't compile
 // Operator '*' is ambiguous on operands of type 'Mass' and 'Time'
@@ -128,7 +128,7 @@ var fooBar = mass * time;
 Different types of prefixes are also supported. This is useful for [IEC binary prefixes](https://en.wikipedia.org/wiki/Binary_prefix).
 
 ```csharp
-Data kibiByte = Data.In<Kibi, Byte>(1); // 1 KiB, binary prefix
-Data kiloByte = Data.In<Byte>(1024).To<Kilo, Byte>(); // 1 KB, metric prefix
+Data kibiByte = Data.Of(1).Binary<Kibi, Byte>(); // 1 KiB, binary prefix
+Data kiloByte = Data.Of(1.024).Metric<Kilo, Byte>(); // 1 KB, metric prefix
 Console.WriteLine($"Equal amount of data: {kiloByte.Equals(kibiByte)}"); // Equal amount of data: True
 ```

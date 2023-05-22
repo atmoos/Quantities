@@ -32,26 +32,35 @@ Therefore, the actual underlying unit and/or prefix of a given type is an irrele
 
 This library was built around an API I had in mind. The API should rely heavily on generics, which would make it very easy to use and extend for an arbitrary amount of units and (metric) prefixes.
 
-The minimal API for creation looks like this:
+There are factories (interfaces) for each system of measurement (Si, Metric, Imperial, etc.) that define what prefixes and units may be used:
 
 ```csharp
-public struct TQuantity : IMyDimension
+public struct Factory<TQuantity> : ISystemFactory
 {
-    public static TQuantity Create<TPrefix, TUnit>(in Double value)
+    public TQuantity System<TPrefix, TUnit>()
         where TPrefix : IPrefix
         where TUnit : IMyDimension, IUnit;
+    
+    // other factory methods, depending on the system of measurement...
 }
 ```
 
-Conversion between units should follow the same pattern, hence:
+The API for conversion and creation looks like this:
 
 ```csharp
 public struct TQuantity : IMyDimension
 {
-    public TQuantity To<TPrefix, TUnit>()
-        where TPrefix : IPrefix
-        where TUnit : IMyDimension, IUnit;
+    public Factory<TQuantity> To { get; };
+    public static Factory<TQuantity> Of(in Double value);
 }
+```
+
+Thus, allowing for concise and expressive handling of units:
+
+```csharp
+Length metric = Length.Of(100).Si<Milli, Metre>();
+Length imperial = Length.Of(23).Imperial<Foot>();
+Length otherMetric = metric.To.Si<Kilo, Metre>();
 ```
 
 Notice, how the use of the type parameters resembles how one would normally use function arguments. This is a key concept!
@@ -64,14 +73,9 @@ Using UML the concept may be illustrated as follows:
 title: Public API using Length as Example
 ---
 classDiagram
-    ILength <|.. Length
-    IUnit <|.. Metre
-    ILength <|.. Metre
-    IUnit <|.. Foot
-    ILength <|.. Foot
-    IPrefix <|.. Kilo
-    IPrefix <|.. Centi
-    IPrefix <|.. Micro
+    class Factory~TQuantiry~{
+        <<struct>>
+    }
     class ILength{
         <<interface>>
     }
@@ -83,9 +87,18 @@ classDiagram
     }
     class Length{
         <<struct>>
-        +To#lt;TPrefix, TUnit#gt;() Length
-        +Create#lt;TPrefix, TUnit#gt;(Double value)$ Length
+        +To: Factory~Length~
+        +Of(Double value)$ Factory~Length~
     }
+    Factory <|.. Length
+    ILength <|.. Length
+    IUnit <|.. Metre
+    ILength <|.. Metre
+    IUnit <|.. Foot
+    ILength <|.. Foot
+    IPrefix <|.. Kilo
+    IPrefix <|.. Centi
+    IPrefix <|.. Micro
 ```
 
 Note, that `Length` implements `ILength`, but not `IUnit`!
@@ -93,7 +106,7 @@ Note, that `Length` implements `ILength`, but not `IUnit`!
 Creating one kilometre is then as simple as:
 
 ```csharp
-Length oneKm = Length.Create<Kilo, Metre>(1d);
+Length oneKm = Length.Of(1d).Si<Kilo, Metre>();
 ```
 
 ## Decomposition
@@ -106,24 +119,20 @@ Each actual quantity ([Length](../quantities/quantities/Length.cs), [Time](../qu
 
 ```mermaid
 classDiagram
-    IQuantity~TQ~ <|.. Quantity
-    IQuantity~TQ~ <|.. IQuantity~TQ~
-    Quant --o Quantity
-    Map --o Quant
-    class IQuantity~TQ~{
+    class IQuantity~TQuantity~{
         <<interface>>
     }
     class Quantity{
         <<struct>>
         -Quant quant
-        +To#lt;P, U#gt;() Quantity
-        +Create#lt;P, U#gt;(Double value)$ Quantity
+        +Factory~Quantity~ To
+        +Of(Double value) Factory~Quantity~
     }
     class Quant{
         <<struct>>
         ~Map map
         ~Double Value
-        -Project(in Quant other)
+        -Project(in Quant other) Quant
     }
     class Map{
         <<singleton>>
@@ -131,6 +140,10 @@ classDiagram
         ~ToSi()
         ~FromSi()
     }
+    IQuantity <|.. Quantity
+    IQuantity <|.. IQuantity
+    Quant --o Quantity
+    Map --o Quant
 ```
 
 ## Precision

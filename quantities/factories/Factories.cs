@@ -26,13 +26,13 @@ public interface IBinaryFactory<out TQuantity, in TDimension> : IFactory
     public TQuantity Binary<TPrefix, TUnit>() where TPrefix : IBinaryPrefix where TUnit : IMetricUnit, TDimension;
 }
 
-public interface IImperialFactory<out TQuantity, in TDimension>
+public interface IImperialFactory<out TQuantity, in TDimension> : IFactory
     where TDimension : IDimension
 {
     public TQuantity Imperial<TUnit>() where TUnit : IImperialUnit, TDimension;
 }
 
-public interface INonStandardFactory<out TQuantity, in TDimension>
+public interface INonStandardFactory<out TQuantity, in TDimension> : IFactory
     where TDimension : IDimension
 {
     public TQuantity NonStandard<TUnit>() where TUnit : INoSystemUnit, TDimension;

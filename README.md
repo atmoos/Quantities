@@ -5,22 +5,85 @@ A library to safely handle various types of quantities, typically physical quant
 [![master status](https://github.com/atmoos/Quantities/actions/workflows/dotnet.yml/badge.svg)](https://github.com/atmoos/Quantities/actions/workflows/dotnet.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/atmoos/Quantities/blob/master/LICENSE)
 
-## Project Goals
+## Design Philosophy
 
-Dealing with quantities (Metre, Yard, etc.) is not trivial. There are many areas where things can go wrong, such as forgetting to convert from one unit to the next or converting the wrong way.
-This library set's out to remove that burden from developers and API designers alike.
+This library is intended to solve the ambiguity faced when dealing with physical units. Represented here by the umbrella term "quantities". Within a narrow scope (a method or private members of a class) it often suffices to declare the units that are in use with a comment and just use a `double` or a `float` to represent any quantity within that scope. The real issue arises when **designing APIs** where quantities with their associated units start to play a relevant role.
+This is where this library comes into play, enabling a type-safe means of declaring quantities on an API as "drop in replacements" for, say `double` or `float`.
 
-### A Generic API
+Let's look at a trivial example:
 
-This is primarily a project that lets me explore how far one can push C#'s generics in an API. The goal is to create an api where generics apply naturally and enhance readability.
-On the flip side, some implementation details in this library are plain out scary and weird, but heaps of fun to explore.
+```csharp
+public Double CalculateVelocity(Double lengthInMeters, Double timeInSeconds) => lengthInMeters / timeInSeconds;
+```
 
-### Why Physical Quantities?
+This method declares what units are expected in the names of the arguments and relies on any caller to heed the indicated units. Also, it assumes the caller has enough knowledge of physics the he or she will be able to infer that the returned units are *probably* "m/s", although there is *no guarantee*.
 
-Using physical quantities as test subject seemed appropriate, as there are a limited number of units and SI-prefixes. Using generics, these prefixes and units can be combined neatly to create all sorts of representations of quantities. The generic constraints then allow for the API to restrict the prefixes and units to a subset that actually make sense on a particular quantity.
-A concrete example helps to illustrate that point: A length may be represented in the SI-unit of metres or imperial units feet, but not with a unit that is used to represent time. Furthermore, it is standard usage to use the SI-units with prefixes, such as "Kilo" or "Milli", but not on imperial units. Hence, the generic constraints are set accordingly.
+With this library the API would read much clearer:
 
-## Should I Use It?
+```csharp
+public Velocity CalculateVelocity(Length length, Time time) => length / time;
+```
+
+The units have become irrelevant, but the expected quantities are declared in a type-safe way. Also, the returned quantity is now obvious, it's `Velocity`. But "what about the units" you may be asking yourself? Well they are a priori and de facto irrelevant for the caller and the method implementation. However, both the caller and implementer have the power to explicity *choose* whatever makes most sense for their use case or domain.
+
+Again, let's look at an example for the caller and assume she wants to print the result to the console. As she's a researcher, she'll likely be wanting "m/s", which is what she's easily able to express:
+
+```csharp
+Velocity velocity = CalculateVelocity(/* any values */); // The units in which the calculation is performed are irrelevant.
+
+Console.WriteLine($"The velocity is: {velocity.To.Si<Metre>().Per.Si<Second>()}"); // The velocity is: 42 m/s;
+```
+
+Let's look at an example for someone implementing the method. Let's assume it's train manufacturer, so "Kilometres" and "Hours" might be most familiar to them and let's also assume that complex logic is required and they choose to do the actual calculation using `double`:
+
+```csharp
+public Velocity CalculateVelocity(Length length, Time time)
+{
+  Double lengthInKilometres = length.To.Si<Kilo, Metre>();
+  Double timeInHours = time.To.Metric<Hour>();
+
+  Double velocityInKilometresPerHours = /* complex logic */;
+
+  return Velocity.Of(velocityInKilometresPerHours).Si<Kilo, Metre>().Per.Metric<Hour>();
+}
+```
+
+To maintainers of the above code snippet it will always be clear what units are in use in the implementation, as the scope is narrow. For callers the API is clear and expressive: the quantity is obvious (Velocity) and the units can be anything they chose.
+
+### Design Principles
+
+With the above example established, we'd like to state some design principles:
+
+- This library is domain agnostic.
+  - Hence, we make no assumptions of what users might wan't to model.
+  - Nor what kind of data would be modelled.
+- This library does not validate input.
+  - As long as it's a valid `Double`, we'll take it.
+  - Example: A negative `Length` is a valid value. (It's a valid floating point value.)
+  - If users need to constrain the value of a quantity, the'll need to do that themselves.
+  - This includes "Divide by zero" scenarios, which we leave to .Net to handle.
+- This library is designed to be fast.
+  - It's not as fast as using `Double` directly though.
+  - However, precision wins out over speed in some cases.
+- This library aims to avoid memory allocations.
+  - This holds true for many quantities.
+- Units and prefixes are represented by types, not values.
+  - This allows users to use their own units.
+  - (We don't see a scenario for user defined prefixes, but it's possible)
+
+### Naming
+
+The naming of units and prefixes follows the definitions given by the [International System of Units](https://en.wikipedia.org/wiki/International_System_of_Units) (SI). If no naming can be found in SI, the consensus formed on the corresponding english Wikipedia page will be used.
+This leads to the following list of naming conventions:
+
+- We use the *international* name as defined by SI or Wikipedia
+  - Many units are named after individuals. We respect the way they spell themselves.
+  - Hence we use [Ångström](./quantities/units/Si/Metric/Ångström.cs), not "Angstrom".
+  - We can do this since C# source code is UTF-8 and supports special characters
+- Potential duplicate names are resolved via namespaces.
+  - Examples are the well known unit of force, the [Newton](./quantities/units/Si/Derived/Newton.cs) and the lesser known unit of temperature, the [Newton](./quantities/units/NonStandard/Temperature/Newton.cs).
+
+## Should I use this Library?
 
 It's a library that is still evolving rapidly. Try at your own risk or - even better - contribute :-)
 

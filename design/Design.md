@@ -6,18 +6,18 @@ Every...
 
 - quantity is a struct
 - quantity has an _internal_ [unit](../quantities/units/IUnit.cs) that is part of a system of measurements:
-  - [SI](../quantities/units/Si/ISiUnit.cs) based
+  - [SI](../quantities/units/Si/ISiUnit.cs) (which includes [Metric](../quantities/units/Si/IMetricUnit.cs))
   - [Imperial](../quantities/units/Imperial/IImperial.cs)
   - [no-system](../quantities/units/NonStandard/INoSystem.cs)
-- SI quantity supports [prefixing](../quantities/prefixes/IPrefix.cs) with
+- quantity supports [prefixing](../quantities/prefixes/IPrefix.cs) of units on SI, metric or binary units with
   - a decimal prefix
   - a binary prefix
   - or both
-- quantity represents a unique [dimension](../quantities/dimensions/IDimension.cs)
+- quantity represents a unique [dimension](../quantities/dimensions/IDimension.cs), such as one of the seven [BaseDimensions](../quantities/dimensions/BaseDimensions.cs)
 - quantity can only be instantiated using _generic_ factory methods
   - that are parameterized by a combination of generic prefix and unit parameters.
   - The unit parameter is constrained by the same dimension the quantity implements
-- quantity is implicitly convertible to a Double
+- quantity is implicitly convertible to a `Double`
 - quantity supports
   - additive operations
   - scalar multiplicative operations
@@ -26,11 +26,11 @@ Every...
   - a compound expression will take the prefix and unit of the left most term
 - quantity can be converted to any other valid combination of prefix and unit
 
-Therefore, the actual underlying unit and/or prefix of a given type is an irrelevant detail of any quantity.
+Therefore, the actual underlying unit and/or prefix of a given type is an _irrelevant detail_ of any quantity.
 
 ## Public API
 
-This library was built around an API I had in mind. The API should rely heavily on generics, which would make it very easy to use and extend for an arbitrary amount of units and (metric) prefixes.
+This library was built around an API I had in mind. The API should rely heavily on generics, which would make it very easy to use and [extend](../quantities.test/UserDefined.cs) for an arbitrary amount of units and (metric) prefixes.
 
 There are factories (interfaces) for each system of measurement (Si, Metric, Imperial, etc.) that define what prefixes and units may be used:
 
@@ -73,7 +73,7 @@ Using UML the concept may be illustrated as follows:
 title: Public API using Length as Example
 ---
 classDiagram
-    class Factory~TQuantiry~{
+    class Factory~TQuantity~{
         <<struct>>
     }
     class ILength{
@@ -115,7 +115,7 @@ The implementation of various quantities revolves around a single struct the `Qu
 
 The quant provides for all the generic conversion capabilities that actual quantities might need to make use of.
 
-Each actual quantity ([Length](../quantities/quantities/Length.cs), [Time](../quantities/quantities/Time.cs), [Velocity](../quantities/quantities/Velocity.cs), etc.) wrap a 'Quant' instance, effectively restricting the operations allowed on that quantity.
+Each actual quantity ([Length](../quantities/quantities/Length.cs), [Time](../quantities/quantities/Time.cs), [Velocity](../quantities/quantities/Velocity.cs), etc.) wraps a 'Quant' instance, effectively restricting the operations allowed on that quantity.
 
 ```mermaid
 classDiagram
@@ -145,6 +145,18 @@ classDiagram
     Quant --o Quantity
     Map --o Quant
 ```
+
+### Design Ideas
+
+- The `Quant` can be thought of as a vector
+  - The `value` holds the magnitude of the vector
+  - The `map` is the direction within "quantity space" the vector points in
+- As such the map can be represented by a singleton
+  - Every combination of unit a prefix results in a unique map
+  - The quant [Builder](../quantities/measures/Build.cs) handles instantiation of Maps and ultimately also of `Quant`s.
+- Creation of `Quant`s is allocation free
+  - By virtue of the [Map](../quantities/measures/Map.cs) being a singleton class.
+  - and the [Quant](../quantities/measures/Quant.cs) a struct.
 
 ## Precision
 

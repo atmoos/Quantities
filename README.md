@@ -163,8 +163,8 @@ With the above example established, we'd like to state some design principles:
 - This library aims to avoid memory allocations.
   - This holds true for many quantities.
 - Units and prefixes are represented by types, not values.
-  - This allows users to use their own units.
-  - (We don't see a scenario for user defined prefixes, but it's possible)
+  - This allows users to easily [use their own](./quantities.test/UserDefined.cs) units.
+  - We don't see a scenario for user defined prefixes, but it's possible to do none the less.
 
 ### Naming
 

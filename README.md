@@ -5,6 +5,101 @@ A library to safely handle various types of quantities, typically physical quant
 [![master status](https://github.com/atmoos/Quantities/actions/workflows/dotnet.yml/badge.svg)](https://github.com/atmoos/Quantities/actions/workflows/dotnet.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/atmoos/Quantities/blob/master/LICENSE)
 
+## Examples
+
+Usage is designed to be intuitive:
+
+- Instantiation *of* quantities with static factory methods
+  - `Quantity.Of(42).Metric<Unit>()`
+- Conversion *to* other units with instance conversion methods
+  - `quantity.To.Imperial<Unit>()`
+- Use of operator overloads
+
+### Instantiation
+
+```csharp
+Length metres = Length.Of(4).Si<Metre>();
+Length miles = Length.Of(12).Imperial<Mile>();
+Length kilometres = Length.Of(18).Si<Kilo, Metre>();
+Velocity kilometresPerHour = Velocity.Of(4).Si<Kilo, Metre>().Per.Metric<Hour>();
+```
+
+### Conversion
+
+```csharp
+Length miles = metres.To.Imperial<Mile>();
+Length kilometres = metres.To.Si<Kilo, Metre>();
+Velocity metresPerSecond = kilometresPerHour.To.Si<Metre>().Per.Si<Second>();
+Velocity milesPerHour = kilometresPerHour.To.Imperial<Mile>().Per.Metric<Hour>();
+```
+
+### Operator Overloads
+
+Quantities support common operations such as addition, subtraction, multiplication and division. The operations are "left associative", meaning the units of the left operand are "carried over" to the result when possible.
+
+```csharp
+Time time = Time.Of(3).Metric<Hour>();
+
+Velocity metricVelocity = kilometres / time; // 6 km/h
+Velocity imperialVelocity = miles / time; // 4 mi/h
+
+Area metricArea = kilometres * miles; // 347.62 Km²
+Area imperialArea = miles * kilometres; // 134.22 mi²
+Console.WriteLine($"Equal area: {metricArea.Equals(imperialArea)}"); // Equal area: True
+
+Length metricSum = kilometres + miles - metres; // 37.308 Km
+Length imperialSum = miles + kilometres - metres; // 23.182 mi
+Console.WriteLine($"Equal length: {imperialSum.Equals(metricSum)}"); // Equal length: True
+```
+
+### Type Safety
+
+As one of the primary goals it to ensure safety when using quantities, type safety is essential.
+
+Additive operations only work on instances of the same type
+
+```csharp
+Power power = Power.Of(36).Si<Watt>();
+Mass mass = Mass.Of(0.2).Metric<Tonne>();
+
+// Doesn't compile:
+// Cannot implicitly convert type 'double' to 'Power'
+Mass foo = mass + power;
+Power bar = power + mass;
+```
+
+Multiplication of different quantities is very common, hence compile errors are less frequent. Type safety is always ensured, though.
+
+```csharp
+// Common operation: Ohm's Law
+ElectricCurrent ampere = ElectricCurrent.Of(3).Si<Ampere>();
+ElectricalResistance ohm = ElectricalResistance.Of(7).Si<Ohm>();
+
+// U = R * I
+// The multiplicative result is a different type: ElectricPotential
+ElectricPotential potential = ohm * ampere; // 21 V
+
+// Eccentric operation
+Time time = Time.Of(5).Metric<Hour>();
+Mass mass = Mass.Of(0.2).Metric<Tonne>();
+
+// Doesn't compile
+// Operator '*' is ambiguous on operands of type 'Mass' and 'Time'
+Mass foo = mass * time;
+Time bar = time * mass;
+var fooBar = mass * time;
+```
+
+### Binary Prefixes
+
+Different types of prefixes are also supported. This is useful for [IEC binary prefixes](https://en.wikipedia.org/wiki/Binary_prefix).
+
+```csharp
+Data kibiByte = Data.Of(1).Binary<Kibi, Byte>(); // 1 KiB, binary prefix
+Data kiloByte = Data.Of(1.024).Metric<Kilo, Byte>(); // 1 KB, metric prefix
+Console.WriteLine($"Equal amount of data: {kiloByte.Equals(kibiByte)}"); // Equal amount of data: True
+```
+
 ## Design Philosophy
 
 This library is intended to solve the ambiguity faced when dealing with physical units. Represented here by the umbrella term "quantities". Within a narrow scope (a method or private members of a class) it often suffices to declare the units that are in use with a comment and just use a `double` or a `float` to represent any quantity within that scope. The real issue arises when **designing APIs** where quantities with their associated units start to play a relevant role.
@@ -102,96 +197,3 @@ It's a library that is still evolving rapidly. Try at your own risk or - even be
   - example: 3'456 Km/d => 40 m/s
 - [ ] Rename the [Quant](quantities/measures/Quant.cs) type
   - Top candidate: "Amount"
-
-## Examples
-
-Usage is designed to be intuitive using:
-
-- instantiation with static factory methods
-- instance conversion methods
-- operator overloads
-
-### Instantiation
-
-```csharp
-Length metres = Length.Of(4).Si<Metre>();
-Length miles = Length.Of(12).Imperial<Mile>();
-Length kilometres = Length.Of(18).Si<Kilo, Metre>();
-Velocity kilometresPerHour = Velocity.Of(4).Si<Kilo, Metre>().Per.Metric<Hour>();
-```
-
-### Conversion
-
-```csharp
-Length miles = metres.To.Imperial<Mile>();
-Length kilometres = metres.To.Si<Kilo, Metre>();
-Velocity metresPerSecond = kilometresPerHour.To.Si<Metre>().Per.Si<Second>();
-Velocity milesPerHour = kilometresPerHour.To.Imperial<Mile>().Per.Metric<Hour>();
-```
-
-### Operator Overloads
-
-Quantities support common operations such as addition, subtraction, multiplication and division. The operations are "left associative", meaning the units of the left operand are "carried over" to the result when possible.
-
-```csharp
-Time time = Time.Of(3).Metric<Hour>();
-
-Velocity metricVelocity = kilometres / time; // 6 km/h
-Velocity imperialVelocity = miles / time; // 4 mi/h
-
-Area metricArea = kilometres * miles; // 347.62 Km²
-Area imperialArea = miles * kilometres; // 134.22 mi²
-Console.WriteLine($"Equal area: {metricArea.Equals(imperialArea)}"); // Equal area: True
-
-Length metricSum = kilometres + miles - metres; // 37.308 Km
-Length imperialSum = miles + kilometres - metres; // 23.182 mi
-Console.WriteLine($"Equal length: {imperialSum.Equals(metricSum)}"); // Equal length: True
-```
-
-### Type Safety
-
-As one of the primary goals it to ensure safety when using quantities, type safety is essential.
-
-Additive operations only work on instances of the same type
-
-```csharp
-Power power = Power.Of(36).Si<Watt>();
-Mass mass = Mass.Of(0.2).Metric<Tonne>();
-
-// Doesn't compile:
-// Cannot implicitly convert type 'double' to 'Power'
-Mass foo = mass + power;
-Power bar = power + mass;
-```
-
-Multiplication of different quantities is very common, hence compile errors are less frequent. Type safety is always ensured, though.
-
-```csharp
-// Common operation: Ohm's Law
-ElectricCurrent ampere = ElectricCurrent.Of(3).Si<Ampere>();
-ElectricalResistance ohm = ElectricalResistance.Of(7).Si<Ohm>();
-
-// U = R * I
-// The multiplicative result is a different type: ElectricPotential
-ElectricPotential potential = ohm * ampere; // 21 V
-
-// Eccentric operation
-Time time = Time.Of(5).Metric<Hour>();
-Mass mass = Mass.Of(0.2).Metric<Tonne>();
-
-// Doesn't compile
-// Operator '*' is ambiguous on operands of type 'Mass' and 'Time'
-Mass foo = mass * time;
-Time bar = time * mass;
-var fooBar = mass * time;
-```
-
-### Binary Prefixes
-
-Different types of prefixes are also supported. This is useful for [IEC binary prefixes](https://en.wikipedia.org/wiki/Binary_prefix).
-
-```csharp
-Data kibiByte = Data.Of(1).Binary<Kibi, Byte>(); // 1 KiB, binary prefix
-Data kiloByte = Data.Of(1.024).Metric<Kilo, Byte>(); // 1 KB, metric prefix
-Console.WriteLine($"Equal amount of data: {kiloByte.Equals(kibiByte)}"); // Equal amount of data: True
-```

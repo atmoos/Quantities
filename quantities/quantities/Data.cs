@@ -1,7 +1,9 @@
 using System.Numerics;
 using Quantities.Dimensions;
+using Quantities.Factories;
 using Quantities.Measures;
 using Quantities.Prefixes;
+using Quantities.Quantities.Roots;
 using Quantities.Units.Si;
 
 namespace Quantities.Quantities;
@@ -18,38 +20,20 @@ namespace Quantities.Quantities;
 - Information
 */
 public readonly struct Data : IQuantity<Data>, IAmountOfInformation
+    , IFactory<IMetricFactory<Data, IAmountOfInformation>, Data.Factory<LinearTo>, Data.Factory<LinearCreate>>
     , IDivisionOperators<Data, Time, DataRate>
 {
-    private static readonly Creator create = new();
+    private static readonly IRoot root = new MetricRoot<Units.Si.Metric.Byte>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
+    public Factory<LinearTo> To => new(new LinearTo(in this.quant));
     private Data(in Quant quant) => this.quant = quant;
-    public Data To<TUnit>() where TUnit : IMetricUnit, IAmountOfInformation
-    {
-        return new(this.quant.As<Metric<TUnit>>());
-    }
-    public Data To<TPrefix, TUnit>()
-        where TPrefix : IPrefix, IScaleUp// Metric & Binary Prefixes are ok!
-        where TUnit : IMetricUnit, IAmountOfInformation
-    {
-        return new(this.quant.As<Metric<TPrefix, TUnit>>());
-    }
-    public static Data In<TUnit>(in Double value) where TUnit : IMetricUnit, IAmountOfInformation
-    {
-        return new(value.As<Metric<TUnit>>());
-    }
-    public static Data In<TPrefix, TUnit>(in Double value)
-        where TPrefix : IPrefix, IScaleUp // Metric & Binary Prefixes are ok!
-        where TUnit : IMetricUnit, IAmountOfInformation
-    {
-        return new(value.As<Metric<TPrefix, TUnit>>());
-    }
-
+    public static Factory<LinearCreate> Of(in Double value) => new(new LinearCreate(in value));
     internal static Data From(in Time time, in DataRate rate)
     {
-        // ToDo: Recover data units form data rate
+        // ToDo: Recover data units from data rate
         Double bytes = Units.Si.Metric.Byte.FromSi(time.Quant.SiMultiply(rate.Quant));
-        return new(BinaryPrefix.Scale(in bytes, create));
+        return new(BinaryPrefix.Scale(in bytes, root));
     }
 
     public Boolean Equals(Data other) => this.quant.Equals(other.quant);
@@ -70,10 +54,17 @@ public readonly struct Data : IQuantity<Data>, IAmountOfInformation
 
     public static DataRate operator /(Data left, Time right) => DataRate.From(in left, in right);
 
-    private sealed class Creator : IPrefixInject<Quant>
+    public readonly struct Factory<TCreate> : IBinaryFactory<Data, IAmountOfInformation>, IMetricFactory<Data, IAmountOfInformation>
+        where TCreate : struct, ICreate
     {
-        // As bytes are way more common, use them to create data values by default.
-        public Quant Identity(in Double value) => value.As<Metric<Units.Si.Metric.Byte>>();
-        public Quant Inject<TPrefix>(in Double value) where TPrefix : IPrefix => value.As<Metric<TPrefix, Units.Si.Metric.Byte>>();
+        private readonly TCreate create;
+        internal Factory(in TCreate create) => this.create = create;
+        public Data Binary<TPrefix, TUnit>()
+            where TPrefix : IBinaryPrefix
+            where TUnit : IMetricUnit, IAmountOfInformation => new(this.create.Create<Metric<TPrefix, TUnit>>());
+        public Data Metric<TUnit>() where TUnit : IMetricUnit, IAmountOfInformation => new(this.create.Create<Metric<TUnit>>());
+        public Data Metric<TPrefix, TUnit>()
+            where TPrefix : IMetricPrefix
+            where TUnit : IMetricUnit, IAmountOfInformation => new(this.create.Create<Metric<TPrefix, TUnit>>());
     }
 }

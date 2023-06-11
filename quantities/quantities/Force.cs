@@ -1,92 +1,28 @@
 using System.Numerics;
 using Quantities.Dimensions;
+using Quantities.Factories;
 using Quantities.Measures;
 using Quantities.Prefixes;
-using Quantities.Units.Imperial;
-using Quantities.Units.NonStandard;
-using Quantities.Units.Si;
+using Quantities.Quantities.Roots;
 using Quantities.Units.Si.Derived;
 
 namespace Quantities.Quantities;
 
 public readonly struct Force : IQuantity<Force>, IForce<Mass, Length, Time>
-    , ISiDerived<Force, IForce>
-    , IImperial<Force, IForce>
-    , IMetric<Force, IForce>
-    , INoSystem<Force, IForce>
+    , IFactory<Force>
+    , IFactory<ISiFactory<Force, IForce>, LinearTo<Force, IForce>, LinearCreate<Force, IForce>>
     , IMultiplyOperators<Force, Velocity, Power>
 {
-    private static readonly Creator create = new();
+    private static readonly IRoot root = new SiRoot<Newton>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
+    public LinearTo<Force, IForce> To => new(in this.quant);
     private Force(in Quant quant) => this.quant = quant;
-    public Force To<TUnit>()
-        where TUnit : ISiDerivedUnit, IForce
-    {
-        return new(this.quant.As<SiDerived<TUnit>>());
-    }
-    public Force To<TPrefix, TUnit>()
-        where TPrefix : IMetricPrefix
-        where TUnit : ISiDerivedUnit, IForce
-    {
-        return new(this.quant.As<SiDerived<TPrefix, TUnit>>());
-    }
-    public Force ToMetric<TUnit>() where TUnit : IMetricUnit, IForce
-    {
-        return new(this.quant.As<Metric<TUnit>>());
-    }
-    public Force ToMetric<TPrefix, TUnit>()
-        where TPrefix : IMetricPrefix
-        where TUnit : IMetricUnit, IForce
-    {
-        return new(this.quant.As<Metric<TPrefix, TUnit>>());
-    }
-    public Force ToImperial<TUnit>()
-        where TUnit : IImperial, IForce
-    {
-        return new(this.quant.As<Imperial<TUnit>>());
-    }
-    public Force ToNonStandard<TUnit>()
-        where TUnit : INoSystem, IForce
-    {
-        return new(this.quant.As<NonStandard<TUnit>>());
-    }
-    public static Force Si<TUnit>(in Double value)
-        where TUnit : ISiDerivedUnit, IForce
-    {
-        return new(value.As<SiDerived<TUnit>>());
-    }
-    public static Force Si<TPrefix, TUnit>(in Double value)
-        where TPrefix : IMetricPrefix
-        where TUnit : ISiDerivedUnit, IForce
-    {
-        return new(value.As<SiDerived<TPrefix, TUnit>>());
-    }
-    public static Force Metric<TUnit>(in Double value) where TUnit : IMetricUnit, IForce
-    {
-        return new(value.As<Metric<TUnit>>());
-    }
-
-    public static Force Metric<TPrefix, TUnit>(in Double value)
-        where TPrefix : IMetricPrefix
-        where TUnit : IMetricUnit, IForce
-    {
-        return new(value.As<Metric<TPrefix, TUnit>>());
-    }
-    public static Force Imperial<TUnit>(in Double value)
-        where TUnit : IImperial, IForce
-    {
-        return new(value.As<Imperial<TUnit>>());
-    }
-    public static Force NonStandard<TUnit>(in Double value)
-        where TUnit : INoSystem, IForce
-    {
-        return new(value.As<NonStandard<TUnit>>());
-    }
-
+    public static LinearCreate<Force, IForce> Of(in Double value) => new(in value);
+    static Force IFactory<Force>.Create(in Quant quant) => new(in quant);
     internal static Force From(in Power power, in Velocity velocity)
     {
-        return new(MetricPrefix.ScaleThree(power.Quant.SiDivide(velocity.Quant), create));
+        return new(MetricPrefix.ScaleThree(power.Quant.SiDivide(velocity.Quant), root));
     }
 
     public Boolean Equals(Force other) => this.quant.Equals(other.quant);
@@ -106,10 +42,4 @@ public readonly struct Force : IQuantity<Force>, IForce<Mass, Length, Time>
     public static Double operator /(Force left, Force right) => left.quant / right.quant;
 
     public static Power operator *(Force force, Velocity velocity) => Power.From(in force, in velocity);
-
-    private sealed class Creator : IPrefixInject<Quant>
-    {
-        public Quant Identity(in Double value) => value.As<SiDerived<Newton>>();
-        public Quant Inject<TPrefix>(in Double value) where TPrefix : IPrefix => value.As<SiDerived<TPrefix, Newton>>();
-    }
 }

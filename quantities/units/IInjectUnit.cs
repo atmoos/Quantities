@@ -14,26 +14,22 @@ public interface IInjectUnit<TDimension>
 public readonly ref struct Creator<TAlias, T>
     where TAlias : Dimensions.IDimension
 {
-    private readonly ICreate<T> creator;
-    internal Creator(in ICreate<T> creator) => this.creator = creator;
-    public T Si<TInjectedUnit>(in Double value) where TInjectedUnit : ISiBaseUnit, TAlias
+    private readonly IInject<T> injector;
+    internal Creator(in IInject<T> injector) => this.injector = injector;
+    public T Si<TInjectedUnit>(in Double value) where TInjectedUnit : ISiUnit, TAlias
     {
-        return this.creator.Create<Si<TInjectedUnit>>(in value);
-    }
-    public T SiDerived<TInjectedUnit>(in Double value) where TInjectedUnit : ISiDerivedUnit, TAlias
-    {
-        return this.creator.Create<SiDerived<TInjectedUnit>>(in value);
+        return this.injector.Inject<Si<TInjectedUnit>>(in value);
     }
     public T Metric<TInjectedUnit>(in Double value) where TInjectedUnit : IMetricUnit, TAlias
     {
-        return this.creator.Create<Metric<TInjectedUnit>>(in value);
+        return this.injector.Inject<Metric<TInjectedUnit>>(in value);
     }
-    public T Imperial<TInjectedUnit>(in Double value) where TInjectedUnit : IImperial, ITransform, TAlias
+    public T Imperial<TInjectedUnit>(in Double value) where TInjectedUnit : IImperialUnit, ITransform, TAlias
     {
-        return this.creator.Create<Imperial<TInjectedUnit>>(in value);
+        return this.injector.Inject<Imperial<TInjectedUnit>>(in value);
     }
-    public T NonStandard<TInjectedUnit>(in Double value) where TInjectedUnit : INoSystem, ITransform, TAlias
+    public T NonStandard<TInjectedUnit>(in Double value) where TInjectedUnit : INoSystemUnit, ITransform, TAlias
     {
-        return this.creator.Create<NonStandard<TInjectedUnit>>(in value);
+        return this.injector.Inject<NonStandard<TInjectedUnit>>(in value);
     }
 }

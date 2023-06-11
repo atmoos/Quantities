@@ -5,7 +5,7 @@ namespace Quantities.Units.Imperial.Temperature;
 
 // [K] ≡ [GM] × ​125⁄9 + 394.261 
 // See: https://en.wikipedia.org/wiki/Conversion_of_units#Temperature
-public readonly struct GasMark : IImperial, ITemperature
+public readonly struct GasMark : IImperialUnit, ITemperature
 {
     private static readonly LinearTransform transform = new(125m, 9m, (5m * 218m / 9m) + 273.15m);
     public static Double ToSi(in Double nonSiValue) => transform.ToSi(in nonSiValue);

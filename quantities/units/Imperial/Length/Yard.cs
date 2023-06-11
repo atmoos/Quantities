@@ -3,7 +3,7 @@ using Quantities.Units.Transformation;
 
 namespace Quantities.Units.Imperial.Length;
 
-public readonly struct Yard : IImperial, ILength
+public readonly struct Yard : IImperialUnit, ILength
 {
     private static readonly Transform transform = new(0.9144 /* m */);
     public static Double ToSi(in Double nonSiValue) => transform.ToSi(in nonSiValue);

@@ -3,7 +3,7 @@ using Quantities.Units.Transformation;
 
 namespace Quantities.Units.Imperial.Area;
 
-public readonly struct Rood : IImperial, IArea<ILength>
+public readonly struct Rood : IImperialUnit, IArea<ILength>
 {
     private static readonly Transform transform = new(1011.7141056 /* m² */);
     public static Double ToSi(in Double nonSiValue) => transform.ToSi(in nonSiValue);

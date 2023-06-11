@@ -4,7 +4,7 @@ namespace Quantities.Units.Imperial.Temperature;
 
 // [K] ≡ ([°F] + 459.67) × ​5⁄9
 // See: https://en.wikipedia.org/wiki/Conversion_of_units#Temperature
-public readonly struct Fahrenheit : IImperial, ITemperature
+public readonly struct Fahrenheit : IImperialUnit, ITemperature
 {
     private const Decimal kelvinOffset = 459.67m;
     private const Decimal scaleFromKelvin = 9m / 5m;

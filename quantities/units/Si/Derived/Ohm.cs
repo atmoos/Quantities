@@ -2,7 +2,7 @@
 
 namespace Quantities.Units.Si.Derived;
 
-public readonly struct Ohm : ISiDerivedUnit, IElectricalResistance
+public readonly struct Ohm : ISiUnit, IElectricalResistance
 {
     public static String Representation => "Ω";
 }

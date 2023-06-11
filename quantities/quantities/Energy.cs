@@ -1,82 +1,24 @@
 using System.Numerics;
 using Quantities.Dimensions;
+using Quantities.Factories;
 using Quantities.Measures;
 using Quantities.Prefixes;
 using Quantities.Units.Imperial;
+using Quantities.Units.NonStandard;
 using Quantities.Units.Si;
 
 namespace Quantities.Quantities;
 
 public readonly struct Energy : IQuantity<Energy>, IEnergy<Mass, Length, Time>
-    , ISiDerived<Energy, IEnergy>
-    , IImperial<Energy, IEnergy>
+    , IFactory<ICompoundFactory<Energy, IEnergy<Mass, Length, Time>>, Energy.Factory<LinearTo>, Energy.Factory<LinearCreate>>
     , IDivisionOperators<Energy, Time, Power>
     , IDivisionOperators<Energy, Power, Time>
 {
     private readonly Quant quant;
     internal Quant Quant => this.quant;
+    public Factory<LinearTo> To => new(new LinearTo(in this.quant));
     private Energy(in Quant quant) => this.quant = quant;
-    public Energy To<TUnit>()
-        where TUnit : ISiDerivedUnit, IEnergy
-    {
-        return new(this.quant.As<SiDerived<TUnit>>());
-    }
-    public Energy To<TPrefix, TUnit>()
-        where TPrefix : IMetricPrefix
-        where TUnit : ISiDerivedUnit, IEnergy
-    {
-        return new(this.quant.As<SiDerived<TPrefix, TUnit>>());
-    }
-    public Energy ToMetric<TPrefix, TPowerUnit, TTimeUnit>()
-        where TPrefix : IMetricPrefix
-        where TPowerUnit : ISiDerivedUnit, IPower
-        where TTimeUnit : IMetricUnit, ITransform, ITime
-    {
-        return new(this.quant.AsProduct<SiDerived<TPrefix, TPowerUnit>, Metric<TTimeUnit>>());
-    }
-    public Energy ToImperial<TUnit>()
-        where TUnit : IImperial, IEnergy
-    {
-        return new(this.quant.As<Imperial<TUnit>>());
-    }
-    public static Energy Si<TUnit>(in Double value)
-        where TUnit : ISiDerivedUnit, IEnergy
-    {
-        return new(value.As<SiDerived<TUnit>>());
-    }
-    public static Energy Si<TPrefix, TUnit>(in Double value)
-        where TPrefix : IMetricPrefix
-        where TUnit : ISiDerivedUnit, IEnergy
-    {
-        return new(value.As<SiDerived<TPrefix, TUnit>>());
-    }
-    public static Energy Si<TPrefix, TPowerUnit, TTimeUnit>(in Double value)
-        where TPrefix : IMetricPrefix
-        where TPowerUnit : ISiDerivedUnit, IPower
-        where TTimeUnit : ISiBaseUnit, ITime
-    {
-        return new(value.AsProduct<SiDerived<TPrefix, TPowerUnit>, Si<TTimeUnit>>());
-    }
-    public static Energy Si<TPowerPrefix, TPowerUnit, TTimePrefix, TTimeUnit>(in Double value)
-        where TPowerPrefix : IPrefix
-        where TPowerUnit : ISiDerivedUnit, IPower
-        where TTimePrefix : IPrefix
-        where TTimeUnit : ISiBaseUnit, ITime
-    {
-        return new(value.AsProduct<SiDerived<TPowerPrefix, TPowerUnit>, Si<TTimePrefix, TTimeUnit>>());
-    }
-    public static Energy Metric<TPrefix, TPowerUnit, TTimeUnit>(in Double value)
-        where TPrefix : IMetricPrefix
-        where TPowerUnit : ISiDerivedUnit, IPower
-        where TTimeUnit : IMetricUnit, ITransform, ITime
-    {
-        return new(value.AsProduct<SiDerived<TPrefix, TPowerUnit>, Metric<TTimeUnit>>());
-    }
-    public static Energy Imperial<TUnit>(in Double value)
-        where TUnit : IImperial, IEnergy
-    {
-        return new(value.As<Imperial<TUnit>>());
-    }
+    public static Factory<LinearCreate> Of(in Double value) => new(new LinearCreate(in value));
     internal static Energy From(in Power power, in Time time) => new(power.Quant.Multiply(time.Quant));
 
     public Boolean Equals(Energy other) => this.quant.Equals(other.quant);
@@ -96,4 +38,34 @@ public readonly struct Energy : IQuantity<Energy>, IEnergy<Mass, Length, Time>
     public static Double operator /(Energy left, Energy right) => left.quant / right.quant;
     public static Power operator /(Energy left, Time right) => Power.From(in left, in right);
     public static Time operator /(Energy left, Power right) => Time.From(in left, in right);
+
+    public readonly struct Factory<TCreate> : ICompoundFactory<Energy, IEnergy>
+        where TCreate : ICreate
+    {
+        private readonly TCreate creator;
+        internal Factory(TCreate creator) => this.creator = creator;
+        public Energy Imperial<TUnit>() where TUnit : IImperialUnit, IEnergy => new(this.creator.Create<Imperial<TUnit>>());
+        public Energy Metric<TUnit>() where TUnit : IMetricUnit, IEnergy => new(this.creator.Create<Metric<TUnit>>());
+        public Energy Metric<TPrefix, TUnit>()
+            where TPrefix : IMetricPrefix
+            where TUnit : IMetricUnit, IEnergy => new(this.creator.Create<Metric<TPrefix, TUnit>>());
+        public Energy Metric<TPrefix, TPowerUnit, TTimeUnit>()
+            where TPrefix : IMetricPrefix
+            where TPowerUnit : ISiUnit, IPower
+            where TTimeUnit : IMetricUnit, ITime => new(this.creator.Create<Product<Si<TPrefix, TPowerUnit>, Metric<TTimeUnit>>>());
+        public Energy NonStandard<TUnit>() where TUnit : INoSystemUnit, IEnergy => new(this.creator.Create<NonStandard<TUnit>>());
+        public Energy Si<TUnit>() where TUnit : ISiUnit, IEnergy => new(this.creator.Create<Si<TUnit>>());
+        public Energy Si<TPrefix, TUnit>()
+            where TPrefix : IMetricPrefix
+            where TUnit : ISiUnit, IEnergy => new(this.creator.Create<Si<TPrefix, TUnit>>());
+        public Energy Si<TPrefix, TPowerUnit, TTimeUnit>()
+            where TPrefix : IMetricPrefix
+            where TPowerUnit : ISiUnit, IPower
+            where TTimeUnit : ISiUnit, ITime => new(this.creator.Create<Product<Si<TPrefix, TPowerUnit>, Si<TTimeUnit>>>());
+        public Energy Si<TPowerPrefix, TPowerUnit, TTimePrefix, TTimeUnit>()
+            where TPowerPrefix : IPrefix
+            where TPowerUnit : ISiUnit, IPower
+            where TTimePrefix : IPrefix
+            where TTimeUnit : ISiUnit, ITime => new(this.creator.Create<Product<Si<TPowerPrefix, TPowerUnit>, Si<TTimePrefix, TTimeUnit>>>());
+    }
 }

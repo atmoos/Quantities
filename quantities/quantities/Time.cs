@@ -1,51 +1,31 @@
 using System.Numerics;
 using Quantities.Dimensions;
+using Quantities.Factories;
 using Quantities.Measures;
 using Quantities.Prefixes;
+using Quantities.Quantities.Roots;
 using Quantities.Units.Si;
 
 namespace Quantities.Quantities;
 
 public readonly struct Time : IQuantity<Time>, ITime
+    , IFactory<Time>
+    , IFactory<ICompoundFactory<Time, ITime>, LinearTo<Time, ITime>, LinearCreate<Time, ITime>>
     , IMultiplyOperators<Time, Power, Energy>
     , IMultiplyOperators<Time, Velocity, Length>
     , IMultiplyOperators<Time, DataRate, Data>
-// ToDo: Can't apply ISi, or INoSystem interfaces...
 {
-    private static readonly Creator create = new();
+    private static readonly IRoot root = new SiRoot<Second>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
+    public LinearTo<Time, ITime> To => new(in this.quant);
     private Time(in Quant quant) => this.quant = quant;
-    public Time ToSeconds() => new(this.quant.As<Si<Second>>());
-    public Time To<TPrefix, TUnit>()
-        where TPrefix : IMetricPrefix, IScaleDown
-        where TUnit : ISiBaseUnit, ITime
-    {
-        return new(this.quant.As<Si<TPrefix, TUnit>>());
-    }
-    public Time To<TUnit>()
-        where TUnit : IMetricUnit, ITime
-    {
-        return new(this.quant.As<Metric<TUnit>>());
-    }
-    public TimeSpan ToTimeSpan() => TimeSpan.FromSeconds(ToSeconds());
-    public static Time Seconds(in Double value) => new(value.As<Si<Second>>());
-    public static Time Si<TPrefix, TUnit>(in Double value)
-        where TPrefix : IMetricPrefix, IScaleDown
-        where TUnit : ISiBaseUnit, ITime
-    {
-        return new(value.As<Si<TPrefix, TUnit>>());
-    }
-    public static Time In<TUnit>(in Double value)
-        where TUnit : IMetricUnit, ITime
-    {
-        return new(value.As<Metric<TUnit>>());
-    }
-
+    public static LinearCreate<Time, ITime> Of(in Double value) => new(in value);
+    static Time IFactory<Time>.Create(in Quant quant) => new(in quant);
     internal static Time From(in Energy energy, in Power power)
     {
         // ToDo: Extract the time component!
-        return new(MetricPrefix.ScaleThree(energy.Quant.SiDivide(power.Quant), create));
+        return new(MetricPrefix.ScaleThree(energy.Quant.SiDivide(power.Quant), root));
     }
 
     public Boolean Equals(Time other) => this.quant.Equals(other.quant);
@@ -53,7 +33,7 @@ public readonly struct Time : IQuantity<Time>, ITime
     public override Int32 GetHashCode() => this.quant.GetHashCode();
     public override String ToString() => this.quant.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.quant.ToString(format, provider);
-    public static implicit operator Time(TimeSpan span) => Seconds(span.TotalSeconds);
+
     public static Boolean operator ==(Time left, Time right) => left.Equals(right);
     public static Boolean operator !=(Time left, Time right) => !left.Equals(right);
     public static implicit operator Double(Time time) => time.quant.Value;
@@ -63,14 +43,8 @@ public readonly struct Time : IQuantity<Time>, ITime
     public static Time operator *(Time left, Double scalar) => new(scalar * left.quant);
     public static Time operator /(Time left, Double scalar) => new(left.quant / scalar);
     public static Double operator /(Time left, Time right) => left.quant / right.quant;
-    public static Energy operator *(Time left, Power right) => Energy.From(in right, in left);
 
+    public static Energy operator *(Time left, Power right) => Energy.From(in right, in left);
     public static Length operator *(Time left, Velocity right) => Length.From(in right, in left);
     public static Data operator *(Time left, DataRate right) => Data.From(in left, in right);
-
-    private sealed class Creator : IPrefixInject<Quant>
-    {
-        public Quant Identity(in Double value) => value.As<Si<Second>>();
-        public Quant Inject<TPrefix>(in Double value) where TPrefix : IPrefix => value.As<Si<TPrefix, Second>>();
-    }
 }

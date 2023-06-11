@@ -7,61 +7,61 @@ public sealed class VelocityTest
     [Fact]
     public void Create()
     {
-        Velocity speed = Velocity.Si<Metre>(5).PerSecond();
+        Velocity speed = Velocity.Of(5).Si<Metre>().Per.Si<Second>();
         Assert.Equal("5 m/s", speed.ToString());
     }
     [Fact]
     public void KilometrePerHourToMetrePerSecond()
     {
-        Velocity speed = Velocity.Si<Kilo, Metre>(36).Per<Hour>();
-        Velocity expected = Velocity.Si<Metre>(10).PerSecond();
+        Velocity speed = Velocity.Of(36).Si<Kilo, Metre>().Per.Metric<Hour>();
+        Velocity expected = Velocity.Of(10).Si<Metre>().Per.Si<Second>();
 
-        Velocity actual = speed.To<Metre>().PerSecond();
+        Velocity actual = speed.To.Si<Metre>().Per.Si<Second>();
         Assert.Equal(expected, actual);
     }
     [Fact]
     public void MetrePerSecondToKilometrePerHour()
     {
-        Velocity speed = Velocity.Si<Metre>(2).PerSecond();
-        Velocity expected = Velocity.Si<Kilo, Metre>(7.2).Per<Hour>();
+        Velocity speed = Velocity.Of(2).Si<Metre>().Per.Si<Second>();
+        Velocity expected = Velocity.Of(7.2).Si<Kilo, Metre>().Per.Metric<Hour>();
 
-        Velocity actual = speed.To<Kilo, Metre>().Per<Hour>();
+        Velocity actual = speed.To.Si<Kilo, Metre>().Per.Metric<Hour>();
         Assert.Equal(expected, actual);
     }
     [Fact]
     public void TrivialTransform()
     {
-        Velocity speed = Velocity.Si<Metre>(200).PerSecond();
-        Velocity expected = Velocity.Si<Metre>(0.2).Per<Milli, Second>();
+        Velocity speed = Velocity.Of(200).Si<Metre>().Per.Si<Second>();
+        Velocity expected = Velocity.Of(0.2).Si<Metre>().Per.Si<Milli, Second>();
 
-        Velocity actual = speed.To<Metre>().Per<Milli, Second>();
+        Velocity actual = speed.To.Si<Metre>().Per.Si<Milli, Second>();
         Assert.Equal(expected, actual);
     }
     [Fact]
     public void Transform()
     {
-        Velocity speed = Velocity.Si<Centi, Metre>(4).PerSecond();
-        Velocity expected = Velocity.Si<Milli, Metre>(40).PerSecond();
+        Velocity speed = Velocity.Of(4).Si<Centi, Metre>().Per.Si<Second>();
+        Velocity expected = Velocity.Of(40).Si<Milli, Metre>().Per.Si<Second>();
 
-        Velocity actual = speed.To<Milli, Metre>().PerSecond();
+        Velocity actual = speed.To.Si<Milli, Metre>().Per.Si<Second>();
         Assert.Equal(expected, actual);
     }
     [Fact]
     public void MilesPerHourToKilometresPerHour()
     {
-        Velocity speed = Velocity.Imperial<Mile>(4).Per<Hour>();
-        Velocity expected = Velocity.Si<Kilo, Metre>(4 * 1.609344).Per<Hour>();
+        Velocity speed = Velocity.Of(4).Imperial<Mile>().Per.Metric<Hour>();
+        Velocity expected = Velocity.Of(4 * 1.609344).Si<Kilo, Metre>().Per.Metric<Hour>();
 
-        Velocity actual = speed.To<Kilo, Metre>().Per<Hour>();
+        Velocity actual = speed.To.Si<Kilo, Metre>().Per.Metric<Hour>();
         Assert.Equal(expected, actual);
     }
     [Fact]
     public void MetresPerSecondToMilesPerHourTo()
     {
-        Velocity speed = Velocity.Si<Metre>(0.44704).PerSecond();
-        Velocity expected = Velocity.Imperial<Mile>(1).Per<Hour>();
+        Velocity speed = Velocity.Of(0.44704).Si<Metre>().Per.Si<Second>();
+        Velocity expected = Velocity.Of(1).Imperial<Mile>().Per.Metric<Hour>();
 
-        Velocity actual = speed.ToImperial<Mile>().Per<Hour>();
+        Velocity actual = speed.To.Imperial<Mile>().Per.Metric<Hour>();
 
         actual.Matches(expected);
     }
@@ -70,9 +70,9 @@ public sealed class VelocityTest
     [Fact]
     public void VelocityFromDivisionOfLengthWithTime_SiUnits()
     {
-        Length length = Length.Si<Metre>(12);
-        Time time = Time.Seconds(2);
-        Velocity expected = Velocity.Si<Metre>(6).PerSecond();
+        Length length = Length.Of(12).Si<Metre>();
+        Time time = Time.Of(2).Si<Second>();
+        Velocity expected = Velocity.Of(6).Si<Metre>().Per.Si<Second>();
 
         Velocity actual = length / time;
 
@@ -81,9 +81,9 @@ public sealed class VelocityTest
     [Fact]
     public void VelocityFromDivisionOfLengthWithTime_ImperialUnits()
     {
-        Length length = Length.Imperial<Mile>(18);
-        Time time = Time.In<Hour>(2);
-        Velocity expected = Velocity.Imperial<Mile>(9).Per<Hour>();
+        Length length = Length.Of(18).Imperial<Mile>();
+        Time time = Time.Of(2).Metric<Hour>();
+        Velocity expected = Velocity.Of(9).Imperial<Mile>().Per.Metric<Hour>();
 
         Velocity actual = length / time;
 
@@ -94,9 +94,9 @@ public sealed class VelocityTest
     [Fact]
     public void VelocityFromDivision_Equal_DirectVelocity()
     {
-        Length length = Length.Imperial<Mile>(18);
-        Time time = Time.In<Hour>(2);
-        Velocity expected = Velocity.Imperial<Mile>(9).Per<Hour>();
+        Length length = Length.Of(18).Imperial<Mile>();
+        Time time = Time.Of(2).Metric<Hour>();
+        Velocity expected = Velocity.Of(9).Imperial<Mile>().Per.Metric<Hour>();
 
         Velocity actual = length / time;
 

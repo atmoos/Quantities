@@ -7,7 +7,7 @@ using Quantities.Units.Si;
 namespace Quantities.Measures;
 
 internal readonly struct Si<TUnit> : ISiMeasure<TUnit>, ILinear
-    where TUnit : ISiBaseUnit
+    where TUnit : ISiUnit
 {
     public static Double ToSi(in Double value) => value;
     public static Double FromSi(in Double value) => value;
@@ -15,40 +15,11 @@ internal readonly struct Si<TUnit> : ISiMeasure<TUnit>, ILinear
 }
 internal readonly struct Si<TPrefix, TUnit> : ISiMeasure<TUnit>, ILinear
     where TPrefix : IPrefix
-    where TUnit : ISiBaseUnit
+    where TUnit : ISiUnit
 {
     public static Double ToSi(in Double value) => TPrefix.ToSi(in value);
     public static Double FromSi(in Double value) => TPrefix.FromSi(in value);
     public static String Representation { get; } = $"{TPrefix.Representation}{TUnit.Representation}";
-}
-internal readonly struct SiDerived<TUnit> : ISiMeasure<TUnit>, ILinear
-    where TUnit : ISiDerivedUnit
-{
-    public static Double ToSi(in Double value) => TUnit.ToSi(in value);
-    public static Double FromSi(in Double value) => TUnit.FromSi(in value);
-    public static String Representation => TUnit.Representation;
-}
-internal readonly struct SiDerived<TPrefix, TUnit> : ISiMeasure<TUnit>, ILinear
-    where TPrefix : IPrefix
-    where TUnit : ISiDerivedUnit
-{
-    public static Double ToSi(in Double value) => TPrefix.ToSi(TUnit.ToSi(in value));
-    public static Double FromSi(in Double value) => TPrefix.FromSi(TUnit.FromSi(in value));
-    public static String Representation { get; } = $"{TPrefix.Representation}{TUnit.Representation}";
-}
-internal readonly struct Imperial<TUnit> : IImperialMeasure<TUnit>, ILinear
-    where TUnit : IImperial, ITransform, IRepresentable
-{
-    public static Double ToSi(in Double value) => TUnit.ToSi(in value);
-    public static Double FromSi(in Double value) => TUnit.FromSi(in value);
-    public static String Representation => TUnit.Representation;
-}
-internal readonly struct NonStandard<TUnit> : INonStandardMeasure<TUnit>, ILinear
-    where TUnit : INoSystem, ITransform, IRepresentable
-{
-    public static Double ToSi(in Double value) => TUnit.ToSi(in value);
-    public static Double FromSi(in Double value) => TUnit.FromSi(in value);
-    public static String Representation => TUnit.Representation;
 }
 internal readonly struct Metric<TUnit> : ISiAccepted<TUnit>, ILinear
     where TUnit : IMetricUnit
@@ -65,6 +36,21 @@ internal readonly struct Metric<TPrefix, TUnit> : ISiAccepted<TUnit>, ILinear
     public static Double FromSi(in Double value) => TPrefix.FromSi(TUnit.FromSi(in value));
     public static String Representation { get; } = $"{TPrefix.Representation}{TUnit.Representation}";
 }
+internal readonly struct Imperial<TUnit> : IImperialMeasure<TUnit>, ILinear
+    where TUnit : IImperialUnit, ITransform, IRepresentable
+{
+    public static Double ToSi(in Double value) => TUnit.ToSi(in value);
+    public static Double FromSi(in Double value) => TUnit.FromSi(in value);
+    public static String Representation => TUnit.Representation;
+}
+internal readonly struct NonStandard<TUnit> : INonStandardMeasure<TUnit>, ILinear
+    where TUnit : INoSystemUnit, ITransform, IRepresentable
+{
+    public static Double ToSi(in Double value) => TUnit.ToSi(in value);
+    public static Double FromSi(in Double value) => TUnit.FromSi(in value);
+    public static String Representation => TUnit.Representation;
+}
+
 internal readonly struct Product<TLeft, TRight> : IMeasure
     where TLeft : IMeasure
     where TRight : IMeasure

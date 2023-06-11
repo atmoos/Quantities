@@ -12,7 +12,7 @@ internal static class Build<TMeasure> where TMeasure : IMeasure
     public static Quant With<TInjector>(in Double value)
         where TInjector : IInjector, new()
     {
-        return new(value, in MapPool<TInjector>.Item);
+        return new(in value, in MapPool<TInjector>.Item);
     }
     public static Quant With(in Quant value)
     {
@@ -36,9 +36,9 @@ internal static class Build<TMeasure> where TMeasure : IMeasure
 
     private sealed class Default : IInjector
     {
-        public T Inject<T>(in ICreate<T> creator, in Double value)
+        public T Inject<T>(in IInject<T> builder, in Double value)
         {
-            return creator.Create<TMeasure>(in value);
+            return builder.Inject<TMeasure>(in value);
         }
     }
 }

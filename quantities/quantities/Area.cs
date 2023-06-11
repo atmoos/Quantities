@@ -1,98 +1,25 @@
 using System.Numerics;
 using Quantities.Dimensions;
+using Quantities.Factories;
 using Quantities.Measures;
 using Quantities.Measures.Transformations;
-using Quantities.Prefixes;
-using Quantities.Units;
-using Quantities.Units.Imperial;
-using Quantities.Units.NonStandard;
-using Quantities.Units.Si;
 
 namespace Quantities.Quantities;
 
-public readonly struct Area : IQuantity<Area>, IArea<Length>
+public readonly struct Area : IQuantity<Area>, IArea<ILength>
+    , IFactory<Area>
+    , IFactory<ISquareFactory<Area, IArea<ILength>, ILength>, SquareFactory<Area, PowerFactory<Area, SquareTo, ILength>, IArea<ILength>, ILength>, SquareFactory<Area, PowerFactory<Area, SquareCreate, ILength>, IArea<ILength>, ILength>>
     , IMultiplyOperators<Area, Length, Volume>
     , IDivisionOperators<Area, Length, Length>
 {
-    private static readonly ICreate<Quant> square = new RaiseTo<Square>();
-    private static readonly ICreate<Quant> linear = new ToLinear();
+    private static readonly IInject<Quant> square = new RaiseTo<Square>();
+    private static readonly IInject<Quant> linear = new ToLinear();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
+    public SquareFactory<Area, PowerFactory<Area, SquareTo, ILength>, IArea<ILength>, ILength> To => new(new PowerFactory<Area, SquareTo, ILength>(new SquareTo(in this.quant)));
     private Area(in Quant quant) => this.quant = quant;
-    public Area ToSquare<TUnit>()
-        where TUnit : ISiBaseUnit, ILength
-    {
-        return new(this.quant.To<Square, Si<TUnit>>());
-    }
-    public Area ToSquare<TPrefix, TUnit>()
-        where TPrefix : IMetricPrefix
-        where TUnit : ISiBaseUnit, ILength
-    {
-        return new(this.quant.To<Square, Si<TPrefix, TUnit>>());
-    }
-    public Area ToMetric<TArea>()
-        where TArea : IMetricUnit, IArea<ILength>, IInjectUnit<ILength>
-    {
-        return new(this.quant.As<Metric<TArea>, Alias<TArea, ILength>>());
-    }
-    public Area ToMetric<TPrefix, TArea>()
-        where TPrefix : IMetricPrefix
-        where TArea : IMetricUnit, IArea<ILength>, IInjectUnit<ILength>
-    {
-        return new(this.quant.As<Metric<TPrefix, TArea>, Alias<TPrefix, TArea, ILength>>());
-    }
-    public Area ToImperial<TArea>()
-        where TArea : IImperial, IArea<ILength>, IInjectUnit<ILength>
-    {
-        return new(this.quant.As<Imperial<TArea>, Alias<TArea, ILength>>());
-    }
-    public Area ToSquareImperial<TLength>()
-        where TLength : IImperial, ILength
-    {
-        return new(this.quant.To<Square, Imperial<TLength>>());
-    }
-    public Area ToNonStandard<TArea>()
-        where TArea : INoSystem, IArea<ILength>, IInjectUnit<ILength>
-    {
-        return new(this.quant.As<NonStandard<TArea>, Alias<TArea, ILength>>());
-    }
-    public static Area Square<TUnit>(in Double value)
-        where TUnit : ISiBaseUnit, ILength
-    {
-        return new(value.To<Square, Si<TUnit>>());
-    }
-    public static Area Square<TPrefix, TUnit>(in Double value)
-        where TPrefix : IMetricPrefix
-        where TUnit : ISiBaseUnit, ILength
-    {
-        return new(value.To<Square, Si<TPrefix, TUnit>>());
-    }
-    public static Area Metric<TArea>(in Double value)
-        where TArea : IMetricUnit, IArea<ILength>, IInjectUnit<ILength>
-    {
-        return new(value.As<Metric<TArea>, Alias<TArea, ILength>>());
-    }
-    public static Area Metric<TPrefix, TArea>(in Double value)
-        where TPrefix : IMetricPrefix
-        where TArea : IMetricUnit, IArea<ILength>, IInjectUnit<ILength>
-    {
-        return new(value.As<Metric<TPrefix, TArea>, Alias<TPrefix, TArea, ILength>>());
-    }
-    public static Area SquareImperial<TLength>(Double value)
-        where TLength : IImperial, ILength
-    {
-        return new(value.To<Square, Imperial<TLength>>());
-    }
-    public static Area Imperial<TArea>(Double value)
-        where TArea : IImperial, IArea<ILength>, IInjectUnit<ILength>
-    {
-        return new(value.As<Imperial<TArea>, Alias<TArea, ILength>>());
-    }
-    public static Area NonStandard<TArea>(Double value)
-        where TArea : INoSystem, IArea<ILength>, IInjectUnit<ILength>
-    {
-        return new(value.As<NonStandard<TArea>, Alias<TArea, ILength>>());
-    }
+    public static SquareFactory<Area, PowerFactory<Area, SquareCreate, ILength>, IArea<ILength>, ILength> Of(in Double value) => new(new PowerFactory<Area, SquareCreate, ILength>(new SquareCreate(in value)));
+    static Area IFactory<Area>.Create(in Quant quant) => new(in quant);
     internal static Area From(in Length left, in Length right)
     {
         var pseudoLength = left.Quant.PseudoMultiply(right.Quant);
@@ -106,12 +33,11 @@ public readonly struct Area : IQuantity<Area>, IArea<Length>
     }
 
     public Boolean Equals(Area other) => this.quant.Equals(other.quant);
-
     public override Boolean Equals(Object? obj) => obj is Area Area && Equals(Area);
-
     public override Int32 GetHashCode() => this.quant.GetHashCode();
     public override String ToString() => this.quant.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.quant.ToString(format, provider);
+
     public static Boolean operator ==(Area left, Area right) => left.Equals(right);
     public static Boolean operator !=(Area left, Area right) => !left.Equals(right);
     public static implicit operator Double(Area Area) => Area.quant.Value;

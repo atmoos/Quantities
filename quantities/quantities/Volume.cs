@@ -1,98 +1,28 @@
-﻿using Quantities.Dimensions;
+﻿using System.Numerics;
+using Quantities.Dimensions;
+using Quantities.Factories;
 using Quantities.Measures;
 using Quantities.Measures.Transformations;
-using Quantities.Prefixes;
-using Quantities.Units;
-using Quantities.Units.Imperial;
-using Quantities.Units.Si;
 
 namespace Quantities.Quantities;
 
-public readonly struct Volume : IQuantity<Volume>, IVolume<Length>
+public readonly struct Volume : IQuantity<Volume>, IVolume<ILength>
+    , IFactory<Volume>
+    , IFactory<ICubicFactory<Volume, IVolume<ILength>, ILength>, CubicFactory<Volume, PowerFactory<Volume, CubicTo, ILength>, IVolume<ILength>, ILength>, CubicFactory<Volume, PowerFactory<Volume, CubicCreate, ILength>, IVolume<ILength>, ILength>>
+    , IDivisionOperators<Volume, Area, Length>
+    , IDivisionOperators<Volume, Length, Area>
 {
-    private static readonly ICreate<Quant> cube = new RaiseTo<Cube>();
-    private static readonly ICreate<Quant> linear = new ToLinear();
+    private static readonly IInject<Quant> cube = new RaiseTo<Cube>();
+    private static readonly IInject<Quant> linear = new ToLinear();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
+    public CubicFactory<Volume, PowerFactory<Volume, CubicTo, ILength>, IVolume<ILength>, ILength> To => new(new PowerFactory<Volume, CubicTo, ILength>(new CubicTo(in this.quant)));
     private Volume(in Quant quant) => this.quant = quant;
-    public Volume ToCubic<TUnit>()
-       where TUnit : ISiBaseUnit, ILength
-    {
-        return new(this.quant.To<Cube, Si<TUnit>>());
-    }
-    public Volume ToCubic<TPrefix, TUnit>()
-        where TPrefix : IMetricPrefix
-        where TUnit : ISiBaseUnit, ILength
-    {
-        return new(this.quant.To<Cube, Si<TPrefix, TUnit>>());
-    }
-    public Volume ToMetric<TVolume>()
-    where TVolume : IMetricUnit, IVolume<ILength>, IInjectUnit<ILength>
-    {
-        return new(this.quant.As<Metric<TVolume>, Alias<TVolume, ILength>>());
-    }
-    public Volume ToMetric<TPrefix, TUnit>()
-        where TPrefix : IMetricPrefix
-        where TUnit : IMetricUnit, IVolume<ILength>, IInjectUnit<ILength>
-    {
-        return new(this.quant.As<Metric<TPrefix, TUnit>, Alias<TPrefix, TUnit, ILength>>());
-    }
-    public Volume ToImperial<TUnit>()
-        where TUnit : IImperial, IVolume<ILength>, IInjectUnit<ILength>
-    {
-        return new(this.quant.As<Imperial<TUnit>, Alias<TUnit, ILength>>());
-    }
-    public Volume ToCubicImperial<TLength>()
-        where TLength : IImperial, ILength
-    {
-        return new(this.quant.To<Cube, Imperial<TLength>>());
-    }
-    public static Volume Cubic<TUnit>(in Double value)
-        where TUnit : ISiBaseUnit, ILength
-    {
-        return new(value.To<Cube, Si<TUnit>>());
-    }
-    public static Volume Cubic<TPrefix, TUnit>(in Double value)
-        where TPrefix : IMetricPrefix
-        where TUnit : ISiBaseUnit, ILength
-    {
-        return new(value.To<Cube, Si<TPrefix, TUnit>>());
-    }
-    public static Volume Metric<TVolume>(Double value)
-        where TVolume : IMetricUnit, IVolume<ILength>, IInjectUnit<ILength>
-    {
-        return new(value.As<Metric<TVolume>, Alias<TVolume, ILength>>());
-    }
-    public static Volume Metric<TPrefix, TVolume>(Double value)
-        where TPrefix : IMetricPrefix
-        where TVolume : IMetricUnit, IVolume<ILength>, IInjectUnit<ILength>
-    {
-        return new(value.As<Metric<TPrefix, TVolume>, Alias<TPrefix, TVolume, ILength>>());
-    }
-    public static Volume Imperial<TVolume>(Double value)
-        where TVolume : IImperial, IVolume<ILength>, IInjectUnit<ILength>
-    {
-        return new(value.As<Imperial<TVolume>, Alias<TVolume, ILength>>());
-    }
-    public static Volume CubicImperial<TImperialUnit>(Double value)
-        where TImperialUnit : IImperial, ILength
-    {
-        return new(value.To<Cube, Imperial<TImperialUnit>>());
-    }
-
-    public static Area operator /(Volume volume, Length length)
-    {
-        return Area.From(in volume, in length);
-    }
-    public static Length operator /(Volume volume, Area area)
-    {
-        return Length.From(in volume, area);
-    }
+    public static CubicFactory<Volume, PowerFactory<Volume, CubicCreate, ILength>, IVolume<ILength>, ILength> Of(in Double value) => new(new PowerFactory<Volume, CubicCreate, ILength>(new CubicCreate(in value)));
+    static Volume IFactory<Volume>.Create(in Quant quant) => new(in quant);
 
     public Boolean Equals(Volume other) => this.quant.Equals(other.quant);
-
     public override Boolean Equals(Object? obj) => obj is Volume Volume && Equals(Volume);
-
     public override Int32 GetHashCode() => this.quant.GetHashCode();
     public override String ToString() => this.quant.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.quant.ToString(format, provider);
@@ -122,5 +52,7 @@ public readonly struct Volume : IQuantity<Volume>, IVolume<Length>
     public static Volume operator *(Volume left, Double scalar) => new(scalar * left.quant);
     public static Volume operator /(Volume left, Double scalar) => new(left.quant / scalar);
     public static Double operator /(Volume left, Volume right) => left.quant / right.quant;
+    public static Area operator /(Volume volume, Length length) => Area.From(in volume, in length);
+    public static Length operator /(Volume volume, Area area) => Length.From(in volume, area);
 
 }

@@ -1,57 +1,29 @@
 using System.Numerics;
 using Quantities.Dimensions;
+using Quantities.Factories;
 using Quantities.Measures;
 using Quantities.Measures.Transformations;
 using Quantities.Prefixes;
-using Quantities.Units.Imperial;
+using Quantities.Quantities.Roots;
 using Quantities.Units.Si;
 
 namespace Quantities.Quantities;
 
 public readonly struct Length : IQuantity<Length>, ILength
-    , ISi<Length, ILength>
-    , IImperial<Length, ILength>
+    , IFactory<Length>
+    , IFactory<ICompoundFactory<Length, ILength>, LinearTo<Length, ILength>, LinearCreate<Length, ILength>>
     , IMultiplyOperators<Length, Length, Area>
     , IMultiplyOperators<Length, Area, Volume>
     , IDivisionOperators<Length, Time, Velocity>
 {
-    private static readonly Creator create = new();
-    private static readonly ICreate<Quant> linear = new ToLinear();
+    private static readonly IRoot root = new SiRoot<Metre>();
+    private static readonly IInject<Quant> linear = new ToLinear();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
+    public LinearTo<Length, ILength> To => new(in this.quant);
     private Length(in Quant quant) => this.quant = quant;
-    public Length To<TUnit>()
-        where TUnit : ISiBaseUnit, ILength
-    {
-        return new(this.quant.As<Si<TUnit>>());
-    }
-    public Length To<TPrefix, TUnit>()
-        where TPrefix : IMetricPrefix
-        where TUnit : ISiBaseUnit, ILength
-    {
-        return new(this.quant.As<Si<TPrefix, TUnit>>());
-    }
-    public Length ToImperial<TUnit>()
-    where TUnit : IImperial, ILength
-    {
-        return new(this.quant.As<Imperial<TUnit>>());
-    }
-    public static Length Si<TUnit>(in Double value)
-        where TUnit : ISiBaseUnit, ILength
-    {
-        return new(value.As<Si<TUnit>>());
-    }
-    public static Length Si<TPrefix, TUnit>(in Double value)
-    where TPrefix : IMetricPrefix
-    where TUnit : ISiBaseUnit, ILength
-    {
-        return new(value.As<Si<TPrefix, TUnit>>());
-    }
-    public static Length Imperial<TUnit>(in Double value)
-    where TUnit : IImperial, ILength
-    {
-        return new(value.As<Imperial<TUnit>>());
-    }
+    public static LinearCreate<Length, ILength> Of(in Double value) => new(in value);
+    static Length IFactory<Length>.Create(in Quant quant) => new(in quant);
     internal static Length From(in Area area, in Length length)
     {
         var pseudoArea = area.Quant.Transform(in linear);
@@ -60,7 +32,7 @@ public readonly struct Length : IQuantity<Length>, ILength
     internal static Length From(in Velocity velocity, in Time time)
     {
         // ToDo: Recover length units form velocity
-        return new(MetricPrefix.Scale(velocity.Quant.SiMultiply(time.Quant), create));
+        return new(MetricPrefix.Scale(velocity.Quant.SiMultiply(time.Quant), root));
     }
     internal static Length From(in Volume volume, in Area area)
     {
@@ -87,10 +59,4 @@ public readonly struct Length : IQuantity<Length>, ILength
     public static Length operator /(Length left, Double scalar) => new(left.quant / scalar);
     public static Double operator /(Length left, Length right) => left.quant / right.quant;
     public static Velocity operator /(Length left, Time right) => Velocity.From(in left, in right);
-
-    private sealed class Creator : IPrefixInject<Quant>
-    {
-        public Quant Identity(in Double value) => value.As<Si<Metre>>();
-        public Quant Inject<TPrefix>(in Double value) where TPrefix : IPrefix => value.As<Si<TPrefix, Metre>>();
-    }
 }

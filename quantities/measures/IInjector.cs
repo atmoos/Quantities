@@ -1,25 +1,29 @@
-using Quantities.Dimensions;
 using Quantities.Prefixes;
 using Quantities.Units;
 
 namespace Quantities.Measures;
 
+internal interface IInject<out TResult>
+{
+    TResult Inject<TMeasure>(in Double value) where TMeasure : IMeasure;
+}
+
 internal interface IInjector
 {
-    T Inject<T>(in ICreate<T> creator, in Double value);
+    T Inject<T>(in IInject<T> creator, in Double value);
 }
 
 internal sealed class Linear<TMeasure> : IInjector
-    where TMeasure : IMeasure, ILinear
+    where TMeasure : IMeasure
 {
-    public T Inject<T>(in ICreate<T> creator, in Double value) => creator.Create<TMeasure>(in value);
+    public T Inject<T>(in IInject<T> creator, in Double value) => creator.Inject<TMeasure>(in value);
 }
 
 internal sealed class Alias<TUnit, TAlias> : IInjector
     where TUnit : IInjectUnit<TAlias>
     where TAlias : Dimensions.IDimension
 {
-    public T Inject<T>(in ICreate<T> creator, in Double value) => TUnit.Inject(new Creator<TAlias, T>(creator), in value);
+    public T Inject<T>(in IInject<T> creator, in Double value) => TUnit.Inject(new Creator<TAlias, T>(creator), in value);
 }
 
 internal sealed class Alias<TPrefix, TUnit, TAlias> : IInjector
@@ -27,5 +31,5 @@ internal sealed class Alias<TPrefix, TUnit, TAlias> : IInjector
     where TUnit : IInjectUnit<TAlias>
     where TAlias : Dimensions.IDimension
 {
-    public T Inject<T>(in ICreate<T> creator, in Double value) => TUnit.Inject(new Creator<TAlias, T>(creator), TPrefix.ToSi(in value));
+    public T Inject<T>(in IInject<T> creator, in Double value) => TUnit.Inject(new Creator<TAlias, T>(creator), TPrefix.ToSi(in value));
 }

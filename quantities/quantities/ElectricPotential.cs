@@ -1,44 +1,28 @@
 ﻿using System.Numerics;
 using Quantities.Dimensions;
+using Quantities.Factories;
 using Quantities.Measures;
 using Quantities.Prefixes;
+using Quantities.Quantities.Roots;
 using Quantities.Units.Si;
 using Quantities.Units.Si.Derived;
 
 namespace Quantities.Quantities;
 
 public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectricPotential
-    , ISiDerived<ElectricPotential, IElectricPotential>
+    , IFactory<ElectricPotential>
+    , IFactory<ISiFactory<ElectricPotential, IElectricPotential>, SiTo<ElectricPotential, IElectricPotential>, SiCreate<ElectricPotential, IElectricPotential>>
     , IMultiplyOperators<ElectricPotential, ElectricCurrent, Power>
     , IDivisionOperators<ElectricPotential, ElectricCurrent, ElectricalResistance>
     , IDivisionOperators<ElectricPotential, ElectricalResistance, ElectricCurrent>
 {
-    private static readonly Creator create = new();
+    private static readonly IRoot root = new SiRoot<Volt>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
+    public SiTo<ElectricPotential, IElectricPotential> To => new(in this.quant);
     private ElectricPotential(in Quant quant) => this.quant = quant;
-    public ElectricPotential To<TUnit>()
-        where TUnit : ISiDerivedUnit, IElectricPotential
-    {
-        return new(this.quant.As<SiDerived<TUnit>>());
-    }
-    public ElectricPotential To<TPrefix, TUnit>()
-        where TPrefix : IMetricPrefix
-        where TUnit : ISiDerivedUnit, IElectricPotential
-    {
-        return new(this.quant.As<SiDerived<TPrefix, TUnit>>());
-    }
-    public static ElectricPotential Si<TUnit>(in Double value)
-        where TUnit : ISiDerivedUnit, IElectricPotential
-    {
-        return new(value.As<SiDerived<TUnit>>());
-    }
-    public static ElectricPotential Si<TPrefix, TUnit>(in Double value)
-        where TPrefix : IMetricPrefix
-        where TUnit : ISiDerivedUnit, IElectricPotential
-    {
-        return new(value.As<SiDerived<TPrefix, TUnit>>());
-    }
+    public static SiCreate<ElectricPotential, IElectricPotential> Of(in Double value) => new(in value);
+    static ElectricPotential IFactory<ElectricPotential>.Create(in Quant quant) => new(in quant);
 
     public Boolean Equals(ElectricPotential other) => this.quant.Equals(other.quant);
     public String ToString(String? format, IFormatProvider? provider) => this.quant.ToString(format, provider);
@@ -47,13 +31,13 @@ public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectr
     public override String ToString() => this.quant.ToString();
     internal static ElectricPotential From(in ElectricCurrent current, in ElectricalResistance resistance)
     {
-        return new(MetricPrefix.ScaleThree(current.Quant.SiMultiply(resistance.Quant), create));
+        return new(MetricPrefix.ScaleThree(current.Quant.SiMultiply(resistance.Quant), root));
     }
     internal static ElectricPotential From(in Power power, in ElectricCurrent current)
     {
-        Double siPower = power.To<Watt>();
-        Double siCurrent = current.To<Ampere>();
-        return new(MetricPrefix.ScaleThree(siPower / siCurrent, create));
+        Double siPower = power.To.Si<Watt>();
+        Double siCurrent = current.To.Si<Ampere>();
+        return new(MetricPrefix.ScaleThree(siPower / siCurrent, root));
     }
 
     public static Boolean operator ==(ElectricPotential left, ElectricPotential right) => left.Equals(right);
@@ -73,10 +57,4 @@ public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectr
     #endregion Ohm's Law
 
     public static Power operator *(ElectricPotential left, ElectricCurrent right) => Power.From(in left, in right);
-
-    private sealed class Creator : IPrefixInject<Quant>
-    {
-        public Quant Identity(in Double value) => value.As<SiDerived<Volt>>();
-        public Quant Inject<TPrefix>(in Double value) where TPrefix : IPrefix => value.As<SiDerived<TPrefix, Volt>>();
-    }
 }

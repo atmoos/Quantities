@@ -12,12 +12,12 @@ namespace Quantities.Benchmark;
 [MemoryDiagnoser]
 public class MultiplyingQuantities
 {
-    private Length largeMetric = Length.Si<Kilo, Metre>(3);
-    private Length smallMetric = Length.Si<Micro, Metre>(23);
-    private Length largeImperial = Length.Imperial<Mile>(-3);
-    private Length smallImperial = Length.Imperial<Inch>(55);
-    private ElectricCurrent current = ElectricCurrent.Si<Micro, Ampere>(200);
-    private ElectricalResistance resistance = ElectricalResistance.Si<Kilo, Ohm>(734);
+    private Length largeMetric = Length.Of(3).Si<Kilo, Metre>();
+    private Length smallMetric = Length.Of(23).Si<Micro, Metre>();
+    private Length largeImperial = Length.Of(-3).Imperial<Mile>();
+    private Length smallImperial = Length.Of(55).Imperial<Inch>();
+    private ElectricCurrent current = ElectricCurrent.Of(200).Si<Micro, Ampere>();
+    private ElectricalResistance resistance = ElectricalResistance.Of(734).Si<Kilo, Ohm>();
     private Trivial<Metre> largeTrivial = Trivial<Metre>.Si(Prefix.Kilo, 3);
     private Trivial<Metre> smallTrivial = Trivial<Metre>.Si(Prefix.Micro, 12);
 

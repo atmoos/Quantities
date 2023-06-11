@@ -3,7 +3,7 @@ using Quantities.Units.Transformation;
 
 namespace Quantities.Units.Imperial.Mass;
 
-public readonly struct Ounce : IImperial, IMass
+public readonly struct Ounce : IImperialUnit, IMass
 {
     private static readonly Transform transform = new(28.349523125e-3 /* kg */);
     public static Double ToSi(in Double nonSiValue) => transform.ToSi(in nonSiValue);

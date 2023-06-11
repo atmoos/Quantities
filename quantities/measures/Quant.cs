@@ -11,8 +11,8 @@ internal readonly struct Quant : IEquatable<Quant>, IFormattable
     , IDivisionOperators<Quant, Double, Quant>
     , IDivisionOperators<Quant, Quant, Double>
 {
-    private static readonly ICreate<ICreate<Quant>> division = new Divide();
-    private static readonly ICreate<ICreate<Quant>> multiplication = new Multiply();
+    private static readonly IInject<IInject<Quant>> division = new Divide();
+    private static readonly IInject<IInject<Quant>> multiplication = new Multiply();
     private readonly Map map;
     private readonly Double value;
     public Double Value => this.value;
@@ -24,7 +24,7 @@ internal readonly struct Quant : IEquatable<Quant>, IFormattable
     public Double ToSi() => this.map.ToSi(in this.value);
     private Double Project(in Quant other) => ReferenceEquals(this.map, other.map)
         ? other.value : this.map.FromSi(other.map.ToSi(in other.value));
-    public T Transform<T>(in ICreate<T> transformation) => this.map.Injector.Inject(in transformation, in this.value);
+    public T Transform<T>(in IInject<T> transformation) => this.map.Injector.Inject(in transformation, in this.value);
     public Quant PseudoMultiply(in Quant right)
     {
         var projected = Project(in right);
@@ -56,14 +56,7 @@ internal readonly struct Quant : IEquatable<Quant>, IFormattable
         return quotient is >= min and <= max;
     }
 
-    public override Boolean Equals(Object? obj)
-    {
-        if (obj is Quant quant) {
-            return Equals(quant);
-        }
-        return false;
-    }
-
+    public override Boolean Equals(Object? obj) => obj is Quant quant && Equals(quant);
     public override Int32 GetHashCode() => this.value.GetHashCode() ^ this.map.GetHashCode();
     public override String ToString() => ToString("g5", CultureInfo.CurrentCulture);
     public String ToString(String? format, IFormatProvider? provider) => $"{this.value.ToString(format, provider)} {this.map.Representation}";

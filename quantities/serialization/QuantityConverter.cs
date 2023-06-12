@@ -20,11 +20,13 @@ public sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
             throw new SerializationException($"Cannot deserialize '{type ?? unknown}'. Expected: {name}.");
         }
 
+        Int32 entries = 1;
         Double value = Double.NaN;
-        String? token, prefix = null;
-        String measure = unknown, unit = unknown;
-        while (reader.Read()) {
-            if (reader.TokenType is JsonTokenType.StartObject or JsonTokenType.EndObject) {
+        String measure = unknown;
+        String? token, unit = null, prefix = null;
+        while (unit is null && reader.Read()) {
+            if (reader.TokenType is JsonTokenType.StartObject) {
+                entries++;
                 continue;
             }
             if ((token = reader.GetString()) is null) {
@@ -39,12 +41,17 @@ public sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
                 continue;
             }
             if (token is nameof(unit) && reader.Read()) {
-                unit = reader.GetString() ?? unknown;
+                unit = reader.GetString();
                 continue;
             }
             measure = token;
         }
-        return TQuantity.Create(Create(in value, measure, prefix, unit));
+        while (entries > 0 && reader.Read()) {
+            if (reader.TokenType is JsonTokenType.EndObject) {
+                entries--;
+            }
+        }
+        return TQuantity.Create(Create(in value, measure, prefix, unit ?? unknown));
     }
     public override void Write(Utf8JsonWriter writer, TQuantity value, JsonSerializerOptions options)
     {

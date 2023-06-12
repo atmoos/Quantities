@@ -156,8 +156,25 @@ public class SerializationTest
         Assert.Equal(expected, actual);
     }
 
+    [Fact]
+    public void DeserializeComplex()
+    {
+        var expected = new Person {
+            Name = "Hello Deserialization!",
+            Height = Length.Of(16.7).Si<Deci, Metre>(),
+            Weight = Mass.Of(68).Si<Kilogram>()
+        };
+        String data = Serialize(expected);
+
+        Person actual = Deserialize<Person>(data);
+
+        Assert.Equal(expected.Name, actual.Name);
+        Assert.Equal(expected.Height, actual.Height);
+        Assert.Equal(expected.Weight, actual.Weight);
+    }
+
     private static String Serialize<T>(T value) => JsonSerializer.Serialize(value, options);
-    private static T? Deserialize<T>(String value) => JsonSerializer.Deserialize<T>(value, options);
+    private static T Deserialize<T>(String value) => JsonSerializer.Deserialize<T>(value, options) ?? throw new Exception($"Deserialization of {typeof(T).Name} failed");
 
     private static JsonSerializerOptions Options()
     {

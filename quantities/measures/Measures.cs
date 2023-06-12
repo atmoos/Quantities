@@ -6,49 +6,62 @@ using Quantities.Units.Si;
 
 namespace Quantities.Measures;
 
-internal readonly struct Si<TUnit> : ISiMeasure<TUnit>, ISerializeMetric<TUnit>, ILinear
+internal readonly struct Si<TUnit> : ISiMeasure<TUnit>, ISerialize, ILinear
     where TUnit : ISiUnit
 {
+    private static readonly Serializer<TUnit> serializer = new("si");
     public static Double ToSi(in Double value) => value;
     public static Double FromSi(in Double value) => value;
+    public static void Write(IWriter writer) => serializer.Write(writer);
+
     public static String Representation => TUnit.Representation;
 }
-internal readonly struct Si<TPrefix, TUnit> : ISiMeasure<TUnit>, ISerializeMetric<TPrefix, TUnit>, ILinear
+internal readonly struct Si<TPrefix, TUnit> : ISiMeasure<TUnit>, ISerialize, ILinear
     where TPrefix : IPrefix
     where TUnit : ISiUnit
 {
+    private static readonly Serializer<TUnit, TPrefix> serializer = new("si");
     public static Double ToSi(in Double value) => TPrefix.ToSi(in value);
     public static Double FromSi(in Double value) => TPrefix.FromSi(in value);
     public static String Representation { get; } = $"{TPrefix.Representation}{TUnit.Representation}";
+    public static void Write(IWriter writer) => serializer.Write(writer);
 }
-internal readonly struct Metric<TUnit> : IMetricMeasure<TUnit>, ISerializeMetric<TUnit>, ILinear
+internal readonly struct Metric<TUnit> : IMetricMeasure<TUnit>, ISerialize, ILinear
     where TUnit : IMetricUnit
 {
+    private static readonly Serializer<TUnit> serializer = new("metric");
     public static Double ToSi(in Double value) => TUnit.ToSi(in value);
     public static Double FromSi(in Double value) => TUnit.FromSi(in value);
     public static String Representation => TUnit.Representation;
+    public static void Write(IWriter writer) => serializer.Write(writer);
 }
-internal readonly struct Metric<TPrefix, TUnit> : IMetricMeasure<TUnit>, ISerializeMetric<TPrefix, TUnit>, ILinear
+internal readonly struct Metric<TPrefix, TUnit> : IMetricMeasure<TUnit>, ISerialize, ILinear
     where TPrefix : IPrefix
     where TUnit : IMetricUnit
 {
+    private static readonly Serializer<TUnit, TPrefix> serializer = new("metric");
     public static Double ToSi(in Double value) => TPrefix.ToSi(TUnit.ToSi(in value));
     public static Double FromSi(in Double value) => TPrefix.FromSi(TUnit.FromSi(in value));
     public static String Representation { get; } = $"{TPrefix.Representation}{TUnit.Representation}";
+    public static void Write(IWriter writer) => serializer.Write(writer);
 }
-internal readonly struct Imperial<TUnit> : IImperialMeasure<TUnit>, ISerializeImperial<TUnit>, ILinear
+internal readonly struct Imperial<TUnit> : IImperialMeasure<TUnit>, ISerialize, ILinear
     where TUnit : IImperialUnit, ITransform, IRepresentable
 {
+    private static readonly Serializer<TUnit> serializer = new("imperial");
     public static Double ToSi(in Double value) => TUnit.ToSi(in value);
     public static Double FromSi(in Double value) => TUnit.FromSi(in value);
     public static String Representation => TUnit.Representation;
+    public static void Write(IWriter writer) => serializer.Write(writer);
 }
-internal readonly struct NonStandard<TUnit> : INonStandardMeasure<TUnit>, ISerializeNonStandard<TUnit>, ILinear
+internal readonly struct NonStandard<TUnit> : INonStandardMeasure<TUnit>, ISerialize, ILinear
     where TUnit : INoSystemUnit, ITransform, IRepresentable
 {
+    private static readonly Serializer<TUnit> serializer = new("any");
     public static Double ToSi(in Double value) => TUnit.ToSi(in value);
     public static Double FromSi(in Double value) => TUnit.FromSi(in value);
     public static String Representation => TUnit.Representation;
+    public static void Write(IWriter writer) => serializer.Write(writer);
 }
 
 internal readonly struct Product<TLeft, TRight> : IMeasure, ISerialize

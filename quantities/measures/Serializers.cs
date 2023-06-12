@@ -3,46 +3,28 @@ using Quantities.Units;
 
 namespace Quantities.Measures;
 
-
-internal interface ISerializeMetric<TUnit> : ISerialize
+internal sealed class Serializer<TUnit>
     where TUnit : IUnit
 {
-    static void ISerialize.Write(IWriter writer)
+    private readonly String system;
+    public Serializer(String system) => this.system = system.ToLowerInvariant();
+    public void Write(IWriter writer)
     {
-        writer.Start("metric");
+        writer.Start(this.system);
         writer.Write("unit", TUnit.Representation);
         writer.End();
     }
 }
-internal interface ISerializeMetric<TPrefix, TUnit> : ISerialize
+internal sealed class Serializer<TUnit, TPrefix>
     where TPrefix : IPrefix
     where TUnit : IUnit
 {
-    static void ISerialize.Write(IWriter writer)
+    private readonly String system;
+    public Serializer(String system) => this.system = system.ToLowerInvariant();
+    public void Write(IWriter writer)
     {
-        writer.Start("metric");
+        writer.Start(this.system);
         writer.Write("prefix", TPrefix.Representation);
-        writer.Write("unit", TUnit.Representation);
-        writer.End();
-    }
-}
-
-internal interface ISerializeImperial<TUnit> : ISerialize
-    where TUnit : IUnit
-{
-    static void ISerialize.Write(IWriter writer)
-    {
-        writer.Start("imperial");
-        writer.Write("unit", TUnit.Representation);
-        writer.End();
-    }
-}
-internal interface ISerializeNonStandard<TUnit> : ISerialize
-    where TUnit : IUnit
-{
-    static void ISerialize.Write(IWriter writer)
-    {
-        writer.Start("any");
         writer.Write("unit", TUnit.Representation);
         writer.End();
     }

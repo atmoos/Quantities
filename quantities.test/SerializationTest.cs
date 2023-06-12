@@ -7,6 +7,19 @@ namespace Quantities.Test;
 public class SerializationTest
 {
     private static readonly JsonSerializerOptions options = Options();
+
+    [Fact]
+    public void ReadMetric()
+    {
+        Double value = Math.PI;
+        Length expected = Length.Of(value).Si<Centi, Metre>();
+        String data = Serialize(expected);
+
+        Length actual = Deserialize<Length>(data);
+
+        Assert.Equal(expected, actual);
+    }
+
     [Fact]
     public void Metric()
     {
@@ -17,7 +30,7 @@ public class SerializationTest
         {
           "length": {
             "value": {{value:R}},
-            "metric": {
+            "si": {
               "unit": "m"
             }
           }
@@ -35,7 +48,7 @@ public class SerializationTest
         {
           "length": {
             "value": {{value:R}},
-            "metric": {
+            "si": {
               "prefix": "K",
               "unit": "m"
             }
@@ -73,7 +86,7 @@ public class SerializationTest
           "velocity": {
             "value": {{value:R}},
             "frac": {
-              "metric": {
+              "si": {
                 "prefix": "K",
                 "unit": "m"
               },
@@ -101,7 +114,7 @@ public class SerializationTest
           "Height": {
             "length": {
               "value": 1.67,
-              "metric": {
+              "si": {
                 "unit": "m"
               }
             }
@@ -109,7 +122,7 @@ public class SerializationTest
           "Weight": {
             "mass": {
               "value": 72,
-              "metric": {
+              "si": {
                 "unit": "kg"
               }
             }
@@ -120,6 +133,7 @@ public class SerializationTest
     }
 
     private static String Serialize<T>(T value) => JsonSerializer.Serialize(value, options);
+    private static T? Deserialize<T>(String value) => JsonSerializer.Deserialize<T>(value, options);
 
     private static JsonSerializerOptions Options()
     {

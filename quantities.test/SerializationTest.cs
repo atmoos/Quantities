@@ -12,7 +12,31 @@ public class SerializationTest
     public void ReadMetric()
     {
         Double value = Math.PI;
+        Length expected = Length.Of(value).Si<Metre>();
+        String data = Serialize(expected);
+
+        Length actual = Deserialize<Length>(data);
+
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void ReadPrefixedMetric()
+    {
+        Double value = Math.PI;
         Length expected = Length.Of(value).Si<Centi, Metre>();
+        String data = Serialize(expected);
+
+        Length actual = Deserialize<Length>(data);
+
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void ReadImperial()
+    {
+        Double value = Math.E;
+        Length expected = Length.Of(value).Imperial<Mile>();
         String data = Serialize(expected);
 
         Length actual = Deserialize<Length>(data);

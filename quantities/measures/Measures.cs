@@ -12,9 +12,8 @@ internal readonly struct Si<TUnit> : ISiMeasure<TUnit>, ISerialize, ILinear
     private static readonly Serializer<TUnit> serializer = new("si");
     public static Double ToSi(in Double value) => value;
     public static Double FromSi(in Double value) => value;
-    public static void Write(IWriter writer) => serializer.Write(writer);
-
     public static String Representation => TUnit.Representation;
+    public static void Write(IWriter writer) => serializer.Write(writer);
 }
 internal readonly struct Si<TPrefix, TUnit> : ISiMeasure<TUnit>, ISerialize, ILinear
     where TPrefix : IPrefix

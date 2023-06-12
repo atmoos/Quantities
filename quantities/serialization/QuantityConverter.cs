@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Runtime.Serialization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -10,6 +11,7 @@ public sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
     where TQuantity : struct, IQuantity<TQuantity>, Dimensions.IDimension, IFactory<TQuantity>
 {
     private static readonly String name = typeof(TQuantity).Name.ToLowerInvariant();
+    private static readonly ConcurrentDictionary<String, Create> deserialization = new();
     public override TQuantity Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         const String unknown = nameof(unknown);
@@ -56,6 +58,10 @@ public sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
 
     private static Quant Create(in Double value, String measure, String? prefix, String unit)
     {
-        return Build<Si<Metre>>.With(in value);
+        var key = $"{measure}{prefix ?? String.Empty}{unit}"; // ToDo: Make this allocation free...
+        if (!deserialization.TryGetValue(key, out var deserialize)) {
+            deserialize = deserialization[key] = Deserialization.Find(measure, unit, prefix);
+        }
+        return deserialize(in value);
     }
 }

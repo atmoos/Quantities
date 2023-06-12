@@ -3,7 +3,6 @@ using System.Runtime.Serialization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Quantities.Measures;
-using Quantities.Units.Si;
 
 namespace Quantities.Serialization;
 
@@ -11,7 +10,7 @@ public sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
     where TQuantity : struct, IQuantity<TQuantity>, Dimensions.IDimension, IFactory<TQuantity>
 {
     private static readonly String name = typeof(TQuantity).Name.ToLowerInvariant();
-    private static readonly ConcurrentDictionary<String, Create> deserialization = new();
+    private static readonly ConcurrentDictionary<String, CreateStore> deserialization = new();
     public override TQuantity Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         const String unknown = nameof(unknown);
@@ -20,7 +19,7 @@ public sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
             throw new SerializationException($"Cannot deserialize '{type ?? unknown}'. Expected: {name}.");
         }
 
-        Int32 entries = 1;
+        Int32 entries = 0;
         Double value = Double.NaN;
         String measure = unknown;
         String? token, unit = null, prefix = null;
@@ -46,7 +45,7 @@ public sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
             }
             measure = token;
         }
-        while (entries > 0 && reader.Read()) {
+        while (entries >= 0 && reader.Read()) {
             if (reader.TokenType is JsonTokenType.EndObject) {
                 entries--;
             }
@@ -65,10 +64,30 @@ public sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
 
     private static Quant Create(in Double value, String measure, String? prefix, String unit)
     {
-        var key = $"{measure}{prefix ?? String.Empty}{unit}"; // ToDo: Make this allocation free...
-        if (!deserialization.TryGetValue(key, out var deserialize)) {
-            deserialize = deserialization[key] = Deserialization.Find(measure, unit, prefix);
+        if (!deserialization.TryGetValue(measure, out var store)) {
+            store = deserialization[measure] = new CreateStore();
         }
-        return deserialize(in value);
+        return (store[prefix, unit] ??= Deserialization.Find(measure, prefix, unit))(in value);
+    }
+}
+
+internal sealed class CreateStore
+{
+    private const String noPrefix = "none";
+    // prefix -> unit
+    private readonly Dictionary<String, Dictionary<String, Create>> creators = new();
+    public Create? this[String? prefix, String unit]
+    {
+        get => this.creators.TryGetValue(prefix ?? noPrefix, out var units) && units.TryGetValue(unit, out var create) ? create : null;
+        set {
+            if (value is null) {
+                return;
+            }
+            prefix ??= noPrefix;
+            if (!this.creators.TryGetValue(prefix, out var units)) {
+                units = this.creators[prefix] = new Dictionary<String, Create>();
+            }
+            units[unit] = value;
+        }
     }
 }

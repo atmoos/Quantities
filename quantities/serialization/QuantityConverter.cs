@@ -3,7 +3,6 @@ using System.Runtime.Serialization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Quantities.Measures;
-using Quantities.serialization;
 
 using static System.Text.Json.JsonTokenType;
 
@@ -13,7 +12,7 @@ public sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
     where TQuantity : struct, IQuantity<TQuantity>, Dimensions.IDimension, IFactory<TQuantity>
 {
     private static readonly String name = typeof(TQuantity).Name.ToLowerInvariant();
-    private static readonly ConcurrentDictionary<String, CreateStore> deserialization = new();
+    private static readonly ConcurrentDictionary<QuantityModel, IBuilder> builders = new();
     public override TQuantity Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         var initialDepth = reader.CurrentDepth;
@@ -25,7 +24,7 @@ public sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
         String system = reader.ReadNameOf(PropertyName);
         QuantityModel model = reader.Read(system);
         reader.UnwindTo(initialDepth);
-        return TQuantity.Create(Create(in value, model.System, model.Prefix, model.Unit));
+        return TQuantity.Create(Create(in model).Build(in value));
     }
     public override void Write(Utf8JsonWriter writer, TQuantity value, JsonSerializerOptions options)
     {
@@ -37,32 +36,11 @@ public sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
         writer.WriteEndObject();
     }
 
-    private static Quant Create(in Double value, String measure, String? prefix, String unit)
+    private static IBuild Create(in QuantityModel model)
     {
-        if (!deserialization.TryGetValue(measure, out var store)) {
-            store = deserialization[measure] = new CreateStore();
+        if (builders.TryGetValue(model, out var builder)) {
+            return builder;
         }
-        return (store[prefix, unit] ??= Deserialization.Find(measure, prefix, unit))(in value);
-    }
-}
-
-internal sealed class CreateStore
-{
-    private const String noPrefix = "none";
-    // prefix -> unit
-    private readonly Dictionary<String, Dictionary<String, Create>> creators = new();
-    public Create? this[String? prefix, String unit]
-    {
-        get => this.creators.TryGetValue(prefix ?? noPrefix, out var units) && units.TryGetValue(unit, out var create) ? create : null;
-        set {
-            if (value is null) {
-                return;
-            }
-            prefix ??= noPrefix;
-            if (!this.creators.TryGetValue(prefix, out var units)) {
-                units = this.creators[prefix] = new Dictionary<String, Create>();
-            }
-            units[unit] = value;
-        }
+        return builders[model] = new ScalarBuilder(model).Append(new ScalarInjector());
     }
 }

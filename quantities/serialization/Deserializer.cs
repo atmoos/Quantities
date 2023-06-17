@@ -1,7 +1,7 @@
 using System.Text.Json;
 using static System.Text.Json.JsonTokenType;
 
-namespace Quantities.serialization;
+namespace Quantities.Serialization;
 
 internal readonly record struct QuantityModel(String System, String? Prefix, String Unit);
 

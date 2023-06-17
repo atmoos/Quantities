@@ -3,6 +3,9 @@ using System.Runtime.Serialization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Quantities.Measures;
+using Quantities.serialization;
+
+using static System.Text.Json.JsonTokenType;
 
 namespace Quantities.Serialization;
 
@@ -13,44 +16,16 @@ public sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
     private static readonly ConcurrentDictionary<String, CreateStore> deserialization = new();
     public override TQuantity Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        const String unknown = nameof(unknown);
-        String? type;
-        if (reader.Read() && (type = reader.GetString()) != name) {
-            throw new SerializationException($"Cannot deserialize '{type ?? unknown}'. Expected: {name}.");
+        var initialDepth = reader.CurrentDepth;
+        String type = reader.ReadNameOf(PropertyName);
+        if (type != name) {
+            throw new SerializationException($"Cannot deserialize '{type ?? "unknown"}'. Expected: {name}.");
         }
-
-        Int32 entries = 0;
-        Double value = Double.NaN;
-        String measure = unknown;
-        String? token, unit = null, prefix = null;
-        while (unit is null && reader.Read()) {
-            if (reader.TokenType is JsonTokenType.StartObject) {
-                entries++;
-                continue;
-            }
-            if ((token = reader.GetString()) is null) {
-                continue;
-            }
-            if (token is nameof(value) && reader.Read()) {
-                value = reader.GetDouble();
-                continue;
-            }
-            if (token is nameof(prefix) && reader.Read()) {
-                prefix = reader.GetString();
-                continue;
-            }
-            if (token is nameof(unit) && reader.Read()) {
-                unit = reader.GetString();
-                continue;
-            }
-            measure = token;
-        }
-        while (entries >= 0 && reader.Read()) {
-            if (reader.TokenType is JsonTokenType.EndObject) {
-                entries--;
-            }
-        }
-        return TQuantity.Create(Create(in value, measure, prefix, unit ?? unknown));
+        Double value = reader.ReadNumber();
+        String system = reader.ReadNameOf(PropertyName);
+        QuantityModel model = reader.Read(system);
+        reader.UnwindTo(initialDepth);
+        return TQuantity.Create(Create(in value, model.System, model.Prefix, model.Unit));
     }
     public override void Write(Utf8JsonWriter writer, TQuantity value, JsonSerializerOptions options)
     {

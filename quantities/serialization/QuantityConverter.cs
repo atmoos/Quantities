@@ -36,7 +36,7 @@ public sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
     }
 
     private static (IInject, IBuilder) Create(String system, ref Utf8JsonReader reader) => system switch {
-        "frac" => throw new NotImplementedException($"ToDo: {system}"),
+        "frac" => (new FractionInjector(), AggregateOf(ref reader, 2)),
         "prod" => throw new NotImplementedException($"ToDo: {system}"),
         "square" => (new PowerInjector<Square>(), Power(ref reader)),
         "cubic" => (new PowerInjector<Cube>(), Power(ref reader)),
@@ -55,5 +55,15 @@ public sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
             return builder;
         }
         return builders[model] = ScalarBuilder.Create(model);
+    }
+
+    private static IBuilder AggregateOf(ref Utf8JsonReader reader, Int32 count)
+    {
+        reader.MoveNext(StartObject);
+        var builders = new List<IBuilder>(count);
+        while (builders.Count < count) {
+            builders.Add(Linear(reader.Read(reader.ReadNameOf(PropertyName))));
+        }
+        return new AggregateBuilder(builders);
     }
 }

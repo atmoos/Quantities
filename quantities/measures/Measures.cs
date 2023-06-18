@@ -98,6 +98,7 @@ internal readonly struct Power<TDim, TMeasure> : IMeasure
     where TDim : IDimension
     where TMeasure : IMeasure
 {
+    private static readonly String dimension = typeof(TDim).Name.ToLowerInvariant();
     private static readonly Double toSi = TDim.Pow(TMeasure.ToSi(1d));
     private static readonly Double fromSi = TDim.Pow(TMeasure.FromSi(1d));
     public static Double ToSi(in Double value) => toSi * value;
@@ -105,7 +106,7 @@ internal readonly struct Power<TDim, TMeasure> : IMeasure
     public static String Representation { get; } = $"{TMeasure.Representation}{TDim.Representation}";
     public static void Write(IWriter writer)
     {
-        writer.Start(typeof(TDim).Name);
+        writer.Start(dimension);
         TMeasure.Write(writer);
         writer.End();
     }

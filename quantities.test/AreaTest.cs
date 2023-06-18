@@ -158,4 +158,16 @@ public class AreaTest
 
         actual.Matches(expected);
     }
+
+    [Fact]
+    public void LinearAreaCanBeSerialized()
+    {
+        Area.Of(23.21).Metric<Deca, Are>().CanBeSerialized();
+    }
+
+    [Fact]
+    public void SquareAreaCanBeSerialized()
+    {
+        Area.Of(-13.17).Square.Si<Deci, Metre>().CanBeSerialized();
+    }
 }

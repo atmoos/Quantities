@@ -37,7 +37,7 @@ public sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
 
     private static (IInject, IBuilder) Create(String system, ref Utf8JsonReader reader) => system switch {
         "frac" => (new FractionInjector(), AggregateOf(ref reader, 2)),
-        "prod" => throw new NotImplementedException($"ToDo: {system}"),
+        "prod" => (new ProductInjector(), AggregateOf(ref reader, 2)),
         "square" => (new PowerInjector<Square>(), Power(ref reader)),
         "cubic" => (new PowerInjector<Cube>(), Power(ref reader)),
         _ => (new ScalarInjector(), Linear(reader.Read(system)))

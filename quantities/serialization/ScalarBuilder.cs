@@ -41,8 +41,7 @@ internal static class ScalarBuilder
     private static Dictionary<String, Type> Scan(Type interfaceType)
     {
         var types = new Dictionary<String, Type>();
-        var interfaceName = interfaceType.FullName ?? String.Empty;
-        foreach (var type in typeof(ScalarBuilder).Assembly.GetExportedTypes().Where(t => t.IsValueType && t.GetInterface(interfaceName) is not null)) {
+        foreach (var type in typeof(ScalarBuilder).Assembly.GetExportedTypes().Where(t => t.IsValueType && t.IsAssignableTo(interfaceType))) {
             var representation = GetRepresentation(type);
             types[representation] = type;
         }

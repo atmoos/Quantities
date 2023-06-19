@@ -56,4 +56,23 @@ public sealed class EnergyTest
 
         actual.Matches(expected);
     }
+
+    [Fact]
+    public void LinearEnergyCanBeSerialized()
+    {
+        Energy.Of(14.28).Si<Kilo, Joule>().CanBeSerialized();
+    }
+
+    [Fact]
+    public void SimpleMultiplicativeEnergyCanBeSerialized()
+    {
+        // ToDo: Change to Wh!
+        Energy.Of(28.82).Metric<Kilo, Watt, Hour>().CanBeSerialized();
+    }
+
+    [Fact]
+    public void ComplexMultiplicativeEnergyCanBeSerialized()
+    {
+        Energy.Of(-2.12).Si<Mega, Watt, Second>().CanBeSerialized();
+    }
 }

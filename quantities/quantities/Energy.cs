@@ -10,6 +10,7 @@ using Quantities.Units.Si;
 namespace Quantities.Quantities;
 
 public readonly struct Energy : IQuantity<Energy>, IEnergy<Mass, Length, Time>
+    , IFactory<Energy>
     , IFactory<ICompoundFactory<Energy, IEnergy<Mass, Length, Time>>, Energy.Factory<LinearTo>, Energy.Factory<LinearCreate>>
     , IDivisionOperators<Energy, Time, Power>
     , IDivisionOperators<Energy, Power, Time>
@@ -19,6 +20,7 @@ public readonly struct Energy : IQuantity<Energy>, IEnergy<Mass, Length, Time>
     public Factory<LinearTo> To => new(new LinearTo(in this.quant));
     private Energy(in Quant quant) => this.quant = quant;
     public static Factory<LinearCreate> Of(in Double value) => new(new LinearCreate(in value));
+    static Energy IFactory<Energy>.Create(in Quant quant) => new(in quant);
     internal static Energy From(in Power power, in Time time) => new(power.Quant.Multiply(time.Quant));
     void IQuantity<Energy>.Serialize(IWriter writer) => this.quant.Write(writer);
 
@@ -40,6 +42,7 @@ public readonly struct Energy : IQuantity<Energy>, IEnergy<Mass, Length, Time>
     public static Power operator /(Energy left, Time right) => Power.From(in left, in right);
     public static Time operator /(Energy left, Power right) => Time.From(in left, in right);
 
+    // ToDo: With this factory's interface it's not possible to create Wh!
     public readonly struct Factory<TCreate> : ICompoundFactory<Energy, IEnergy>
         where TCreate : ICreate
     {

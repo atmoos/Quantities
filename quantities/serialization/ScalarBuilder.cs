@@ -65,8 +65,7 @@ internal static class ScalarBuilder
         var representation = getRepresentation.MakeGenericMethod(type);
         return (representation?.Invoke(null, null)) as String ?? throw new InvalidOperationException($"Failed getting representation for: {type.Name}");
     }
-    private static String GetRepresentation<T>()
-        where T : IRepresentable => T.Representation;
+    private static String GetRepresentation<T>() where T : IRepresentable => T.Representation;
     private static MethodInfo GetGenericMethod(String name, Int32 typeArgumentCount)
     {
         var genericMethod = typeof(ScalarBuilder).GetMethod(name, typeArgumentCount, BindingFlags.Static | BindingFlags.NonPublic, null, CallingConventions.Standard, Type.EmptyTypes, null);

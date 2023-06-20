@@ -11,8 +11,9 @@ namespace Quantities.Serialization;
 public sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
     where TQuantity : struct, IQuantity<TQuantity>, Dimensions.IDimension, IFactory<TQuantity>
 {
-    private static readonly String name = typeof(TQuantity).Name.ToLowerInvariant();
-    private static readonly ITypeVerification scalarVerification = new ScalarVerification(typeof(TQuantity).MostDerivedOf<Dimensions.IDimension>());
+    private static readonly Type typeofQuantity = typeof(TQuantity);
+    private static readonly String name = typeofQuantity.Name.ToLowerInvariant();
+    private static readonly ITypeVerification scalarVerification = new ScalarVerification(typeofQuantity.MostDerivedOf<Dimensions.IDimension>());
     private static readonly ConcurrentDictionary<QuantityModel, IBuilder> builders = new();
     public override TQuantity Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
@@ -38,20 +39,20 @@ public sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
     }
 
     private static (IInject, IBuilder) Create(String system, ref Utf8JsonReader reader) => system switch {
-        "frac" => (new FractionInjector(), AggregateOf(ref reader, 2)),
-        "prod" => (new ProductInjector(), AggregateOf(ref reader, 2)),
-        "square" => (new PowerInjector<Square>(), Power(ref reader, new ScalarVerification(typeof(TQuantity).InnerTypes(typeof(ISquare<>)).Single()))),
-        "cubic" => (new PowerInjector<Cube>(), Power(ref reader, new ScalarVerification(typeof(TQuantity).InnerTypes(typeof(ICubic<>)).Single()))),
-        _ => (new ScalarInjector(), Linear(reader.Read(system)))
+        "frac" => (new FractionInjector(), AggregateOf(ref reader, typeof(IFraction<,>))),
+        "prod" => (new ProductInjector(), AggregateOf(ref reader, typeof(IProduct<,>))),
+        "square" => (new PowerInjector<Square>(), Power(ref reader, typeof(ISquare<>))),
+        "cubic" => (new PowerInjector<Cube>(), Power(ref reader, typeof(ICubic<>))),
+        _ => (new ScalarInjector(), Linear(reader.Read(system), scalarVerification))
     };
 
-    private static IBuilder Power(ref Utf8JsonReader reader, ITypeVerification verification)
+    private static IBuilder Power(ref Utf8JsonReader reader, Type powerInterfaceType)
     {
         reader.MoveNext(StartObject);
+        var verification = new ScalarVerification(typeofQuantity.InnerType(powerInterfaceType));
         return Linear(reader.Read(reader.ReadNameOf(PropertyName)), verification);
     }
 
-    private static IBuilder Linear(in QuantityModel model) => Linear(in model, scalarVerification);
     private static IBuilder Linear(in QuantityModel model, ITypeVerification verification)
     {
         if (builders.TryGetValue(model, out var builder)) {
@@ -60,12 +61,12 @@ public sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
         return builders[model] = ScalarBuilder.Create(model, verification);
     }
 
-    private static IBuilder AggregateOf(ref Utf8JsonReader reader, Int32 count)
+    private static IBuilder AggregateOf(ref Utf8JsonReader reader, Type componentInterfaceType)
     {
         reader.MoveNext(StartObject);
-        var builders = new List<IBuilder>(count);
-        while (builders.Count < count) {
-            builders.Add(Linear(reader.Read(reader.ReadNameOf(PropertyName))));
+        var builders = new List<IBuilder>();
+        foreach (var componentType in typeofQuantity.InnerTypes(componentInterfaceType)) {
+            builders.Add(Linear(reader.Read(reader.ReadNameOf(PropertyName)), new ScalarVerification(componentType)));
         }
         return new AggregateBuilder(builders);
     }

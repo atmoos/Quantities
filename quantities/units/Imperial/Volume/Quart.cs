@@ -3,7 +3,7 @@ using Quantities.Units.Transformation;
 
 namespace Quantities.Units.Imperial.Volume;
 
-public readonly struct Quart : IImperialUnit, IVolume<ILength>
+public readonly struct Quart : IImperialUnit, IVolume
 {
     private static readonly Transform transform = new(1.1365225e-3 /* m³ */);
     public static Double ToSi(in Double nonSiValue) => transform.ToSi(in nonSiValue);

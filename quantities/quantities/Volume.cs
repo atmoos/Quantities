@@ -6,9 +6,9 @@ using Quantities.Measures.Transformations;
 
 namespace Quantities.Quantities;
 
-public readonly struct Volume : IQuantity<Volume>, IVolume<ILength>
+public readonly struct Volume : IQuantity<Volume>, IVolume
     , IFactory<Volume>
-    , IFactory<ICubicFactory<Volume, IVolume<ILength>, ILength>, CubicFactory<Volume, PowerFactory<Volume, CubicTo, ILength>, IVolume<ILength>, ILength>, CubicFactory<Volume, PowerFactory<Volume, CubicCreate, ILength>, IVolume<ILength>, ILength>>
+    , IFactory<ICubicFactory<Volume, IVolume, ILength>, CubicFactory<Volume, PowerFactory<Volume, CubicTo, ILength>, IVolume, ILength>, CubicFactory<Volume, PowerFactory<Volume, CubicCreate, ILength>, IVolume, ILength>>
     , IDivisionOperators<Volume, Area, Length>
     , IDivisionOperators<Volume, Length, Area>
 {
@@ -16,9 +16,9 @@ public readonly struct Volume : IQuantity<Volume>, IVolume<ILength>
     private static readonly IInject<Quant> linear = new ToLinear();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
-    public CubicFactory<Volume, PowerFactory<Volume, CubicTo, ILength>, IVolume<ILength>, ILength> To => new(new PowerFactory<Volume, CubicTo, ILength>(new CubicTo(in this.quant)));
+    public CubicFactory<Volume, PowerFactory<Volume, CubicTo, ILength>, IVolume, ILength> To => new(new PowerFactory<Volume, CubicTo, ILength>(new CubicTo(in this.quant)));
     private Volume(in Quant quant) => this.quant = quant;
-    public static CubicFactory<Volume, PowerFactory<Volume, CubicCreate, ILength>, IVolume<ILength>, ILength> Of(in Double value) => new(new PowerFactory<Volume, CubicCreate, ILength>(new CubicCreate(in value)));
+    public static CubicFactory<Volume, PowerFactory<Volume, CubicCreate, ILength>, IVolume, ILength> Of(in Double value) => new(new PowerFactory<Volume, CubicCreate, ILength>(new CubicCreate(in value)));
     static Volume IFactory<Volume>.Create(in Quant quant) => new(in quant);
     void IQuantity<Volume>.Serialize(IWriter writer) => this.quant.Write(writer);
 

@@ -8,13 +8,13 @@ using Quantities.Units.Si;
 namespace Quantities.Factories;
 
 public interface ISquareFactory<out TQuantity, TPower, TLinear> : IHighDimFactory<TQuantity, TPower, TLinear>
-    where TPower : ISquare<TLinear>
+    where TPower : ISquare<TLinear>, IDimension
     where TLinear : IDimension, ILinear
 {
 }
 
 public interface ICubicFactory<out TQuantity, TPower, TLinear> : IHighDimFactory<TQuantity, TPower, TLinear>
-    where TPower : ICubic<TLinear>
+    where TPower : ICubic<TLinear>, IDimension
     where TLinear : IDimension, ILinear
 {
 }

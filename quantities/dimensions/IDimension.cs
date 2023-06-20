@@ -4,14 +4,12 @@
 public interface IDimension { /* marker interface */ }
 
 public interface ILinear { /* marker interface */ }
-public interface ISquare { /* marker interface */ }
-public interface ICubic { /* marker interface */ }
 
-public interface ISquare<out TDimension> : ITimes<TDimension, TDimension>, ISquare
+public interface ISquare<out TDimension>
 where TDimension : IDimension
 {
 }
-public interface ICubic<out TDimension> : ITimes<ISquare<TDimension>, TDimension>, ICubic
+public interface ICubic<out TDimension>
     where TDimension : IDimension
 {
 }

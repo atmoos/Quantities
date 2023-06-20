@@ -4,7 +4,7 @@ using Quantities.Units.Transformation;
 
 namespace Quantities.Units.Imperial.Area;
 
-public readonly struct Acre : IImperialUnit, IArea<ILength>, IInjectUnit<ILength>
+public readonly struct Acre : IImperialUnit, IArea, IInjectUnit<ILength>
 {
     internal const Double ToSquareMetre = 4046.8564224; // ac -> m²
     private static readonly Transform transform = new(ToSquareMetre);

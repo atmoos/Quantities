@@ -10,7 +10,7 @@ namespace Quantities.Factories;
 
 public readonly struct SquareFactory<TQuantity, TCompound, TSquare, TLinear> : ISquareFactory<TQuantity, TSquare, TLinear>
     where TLinear : Dimensions.IDimension, ILinear
-    where TSquare : ISquare<TLinear>
+    where TSquare : ISquare<TLinear>, Dimensions.IDimension
     where TCompound : ICompoundFactory<TQuantity, TLinear>, IAliasingCreate
     where TQuantity : IFactory<TQuantity>
 {

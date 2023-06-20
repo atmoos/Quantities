@@ -9,9 +9,9 @@ using Quantities.Units.Si;
 
 namespace Quantities.Quantities;
 
-public readonly struct Energy : IQuantity<Energy>, IEnergy<Mass, Length, Time>
+public readonly struct Energy : IQuantity<Energy>, IEnergy
     , IFactory<Energy>
-    , IFactory<ICompoundFactory<Energy, IEnergy<Mass, Length, Time>>, Energy.Factory<LinearTo>, Energy.Factory<LinearCreate>>
+    , IFactory<ICompoundFactory<Energy, IEnergy>, Energy.Factory<LinearTo>, Energy.Factory<LinearCreate>>
     , IDivisionOperators<Energy, Time, Power>
     , IDivisionOperators<Energy, Power, Time>
 {

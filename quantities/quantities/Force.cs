@@ -8,7 +8,7 @@ using Quantities.Units.Si.Derived;
 
 namespace Quantities.Quantities;
 
-public readonly struct Force : IQuantity<Force>, IForce<Mass, Length, Time>
+public readonly struct Force : IQuantity<Force>, IForce
     , IFactory<Force>
     , IFactory<ISiFactory<Force, IForce>, LinearTo<Force, IForce>, LinearCreate<Force, IForce>>
     , IMultiplyOperators<Force, Velocity, Power>

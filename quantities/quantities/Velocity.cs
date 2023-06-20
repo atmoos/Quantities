@@ -9,7 +9,7 @@ using Quantities.Units.Si;
 
 namespace Quantities.Quantities;
 
-public readonly struct Velocity : IQuantity<Velocity>, IVelocity<ILength, ITime>
+public readonly struct Velocity : IQuantity<Velocity>, IVelocity
     , IFactory<Velocity>
     , IFactory<ICompoundFactory<Denominator<LinearFactory<Velocity, ITime>>, ILength>, Nominator<To, ILength, LinearFactory<Velocity, ITime>>, Nominator<Create, ILength, LinearFactory<Velocity, ITime>>>
     , IMultiplyOperators<Velocity, Force, Power>

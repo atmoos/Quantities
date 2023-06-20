@@ -1,4 +1,6 @@
 using System.Text.Json;
+using Quantities.Dimensions;
+using Quantities.Units.Si.Derived;
 using Quantities.Units.Si.Metric;
 
 namespace Quantities.Test;
@@ -6,6 +8,33 @@ namespace Quantities.Test;
 public class SerializationTest
 {
     private static readonly JsonSerializerOptions options = new JsonSerializerOptions { WriteIndented = true }.EnableQuantities();
+
+    [Fact]
+    public void FalseUnitsCannotBeInjectedViaSerialization()
+    {
+        Length length = Length.Of(6).Si<Metre>();
+
+        String falseUnit = Serialize(length).Replace(Metre.Representation, Ohm.Representation);
+
+        var msg = Assert.Throws<InvalidOperationException>(() => Deserialize<Length>(falseUnit)).Message;
+        Assert.StartsWith("Dimension mismatch:", msg);
+        Assert.Contains(nameof(Ohm), msg);
+        Assert.Contains(nameof(ILength), msg);
+        Assert.Contains(nameof(IElectricalResistance), msg);
+    }
+
+    [Fact]
+    public void AliasingUnitsAreSupported()
+    {
+        Volume volume = Volume.Of(4000).Metric<Litre>();
+        Area oneSquareMetre = Area.Of(1).Square.Si<Metre>();
+        Length expectedHeight = volume / oneSquareMetre;
+
+        Volume deserializedVolume = Deserialize<Volume>(Serialize(volume));
+        Length actualHeight = deserializedVolume / oneSquareMetre;
+
+        Assert.Equal(expectedHeight, actualHeight);
+    }
 
     [Fact]
     public void ReadMetric()

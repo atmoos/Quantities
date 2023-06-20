@@ -17,16 +17,16 @@ internal static class ScalarBuilder
     private static readonly Dictionary<String, Type> metricUnits = Scan(typeof(IMetricUnit));
     private static readonly Dictionary<String, Type> imperialUnits = Scan(typeof(IImperialUnit));
     private static readonly Dictionary<String, Type> nonStandardUnits = Scan(typeof(INoSystemUnit));
-    public static IBuilder Create(QuantityModel model) => Find(model.System, model.Prefix, model.Unit)(scalarInjector);
+    public static IBuilder Create(QuantityModel model, ITypeVerification verification) => Find(verification, model.System, model.Prefix, model.Unit)(scalarInjector);
 
-    private static Creator Find(String system, String? prefix, String unit)
+    private static Creator Find(ITypeVerification verification, String system, String? prefix, String unit)
     {
         Type? prefixType = prefix is null ? null : prefixes[prefix];
         return system switch {
-            "si" => GetMethod(nameof(CreateSi), siUnits[unit], prefixType),
-            "metric" => GetMethod(nameof(CreateMetric), metricUnits[unit], prefixType),
-            "imperial" => GetMethod(nameof(CreateImperial), imperialUnits[unit], prefixType),
-            "any" => GetMethod(nameof(CreateNonStandard), nonStandardUnits[unit], prefixType),
+            "si" => GetMethod(nameof(CreateSi), verification.Verify(siUnits[unit]), prefixType),
+            "metric" => GetMethod(nameof(CreateMetric), verification.Verify(metricUnits[unit]), prefixType),
+            "imperial" => GetMethod(nameof(CreateImperial), verification.Verify(imperialUnits[unit]), prefixType),
+            "any" => GetMethod(nameof(CreateNonStandard), verification.Verify(nonStandardUnits[unit]), prefixType),
             _ => throw new NotImplementedException($"{system} cannot be deserialized yet :-(")
         };
     }

@@ -105,7 +105,7 @@ public sealed class PowerTest
     }
     [Theory]
     [MemberData(nameof(Powers))]
-    public void PowerSupportsSerialization(Power power) => power.CanBeSerialized();
+    public void PowerSupportsSerialization(Power power) => power.SupportsSerialization();
 
     public static IEnumerable<Object[]> Powers()
     {

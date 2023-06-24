@@ -72,7 +72,7 @@ public sealed class ElectricPotentialTest
     }
     [Theory]
     [MemberData(nameof(Potentials))]
-    public void ElectricPotentialSupportsSerialization(ElectricPotential potential) => potential.CanBeSerialized();
+    public void ElectricPotentialSupportsSerialization(ElectricPotential potential) => potential.SupportsSerialization();
 
     public static IEnumerable<Object[]> Potentials()
     {

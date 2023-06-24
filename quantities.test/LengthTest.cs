@@ -196,7 +196,7 @@ public sealed class LengthTest
 
     [Theory]
     [MemberData(nameof(Lengths))]
-    public void LengthSupportsSerialization(Length length) => length.CanBeSerialized();
+    public void LengthSupportsSerialization(Length length) => length.SupportsSerialization();
 
     public static IEnumerable<Object[]> Lengths()
     {

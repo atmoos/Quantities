@@ -14,7 +14,7 @@ public class SerializationTest
     {
         Length length = Length.Of(6).Si<Metre>();
 
-        String falseUnit = Serialize(length).Replace(Metre.Representation, Ohm.Representation);
+        String falseUnit = length.Serialize().Replace(Metre.Representation, Ohm.Representation);
 
         var msg = Assert.Throws<InvalidOperationException>(() => Deserialize<Length>(falseUnit)).Message;
         Assert.StartsWith("Dimension mismatch:", msg);
@@ -29,7 +29,7 @@ public class SerializationTest
         Double value = Math.PI;
         Length expected = Length.Of(value).Si<Metre>();
 
-        expected.CanBeSerialized();
+        expected.SupportsSerialization();
     }
 
     [Fact]
@@ -38,7 +38,7 @@ public class SerializationTest
         Double value = Math.PI;
         Length expected = Length.Of(value).Si<Centi, Metre>();
 
-        expected.CanBeSerialized();
+        expected.SupportsSerialization();
     }
 
     [Fact]
@@ -47,7 +47,7 @@ public class SerializationTest
         Double value = Math.E;
         Length expected = Length.Of(value).Imperial<Mile>();
 
-        expected.CanBeSerialized();
+        expected.SupportsSerialization();
     }
 
     [Fact]
@@ -55,7 +55,7 @@ public class SerializationTest
     {
         Double value = Math.PI;
         Length length = Length.Of(value).Si<Metre>();
-        String actual = Serialize(length, options);
+        String actual = length.Serialize(options);
         String expected = $$"""
         {
           "length": {
@@ -73,7 +73,7 @@ public class SerializationTest
     {
         Double value = Math.PI;
         Length length = Length.Of(value).Si<Kilo, Metre>();
-        String actual = Serialize(length, options);
+        String actual = length.Serialize(options);
         String expected = $$"""
         {
           "length": {
@@ -92,7 +92,7 @@ public class SerializationTest
     {
         Double value = Math.PI;
         Length length = Length.Of(value).Imperial<Yard>();
-        String actual = Serialize(length, options);
+        String actual = length.Serialize(options);
         String expected = $$"""
         {
           "length": {
@@ -105,12 +105,23 @@ public class SerializationTest
         """;
         Assert.Equal(expected, actual);
     }
+
+    [Fact]
+    public void PowerRepresentationsSupported()
+    {
+        Volume volume = Volume.Of(2).Cubic.Si<Metre>();
+
+        Volume roundRobinSerialization = volume.SerializeRoundRobin();
+
+        roundRobinSerialization.Quant.HasSameMeasure(volume.Quant);
+    }
+
     [Fact]
     public void Compound()
     {
         Double value = Math.PI;
         Velocity velocity = Velocity.Of(value).Si<Kilo, Metre>().Per.Metric<Hour>();
-        String actual = Serialize(velocity, options);
+        String actual = velocity.Serialize(options);
         String expected = $$"""
         {
           "velocity": {
@@ -137,7 +148,7 @@ public class SerializationTest
             Height = Length.Of(1.67).Si<Metre>(),
             Weight = Mass.Of(72).Si<Kilogram>()
         };
-        String actual = Serialize(person, options);
+        String actual = person.Serialize(options);
         String expected = """
         {
           "Name": "Foo Bar",
@@ -170,9 +181,8 @@ public class SerializationTest
             Height = Length.Of(16.7).Si<Deci, Metre>(),
             Weight = Mass.Of(68).Si<Kilogram>()
         };
-        String data = Serialize(expected);
 
-        Person actual = Deserialize<Person>(data);
+        Person actual = expected.SerializeRoundRobin();
 
         Assert.Equal(expected.Name, actual.Name);
         Assert.Equal(expected.Height, actual.Height);

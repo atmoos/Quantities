@@ -56,6 +56,8 @@ internal readonly struct Quant : IEquatable<Quant>, IFormattable
         return quotient is >= min and <= max;
     }
 
+    public Boolean MeasureEquals(in Quant other) => ReferenceEquals(this.map, other.map);
+
     public override Boolean Equals(Object? obj) => obj is Quant quant && Equals(quant);
     public override Int32 GetHashCode() => this.value.GetHashCode() ^ this.map.GetHashCode();
     public override String ToString() => ToString("g5", CultureInfo.CurrentCulture);

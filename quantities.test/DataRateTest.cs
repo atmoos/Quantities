@@ -110,7 +110,7 @@ public class DataRateTest
     }
     [Theory]
     [MemberData(nameof(DataRates))]
-    public void DataRateSupportsSerialization(DataRate dataRate) => dataRate.CanBeSerialized();
+    public void DataRateSupportsSerialization(DataRate dataRate) => dataRate.SupportsSerialization();
 
     public static IEnumerable<Object[]> DataRates()
     {

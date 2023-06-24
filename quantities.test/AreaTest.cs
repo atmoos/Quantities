@@ -182,7 +182,7 @@ public class AreaTest
 
     [Theory]
     [MemberData(nameof(Areas))]
-    public void AreaSupportsSerialization(Area area) => area.CanBeSerialized();
+    public void AreaSupportsSerialization(Area area) => area.SupportsSerialization().Quant.HasSameMeasure(area.Quant);
 
     public static IEnumerable<Object[]> Areas()
     {

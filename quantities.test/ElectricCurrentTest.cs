@@ -56,7 +56,7 @@ public sealed class ElectricCurrentTest
     }
     [Theory]
     [MemberData(nameof(Currents))]
-    public void ElectricCurrentSupportsSerialization(ElectricCurrent current) => current.CanBeSerialized();
+    public void ElectricCurrentSupportsSerialization(ElectricCurrent current) => current.SupportsSerialization();
 
     public static IEnumerable<Object[]> Currents()
     {

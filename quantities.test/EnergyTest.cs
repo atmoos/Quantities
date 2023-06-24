@@ -59,7 +59,7 @@ public sealed class EnergyTest
 
     [Theory]
     [MemberData(nameof(Energy))]
-    public void EnergySupportsSerialization(Energy energy) => energy.CanBeSerialized();
+    public void EnergySupportsSerialization(Energy energy) => energy.SupportsSerialization().Quant.HasSameMeasure(energy.Quant);
 
     public static IEnumerable<Object[]> Energy()
     {

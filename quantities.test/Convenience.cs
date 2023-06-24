@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.Text.Json;
+using Quantities.Measures;
 using Quantities.Serialization;
 using Xunit.Sdk;
 
@@ -13,13 +14,19 @@ public static class Convenience
     public static Int32 LowPrecision => fullPrecision - 2;
     public static Int32 VeryLowPrecision => fullPrecision - 3;
 
-    public static void CanBeSerialized<T>(this T value)
+    internal static void HasSameMeasure(this Quant quant, in Quant other)
+    {
+        Assert.True(quant.MeasureEquals(other), $"Mismatching measures on '{quant}' and '{other}'");
+    }
+
+    public static T SupportsSerialization<T>(this T value)
         where T : IEquatable<T>
     {
         var serialized = Serialize(value);
         var deserialized = Deserialize<T>(serialized);
 
         Assert.Equal(value, deserialized);
+        return deserialized;
     }
     public static JsonSerializerOptions EnableQuantities(this JsonSerializerOptions options)
     {
@@ -27,8 +34,9 @@ public static class Convenience
         return options;
     }
 
-    public static String Serialize<T>(T value) => Serialize(value, options);
-    public static String Serialize<T>(T value, JsonSerializerOptions options) => JsonSerializer.Serialize(value, options);
+    public static T SerializeRoundRobin<T>(this T value) => Deserialize<T>(Serialize(value));
+    public static String Serialize<T>(this T value) => Serialize(value, options);
+    public static String Serialize<T>(this T value, JsonSerializerOptions options) => JsonSerializer.Serialize(value, options);
     public static T Deserialize<T>(String value) => Deserialize<T>(value, options);
     public static T Deserialize<T>(String value, JsonSerializerOptions options) => JsonSerializer.Deserialize<T>(value, options) ?? throw new Exception($"Deserialization of {typeof(T).Name} failed");
     public static void Matches<TQuantity>(this TQuantity actual, TQuantity expected)

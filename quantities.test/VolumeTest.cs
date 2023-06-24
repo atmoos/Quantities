@@ -127,7 +127,7 @@ public sealed class VolumeTest
     }
     [Theory]
     [MemberData(nameof(Volumes))]
-    public void VolumeSupportsSerialization(Volume volume) => volume.CanBeSerialized();
+    public void VolumeSupportsSerialization(Volume volume) => volume.SupportsSerialization().Quant.HasSameMeasure(volume.Quant);
 
     public static IEnumerable<Object[]> Volumes()
     {

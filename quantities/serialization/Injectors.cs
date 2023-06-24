@@ -10,7 +10,7 @@ internal sealed class ScalarInjector : IInject
 internal sealed class PowerInjector<TDim> : IInject
     where TDim : IDimension
 {
-    public IBuilder Inject<TMeasure>() where TMeasure : IMeasure => new ScalarBuilder<Power<TDim, TMeasure>>();
+    public IBuilder Inject<TMeasure>() where TMeasure : IMeasure => new PowerBuilder<TDim, TMeasure>();
 }
 
 internal sealed class FractionInjector : IInject

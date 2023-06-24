@@ -84,7 +84,7 @@ public sealed class TimeTest
     }
     [Theory]
     [MemberData(nameof(Times))]
-    public void TimeSupportsSerialization(Time time) => time.CanBeSerialized();
+    public void TimeSupportsSerialization(Time time) => time.SupportsSerialization();
 
     public static IEnumerable<Object[]> Times()
     {

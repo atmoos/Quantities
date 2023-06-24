@@ -198,7 +198,7 @@ public sealed class MassTest
     }
     [Theory]
     [MemberData(nameof(Masss))]
-    public void MassSupportsSerialization(Mass area) => area.CanBeSerialized();
+    public void MassSupportsSerialization(Mass area) => area.SupportsSerialization();
 
     public static IEnumerable<Object[]> Masss()
     {

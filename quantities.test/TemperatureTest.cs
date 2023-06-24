@@ -274,7 +274,7 @@ public sealed class TemperatureTest
 
     [Theory]
     [MemberData(nameof(Temperatures))]
-    public void TemperatureSupportsSerialization(Temperature temperature) => temperature.CanBeSerialized();
+    public void TemperatureSupportsSerialization(Temperature temperature) => temperature.SupportsSerialization();
 
     public static IEnumerable<Object[]> Temperatures()
     {

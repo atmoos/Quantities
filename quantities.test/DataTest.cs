@@ -90,7 +90,7 @@ public class DataTest
     }
     [Theory]
     [MemberData(nameof(Datums))]
-    public void DataSupportsSerialization(Data data) => data.CanBeSerialized();
+    public void DataSupportsSerialization(Data data) => data.SupportsSerialization();
 
     public static IEnumerable<Object[]> Datums()
     {

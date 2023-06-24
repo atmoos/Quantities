@@ -34,7 +34,7 @@ public sealed class ElectricalResistanceTest
     }
     [Theory]
     [MemberData(nameof(Resistances))]
-    public void ElectricalResistanceSupportsSerialization(ElectricalResistance resistance) => resistance.CanBeSerialized();
+    public void ElectricalResistanceSupportsSerialization(ElectricalResistance resistance) => resistance.SupportsSerialization();
 
     public static IEnumerable<Object[]> Resistances()
     {

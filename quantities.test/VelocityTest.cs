@@ -104,20 +104,9 @@ public sealed class VelocityTest
         Assert.Equal(expected, actual);
     }
 
-    [Fact]
-    public void SiVelocityCanBeDeserialized()
-    {
-        Velocity.Of(-4.2).Si<Kilo, Metre>().Per.Metric<Hour>().CanBeSerialized();
-    }
-
-    [Fact]
-    public void ImperialVelocityCanBeDeserialized()
-    {
-        Velocity.Of(2.4).Imperial<Mile>().Per.Metric<Hour>().CanBeSerialized();
-    }
     [Theory]
     [MemberData(nameof(Velocities))]
-    public void VelocitySupportsSerialization(Velocity velocity) => velocity.CanBeSerialized();
+    public void VelocitySupportsSerialization(Velocity velocity) => velocity.SupportsSerialization().Quant.HasSameMeasure(velocity.Quant);
 
     public static IEnumerable<Object[]> Velocities()
     {

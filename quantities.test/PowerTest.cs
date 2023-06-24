@@ -103,4 +103,20 @@ public sealed class PowerTest
 
         actual.Matches(expected);
     }
+    [Theory]
+    [MemberData(nameof(Powers))]
+    public void PowerSupportsSerialization(Power power) => power.CanBeSerialized();
+
+    public static IEnumerable<Object[]> Powers()
+    {
+        static IEnumerable<Power> Interesting()
+        {
+            yield return Power.Of(21).Si<Watt>();
+            yield return Power.Of(342).Si<Milli, Watt>();
+            yield return Power.Of(6).Si<Peta, Watt>();
+            yield return Power.Of(-41).Metric<HorsePower>();
+            yield return Power.Of(-11).Imperial<Units.Imperial.Power.HorsePower>();
+        }
+        return Interesting().Select(l => new Object[] { l });
+    }
 }

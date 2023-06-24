@@ -20,6 +20,7 @@ namespace Quantities.Quantities;
 - Information
 */
 public readonly struct Data : IQuantity<Data>, IAmountOfInformation
+    , IFactory<Data>
     , IFactory<IMetricFactory<Data, IAmountOfInformation>, Data.Factory<LinearTo>, Data.Factory<LinearCreate>>
     , IDivisionOperators<Data, Time, DataRate>
 {
@@ -29,6 +30,7 @@ public readonly struct Data : IQuantity<Data>, IAmountOfInformation
     public Factory<LinearTo> To => new(new LinearTo(in this.quant));
     private Data(in Quant quant) => this.quant = quant;
     public static Factory<LinearCreate> Of(in Double value) => new(new LinearCreate(in value));
+    static Data IFactory<Data>.Create(in Quant quant) => new(in quant);
     internal static Data From(in Time time, in DataRate rate)
     {
         // ToDo: Recover data units from data rate

@@ -1,3 +1,4 @@
+using Quantities.Measures;
 using Quantities.Units.Imperial.Area;
 using Quantities.Units.NonStandard.Area;
 using Quantities.Units.Si.Metric;
@@ -140,10 +141,30 @@ public class AreaTest
     [Fact]
     public void MorgenToHectare()
     {
+        Area morgen = Area.Of(4).NonStandard<Morgen>();
+        Area expected = Area.Of(1).Metric<Hecto, Are>();
+
+        Area actual = morgen.To.Metric<Hecto, Are>();
+
+        actual.Matches(expected);
+    }
+    [Fact]
+    public void MorgenToSquareMetre()
+    {
         Area morgen = Area.Of(2).NonStandard<Morgen>();
         Area expected = Area.Of(5000).Square.Si<Metre>();
 
         Area actual = morgen.To.Square.Si<Metre>();
+
+        actual.Matches(expected);
+    }
+    [Fact]
+    public void RoodToPerches()
+    {
+        Area rood = Area.Of(1).Imperial<Rood>();
+        Area expected = Area.Of(40).Imperial<Perch>();
+
+        Area actual = rood.To.Imperial<Perch>();
 
         actual.Matches(expected);
     }
@@ -159,15 +180,24 @@ public class AreaTest
         actual.Matches(expected);
     }
 
-    [Fact]
-    public void LinearAreaCanBeSerialized()
-    {
-        Area.Of(23.21).Metric<Deca, Are>().CanBeSerialized();
-    }
+    [Theory]
+    [MemberData(nameof(Areas))]
+    public void AreaSupportsSerialization(Area area) => area.CanBeSerialized();
 
-    [Fact]
-    public void SquareAreaCanBeSerialized()
+    public static IEnumerable<Object[]> Areas()
     {
-        Area.Of(-13.17).Square.Si<Deci, Metre>().CanBeSerialized();
+        static IEnumerable<Area> Interesting()
+        {
+            yield return Area.Of(21).Metric<Are>();
+            yield return Area.Of(342).Imperial<Acre>();
+            yield return Area.Of(6).Imperial<Perch>();
+            yield return Area.Of(-41).Square.Si<Metre>();
+            yield return Area.Of(1.21).Square.Si<Pico, Metre>();
+            yield return Area.Of(121).Square.Si<Kilo, Metre>();
+            yield return Area.Of(95.2).Square.Metric<Ångström>();
+            yield return Area.Of(-11).Square.Imperial<Yard>();
+            yield return Area.Of(9).Square.Imperial<Foot>();
+        }
+        return Interesting().Select(l => new Object[] { l });
     }
 }

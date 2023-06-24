@@ -32,4 +32,18 @@ public sealed class ElectricalResistanceTest
 
         resistance.Matches(expected);
     }
+    [Theory]
+    [MemberData(nameof(Resistances))]
+    public void ElectricalResistanceSupportsSerialization(ElectricalResistance resistance) => resistance.CanBeSerialized();
+
+    public static IEnumerable<Object[]> Resistances()
+    {
+        static IEnumerable<ElectricalResistance> Interesting()
+        {
+            yield return ElectricalResistance.Of(21).Si<Ohm>();
+            yield return ElectricalResistance.Of(342).Si<Pico, Ohm>();
+            yield return ElectricalResistance.Of(6).Si<Mega, Ohm>();
+        }
+        return Interesting().Select(l => new Object[] { l });
+    }
 }

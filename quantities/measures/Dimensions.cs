@@ -15,7 +15,7 @@ internal readonly struct Square : IDimension
     public static Double Pow(in Double value) => value * value;
     public static String Representation => "²";
 }
-internal readonly struct Cube : IDimension
+internal readonly struct Cubic : IDimension
 {
     public static Double Pow(in Double value) => value * value * value;
     public static String Representation => "³";

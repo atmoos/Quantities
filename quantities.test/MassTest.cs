@@ -1,4 +1,5 @@
 ﻿using Quantities.Units.Imperial.Mass;
+using Quantities.Units.NonStandard.Mass;
 using Quantities.Units.Si.Derived;
 using Quantities.Units.Si.Metric;
 
@@ -194,5 +195,25 @@ public sealed class MassTest
     public void DefinitionOfSlugHolds()
     {
         Assert.Equal(Mass.Of(14.59390294).Si<Kilogram>(), Mass.Of(1).Imperial<Slug>());
+    }
+    [Theory]
+    [MemberData(nameof(Masss))]
+    public void MassSupportsSerialization(Mass area) => area.CanBeSerialized();
+
+    public static IEnumerable<Object[]> Masss()
+    {
+        static IEnumerable<Mass> Interesting()
+        {
+            yield return Mass.Of(21).Si<Kilogram>();
+            yield return Mass.Of(342).Metric<Kilo, Gram>();
+            yield return Mass.Of(342).Metric<Micro, Gram>();
+            yield return Mass.Of(6).Imperial<Pound>();
+            yield return Mass.Of(-41).Imperial<Ton>();
+            yield return Mass.Of(1.21).Imperial<Ounce>();
+            yield return Mass.Of(121).Imperial<Stone>();
+            yield return Mass.Of(95.2).Metric<Tonne>();
+            yield return Mass.Of(-11).NonStandard<Pfund>();
+        }
+        return Interesting().Select(l => new Object[] { l });
     }
 }

@@ -42,7 +42,7 @@ public sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
         "frac" => (new FractionInjector(), AggregateOf(ref reader, typeof(IFraction<,>))),
         "prod" => (new ProductInjector(), AggregateOf(ref reader, typeof(IProduct<,>))),
         "square" => (new PowerInjector<Square>(), Power(ref reader, typeof(ISquare<>))),
-        "cubic" => (new PowerInjector<Cube>(), Power(ref reader, typeof(ICubic<>))),
+        "cubic" => (new PowerInjector<Cubic>(), Power(ref reader, typeof(ICubic<>))),
         _ => (new ScalarInjector(), Linear(reader.Read(system), scalarVerification))
     };
 

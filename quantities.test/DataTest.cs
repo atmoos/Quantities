@@ -88,4 +88,20 @@ public class DataTest
 
         actual.Matches(expected);
     }
+    [Theory]
+    [MemberData(nameof(Datums))]
+    public void DataSupportsSerialization(Data data) => data.CanBeSerialized();
+
+    public static IEnumerable<Object[]> Datums()
+    {
+        static IEnumerable<Data> Interesting()
+        {
+            yield return Data.Of(21).Metric<Bit>();
+            yield return Data.Of(342).Metric<Mega, Bytes>();
+            yield return Data.Of(6).Metric<Nibble>();
+            yield return Data.Of(-41).Binary<Pebi, Bit>();
+            yield return Data.Of(1.21).Binary<Mebi, Bytes>();
+        }
+        return Interesting().Select(l => new Object[] { l });
+    }
 }

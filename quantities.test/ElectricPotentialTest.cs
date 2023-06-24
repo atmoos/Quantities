@@ -70,4 +70,18 @@ public sealed class ElectricPotentialTest
 
         potential.Matches(expected);
     }
+    [Theory]
+    [MemberData(nameof(Potentials))]
+    public void ElectricPotentialSupportsSerialization(ElectricPotential potential) => potential.CanBeSerialized();
+
+    public static IEnumerable<Object[]> Potentials()
+    {
+        static IEnumerable<ElectricPotential> Interesting()
+        {
+            yield return ElectricPotential.Of(21).Si<Volt>();
+            yield return ElectricPotential.Of(342).Si<Micro, Volt>();
+            yield return ElectricPotential.Of(0.0747).Si<Giga, Volt>();
+        }
+        return Interesting().Select(l => new Object[] { l });
+    }
 }

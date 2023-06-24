@@ -4,6 +4,7 @@ using Quantities.Units.Transformation;
 
 namespace Quantities.Units.Imperial.Volume;
 
+// https://en.wikipedia.org/wiki/Fluid_ounce
 public readonly struct FluidOunce : IImperialUnit, IVolume, IInjectUnit<ILength>
 {
     internal const Double ToCubicMeter = 0.0284130625e-3; // fl oz -> m³

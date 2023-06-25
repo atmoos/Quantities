@@ -23,7 +23,7 @@ internal sealed class Alias<TUnit, TAlias> : IInjector
     where TUnit : IInjectUnit<TAlias>
     where TAlias : Dimensions.IDimension
 {
-    public T Inject<T>(in IInject<T> creator, in Double value) => TUnit.Inject(new Creator<TAlias, T>(creator), in value);
+    public T Inject<T>(in IInject<T> creator, in Double value) => TUnit.Inject(new Creator<TAlias, T>(in creator), in value);
 }
 
 internal sealed class Alias<TPrefix, TUnit, TAlias> : IInjector
@@ -31,5 +31,5 @@ internal sealed class Alias<TPrefix, TUnit, TAlias> : IInjector
     where TUnit : IInjectUnit<TAlias>
     where TAlias : Dimensions.IDimension
 {
-    public T Inject<T>(in IInject<T> creator, in Double value) => TUnit.Inject(new Creator<TAlias, T>(creator), TPrefix.ToSi(in value));
+    public T Inject<T>(in IInject<T> creator, in Double value) => TUnit.Inject(new Creator<TAlias, T>(in creator), TPrefix.ToSi(in value));
 }

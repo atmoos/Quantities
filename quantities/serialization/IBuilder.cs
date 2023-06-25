@@ -13,4 +13,5 @@ internal interface IInject
 internal interface IBuilder : IBuild
 {
     IBuilder Append(IInject inject);
+    IBuilder With<TAlias>() where TAlias : IInjector, new();
 }

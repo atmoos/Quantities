@@ -14,7 +14,7 @@ internal static class Introspection
     }
     public static Type[] InnerTypes(this Type type, Type generic)
     {
-        var genericInterface = type.GetInterfaces().Where(i => i.IsConstructedGenericType && i.GetGenericTypeDefinition() == generic).First();
-        return genericInterface.GetGenericArguments();
+        var genericInterface = type.GetInterfaces().Where(i => i.IsConstructedGenericType && i.GetGenericTypeDefinition() == generic).FirstOrDefault();
+        return genericInterface?.GetGenericArguments() ?? Array.Empty<Type>();
     }
 }

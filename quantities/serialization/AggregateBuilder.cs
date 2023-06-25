@@ -16,4 +16,6 @@ internal sealed class AggregateBuilder : IBuilder
         return result;
     }
     public Quant Build(in Double value) => throw new NotImplementedException("Please don't use me...");
+
+    public IBuilder With<TAlias>() where TAlias : IInjector, new() => throw new NotImplementedException("Please don't use me...");
 }

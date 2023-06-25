@@ -23,6 +23,7 @@ internal sealed class FractionInjector : IInject
         public IBuilder Append(IInject inject) => new ScalarBuilder<TNominator>();
         public Quant Build(in Double value) => Build<TNominator>.With(in value);
         public IBuilder Inject<TMeasure>() where TMeasure : IMeasure => new FractionalBuilder<TNominator, TMeasure>();
+        public IBuilder With<TAlias>() where TAlias : IInjector, new() => throw new NotImplementedException("Please don't use me...");
     }
 
     private sealed class FractionalBuilder<TNominator, TDenominator> : IBuilder
@@ -31,6 +32,7 @@ internal sealed class FractionInjector : IInject
     {
         public IBuilder Append(IInject inject) => throw new NotImplementedException("Please don't use me...");
         public Quant Build(in Double value) => Build<Fraction<TNominator, TDenominator>>.With(in value);
+        public IBuilder With<TAlias>() where TAlias : IInjector, new() => new AliasedBuilder<Fraction<TNominator, TDenominator>, TAlias>();
     }
 }
 
@@ -44,6 +46,7 @@ internal sealed class ProductInjector : IInject
         public IBuilder Append(IInject inject) => new ScalarBuilder<TLeft>();
         public Quant Build(in Double value) => Build<TLeft>.With(in value);
         public IBuilder Inject<TMeasure>() where TMeasure : IMeasure => new ProductBuilder<TLeft, TMeasure>();
+        public IBuilder With<TAlias>() where TAlias : IInjector, new() => throw new NotImplementedException("Please don't use me...");
     }
 
     private sealed class ProductBuilder<TLeft, TRight> : IBuilder
@@ -52,5 +55,6 @@ internal sealed class ProductInjector : IInject
     {
         public IBuilder Append(IInject inject) => throw new NotImplementedException("Please don't use me...");
         public Quant Build(in Double value) => Build<Product<TLeft, TRight>>.With(in value);
+        public IBuilder With<TAlias>() where TAlias : IInjector, new() => new AliasedBuilder<Product<TLeft, TRight>, TAlias>();
     }
 }

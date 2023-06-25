@@ -1,6 +1,7 @@
 using System.Reflection;
 using Quantities.Measures;
 using Quantities.Prefixes;
+using Quantities.Units;
 using Quantities.Units.Imperial;
 using Quantities.Units.NonStandard;
 using Quantities.Units.Si;
@@ -32,11 +33,17 @@ internal static class ScalarBuilder
     }
 
     private static Creator CreateSi<TSi>() where TSi : ISiUnit => i => i.Inject<Si<TSi>>();
+    private static Creator CreateSiAlias<TSi, TDim>() where TSi : ISiUnit, IInjectUnit<TDim> where TDim : Dimensions.IDimension => i => i.Inject<Si<TSi>>().With<Alias<TSi, TDim>>();
     private static Creator CreateSi<TPrefix, TSi>() where TPrefix : IPrefix where TSi : ISiUnit => i => i.Inject<Si<TPrefix, TSi>>();
+    private static Creator CreateSiAlias<TPrefix, TSi, TDim>() where TPrefix : IPrefix where TSi : ISiUnit, IInjectUnit<TDim> where TDim : Dimensions.IDimension => i => i.Inject<Si<TPrefix, TSi>>().With<Alias<TPrefix, TSi, TDim>>();
     private static Creator CreateMetric<TMetric>() where TMetric : IMetricUnit => i => i.Inject<Metric<TMetric>>();
+    private static Creator CreateMetricAlias<TMetric, TDim>() where TMetric : IMetricUnit, IInjectUnit<TDim> where TDim : Dimensions.IDimension => i => i.Inject<Metric<TMetric>>().With<Alias<TMetric, TDim>>();
     private static Creator CreateMetric<TPrefix, TMetric>() where TPrefix : IPrefix where TMetric : IMetricUnit => i => i.Inject<Metric<TPrefix, TMetric>>();
+    private static Creator CreateMetricAlias<TPrefix, TMetric, TDim>() where TPrefix : IPrefix where TMetric : IMetricUnit, IInjectUnit<TDim> where TDim : Dimensions.IDimension => i => i.Inject<Metric<TPrefix, TMetric>>().With<Alias<TPrefix, TMetric, TDim>>();
     private static Creator CreateImperial<TImperial>() where TImperial : IImperialUnit => i => i.Inject<Imperial<TImperial>>();
+    private static Creator CreateImperialAlias<TImperial, TDim>() where TImperial : IImperialUnit, IInjectUnit<TDim> where TDim : Dimensions.IDimension => i => i.Inject<Imperial<TImperial>>().With<Alias<TImperial, TDim>>();
     private static Creator CreateNonStandard<TNonStandard>() where TNonStandard : INoSystemUnit => i => i.Inject<NonStandard<TNonStandard>>();
+    private static Creator CreateNonStandardAlias<TNonStandard, TDim>() where TNonStandard : INoSystemUnit, IInjectUnit<TDim> where TDim : Dimensions.IDimension => i => i.Inject<NonStandard<TNonStandard>>().With<Alias<TNonStandard, TDim>>();
 
     private static Dictionary<String, Type> Scan(Type interfaceType)
     {
@@ -50,16 +57,34 @@ internal static class ScalarBuilder
 
     private static Creator GetMethod(String name, Type unit, Type? prefix = null)
     {
-        var typeParameters = prefix is null ? new[] { unit } : new[] { prefix, unit };
+        var types = GetUnitTypeArgs(unit);
+        if (types.Count > 1) {
+            name = $"{name}Alias";
+        }
+        if (prefix != null) {
+            types.Insert(0, prefix);
+        }
+        var typeParameters = types.ToArray();
         var genericMethod = GetGenericMethod(name, typeParameters.Length);
-        var createMethod = genericMethod.MakeGenericMethod(typeParameters) ?? throw GetException(name, "created", typeParameters);
+        var createMethod = genericMethod.MakeGenericMethod(typeParameters.ToArray()) ?? throw GetException(name, "created", typeParameters);
         return createMethod.Invoke(null, null) as Creator ?? throw GetException(name, "invoked", typeParameters);
 
         static InvalidOperationException GetException(String name, String function, Type[] genericArgs)
         {
             return new InvalidOperationException($"Method '{name}<{String.Join(',', genericArgs.Select(t => t.Name))}>' could not be {function}.");
         }
+
+        static List<Type> GetUnitTypeArgs(Type unit)
+        {
+            var typeArgs = new List<Type> { unit };
+            var aliasOf = unit.InnerTypes(typeof(IInjectUnit<>));
+            if (aliasOf.Length > 0) {
+                typeArgs.Add(aliasOf[0]);
+            }
+            return typeArgs;
+        }
     }
+
     private static String GetRepresentation(Type type)
     {
         var representation = getRepresentation.MakeGenericMethod(type);
@@ -78,4 +103,5 @@ internal sealed class ScalarBuilder<TMeasure> : IBuilder
 {
     public IBuilder Append(IInject inject) => inject.Inject<TMeasure>();
     public Quant Build(in Double value) => Build<TMeasure>.With(in value);
+    public IBuilder With<TAlias>() where TAlias : IInjector, new() => new AliasedBuilder<TMeasure, TAlias>();
 }

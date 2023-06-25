@@ -24,6 +24,19 @@ public class SerializationTest
     }
 
     [Fact]
+    public void AliasingUnitsAreSupported()
+    {
+        Volume fourCubicMetersInLitres = Volume.Of(4000).Metric<Litre>();
+        Area oneSquareMetre = Area.Of(1).Square.Si<Metre>();
+        Length expectedHeight = fourCubicMetersInLitres / oneSquareMetre;
+
+        Volume deserializedVolume = fourCubicMetersInLitres.SerializeRoundRobin();
+        Length actualHeight = deserializedVolume / oneSquareMetre;
+
+        Assert.Equal(expectedHeight, actualHeight);
+    }
+
+    [Fact]
     public void ReadMetric()
     {
         Double value = Math.PI;

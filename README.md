@@ -188,7 +188,7 @@ It's a library that is still evolving rapidly. Try at your own risk or - even be
 
 - [x] Enable [binary prefixes](https://en.wikipedia.org/wiki/Binary_prefix).
   - Enabling things like "KiB", i.e. "kibi Byte".
-- [ ] Enable serialisation
+- [x] Enable serialisation
 - [ ] Extend unit tests
 - [ ] More rigours benchmarking
 - [ ] Add more quantities

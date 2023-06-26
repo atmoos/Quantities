@@ -58,7 +58,7 @@ public sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
         if (builders.TryGetValue(model, out var builder)) {
             return builder;
         }
-        return builders[model] = ScalarBuilder.Create(model, verification);
+        return builders[model] = ScalarBuilder.Create(in model, verification);
     }
 
     private static IBuilder AggregateOf(ref Utf8JsonReader reader, Type componentInterfaceType)

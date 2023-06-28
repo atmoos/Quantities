@@ -1,5 +1,6 @@
 using System.Text.Json;
 using Quantities.Dimensions;
+using Quantities.Serialization.Text.Json;
 using Quantities.Units.Si.Derived;
 using Quantities.Units.Si.Metric;
 

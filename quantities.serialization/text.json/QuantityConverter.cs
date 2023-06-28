@@ -3,9 +3,19 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using static System.Text.Json.JsonTokenType;
 
-namespace Quantities.Serialization;
+namespace Quantities.Serialization.Text.Json;
 
-public sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
+file sealed class JsonWriter : IWriter
+{
+    private readonly Utf8JsonWriter writer;
+    public JsonWriter(in Utf8JsonWriter writer) => this.writer = writer;
+    public void Start(String propertyName) => this.writer.WriteStartObject(propertyName);
+    public void Write(String name, Double value) => this.writer.WriteNumber(name, value);
+    public void Write(String name, String value) => this.writer.WriteString(name, value);
+    public void End() => this.writer.WriteEndObject();
+}
+
+internal sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
     where TQuantity : struct, IQuantity<TQuantity>, Dimensions.IDimension, IFactory<TQuantity>
 {
     private static readonly String name = typeof(TQuantity).Name.ToLowerInvariant();

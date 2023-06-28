@@ -1,7 +1,7 @@
 using System.Globalization;
 using System.Text.Json;
 using Quantities.Measures;
-using Quantities.Serialization;
+using Quantities.Serialization.Text.Json;
 using Xunit.Sdk;
 
 namespace Quantities.Test;
@@ -28,12 +28,6 @@ public static class Convenience
         Assert.Equal(value, deserialized);
         return deserialized;
     }
-    public static JsonSerializerOptions EnableQuantities(this JsonSerializerOptions options)
-    {
-        options.Converters.Add(new QuantitySerialization());
-        return options;
-    }
-
     public static T SerializeRoundRobin<T>(this T value) => Deserialize<T>(Serialize(value));
     public static String Serialize<T>(this T value) => Serialize(value, options);
     public static String Serialize<T>(this T value, JsonSerializerOptions options) => JsonSerializer.Serialize(value, options);

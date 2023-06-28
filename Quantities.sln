@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "quantities.test", "quantiti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "quantities.benchmark", "quantities.benchmark\quantities.benchmark.csproj", "{846DA54C-EE92-4BCE-8E83-C2B173DB4F8F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "quantities.serialization", "quantities.serialization", "{E04095D5-F6D9-467F-9D7E-CC7AF8396E9F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "quantities.serialization.text.json", "quantities.serialization\text.json\quantities.serialization.text.json.csproj", "{64C99937-7C3C-437A-BB52-CDF80F156EEE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +34,12 @@ Global
 		{846DA54C-EE92-4BCE-8E83-C2B173DB4F8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{846DA54C-EE92-4BCE-8E83-C2B173DB4F8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{846DA54C-EE92-4BCE-8E83-C2B173DB4F8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64C99937-7C3C-437A-BB52-CDF80F156EEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64C99937-7C3C-437A-BB52-CDF80F156EEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64C99937-7C3C-437A-BB52-CDF80F156EEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64C99937-7C3C-437A-BB52-CDF80F156EEE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{64C99937-7C3C-437A-BB52-CDF80F156EEE} = {E04095D5-F6D9-467F-9D7E-CC7AF8396E9F}
 	EndGlobalSection
 EndGlobal

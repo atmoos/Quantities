@@ -2,6 +2,8 @@ using Quantities.Dimensions;
 
 namespace Quantities.Serialization;
 
+public readonly record struct QuantityModel(String System, String? Prefix, String Unit);
+
 internal readonly struct TypeVerification
 {
     private readonly Type dimension;

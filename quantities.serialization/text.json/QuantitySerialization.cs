@@ -1,9 +1,9 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Quantities.Serialization;
+namespace Quantities.Serialization.Text.Json;
 
-public sealed class QuantitySerialization : JsonConverterFactory
+internal sealed class QuantitySerialization : JsonConverterFactory
 {
     private static readonly Type quantityConverter = typeof(QuantityConverter<>);
     public override Boolean CanConvert(Type typeToConvert)

@@ -18,6 +18,7 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity
     private static readonly IRoot root = new FractionalRoot<Metre, Second>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
+    Quant IQuantity<Velocity>.Value => this.quant;
     public Nominator<To, ILength, LinearFactory<Velocity, ITime>> To => new(new To(in this.quant));
     internal Velocity(in Quant quant) => this.quant = quant;
     public static Nominator<Create, ILength, LinearFactory<Velocity, ITime>> Of(in Double value) => new(new Create(in value));
@@ -27,7 +28,6 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity
         return new(MetricPrefix.Scale(power.Quant.SiDivide(force.Quant), root));
     }
     internal static Velocity From(in Length length, in Time time) => new(length.Quant.Divide(time.Quant));
-    void IQuantity<Velocity>.Serialize(IWriter writer) => this.quant.Write(writer);
 
     public Boolean Equals(Velocity other) => this.quant.Equals(other.quant);
     public override Boolean Equals(Object? obj) => obj is Velocity velocity && Equals(velocity);
@@ -44,7 +44,6 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity
     public static Velocity operator *(Velocity left, Double scalar) => new(scalar * left.quant);
     public static Velocity operator /(Velocity left, Double scalar) => new(left.quant / scalar);
     public static Double operator /(Velocity left, Velocity right) => left.quant / right.quant;
-
     public static Power operator *(Velocity velocity, Force force) => Power.From(in force, in velocity);
     public static Length operator *(Velocity left, Time right) => Length.From(in left, in right);
 }

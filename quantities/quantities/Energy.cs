@@ -17,12 +17,12 @@ public readonly struct Energy : IQuantity<Energy>, IEnergy
 {
     private readonly Quant quant;
     internal Quant Quant => this.quant;
+    Quant IQuantity<Energy>.Value => this.quant;
     public Factory<LinearTo> To => new(new LinearTo(in this.quant));
     private Energy(in Quant quant) => this.quant = quant;
     public static Factory<LinearCreate> Of(in Double value) => new(new LinearCreate(in value));
     static Energy IFactory<Energy>.Create(in Quant quant) => new(in quant);
     internal static Energy From(in Power power, in Time time) => new(power.Quant.Multiply(time.Quant));
-    void IQuantity<Energy>.Serialize(IWriter writer) => this.quant.Write(writer);
 
     public Boolean Equals(Energy other) => this.quant.Equals(other.quant);
     public override Boolean Equals(Object? obj) => obj is Energy energy && Equals(energy);

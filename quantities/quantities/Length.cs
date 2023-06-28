@@ -20,6 +20,7 @@ public readonly struct Length : IQuantity<Length>, ILength
     private static readonly IInject<Quant> linear = new ToLinear();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
+    Quant IQuantity<Length>.Value => this.quant;
     public LinearTo<Length, ILength> To => new(in this.quant);
     private Length(in Quant quant) => this.quant = quant;
     public static LinearCreate<Length, ILength> Of(in Double value) => new(in value);
@@ -40,7 +41,6 @@ public readonly struct Length : IQuantity<Length>, ILength
         var pseudoVolume = volume.Quant.Transform(in linear);
         return new(pseudoVolume.PseudoDivide(in pseudoArea));
     }
-    void IQuantity<Length>.Serialize(IWriter writer) => this.quant.Write(writer);
 
     public Boolean Equals(Length other) => this.quant.Equals(other.quant);
     public override Boolean Equals(Object? obj) => obj is Length length && Equals(length);

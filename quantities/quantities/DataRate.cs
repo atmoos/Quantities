@@ -15,11 +15,11 @@ public readonly struct DataRate : IQuantity<DataRate>, IInformationRate
 {
     private readonly Quant quant;
     internal Quant Quant => this.quant;
+    Quant IQuantity<DataRate>.Value => this.quant;
     public Factory<To> To => new(new To(in this.quant));
     internal DataRate(in Quant quant) => this.quant = quant;
     public static Factory<Create> Of(in Double value) => new(new Create(in value));
     static DataRate IFactory<DataRate>.Create(in Quant quant) => new(in quant);
-    void IQuantity<DataRate>.Serialize(IWriter writer) => this.quant.Write(writer);
     internal static DataRate From(in Data data, in Time time) => new(data.Quant.Divide(time.Quant));
 
     public Boolean Equals(DataRate other) => this.quant.Equals(other.quant);

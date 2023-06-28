@@ -39,10 +39,7 @@ public sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
     public override void Write(Utf8JsonWriter writer, TQuantity value, JsonSerializerOptions options)
     {
         writer.WriteStartObject();
-        var jsonWriter = new JsonWriter(writer);
-        jsonWriter.Start(name);
-        value.Serialize(jsonWriter);
-        jsonWriter.End();
+        value.Serialize(new JsonWriter(writer));
         writer.WriteEndObject();
     }
 }

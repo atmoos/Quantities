@@ -16,6 +16,7 @@ public readonly struct Force : IQuantity<Force>, IForce
     private static readonly IRoot root = new SiRoot<Newton>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
+    Quant IQuantity<Force>.Value => this.quant;
     public LinearTo<Force, IForce> To => new(in this.quant);
     private Force(in Quant quant) => this.quant = quant;
     public static LinearCreate<Force, IForce> Of(in Double value) => new(in value);
@@ -24,7 +25,6 @@ public readonly struct Force : IQuantity<Force>, IForce
     {
         return new(MetricPrefix.ScaleThree(power.Quant.SiDivide(velocity.Quant), root));
     }
-    void IQuantity<Force>.Serialize(IWriter writer) => this.quant.Write(writer);
 
     public Boolean Equals(Force other) => this.quant.Equals(other.quant);
     public override Boolean Equals(Object? obj) => obj is Force force && Equals(force);

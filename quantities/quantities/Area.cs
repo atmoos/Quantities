@@ -16,6 +16,7 @@ public readonly struct Area : IQuantity<Area>, IArea
     private static readonly IInject<Quant> linear = new ToLinear();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
+    Quant IQuantity<Area>.Value => this.quant;
     public SquareFactory<Area, PowerFactory<Area, SquareTo, ILength>, IArea, ILength> To => new(new PowerFactory<Area, SquareTo, ILength>(new SquareTo(in this.quant)));
     private Area(in Quant quant) => this.quant = quant;
     public static SquareFactory<Area, PowerFactory<Area, SquareCreate, ILength>, IArea, ILength> Of(in Double value) => new(new PowerFactory<Area, SquareCreate, ILength>(new SquareCreate(in value)));
@@ -31,7 +32,6 @@ public readonly struct Area : IQuantity<Area>, IArea
         var pseudoArea = pseudoVolume.PseudoDivide(length.Quant);
         return new(pseudoArea.Transform(in square));
     }
-    void IQuantity<Area>.Serialize(IWriter writer) => this.quant.Write(writer);
 
     public Boolean Equals(Area other) => this.quant.Equals(other.quant);
     public override Boolean Equals(Object? obj) => obj is Area Area && Equals(Area);

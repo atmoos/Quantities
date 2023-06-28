@@ -20,6 +20,7 @@ public readonly struct Power : IQuantity<Power>, IPower
     private static readonly IRoot root = new SiRoot<Watt>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
+    Quant IQuantity<Power>.Value => this.quant;
     public LinearTo<Power, IPower> To => new(in this.quant);
     private Power(in Quant quant) => this.quant = quant;
     public static LinearCreate<Power, IPower> Of(in Double value) => new(in value);
@@ -36,7 +37,6 @@ public readonly struct Power : IQuantity<Power>, IPower
     {
         return new(MetricPrefix.ScaleThree(energy.Quant.SiDivide(time.Quant), root));
     }
-    void IQuantity<Power>.Serialize(IWriter writer) => this.quant.Write(writer);
 
     public Boolean Equals(Power other) => this.quant.Equals(other.quant);
     public override Boolean Equals(Object? obj) => obj is Power power && Equals(power);

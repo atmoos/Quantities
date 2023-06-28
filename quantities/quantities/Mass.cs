@@ -9,11 +9,11 @@ public readonly struct Mass : IQuantity<Mass>, IMass
     , IFactory<ICompoundFactory<Mass, IMass>, LinearTo<Mass, IMass>, LinearCreate<Mass, IMass>>
 {
     private readonly Quant quant;
+    Quant IQuantity<Mass>.Value => this.quant;
     public LinearTo<Mass, IMass> To => new(in this.quant);
     private Mass(in Quant quant) => this.quant = quant;
     public static LinearCreate<Mass, IMass> Of(in Double value) => new(in value);
     static Mass IFactory<Mass>.Create(in Quant quant) => new(in quant);
-    void IQuantity<Mass>.Serialize(IWriter writer) => this.quant.Write(writer);
 
     public Boolean Equals(Mass other) => this.quant.Equals(other.quant);
     public override Boolean Equals(Object? obj) => obj is Mass mass && Equals(mass);

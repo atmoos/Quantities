@@ -16,11 +16,15 @@ public readonly struct ElectricalResistance : IQuantity<ElectricalResistance>, I
     private static readonly IRoot root = new SiRoot<Ohm>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
+    Quant IQuantity<ElectricalResistance>.Value => this.quant;
     public SiTo<ElectricalResistance, IElectricalResistance> To => new(in this.quant);
     private ElectricalResistance(in Quant quant) => this.quant = quant;
     public static SiCreate<ElectricalResistance, IElectricalResistance> Of(in Double value) => new(in value);
     static ElectricalResistance IFactory<ElectricalResistance>.Create(in Quant quant) => new(in quant);
-    void IQuantity<ElectricalResistance>.Serialize(IWriter writer) => this.quant.Write(writer);
+    internal static ElectricalResistance From(in ElectricPotential potential, in ElectricCurrent current)
+    {
+        return new(MetricPrefix.ScaleThree(potential.Quant.SiDivide(current.Quant), root));
+    }
 
     public Boolean Equals(ElectricalResistance other) => this.quant.Equals(other.quant);
     public override Boolean Equals(Object? obj) => obj is ElectricalResistance resistance && Equals(resistance);
@@ -28,10 +32,6 @@ public readonly struct ElectricalResistance : IQuantity<ElectricalResistance>, I
     public override String ToString() => this.quant.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.quant.ToString(format, provider);
 
-    internal static ElectricalResistance From(in ElectricPotential potential, in ElectricCurrent current)
-    {
-        return new(MetricPrefix.ScaleThree(potential.Quant.SiDivide(current.Quant), root));
-    }
     public static Boolean operator ==(ElectricalResistance left, ElectricalResistance right) => left.Equals(right);
     public static Boolean operator !=(ElectricalResistance left, ElectricalResistance right) => !left.Equals(right);
     public static implicit operator Double(ElectricalResistance resistance) => resistance.quant.Value;

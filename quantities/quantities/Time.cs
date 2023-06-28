@@ -18,6 +18,7 @@ public readonly struct Time : IQuantity<Time>, ITime
     private static readonly IRoot root = new SiRoot<Second>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
+    Quant IQuantity<Time>.Value => this.quant;
     public LinearTo<Time, ITime> To => new(in this.quant);
     private Time(in Quant quant) => this.quant = quant;
     public static LinearCreate<Time, ITime> Of(in Double value) => new(in value);
@@ -27,7 +28,6 @@ public readonly struct Time : IQuantity<Time>, ITime
         // ToDo: Extract the time component!
         return new(MetricPrefix.ScaleThree(energy.Quant.SiDivide(power.Quant), root));
     }
-    void IQuantity<Time>.Serialize(IWriter writer) => this.quant.Write(writer);
 
     public Boolean Equals(Time other) => this.quant.Equals(other.quant);
     public override Boolean Equals(Object? obj) => obj is Time time && Equals(time);

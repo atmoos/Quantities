@@ -10,11 +10,11 @@ public readonly struct Temperature : IQuantity<Temperature>, ITemperature
 {
     private readonly Quant quant;
     internal Quant Quant => this.quant;
+    Quant IQuantity<Temperature>.Value => this.quant;
     public LinearTo<Temperature, ITemperature> To => new(in this.quant);
     private Temperature(in Quant quant) => this.quant = quant;
     public static LinearCreate<Temperature, ITemperature> Of(in Double value) => new(in value);
     static Temperature IFactory<Temperature>.Create(in Quant quant) => new(in quant);
-    void IQuantity<Temperature>.Serialize(IWriter writer) => this.quant.Write(writer);
 
     public Boolean Equals(Temperature other) => this.quant.Equals(other.quant);
     public override Boolean Equals(Object? obj) => obj is Temperature temperature && Equals(temperature);

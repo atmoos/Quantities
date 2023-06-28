@@ -29,6 +29,7 @@ public readonly struct Data : IQuantity<Data>, IAmountOfInformation
     internal Quant Quant => this.quant;
     public Factory<LinearTo> To => new(new LinearTo(in this.quant));
     private Data(in Quant quant) => this.quant = quant;
+    Quant IQuantity<Data>.Value => this.quant;
     public static Factory<LinearCreate> Of(in Double value) => new(new LinearCreate(in value));
     static Data IFactory<Data>.Create(in Quant quant) => new(in quant);
     internal static Data From(in Time time, in DataRate rate)
@@ -37,7 +38,6 @@ public readonly struct Data : IQuantity<Data>, IAmountOfInformation
         Double bytes = Units.Si.Metric.Byte.FromSi(time.Quant.SiMultiply(rate.Quant));
         return new(BinaryPrefix.Scale(in bytes, root));
     }
-    void IQuantity<Data>.Serialize(IWriter writer) => this.quant.Write(writer);
 
     public Boolean Equals(Data other) => this.quant.Equals(other.quant);
     public override Boolean Equals(Object? obj) => obj is Data data && Equals(data);

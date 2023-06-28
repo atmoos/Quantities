@@ -16,18 +16,11 @@ public readonly struct Volume : IQuantity<Volume>, IVolume
     private static readonly IInject<Quant> linear = new ToLinear();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
+    Quant IQuantity<Volume>.Value => this.quant;
     public CubicFactory<Volume, PowerFactory<Volume, CubicTo, ILength>, IVolume, ILength> To => new(new PowerFactory<Volume, CubicTo, ILength>(new CubicTo(in this.quant)));
     private Volume(in Quant quant) => this.quant = quant;
     public static CubicFactory<Volume, PowerFactory<Volume, CubicCreate, ILength>, IVolume, ILength> Of(in Double value) => new(new PowerFactory<Volume, CubicCreate, ILength>(new CubicCreate(in value)));
     static Volume IFactory<Volume>.Create(in Quant quant) => new(in quant);
-    void IQuantity<Volume>.Serialize(IWriter writer) => this.quant.Write(writer);
-
-    public Boolean Equals(Volume other) => this.quant.Equals(other.quant);
-    public override Boolean Equals(Object? obj) => obj is Volume Volume && Equals(Volume);
-    public override Int32 GetHashCode() => this.quant.GetHashCode();
-    public override String ToString() => this.quant.ToString();
-    public String ToString(String? format, IFormatProvider? provider) => this.quant.ToString(format, provider);
-
     internal static Volume Times(in Length length, in Area area)
     {
         // ToDo: one transform could be enough...
@@ -35,7 +28,6 @@ public readonly struct Volume : IQuantity<Volume>, IVolume
         var pseudoVolume = length.Quant.PseudoMultiply(in pseudoArea);
         return new(pseudoVolume.Transform(in cube));
     }
-
     internal static Volume Times(in Area area, in Length length)
     {
         // ToDo: one transform could be enough...
@@ -43,6 +35,12 @@ public readonly struct Volume : IQuantity<Volume>, IVolume
         var pseudoVolume = pseudoArea.PseudoMultiply(length.Quant);
         return new(pseudoVolume.Transform(in cube));
     }
+
+    public Boolean Equals(Volume other) => this.quant.Equals(other.quant);
+    public override Boolean Equals(Object? obj) => obj is Volume Volume && Equals(Volume);
+    public override Int32 GetHashCode() => this.quant.GetHashCode();
+    public override String ToString() => this.quant.ToString();
+    public String ToString(String? format, IFormatProvider? provider) => this.quant.ToString(format, provider);
 
     public static Boolean operator ==(Volume left, Volume right) => left.Equals(right);
     public static Boolean operator !=(Volume left, Volume right) => !left.Equals(right);

@@ -1,6 +1,6 @@
 using System.Runtime.CompilerServices;
 
-namespace Quantities.Serialization;
+namespace Quantities;
 
 public sealed class KeepUnusedException : InvalidOperationException
 {

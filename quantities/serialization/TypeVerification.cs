@@ -2,15 +2,10 @@ using Quantities.Dimensions;
 
 namespace Quantities.Serialization;
 
-internal interface ITypeVerification
-{
-    Type Verify(Type unit);
-}
-
-internal sealed class ScalarVerification : ITypeVerification
+internal sealed class TypeVerification
 {
     private readonly Type dimension;
-    public ScalarVerification(Type dimension) => this.dimension = dimension;
+    public TypeVerification(Type dimension) => this.dimension = dimension;
     public Type Verify(Type unit) => unit.IsAssignableTo(this.dimension) ? unit : throw Error(unit);
     private Exception Error(Type unit)
     {

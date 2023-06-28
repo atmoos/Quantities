@@ -13,7 +13,7 @@ public sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
 {
     private static readonly Type typeofQuantity = typeof(TQuantity);
     private static readonly String name = typeofQuantity.Name.ToLowerInvariant();
-    private static readonly ITypeVerification scalarVerification = new ScalarVerification(typeofQuantity.MostDerivedOf<Dimensions.IDimension>());
+    private static readonly TypeVerification scalarVerification = new(typeofQuantity.MostDerivedOf<Dimensions.IDimension>());
     private static readonly ConcurrentDictionary<QuantityModel, IBuilder> builders = new();
     public override TQuantity Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
@@ -49,11 +49,11 @@ public sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
     private static IBuilder Power(ref Utf8JsonReader reader, Type powerInterfaceType)
     {
         reader.MoveNext(StartObject);
-        var verification = new ScalarVerification(typeofQuantity.InnerType(powerInterfaceType));
+        var verification = new TypeVerification(typeofQuantity.InnerType(powerInterfaceType));
         return Linear(reader.Read(reader.ReadNameOf(PropertyName)), verification);
     }
 
-    private static IBuilder Linear(in QuantityModel model, ITypeVerification verification)
+    private static IBuilder Linear(in QuantityModel model, TypeVerification verification)
     {
         if (builders.TryGetValue(model, out var builder)) {
             return builder;
@@ -66,7 +66,7 @@ public sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
         reader.MoveNext(StartObject);
         var builders = new List<IBuilder>();
         foreach (var componentType in typeofQuantity.InnerTypes(componentInterfaceType)) {
-            builders.Add(Linear(reader.Read(reader.ReadNameOf(PropertyName)), new ScalarVerification(componentType)));
+            builders.Add(Linear(reader.Read(reader.ReadNameOf(PropertyName)), new TypeVerification(componentType)));
         }
         return new AggregateBuilder(builders);
     }

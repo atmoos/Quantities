@@ -1,6 +1,7 @@
 using System.Collections.Concurrent;
 using Quantities.Dimensions;
 using Quantities.Measures;
+
 namespace Quantities.Serialization;
 
 file static class Inject
@@ -16,7 +17,8 @@ public readonly struct QuantityFactory<TQuantity>
     where TQuantity : IFactory<TQuantity>
 {
     private static readonly Type typeofQuantity = typeof(TQuantity);
-    private static readonly ConcurrentDictionary<QuantityModel, IBuilder> cache = new();
+    private static readonly ConcurrentDictionary<Int32, IBuilder> complexCache = new();
+    private static readonly ConcurrentDictionary<QuantityModel, IBuilder> scalarCache = new();
     private static readonly Type scalarVerification = typeof(TQuantity).MostDerivedOf<Dimensions.IDimension>();
     private readonly IInject injector;
     private readonly Type[] verifications;
@@ -41,14 +43,7 @@ public readonly struct QuantityFactory<TQuantity>
         if (deserializedQuantity.Length != this.verifications.Length) {
             throw new ArgumentOutOfRangeException(nameof(deserializedQuantity), $"Expected '{this.verifications.Length}' quantity sub models, but received only '{deserializedQuantity.Length}'.");
         }
-        var injector = this.injector;
-        var verification = new TypeVerification(this.verifications[0]);
-        var builder = ScalarBuilder.Create(in deserializedQuantity[0], verification, injector);
-        for (Int32 index = 1; index < this.verifications.Length; ++index) {
-            verification = new TypeVerification(this.verifications[index]);
-            injector = builder as IInject ?? throw new InvalidOperationException("Need another injector...");
-            builder = ScalarBuilder.Create(in deserializedQuantity[index], verification, injector);
-        }
+        var builder = Create(deserializedQuantity, this.verifications, this.injector);
         return TQuantity.Create(builder.Build(in value));
     }
 
@@ -62,9 +57,30 @@ public readonly struct QuantityFactory<TQuantity>
 
     private static IBuilder Create(in QuantityModel model, Type verification, IInject injector)
     {
-        if (cache.TryGetValue(model, out var builder)) {
+        if (scalarCache.TryGetValue(model, out var builder)) {
             return builder;
         }
-        return cache[model] = ScalarBuilder.Create(in model, new TypeVerification(verification), injector);
+        return scalarCache[model] = ScalarBuilder.Create(in model, new TypeVerification(verification), injector);
+    }
+    private static IBuilder Create(QuantityModel[] models, Type[] verifications, IInject injector)
+    {
+        const Int32 offset = 2;
+        Int32 key = models.Length;
+        for (Int32 modelNumber = 0; modelNumber < models.Length; modelNumber++) {
+            unchecked {
+                key ^= (modelNumber + offset) * models[modelNumber].GetHashCode();
+            }
+        }
+        if (complexCache.TryGetValue(key, out var builder)) {
+            return builder;
+        }
+        var verification = new TypeVerification(verifications[0]);
+        builder = ScalarBuilder.Create(in models[0], in verification, injector);
+        for (Int32 index = 1; index < verifications.Length; ++index) {
+            verification = new TypeVerification(verifications[index]);
+            injector = builder as IInject ?? throw new InvalidOperationException("Need another injector...");
+            builder = ScalarBuilder.Create(in models[index], in verification, injector);
+        }
+        return complexCache[key] = builder;
     }
 }

@@ -17,11 +17,11 @@ internal static class ScalarBuilder
     private static readonly Dictionary<String, Type> metricUnits = Scan(typeof(IMetricUnit));
     private static readonly Dictionary<String, Type> imperialUnits = Scan(typeof(IImperialUnit));
     private static readonly Dictionary<String, Type> nonStandardUnits = Scan(typeof(INoSystemUnit));
-    public static IBuilder Create(in QuantityModel model, TypeVerification verification, IInject injector)
+    public static IBuilder Create(in QuantityModel model, in TypeVerification verification, IInject injector)
     {
-        return Create(verification, model.System, model.Prefix is null ? null : prefixes[model.Prefix], model.Unit)(injector);
+        return Create(in verification, model.System, model.Prefix is null ? null : prefixes[model.Prefix], model.Unit)(injector);
 
-        static Creator Create(TypeVerification verification, String system, Type? prefix, String unit) => system switch {
+        static Creator Create(in TypeVerification verification, String system, Type? prefix, String unit) => system switch {
             "si" => GetMethod(nameof(CreateSi), verification.Verify(siUnits[unit]), prefix),
             "metric" => GetMethod(nameof(CreateMetric), verification.Verify(metricUnits[unit]), prefix),
             "imperial" => GetMethod(nameof(CreateImperial), verification.Verify(imperialUnits[unit]), prefix),

@@ -2,7 +2,7 @@ using Quantities.Dimensions;
 
 namespace Quantities.Serialization;
 
-internal sealed class TypeVerification
+internal readonly struct TypeVerification
 {
     private readonly Type dimension;
     public TypeVerification(Type dimension) => this.dimension = dimension;

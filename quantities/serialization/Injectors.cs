@@ -27,7 +27,6 @@ internal sealed class FractionInjector : IInject
     private sealed class Outer<TNominator> : IInject, IBuilder
         where TNominator : IMeasure
     {
-        public IBuilder Append(IInject inject) => new Builder<TNominator>();
         public Quant Build(in Double value) => Build<TNominator>.With(in value);
         public IBuilder Inject<TMeasure>() where TMeasure : IMeasure => new Builder<Fraction<TNominator, TMeasure>>();
         public IBuilder Inject<TMeasure, TAlias>() where TMeasure : IMeasure where TAlias : IInjector, new() => throw new KeepUnusedException(this);
@@ -42,7 +41,6 @@ internal sealed class ProductInjector : IInject
     private sealed class Left<TLeft> : IInject, IBuilder
         where TLeft : IMeasure
     {
-        public IBuilder Append(IInject inject) => new Builder<TLeft>();
         public Quant Build(in Double value) => Build<TLeft>.With(in value);
         public IBuilder Inject<TMeasure>() where TMeasure : IMeasure => new Builder<Product<TLeft, TMeasure>>();
         public IBuilder Inject<TMeasure, TAlias>() where TMeasure : IMeasure where TAlias : IInjector, new() => throw new KeepUnusedException(this);

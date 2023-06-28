@@ -3,7 +3,7 @@ using static System.Text.Json.JsonTokenType;
 
 namespace Quantities.Serialization;
 
-internal readonly record struct QuantityModel(String System, String? Prefix, String Unit);
+public readonly record struct QuantityModel(String System, String? Prefix, String Unit);
 
 internal static class Deserializer
 {

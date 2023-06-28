@@ -13,6 +13,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "quantities.serialization", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "quantities.serialization.text.json", "quantities.serialization\text.json\quantities.serialization.text.json.csproj", "{64C99937-7C3C-437A-BB52-CDF80F156EEE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "quantities.serialization.newtonsoft", "quantities.serialization\newtonsoft\quantities.serialization.newtonsoft.csproj", "{77CD9A1A-1965-414B-B6A4-C580448E46BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "quantitier.serialization.newtonsoft.test", "quantities.serialization\newtonsoft.test\quantitier.serialization.newtonsoft.test.csproj", "{A8F2E897-0E78-4675-8A02-448EC8A61388}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,8 +42,18 @@ Global
 		{64C99937-7C3C-437A-BB52-CDF80F156EEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64C99937-7C3C-437A-BB52-CDF80F156EEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64C99937-7C3C-437A-BB52-CDF80F156EEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77CD9A1A-1965-414B-B6A4-C580448E46BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77CD9A1A-1965-414B-B6A4-C580448E46BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77CD9A1A-1965-414B-B6A4-C580448E46BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77CD9A1A-1965-414B-B6A4-C580448E46BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8F2E897-0E78-4675-8A02-448EC8A61388}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8F2E897-0E78-4675-8A02-448EC8A61388}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8F2E897-0E78-4675-8A02-448EC8A61388}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8F2E897-0E78-4675-8A02-448EC8A61388}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{64C99937-7C3C-437A-BB52-CDF80F156EEE} = {E04095D5-F6D9-467F-9D7E-CC7AF8396E9F}
+		{77CD9A1A-1965-414B-B6A4-C580448E46BA} = {E04095D5-F6D9-467F-9D7E-CC7AF8396E9F}
+		{A8F2E897-0E78-4675-8A02-448EC8A61388} = {E04095D5-F6D9-467F-9D7E-CC7AF8396E9F}
 	EndGlobalSection
 EndGlobal

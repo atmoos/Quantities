@@ -189,8 +189,8 @@ The API seems to be stabilising and serialization is supported. Hence, It's wort
 - [x] Enable [binary prefixes](https://en.wikipedia.org/wiki/Binary_prefix).
   - Enabling things like "KiB", i.e. "kibi Byte".
 - Enable serialisation using
-  - [x] [System.Text.Json](quantities.serialization/quantities.serialization.text.json/Extensions.cs)
-  - [ ] `Newtonsoft`
+  - [x] [System.Text.Json](./quantities.serialization/text.json/Extensions.cs)
+  - [x] [Newtonsoft](./quantities.serialization/newtonsoft/Extensions.cs)
   - [ ] Google Protocol Buffers
 - [ ] Extend unit tests
 - [ ] More rigours benchmarking
@@ -200,5 +200,5 @@ The API seems to be stabilising and serialization is supported. Hence, It's wort
 - [ ] Add a "Normalize()" method to each quantity
   - This should then generate a "human readable" representation
   - example: 3'456 Km/d => 40 m/s
-- [ ] Rename the [Quant](quantities/measures/Quant.cs) type
+- [ ] Rename the [Quant](./quantities/measures/Quant.cs) type
   - Top candidate: "Amount"

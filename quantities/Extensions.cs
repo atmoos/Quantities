@@ -1,5 +1,7 @@
+using System.Text.Json;
 using Quantities.Dimensions;
 using Quantities.Measures;
+using Quantities.Serialization;
 
 namespace Quantities;
 
@@ -29,5 +31,10 @@ public static class Extensions
         writer.Start(typeof(TQuantity).Name.ToLowerInvariant());
         quantity.Value.Write(writer);
         writer.End();
+    }
+    public static JsonSerializerOptions EnableQuantities(this JsonSerializerOptions options)
+    {
+        options.Converters.Add(new QuantitySerialization());
+        return options;
     }
 }

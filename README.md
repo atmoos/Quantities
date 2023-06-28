@@ -188,7 +188,7 @@ The API seems to be stabilising and serialization is supported. Hence, It's wort
 
 - [x] Enable [binary prefixes](https://en.wikipedia.org/wiki/Binary_prefix).
   - Enabling things like "KiB", i.e. "kibi Byte".
-- Enable serialisation using
+- [x] Enable serialisation using
   - [x] [System.Text.Json](./quantities.serialization/text.json/Extensions.cs)
   - [x] [Newtonsoft](./quantities.serialization/newtonsoft/Extensions.cs)
   - [ ] Google Protocol Buffers

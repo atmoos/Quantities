@@ -6,18 +6,18 @@ namespace Quantities.Test;
 public sealed class EnergyTest
 {
     [Fact]
-    public void JouleToString() => FormattingMatches(v => Quantities.Energy.Of(v).Si<Joule>(), "J");
+    public void JouleToString() => FormattingMatches(v => Energy.Of(v).Si<Joule>(), "J");
     [Fact]
-    public void TeraJouleToString() => FormattingMatches(v => Quantities.Energy.Of(v).Si<Tera, Joule>(), "TJ");
+    public void TeraJouleToString() => FormattingMatches(v => Energy.Of(v).Si<Tera, Joule>(), "TJ");
     [Fact]
-    public void FemtoJouleToString() => FormattingMatches(v => Quantities.Energy.Of(v).Si<Femto, Joule>(), "fJ");
+    public void FemtoJouleToString() => FormattingMatches(v => Energy.Of(v).Si<Femto, Joule>(), "fJ");
     [Fact]
-    public void KiloWattHourToString() => FormattingMatches(v => Quantities.Energy.Of(v).Metric<Kilo, Watt, Hour>(), "KW h");
+    public void KiloWattHourToString() => FormattingMatches(v => Energy.Of(v).Metric<Kilo, Watt, Hour>(), "KW h");
     [Fact]
     public void WattSecondToJoule()
     {
-        var energy = Quantities.Energy.Of(36).Si<Kilo, Watt, Second>();
-        var expected = Quantities.Energy.Of(36).Si<Kilo, Joule>();
+        var energy = Energy.Of(36).Si<Kilo, Watt, Second>();
+        var expected = Energy.Of(36).Si<Kilo, Joule>();
 
         var actual = energy.To.Si<Kilo, Joule>();
 
@@ -26,8 +26,8 @@ public sealed class EnergyTest
     [Fact]
     public void JouleToKiloWattHour()
     {
-        var energy = Quantities.Energy.Of(1).Metric<Kilo, Watt, Hour>();
-        var expected = Quantities.Energy.Of(3600).Si<Kilo, Joule>();
+        var energy = Energy.Of(1).Metric<Kilo, Watt, Hour>();
+        var expected = Energy.Of(3600).Si<Kilo, Joule>();
 
         var actual = energy.To.Si<Kilo, Joule>();
 
@@ -37,8 +37,8 @@ public sealed class EnergyTest
     [Fact]
     public void DefinitionOfKiloWattHour()
     {
-        var oneKiloWattHourInJoule = Quantities.Energy.Of(3.6).Si<Mega, Joule>();
-        var expected = Quantities.Energy.Of(1).Metric<Kilo, Watt, Hour>();
+        var oneKiloWattHourInJoule = Energy.Of(3.6).Si<Mega, Joule>();
+        var expected = Energy.Of(1).Metric<Kilo, Watt, Hour>();
 
         var actual = oneKiloWattHourInJoule.To.Metric<Kilo, Watt, Hour>();
 
@@ -50,7 +50,7 @@ public sealed class EnergyTest
     {
         var time = Time.Of(2).Metric<Hour>();
         var power = Power.Of(3).Si<Kilo, Watt>();
-        var expected = Quantities.Energy.Of(6).Metric<Kilo, Watt, Hour>();
+        var expected = Energy.Of(6).Metric<Kilo, Watt, Hour>();
 
         var actual = power * time;
 
@@ -58,18 +58,18 @@ public sealed class EnergyTest
     }
 
     [Theory]
-    [MemberData(nameof(Energy))]
+    [MemberData(nameof(Energies))]
     public void EnergySupportsSerialization(Energy energy) => energy.SupportsSerialization().Quant.HasSameMeasure(energy.Quant);
 
-    public static IEnumerable<Object[]> Energy()
+    public static IEnumerable<Object[]> Energies()
     {
         static IEnumerable<Energy> Interesting()
         {
-            yield return Quantities.Energy.Of(21).Si<Kilo, Joule>();
+            yield return Energy.Of(21).Si<Kilo, Joule>();
             // ToDo: Add Wh!
-            yield return Quantities.Energy.Of(342).Metric<Milli, Watt, Minute>();
-            yield return Quantities.Energy.Of(342).Metric<Kilo, Watt, Hour>();
-            yield return Quantities.Energy.Of(6).Si<Mega, Watt, Second>();
+            yield return Energy.Of(342).Metric<Milli, Watt, Minute>();
+            yield return Energy.Of(342).Metric<Kilo, Watt, Hour>();
+            yield return Energy.Of(6).Si<Mega, Watt, Second>();
         }
         return Interesting().Select(l => new Object[] { l });
     }

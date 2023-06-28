@@ -1,6 +1,6 @@
 namespace Quantities.Measures;
 
-internal static class Build<TMeasure> where TMeasure : IMeasure, ISerialize
+internal static class Build<TMeasure> where TMeasure : IMeasure
 {
     private static readonly Map defaultMap = new() {
         Injector = new Linear<TMeasure>(),

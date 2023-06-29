@@ -1,10 +1,14 @@
 using System.Text.Json;
+using Quantities;
 using Quantities.Dimensions;
-using Quantities.Serialization.Text.Json;
+using Quantities.Prefixes;
+using Quantities.Quantities;
+using Quantities.Units.Imperial.Length;
+using Quantities.Units.Si;
 using Quantities.Units.Si.Derived;
 using Quantities.Units.Si.Metric;
 
-namespace Quantities.Test;
+namespace Quantities.Serialization.Text.Json.Text;
 
 public class SerializationTest
 {
@@ -17,7 +21,7 @@ public class SerializationTest
 
         String falseUnit = length.Serialize().Replace(Metre.Representation, Ohm.Representation);
 
-        var msg = Assert.Throws<InvalidOperationException>(() => Deserialize<Length>(falseUnit)).Message;
+        var msg = Assert.Throws<InvalidOperationException>(() => falseUnit.Deserialize<Length>()).Message;
         Assert.StartsWith("Dimension mismatch:", msg);
         Assert.Contains(nameof(Ohm), msg);
         Assert.Contains(nameof(ILength), msg);
@@ -127,7 +131,7 @@ public class SerializationTest
 
         Volume roundRobinSerialization = volume.SerializeRoundRobin();
 
-        roundRobinSerialization.Quant.HasSameMeasure(volume.Quant);
+        Assert.Equal(volume.ToString(), roundRobinSerialization.ToString());
     }
 
     [Fact]

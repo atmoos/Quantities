@@ -5,6 +5,7 @@ using Quantities.Measures.Transformations;
 namespace Quantities.Measures;
 
 internal readonly struct Quant : IEquatable<Quant>, IFormattable
+    , IMeasureEquals<Quant>
     , IAdditionOperators<Quant, Quant, Quant>
     , ISubtractionOperators<Quant, Quant, Quant>
     , IMultiplyOperators<Quant, Double, Quant>
@@ -56,7 +57,7 @@ internal readonly struct Quant : IEquatable<Quant>, IFormattable
         return quotient is >= min and <= max;
     }
 
-    public Boolean MeasureEquals(in Quant other) => ReferenceEquals(this.map, other.map);
+    public Boolean EqualMeasure(in Quant other) => ReferenceEquals(this.map, other.map);
 
     public override Boolean Equals(Object? obj) => obj is Quant quant && Equals(quant);
     public override Int32 GetHashCode() => this.value.GetHashCode() ^ this.map.GetHashCode();

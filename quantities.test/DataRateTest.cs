@@ -108,20 +108,4 @@ public class DataRateTest
 
         actual.Matches(expected);
     }
-    [Theory]
-    [MemberData(nameof(DataRates))]
-    public void DataRateSupportsSerialization(DataRate dataRate) => dataRate.SupportsSerialization();
-
-    public static IEnumerable<Object[]> DataRates()
-    {
-        static IEnumerable<DataRate> Interesting()
-        {
-            yield return DataRate.Of(21).Metric<Bit>().Per.Si<Second>();
-            yield return DataRate.Of(342).Metric<Mega, Bytes>().Per.Si<Second>();
-            yield return DataRate.Of(6).Metric<Nibble>().Per.Si<Milli, Second>();
-            yield return DataRate.Of(-41).Binary<Pebi, Bit>().Per.Metric<Minute>();
-            yield return DataRate.Of(1.21).Binary<Mebi, Bytes>().Per.Si<Micro, Second>();
-        }
-        return Interesting().Select(l => new Object[] { l });
-    }
 }

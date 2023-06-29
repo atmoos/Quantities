@@ -1,4 +1,3 @@
-using Quantities.Units.NonStandard.Length;
 using Quantities.Units.Si.Metric;
 
 namespace Quantities.Test;
@@ -192,25 +191,5 @@ public sealed class LengthTest
         Length actual = velocity * duration;
 
         actual.Matches(expected);
-    }
-
-    [Theory]
-    [MemberData(nameof(Lengths))]
-    public void LengthSupportsSerialization(Length length) => length.SupportsSerialization();
-
-    public static IEnumerable<Object[]> Lengths()
-    {
-        static IEnumerable<Length> Interesting()
-        {
-            yield return Length.Of(21).Si<Metre>();
-            yield return Length.Of(342).Si<Micro, Metre>();
-            yield return Length.Of(1).Si<Mega, Metre>();
-            yield return Length.Of(-11).Imperial<Mile>();
-            yield return Length.Of(9).Imperial<Foot>();
-            yield return Length.Of(54).Imperial<Yard>();
-            yield return Length.Of(3.2).Metric<Kilo, Ångström>();
-            yield return Length.Of(11).NonStandard<LightYear>();
-        }
-        return Interesting().Select(l => new Object[] { l });
     }
 }

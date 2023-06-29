@@ -56,21 +56,4 @@ public sealed class EnergyTest
 
         actual.Matches(expected);
     }
-
-    [Theory]
-    [MemberData(nameof(Energies))]
-    public void EnergySupportsSerialization(Energy energy) => energy.SupportsSerialization().Quant.HasSameMeasure(energy.Quant);
-
-    public static IEnumerable<Object[]> Energies()
-    {
-        static IEnumerable<Energy> Interesting()
-        {
-            yield return Energy.Of(21).Si<Kilo, Joule>();
-            // ToDo: Add Wh!
-            yield return Energy.Of(342).Metric<Milli, Watt, Minute>();
-            yield return Energy.Of(342).Metric<Kilo, Watt, Hour>();
-            yield return Energy.Of(6).Si<Mega, Watt, Second>();
-        }
-        return Interesting().Select(l => new Object[] { l });
-    }
 }

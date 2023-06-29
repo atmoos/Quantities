@@ -1,4 +1,3 @@
-using Quantities.Measures;
 using Quantities.Units.Imperial.Area;
 using Quantities.Units.NonStandard.Area;
 using Quantities.Units.Si.Metric;
@@ -178,26 +177,5 @@ public class AreaTest
         Volume actual = area * length;
 
         actual.Matches(expected);
-    }
-
-    [Theory]
-    [MemberData(nameof(Areas))]
-    public void AreaSupportsSerialization(Area area) => area.SupportsSerialization().Quant.HasSameMeasure(area.Quant);
-
-    public static IEnumerable<Object[]> Areas()
-    {
-        static IEnumerable<Area> Interesting()
-        {
-            yield return Area.Of(21).Metric<Are>();
-            yield return Area.Of(342).Imperial<Acre>();
-            yield return Area.Of(6).Imperial<Perch>();
-            yield return Area.Of(-41).Square.Si<Metre>();
-            yield return Area.Of(1.21).Square.Si<Pico, Metre>();
-            yield return Area.Of(121).Square.Si<Kilo, Metre>();
-            yield return Area.Of(95.2).Square.Metric<Ångström>();
-            yield return Area.Of(-11).Square.Imperial<Yard>();
-            yield return Area.Of(9).Square.Imperial<Foot>();
-        }
-        return Interesting().Select(l => new Object[] { l });
     }
 }

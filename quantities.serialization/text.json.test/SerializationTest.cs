@@ -1,12 +1,6 @@
 using System.Text.Json;
-using Quantities;
 using Quantities.Dimensions;
-using Quantities.Prefixes;
-using Quantities.Quantities;
 using Quantities.Units.Imperial.Length;
-using Quantities.Units.Si;
-using Quantities.Units.Si.Derived;
-using Quantities.Units.Si.Metric;
 
 namespace Quantities.Serialization.Text.Json.Text;
 

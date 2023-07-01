@@ -21,13 +21,17 @@ internal sealed class PowerInjector<TDim> : IInject
 
 internal sealed class FractionInjector : IInject
 {
-    public IBuilder Inject<TMeasure>() where TMeasure : IMeasure => new Outer<TMeasure>();
+    public IBuilder Inject<TMeasure>() where TMeasure : IMeasure => new Nominator<TMeasure>();
     public IBuilder Inject<TMeasure, TAlias>() where TMeasure : IMeasure where TAlias : IInjector, new() => throw new KeepUnusedException(this);
 
-    private sealed class Outer<TNominator> : IInject, IBuilder
+    // the nominator is the first half of a fractional dimension to be created.
+    // Hence, it must itself be an instance of IInject to inject ... 
+    private sealed class Nominator<TNominator> : IInject, IBuilder
         where TNominator : IMeasure
     {
         public Quant Build(in Double value) => Build<TNominator>.With(in value);
+
+        // ... the denominator in a second step.
         public IBuilder Inject<TMeasure>() where TMeasure : IMeasure => new Builder<Fraction<TNominator, TMeasure>>();
         public IBuilder Inject<TMeasure, TAlias>() where TMeasure : IMeasure where TAlias : IInjector, new() => throw new KeepUnusedException(this);
     }
@@ -35,13 +39,17 @@ internal sealed class FractionInjector : IInject
 
 internal sealed class ProductInjector : IInject
 {
-    public IBuilder Inject<TMeasure>() where TMeasure : IMeasure => new Left<TMeasure>();
+    public IBuilder Inject<TMeasure>() where TMeasure : IMeasure => new LeftTerm<TMeasure>();
     public IBuilder Inject<TMeasure, TAlias>() where TMeasure : IMeasure where TAlias : IInjector, new() => throw new KeepUnusedException(this);
 
-    private sealed class Left<TLeft> : IInject, IBuilder
+    // the "left term" is the first half of a multiplicative dimension (product) to be created.
+    // Hence, it must itself be an instance of IInject to inject ... 
+    private sealed class LeftTerm<TLeft> : IInject, IBuilder
         where TLeft : IMeasure
     {
         public Quant Build(in Double value) => Build<TLeft>.With(in value);
+
+        // ... the "right term" in a second step.
         public IBuilder Inject<TMeasure>() where TMeasure : IMeasure => new Builder<Product<TLeft, TMeasure>>();
         public IBuilder Inject<TMeasure, TAlias>() where TMeasure : IMeasure where TAlias : IInjector, new() => throw new KeepUnusedException(this);
     }

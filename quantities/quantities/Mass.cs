@@ -1,18 +1,19 @@
 ﻿using Quantities.Dimensions;
 using Quantities.Factories;
 using Quantities.Measures;
+using Quantities.Quantities.Creation;
 
 namespace Quantities.Quantities;
 
 public readonly struct Mass : IQuantity<Mass>, IMass
     , IFactory<Mass>
-    , IFactory<ICompoundFactory<Mass, IMass>, LinearTo<Mass, IMass>, LinearCreate<Mass, IMass>>
+    , IFactory<ICompoundFactory<Mass, IMass>, Linear<To, Mass, IMass>, Linear<Create, Mass, IMass>>
 {
     private readonly Quant quant;
     Quant IQuantity<Mass>.Value => this.quant;
-    public LinearTo<Mass, IMass> To => new(in this.quant);
+    public Linear<To, Mass, IMass> To => new(new To(in this.quant));
     private Mass(in Quant quant) => this.quant = quant;
-    public static LinearCreate<Mass, IMass> Of(in Double value) => new(in value);
+    public static Linear<Create, Mass, IMass> Of(in Double value) => new(new Create(in value));
     static Mass IFactory<Mass>.Create(in Quant quant) => new(in quant);
 
     public Boolean Equals(Mass other) => this.quant.Equals(other.quant);

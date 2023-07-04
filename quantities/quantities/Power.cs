@@ -3,6 +3,7 @@ using Quantities.Dimensions;
 using Quantities.Factories;
 using Quantities.Measures;
 using Quantities.Prefixes;
+using Quantities.Quantities.Creation;
 using Quantities.Quantities.Roots;
 using Quantities.Units.Si.Derived;
 
@@ -10,7 +11,7 @@ namespace Quantities.Quantities;
 
 public readonly struct Power : IQuantity<Power>, IPower
     , IFactory<Power>
-    , IFactory<ICompoundFactory<Power, IPower>, LinearTo<Power, IPower>, LinearCreate<Power, IPower>>
+    , IFactory<ICompoundFactory<Power, IPower>, Linear<To, Power, IPower>, Linear<Create, Power, IPower>>
     , IMultiplyOperators<Power, Time, Energy>
     , IDivisionOperators<Power, ElectricCurrent, ElectricPotential>
     , IDivisionOperators<Power, ElectricPotential, ElectricCurrent>
@@ -21,9 +22,9 @@ public readonly struct Power : IQuantity<Power>, IPower
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     Quant IQuantity<Power>.Value => this.quant;
-    public LinearTo<Power, IPower> To => new(in this.quant);
+    public Linear<To, Power, IPower> To => new(new To(in this.quant));
     private Power(in Quant quant) => this.quant = quant;
-    public static LinearCreate<Power, IPower> Of(in Double value) => new(in value);
+    public static Linear<Create, Power, IPower> Of(in Double value) => new(new Create(in value));
     static Power IFactory<Power>.Create(in Quant quant) => new(in quant);
     internal static Power From(in ElectricPotential potential, in ElectricCurrent current)
     {

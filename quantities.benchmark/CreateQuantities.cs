@@ -76,14 +76,14 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
   DefaultJob : .NET 7.0.7 (7.0.723.32201), X64 RyuJIT AVX2
 
 
-|                         Method |       Mean |     Error |    StdDev | Ratio | RatioSD |   Gen0 | Allocated | Alloc Ratio |
-|------------------------------- |-----------:|----------:|----------:|------:|--------:|-------:|----------:|------------:|
-|                   CreateObject |  4.8580 ns | 0.0676 ns | 0.0565 ns |  1.00 |    0.00 | 0.0057 |      24 B |        1.00 |
-|                   CreateStruct |  2.8438 ns | 0.0282 ns | 0.0250 ns |  0.58 |    0.01 |      - |         - |        0.00 |
-|           CreateScalarQuantity |  0.1595 ns | 0.0210 ns | 0.0197 ns |  0.03 |    0.00 |      - |         - |        0.00 |
-| CreateScalarQuantityWithoutOpt |  9.9848 ns | 0.0438 ns | 0.0410 ns |  2.06 |    0.03 |      - |         - |        0.00 |
-|         CreateQuotientQuantity | 17.8134 ns | 0.0855 ns | 0.0714 ns |  3.67 |    0.05 | 0.0057 |      24 B |        1.00 |
-|          CreateProductQuantity |  2.1948 ns | 0.0296 ns | 0.0276 ns |  0.45 |    0.01 |      - |         - |        0.00 |
-|      CreateScalarPowerQuantity | 18.3432 ns | 0.0785 ns | 0.0734 ns |  3.78 |    0.05 |      - |         - |        0.00 |
-|      CreateSquarePowerQuantity |  8.5504 ns | 0.0295 ns | 0.0247 ns |  1.76 |    0.02 |      - |         - |        0.00 |
+|                         Method |      Mean |     Error |    StdDev | Ratio | RatioSD |   Gen0 | Allocated | Alloc Ratio |
+|------------------------------- |----------:|----------:|----------:|------:|--------:|-------:|----------:|------------:|
+|                   CreateObject |  5.005 ns | 0.0389 ns | 0.0364 ns |  1.00 |    0.00 | 0.0057 |      24 B |        1.00 |
+|                   CreateStruct |  2.746 ns | 0.0094 ns | 0.0078 ns |  0.55 |    0.00 |      - |         - |        0.00 |
+|           CreateScalarQuantity |  7.338 ns | 0.0253 ns | 0.0225 ns |  1.47 |    0.01 |      - |         - |        0.00 |
+| CreateScalarQuantityWithoutOpt |  9.852 ns | 0.0280 ns | 0.0249 ns |  1.97 |    0.01 |      - |         - |        0.00 |
+|         CreateQuotientQuantity | 24.293 ns | 0.0984 ns | 0.0872 ns |  4.86 |    0.04 |      - |         - |        0.00 |
+|          CreateProductQuantity |  2.193 ns | 0.0055 ns | 0.0049 ns |  0.44 |    0.00 |      - |         - |        0.00 |
+|      CreateScalarPowerQuantity | 13.894 ns | 0.0609 ns | 0.0570 ns |  2.78 |    0.02 |      - |         - |        0.00 |
+|      CreateSquarePowerQuantity | 19.720 ns | 0.4085 ns | 0.3821 ns |  3.94 |    0.09 |      - |         - |        0.00 |
 */

@@ -3,6 +3,7 @@ using Quantities.Dimensions;
 using Quantities.Factories;
 using Quantities.Measures;
 using Quantities.Prefixes;
+using Quantities.Quantities.Creation;
 using Quantities.Quantities.Roots;
 using Quantities.Units.Si;
 using Quantities.Units.Si.Derived;
@@ -11,7 +12,7 @@ namespace Quantities.Quantities;
 
 public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectricPotential
     , IFactory<ElectricPotential>
-    , IFactory<ISiFactory<ElectricPotential, IElectricPotential>, SiTo<ElectricPotential, IElectricPotential>, SiCreate<ElectricPotential, IElectricPotential>>
+    , IFactory<ISiFactory<ElectricPotential, IElectricPotential>, SiFac<To, ElectricPotential, IElectricPotential>, SiFac<Create, ElectricPotential, IElectricPotential>>
     , IMultiplyOperators<ElectricPotential, ElectricCurrent, Power>
     , IDivisionOperators<ElectricPotential, ElectricCurrent, ElectricalResistance>
     , IDivisionOperators<ElectricPotential, ElectricalResistance, ElectricCurrent>
@@ -20,9 +21,9 @@ public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectr
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     Quant IQuantity<ElectricPotential>.Value => this.quant;
-    public SiTo<ElectricPotential, IElectricPotential> To => new(in this.quant);
+    public SiFac<To, ElectricPotential, IElectricPotential> To => new(new To(in this.quant));
     private ElectricPotential(in Quant quant) => this.quant = quant;
-    public static SiCreate<ElectricPotential, IElectricPotential> Of(in Double value) => new(in value);
+    public static SiFac<Create, ElectricPotential, IElectricPotential> Of(in Double value) => new(new Create(in value));
     static ElectricPotential IFactory<ElectricPotential>.Create(in Quant quant) => new(in quant);
     internal static ElectricPotential From(in ElectricCurrent current, in ElectricalResistance resistance)
     {

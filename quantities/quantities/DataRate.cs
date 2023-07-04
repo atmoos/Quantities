@@ -10,7 +10,7 @@ namespace Quantities.Quantities;
 
 public readonly struct DataRate : IQuantity<DataRate>, IInformationRate
     , IFactory<DataRate>
-    , IFactory<IMetricFactory<Denominator<LinearFactory<DataRate, ITime>>, IAmountOfInformation>, DataRate.Factory<To>, DataRate.Factory<Create>>
+    , IFactory<IPerFactory<IAmountOfInformation, ITime>, DataRate.Factory<To>, DataRate.Factory<Create>>
     , IMultiplyOperators<DataRate, Time, Data>
 {
     private readonly Quant quant;
@@ -40,17 +40,17 @@ public readonly struct DataRate : IQuantity<DataRate>, IInformationRate
 
     public static Data operator *(DataRate left, Time right) => Data.From(in right, in left);
 
-    public readonly struct Factory<TCreate> : IBinaryFactory<Denominator<LinearFactory<DataRate, ITime>>, IAmountOfInformation>, IMetricFactory<Denominator<LinearFactory<DataRate, ITime>>, IAmountOfInformation>
-        where TCreate : struct, ICreate<ICreate>
+    public readonly struct Factory<TCreate> : IPerFactory<IAmountOfInformation, ITime>, IBinaryFactory<Denominator<TCreate, DataRate, ITime>, IAmountOfInformation>, IMetricFactory<Denominator<TCreate, DataRate, ITime>, IAmountOfInformation>
+        where TCreate : struct, ICreate
     {
         private readonly TCreate create;
         internal Factory(in TCreate create) => this.create = create;
-        public Denominator<LinearFactory<DataRate, ITime>> Binary<TPrefix, TUnit>()
+        public Denominator<TCreate, DataRate, ITime> Binary<TPrefix, TUnit>()
             where TPrefix : IBinaryPrefix
-            where TUnit : IMetricUnit, IAmountOfInformation => new(this.create.Create<Metric<TPrefix, TUnit>>());
-        public Denominator<LinearFactory<DataRate, ITime>> Metric<TUnit>() where TUnit : IMetricUnit, IAmountOfInformation => new(this.create.Create<Metric<TUnit>>());
-        public Denominator<LinearFactory<DataRate, ITime>> Metric<TPrefix, TUnit>()
+            where TUnit : IMetricUnit, IAmountOfInformation => new(in this.create, ZeroAllocation<PerInjector<Metric<TPrefix, TUnit>>>.Item);
+        public Denominator<TCreate, DataRate, ITime> Metric<TUnit>() where TUnit : IMetricUnit, IAmountOfInformation => new(in this.create, ZeroAllocation<PerInjector<Metric<TUnit>>>.Item);
+        public Denominator<TCreate, DataRate, ITime> Metric<TPrefix, TUnit>()
             where TPrefix : IMetricPrefix
-            where TUnit : IMetricUnit, IAmountOfInformation => new(this.create.Create<Metric<TPrefix, TUnit>>());
+            where TUnit : IMetricUnit, IAmountOfInformation => new(in this.create, ZeroAllocation<PerInjector<Metric<TPrefix, TUnit>>>.Item);
     }
 }

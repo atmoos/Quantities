@@ -3,6 +3,7 @@ using Quantities.Dimensions;
 using Quantities.Factories;
 using Quantities.Measures;
 using Quantities.Prefixes;
+using Quantities.Quantities.Creation;
 using Quantities.Quantities.Roots;
 using Quantities.Units.Si;
 
@@ -10,7 +11,7 @@ namespace Quantities.Quantities;
 
 public readonly struct Time : IQuantity<Time>, ITime
     , IFactory<Time>
-    , IFactory<ICompoundFactory<Time, ITime>, LinearTo<Time, ITime>, LinearCreate<Time, ITime>>
+    , IFactory<ICompoundFactory<Time, ITime>, Linear<To, Time, ITime>, Linear<Create, Time, ITime>>
     , IMultiplyOperators<Time, Power, Energy>
     , IMultiplyOperators<Time, Velocity, Length>
     , IMultiplyOperators<Time, DataRate, Data>
@@ -19,9 +20,9 @@ public readonly struct Time : IQuantity<Time>, ITime
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     Quant IQuantity<Time>.Value => this.quant;
-    public LinearTo<Time, ITime> To => new(in this.quant);
+    public Linear<To, Time, ITime> To => new(new To(in this.quant));
     private Time(in Quant quant) => this.quant = quant;
-    public static LinearCreate<Time, ITime> Of(in Double value) => new(in value);
+    public static Linear<Create, Time, ITime> Of(in Double value) => new(new Create(in value));
     static Time IFactory<Time>.Create(in Quant quant) => new(in quant);
     internal static Time From(in Energy energy, in Power power)
     {

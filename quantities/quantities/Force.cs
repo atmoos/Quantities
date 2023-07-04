@@ -3,6 +3,7 @@ using Quantities.Dimensions;
 using Quantities.Factories;
 using Quantities.Measures;
 using Quantities.Prefixes;
+using Quantities.Quantities.Creation;
 using Quantities.Quantities.Roots;
 using Quantities.Units.Si.Derived;
 
@@ -10,16 +11,16 @@ namespace Quantities.Quantities;
 
 public readonly struct Force : IQuantity<Force>, IForce
     , IFactory<Force>
-    , IFactory<ISiFactory<Force, IForce>, LinearTo<Force, IForce>, LinearCreate<Force, IForce>>
+    , IFactory<ISiFactory<Force, IForce>, Linear<To, Force, IForce>, Linear<Create, Force, IForce>>
     , IMultiplyOperators<Force, Velocity, Power>
 {
     private static readonly IRoot root = new SiRoot<Newton>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     Quant IQuantity<Force>.Value => this.quant;
-    public LinearTo<Force, IForce> To => new(in this.quant);
+    public Linear<To, Force, IForce> To => new(new To(in this.quant));
     private Force(in Quant quant) => this.quant = quant;
-    public static LinearCreate<Force, IForce> Of(in Double value) => new(in value);
+    public static Linear<Create, Force, IForce> Of(in Double value) => new(new Create(in value));
     static Force IFactory<Force>.Create(in Quant quant) => new(in quant);
     internal static Force From(in Power power, in Velocity velocity)
     {

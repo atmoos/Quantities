@@ -3,12 +3,13 @@ using Quantities.Dimensions;
 using Quantities.Factories;
 using Quantities.Measures;
 using Quantities.Measures.Transformations;
+using Quantities.Quantities.Creation;
 
 namespace Quantities.Quantities;
 
 public readonly struct Volume : IQuantity<Volume>, IVolume
     , IFactory<Volume>
-    , IFactory<ICubicFactory<Volume, IVolume, ILength>, CubicFactory<Volume, PowerFactory<Volume, CubicTo, ILength>, IVolume, ILength>, CubicFactory<Volume, PowerFactory<Volume, CubicCreate, ILength>, IVolume, ILength>>
+    , IFactory<ICubicFactory<Volume, IVolume, ILength>, CubicFactory<Volume, To, IVolume, ILength>, CubicFactory<Volume, Create, IVolume, ILength>>
     , IDivisionOperators<Volume, Area, Length>
     , IDivisionOperators<Volume, Length, Area>
 {
@@ -17,9 +18,9 @@ public readonly struct Volume : IQuantity<Volume>, IVolume
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     Quant IQuantity<Volume>.Value => this.quant;
-    public CubicFactory<Volume, PowerFactory<Volume, CubicTo, ILength>, IVolume, ILength> To => new(new PowerFactory<Volume, CubicTo, ILength>(new CubicTo(in this.quant)));
+    public CubicFactory<Volume, To, IVolume, ILength> To => new(new To(in this.quant));
     private Volume(in Quant quant) => this.quant = quant;
-    public static CubicFactory<Volume, PowerFactory<Volume, CubicCreate, ILength>, IVolume, ILength> Of(in Double value) => new(new PowerFactory<Volume, CubicCreate, ILength>(new CubicCreate(in value)));
+    public static CubicFactory<Volume, Create, IVolume, ILength> Of(in Double value) => new(new Create(in value));
     static Volume IFactory<Volume>.Create(in Quant quant) => new(in quant);
     internal static Volume Times(in Length length, in Area area)
     {

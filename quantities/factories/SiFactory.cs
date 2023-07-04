@@ -5,26 +5,15 @@ using Quantities.Units.Si;
 
 namespace Quantities.Factories;
 
-public readonly struct SiTo<TQuantity, TDimension> : ISiFactory<TQuantity, TDimension>
-    where TDimension : Dimensions.IDimension, ILinear
+public readonly struct SiFac<TCreate, TQuantity, TDimension> : ISiFactory<TQuantity, TDimension>
+    where TCreate : struct, ICreate
     where TQuantity : IFactory<TQuantity>
+    where TDimension : Dimensions.IDimension, ILinear
 {
-    private readonly Quant value;
-    internal SiTo(in Quant value) => this.value = value;
-    public TQuantity Si<TUnit>() where TUnit : ISiUnit, TDimension => TQuantity.Create(this.value.As<Si<TUnit>>());
+    private readonly TCreate create;
+    internal SiFac(in TCreate create) => this.create = create;
+    public TQuantity Si<TUnit>() where TUnit : ISiUnit, TDimension => TQuantity.Create(this.create.Create<Si<TUnit>>());
     public TQuantity Si<TPrefix, TUnit>()
         where TPrefix : IMetricPrefix
-        where TUnit : ISiUnit, TDimension => TQuantity.Create(this.value.As<Si<TPrefix, TUnit>>());
-}
-
-public readonly struct SiCreate<TQuantity, TDimension> : ISiFactory<TQuantity, TDimension>
-    where TDimension : Dimensions.IDimension, ILinear
-    where TQuantity : IFactory<TQuantity>
-{
-    private readonly Double value;
-    internal SiCreate(in Double value) => this.value = value;
-    public TQuantity Si<TUnit>() where TUnit : ISiUnit, TDimension => TQuantity.Create(this.value.To<Si<TUnit>>());
-    public TQuantity Si<TPrefix, TUnit>()
-        where TPrefix : IMetricPrefix
-        where TUnit : ISiUnit, TDimension => TQuantity.Create(this.value.To<Si<TPrefix, TUnit>>());
+        where TUnit : ISiUnit, TDimension => TQuantity.Create(this.create.Create<Si<TPrefix, TUnit>>());
 }

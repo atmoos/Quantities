@@ -3,6 +3,7 @@ using Quantities.Dimensions;
 using Quantities.Factories;
 using Quantities.Measures;
 using Quantities.Prefixes;
+using Quantities.Quantities.Creation;
 using Quantities.Units.Imperial;
 using Quantities.Units.NonStandard;
 using Quantities.Units.Si;
@@ -11,16 +12,16 @@ namespace Quantities.Quantities;
 
 public readonly struct Energy : IQuantity<Energy>, IEnergy
     , IFactory<Energy>
-    , IFactory<ICompoundFactory<Energy, IEnergy>, Energy.Factory<LinearTo>, Energy.Factory<LinearCreate>>
+    , IFactory<ICompoundFactory<Energy, IEnergy>, Energy.Factory<To>, Energy.Factory<Create>>
     , IDivisionOperators<Energy, Time, Power>
     , IDivisionOperators<Energy, Power, Time>
 {
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     Quant IQuantity<Energy>.Value => this.quant;
-    public Factory<LinearTo> To => new(new LinearTo(in this.quant));
+    public Factory<To> To => new(new To(in this.quant));
     private Energy(in Quant quant) => this.quant = quant;
-    public static Factory<LinearCreate> Of(in Double value) => new(new LinearCreate(in value));
+    public static Factory<Create> Of(in Double value) => new(new Create(in value));
     static Energy IFactory<Energy>.Create(in Quant quant) => new(in quant);
     internal static Energy From(in Power power, in Time time) => new(power.Quant.Multiply(time.Quant));
 
@@ -44,7 +45,7 @@ public readonly struct Energy : IQuantity<Energy>, IEnergy
 
     // ToDo: With this factory's interface it's not possible to create Wh!
     public readonly struct Factory<TCreate> : ICompoundFactory<Energy, IEnergy>
-        where TCreate : ICreate
+        where TCreate : struct, ICreate
     {
         private readonly TCreate creator;
         internal Factory(TCreate creator) => this.creator = creator;

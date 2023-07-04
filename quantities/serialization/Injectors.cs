@@ -19,10 +19,10 @@ internal sealed class PowerInjector<TDim> : IInject
         where TAlias : IInjector, new() => new AliasedBuilder<Power<TDim, TMeasure>, TAlias>();
 }
 
-internal sealed class FractionInjector : IInject
+internal sealed class QuotientInjector : IInject
 {
     public IBuilder Inject<TMeasure>() where TMeasure : IMeasure => new Nominator<TMeasure>();
-    public IBuilder Inject<TMeasure, TAlias>() where TMeasure : IMeasure where TAlias : IInjector, new() => throw new KeepUnusedException(this);
+    public IBuilder Inject<TMeasure, TAlias>() where TMeasure : IMeasure where TAlias : IInjector, new() => throw new ShouldBeUnusedException(this);
 
     // the nominator is the first half of a fractional dimension to be created.
     // Hence, it must itself be an instance of IInject to inject ... 
@@ -32,15 +32,15 @@ internal sealed class FractionInjector : IInject
         public Quant Build(in Double value) => Build<TNominator>.With(in value);
 
         // ... the denominator in a second step.
-        public IBuilder Inject<TMeasure>() where TMeasure : IMeasure => new Builder<Fraction<TNominator, TMeasure>>();
-        public IBuilder Inject<TMeasure, TAlias>() where TMeasure : IMeasure where TAlias : IInjector, new() => throw new KeepUnusedException(this);
+        public IBuilder Inject<TMeasure>() where TMeasure : IMeasure => new Builder<Quotient<TNominator, TMeasure>>();
+        public IBuilder Inject<TMeasure, TAlias>() where TMeasure : IMeasure where TAlias : IInjector, new() => throw new ShouldBeUnusedException(this);
     }
 }
 
 internal sealed class ProductInjector : IInject
 {
     public IBuilder Inject<TMeasure>() where TMeasure : IMeasure => new LeftTerm<TMeasure>();
-    public IBuilder Inject<TMeasure, TAlias>() where TMeasure : IMeasure where TAlias : IInjector, new() => throw new KeepUnusedException(this);
+    public IBuilder Inject<TMeasure, TAlias>() where TMeasure : IMeasure where TAlias : IInjector, new() => throw new ShouldBeUnusedException(this);
 
     // the "left term" is the first half of a multiplicative dimension (product) to be created.
     // Hence, it must itself be an instance of IInject to inject ... 
@@ -51,6 +51,6 @@ internal sealed class ProductInjector : IInject
 
         // ... the "right term" in a second step.
         public IBuilder Inject<TMeasure>() where TMeasure : IMeasure => new Builder<Product<TLeft, TMeasure>>();
-        public IBuilder Inject<TMeasure, TAlias>() where TMeasure : IMeasure where TAlias : IInjector, new() => throw new KeepUnusedException(this);
+        public IBuilder Inject<TMeasure, TAlias>() where TMeasure : IMeasure where TAlias : IInjector, new() => throw new ShouldBeUnusedException(this);
     }
 }

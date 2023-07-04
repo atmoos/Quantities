@@ -2,9 +2,9 @@ using System.Runtime.CompilerServices;
 
 namespace Quantities;
 
-internal sealed class KeepUnusedException : InvalidOperationException
+internal sealed class ShouldBeUnusedException : InvalidOperationException
 {
-    public KeepUnusedException(Object callingClass, [CallerMemberName] String memberName = "")
+    public ShouldBeUnusedException(Object callingClass, [CallerMemberName] String memberName = "")
         : base(CreateMessage(callingClass.GetType().Name, memberName))
     {
     }

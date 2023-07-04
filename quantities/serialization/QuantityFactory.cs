@@ -6,8 +6,8 @@ namespace Quantities.Serialization;
 
 file static class Inject
 {
-    public static IInject Fractional { get; } = new FractionInjector();
-    public static IInject Multiplicative { get; } = new ProductInjector();
+    public static IInject Quotient { get; } = new QuotientInjector();
+    public static IInject Product { get; } = new ProductInjector();
     public static IInject Square { get; } = new PowerInjector<Square>();
     public static IInject Cubic { get; } = new PowerInjector<Cubic>();
     public static IInject Scalar { get; } = new ScalarInjector();
@@ -48,8 +48,8 @@ public readonly struct QuantityFactory<TQuantity>
     }
 
     public static QuantityFactory<TQuantity> Create(String system) => system switch {
-        "frac" => new(Inject.Fractional, typeofQuantity.InnerTypes(typeof(IFraction<,>))),
-        "prod" => new(Inject.Multiplicative, typeofQuantity.InnerTypes(typeof(IProduct<,>))),
+        "quotient" => new(Inject.Quotient, typeofQuantity.InnerTypes(typeof(IQuotient<,>))),
+        "product" => new(Inject.Product, typeofQuantity.InnerTypes(typeof(IProduct<,>))),
         "square" => new(Inject.Square, typeofQuantity.InnerType(typeof(ISquare<>))),
         "cubic" => new(Inject.Cubic, typeofQuantity.InnerType(typeof(ICubic<>))),
         _ => new(Inject.Scalar, scalarVerification)
@@ -64,13 +64,7 @@ public readonly struct QuantityFactory<TQuantity>
     }
     private static IBuilder Create(QuantityModel[] models, Type[] verifications, IInject injector)
     {
-        const Int32 offset = 2;
-        Int32 key = models.Length;
-        for (Int32 modelNumber = 0; modelNumber < models.Length; modelNumber++) {
-            unchecked {
-                key ^= (modelNumber + offset) * models[modelNumber].GetHashCode();
-            }
-        }
+        Int32 key = ComputeAggregateKey(models);
         if (complexCache.TryGetValue(key, out var builder)) {
             return builder;
         }
@@ -82,5 +76,20 @@ public readonly struct QuantityFactory<TQuantity>
             builder = ScalarBuilder.Create(in models[index], in verification, injector);
         }
         return complexCache[key] = builder;
+
+        static Int32 ComputeAggregateKey(QuantityModel[] models)
+        {
+            const Int32 notZero = 2;
+            Int32 key = models.Length;
+            for (Int32 modelNumber = 0; modelNumber < models.Length; modelNumber++) {
+                unchecked {
+                    // The hash of each model is multiplied by it's position to get
+                    // a key that is sensitive to the order of the models
+                    // i.e. such that "km/h" and "h/km" result in different keys.
+                    key ^= (modelNumber + notZero) * models[modelNumber].GetHashCode();
+                }
+            }
+            return key;
+        }
     }
 }

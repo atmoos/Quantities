@@ -5,7 +5,7 @@ public interface IProduct<out TLeft, out TRight>
     where TRight : IDimension
 { /* marker interface */ }
 
-public interface IFraction<out TNominator, out TDenominator>
+public interface IQuotient<out TNominator, out TDenominator>
     where TNominator : IDimension
     where TDenominator : IDimension
 { /* marker interface */ }

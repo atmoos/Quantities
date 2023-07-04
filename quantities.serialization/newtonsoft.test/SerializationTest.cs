@@ -145,7 +145,7 @@ public class SerializationTest
         {
           "velocity": {
             "value": {{value:R}},
-            "frac": {
+            "quotient": {
               "si": {
                 "prefix": "K",
                 "unit": "m"

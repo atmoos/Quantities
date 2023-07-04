@@ -73,13 +73,13 @@ internal readonly struct Product<TLeft, TRight> : IMeasure
     public static String Representation { get; } = $"{TLeft.Representation}{narrowNoBreakSpace}{TRight.Representation}";
     public static void Write(IWriter writer)
     {
-        writer.Start("prod");
+        writer.Start("product");
         TLeft.Write(writer);
         TRight.Write(writer);
         writer.End();
     }
 }
-internal readonly struct Fraction<TNominator, TDenominator> : IMeasure
+internal readonly struct Quotient<TNominator, TDenominator> : IMeasure
     where TNominator : IMeasure
     where TDenominator : IMeasure
 {
@@ -88,7 +88,7 @@ internal readonly struct Fraction<TNominator, TDenominator> : IMeasure
     public static String Representation { get; } = $"{TNominator.Representation}/{TDenominator.Representation}";
     public static void Write(IWriter writer)
     {
-        writer.Start("frac");
+        writer.Start("quotient");
         TNominator.Write(writer);
         TDenominator.Write(writer);
         writer.End();

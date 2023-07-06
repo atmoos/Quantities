@@ -3,12 +3,6 @@ using Quantities.Units;
 
 namespace Quantities.Measures;
 
-internal interface INewInject
-{
-    Quant Inject<TCreate, TMeasure>(in TCreate create) where TCreate : struct, ICreate where TMeasure : IMeasure;
-    Quant Inject<TCreate, TMeasure, TAlias>(in TCreate create) where TCreate : struct, ICreate where TMeasure : IMeasure where TAlias : IInjector, new();
-}
-
 internal interface IInject<out TResult>
 {
     TResult Inject<TMeasure>(in Double value) where TMeasure : IMeasure;

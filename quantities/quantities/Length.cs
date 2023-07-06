@@ -18,7 +18,7 @@ public readonly struct Length : IQuantity<Length>, ILength
     , IDivisionOperators<Length, Time, Velocity>
 {
     private static readonly IRoot root = new SiRoot<Metre>();
-    private static readonly IInject<Quant> linear = new ToLinear();
+    private static readonly Measures.IInject<Quant> linear = new ToLinear();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     Quant IQuantity<Length>.Value => this.quant;

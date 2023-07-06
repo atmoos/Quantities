@@ -78,12 +78,12 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
 
 |                         Method |      Mean |     Error |    StdDev | Ratio | RatioSD |   Gen0 | Allocated | Alloc Ratio |
 |------------------------------- |----------:|----------:|----------:|------:|--------:|-------:|----------:|------------:|
-|                   CreateObject |  5.005 ns | 0.0389 ns | 0.0364 ns |  1.00 |    0.00 | 0.0057 |      24 B |        1.00 |
-|                   CreateStruct |  2.746 ns | 0.0094 ns | 0.0078 ns |  0.55 |    0.00 |      - |         - |        0.00 |
-|           CreateScalarQuantity |  7.338 ns | 0.0253 ns | 0.0225 ns |  1.47 |    0.01 |      - |         - |        0.00 |
-| CreateScalarQuantityWithoutOpt |  9.852 ns | 0.0280 ns | 0.0249 ns |  1.97 |    0.01 |      - |         - |        0.00 |
-|         CreateQuotientQuantity | 24.293 ns | 0.0984 ns | 0.0872 ns |  4.86 |    0.04 |      - |         - |        0.00 |
-|          CreateProductQuantity |  2.193 ns | 0.0055 ns | 0.0049 ns |  0.44 |    0.00 |      - |         - |        0.00 |
-|      CreateScalarPowerQuantity | 13.894 ns | 0.0609 ns | 0.0570 ns |  2.78 |    0.02 |      - |         - |        0.00 |
-|      CreateSquarePowerQuantity | 19.720 ns | 0.4085 ns | 0.3821 ns |  3.94 |    0.09 |      - |         - |        0.00 |
+|                   CreateObject |  4.939 ns | 0.1051 ns | 0.0878 ns |  1.00 |    0.00 | 0.0057 |      24 B |        1.00 |
+|                   CreateStruct |  2.929 ns | 0.0195 ns | 0.0152 ns |  0.59 |    0.01 |      - |         - |        0.00 |
+|           CreateScalarQuantity |  7.266 ns | 0.1018 ns | 0.0902 ns |  1.47 |    0.03 |      - |         - |        0.00 |
+| CreateScalarQuantityWithoutOpt | 10.211 ns | 0.1756 ns | 0.1643 ns |  2.07 |    0.05 |      - |         - |        0.00 |
+|         CreateQuotientQuantity | 24.951 ns | 0.2808 ns | 0.2490 ns |  5.06 |    0.09 |      - |         - |        0.00 |
+|          CreateProductQuantity |  2.271 ns | 0.0136 ns | 0.0120 ns |  0.46 |    0.01 |      - |         - |        0.00 |
+|      CreateScalarPowerQuantity | 13.547 ns | 0.0765 ns | 0.0679 ns |  2.74 |    0.05 |      - |         - |        0.00 |
+|      CreateSquarePowerQuantity | 20.456 ns | 0.1074 ns | 0.0952 ns |  4.14 |    0.07 |      - |         - |        0.00 |
 */

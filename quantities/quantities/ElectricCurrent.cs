@@ -17,16 +17,11 @@ public readonly struct ElectricCurrent : IQuantity<ElectricCurrent>, IElectricCu
     private static readonly IRoot root = new SiRoot<Ampere>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
+    Quant IQuantity<ElectricCurrent>.Value => this.quant;
     public SiTo<ElectricCurrent, IElectricCurrent> To => new(in this.quant);
     private ElectricCurrent(in Quant quant) => this.quant = quant;
     public static SiCreate<ElectricCurrent, IElectricCurrent> Of(in Double value) => new(in value);
     static ElectricCurrent IFactory<ElectricCurrent>.Create(in Quant quant) => new(in quant);
-
-    public Boolean Equals(ElectricCurrent other) => this.quant.Equals(other.quant);
-    public String ToString(String? format, IFormatProvider? provider) => this.quant.ToString(format, provider);
-    public override Boolean Equals(Object? obj) => obj is ElectricCurrent current && Equals(current);
-    public override Int32 GetHashCode() => this.quant.GetHashCode();
-    public override String ToString() => this.quant.ToString();
     internal static ElectricCurrent From(in ElectricPotential potential, in ElectricalResistance resistance)
     {
         return new(MetricPrefix.ScaleThree(potential.Quant.SiDivide(resistance.Quant), root));
@@ -35,6 +30,13 @@ public readonly struct ElectricCurrent : IQuantity<ElectricCurrent>, IElectricCu
     {
         return new(MetricPrefix.ScaleThree(power.Quant.SiDivide(potential.Quant), root));
     }
+
+    public Boolean Equals(ElectricCurrent other) => this.quant.Equals(other.quant);
+    public String ToString(String? format, IFormatProvider? provider) => this.quant.ToString(format, provider);
+    public override Boolean Equals(Object? obj) => obj is ElectricCurrent current && Equals(current);
+    public override Int32 GetHashCode() => this.quant.GetHashCode();
+    public override String ToString() => this.quant.ToString();
+
     public static Boolean operator ==(ElectricCurrent left, ElectricCurrent right) => left.Equals(right);
     public static Boolean operator !=(ElectricCurrent left, ElectricCurrent right) => !left.Equals(right);
     public static implicit operator Double(ElectricCurrent current) => current.quant.Value;

@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
+    <RootNamespace>Quantities.Benchmark</RootNamespace>
     <OutputType>Exe</OutputType>
   </PropertyGroup>
   <PropertyGroup>
@@ -18,5 +19,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\quantities\quantities.csproj" />
+    <ProjectReference Include="..\quantities.serialization\text.json\quantities.serialization.text.json.csproj" />
+    <ProjectReference Include="..\quantities.serialization\newtonsoft\quantities.serialization.newtonsoft.csproj" />
   </ItemGroup>
 </Project>

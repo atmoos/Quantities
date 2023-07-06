@@ -10,6 +10,7 @@ public readonly struct Temperature : IQuantity<Temperature>, ITemperature
 {
     private readonly Quant quant;
     internal Quant Quant => this.quant;
+    Quant IQuantity<Temperature>.Value => this.quant;
     public LinearTo<Temperature, ITemperature> To => new(in this.quant);
     private Temperature(in Quant quant) => this.quant = quant;
     public static LinearCreate<Temperature, ITemperature> Of(in Double value) => new(in value);

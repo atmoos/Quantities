@@ -2,7 +2,7 @@ using Quantities.Dimensions;
 
 namespace Quantities.Units.Si.Derived;
 
-public sealed class Joule : ISiUnit, IEnergy<Kilogram, Metre, Second>
+public readonly struct Joule : ISiUnit, IEnergy
 {
     public static String Representation => "J";
 }

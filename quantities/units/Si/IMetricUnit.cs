@@ -8,12 +8,12 @@ namespace Quantities.Units.Si;
 /// </summary>
 public interface IMetricUnit : ITransform, IUnit
 {
-    static Double ITransform.ToSi(in Double value) => value;
+    static Double ITransform.ToSi(in Double self) => self;
     static Double ITransform.FromSi(in Double value) => value;
 }
 public interface IMetricUnit<TPrefix> : IMetricUnit
     where TPrefix : IMetricPrefix
 {
-    static Double ITransform.ToSi(in Double value) => TPrefix.ToSi(in value);
+    static Double ITransform.ToSi(in Double self) => TPrefix.ToSi(in self);
     static Double ITransform.FromSi(in Double value) => TPrefix.FromSi(in value);
 }

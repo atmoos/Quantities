@@ -140,10 +140,30 @@ public class AreaTest
     [Fact]
     public void MorgenToHectare()
     {
+        Area morgen = Area.Of(4).NonStandard<Morgen>();
+        Area expected = Area.Of(1).Metric<Hecto, Are>();
+
+        Area actual = morgen.To.Metric<Hecto, Are>();
+
+        actual.Matches(expected);
+    }
+    [Fact]
+    public void MorgenToSquareMetre()
+    {
         Area morgen = Area.Of(2).NonStandard<Morgen>();
         Area expected = Area.Of(5000).Square.Si<Metre>();
 
         Area actual = morgen.To.Square.Si<Metre>();
+
+        actual.Matches(expected);
+    }
+    [Fact]
+    public void RoodToPerches()
+    {
+        Area rood = Area.Of(1).Imperial<Rood>();
+        Area expected = Area.Of(40).Imperial<Perch>();
+
+        Area actual = rood.To.Imperial<Perch>();
 
         actual.Matches(expected);
     }

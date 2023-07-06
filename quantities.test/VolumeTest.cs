@@ -104,6 +104,33 @@ public sealed class VolumeTest
         Assert.Equal(expected, actual);
     }
     [Fact]
+    public void FromStereToCubicMetre()
+    {
+        Volume stere = Volume.Of(3).Metric<Stere>();
+        Volume expected = Volume.Of(3).Cubic.Si<Metre>();
+
+        Volume actual = stere.To.Cubic.Si<Metre>();
+        actual.Matches(expected);
+    }
+    [Fact]
+    public void FromLambdaToMicroLitre()
+    {
+        Volume lambda = Volume.Of(2).Metric<Lambda>();
+        Volume expected = Volume.Of(2).Metric<Micro, Litre>();
+
+        Volume actual = lambda.To.Metric<Micro, Litre>();
+        Assert.Equal(expected, actual);
+    }
+    [Fact]
+    public void FromLambdaToCubicMilliMetre()
+    {
+        Volume lambda = Volume.Of(5).Metric<Lambda>();
+        Volume expected = Volume.Of(5).Cubic.Si<Milli, Metre>();
+
+        Volume actual = lambda.To.Cubic.Si<Milli, Metre>();
+        Assert.Equal(expected, actual);
+    }
+    [Fact]
     public void DivideCubicMetreByMetre()
     {
         Volume volume = Volume.Of(81).Cubic.Si<Metre>();
@@ -112,7 +139,7 @@ public sealed class VolumeTest
 
         Area actual = volume / length;
 
-        actual.Matches(expected);
+        Assert.Equal(expected, actual);
     }
     [Fact]
     public void DividePureVolumeByLength()

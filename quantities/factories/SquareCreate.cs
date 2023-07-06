@@ -1,9 +1,8 @@
-using Quantities.Dimensions;
 using Quantities.Measures;
 
 namespace Quantities.Factories;
 
-public readonly struct SquareTo : ICreate, IAliasingCreate, ISquare
+public readonly struct SquareTo : ICreate, IAliasingCreate
 {
     private readonly Quant value;
     internal SquareTo(in Quant value) => this.value = value;
@@ -11,7 +10,7 @@ public readonly struct SquareTo : ICreate, IAliasingCreate, ISquare
     Quant IAliasingCreate.Create<TMeasure, TAlias>() => this.value.Alias<TMeasure, TAlias>();
 }
 
-public readonly struct SquareCreate : ICreate, IAliasingCreate, ISquare
+public readonly struct SquareCreate : ICreate, IAliasingCreate
 {
     private readonly Double value;
     internal SquareCreate(in Double value) => this.value = value;

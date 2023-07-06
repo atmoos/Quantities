@@ -13,6 +13,6 @@ public readonly struct To : ICreate<ICreate>
     {
         private readonly Quant value;
         public Build(in Quant value) => this.value = value;
-        Quant ICreate.Create<TMeasure>() => Measures.Build<Fraction<TNominator, TMeasure>>.With(in this.value);
+        Quant ICreate.Create<TMeasure>() => Measures.Build<Quotient<TNominator, TMeasure>>.With(in this.value);
     }
 }

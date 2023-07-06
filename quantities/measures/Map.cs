@@ -8,11 +8,13 @@ internal sealed class Map
     public required Scale FromSi { get; init; }
     public required IInjector Injector { get; init; }
     public required String Representation { get; init; }
+    public required Action<IWriter> Serialize { get; init; }
 
     public Map With(IInjector injector) => new() {
         Injector = injector,
         ToSi = this.ToSi,
         FromSi = this.FromSi,
+        Serialize = this.Serialize,
         Representation = this.Representation
     };
 }

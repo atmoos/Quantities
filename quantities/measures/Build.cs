@@ -3,12 +3,13 @@ namespace Quantities.Measures;
 internal static class Build<TMeasure> where TMeasure : IMeasure
 {
     private static readonly Map defaultMap = new() {
-        Injector = new Default(),
+        Injector = new Linear<TMeasure>(),
         ToSi = TMeasure.ToSi,
         FromSi = TMeasure.FromSi,
+        Serialize = TMeasure.Write,
         Representation = TMeasure.Representation
     };
-    public static Quant With(in Double value) => new(value, in defaultMap);
+    public static Quant With(in Double value) => new(in value, in defaultMap);
     public static Quant With<TInjector>(in Double value)
         where TInjector : IInjector, new()
     {
@@ -32,13 +33,5 @@ internal static class Build<TMeasure> where TMeasure : IMeasure
         where TInjector : IInjector, new()
     {
         public static readonly Map Item = defaultMap.With(new TInjector());
-    }
-
-    private sealed class Default : IInjector
-    {
-        public T Inject<T>(in IInject<T> builder, in Double value)
-        {
-            return builder.Inject<TMeasure>(in value);
-        }
     }
 }

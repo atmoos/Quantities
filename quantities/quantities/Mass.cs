@@ -9,6 +9,7 @@ public readonly struct Mass : IQuantity<Mass>, IMass
     , IFactory<ICompoundFactory<Mass, IMass>, LinearTo<Mass, IMass>, LinearCreate<Mass, IMass>>
 {
     private readonly Quant quant;
+    Quant IQuantity<Mass>.Value => this.quant;
     public LinearTo<Mass, IMass> To => new(in this.quant);
     private Mass(in Quant quant) => this.quant = quant;
     public static LinearCreate<Mass, IMass> Of(in Double value) => new(in value);

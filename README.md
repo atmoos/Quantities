@@ -182,13 +182,16 @@ This leads to the following list of naming conventions:
 
 ## Should I use this Library?
 
-It's a library that is still evolving rapidly. Try at your own risk or - even better - contribute :-)
+The API seems to be stabilising and serialization is supported. Hence, It's worth giving it a try :smiley:
 
 ## ToDo
 
 - [x] Enable [binary prefixes](https://en.wikipedia.org/wiki/Binary_prefix).
   - Enabling things like "KiB", i.e. "kibi Byte".
-- [ ] Enable serialisation
+- [x] Enable serialisation using
+  - [x] [System.Text.Json](./quantities.serialization/text.json/Extensions.cs)
+  - [x] [Newtonsoft](./quantities.serialization/newtonsoft/Extensions.cs)
+  - [ ] Google Protocol Buffers
 - [ ] Extend unit tests
 - [ ] More rigours benchmarking
 - [ ] Add more quantities
@@ -197,5 +200,5 @@ It's a library that is still evolving rapidly. Try at your own risk or - even be
 - [ ] Add a "Normalize()" method to each quantity
   - This should then generate a "human readable" representation
   - example: 3'456 Km/d => 40 m/s
-- [ ] Rename the [Quant](quantities/measures/Quant.cs) type
+- [ ] Rename the [Quant](./quantities/measures/Quant.cs) type
   - Top candidate: "Amount"

@@ -15,6 +15,7 @@ public readonly struct DataRate : IQuantity<DataRate>, IInformationRate
 {
     private readonly Quant quant;
     internal Quant Quant => this.quant;
+    Quant IQuantity<DataRate>.Value => this.quant;
     public Factory<To> To => new(new To(in this.quant));
     internal DataRate(in Quant quant) => this.quant = quant;
     public static Factory<Create> Of(in Double value) => new(new Create(in value));

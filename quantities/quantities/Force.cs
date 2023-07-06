@@ -8,7 +8,7 @@ using Quantities.Units.Si.Derived;
 
 namespace Quantities.Quantities;
 
-public readonly struct Force : IQuantity<Force>, IForce<Mass, Length, Time>
+public readonly struct Force : IQuantity<Force>, IForce
     , IFactory<Force>
     , IFactory<ISiFactory<Force, IForce>, LinearTo<Force, IForce>, LinearCreate<Force, IForce>>
     , IMultiplyOperators<Force, Velocity, Power>
@@ -16,6 +16,7 @@ public readonly struct Force : IQuantity<Force>, IForce<Mass, Length, Time>
     private static readonly IRoot root = new SiRoot<Newton>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
+    Quant IQuantity<Force>.Value => this.quant;
     public LinearTo<Force, IForce> To => new(in this.quant);
     private Force(in Quant quant) => this.quant = quant;
     public static LinearCreate<Force, IForce> Of(in Double value) => new(in value);

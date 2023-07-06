@@ -20,6 +20,7 @@ public readonly struct Power : IQuantity<Power>, IPower
     private static readonly IRoot root = new SiRoot<Watt>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
+    Quant IQuantity<Power>.Value => this.quant;
     public LinearTo<Power, IPower> To => new(in this.quant);
     private Power(in Quant quant) => this.quant = quant;
     public static LinearCreate<Power, IPower> Of(in Double value) => new(in value);

@@ -19,16 +19,11 @@ public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectr
     private static readonly IRoot root = new SiRoot<Volt>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
+    Quant IQuantity<ElectricPotential>.Value => this.quant;
     public SiTo<ElectricPotential, IElectricPotential> To => new(in this.quant);
     private ElectricPotential(in Quant quant) => this.quant = quant;
     public static SiCreate<ElectricPotential, IElectricPotential> Of(in Double value) => new(in value);
     static ElectricPotential IFactory<ElectricPotential>.Create(in Quant quant) => new(in quant);
-
-    public Boolean Equals(ElectricPotential other) => this.quant.Equals(other.quant);
-    public String ToString(String? format, IFormatProvider? provider) => this.quant.ToString(format, provider);
-    public override Boolean Equals(Object? obj) => obj is ElectricPotential potential && Equals(potential);
-    public override Int32 GetHashCode() => this.quant.GetHashCode();
-    public override String ToString() => this.quant.ToString();
     internal static ElectricPotential From(in ElectricCurrent current, in ElectricalResistance resistance)
     {
         return new(MetricPrefix.ScaleThree(current.Quant.SiMultiply(resistance.Quant), root));
@@ -39,6 +34,12 @@ public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectr
         Double siCurrent = current.To.Si<Ampere>();
         return new(MetricPrefix.ScaleThree(siPower / siCurrent, root));
     }
+
+    public Boolean Equals(ElectricPotential other) => this.quant.Equals(other.quant);
+    public String ToString(String? format, IFormatProvider? provider) => this.quant.ToString(format, provider);
+    public override Boolean Equals(Object? obj) => obj is ElectricPotential potential && Equals(potential);
+    public override Int32 GetHashCode() => this.quant.GetHashCode();
+    public override String ToString() => this.quant.ToString();
 
     public static Boolean operator ==(ElectricPotential left, ElectricPotential right) => left.Equals(right);
     public static Boolean operator !=(ElectricPotential left, ElectricPotential right) => !left.Equals(right);

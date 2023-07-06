@@ -20,6 +20,7 @@ public readonly struct Length : IQuantity<Length>, ILength
     private static readonly IInject<Quant> linear = new ToLinear();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
+    Quant IQuantity<Length>.Value => this.quant;
     public LinearTo<Length, ILength> To => new(in this.quant);
     private Length(in Quant quant) => this.quant = quant;
     public static LinearCreate<Length, ILength> Of(in Double value) => new(in value);

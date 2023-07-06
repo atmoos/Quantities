@@ -9,7 +9,7 @@ using Quantities.Units.Si;
 
 namespace Quantities.Quantities;
 
-public readonly struct Velocity : IQuantity<Velocity>, IVelocity<ILength, ITime>
+public readonly struct Velocity : IQuantity<Velocity>, IVelocity
     , IFactory<Velocity>
     , IFactory<ICompoundFactory<Denominator<LinearFactory<Velocity, ITime>>, ILength>, Nominator<To, ILength, LinearFactory<Velocity, ITime>>, Nominator<Create, ILength, LinearFactory<Velocity, ITime>>>
     , IMultiplyOperators<Velocity, Force, Power>
@@ -18,6 +18,7 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity<ILength, ITime>
     private static readonly IRoot root = new FractionalRoot<Metre, Second>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
+    Quant IQuantity<Velocity>.Value => this.quant;
     public Nominator<To, ILength, LinearFactory<Velocity, ITime>> To => new(new To(in this.quant));
     internal Velocity(in Quant quant) => this.quant = quant;
     public static Nominator<Create, ILength, LinearFactory<Velocity, ITime>> Of(in Double value) => new(new Create(in value));
@@ -43,7 +44,6 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity<ILength, ITime>
     public static Velocity operator *(Velocity left, Double scalar) => new(scalar * left.quant);
     public static Velocity operator /(Velocity left, Double scalar) => new(left.quant / scalar);
     public static Double operator /(Velocity left, Velocity right) => left.quant / right.quant;
-
     public static Power operator *(Velocity velocity, Force force) => Power.From(in force, in velocity);
     public static Length operator *(Velocity left, Time right) => Length.From(in left, in right);
 }

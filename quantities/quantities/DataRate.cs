@@ -47,10 +47,10 @@ public readonly struct DataRate : IQuantity<DataRate>, IInformationRate
         internal Factory(in TCreate create) => this.create = create;
         public Denominator<TCreate, DataRate, ITime> Binary<TPrefix, TUnit>()
             where TPrefix : IBinaryPrefix
-            where TUnit : IMetricUnit, IAmountOfInformation => new(in this.create, AllocationFree<PerInjector<TCreate, Metric<TPrefix, TUnit>>>.Item);
-        public Denominator<TCreate, DataRate, ITime> Metric<TUnit>() where TUnit : IMetricUnit, IAmountOfInformation => new(in this.create, AllocationFree<PerInjector<TCreate, Metric<TUnit>>>.Item);
+            where TUnit : IMetricUnit, IAmountOfInformation => new(in this.create, AllocationFree<QuotientInjector<TCreate, Metric<TPrefix, TUnit>>>.Item);
+        public Denominator<TCreate, DataRate, ITime> Metric<TUnit>() where TUnit : IMetricUnit, IAmountOfInformation => new(in this.create, AllocationFree<QuotientInjector<TCreate, Metric<TUnit>>>.Item);
         public Denominator<TCreate, DataRate, ITime> Metric<TPrefix, TUnit>()
             where TPrefix : IMetricPrefix
-            where TUnit : IMetricUnit, IAmountOfInformation => new(in this.create, AllocationFree<PerInjector<TCreate, Metric<TPrefix, TUnit>>>.Item);
+            where TUnit : IMetricUnit, IAmountOfInformation => new(in this.create, AllocationFree<QuotientInjector<TCreate, Metric<TPrefix, TUnit>>>.Item);
     }
 }

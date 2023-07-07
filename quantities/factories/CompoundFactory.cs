@@ -14,9 +14,9 @@ public readonly struct CompoundFactory<TCreate, TQuantity, TDimension> : ICompou
 {
     private readonly TCreate creator;
     private readonly IInject<TCreate> inject;
-    internal CompoundFactory(in TCreate value, IInject<TCreate> inject)
+    internal CompoundFactory(in TCreate creator, IInject<TCreate> inject)
     {
-        this.creator = value;
+        this.creator = creator;
         this.inject = inject;
     }
 

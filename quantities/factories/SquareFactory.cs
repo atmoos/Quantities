@@ -15,9 +15,8 @@ public readonly struct SquareFactory<TQuantity, TCreate, TSquare, TLinear> : ISq
     where TQuantity : IFactory<TQuantity>
 {
     private readonly TCreate create;
-    public CompoundFactory<TCreate, TQuantity, TLinear> Square => new(in this.create, AllocationFree<Injector<TCreate, Square>>.Item);
-    internal SquareFactory(in TCreate compound) => this.create = compound;
-
+    public CompoundFactory<TCreate, TQuantity, TLinear> Square => new(in this.create, AllocationFree<PowerInjector<TCreate, Square>>.Item);
+    internal SquareFactory(in TCreate create) => this.create = create;
     public TQuantity Metric<TUnit>() where TUnit : IMetricUnit, TSquare, IInjectUnit<TLinear>
     {
         return TQuantity.Create(this.create.Create<Metric<TUnit>, Alias<TUnit, TLinear>>());

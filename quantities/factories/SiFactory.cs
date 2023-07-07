@@ -5,13 +5,13 @@ using Quantities.Units.Si;
 
 namespace Quantities.Factories;
 
-public readonly struct SiFac<TCreate, TQuantity, TDimension> : ISiFactory<TQuantity, TDimension>
+public readonly struct SiFactory<TCreate, TQuantity, TDimension> : ISiFactory<TQuantity, TDimension>
     where TCreate : struct, ICreate
     where TQuantity : IFactory<TQuantity>
     where TDimension : Dimensions.IDimension, ILinear
 {
     private readonly TCreate create;
-    internal SiFac(in TCreate create) => this.create = create;
+    internal SiFactory(in TCreate create) => this.create = create;
     public TQuantity Si<TUnit>() where TUnit : ISiUnit, TDimension => TQuantity.Create(this.create.Create<Si<TUnit>>());
     public TQuantity Si<TPrefix, TUnit>()
         where TPrefix : IMetricPrefix

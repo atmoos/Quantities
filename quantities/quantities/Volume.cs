@@ -3,7 +3,6 @@ using Quantities.Dimensions;
 using Quantities.Factories;
 using Quantities.Measures;
 using Quantities.Measures.Transformations;
-using Quantities.Quantities.Creation;
 
 namespace Quantities.Quantities;
 

@@ -1,4 +1,6 @@
-namespace Quantities.Measures;
+using Quantities.Measures;
+
+namespace Quantities.Factories;
 
 public interface ICreate
 {

@@ -4,7 +4,6 @@ using Quantities.Factories;
 using Quantities.Measures;
 using Quantities.Measures.Transformations;
 using Quantities.Prefixes;
-using Quantities.Quantities.Creation;
 using Quantities.Quantities.Roots;
 using Quantities.Units.Si;
 

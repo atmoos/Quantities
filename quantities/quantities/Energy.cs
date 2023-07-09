@@ -2,7 +2,6 @@ using System.Numerics;
 using Quantities.Dimensions;
 using Quantities.Factories;
 using Quantities.Measures;
-using Quantities.Quantities.Creation;
 
 namespace Quantities.Quantities;
 

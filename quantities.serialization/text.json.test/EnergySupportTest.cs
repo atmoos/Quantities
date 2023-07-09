@@ -9,11 +9,11 @@ public class EnergySupportTest : ISerializationTester<Energy>
     {
         static IEnumerable<Energy> Interesting()
         {
-            yield return Energy.Of(21).Si<Kilo, Joule>();
-            // ToDo: Add Wh!
-            yield return Energy.Of(342).Metric<Milli, Watt, Minute>();
-            yield return Energy.Of(342).Metric<Kilo, Watt, Hour>();
-            yield return Energy.Of(6).Si<Mega, Watt, Second>();
+            yield return Energy.Of(21).Linear.Si<Kilo, Joule>();
+            yield return Energy.Of(21).Si<Watt>().Times.Metric<Hour>();
+            yield return Energy.Of(342).Si<Milli, Watt>().Times.Metric<Minute>();
+            yield return Energy.Of(342).Si<Kilo, Watt>().Times.Metric<Hour>();
+            yield return Energy.Of(6).Si<Mega, Watt>().Times.Si<Second>();
         }
         return Interesting().Select(l => new Object[] { l });
     }

@@ -11,7 +11,7 @@ namespace Quantities.Quantities;
 
 public readonly struct Velocity : IQuantity<Velocity>, IVelocity
     , IFactory<Velocity>
-    , IFactory<IQuotientFactory<ILength, ITime>, Quotient<To, Velocity, ILength, ITime>, Quotient<Create, Velocity, ILength, ITime>>
+    , IFactory<IQuotientFactory<IVelocity, ILength, ITime>, Quotient<To, Velocity, IVelocity, ILength, ITime>, Quotient<Create, Velocity, IVelocity, ILength, ITime>>
     , IMultiplyOperators<Velocity, Force, Power>
     , IMultiplyOperators<Velocity, Time, Length>
 {
@@ -19,9 +19,9 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     Quant IQuantity<Velocity>.Value => this.quant;
-    public Quotient<To, Velocity, ILength, ITime> To => new(new To(in this.quant));
+    public Quotient<To, Velocity, IVelocity, ILength, ITime> To => new(new To(in this.quant));
     internal Velocity(in Quant quant) => this.quant = quant;
-    public static Quotient<Create, Velocity, ILength, ITime> Of(in Double value) => new(new Create(in value));
+    public static Quotient<Create, Velocity, IVelocity, ILength, ITime> Of(in Double value) => new(new Create(in value));
     static Velocity IFactory<Velocity>.Create(in Quant quant) => new(in quant);
     internal static Velocity From(in Power power, in Force force)
     {

@@ -10,7 +10,7 @@ namespace Quantities.Quantities;
 
 public readonly struct DataRate : IQuantity<DataRate>, IInformationRate
     , IFactory<DataRate>
-    , IFactory<IQuotientFactory<IAmountOfInformation, ITime>, DataRate.Factory<To>, DataRate.Factory<Create>>
+    , IFactory<IQuotientFactory<IInformationRate, IAmountOfInformation, ITime>, DataRate.Factory<To>, DataRate.Factory<Create>>
     , IMultiplyOperators<DataRate, Time, Data>
 {
     private readonly Quant quant;
@@ -40,7 +40,7 @@ public readonly struct DataRate : IQuantity<DataRate>, IInformationRate
 
     public static Data operator *(DataRate left, Time right) => Data.From(in right, in left);
 
-    public readonly struct Factory<TCreate> : IQuotientFactory<IAmountOfInformation, ITime>, IBinaryFactory<Denominator<TCreate, DataRate, ITime>, IAmountOfInformation>, IMetricFactory<Denominator<TCreate, DataRate, ITime>, IAmountOfInformation>
+    public readonly struct Factory<TCreate> : IQuotientFactory<IInformationRate, IAmountOfInformation, ITime>, IBinaryFactory<Denominator<TCreate, DataRate, ITime>, IAmountOfInformation>, IMetricFactory<Denominator<TCreate, DataRate, ITime>, IAmountOfInformation>
         where TCreate : struct, ICreate
     {
         private readonly TCreate create;

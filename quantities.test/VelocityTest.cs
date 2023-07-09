@@ -1,4 +1,6 @@
-﻿using Quantities.Units.Si.Metric;
+﻿using Quantities.units.NonStandard.Length;
+using Quantities.units.NonStandard.Velocity;
+using Quantities.Units.Si.Metric;
 
 namespace Quantities.Test;
 
@@ -101,5 +103,29 @@ public sealed class VelocityTest
         Velocity actual = length / time;
 
         Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void NauticalMilesPerHourToKnots()
+    {
+        const Double commonValue = 62;
+        Velocity expectedKnots = Velocity.Of(commonValue).Linear.NonStandard<Knot>();
+        Velocity nauticalMiles = Velocity.Of(commonValue).NonStandard<NauticalMile>().Per.Metric<Hour>();
+
+        Velocity actualKnots = nauticalMiles.To.Linear.NonStandard<Knot>();
+
+        Assert.Equal(expectedKnots, actualKnots);
+    }
+
+    [Fact(Skip = "Waiting for precision improvement, due to catastrophic loss of precision.")]
+    public void KnotsToKilometrePerHour()
+    {
+        const Double knotsValue = 6;
+        Velocity knots = Velocity.Of(knotsValue).Linear.NonStandard<Knot>();
+        Velocity kiloMetresPerHour = Velocity.Of(3600 * knotsValue / 1852).Si<Kilo, Metre>().Per.Metric<Hour>();
+
+        Velocity actualKiloMetresPerHour = knots.To.Si<Kilo, Metre>().Per.Metric<Hour>();
+
+        Assert.Equal(kiloMetresPerHour, actualKiloMetresPerHour);
     }
 }

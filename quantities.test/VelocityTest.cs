@@ -117,12 +117,13 @@ public sealed class VelocityTest
         Assert.Equal(expectedKnots, actualKnots);
     }
 
-    [Fact(Skip = "Waiting for precision improvement, due to catastrophic loss of precision.")]
+    [Fact]
     public void KnotsToKilometrePerHour()
     {
         const Double knotsValue = 6;
+        const Double knotsInKmPerH = 1.852;
         Velocity knots = Velocity.Of(knotsValue).Linear.NonStandard<Knot>();
-        Velocity kiloMetresPerHour = Velocity.Of(3600 * knotsValue / 1852).Si<Kilo, Metre>().Per.Metric<Hour>();
+        Velocity kiloMetresPerHour = Velocity.Of(knotsValue * knotsInKmPerH).Si<Kilo, Metre>().Per.Metric<Hour>();
 
         Velocity actualKiloMetresPerHour = knots.To.Si<Kilo, Metre>().Per.Metric<Hour>();
 

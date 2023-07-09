@@ -192,8 +192,6 @@ The API seems to be stabilising and serialization is supported. Hence, It's wort
   - [x] [System.Text.Json](./quantities.serialization/text.json/Extensions.cs)
   - [x] [Newtonsoft](./quantities.serialization/newtonsoft/Extensions.cs)
   - [ ] Google Protocol Buffers
-- [ ] Prevent loss of precision during calculations
-  - See for example [Dekker's algorithm](https://csclub.uwaterloo.ca/~pbarfuss/dekker1971.pdf)
 - [ ] Extend unit tests
 - [ ] More rigours benchmarking
 - [ ] Add more quantities

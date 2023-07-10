@@ -3,11 +3,11 @@ using static System.Math;
 
 namespace Quantities;
 
+// https://csclub.uwaterloo.ca/~pbarfuss/dekker1971.pdf
 [DebuggerDisplay("{Value} | {Error}")]
 public ref struct Dekker
 {
-    private static readonly Double dekkerConstant = Pow(2, 15 - 15 / 2) + 1d;
-
+    private const Double constant = 134217729d; // 2^(53 - 53 / 2) + 1;
     private Double value, error;
     internal readonly Double Value => this.value;
     internal readonly Double Error => this.error;
@@ -37,6 +37,25 @@ public ref struct Dekker
         this.error = r - this.value + s;
     }
 
+    internal void Subtract(in Double other)
+    {
+        Double r = this.value - other;
+        Double s = Abs(this.value) > Abs(other)
+                    ? this.value - r - other + this.error
+                    : -other - r + this.value + this.error;
+        this.value = r + s;
+        this.error = r - this.value + s;
+    }
+
+    internal void Subtract(in Dekker other)
+    {
+        Double r = this.value - other.value;
+        Double s = Abs(this.value) > Abs(other.value)
+                    ? this.value - r - other.value - other.error + this.error
+                    : -other.value - r + this.value + this.error - other.error;
+        this.value = r + s;
+        this.error = r - this.value + s;
+    }
     public void Multiply(in Double other)
     {
         var (c, cc) = ExactMultiply(in this.value, in other);
@@ -70,8 +89,8 @@ public ref struct Dekker
 
     private static (Double value, Double error) ExactMultiply(in Double x, in Double y)
     {
-        Double p = x * dekkerConstant;
-        Double q = y * dekkerConstant;
+        Double p = x * constant;
+        Double q = y * constant;
         Double hx = x - p + p;
         Double tx = x - hx;
         Double hy = y - q + q;

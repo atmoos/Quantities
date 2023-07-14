@@ -13,5 +13,4 @@ public interface IFactory<in TFactory, out TTo, out TCreate> : IFactory<TTo, TCr
     where TFactory : IFactory
     where TTo : TFactory
     where TCreate : TFactory
-{
-}
+{ }

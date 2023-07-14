@@ -12,8 +12,7 @@ public interface IQuotientFactory<TQuotient, TNominator, TDenominator> : IFactor
     where TQuotient : IQuotient<TNominator, TDenominator>, IDimension
     where TNominator : IDimension, ILinear
     where TDenominator : IDimension, ILinear
-{
-}
+{ /* marker interface */ }
 
 public readonly struct Denominator<TCreate, TQuantity, TDenominator>
     where TCreate : struct, ICreate

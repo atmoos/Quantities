@@ -12,9 +12,7 @@ public interface IProductFactory<TProduct, TLeftTerm, TRightTerm> : IFactory
     where TProduct : IProduct<TLeftTerm, TRightTerm>, IDimension
     where TLeftTerm : IDimension, ILinear
     where TRightTerm : IDimension, ILinear
-{
-
-}
+{ /* marker interface */ }
 
 public readonly struct LeftTerm<TCreate, TQuantity, TRightTerm>
     where TCreate : struct, ICreate

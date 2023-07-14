@@ -13,21 +13,21 @@ public readonly struct Compound<TCreate, TQuantity, TDimension> : ICompoundFacto
     where TDimension : Dimensions.IDimension, ILinear
 {
     private readonly TCreate creator;
-    private readonly IInject<TCreate> inject;
-    internal Compound(in TCreate creator, IInject<TCreate> inject)
+    private readonly IInject<TCreate> injector;
+    internal Compound(in TCreate creator, IInject<TCreate> injector)
     {
         this.creator = creator;
-        this.inject = inject;
+        this.injector = injector;
     }
 
-    public TQuantity Si<TUnit>() where TUnit : ISiUnit, TDimension => TQuantity.Create(this.inject.Inject<Si<TUnit>>(in this.creator));
+    public TQuantity Si<TUnit>() where TUnit : ISiUnit, TDimension => TQuantity.Create(this.injector.Inject<Si<TUnit>>(in this.creator));
     public TQuantity Si<TPrefix, TUnit>()
         where TPrefix : IMetricPrefix
-        where TUnit : ISiUnit, TDimension => TQuantity.Create(this.inject.Inject<Si<TPrefix, TUnit>>(in this.creator));
-    public TQuantity Metric<TUnit>() where TUnit : IMetricUnit, TDimension => TQuantity.Create(this.inject.Inject<Metric<TUnit>>(in this.creator));
+        where TUnit : ISiUnit, TDimension => TQuantity.Create(this.injector.Inject<Si<TPrefix, TUnit>>(in this.creator));
+    public TQuantity Metric<TUnit>() where TUnit : IMetricUnit, TDimension => TQuantity.Create(this.injector.Inject<Metric<TUnit>>(in this.creator));
     public TQuantity Metric<TPrefix, TUnit>()
         where TPrefix : IMetricPrefix
-        where TUnit : IMetricUnit, TDimension => TQuantity.Create(this.inject.Inject<Metric<TPrefix, TUnit>>(in this.creator));
-    public TQuantity Imperial<TUnit>() where TUnit : IImperialUnit, TDimension => TQuantity.Create(this.inject.Inject<Imperial<TUnit>>(in this.creator));
-    public TQuantity NonStandard<TUnit>() where TUnit : INoSystemUnit, TDimension => TQuantity.Create(this.inject.Inject<NonStandard<TUnit>>(in this.creator));
+        where TUnit : IMetricUnit, TDimension => TQuantity.Create(this.injector.Inject<Metric<TPrefix, TUnit>>(in this.creator));
+    public TQuantity Imperial<TUnit>() where TUnit : IImperialUnit, TDimension => TQuantity.Create(this.injector.Inject<Imperial<TUnit>>(in this.creator));
+    public TQuantity NonStandard<TUnit>() where TUnit : INoSystemUnit, TDimension => TQuantity.Create(this.injector.Inject<NonStandard<TUnit>>(in this.creator));
 }

@@ -9,7 +9,6 @@ using Quantities.Units.Si.Derived;
 namespace Quantities.Quantities;
 
 public readonly struct ElectricalResistance : IQuantity<ElectricalResistance>, IElectricalResistance
-    , IFactory<ElectricalResistance>
     , IFactory<ISiFactory<ElectricalResistance, IElectricalResistance>, SiFactory<To, ElectricalResistance, IElectricalResistance>, SiFactory<Create, ElectricalResistance, IElectricalResistance>>
     , IMultiplyOperators<ElectricalResistance, ElectricCurrent, ElectricPotential>
 {

@@ -9,7 +9,6 @@ using Quantities.Units.Si.Derived;
 namespace Quantities.Quantities;
 
 public readonly struct Force : IQuantity<Force>, IForce
-    , IFactory<Force>
     , IFactory<ISiFactory<Force, IForce>, Linear<To, Force, IForce>, Linear<Create, Force, IForce>>
     , IMultiplyOperators<Force, Velocity, Power>
 {

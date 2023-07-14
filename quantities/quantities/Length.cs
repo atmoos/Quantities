@@ -10,7 +10,6 @@ using Quantities.Units.Si;
 namespace Quantities.Quantities;
 
 public readonly struct Length : IQuantity<Length>, ILength
-    , IFactory<Length>
     , IFactory<ICompoundFactory<Length, ILength>, Linear<To, Length, ILength>, Linear<Create, Length, ILength>>
     , IMultiplyOperators<Length, Length, Area>
     , IMultiplyOperators<Length, Area, Volume>

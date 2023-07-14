@@ -20,7 +20,6 @@ namespace Quantities.Quantities;
 - Information
 */
 public readonly struct Data : IQuantity<Data>, IAmountOfInformation
-    , IFactory<Data>
     , IFactory<IMetricFactory<Data, IAmountOfInformation>, Data.Factory<To>, Data.Factory<Create>>
     , IDivisionOperators<Data, Time, DataRate>
 {

@@ -4,6 +4,7 @@ using Quantities.Measures;
 namespace Quantities;
 
 public interface IQuantity<TSelf> : IEquatable<TSelf>, IFormattable
+    , IFactory<TSelf>
     , ICastOperators<TSelf>
     , IEqualityOperators<TSelf, TSelf, Boolean>
     , IAdditionOperators<TSelf, TSelf, TSelf>

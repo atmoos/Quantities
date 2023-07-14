@@ -9,7 +9,6 @@ using Quantities.Units.Si.Derived;
 namespace Quantities.Quantities;
 
 public readonly struct Power : IQuantity<Power>, IPower
-    , IFactory<Power>
     , IFactory<ICompoundFactory<Power, IPower>, Linear<To, Power, IPower>, Linear<Create, Power, IPower>>
     , IMultiplyOperators<Power, Time, Energy>
     , IDivisionOperators<Power, ElectricCurrent, ElectricPotential>

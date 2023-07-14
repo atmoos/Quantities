@@ -7,7 +7,6 @@ using Quantities.Measures.Transformations;
 namespace Quantities.Quantities;
 
 public readonly struct Volume : IQuantity<Volume>, IVolume
-    , IFactory<Volume>
     , IFactory<ICubicFactory<Volume, IVolume, ILength>, ThirdPower<To, Volume, IVolume, ILength>, ThirdPower<Create, Volume, IVolume, ILength>>
     , IDivisionOperators<Volume, Area, Length>
     , IDivisionOperators<Volume, Length, Area>

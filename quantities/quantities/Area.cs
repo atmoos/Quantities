@@ -7,7 +7,6 @@ using Quantities.Measures.Transformations;
 namespace Quantities.Quantities;
 
 public readonly struct Area : IQuantity<Area>, IArea
-    , IFactory<Area>
     , IFactory<ISquareFactory<Area, IArea, ILength>, SecondPower<To, Area, IArea, ILength>, SecondPower<Create, Area, IArea, ILength>>
     , IMultiplyOperators<Area, Length, Volume>
     , IDivisionOperators<Area, Length, Length>

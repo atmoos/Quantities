@@ -6,7 +6,6 @@ using Quantities.Measures;
 namespace Quantities.Quantities;
 
 public readonly struct Energy : IQuantity<Energy>, IEnergy
-    , IFactory<Energy>
     , IFactory<IProductFactory<IEnergy, IPower, ITime>, Product<To, Energy, IEnergy, IPower, ITime>, Product<Create, Energy, IEnergy, IPower, ITime>>
     , IDivisionOperators<Energy, Time, Power>
     , IDivisionOperators<Energy, Power, Time>

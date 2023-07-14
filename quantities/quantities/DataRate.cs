@@ -8,7 +8,6 @@ using Quantities.Units.Si;
 namespace Quantities.Quantities;
 
 public readonly struct DataRate : IQuantity<DataRate>, IInformationRate
-    , IFactory<DataRate>
     , IFactory<IQuotientFactory<IInformationRate, IAmountOfInformation, ITime>, DataRate.Factory<To>, DataRate.Factory<Create>>
     , IMultiplyOperators<DataRate, Time, Data>
 {

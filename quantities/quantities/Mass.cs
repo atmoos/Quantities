@@ -5,7 +5,6 @@ using Quantities.Measures;
 namespace Quantities.Quantities;
 
 public readonly struct Mass : IQuantity<Mass>, IMass
-    , IFactory<Mass>
     , IFactory<ICompoundFactory<Mass, IMass>, Linear<To, Mass, IMass>, Linear<Create, Mass, IMass>>
 {
     private readonly Quant quant;

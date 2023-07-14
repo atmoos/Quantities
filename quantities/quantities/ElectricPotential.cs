@@ -10,7 +10,6 @@ using Quantities.Units.Si.Derived;
 namespace Quantities.Quantities;
 
 public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectricPotential
-    , IFactory<ElectricPotential>
     , IFactory<ISiFactory<ElectricPotential, IElectricPotential>, SiFactory<To, ElectricPotential, IElectricPotential>, SiFactory<Create, ElectricPotential, IElectricPotential>>
     , IMultiplyOperators<ElectricPotential, ElectricCurrent, Power>
     , IDivisionOperators<ElectricPotential, ElectricCurrent, ElectricalResistance>

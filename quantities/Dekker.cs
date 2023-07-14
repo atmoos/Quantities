@@ -5,7 +5,7 @@ namespace Quantities;
 
 // https://csclub.uwaterloo.ca/~pbarfuss/dekker1971.pdf
 [DebuggerDisplay("{Value} | {Error}")]
-public ref struct Dekker
+internal struct Dekker
 {
     private const Double constant = 134217729d; // 2^(53 - 53 / 2) + 1;
     private Double value, error;

@@ -11,23 +11,10 @@ internal static class Build<TMeasure> where TMeasure : IMeasure
     };
     public static Quant With(in Double value) => new(in value, in defaultMap);
     public static Quant With<TInjector>(in Double value)
-        where TInjector : IInjector, new()
-    {
-        return new(in value, in MapPool<TInjector>.Item);
-    }
-    public static Quant With(in Quant value)
-    {
-        // ToDo: Check reference equality of the default map and quant's map.
-        //       When equal, no projection needs to be done...
-        Double projection = TMeasure.FromSi(value.ToSi());
-        return new(in projection, in defaultMap);
-    }
+        where TInjector : IInjector, new() => new(in value, in MapPool<TInjector>.Item);
+    public static Quant With(in Quant value) => value.Project(in defaultMap);
     public static Quant With<TInjector>(in Quant value)
-        where TInjector : IInjector, new()
-    {
-        Double projection = TMeasure.FromSi(value.ToSi());
-        return new(in projection, in MapPool<TInjector>.Item);
-    }
+        where TInjector : IInjector, new() => value.Project(in MapPool<TInjector>.Item);
 
     private static class MapPool<TInjector>
         where TInjector : IInjector, new()

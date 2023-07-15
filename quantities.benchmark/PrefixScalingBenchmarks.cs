@@ -1,5 +1,4 @@
-using System;
-using BenchmarkDotNet.Attributes;
+﻿using BenchmarkDotNet.Attributes;
 using Quantities.Prefixes;
 
 namespace Quantities.Benchmark;

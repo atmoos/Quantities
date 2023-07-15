@@ -2,6 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <RootNamespace>Quantities.Benchmark</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
     <OutputType>Exe</OutputType>
   </PropertyGroup>
   <PropertyGroup>

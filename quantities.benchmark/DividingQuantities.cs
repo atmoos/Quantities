@@ -1,5 +1,4 @@
-﻿using System;
-using BenchmarkDotNet.Attributes;
+﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Diagnosers;
 using Quantities.Prefixes;
 using Quantities.Quantities;
@@ -22,8 +21,8 @@ public class DividingQuantities
     private Area imperialArea = Area.Of(55).Square.Imperial<Yard>();
     private ElectricPotential potential = ElectricPotential.Of(33).Si<Kilo, Volt>();
     private ElectricCurrent current = ElectricCurrent.Of(98).Si<Deca, Ampere>();
-    private Trivial<Metre> largeTrivial = Trivial<Metre>.Si(Prefix.Kilo, 3);
-    private Trivial<Metre> smallTrivial = Trivial<Metre>.Si(Prefix.Micro, 12);
+    private Si<Metre> largeTrivial = Si<Metre>.Of(Prefix.Kilo, 3);
+    private Si<Metre> smallTrivial = Si<Metre>.Of(Prefix.Micro, 12);
 
     [Benchmark(Baseline = true)]
     public Double Trivial() => this.largeTrivial / this.smallTrivial;

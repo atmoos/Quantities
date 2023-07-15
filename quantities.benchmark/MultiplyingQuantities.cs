@@ -1,5 +1,4 @@
-﻿using System;
-using BenchmarkDotNet.Attributes;
+﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Diagnosers;
 using Quantities.Prefixes;
 using Quantities.Quantities;
@@ -18,8 +17,8 @@ public class MultiplyingQuantities
     private Length smallImperial = Length.Of(55).Imperial<Inch>();
     private ElectricCurrent current = ElectricCurrent.Of(200).Si<Micro, Ampere>();
     private ElectricalResistance resistance = ElectricalResistance.Of(734).Si<Kilo, Ohm>();
-    private Trivial<Metre> largeTrivial = Trivial<Metre>.Si(Prefix.Kilo, 3);
-    private Trivial<Metre> smallTrivial = Trivial<Metre>.Si(Prefix.Micro, 12);
+    private Si<Metre> largeTrivial = Si<Metre>.Of(Prefix.Kilo, 3);
+    private Si<Metre> smallTrivial = Si<Metre>.Of(Prefix.Micro, 12);
 
     [Benchmark(Baseline = true)]
     public Double Trivial() => this.largeTrivial * this.smallTrivial;

@@ -1,5 +1,4 @@
-﻿using System;
-using BenchmarkDotNet.Attributes;
+﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Diagnosers;
 using Quantities.Prefixes;
 using Quantities.Quantities;
@@ -16,8 +15,8 @@ public class AddingQuantities
     private Length smallMetric = Length.Of(23).Si<Micro, Metre>();
     private Length largeImperial = Length.Of(-3).Imperial<Mile>();
     private Length smallImperial = Length.Of(55).Imperial<Inch>();
-    private Trivial<Metre> largeTrivial = Trivial<Metre>.Si(Prefix.Kilo, 3);
-    private Trivial<Metre> smallTrivial = Trivial<Metre>.Si(Prefix.Micro, 12);
+    private Si<Metre> largeTrivial = Si<Metre>.Of(Prefix.Kilo, 3);
+    private Si<Metre> smallTrivial = Si<Metre>.Of(Prefix.Micro, 12);
 
     [Benchmark(Baseline = true)]
     public Double Trivial() => this.largeTrivial + this.smallTrivial;

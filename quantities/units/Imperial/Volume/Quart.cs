@@ -1,6 +1,5 @@
 ﻿using Quantities.Dimensions;
 using Quantities.Units.Imperial.Length;
-using Quantities.Units.Transformation;
 
 namespace Quantities.Units.Imperial.Volume;
 
@@ -8,9 +7,7 @@ namespace Quantities.Units.Imperial.Volume;
 public readonly struct Quart : IImperialUnit, IVolume, IInjectUnit<ILength>
 {
     private const Double toCubicMetre = 1.1365225e-3;
-    private static readonly Transform transform = new(toCubicMetre /* m³ */);
-    public static Double ToSi(in Double nonSiValue) => transform.ToSi(in nonSiValue);
-    public static Double FromSi(in Double siValue) => transform.FromSi(in siValue);
+    public static Transformation ToSi(Transformation self) => toCubicMetre * self;
     static T IInjectUnit<ILength>.Inject<T>(in Creator<ILength, T> inject, in Double self)
     {
         const Double quartToCubicInch = toCubicMetre / (Inch.ToMetre * Inch.ToMetre * Inch.ToMetre);

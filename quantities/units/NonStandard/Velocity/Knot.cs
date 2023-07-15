@@ -8,7 +8,6 @@ public readonly struct Knot : INoSystemUnit, IVelocity
 {
     private const Double metres = 1852;
     private const Double seconds = 3600;
-    public static Double FromSi(in Double value) => seconds * value / metres;
-    public static Double ToSi(in Double self) => metres * self / seconds;
+    public static Transformation ToSi(Transformation self) => metres * self / seconds;
     public static String Representation => "kn";
 }

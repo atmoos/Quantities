@@ -7,8 +7,7 @@ namespace Quantities.Units.Si.Metric;
 public readonly struct Stere : IMetricUnit, IVolume, IInjectUnit<ILength>
 {
     // one stere is defined as one cubic metre.
-    public static Double ToSi(in Double value) => value;
-    public static Double FromSi(in Double value) => value;
+    public static Transformation ToSi(Transformation value) => value;
     static T IInjectUnit<ILength>.Inject<T>(in Creator<ILength, T> inject, in Double self)
     {
         return inject.Si<Metre>(in self);

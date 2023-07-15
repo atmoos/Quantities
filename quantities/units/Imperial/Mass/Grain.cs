@@ -1,12 +1,9 @@
 ﻿using Quantities.Dimensions;
-using Quantities.Units.Transformation;
 
 namespace Quantities.Units.Imperial.Mass;
 
 public readonly struct Grain : IImperialUnit, IMass
 {
-    private static readonly Transform transform = new(64.79891e-6 /* kg */);
-    public static Double ToSi(in Double nonSiValue) => transform.ToSi(in nonSiValue);
-    public static Double FromSi(in Double siValue) => transform.FromSi(in siValue);
+    public static Transformation ToSi(Transformation self) => 64.79891e-6 * self;
     public static String Representation => "gr";
 }

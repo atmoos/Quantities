@@ -1,5 +1,4 @@
 ﻿using Quantities.Dimensions;
-using Quantities.Units.Transformation;
 
 namespace Quantities.Units.Imperial.Temperature;
 
@@ -7,8 +6,6 @@ namespace Quantities.Units.Imperial.Temperature;
 // See: https://en.wikipedia.org/wiki/Conversion_of_units#Temperature
 public readonly struct GasMark : IImperialUnit, ITemperature
 {
-    private static readonly LinearTransform transform = new(125m, 9m, (5m * 218m / 9m) + 273.15m);
-    public static Double ToSi(in Double nonSiValue) => transform.ToSi(in nonSiValue);
-    public static Double FromSi(in Double siValue) => transform.FromSi(in siValue);
+    public static Transformation ToSi(Transformation self) => 125 * self / 9 + (5d * 218d / 9d) + 273.15;
     public static String Representation => "GM";
 }

@@ -14,14 +14,12 @@ public readonly struct Bit : IMetricUnit, IAmountOfInformation
 public readonly struct Nibble : IMetricUnit, IAmountOfInformation
 {
     private const Double toBit = 4d;
-    public static Double ToSi(in Double value) => value * toBit;
-    public static Double FromSi(in Double value) => value / toBit;
+    public static Transformation ToSi(Transformation value) => value * toBit;
     public static String Representation => "N";
 }
 public readonly struct Byte : IMetricUnit, IAmountOfInformation
 {
     private const Double toBit = 8d;
-    public static Double ToSi(in Double value) => value * toBit;
-    public static Double FromSi(in Double value) => value / toBit;
+    public static Transformation ToSi(Transformation value) => value * toBit;
     public static String Representation => "B";
 }

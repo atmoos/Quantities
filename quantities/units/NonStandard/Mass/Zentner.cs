@@ -6,7 +6,6 @@ namespace Quantities.Units.NonStandard.Mass;
 public readonly struct Zentner : INoSystemUnit, IMass
 {
     internal const Double toKilogram = 50; // Ztr -> Kg
-    public static Double ToSi(in Double self) => toKilogram * self;
-    public static Double FromSi(in Double value) => value / toKilogram;
+    public static Transformation ToSi(Transformation self) => toKilogram * self;
     public static String Representation => "Ztr";
 }

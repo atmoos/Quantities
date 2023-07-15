@@ -23,6 +23,7 @@ public readonly struct Data : IQuantity<Data>, IAmountOfInformation
     , IFactory<IMetricFactory<Data, IAmountOfInformation>, Data.Factory<To>, Data.Factory<Create>>
     , IDivisionOperators<Data, Time, DataRate>
 {
+    private static readonly Polynomial bytes = Extensions.Linear<Units.Si.Metric.Byte>();
     private static readonly IRoot root = new MetricRoot<Units.Si.Metric.Byte>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
@@ -34,8 +35,8 @@ public readonly struct Data : IQuantity<Data>, IAmountOfInformation
     internal static Data From(in Time time, in DataRate rate)
     {
         // ToDo: Recover data units from data rate
-        Double bytes = Units.Si.Metric.Byte.FromSi(time.Quant.SiMultiply(rate.Quant));
-        return new(BinaryPrefix.Scale(in bytes, root));
+        Double asBytes = bytes.Inverse(time.Quant.SiMultiply(rate.Quant));
+        return new(BinaryPrefix.Scale(in asBytes, root));
     }
 
     public Boolean Equals(Data other) => this.quant.Equals(other.quant);

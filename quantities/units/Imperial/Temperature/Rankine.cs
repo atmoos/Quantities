@@ -6,7 +6,6 @@ namespace Quantities.Units.Imperial.Temperature;
 // See: https://en.wikipedia.org/wiki/Conversion_of_units#Temperature
 public readonly struct Rankine : IImperialUnit, ITemperature
 {
-    public static Double ToSi(in Double nonSiValue) => (Double)(5m * (Decimal)nonSiValue / 9m);
-    public static Double FromSi(in Double siValue) => (Double)(9m * (Decimal)siValue / 5m);
+    public static Transformation ToSi(Transformation self) => 5d * self / 9d;
     public static String Representation => "°R";
 }

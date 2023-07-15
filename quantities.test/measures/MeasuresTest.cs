@@ -7,14 +7,14 @@ public class MeasuresTest
     [Fact]
     public void SiToSi()
     {
-        var kilometre = Si<Kilo, Metre>.ToSi(1);
+        var kilometre = Si<Kilo, Metre>.Conversion.Evaluate(1);
 
         Assert.Equal(1000d, kilometre);
     }
     [Fact]
     public void SiFromSi()
     {
-        var millimetre = Si<Milli, Metre>.FromSi(1);
+        var millimetre = Si<Milli, Metre>.Conversion.Inverse(1);
 
         Assert.Equal(1000d, millimetre);
     }

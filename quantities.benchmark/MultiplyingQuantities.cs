@@ -39,18 +39,18 @@ public class MultiplyingQuantities
 /*
 // * Summary *
 
-BenchmarkDotNet=v0.12.1, OS=arch 
+BenchmarkDotNet=v0.13.5, OS=arch 
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET Core SDK=7.0.100
-  [Host]     : .NET Core 7.0.0 (CoreCLR 7.0.22.56001, CoreFX 7.0.22.56001), X64 RyuJIT
-  DefaultJob : .NET Core 7.0.0 (CoreCLR 7.0.22.56001, CoreFX 7.0.22.56001), X64 RyuJIT
+.NET SDK=7.0.107
+  [Host]     : .NET 7.0.7 (7.0.723.32201), X64 RyuJIT AVX2
+  DefaultJob : .NET 7.0.7 (7.0.723.32201), X64 RyuJIT AVX2
 
 
-|           Method |     Mean |    Error |   StdDev | Ratio | Gen 0 | Gen 1 | Gen 2 | Allocated |
-|----------------- |---------:|---------:|---------:|------:|------:|------:|------:|----------:|
-|          Trivial | 15.68 ns | 0.057 ns | 0.051 ns |  1.00 |     - |     - |     - |         - |
-|       MultiplySi | 16.95 ns | 0.011 ns | 0.008 ns |  1.08 |     - |     - |     - |         - |
-| MultiplyImperial | 16.78 ns | 0.029 ns | 0.023 ns |  1.07 |     - |     - |     - |         - |
-|    MultiplyMixed | 16.97 ns | 0.058 ns | 0.049 ns |  1.08 |     - |     - |     - |         - |
-|   MultiplyPureSi | 11.81 ns | 0.057 ns | 0.054 ns |  0.75 |     - |     - |     - |         - |
+|           Method |     Mean |    Error |   StdDev | Ratio | RatioSD | Allocated | Alloc Ratio |
+|----------------- |---------:|---------:|---------:|------:|--------:|----------:|------------:|
+|          Trivial | 16.59 ns | 0.118 ns | 0.092 ns |  1.00 |    0.00 |         - |          NA |
+|       MultiplySi | 18.63 ns | 0.392 ns | 0.385 ns |  1.13 |    0.03 |         - |          NA |
+| MultiplyImperial | 18.09 ns | 0.370 ns | 0.346 ns |  1.09 |    0.03 |         - |          NA |
+|    MultiplyMixed | 17.80 ns | 0.108 ns | 0.101 ns |  1.07 |    0.01 |         - |          NA |
+|   MultiplyPureSi | 11.82 ns | 0.256 ns | 0.263 ns |  0.71 |    0.02 |         - |          NA |
 */

@@ -6,7 +6,7 @@ namespace Quantities.Measures;
 
 internal interface IMeasure : ITransform, IRepresentable, ISerialize
 {
-    /* marker interface*/
+    static abstract Polynomial Conversion { get; }
 }
 internal interface ISiMeasure<in TUnit> : IMeasure
     where TUnit : ISiUnit

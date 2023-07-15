@@ -2,10 +2,8 @@ namespace Quantities.Measures;
 
 internal static class Build<TMeasure> where TMeasure : IMeasure
 {
-    private static readonly Map defaultMap = new() {
+    private static readonly Map defaultMap = new(TMeasure.Conversion) {
         Injector = new Linear<TMeasure>(),
-        ToSi = TMeasure.ToSi,
-        FromSi = TMeasure.FromSi,
         Serialize = TMeasure.Write,
         Representation = TMeasure.Representation
     };

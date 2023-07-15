@@ -31,5 +31,6 @@ internal sealed class Alias<TPrefix, TUnit, TAlias> : IInjector
     where TUnit : IInjectUnit<TAlias>
     where TAlias : Dimensions.IDimension
 {
-    public T Inject<T>(in IInject<T> creator, in Double value) => TUnit.Inject(new Creator<TAlias, T>(in creator), TPrefix.ToSi(in value));
+    private readonly Polynomial prefixScaling = Extensions.Linear<TPrefix>();
+    public T Inject<T>(in IInject<T> creator, in Double value) => TUnit.Inject(new Creator<TAlias, T>(in creator), this.prefixScaling.Evaluate(in value));
 }

@@ -6,8 +6,7 @@ namespace Quantities.Units.Si.Derived;
 // Celsius is officially an SI derived unit.
 public readonly struct Celsius : IMetricUnit, ITemperature
 {
-    private const Decimal kelvinOffset = 273.15m;
-    static Double ITransform.ToSi(in Double nonSiValue) => (Double)((Decimal)nonSiValue + kelvinOffset);
-    static Double ITransform.FromSi(in Double siValue) => (Double)((Decimal)siValue - kelvinOffset);
+    private const Double kelvinOffset = 273.15d;
+    public static Transformation ToSi(Transformation self) => self + kelvinOffset;
     public static String Representation => "°C";
 }

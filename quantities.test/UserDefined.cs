@@ -1,4 +1,5 @@
 using Quantities.Dimensions;
+using Quantities.Numerics;
 using Quantities.Units;
 using Quantities.Units.NonStandard;
 
@@ -45,14 +46,12 @@ public class UserDefined
     private sealed class MyPrefixFour : IPrefix, IMetricPrefix
     {
         public static String Representation => "2e2";
-        public static Double FromSi(in Double value) => value / 4d;
-        public static Double ToSi(in Double self) => 4d * self;
+        public static Transformation ToSi(Transformation self) => 4d * self;
     }
 
     private sealed class MyWhackWhackUnit : IUnit, INoSystemUnit, ILength
     {
         public static String Representation => "Whack!";
-        public static Double FromSi(in Double value) => 2d * value;
-        public static Double ToSi(in Double self) => self / 2d;
+        public static Transformation ToSi(Transformation self) => self / 2d;
     }
 }

@@ -4,8 +4,7 @@ namespace Quantities.Units.Si.Metric;
 
 public readonly struct Ångström : IMetricUnit, ILength
 {
-    internal const Double MetreToÅngström = 1e10; // m -> Å
-    public static Double ToSi(in Double value) => value / MetreToÅngström;
-    public static Double FromSi(in Double value) => value * MetreToÅngström;
+    internal const Double metreToÅngström = 1e10; // m -> Å
+    public static Transformation ToSi(Transformation self) => self / metreToÅngström;
     public static String Representation => "Å";
 }

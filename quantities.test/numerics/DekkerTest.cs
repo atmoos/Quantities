@@ -1,4 +1,6 @@
-namespace Quantities.Test;
+using Quantities.Numerics;
+
+namespace Quantities.Test.Numerics;
 
 public class DekkerTest
 {

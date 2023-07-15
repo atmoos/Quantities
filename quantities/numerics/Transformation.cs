@@ -2,9 +2,20 @@ namespace Quantities.Numerics;
 
 public sealed class Transformation
 {
-    private Dekker nominator = new(1d);
-    private Dekker denominator = new(1d);
-    private Dekker offset = new(0d);
+    // These should not be declared as readonly!
+    private Dekker nominator, denominator, offset;
+    public Transformation()
+    {
+        this.offset = new Dekker(0d);
+        this.nominator = this.denominator = new Dekker(1d);
+    }
+
+    private Transformation(in Dekker nominator, in Dekker denominator, in Dekker offset)
+    {
+        this.nominator = nominator;
+        this.denominator = denominator;
+        this.offset = offset;
+    }
 
     internal Transformation Add(in Double value)
     {
@@ -28,6 +39,13 @@ public sealed class Transformation
         this.offset.Divide(in value);
         this.denominator.Multiply(in value);
         return this;
+    }
+    internal Transformation Invert()
+    {
+        var offset = -this.offset;
+        offset.Divide(in this.nominator);
+        offset.Multiply(in this.denominator);
+        return new(in this.denominator, in this.nominator, in offset);
     }
 
     internal Polynomial Build() => (this.nominator.Value, this.denominator.Value, this.offset.Value) switch {

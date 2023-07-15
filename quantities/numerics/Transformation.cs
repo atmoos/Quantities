@@ -34,12 +34,30 @@ public sealed class Transformation
         this.nominator.Multiply(in value);
         return this;
     }
+
     internal Transformation Divide(in Double value)
     {
         this.offset.Divide(in value);
         this.denominator.Multiply(in value);
         return this;
     }
+
+    internal Transformation Pow(Int32 exponent)
+    {
+        // This computes a "pseudo power". Just what we need in Quantities :-)
+        /* ToDo:
+         - use exponentiation by squaring;
+         - enable negative exponents
+         */
+        const Int32 ownDegree = 1; // this instance already has degree 1;
+        var (nominator, denominator) = (this.nominator, this.denominator);
+        for (Int32 e = ownDegree; e < exponent; ++e) {
+            this.nominator.Multiply(nominator);
+            this.denominator.Multiply(denominator);
+        }
+        return this;
+    }
+
     internal Transformation Invert()
     {
         var offset = -this.offset;

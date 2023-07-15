@@ -6,20 +6,6 @@ public static class Extensions
 {
     internal static Polynomial Linear<TTransform>()
       where TTransform : ITransform => TTransform.ToSi(new Transformation()).Build();
-    internal static Polynomial Power<TLinear, TPower>()
-    where TPower : IDimension
-    where TLinear : ITransform
-    {
-        var linear = Linear<TLinear>();
-        var linearScale = linear.Evaluate(1d);
-        return Polynomial.ScaleUp(TPower.Pow(linearScale));
-    }
-    internal static Polynomial Product<TLeftTerm, TRightTerm>()
-      where TLeftTerm : ITransform
-      where TRightTerm : ITransform => TRightTerm.ToSi(TLeftTerm.ToSi(new Transformation())).Build();
-    internal static Polynomial Quotient<TNominator, TDenominator>()
-      where TNominator : ITransform
-      where TDenominator : ITransform => TNominator.ToSi(TDenominator.ToSi(new Transformation()).Invert()).Build();
     internal static Quant To<TMeasure>(this in Double value)
       where TMeasure : IMeasure
       => Build<TMeasure>.With(in value);

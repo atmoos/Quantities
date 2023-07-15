@@ -7,7 +7,7 @@ using Quantities.Measures.Transformations;
 namespace Quantities.Quantities;
 
 public readonly struct Volume : IQuantity<Volume>, IVolume
-    , IFactory<ICubicFactory<Volume, IVolume, ILength>, ThirdPower<To, Volume, IVolume, ILength>, ThirdPower<Create, Volume, IVolume, ILength>>
+    , IFactory<ICubicFactory<Volume, IVolume, ILength>, Cube<To, Volume, IVolume, ILength>, Cube<Create, Volume, IVolume, ILength>>
     , IDivisionOperators<Volume, Area, Length>
     , IDivisionOperators<Volume, Length, Area>
 {
@@ -16,9 +16,9 @@ public readonly struct Volume : IQuantity<Volume>, IVolume
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     Quant IQuantity<Volume>.Value => this.quant;
-    public ThirdPower<To, Volume, IVolume, ILength> To => new(new To(in this.quant));
+    public Cube<To, Volume, IVolume, ILength> To => new(new To(in this.quant));
     private Volume(in Quant quant) => this.quant = quant;
-    public static ThirdPower<Create, Volume, IVolume, ILength> Of(in Double value) => new(new Create(in value));
+    public static Cube<Create, Volume, IVolume, ILength> Of(in Double value) => new(new Create(in value));
     static Volume IFactory<Volume>.Create(in Quant quant) => new(in quant);
     internal static Volume Times(in Length length, in Area area)
     {

@@ -5,7 +5,7 @@ using Quantities.Measures;
 namespace Quantities.Quantities;
 
 public readonly struct Temperature : IQuantity<Temperature>, ITemperature
-    , IFactory<ICompoundFactory<Temperature, ITemperature>, Linear<To, Temperature, ITemperature>, Linear<Create, Temperature, ITemperature>>
+    , IFactory<IDefaultFactory<Temperature, ITemperature>, Linear<To, Temperature, ITemperature>, Linear<Create, Temperature, ITemperature>>
 {
     private readonly Quant quant;
     internal Quant Quant => this.quant;

@@ -9,7 +9,7 @@ using Quantities.Units.Si;
 namespace Quantities.Quantities;
 
 public readonly struct Time : IQuantity<Time>, ITime
-    , IFactory<ICompoundFactory<Time, ITime>, Linear<To, Time, ITime>, Linear<Create, Time, ITime>>
+    , IFactory<IDefaultFactory<Time, ITime>, Linear<To, Time, ITime>, Linear<Create, Time, ITime>>
     , IMultiplyOperators<Time, Power, Energy>
     , IMultiplyOperators<Time, Velocity, Length>
     , IMultiplyOperators<Time, DataRate, Data>

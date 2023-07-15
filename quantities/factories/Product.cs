@@ -19,11 +19,11 @@ public readonly struct LeftTerm<TCreate, TQuantity, TRightTerm>
     where TQuantity : IFactory<TQuantity>
     where TRightTerm : IDimension, ILinear
 {
-    public Compound<TCreate, TQuantity, TRightTerm> Times { get; }
+    public Composite<TCreate, TQuantity, TRightTerm> Times { get; }
     internal LeftTerm(in TCreate creator, IInject<TCreate> inject) => this.Times = new(in creator, inject);
 }
 
-public readonly struct Product<TCreate, TQuantity, TProduct, TLeftTerm, TRightTerm> : ICompoundFactory<LeftTerm<TCreate, TQuantity, TRightTerm>, TLeftTerm>, IProductFactory<TProduct, TLeftTerm, TRightTerm>
+public readonly struct Product<TCreate, TQuantity, TProduct, TLeftTerm, TRightTerm> : IDefaultFactory<LeftTerm<TCreate, TQuantity, TRightTerm>, TLeftTerm>, IProductFactory<TProduct, TLeftTerm, TRightTerm>
     where TCreate : struct, ICreate
     where TQuantity : IFactory<TQuantity>, TProduct
     where TProduct : IProduct<TLeftTerm, TRightTerm>, IDimension

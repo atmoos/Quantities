@@ -7,7 +7,7 @@ using Quantities.Measures.Transformations;
 namespace Quantities.Quantities;
 
 public readonly struct Area : IQuantity<Area>, IArea
-    , IFactory<ISquareFactory<Area, IArea, ILength>, SecondPower<To, Area, IArea, ILength>, SecondPower<Create, Area, IArea, ILength>>
+    , IFactory<IQuadraticFactory<Area, IArea, ILength>, Quadratic<To, Area, IArea, ILength>, Quadratic<Create, Area, IArea, ILength>>
     , IMultiplyOperators<Area, Length, Volume>
     , IDivisionOperators<Area, Length, Length>
 {
@@ -16,9 +16,9 @@ public readonly struct Area : IQuantity<Area>, IArea
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     Quant IQuantity<Area>.Value => this.quant;
-    public SecondPower<To, Area, IArea, ILength> To => new(new To(in this.quant));
+    public Quadratic<To, Area, IArea, ILength> To => new(new To(in this.quant));
     private Area(in Quant quant) => this.quant = quant;
-    public static SecondPower<Create, Area, IArea, ILength> Of(in Double value) => new(new Create(in value));
+    public static Quadratic<Create, Area, IArea, ILength> Of(in Double value) => new(new Create(in value));
     static Area IFactory<Area>.Create(in Quant quant) => new(in quant);
     internal static Area From(in Length left, in Length right)
     {

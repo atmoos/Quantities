@@ -9,16 +9,16 @@ using Quantities.Units.Si.Derived;
 namespace Quantities.Quantities;
 
 public readonly struct ElectricalResistance : IQuantity<ElectricalResistance>, IElectricalResistance
-    , IFactory<ISiFactory<ElectricalResistance, IElectricalResistance>, SiFactory<To, ElectricalResistance, IElectricalResistance>, SiFactory<Create, ElectricalResistance, IElectricalResistance>>
+    , IFactory<ISiFactory<ElectricalResistance, IElectricalResistance>, SiOnly<To, ElectricalResistance, IElectricalResistance>, SiOnly<Create, ElectricalResistance, IElectricalResistance>>
     , IMultiplyOperators<ElectricalResistance, ElectricCurrent, ElectricPotential>
 {
     private static readonly IRoot root = new SiRoot<Ohm>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     Quant IQuantity<ElectricalResistance>.Value => this.quant;
-    public SiFactory<To, ElectricalResistance, IElectricalResistance> To => new(new To(in this.quant));
+    public SiOnly<To, ElectricalResistance, IElectricalResistance> To => new(new To(in this.quant));
     private ElectricalResistance(in Quant quant) => this.quant = quant;
-    public static SiFactory<Create, ElectricalResistance, IElectricalResistance> Of(in Double value) => new(new Create(in value));
+    public static SiOnly<Create, ElectricalResistance, IElectricalResistance> Of(in Double value) => new(new Create(in value));
     static ElectricalResistance IFactory<ElectricalResistance>.Create(in Quant quant) => new(in quant);
     internal static ElectricalResistance From(in ElectricPotential potential, in ElectricCurrent current)
     {

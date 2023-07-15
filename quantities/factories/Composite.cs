@@ -7,14 +7,14 @@ using Quantities.Units.Si;
 
 namespace Quantities.Factories;
 
-public readonly struct Compound<TCreate, TQuantity, TDimension> : ICompoundFactory<TQuantity, TDimension>
+public readonly struct Composite<TCreate, TQuantity, TDimension> : IDefaultFactory<TQuantity, TDimension>
     where TCreate : struct, ICreate
     where TQuantity : IFactory<TQuantity>
     where TDimension : Dimensions.IDimension, ILinear
 {
     private readonly TCreate creator;
     private readonly IInject<TCreate> injector;
-    internal Compound(in TCreate creator, IInject<TCreate> injector)
+    internal Composite(in TCreate creator, IInject<TCreate> injector)
     {
         this.creator = creator;
         this.injector = injector;

@@ -19,11 +19,11 @@ public readonly struct Denominator<TCreate, TQuantity, TDenominator>
     where TQuantity : IFactory<TQuantity>
     where TDenominator : IDimension, ILinear
 {
-    public Compound<TCreate, TQuantity, TDenominator> Per { get; }
+    public Composite<TCreate, TQuantity, TDenominator> Per { get; }
     internal Denominator(in TCreate creator, IInject<TCreate> inject) => this.Per = new(in creator, inject);
 }
 
-public readonly struct Quotient<TCreate, TQuantity, TQuotient, TNominator, TDenominator> : ICompoundFactory<Denominator<TCreate, TQuantity, TDenominator>, TNominator>, IQuotientFactory<TQuotient, TNominator, TDenominator>
+public readonly struct Quotient<TCreate, TQuantity, TQuotient, TNominator, TDenominator> : IDefaultFactory<Denominator<TCreate, TQuantity, TDenominator>, TNominator>, IQuotientFactory<TQuotient, TNominator, TDenominator>
     where TCreate : struct, ICreate
     where TQuantity : IFactory<TQuantity>, TQuotient
     where TQuotient : IQuotient<TNominator, TDenominator>, IDimension

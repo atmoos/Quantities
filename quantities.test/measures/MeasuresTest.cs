@@ -8,14 +8,14 @@ public class MeasuresTest
     [Fact]
     public void SiToSi()
     {
-        var kilometre = Linear<Si<Kilo, Metre>>().Evaluate(1);
+        var kilometre = PolynomialOf<Si<Kilo, Metre>>().Evaluate(1);
 
         Assert.Equal(1000d, kilometre);
     }
     [Fact]
     public void SiFromSi()
     {
-        var millimetre = Linear<Si<Milli, Metre>>().Inverse(1);
+        var millimetre = PolynomialOf<Si<Milli, Metre>>().Inverse(1);
 
         Assert.Equal(1000d, millimetre);
     }

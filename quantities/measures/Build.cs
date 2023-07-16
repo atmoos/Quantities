@@ -1,8 +1,10 @@
+using static Quantities.Extensions;
+
 namespace Quantities.Measures;
 
 internal static class Build<TMeasure> where TMeasure : IMeasure
 {
-    private static readonly Map defaultMap = new(Extensions.Linear<TMeasure>()) {
+    private static readonly Map defaultMap = new(PolynomialOf<TMeasure>()) {
         Injector = new Linear<TMeasure>(),
         Serialize = TMeasure.Write,
         Representation = TMeasure.Representation

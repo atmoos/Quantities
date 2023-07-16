@@ -3,7 +3,7 @@ namespace Quantities.Numerics;
 public sealed class Transformation
 {
     private Double nominator, denominator, offset;
-    public Transformation()
+    internal Transformation()
     {
         this.offset = 0d;
         this.nominator = this.denominator = 1d;

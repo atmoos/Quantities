@@ -14,7 +14,10 @@ internal sealed class Map
         Serialize = this.Serialize,
         Representation = this.Representation
     };
-
+    public Double Project(in Map other, in Double self)
+    {
+        var siValue = this.conversion.Evaluate(in self);
+        return other.conversion.Inverse(in siValue);
+    }
     public Double ToSi(in Double self) => this.conversion.Evaluate(in self);
-    public Double FromSi(in Double siValue) => this.conversion.Inverse(in siValue);
 }

@@ -4,7 +4,7 @@ namespace Quantities;
 
 public static class Extensions
 {
-    internal static Polynomial Linear<TTransform>()
+    internal static Polynomial PolynomialOf<TTransform>()
       where TTransform : ITransform => TTransform.ToSi(new Transformation()).Build();
     internal static Quant To<TMeasure>(this in Double value)
       where TMeasure : IMeasure

@@ -1,5 +1,6 @@
 using Quantities.Prefixes;
 using Quantities.Units;
+using static Quantities.Extensions;
 
 namespace Quantities.Measures;
 
@@ -31,6 +32,6 @@ internal sealed class Alias<TPrefix, TUnit, TAlias> : IInjector
     where TUnit : IInjectUnit<TAlias>
     where TAlias : Dimensions.IDimension
 {
-    private readonly Polynomial prefixScaling = Extensions.Linear<TPrefix>();
-    public T Inject<T>(in IInject<T> creator, in Double value) => TUnit.Inject(new Creator<TAlias, T>(in creator), this.prefixScaling.Evaluate(in value));
+    private static readonly Polynomial prefixScaling = PolynomialOf<TPrefix>();
+    public T Inject<T>(in IInject<T> creator, in Double value) => TUnit.Inject(new Creator<TAlias, T>(in creator), prefixScaling.Evaluate(in value));
 }

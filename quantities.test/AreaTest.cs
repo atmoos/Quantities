@@ -49,7 +49,7 @@ public class AreaTest
 
         Area actual = squareYards.To.Square.Imperial<Foot>();
 
-        actual.Matches(expected, MediumPrecision - 1);
+        actual.Matches(expected);
     }
 
     [Fact]

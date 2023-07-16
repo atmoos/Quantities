@@ -15,6 +15,6 @@ internal sealed class Map
         Representation = this.Representation
     };
 
-    public Dekker ToSi(in Double self) => this.conversion.Evaluate(new Dekker(self));
-    public Double FromSi(in Dekker siValue) => this.conversion.Inverse(in siValue);
+    public Double ToSi(in Double self) => this.conversion.Evaluate(in self);
+    public Double FromSi(in Double siValue) => this.conversion.Inverse(in siValue);
 }

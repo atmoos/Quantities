@@ -1,3 +1,4 @@
+using System.Numerics;
 using Quantities.Numerics;
 
 namespace Quantities.Test.Numerics;
@@ -9,9 +10,9 @@ public class DekkerTest
     {
         var value = new Dekker(3);
 
-        value.Add(5);
+        var result = value + 5;
 
-        Assert.Equal(8, value.Value);
+        Assert.Equal(8d, result);
     }
 
     [Fact]
@@ -19,9 +20,9 @@ public class DekkerTest
     {
         var value = new Dekker(3);
 
-        value.Multiply(5);
+        var result = value * 5;
 
-        Assert.Equal(15, value.Value);
+        Assert.Equal(15d, result);
     }
 
     [Fact]
@@ -31,12 +32,11 @@ public class DekkerTest
         const Double centre = Math.Tau * Math.E;
         const Double right = Math.PI;
         const Double expected = left * centre * right;
-        var result = new Dekker(left);
+        var value = new Dekker(centre);
 
-        result.Multiply(centre);
-        result.Multiply(right);
+        var result = left * value * right;
 
-        Assert.Equal(expected, result.Value);
+        Assert.Equal(expected, result);
     }
 
     [Fact]
@@ -45,10 +45,10 @@ public class DekkerTest
         var lowPrecision = 6d;
         var highPrecision = new Dekker(lowPrecision);
 
-        CatastrophicCancellation(ref highPrecision);
-        CatastrophicCancellation(ref lowPrecision);
+        var preciseResult = CatastrophicCancellation(highPrecision);
+        var impreciseResult = CatastrophicCancellation(lowPrecision);
 
-        Assert.NotEqual(highPrecision.Value, lowPrecision);
+        Assert.NotEqual(preciseResult, impreciseResult);
     }
 
     [Fact]
@@ -58,14 +58,14 @@ public class DekkerTest
         var lowPrecision = 391826d;
         var highPrecision = new Dekker(lowPrecision);
         foreach (var summand in IllConditioned(1024)) {
-            highPrecision.Add(in summand);
+            highPrecision += summand;
             lowPrecision += summand;
             var mult = 1.5d - 0.7 * random.NextDouble();
-            highPrecision.Multiply(mult);
+            highPrecision *= mult;
             lowPrecision *= mult;
         }
 
-        Assert.NotEqual(highPrecision.Value, lowPrecision);
+        Assert.NotEqual(highPrecision, lowPrecision);
     }
 
     private static IEnumerable<Double> IllConditioned(Int32 count)
@@ -75,21 +75,8 @@ public class DekkerTest
         }
     }
 
-    private static void CatastrophicCancellation(ref Dekker value)
-    {
-        const Double kilo = 1000;
-        const Double metres = 1852;
-        const Double seconds = 3600;
-
-        // knots to m/s
-        value.Multiply(metres);
-        value.Divide(seconds);
-
-        // si to Km/h
-        value.Divide(kilo);
-        value.Multiply(seconds);
-    }
-    private static void CatastrophicCancellation(ref Double value)
+    private static T CatastrophicCancellation<T>(T value)
+        where T : IMultiplyOperators<T, Double, T>, IDivisionOperators<T, Double, T>
     {
         const Double kilo = 1000;
         const Double metres = 1852;
@@ -102,6 +89,6 @@ public class DekkerTest
         // si to Km/h
         value /= kilo;
         value *= seconds;
+        return value;
     }
-
 }

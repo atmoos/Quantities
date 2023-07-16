@@ -2,7 +2,6 @@ namespace Quantities.Numerics;
 
 public sealed class Transformation
 {
-    // These should not be declared as readonly!
     private Dekker nominator, denominator, offset;
     public Transformation()
     {
@@ -19,26 +18,26 @@ public sealed class Transformation
 
     internal Transformation Add(in Double value)
     {
-        this.offset.Add(in value);
+        this.offset += value;
         return this;
     }
     internal Transformation Subtract(in Double value)
     {
-        this.offset.Subtract(in value);
+        this.offset -= value;
         return this;
     }
 
     internal Transformation Multiply(in Double value)
     {
-        this.offset.Multiply(in value);
-        this.nominator.Multiply(in value);
+        this.offset *= value;
+        this.nominator *= value;
         return this;
     }
 
     internal Transformation Divide(in Double value)
     {
-        this.offset.Divide(in value);
-        this.denominator.Multiply(in value);
+        this.offset /= value;
+        this.denominator *= value;
         return this;
     }
 
@@ -52,21 +51,19 @@ public sealed class Transformation
         const Int32 ownDegree = 1; // this instance already has degree 1;
         var (nominator, denominator) = (this.nominator, this.denominator);
         for (Int32 e = ownDegree; e < exponent; ++e) {
-            this.nominator.Multiply(nominator);
-            this.denominator.Multiply(denominator);
+            this.nominator *= nominator;
+            this.denominator *= denominator;
         }
         return this;
     }
 
     internal Transformation Invert()
     {
-        var offset = -this.offset;
-        offset.Divide(in this.nominator);
-        offset.Multiply(in this.denominator);
-        return new(in this.denominator, in this.nominator, in offset);
+        var offset = this.denominator * this.offset / this.nominator;
+        return new(in this.denominator, in this.nominator, -offset);
     }
 
-    internal Polynomial Build() => (this.nominator.Value, this.denominator.Value, this.offset.Value) switch {
+    internal Polynomial Build() => ((Double)this.nominator, (Double)this.denominator, (Double)this.offset) switch {
         (1, 1, 0) => Polynomial.NoOp,
         (1, 1, var o) => Polynomial.Offset(o),
         (var s, 1, 0) => Polynomial.ScaleUp(s),

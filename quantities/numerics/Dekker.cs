@@ -7,92 +7,109 @@ namespace Quantities.Numerics;
 
 // https://csclub.uwaterloo.ca/~pbarfuss/dekker1971.pdf
 [DebuggerDisplay("{Value} | {Correction}")]
-internal struct Dekker : IUnaryNegationOperators<Dekker, Dekker>
+internal readonly struct Dekker
+    : IAdditionOperators<Dekker, Dekker, Dekker>
+    , IAdditionOperators<Dekker, Double, Dekker>
+    , ISubtractionOperators<Dekker, Dekker, Dekker>
+    , ISubtractionOperators<Dekker, Double, Dekker>
+    , IMultiplyOperators<Dekker, Dekker, Dekker>
+    , IMultiplyOperators<Dekker, Double, Dekker>
+    , IDivisionOperators<Dekker, Dekker, Dekker>
+    , IDivisionOperators<Dekker, Double, Dekker>
+    , IUnaryNegationOperators<Dekker, Dekker>
+    , ICastOperators<Dekker>
 {
     private const Double constant = 134217729d; // 2^(53 - 53 / 2) + 1;
-    private Double value, correction;
-    internal readonly Double Value => this.value;
-    internal readonly Double Correction => this.correction;
-    internal Dekker(in Double value, in Double correction = 0)
+    private readonly Double value, correction;
+    internal Dekker(in Double value)
     {
         this.value = value;
-        this.correction = correction;
+        this.correction = 0d;
     }
 
-    public void Add(in Double other)
+    [MethodImpl(MethodImplOptions.NoOptimization)]
+    private Dekker(in Double result, in Double compensator)
     {
-        Double r = this.value + other;
-        Double s = Abs(this.value) > Abs(other)
-                    ? this.value - r + other + this.correction
-                    : other - r + this.value + this.correction;
-        (this.value, this.correction) = Set(in r, in s);
-    }
-
-    internal void Add(in Dekker other)
-    {
-        Double r = this.value + other.value;
-        Double s = Abs(this.value) > Abs(other.value)
-                    ? this.value - r + other.value + other.correction + this.correction
-                    : other.value - r + this.value + this.correction + other.correction;
-        (this.value, this.correction) = Set(in r, in s);
-    }
-
-    internal void Subtract(in Double other)
-    {
-        Double r = this.value - other;
-        Double s = Abs(this.value) > Abs(other)
-                    ? this.value - r - other + this.correction
-                    : -other - r + this.value + this.correction;
-        (this.value, this.correction) = Set(in r, in s);
-    }
-
-    internal void Subtract(in Dekker other)
-    {
-        Double r = this.value - other.value;
-        Double s = Abs(this.value) > Abs(other.value)
-                    ? this.value - r - other.value - other.correction + this.correction
-                    : -other.value - r + this.value + this.correction - other.correction;
-        (this.value, this.correction) = Set(in r, in s);
-    }
-
-    public void Multiply(in Double other)
-    {
-        var (c, cc) = ExactMultiply(in this.value, in other);
-        cc += this.correction * other;
-        (this.value, this.correction) = Set(in c, in cc);
-    }
-
-    internal void Multiply(in Dekker other)
-    {
-        var (c, cc) = ExactMultiply(in this.value, in other.value);
-        cc += this.value * other.correction + this.correction * other.value;
-        (this.value, this.correction) = Set(in c, in cc);
-    }
-
-    public void Divide(in Double other)
-    {
-        Double c = this.value / other;
-        var (u, uu) = ExactMultiply(in c, in other);
-        Double cc = (this.value - u - uu + this.correction) / other;
-        (this.value, this.correction) = Set(in c, in cc);
-    }
-
-    internal void Divide(in Dekker other)
-    {
-        Double c = this.value / other.value;
-        var (u, uu) = ExactMultiply(in c, in other.value);
-        Double cc = (this.value - u - uu + this.correction - c * other.correction) / other.value;
-        (this.value, this.correction) = Set(in c, in cc);
+        var newValue = this.value = result + compensator;
+        this.correction = result - newValue + compensator;
     }
 
     public static Dekker operator -(Dekker value) => new(-value.value, -value.correction);
 
-    [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.AggressiveInlining)]
-    private static (Double value, Double correction) Set(in Double value, in Double correction)
+    public static Dekker operator +(Dekker left, Dekker right)
     {
-        var newValue = value + correction;
-        return (newValue, value - newValue + correction);
+        Double r = left.value + right.value;
+        Double s = Abs(left.value) > Abs(right.value)
+                    ? left.value - r + right.value + right.correction + left.correction
+                    : right.value - r + left.value + left.correction + right.correction;
+        return new(in r, in s);
     }
+
+    public static Dekker operator +(Dekker left, Double right)
+    {
+        Double r = left.value + right;
+        Double s = Abs(left.value) > Abs(right)
+                    ? left.value - r + right + left.correction
+                    : right - r + left.value + left.correction;
+        return new(in r, in s);
+    }
+
+    public static Dekker operator -(Dekker left, Dekker right)
+    {
+        Double r = left.value - right.value;
+        Double s = Abs(left.value) > Abs(right.value)
+                    ? left.value - r - right.value - right.correction + left.correction
+                    : -right.value - r + left.value + left.correction - right.correction;
+        return new(in r, in s);
+    }
+
+    public static Dekker operator -(Dekker left, Double right)
+    {
+        Double r = left.value - right;
+        Double s = Abs(left.value) > Abs(right)
+                    ? left.value - r - right + left.correction
+                    : -right - r + left.value + left.correction;
+        return new(in r, in s);
+    }
+
+    public static Dekker operator *(Dekker left, Dekker right)
+    {
+        var (c, cc) = ExactMultiply(in left.value, in right.value);
+        cc += left.value * right.correction + left.correction * right.value;
+        return new(in c, in cc);
+    }
+
+    public static Dekker operator *(Dekker left, Double right)
+    {
+        var (c, cc) = ExactMultiply(in left.value, in right);
+        cc += left.correction * right;
+        return new(in c, in cc);
+    }
+
+    public static Dekker operator *(Double left, Dekker right)
+    {
+        var (c, cc) = ExactMultiply(in left, in right.value);
+        cc += left * right.correction;
+        return new(in c, in cc);
+    }
+
+    public static Dekker operator /(Dekker left, Dekker right)
+    {
+        Double c = left.value / right.value;
+        var (u, uu) = ExactMultiply(in c, in right.value);
+        Double cc = (left.value - u - uu + left.correction - c * right.correction) / right.value;
+        return new(in c, in cc);
+    }
+
+    public static Dekker operator /(Dekker left, Double right)
+    {
+        Double c = left.value / right;
+        var (u, uu) = ExactMultiply(in c, in right);
+        Double cc = (left.value - u - uu + left.correction) / right;
+        return new(in c, in cc);
+    }
+
+    public static implicit operator Double(Dekker self) => self.value;
 
     [MethodImpl(MethodImplOptions.NoOptimization)]
     private static (Double value, Double error) ExactMultiply(in Double x, in Double y)

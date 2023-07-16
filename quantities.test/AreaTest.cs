@@ -5,7 +5,7 @@ using Quantities.Units.Si.Metric;
 namespace Quantities.Test;
 public class AreaTest
 {
-    private const Double squareMileInSquareKilometres = (Double)(1.609344m * 1.609344m);
+    private const Double squareMileInSquareKilometres = 1.609344d * 1.609344d;
 
     [Fact]
     public void AddSquareMetres()

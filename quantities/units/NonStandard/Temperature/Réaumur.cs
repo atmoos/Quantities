@@ -6,6 +6,6 @@ namespace Quantities.Units.NonStandard.Temperature;
 // See: https://en.wikipedia.org/wiki/Conversion_of_units#Temperature
 public readonly struct Réaumur : INoSystemUnit, ITemperature
 {
-    public static Transformation ToSi(Transformation self) => 5 * self / 4 + 273.15;
+    public static Transformation ToSi(Transformation self) => 5d / 4d * self + 273.15;
     public static String Representation => "°Ré";
 }

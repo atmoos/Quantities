@@ -6,6 +6,6 @@ namespace Quantities.Units.NonStandard.Temperature;
 // See: https://en.wikipedia.org/wiki/Conversion_of_units#Temperature
 public readonly struct Rømer : INoSystemUnit, ITemperature
 {
-    public static Transformation ToSi(Transformation self) => (40 * (self - 7.5) / 21) + 273.15;
+    public static Transformation ToSi(Transformation self) => 40d / 21d * self + (Double)(273.15m - 40m * 7.5m / 21m);
     public static String Representation => "°Rø";
 }

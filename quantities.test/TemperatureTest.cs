@@ -118,7 +118,7 @@ public sealed class TemperatureTest
 
         Temperature actual = temperature.To.Imperial<GasMark>();
 
-        actual.Matches(expected, VeryLowPrecision);
+        actual.Matches(expected, LowPrecision);
     }
 
     [Fact]
@@ -129,7 +129,7 @@ public sealed class TemperatureTest
 
         Temperature actual = temperature.To.Imperial<GasMark>();
 
-        actual.Matches(expected, VeryLowPrecision);
+        actual.Matches(expected, LowPrecision);
     }
     [Fact]
     public void GasMarkToFahrenheit()

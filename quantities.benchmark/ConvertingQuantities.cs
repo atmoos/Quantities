@@ -39,11 +39,11 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
   DefaultJob : .NET 7.0.7 (7.0.723.32201), X64 RyuJIT AVX2
 
 
-|                  Method |       Mean |     Error |    StdDev | Ratio | RatioSD | Allocated | Alloc Ratio |
-|------------------------ |-----------:|----------:|----------:|------:|--------:|----------:|------------:|
-|   TrivialImplementation |  0.5773 ns | 0.0140 ns | 0.0117 ns |  1.00 |    0.00 |         - |          NA |
-|  QuantityImplementation | 10.7963 ns | 0.0395 ns | 0.0351 ns | 18.71 |    0.38 |         - |          NA |
-|          QuantityToSame | 21.0364 ns | 0.4473 ns | 0.4593 ns | 36.24 |    0.77 |         - |          NA |
-| QuantityToVeryDifferent | 28.3955 ns | 0.3287 ns | 0.3074 ns | 49.27 |    1.33 |         - |          NA |
+|                  Method |       Mean |     Error |    StdDev |  Ratio | RatioSD | Allocated | Alloc Ratio |
+|------------------------ |-----------:|----------:|----------:|-------:|--------:|----------:|------------:|
+|   TrivialImplementation |  0.6809 ns | 0.0214 ns | 0.0200 ns |   1.00 |    0.00 |         - |          NA |
+|  QuantityImplementation | 24.5302 ns | 0.1113 ns | 0.0987 ns |  36.16 |    1.12 |         - |          NA |
+|          QuantityToSame | 21.5323 ns | 0.1265 ns | 0.1183 ns |  31.65 |    1.04 |         - |          NA |
+| QuantityToVeryDifferent | 82.0133 ns | 0.3762 ns | 0.3335 ns | 120.90 |    3.47 |         - |          NA |
 
 */

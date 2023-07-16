@@ -65,13 +65,13 @@ public sealed class Transformation
 
     internal Polynomial Build() => ((Double)this.nominator, (Double)this.denominator, (Double)this.offset) switch {
         (1, 1, 0) => Polynomial.NoOp,
-        (1, 1, var o) => Polynomial.Offset(o),
-        (var s, 1, 0) => Polynomial.ScaleUp(s),
-        (var s, 1, var o) => Polynomial.LinearUp(s, o),
-        (1, var d, 0) => Polynomial.ScaleDown(d),
-        (1, var d, var o) => Polynomial.LinearDown(d, o),
-        (var n, var d, 0) => Polynomial.Fractional(n, d),
-        var (n, d, o) => Polynomial.Full(n, d, o)
+        (1, 1, _) => Polynomial.Offset(this.offset),
+        (_, 1, 0) => Polynomial.ScaleUp(this.nominator),
+        (_, 1, _) => Polynomial.LinearUp(this.nominator, this.offset),
+        (1, _, 0) => Polynomial.ScaleDown(this.denominator),
+        (1, _, _) => Polynomial.LinearDown(this.denominator, this.offset),
+        (_, _, 0) => Polynomial.Fractional(this.nominator, this.denominator),
+        var (_, _, _) => Polynomial.Full(this.nominator, this.denominator, this.offset)
     };
 
     public static Transformation operator +(Transformation left, Double right) => left.Add(in right);

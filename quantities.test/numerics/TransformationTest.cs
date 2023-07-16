@@ -2,7 +2,7 @@ using Quantities.Numerics;
 
 namespace Quantities.Test.Numerics;
 
-public class TransformationsTest
+public class TransformationTest
 {
     private const Double defaultInput = Math.Tau / Math.E;
     private static Transformation Value => new();

@@ -7,19 +7,18 @@ using Quantities.Measures.Transformations;
 namespace Quantities.Quantities;
 
 public readonly struct Area : IQuantity<Area>, IArea
-    , IFactory<Area>
-    , IFactory<ISquareFactory<Area, IArea, ILength>, SquareFactory<Area, PowerFactory<Area, SquareTo, ILength>, IArea, ILength>, SquareFactory<Area, PowerFactory<Area, SquareCreate, ILength>, IArea, ILength>>
+    , IFactory<IQuadraticFactory<Area, IArea, ILength>, Quadratic<To, Area, IArea, ILength>, Quadratic<Create, Area, IArea, ILength>>
     , IMultiplyOperators<Area, Length, Volume>
     , IDivisionOperators<Area, Length, Length>
 {
-    private static readonly IInject<Quant> square = new RaiseTo<Square>();
-    private static readonly IInject<Quant> linear = new ToLinear();
+    private static readonly Measures.IInject<Quant> square = new RaiseTo<Square>();
+    private static readonly Measures.IInject<Quant> linear = new ToLinear();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     Quant IQuantity<Area>.Value => this.quant;
-    public SquareFactory<Area, PowerFactory<Area, SquareTo, ILength>, IArea, ILength> To => new(new PowerFactory<Area, SquareTo, ILength>(new SquareTo(in this.quant)));
+    public Quadratic<To, Area, IArea, ILength> To => new(new To(in this.quant));
     private Area(in Quant quant) => this.quant = quant;
-    public static SquareFactory<Area, PowerFactory<Area, SquareCreate, ILength>, IArea, ILength> Of(in Double value) => new(new PowerFactory<Area, SquareCreate, ILength>(new SquareCreate(in value)));
+    public static Quadratic<Create, Area, IArea, ILength> Of(in Double value) => new(new Create(in value));
     static Area IFactory<Area>.Create(in Quant quant) => new(in quant);
     internal static Area From(in Length left, in Length right)
     {

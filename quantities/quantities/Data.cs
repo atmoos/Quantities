@@ -20,17 +20,16 @@ namespace Quantities.Quantities;
 - Information
 */
 public readonly struct Data : IQuantity<Data>, IAmountOfInformation
-    , IFactory<Data>
-    , IFactory<IMetricFactory<Data, IAmountOfInformation>, Data.Factory<LinearTo>, Data.Factory<LinearCreate>>
+    , IFactory<IMetricFactory<Data, IAmountOfInformation>, Data.Factory<To>, Data.Factory<Create>>
     , IDivisionOperators<Data, Time, DataRate>
 {
     private static readonly IRoot root = new MetricRoot<Units.Si.Metric.Byte>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
-    public Factory<LinearTo> To => new(new LinearTo(in this.quant));
+    public Factory<To> To => new(new To(in this.quant));
     private Data(in Quant quant) => this.quant = quant;
     Quant IQuantity<Data>.Value => this.quant;
-    public static Factory<LinearCreate> Of(in Double value) => new(new LinearCreate(in value));
+    public static Factory<Create> Of(in Double value) => new(new Create(in value));
     static Data IFactory<Data>.Create(in Quant quant) => new(in quant);
     internal static Data From(in Time time, in DataRate rate)
     {
@@ -60,14 +59,14 @@ public readonly struct Data : IQuantity<Data>, IAmountOfInformation
     public readonly struct Factory<TCreate> : IBinaryFactory<Data, IAmountOfInformation>, IMetricFactory<Data, IAmountOfInformation>
         where TCreate : struct, ICreate
     {
-        private readonly TCreate create;
-        internal Factory(in TCreate create) => this.create = create;
+        private readonly TCreate creator;
+        internal Factory(in TCreate creator) => this.creator = creator;
         public Data Binary<TPrefix, TUnit>()
             where TPrefix : IBinaryPrefix
-            where TUnit : IMetricUnit, IAmountOfInformation => new(this.create.Create<Metric<TPrefix, TUnit>>());
-        public Data Metric<TUnit>() where TUnit : IMetricUnit, IAmountOfInformation => new(this.create.Create<Metric<TUnit>>());
+            where TUnit : IMetricUnit, IAmountOfInformation => new(this.creator.Create<Metric<TPrefix, TUnit>>());
+        public Data Metric<TUnit>() where TUnit : IMetricUnit, IAmountOfInformation => new(this.creator.Create<Metric<TUnit>>());
         public Data Metric<TPrefix, TUnit>()
             where TPrefix : IMetricPrefix
-            where TUnit : IMetricUnit, IAmountOfInformation => new(this.create.Create<Metric<TPrefix, TUnit>>());
+            where TUnit : IMetricUnit, IAmountOfInformation => new(this.creator.Create<Metric<TPrefix, TUnit>>());
     }
 }

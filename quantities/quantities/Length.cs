@@ -10,20 +10,19 @@ using Quantities.Units.Si;
 namespace Quantities.Quantities;
 
 public readonly struct Length : IQuantity<Length>, ILength
-    , IFactory<Length>
-    , IFactory<ICompoundFactory<Length, ILength>, LinearTo<Length, ILength>, LinearCreate<Length, ILength>>
+    , IFactory<IDefaultFactory<Length, ILength>, Linear<To, Length, ILength>, Linear<Create, Length, ILength>>
     , IMultiplyOperators<Length, Length, Area>
     , IMultiplyOperators<Length, Area, Volume>
     , IDivisionOperators<Length, Time, Velocity>
 {
     private static readonly IRoot root = new SiRoot<Metre>();
-    private static readonly IInject<Quant> linear = new ToLinear();
+    private static readonly Measures.IInject<Quant> linear = new ToLinear();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     Quant IQuantity<Length>.Value => this.quant;
-    public LinearTo<Length, ILength> To => new(in this.quant);
+    public Linear<To, Length, ILength> To => new(new To(in this.quant));
     private Length(in Quant quant) => this.quant = quant;
-    public static LinearCreate<Length, ILength> Of(in Double value) => new(in value);
+    public static Linear<Create, Length, ILength> Of(in Double value) => new(new Create(in value));
     static Length IFactory<Length>.Create(in Quant quant) => new(in quant);
     internal static Length From(in Area area, in Length length)
     {

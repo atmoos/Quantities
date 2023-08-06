@@ -2,25 +2,20 @@ using System.Numerics;
 using Quantities.Dimensions;
 using Quantities.Factories;
 using Quantities.Measures;
-using Quantities.Prefixes;
-using Quantities.Units.Imperial;
-using Quantities.Units.NonStandard;
-using Quantities.Units.Si;
 
 namespace Quantities.Quantities;
 
 public readonly struct Energy : IQuantity<Energy>, IEnergy
-    , IFactory<Energy>
-    , IFactory<ICompoundFactory<Energy, IEnergy>, Energy.Factory<LinearTo>, Energy.Factory<LinearCreate>>
+    , IFactory<IProductFactory<IEnergy, IPower, ITime>, Product<To, Energy, IEnergy, IPower, ITime>, Product<Create, Energy, IEnergy, IPower, ITime>>
     , IDivisionOperators<Energy, Time, Power>
     , IDivisionOperators<Energy, Power, Time>
 {
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     Quant IQuantity<Energy>.Value => this.quant;
-    public Factory<LinearTo> To => new(new LinearTo(in this.quant));
+    public Product<To, Energy, IEnergy, IPower, ITime> To => new(new To(in this.quant));
     private Energy(in Quant quant) => this.quant = quant;
-    public static Factory<LinearCreate> Of(in Double value) => new(new LinearCreate(in value));
+    public static Product<Create, Energy, IEnergy, IPower, ITime> Of(in Double value) => new(new Create(in value));
     static Energy IFactory<Energy>.Create(in Quant quant) => new(in quant);
     internal static Energy From(in Power power, in Time time) => new(power.Quant.Multiply(time.Quant));
 
@@ -41,35 +36,4 @@ public readonly struct Energy : IQuantity<Energy>, IEnergy
     public static Double operator /(Energy left, Energy right) => left.quant / right.quant;
     public static Power operator /(Energy left, Time right) => Power.From(in left, in right);
     public static Time operator /(Energy left, Power right) => Time.From(in left, in right);
-
-    // ToDo: With this factory's interface it's not possible to create Wh!
-    public readonly struct Factory<TCreate> : ICompoundFactory<Energy, IEnergy>
-        where TCreate : ICreate
-    {
-        private readonly TCreate creator;
-        internal Factory(TCreate creator) => this.creator = creator;
-        public Energy Imperial<TUnit>() where TUnit : IImperialUnit, IEnergy => new(this.creator.Create<Imperial<TUnit>>());
-        public Energy Metric<TUnit>() where TUnit : IMetricUnit, IEnergy => new(this.creator.Create<Metric<TUnit>>());
-        public Energy Metric<TPrefix, TUnit>()
-            where TPrefix : IMetricPrefix
-            where TUnit : IMetricUnit, IEnergy => new(this.creator.Create<Metric<TPrefix, TUnit>>());
-        public Energy Metric<TPrefix, TPowerUnit, TTimeUnit>()
-            where TPrefix : IMetricPrefix
-            where TPowerUnit : ISiUnit, IPower
-            where TTimeUnit : IMetricUnit, ITime => new(this.creator.Create<Product<Si<TPrefix, TPowerUnit>, Metric<TTimeUnit>>>());
-        public Energy NonStandard<TUnit>() where TUnit : INoSystemUnit, IEnergy => new(this.creator.Create<NonStandard<TUnit>>());
-        public Energy Si<TUnit>() where TUnit : ISiUnit, IEnergy => new(this.creator.Create<Si<TUnit>>());
-        public Energy Si<TPrefix, TUnit>()
-            where TPrefix : IMetricPrefix
-            where TUnit : ISiUnit, IEnergy => new(this.creator.Create<Si<TPrefix, TUnit>>());
-        public Energy Si<TPrefix, TPowerUnit, TTimeUnit>()
-            where TPrefix : IMetricPrefix
-            where TPowerUnit : ISiUnit, IPower
-            where TTimeUnit : ISiUnit, ITime => new(this.creator.Create<Product<Si<TPrefix, TPowerUnit>, Si<TTimeUnit>>>());
-        public Energy Si<TPowerPrefix, TPowerUnit, TTimePrefix, TTimeUnit>()
-            where TPowerPrefix : IPrefix
-            where TPowerUnit : ISiUnit, IPower
-            where TTimePrefix : IPrefix
-            where TTimeUnit : ISiUnit, ITime => new(this.creator.Create<Product<Si<TPowerPrefix, TPowerUnit>, Si<TTimePrefix, TTimeUnit>>>());
-    }
 }

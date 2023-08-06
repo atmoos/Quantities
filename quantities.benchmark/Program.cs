@@ -1,5 +1,5 @@
 using BenchmarkDotNet.Running;
 using Quantities.Benchmark;
 
-
-BenchmarkRunner.Run<MultiplyingQuantities>();
+// dotnet run -c Release --project quantities.benchmark/quantities.benchmark.csproj
+BenchmarkRunner.Run<CreateQuantities>();

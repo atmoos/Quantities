@@ -5,15 +5,14 @@ using Quantities.Measures;
 namespace Quantities.Quantities;
 
 public readonly struct Temperature : IQuantity<Temperature>, ITemperature
-    , IFactory<Temperature>
-    , IFactory<ICompoundFactory<Temperature, ITemperature>, LinearTo<Temperature, ITemperature>, LinearCreate<Temperature, ITemperature>>
+    , IFactory<IDefaultFactory<Temperature, ITemperature>, Linear<To, Temperature, ITemperature>, Linear<Create, Temperature, ITemperature>>
 {
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     Quant IQuantity<Temperature>.Value => this.quant;
-    public LinearTo<Temperature, ITemperature> To => new(in this.quant);
+    public Linear<To, Temperature, ITemperature> To => new(new To(in this.quant));
     private Temperature(in Quant quant) => this.quant = quant;
-    public static LinearCreate<Temperature, ITemperature> Of(in Double value) => new(in value);
+    public static Linear<Create, Temperature, ITemperature> Of(in Double value) => new(new Create(in value));
     static Temperature IFactory<Temperature>.Create(in Quant quant) => new(in quant);
 
     public Boolean Equals(Temperature other) => this.quant.Equals(other.quant);

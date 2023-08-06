@@ -10,10 +10,10 @@ public readonly struct SiOnly<TCreate, TQuantity, TDimension> : ISiFactory<TQuan
     where TQuantity : IFactory<TQuantity>
     where TDimension : Dimensions.IDimension, ILinear
 {
-    private readonly TCreate create;
-    internal SiOnly(in TCreate create) => this.create = create;
-    public TQuantity Si<TUnit>() where TUnit : ISiUnit, TDimension => TQuantity.Create(this.create.Create<Si<TUnit>>());
+    private readonly TCreate creator;
+    internal SiOnly(in TCreate creator) => this.creator = creator;
+    public TQuantity Si<TUnit>() where TUnit : ISiUnit, TDimension => TQuantity.Create(this.creator.Create<Si<TUnit>>());
     public TQuantity Si<TPrefix, TUnit>()
         where TPrefix : IMetricPrefix
-        where TUnit : ISiUnit, TDimension => TQuantity.Create(this.create.Create<Si<TPrefix, TUnit>>());
+        where TUnit : ISiUnit, TDimension => TQuantity.Create(this.creator.Create<Si<TPrefix, TUnit>>());
 }

@@ -41,14 +41,14 @@ public readonly struct DataRate : IQuantity<DataRate>, IInformationRate
     public readonly struct Factory<TCreate> : IQuotientFactory<IInformationRate, IAmountOfInformation, ITime>, IBinaryFactory<Denominator<TCreate, DataRate, ITime>, IAmountOfInformation>, IMetricFactory<Denominator<TCreate, DataRate, ITime>, IAmountOfInformation>
         where TCreate : struct, ICreate
     {
-        private readonly TCreate create;
-        internal Factory(in TCreate create) => this.create = create;
+        private readonly TCreate creator;
+        internal Factory(in TCreate creator) => this.creator = creator;
         public Denominator<TCreate, DataRate, ITime> Binary<TPrefix, TUnit>()
             where TPrefix : IBinaryPrefix
-            where TUnit : IMetricUnit, IAmountOfInformation => new(in this.create, AllocationFree<Factories.QuotientInjector<TCreate, Metric<TPrefix, TUnit>>>.Item);
-        public Denominator<TCreate, DataRate, ITime> Metric<TUnit>() where TUnit : IMetricUnit, IAmountOfInformation => new(in this.create, AllocationFree<Factories.QuotientInjector<TCreate, Metric<TUnit>>>.Item);
+            where TUnit : IMetricUnit, IAmountOfInformation => new(in this.creator, AllocationFree<Factories.QuotientInjector<TCreate, Metric<TPrefix, TUnit>>>.Item);
+        public Denominator<TCreate, DataRate, ITime> Metric<TUnit>() where TUnit : IMetricUnit, IAmountOfInformation => new(in this.creator, AllocationFree<Factories.QuotientInjector<TCreate, Metric<TUnit>>>.Item);
         public Denominator<TCreate, DataRate, ITime> Metric<TPrefix, TUnit>()
             where TPrefix : IMetricPrefix
-            where TUnit : IMetricUnit, IAmountOfInformation => new(in this.create, AllocationFree<Factories.QuotientInjector<TCreate, Metric<TPrefix, TUnit>>>.Item);
+            where TUnit : IMetricUnit, IAmountOfInformation => new(in this.creator, AllocationFree<Factories.QuotientInjector<TCreate, Metric<TPrefix, TUnit>>>.Item);
     }
 }

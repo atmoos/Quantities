@@ -59,14 +59,14 @@ public readonly struct Data : IQuantity<Data>, IAmountOfInformation
     public readonly struct Factory<TCreate> : IBinaryFactory<Data, IAmountOfInformation>, IMetricFactory<Data, IAmountOfInformation>
         where TCreate : struct, ICreate
     {
-        private readonly TCreate create;
-        internal Factory(in TCreate create) => this.create = create;
+        private readonly TCreate creator;
+        internal Factory(in TCreate creator) => this.creator = creator;
         public Data Binary<TPrefix, TUnit>()
             where TPrefix : IBinaryPrefix
-            where TUnit : IMetricUnit, IAmountOfInformation => new(this.create.Create<Metric<TPrefix, TUnit>>());
-        public Data Metric<TUnit>() where TUnit : IMetricUnit, IAmountOfInformation => new(this.create.Create<Metric<TUnit>>());
+            where TUnit : IMetricUnit, IAmountOfInformation => new(this.creator.Create<Metric<TPrefix, TUnit>>());
+        public Data Metric<TUnit>() where TUnit : IMetricUnit, IAmountOfInformation => new(this.creator.Create<Metric<TUnit>>());
         public Data Metric<TPrefix, TUnit>()
             where TPrefix : IMetricPrefix
-            where TUnit : IMetricUnit, IAmountOfInformation => new(this.create.Create<Metric<TPrefix, TUnit>>());
+            where TUnit : IMetricUnit, IAmountOfInformation => new(this.creator.Create<Metric<TPrefix, TUnit>>());
     }
 }

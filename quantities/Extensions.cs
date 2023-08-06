@@ -1,4 +1,5 @@
 using Quantities.Measures;
+using Quantities.Numerics;
 
 namespace Quantities;
 

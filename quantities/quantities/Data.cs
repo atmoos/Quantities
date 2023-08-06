@@ -2,6 +2,7 @@ using System.Numerics;
 using Quantities.Dimensions;
 using Quantities.Factories;
 using Quantities.Measures;
+using Quantities.Numerics;
 using Quantities.Prefixes;
 using Quantities.Quantities.Roots;
 using Quantities.Units.Si;

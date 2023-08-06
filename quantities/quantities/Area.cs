@@ -40,7 +40,7 @@ public readonly struct Area : IQuantity<Area>, IArea
 
     public static Boolean operator ==(Area left, Area right) => left.Equals(right);
     public static Boolean operator !=(Area left, Area right) => !left.Equals(right);
-    public static implicit operator Double(Area Area) => Area.quant.Value;
+    public static implicit operator Double(Area area) => area.quant.Value;
     public static Area operator +(Area left, Area right) => new(left.quant + right.quant);
     public static Area operator -(Area left, Area right) => new(left.quant - right.quant);
     public static Area operator *(Double scalar, Area right) => new(scalar * right.quant);

@@ -1,4 +1,6 @@
-namespace Quantities.Numerics;
+using Quantities.Numerics;
+
+namespace Quantities;
 
 public sealed class Transformation
 {

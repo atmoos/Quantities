@@ -1,3 +1,5 @@
+using Quantities.Numerics;
+
 namespace Quantities.Measures;
 
 internal delegate Double Scale(in Double value);

@@ -1,3 +1,4 @@
+using System.Globalization;
 using Quantities.Measures;
 using Quantities.Numerics;
 
@@ -5,6 +6,7 @@ namespace Quantities;
 
 public static class Extensions
 {
+    public static String ToString(this IFormattable formattable, String format) => formattable.ToString(format, CultureInfo.InvariantCulture);
     internal static Polynomial PolynomialOf<TTransform>()
       where TTransform : ITransform => TTransform.ToSi(new Transformation()).Build();
     internal static Quant To<TMeasure>(this in Double value)

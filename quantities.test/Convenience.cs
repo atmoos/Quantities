@@ -17,8 +17,9 @@ public static class Convenience
     public static void Matches<TQuantity>(this TQuantity actual, TQuantity expected, Int32 precision)
         where TQuantity : struct, IQuantity<TQuantity>, Dimensions.IDimension
     {
+        var formatting = $"g{precision}";
         PrecisionIsBounded(expected, actual, precision);
-        Assert.Equal(expected.ToString(), actual.ToString());
+        Assert.Equal(expected.ToString(formatting), actual.ToString(formatting));
     }
     public static void PrecisionIsBounded(Double expected, Double actual, Int32 precision = fullPrecision)
     {

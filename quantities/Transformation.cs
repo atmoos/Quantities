@@ -53,16 +53,13 @@ public sealed class Transformation
         var offset = this.denominator * this.offset / this.nominator;
         return new(in this.denominator, in this.nominator, -offset);
     }
-    internal Polynomial Build() => (this.nominator, this.denominator, this.offset) switch {
-        (1, 1, 0) => Polynomial.NoOp,
-        (1, 1, var o) => Polynomial.Offset(in o),
-        (var s, 1, 0) => Polynomial.ScaleUp(in s),
-        (var s, 1, var o) => Polynomial.LinearUp(in s, in o),
-        (1, var d, 0) => Polynomial.ScaleDown(in d),
-        (1, var d, var o) => Polynomial.LinearDown(in d, in o),
-        (var n, var d, 0) => Polynomial.Fractional(in n, in d),
-        var (n, d, o) => Polynomial.Full(in n, in d, in o)
-    };
+    internal void Deconstruct(out Double nominator, out Double denominator, out Double offset)
+    {
+        nominator = this.nominator;
+        denominator = this.denominator;
+        offset = this.offset;
+    }
+
 
     public static Transformation operator +(Transformation left, Double right) => left.Add(in right);
     public static Transformation operator +(Double left, Transformation right) => right.Add(in left);

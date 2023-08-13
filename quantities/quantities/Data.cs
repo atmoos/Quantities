@@ -24,7 +24,7 @@ public readonly struct Data : IQuantity<Data>, IAmountOfInformation
     , IFactory<IMetricFactory<Data, IAmountOfInformation>, Data.Factory<To>, Data.Factory<Create>>
     , IDivisionOperators<Data, Time, DataRate>
 {
-    private static readonly Polynomial bytes = Extensions.PolynomialOf<Units.Si.Metric.Byte>();
+    private static readonly Polynomial bytes = Polynomial.Of<Units.Si.Metric.Byte>();
     private static readonly IRoot root = new MetricRoot<Units.Si.Metric.Byte>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;

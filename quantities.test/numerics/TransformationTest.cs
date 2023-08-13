@@ -13,7 +13,7 @@ public class TransformationTest
         Double value = 3;
         Double expected = (6.262 * value / 2 - 3) / 2 + 1;
 
-        Polynomial poly = ((6.262 * new Transformation() / 2 - 3) / 2 + 1).Build();
+        Polynomial poly = Polynomial.Of((6.262 * new Transformation() / 2 - 3) / 2 + 1);
         Double actual = poly.Evaluate(value);
 
         Assert.Equal(expected, actual);
@@ -25,7 +25,7 @@ public class TransformationTest
     {
         var input = defaultInput;
         var expected = function(input);
-        var polynomial = transformation.Build();
+        var polynomial = Polynomial.Of(transformation);
 
         var actual = polynomial.Evaluate(input);
 
@@ -37,8 +37,8 @@ public class TransformationTest
     public void TransformationInverse(Transformation transformation)
     {
         var input = defaultInput;
-        var forward = transformation.Build();
-        var inverse = transformation.Invert().Build();
+        var forward = Polynomial.Of(transformation);
+        var inverse = Polynomial.Of(transformation.Invert());
 
         var forwardResult = forward.Evaluate(input);
         var actual = inverse.Evaluate(forwardResult);
@@ -51,7 +51,7 @@ public class TransformationTest
     public void TransformationsBuiltInverse(Transformation transformation)
     {
         var input = defaultInput;
-        var polynomial = transformation.Build();
+        var polynomial = Polynomial.Of(transformation);
 
         var forwardResult = polynomial.Evaluate(input);
         var actual = polynomial.Inverse(forwardResult);

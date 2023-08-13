@@ -1,8 +1,12 @@
-using Quantities.Numerics;
+using System.Numerics;
 
 namespace Quantities;
 
-public sealed class Transformation
+public sealed class Transformation :
+    IAdditionOperators<Transformation, Double, Transformation>,
+    ISubtractionOperators<Transformation, Double, Transformation>,
+    IMultiplyOperators<Transformation, Double, Transformation>,
+    IDivisionOperators<Transformation, Double, Transformation>
 {
     private Double nominator, denominator, offset;
     internal Transformation()
@@ -59,7 +63,6 @@ public sealed class Transformation
         denominator = this.denominator;
         offset = this.offset;
     }
-
 
     public static Transformation operator +(Transformation left, Double right) => left.Add(in right);
     public static Transformation operator +(Double left, Transformation right) => right.Add(in left);

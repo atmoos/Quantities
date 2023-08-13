@@ -6,6 +6,6 @@ namespace Quantities.Units.Imperial.Temperature;
 // See: https://en.wikipedia.org/wiki/Conversion_of_units#Temperature
 public readonly struct GasMark : IImperialUnit, ITemperature
 {
-    public static Transformation ToSi(Transformation self) => 125 * self / 9 + (Double)(5m * 218m / 9m + 273.15m);
+    public static Transformation ToSi(Transformation self) => 125 * self / 9 + (5d * 218d / 9d + 273.15d);
     public static String Representation => "GM";
 }

@@ -1,11 +1,21 @@
+using System.Numerics;
+
 namespace Quantities.Numerics;
 
 internal abstract class Polynomial
 {
     public static Polynomial NoOp { get; } = new NoOpPoly();
     private Polynomial() { }
-    public abstract Double Evaluate(in Double value);
-    public abstract Double Inverse(in Double value);
+    public abstract T Evaluate<T>(in T value) where T :
+    IAdditionOperators<T, Double, T>,
+    ISubtractionOperators<T, Double, T>,
+    IMultiplyOperators<T, Double, T>,
+    IDivisionOperators<T, Double, T>;
+    public abstract T Inverse<T>(in T value) where T :
+    IAdditionOperators<T, Double, T>,
+    ISubtractionOperators<T, Double, T>,
+    IMultiplyOperators<T, Double, T>,
+    IDivisionOperators<T, Double, T>;
     public static Polynomial Of(Transformation transformation)
     {
         var (nominator, denominator, offset) = transformation;
@@ -29,51 +39,51 @@ internal abstract class Polynomial
 
     private sealed class NoOpPoly : Polynomial
     {
-        public override Double Evaluate(in Double value) => value;
-        public override Double Inverse(in Double value) => value;
+        public override T Evaluate<T>(in T value) => value;
+        public override T Inverse<T>(in T value) => value;
     }
     private sealed class Shift : Polynomial
     {
         private readonly Double offset;
         public Shift(in Double offset) => this.offset = offset;
-        public override Double Evaluate(in Double value) => value + this.offset;
-        public override Double Inverse(in Double value) => value - this.offset;
+        public override T Evaluate<T>(in T value) => value + this.offset;
+        public override T Inverse<T>(in T value) => value - this.offset;
     }
     private sealed class ScaleUp : Polynomial
     {
         private readonly Double scaling;
         public ScaleUp(in Double scaling) => this.scaling = scaling;
-        public override Double Evaluate(in Double value) => this.scaling * value;
-        public override Double Inverse(in Double value) => value / this.scaling;
+        public override T Evaluate<T>(in T value) => value * this.scaling;
+        public override T Inverse<T>(in T value) => value / this.scaling;
     }
     private sealed class ScaleDown : Polynomial
     {
         private readonly Double scaling;
         public ScaleDown(in Double scaling) => this.scaling = scaling;
-        public override Double Evaluate(in Double value) => value / this.scaling;
-        public override Double Inverse(in Double value) => this.scaling * value;
+        public override T Evaluate<T>(in T value) => value / this.scaling;
+        public override T Inverse<T>(in T value) => value * this.scaling;
     }
     private sealed class LinearUp : Polynomial
     {
         private readonly Double scaling, offset;
         public LinearUp(in Double scaling, in Double offset) => (this.scaling, this.offset) = (scaling, offset);
-        public override Double Evaluate(in Double value) => this.scaling * value + this.offset;
-        public override Double Inverse(in Double value) => (value - this.offset) / this.scaling;
+        public override T Evaluate<T>(in T value) => (value * this.scaling) + this.offset;
+        public override T Inverse<T>(in T value) => (value - this.offset) / this.scaling;
     }
     private sealed class LinearDown : Polynomial
     {
         private readonly Double scaling, offset;
         public LinearDown(in Double scaling, in Double offset) => (this.scaling, this.offset) = (scaling, offset);
-        public override Double Evaluate(in Double value) => value / this.scaling + this.offset;
-        public override Double Inverse(in Double value) => this.scaling * (value - this.offset);
+        public override T Evaluate<T>(in T value) => (value / this.scaling) + this.offset;
+        public override T Inverse<T>(in T value) => (value - this.offset) * this.scaling;
     }
 
     private sealed class Fraction : Polynomial
     {
         private readonly Double nominator, denominator;
         public Fraction(in Double nominator, in Double denominator) => (this.nominator, this.denominator) = (nominator, denominator);
-        public override Double Evaluate(in Double value) => this.nominator * value / this.denominator;
-        public override Double Inverse(in Double value) => this.denominator * value / this.nominator;
+        public override T Evaluate<T>(in T value) => value * this.nominator / this.denominator;
+        public override T Inverse<T>(in T value) => value * this.denominator / this.nominator;
     }
 
     private sealed class Full : Polynomial
@@ -85,7 +95,7 @@ internal abstract class Polynomial
             this.denominator = denominator;
             this.offset = offset;
         }
-        public override Double Evaluate(in Double value) => this.nominator * value / this.denominator + this.offset;
-        public override Double Inverse(in Double value) => this.denominator * (value - this.offset) / this.nominator;
+        public override T Evaluate<T>(in T value) => value * this.nominator / this.denominator + this.offset;
+        public override T Inverse<T>(in T value) => (value - this.offset) * this.denominator / this.nominator;
     }
 }

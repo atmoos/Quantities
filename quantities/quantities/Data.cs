@@ -2,9 +2,7 @@ using System.Numerics;
 using Quantities.Dimensions;
 using Quantities.Factories;
 using Quantities.Measures;
-using Quantities.Numerics;
 using Quantities.Prefixes;
-using Quantities.Quantities.Roots;
 using Quantities.Units.Si;
 
 namespace Quantities.Quantities;
@@ -24,8 +22,6 @@ public readonly struct Data : IQuantity<Data>, IAmountOfInformation
     , IFactory<IMetricFactory<Data, IAmountOfInformation>, Data.Factory<To>, Data.Factory<Create>>
     , IDivisionOperators<Data, Time, DataRate>
 {
-    private static readonly Polynomial bytes = Polynomial.Of<Units.Si.Metric.Byte>();
-    private static readonly IRoot root = new MetricRoot<Units.Si.Metric.Byte>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     public Factory<To> To => new(new To(in this.quant));
@@ -35,9 +31,7 @@ public readonly struct Data : IQuantity<Data>, IAmountOfInformation
     static Data IFactory<Data>.Create(in Quant quant) => new(in quant);
     internal static Data From(in Time time, in DataRate rate)
     {
-        // ToDo: Recover data units from data rate
-        Double asBytes = bytes.Inverse(time.Quant.SiMultiply(rate.Quant));
-        return new(BinaryPrefix.Scale(in asBytes, root));
+        return new(rate.Quant.SiMultiply(time.Quant));
     }
 
     public Boolean Equals(Data other) => this.quant.Equals(other.quant);

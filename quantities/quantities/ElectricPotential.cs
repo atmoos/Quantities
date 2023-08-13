@@ -25,7 +25,7 @@ public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectr
     static ElectricPotential IFactory<ElectricPotential>.Create(in Quant quant) => new(in quant);
     internal static ElectricPotential From(in ElectricCurrent current, in ElectricalResistance resistance)
     {
-        return new(MetricPrefix.ScaleThree(current.Quant.SiMultiply(resistance.Quant), root));
+        return new(current.Quant.SiMultiply(resistance.Quant));
     }
     internal static ElectricPotential From(in Power power, in ElectricCurrent current)
     {

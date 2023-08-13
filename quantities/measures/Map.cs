@@ -12,6 +12,8 @@ internal abstract class Map
     public Map With(IInjector injector) => With(injector, this.conversion);
     protected abstract Map With(IInjector injector, Polynomial polynomial);
     public abstract Double Project(in Map other, in Double self);
+    public abstract TResult Multiply<TResult>(IInject<TResult> inject, in Map other, in Double self);
+    protected abstract TResult Multiply<TMeasure, TResult>(IInject<TResult> inject, in Double self) where TMeasure : IMeasure;
     protected abstract Polynomial Project<TOtherMeasure>() where TOtherMeasure : IMeasure;
     public Double ToSi(in Double self) => this.conversion.Evaluate(in self);
     public static Map Create<TMeasure>()
@@ -26,11 +28,19 @@ internal abstract class Map
     {
         public MapImpl() : base(Polynomial.Of<TMeasure>()) { }
         private MapImpl(Polynomial polynomial) : base(polynomial) { }
+        public override TResult Multiply<TResult>(IInject<TResult> inject, in Map other, in Double self)
+        {
+            return other.Multiply<TMeasure, TResult>(inject, in self);
+        }
 
         public override Double Project(in Map other, in Double self)
         {
             var poly = other.Project<TMeasure>();
             return poly.Evaluate(in self);
+        }
+        protected override TResult Multiply<TMeasure1, TResult>(IInject<TResult> inject, in Double self)
+        {
+            return TMeasure1.Multiply<TMeasure, TResult>(inject, in self);
         }
         protected override Polynomial Project<TOtherMeasure>() => Conversion<TOtherMeasure, TMeasure>.Polynomial;
         protected override Map With(IInjector injector, Polynomial polynomial) => new MapImpl<TMeasure>(polynomial) {

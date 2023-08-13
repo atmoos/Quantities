@@ -3,9 +3,6 @@ using Quantities.Dimensions;
 using Quantities.Factories;
 using Quantities.Measures;
 using Quantities.Measures.Transformations;
-using Quantities.Prefixes;
-using Quantities.Quantities.Roots;
-using Quantities.Units.Si;
 
 namespace Quantities.Quantities;
 
@@ -15,7 +12,6 @@ public readonly struct Length : IQuantity<Length>, ILength
     , IMultiplyOperators<Length, Area, Volume>
     , IDivisionOperators<Length, Time, Velocity>
 {
-    private static readonly IRoot root = new SiRoot<Metre>();
     private static readonly Measures.IInject<Quant> linear = new ToLinear();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
@@ -31,8 +27,7 @@ public readonly struct Length : IQuantity<Length>, ILength
     }
     internal static Length From(in Velocity velocity, in Time time)
     {
-        // ToDo: Recover length units form velocity
-        return new(MetricPrefix.Scale(velocity.Quant.SiMultiply(time.Quant), root));
+        return new(velocity.Quant.SiMultiply(time.Quant));
     }
     internal static Length From(in Volume volume, in Area area)
     {

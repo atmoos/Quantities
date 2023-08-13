@@ -183,10 +183,9 @@ public sealed class LengthTest
     [Fact]
     public void VelocityTimesTimeIsLength()
     {
-        Time duration = Time.Of(12).Metric<Minute>();
+        Time duration = Time.Of(60 / 5).Metric<Minute>();
         Velocity velocity = Velocity.Of(350).Imperial<Mile>().Per.Metric<Hour>();
-        // Miles are not yet preserved across multiplication...
-        Length expected = Length.Of(350 * 12 * miles_in_kilometre / 60).Si<Kilo, Metre>();
+        Length expected = Length.Of(350 / 5).Imperial<Mile>();
 
         Length actual = velocity * duration;
 

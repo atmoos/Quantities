@@ -12,6 +12,7 @@ internal readonly struct Quant : IEquatable<Quant>, IFormattable
     , IDivisionOperators<Quant, Double, Quant>
     , IDivisionOperators<Quant, Quant, Double>
 {
+    private static readonly IInject<Quant> linear = new ToLinear();
     private static readonly IInject<IInject<Quant>> division = new Divide();
     private static readonly IInject<IInject<Quant>> multiplication = new Multiply();
     private readonly Map map;
@@ -37,7 +38,7 @@ internal readonly struct Quant : IEquatable<Quant>, IFormattable
         var projected = Project(in denominator);
         return new(this.value / projected, in this.map);
     }
-    public Double SiMultiply(in Quant right) => this.map.ToSi(in this.value) * right.map.ToSi(in right.value);
+    public Quant SiMultiply(in Quant right) => this.map.Multiply(linear, in right.map, this.value * right.Value);
     public Double SiDivide(in Quant right) => this.map.ToSi(in this.value) / right.map.ToSi(in right.value);
     public Quant Divide(in Quant right)
     {

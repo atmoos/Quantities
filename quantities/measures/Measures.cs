@@ -12,9 +12,12 @@ internal readonly struct Si<TUnit> : ISiMeasure<TUnit>, ILinear
     private static readonly Serializer<TUnit> serializer = new(nameof(Si<TUnit>));
     public static Transformation ToSi(Transformation self) => self;
     public static String Representation => TUnit.Representation;
-
-
     public static void Write(IWriter writer) => serializer.Write(writer);
+    public static TResult Multiply<TMeasure, TResult>(IInject<TResult> inject, in Double value)
+        where TMeasure : IMeasure
+    {
+        return inject.Inject<Product<Si<TUnit>, TMeasure>>(in value);
+    }
 }
 internal readonly struct Si<TPrefix, TUnit> : ISiMeasure<TUnit>, ILinear
     where TPrefix : IPrefix
@@ -24,6 +27,11 @@ internal readonly struct Si<TPrefix, TUnit> : ISiMeasure<TUnit>, ILinear
     public static Transformation ToSi(Transformation self) => TPrefix.ToSi(self);
     public static String Representation { get; } = $"{TPrefix.Representation}{TUnit.Representation}";
     public static void Write(IWriter writer) => serializer.Write(writer);
+    public static TResult Multiply<TMeasure, TResult>(IInject<TResult> inject, in Double value)
+        where TMeasure : IMeasure
+    {
+        return inject.Inject<Product<Si<TPrefix, TUnit>, TMeasure>>(in value);
+    }
 }
 internal readonly struct Metric<TUnit> : IMetricMeasure<TUnit>, ILinear
     where TUnit : IMetricUnit
@@ -32,6 +40,11 @@ internal readonly struct Metric<TUnit> : IMetricMeasure<TUnit>, ILinear
     public static Transformation ToSi(Transformation self) => TUnit.ToSi(self);
     public static String Representation => TUnit.Representation;
     public static void Write(IWriter writer) => serializer.Write(writer);
+    public static TResult Multiply<TMeasure, TResult>(IInject<TResult> inject, in Double value)
+        where TMeasure : IMeasure
+    {
+        return inject.Inject<Product<Metric<TUnit>, TMeasure>>(in value);
+    }
 }
 internal readonly struct Metric<TPrefix, TUnit> : IMetricMeasure<TUnit>, ILinear
     where TPrefix : IPrefix
@@ -41,6 +54,11 @@ internal readonly struct Metric<TPrefix, TUnit> : IMetricMeasure<TUnit>, ILinear
     public static Transformation ToSi(Transformation self) => TPrefix.ToSi(TUnit.ToSi(self));
     public static String Representation { get; } = $"{TPrefix.Representation}{TUnit.Representation}";
     public static void Write(IWriter writer) => serializer.Write(writer);
+    public static TResult Multiply<TMeasure, TResult>(IInject<TResult> inject, in Double value)
+        where TMeasure : IMeasure
+    {
+        return inject.Inject<Product<Metric<TPrefix, TUnit>, TMeasure>>(in value);
+    }
 }
 internal readonly struct Imperial<TUnit> : IImperialMeasure<TUnit>, ILinear
     where TUnit : IImperialUnit, ITransform, IRepresentable
@@ -49,6 +67,11 @@ internal readonly struct Imperial<TUnit> : IImperialMeasure<TUnit>, ILinear
     public static Transformation ToSi(Transformation self) => TUnit.ToSi(self);
     public static String Representation => TUnit.Representation;
     public static void Write(IWriter writer) => serializer.Write(writer);
+    public static TResult Multiply<TMeasure, TResult>(IInject<TResult> inject, in Double value)
+        where TMeasure : IMeasure
+    {
+        return inject.Inject<Product<Imperial<TUnit>, TMeasure>>(in value);
+    }
 }
 internal readonly struct NonStandard<TUnit> : INonStandardMeasure<TUnit>, ILinear
     where TUnit : INoSystemUnit, ITransform, IRepresentable
@@ -57,6 +80,11 @@ internal readonly struct NonStandard<TUnit> : INonStandardMeasure<TUnit>, ILinea
     public static Transformation ToSi(Transformation self) => TUnit.ToSi(self);
     public static String Representation => TUnit.Representation;
     public static void Write(IWriter writer) => serializer.Write(writer);
+    public static TResult Multiply<TMeasure, TResult>(IInject<TResult> inject, in Double value)
+        where TMeasure : IMeasure
+    {
+        return inject.Inject<Product<NonStandard<TUnit>, TMeasure>>(in value);
+    }
 }
 
 internal readonly struct Product<TLeft, TRight> : IMeasure
@@ -73,6 +101,12 @@ internal readonly struct Product<TLeft, TRight> : IMeasure
         TRight.Write(writer);
         writer.End();
     }
+
+    public static TResult Multiply<TMeasure, TResult>(IInject<TResult> inject, in Double value)
+        where TMeasure : IMeasure
+    {
+        return inject.Inject<Product<Product<TLeft, TRight>, TMeasure>>(in value);
+    }
 }
 internal readonly struct Quotient<TNominator, TDenominator> : IMeasure
     where TNominator : IMeasure
@@ -87,6 +121,13 @@ internal readonly struct Quotient<TNominator, TDenominator> : IMeasure
         TDenominator.Write(writer);
         writer.End();
     }
+
+    public static TResult Multiply<TMeasure, TResult>(IInject<TResult> inject, in Double value)
+        where TMeasure : IMeasure
+    {
+        var poly = Conversion<TMeasure, TDenominator>.Polynomial;
+        return inject.Inject<TNominator>(poly.Evaluate(in value));
+    }
 }
 internal readonly struct Power<TDim, TMeasure> : IMeasure
     where TDim : IDimension
@@ -100,5 +141,12 @@ internal readonly struct Power<TDim, TMeasure> : IMeasure
         writer.Start(dimension);
         TMeasure.Write(writer);
         writer.End();
+    }
+
+    public static TResult Multiply<TMeasure1, TResult>(IInject<TResult> inject, in Double value)
+        where TMeasure1 : IMeasure
+    {
+        // ToDo: Implement on Dim!!!
+        return inject.Inject<Product<Power<TDim, TMeasure>, TMeasure1>>(in value);
     }
 }

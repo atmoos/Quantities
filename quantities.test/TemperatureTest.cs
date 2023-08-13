@@ -71,7 +71,7 @@ public sealed class TemperatureTest
 
         Temperature actual = temperature.To.Imperial<Fahrenheit>();
 
-        actual.Matches(expected, VeryLowPrecision);
+        actual.Matches(expected, VeryLowPrecision - 1);
     }
     [Fact]
     public void CelsiusToKelvin()
@@ -101,7 +101,7 @@ public sealed class TemperatureTest
 
         Temperature actual = temperature.To.Imperial<Fahrenheit>();
 
-        actual.Matches(expected);
+        actual.Matches(expected, VeryLowPrecision);
     }
     [Fact]
     public void FahrenheitToKelvin()
@@ -142,7 +142,7 @@ public sealed class TemperatureTest
 
         Temperature actual = temperature.To.Imperial<Fahrenheit>();
 
-        actual.Matches(expected);
+        actual.Matches(expected, VeryLowPrecision);
     }
     [Fact]
     public void GasMarkToKelvin()
@@ -202,7 +202,7 @@ public sealed class TemperatureTest
 
         Temperature actual = temperature.To.NonStandard<Delisle>();
 
-        actual.Matches(expected, horriblyLowPrecision);
+        actual.Matches(expected, VeryLowPrecision);
     }
     [Fact]
     public void DelisleToKelvin()

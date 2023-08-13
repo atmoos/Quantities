@@ -1,14 +1,8 @@
-using Quantities.Numerics;
-
 namespace Quantities.Measures;
 
 internal static class Build<TMeasure> where TMeasure : IMeasure
 {
-    private static readonly Map defaultMap = new(Polynomial.Of<TMeasure>()) {
-        Injector = new Linear<TMeasure>(),
-        Serialize = TMeasure.Write,
-        Representation = TMeasure.Representation
-    };
+    private static readonly Map defaultMap = Map.Create<TMeasure>();
     public static Quant With(in Double value) => new(in value, in defaultMap);
     public static Quant With<TInjector>(in Double value)
         where TInjector : IInjector, new() => new(in value, in MapPool<TInjector>.Item);

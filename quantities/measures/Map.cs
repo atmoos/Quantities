@@ -2,24 +2,41 @@ using Quantities.Numerics;
 
 namespace Quantities.Measures;
 
-internal delegate Double Scale(in Double value);
-
-internal sealed class Map
+internal abstract class Map
 {
     private readonly Polynomial conversion;
-    internal Map(Polynomial conversion) => this.conversion = conversion;
+    private Map(Polynomial conversion) => this.conversion = conversion;
     public required IInjector Injector { get; init; }
     public required String Representation { get; init; }
     public required Action<IWriter> Serialize { get; init; }
-    public Map With(IInjector injector) => new(this.conversion) {
-        Injector = injector,
-        Serialize = this.Serialize,
-        Representation = this.Representation
-    };
-    public Double Project(in Map other, in Double self)
-    {
-        var siValue = this.conversion.Evaluate(in self);
-        return other.conversion.Inverse(in siValue);
-    }
+    public Map With(IInjector injector) => With(injector, this.conversion);
+    protected abstract Map With(IInjector injector, Polynomial polynomial);
+    public abstract Double Project(in Map other, in Double self);
+    protected abstract Polynomial Project<TOtherMeasure>() where TOtherMeasure : IMeasure;
     public Double ToSi(in Double self) => this.conversion.Evaluate(in self);
+    public static Map Create<TMeasure>()
+        where TMeasure : IMeasure => new MapImpl<TMeasure>() {
+            Injector = new Linear<TMeasure>(),
+            Serialize = TMeasure.Write,
+            Representation = TMeasure.Representation
+        };
+
+    private sealed class MapImpl<TMeasure> : Map
+        where TMeasure : IMeasure
+    {
+        public MapImpl() : base(Polynomial.Of<TMeasure>()) { }
+        private MapImpl(Polynomial polynomial) : base(polynomial) { }
+
+        public override Double Project(in Map other, in Double self)
+        {
+            var poly = other.Project<TMeasure>();
+            return poly.Evaluate(in self);
+        }
+        protected override Polynomial Project<TOtherMeasure>() => Conversion<TOtherMeasure, TMeasure>.Polynomial;
+        protected override Map With(IInjector injector, Polynomial polynomial) => new MapImpl<TMeasure>(polynomial) {
+            Injector = injector,
+            Serialize = TMeasure.Write,
+            Representation = TMeasure.Representation
+        };
+    }
 }

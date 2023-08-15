@@ -6,8 +6,7 @@ namespace Quantities.Measures;
 
 internal interface IMeasure : ITransform, IRepresentable, ISerialize
 {
-    static abstract TResult Multiply<TMeasure, TResult>(IInject<TResult> inject, in Double value) where TMeasure : IMeasure;
-    // static abstract TResult Divide<TMeasure, TResult>(IInject<TResult> inject, in Double value);
+    static abstract IOperations Operations { get; }
 }
 internal interface ISiMeasure<in TUnit> : IMeasure
     where TUnit : ISiUnit

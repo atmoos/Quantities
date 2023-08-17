@@ -43,7 +43,7 @@ public class TransformationTest
         var forwardResult = forward.Evaluate(input);
         var actual = inverse.Evaluate(forwardResult);
 
-        Assert.Equal(input, actual, 14);
+        Assert.Equal(input, actual, LowPrecision);
     }
 
     [Theory]
@@ -56,7 +56,7 @@ public class TransformationTest
         var forwardResult = polynomial.Evaluate(input);
         var actual = polynomial.Inverse(forwardResult);
 
-        Assert.Equal(input, actual, 14);
+        Assert.Equal(input, actual, LowPrecision);
     }
 
     public static IEnumerable<Object[]> Transformations()

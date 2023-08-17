@@ -40,6 +40,10 @@ public sealed class Transformation
     }
     internal Transformation Pow(Int32 exponent)
     {
+        if (this.offset != 0) {
+            var msg = $"{nameof(Pow)}({exponent}): Raising a {nameof(Transformation)} with a non zero offset ('{this.offset}') to any power is not yet implemented.";
+            throw new NotImplementedException(msg);
+        }
         this.nominator = Math.Pow(this.nominator, exponent);
         this.denominator = Math.Pow(this.denominator, exponent);
         return this;

@@ -8,8 +8,8 @@ namespace Quantities.Test;
 // For a lot of the values here, see: https://en.wikipedia.org/wiki/Conversion_of_units_of_temperature#Comparison_of_temperature_scales
 public sealed class TemperatureTest
 {
-    private static readonly Int32 horriblyLowPrecision = VeryLowPrecision - 1;
-    private static readonly Int32 abysmallyLowPrecision = VeryLowPrecision - 3;
+    private static readonly Int32 horriblyLowPrecision = FullPrecision - 4;
+    private static readonly Int32 abysmallyLowPrecision = FullPrecision - 6;
 
     [Fact]
     public void KelvinToString() => FormattingMatches(v => Temperature.Of(v).Si<Kelvin>(), "K");

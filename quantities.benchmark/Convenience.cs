@@ -1,5 +1,4 @@
-using System;
-using System.Text.Json;
+﻿using System.Text.Json;
 using Newtonsoft.Json;
 using Quantities.Serialization.Text.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;

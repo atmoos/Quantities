@@ -1,5 +1,4 @@
-﻿using System;
-using BenchmarkDotNet.Attributes;
+﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Diagnosers;
 using Quantities.Prefixes;
 using Quantities.Quantities;
@@ -22,8 +21,8 @@ public class DividingQuantities
     private Area imperialArea = Area.Of(55).Square.Imperial<Yard>();
     private ElectricPotential potential = ElectricPotential.Of(33).Si<Kilo, Volt>();
     private ElectricCurrent current = ElectricCurrent.Of(98).Si<Deca, Ampere>();
-    private Trivial<Metre> largeTrivial = Trivial<Metre>.Si(Prefix.Kilo, 3);
-    private Trivial<Metre> smallTrivial = Trivial<Metre>.Si(Prefix.Micro, 12);
+    private Si<Metre> largeTrivial = Si<Metre>.Of(Prefix.Kilo, 3);
+    private Si<Metre> smallTrivial = Si<Metre>.Of(Prefix.Micro, 12);
 
     [Benchmark(Baseline = true)]
     public Double Trivial() => this.largeTrivial / this.smallTrivial;
@@ -47,19 +46,19 @@ public class DividingQuantities
 /*
 // * Summary *
 
-BenchmarkDotNet=v0.13.2, OS=arch 
+BenchmarkDotNet=v0.13.5, OS=arch 
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK=7.0.103
-  [Host]     : .NET 7.0.3 (7.0.323.12801), X64 RyuJIT AVX2
-  DefaultJob : .NET 7.0.3 (7.0.323.12801), X64 RyuJIT AVX2
+.NET SDK=7.0.107
+  [Host]     : .NET 7.0.7 (7.0.723.32201), X64 RyuJIT AVX2
+  DefaultJob : .NET 7.0.7 (7.0.723.32201), X64 RyuJIT AVX2
 
 
 |         Method |     Mean |    Error |   StdDev | Ratio | RatioSD | Allocated | Alloc Ratio |
 |--------------- |---------:|---------:|---------:|------:|--------:|----------:|------------:|
-|        Trivial | 16.57 ns | 0.127 ns | 0.112 ns |  1.00 |    0.00 |         - |          NA |
-|       DivideSi | 31.98 ns | 0.642 ns | 0.569 ns |  1.93 |    0.03 |         - |          NA |
-| DivideImperial | 30.06 ns | 0.195 ns | 0.173 ns |  1.81 |    0.02 |         - |          NA |
-|    DivideMixed | 28.86 ns | 0.117 ns | 0.103 ns |  1.74 |    0.01 |         - |          NA |
-|  DivideAliased | 42.24 ns | 0.478 ns | 0.447 ns |  2.55 |    0.03 |         - |          NA |
-|   DividePureSi | 11.35 ns | 0.043 ns | 0.038 ns |  0.69 |    0.00 |         - |          NA |
+|        Trivial | 16.71 ns | 0.175 ns | 0.163 ns |  1.00 |    0.00 |         - |          NA |
+|       DivideSi | 30.29 ns | 0.238 ns | 0.211 ns |  1.81 |    0.02 |         - |          NA |
+| DivideImperial | 32.13 ns | 0.671 ns | 0.746 ns |  1.93 |    0.06 |         - |          NA |
+|    DivideMixed | 32.49 ns | 0.163 ns | 0.152 ns |  1.94 |    0.02 |         - |          NA |
+|  DivideAliased | 44.42 ns | 0.891 ns | 0.991 ns |  2.65 |    0.06 |         - |          NA |
+|   DividePureSi | 11.70 ns | 0.116 ns | 0.091 ns |  0.70 |    0.01 |         - |          NA |
 */

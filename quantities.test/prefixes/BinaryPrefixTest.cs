@@ -61,9 +61,9 @@ public class BinaryPrefixTest
     }
 
     private static Double MaxValue<TPrefix>()
-        where TPrefix : IBinaryPrefix => TPrefix.ToSi(1d);
+        where TPrefix : IBinaryPrefix => Metrics<TPrefix>.MaxValue();
     private static Double Normalize<TPrefix>(Double value)
-        where TPrefix : IBinaryPrefix => TPrefix.FromSi(in value);
+        where TPrefix : IBinaryPrefix => Metrics<TPrefix>.Normalize(in value);
 
     private sealed class GetValue : IPrefixInject<Double>
     {

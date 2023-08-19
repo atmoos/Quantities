@@ -1,5 +1,4 @@
-using System;
-using BenchmarkDotNet.Attributes;
+﻿using BenchmarkDotNet.Attributes;
 using Newtonsoft.Json;
 using Quantities.Prefixes;
 using Quantities.Quantities;

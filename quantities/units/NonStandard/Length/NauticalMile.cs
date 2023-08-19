@@ -6,8 +6,7 @@ namespace Quantities.units.NonStandard.Length;
 // https://en.wikipedia.org/wiki/Nautical_mile
 public readonly struct NauticalMile : INoSystemUnit, ILength
 {
-    private const Double toMetres = 1852;
-    public static Double FromSi(in Double value) => value / toMetres;
-    public static Double ToSi(in Double self) => self * toMetres;
+    private const Double oneNauticalMile = 1852; // m
+    public static Transformation ToSi(Transformation self) => oneNauticalMile * self;
     public static String Representation => "nmi";
 }

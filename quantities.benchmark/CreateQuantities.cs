@@ -1,5 +1,4 @@
-using System;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Diagnosers;
 using Quantities.Prefixes;
@@ -24,6 +23,7 @@ public sealed class DummyObject : ICastOperators<DummyObject>
     public static DummyObject Of(in Double value) => new(new DummyQuant(in value));
     public static implicit operator Double(DummyObject obj) => obj.value.Value;
 }
+
 public readonly struct DummyStruct : ICastOperators<DummyStruct>
 {
     private readonly DummyQuant value;

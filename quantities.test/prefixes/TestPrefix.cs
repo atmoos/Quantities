@@ -1,3 +1,7 @@
+using Quantities.Numerics;
+
+using static Quantities.Extensions;
+
 namespace Quantities.Test.Prefixes;
 
 public interface ITestPrefix
@@ -10,10 +14,11 @@ public interface ITestPrefix
 public sealed class TestPrefix<TPrefix> : ITestPrefix
     where TPrefix : IPrefix
 {
+    private static readonly Polynomial prefix = PolynomialOf<TPrefix>();
     public Double Factor { get; }
-    public TestPrefix(Double factor = Double.NaN) => Factor = Double.IsNaN(factor) ? TPrefix.ToSi(1d) : factor;
-    public Double ToSi(Double value) => TPrefix.ToSi(in value);
-    public Double FromSi(Double value) => TPrefix.FromSi(in value);
+    public TestPrefix(Double factor = Double.NaN) => Factor = Double.IsNaN(factor) ? prefix.Evaluate(1d) : factor;
+    public Double ToSi(Double value) => prefix.Evaluate(in value);
+    public Double FromSi(Double value) => prefix.Inverse(in value);
 
     public override String ToString() => TPrefix.Representation;
 }

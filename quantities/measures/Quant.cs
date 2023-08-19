@@ -22,9 +22,10 @@ internal readonly struct Quant : IEquatable<Quant>, IFormattable
         this.map = map;
         this.value = value;
     }
-    public Double ToSi() => this.map.ToSi(in this.value);
     private Double Project(in Quant other) => ReferenceEquals(this.map, other.map)
-        ? other.value : this.map.FromSi(other.map.ToSi(in other.value));
+        ? other.value : other.map.Project(in this.map, in other.value);
+    public Quant Project(in Map other) => ReferenceEquals(this.map, other)
+        ? this : new Quant(this.map.Project(in other, in this.value), in other);
     public T Transform<T>(in IInject<T> transformation) => this.map.Injector.Inject(in transformation, in this.value);
     public Quant PseudoMultiply(in Quant right)
     {

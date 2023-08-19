@@ -4,12 +4,8 @@
 
 [*]
 indent_style = space
-
-# C# files
-[*.cs]
-indent_size = 4
 insert_final_newline = true
-charset = utf-8-bom
+
 # XML project files
 [*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,projitems,shproj}]
 indent_size = 2
@@ -24,6 +20,8 @@ indent_size = 2
 
 # C# files
 [*.cs]
+indent_size = 4
+charset = utf-8-bom
 #### Core EditorConfig Options ####
 
 #### .NET Coding Conventions ####

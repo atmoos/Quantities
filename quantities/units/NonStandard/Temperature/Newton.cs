@@ -1,5 +1,4 @@
 ﻿using Quantities.Dimensions;
-using Quantities.Units.Transformation;
 
 namespace Quantities.Units.NonStandard.Temperature;
 
@@ -7,8 +6,6 @@ namespace Quantities.Units.NonStandard.Temperature;
 // See: https://en.wikipedia.org/wiki/Conversion_of_units#Temperature
 public readonly struct Newton : INoSystemUnit, ITemperature
 {
-    private static readonly LinearTransform transform = new(100m, 33m, 273.15m);
-    public static Double ToSi(in Double nonSiValue) => transform.ToSi(in nonSiValue);
-    public static Double FromSi(in Double siValue) => transform.FromSi(in siValue);
+    public static Transformation ToSi(Transformation self) => 100d / 33d * self + 273.15;
     public static String Representation => "°N";
 }

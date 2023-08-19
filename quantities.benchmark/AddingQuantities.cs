@@ -1,5 +1,4 @@
-﻿using System;
-using BenchmarkDotNet.Attributes;
+﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Diagnosers;
 using Quantities.Prefixes;
 using Quantities.Quantities;
@@ -16,8 +15,8 @@ public class AddingQuantities
     private Length smallMetric = Length.Of(23).Si<Micro, Metre>();
     private Length largeImperial = Length.Of(-3).Imperial<Mile>();
     private Length smallImperial = Length.Of(55).Imperial<Inch>();
-    private Trivial<Metre> largeTrivial = Trivial<Metre>.Si(Prefix.Kilo, 3);
-    private Trivial<Metre> smallTrivial = Trivial<Metre>.Si(Prefix.Micro, 12);
+    private Si<Metre> largeTrivial = Si<Metre>.Of(Prefix.Kilo, 3);
+    private Si<Metre> smallTrivial = Si<Metre>.Of(Prefix.Micro, 12);
 
     [Benchmark(Baseline = true)]
     public Double Trivial() => this.largeTrivial + this.smallTrivial;
@@ -38,18 +37,18 @@ public class AddingQuantities
 /*
 // * Summary *
 
-BenchmarkDotNet=v0.12.1, OS=arch 
+BenchmarkDotNet=v0.13.5, OS=arch 
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET Core SDK=7.0.100
-  [Host]     : .NET Core 7.0.0 (CoreCLR 7.0.22.56001, CoreFX 7.0.22.56001), X64 RyuJIT
-  DefaultJob : .NET Core 7.0.0 (CoreCLR 7.0.22.56001, CoreFX 7.0.22.56001), X64 RyuJIT
+.NET SDK=7.0.107
+  [Host]     : .NET 7.0.7 (7.0.723.32201), X64 RyuJIT AVX2
+  DefaultJob : .NET 7.0.7 (7.0.723.32201), X64 RyuJIT AVX2
 
 
-|      Method |     Mean |     Error |    StdDev |   Median | Ratio | RatioSD | Gen 0 | Gen 1 | Gen 2 | Allocated |
-|------------ |---------:|----------:|----------:|---------:|------:|--------:|------:|------:|------:|----------:|
-|     Trivial | 1.327 ns | 0.0113 ns | 0.0094 ns | 1.329 ns |  1.00 |    0.00 |     - |     - |     - |         - |
-|       AddSi | 5.230 ns | 0.0343 ns | 0.0731 ns | 5.200 ns |  3.94 |    0.06 |     - |     - |     - |         - |
-|   AddSiSame | 2.548 ns | 0.0073 ns | 0.0068 ns | 2.548 ns |  1.92 |    0.02 |     - |     - |     - |         - |
-| AddImperial | 5.336 ns | 0.0215 ns | 0.0190 ns | 5.336 ns |  4.02 |    0.03 |     - |     - |     - |         - |
-|    AddMixed | 6.303 ns | 0.0480 ns | 0.0449 ns | 6.305 ns |  4.75 |    0.05 |     - |     - |     - |         - |
+|      Method |     Mean |     Error |    StdDev | Ratio | RatioSD | Allocated | Alloc Ratio |
+|------------ |---------:|----------:|----------:|------:|--------:|----------:|------------:|
+|     Trivial | 1.690 ns | 0.0646 ns | 0.0840 ns |  1.00 |    0.00 |         - |          NA |
+|       AddSi | 5.642 ns | 0.1415 ns | 0.1889 ns |  3.35 |    0.26 |         - |          NA |
+|   AddSiSame | 2.133 ns | 0.0223 ns | 0.0186 ns |  1.31 |    0.07 |         - |          NA |
+| AddImperial | 5.261 ns | 0.0154 ns | 0.0136 ns |  3.20 |    0.16 |         - |          NA |
+|    AddMixed | 5.435 ns | 0.0393 ns | 0.0348 ns |  3.31 |    0.16 |         - |          NA |
 */

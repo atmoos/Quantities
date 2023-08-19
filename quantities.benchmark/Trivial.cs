@@ -1,6 +1,6 @@
-using System;
-using System.Runtime.CompilerServices;
-using Quantities.Units;
+﻿using System.Runtime.CompilerServices;
+using Quantities.Units.Imperial;
+using Quantities.Units.Si;
 
 namespace Quantities.Benchmark;
 
@@ -18,50 +18,63 @@ public enum Prefix
     Micro = -6,
 }
 
-public readonly struct Trivial<TUnit>
-    where TUnit : IUnit
+public interface ITrivialQuantity<TSelf> : ICastOperators<TSelf>
+    where TSelf : ITrivialQuantity<TSelf>
 {
-    private readonly Double scale;
-    private readonly Double value;
+    Double ToSi();
+    TSelf FromSi(in Double value);
+}
+
+public static class TrivialConvenience
+{
+    public static TOther To<TSelf, TOther>(this TSelf self, TOther other)
+        where TSelf : ITrivialQuantity<TSelf>
+        where TOther : ITrivialQuantity<TOther> => other.FromSi(self.ToSi());
+}
+
+public readonly struct Si<TUnit> : ITrivialQuantity<Si<TUnit>>
+    where TUnit : ISiUnit
+{
+    private readonly Double value, scale;
     public Prefix Prefix { get; }
-    private Trivial(in Double value, in Prefix prefix)
+    private Si(in Double value, in Prefix prefix)
     {
         this.value = value;
         this.Prefix = prefix;
         this.scale = Math.Pow(10, (Int32)prefix);
     }
-    private Trivial(in Double value, in Double scale, Prefix prefix)
+    private Si(in Double value, in Double scale, Prefix prefix)
     {
         this.value = value;
         this.scale = scale;
         this.Prefix = prefix;
     }
-    private Double ToSi() => this.scale * this.value;
-    private Trivial<TUnit> FromSi(in Double value) => new(value / this.scale, in this.scale, this.Prefix);
-    public static Trivial<TUnit> Unit(in Double value) => new(value, Prefix.Unit);
-    public static Trivial<TUnit> Si(Prefix prefix, in Double value) => new(value, prefix);
-    public static implicit operator Double(Trivial<TUnit> trivial) => trivial.value;
-    public static Trivial<TUnit> operator +(Trivial<TUnit> left, Trivial<TUnit> right)
+    public Double ToSi() => this.scale * this.value;
+    public Si<TUnit> FromSi(in Double value) => new(value / this.scale, in this.scale, this.Prefix);
+    public static Si<TUnit> Unit(in Double value) => new(value, Prefix.Unit);
+    public static Si<TUnit> Of(Prefix prefix, in Double value) => new(value, prefix);
+    public static implicit operator Double(Si<TUnit> trivial) => trivial.value;
+    public static Si<TUnit> operator +(Si<TUnit> left, Si<TUnit> right)
     {
         Double sum = Add(left.ToSi(), right.ToSi());
         return left.FromSi(in sum);
     }
-    public static Trivial<TUnit> operator -(Trivial<TUnit> left, Trivial<TUnit> right)
+    public static Si<TUnit> operator -(Si<TUnit> left, Si<TUnit> right)
     {
         Double sum = Subtract(left.ToSi(), right.ToSi());
         return left.FromSi(in sum);
     }
-    public static Trivial<TUnit> operator *(Trivial<TUnit> left, Trivial<TUnit> right)
+    public static Si<TUnit> operator *(Si<TUnit> left, Si<TUnit> right)
     {
         Prefix prefix = left.Prefix | right.Prefix;
         Double product = left.ToSi() * right.ToSi() / Math.Pow(10, (Int32)prefix);
-        return new Trivial<TUnit>(in product, in prefix);
+        return new Si<TUnit>(in product, in prefix);
     }
-    public static Trivial<TUnit> operator /(Trivial<TUnit> left, Trivial<TUnit> right)
+    public static Si<TUnit> operator /(Si<TUnit> left, Si<TUnit> right)
     {
         Prefix prefix = left.Prefix & ~right.Prefix;
         Double product = Math.Pow(10, (Int32)prefix) * left.ToSi() / right.ToSi();
-        return new Trivial<TUnit>(in product, in prefix);
+        return new Si<TUnit>(in product, in prefix);
     }
 
     // Use these functions to simulate at least one call to a static function that has not been inlined.
@@ -71,4 +84,19 @@ public readonly struct Trivial<TUnit>
 
     [MethodImpl(MethodImplOptions.NoInlining)]
     private static Double Subtract(Double left, Double right) => left - right;
+}
+
+public readonly struct Imperial<TUnit> : ITrivialQuantity<Imperial<TUnit>>
+    where TUnit : IImperialUnit
+{
+    private readonly Double value, scale;
+
+    public Imperial(in Double value, in Double scaleToSi)
+    {
+        this.value = value;
+        this.scale = scaleToSi;
+    }
+    public Double ToSi() => this.scale * this.value;
+    public Imperial<TUnit> FromSi(in Double value) => new(value / this.scale, in this.scale);
+    public static implicit operator Double(Imperial<TUnit> self) => self.value;
 }

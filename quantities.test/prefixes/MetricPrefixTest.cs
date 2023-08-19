@@ -147,9 +147,9 @@ public class MetricPrefixTest
     }
 
     private static Double MaxValue<TPrefix>()
-        where TPrefix : IMetricPrefix => TPrefix.ToSi(1d);
+        where TPrefix : IMetricPrefix => Metrics<TPrefix>.MaxValue();
     private static Double Normalize<TPrefix>(Double value)
-        where TPrefix : IMetricPrefix => TPrefix.FromSi(in value);
+        where TPrefix : IMetricPrefix => Metrics<TPrefix>.Normalize(in value);
 
     private sealed class GetValue : IPrefixInject<Double>
     {

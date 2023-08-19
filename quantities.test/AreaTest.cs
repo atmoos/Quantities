@@ -5,7 +5,7 @@ using Quantities.Units.Si.Metric;
 namespace Quantities.Test;
 public class AreaTest
 {
-    private const Double SQUARE_MILE_IN_SQUARE_KILOMETRES = (Double)(1.609344m * 1.609344m);
+    private const Double squareMileInSquareKilometres = 1.609344d * 1.609344d;
 
     [Fact]
     public void AddSquareMetres()
@@ -24,17 +24,17 @@ public class AreaTest
         PrecisionIsBounded(2.5d, result);
     }
     [Fact]
-    public void SquareMetresToSquareKilometers()
+    public void SquareMetresToSquareKilometres()
     {
         Area squareMetres = Area.Of(1000).Square.Si<Metre>();
         Area squareKilometres = squareMetres.To.Square.Si<Kilo, Metre>();
         PrecisionIsBounded(1e-3d, squareKilometres);
     }
     [Fact]
-    public void SquareMilesToSquareKilometers()
+    public void SquareMilesToSquareKilometres()
     {
         Area squareMiles = Area.Of(2).Square.Imperial<Mile>();
-        Area expected = Area.Of(2 * SQUARE_MILE_IN_SQUARE_KILOMETRES).Square.Si<Kilo, Metre>();
+        Area expected = Area.Of(2 * squareMileInSquareKilometres).Square.Si<Kilo, Metre>();
 
         Area actual = squareMiles.To.Square.Si<Kilo, Metre>();
 
@@ -49,7 +49,7 @@ public class AreaTest
 
         Area actual = squareYards.To.Square.Imperial<Foot>();
 
-        actual.Matches(expected, MediumPrecision - 1);
+        actual.Matches(expected);
     }
 
     [Fact]

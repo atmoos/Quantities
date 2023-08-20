@@ -181,7 +181,29 @@ public sealed class LengthTest
         actual.Matches(expected);
     }
     [Fact]
-    public void VelocityTimesTimeIsLength()
+    public void SiVelocityTimesTimeIsSiLength()
+    {
+        Time duration = Time.Of(500).Si<Milli, Second>();
+        Velocity velocity = Velocity.Of(8).Si<Metre>().Per.Si<Second>();
+        Length expected = Length.Of(4).Si<Metre>();
+
+        Length actual = velocity * duration;
+
+        actual.Matches(expected);
+    }
+    [Fact]
+    public void SiVelocityTimesTimeIsNormalizedSiLength()
+    {
+        Time duration = Time.Of(60 / 5).Metric<Minute>();
+        Velocity velocity = Velocity.Of(90 / 3.6).Si<Metre>().Per.Si<Second>();
+        Length expected = Length.Of(90 / 5).Si<Kilo, Metre>();
+
+        Length actual = velocity * duration;
+
+        actual.Matches(expected);
+    }
+    [Fact]
+    public void ImperialVelocityTimesTimeIsImperialLength()
     {
         Time duration = Time.Of(60 / 5).Metric<Minute>();
         Velocity velocity = Velocity.Of(350).Imperial<Mile>().Per.Metric<Hour>();

@@ -11,7 +11,7 @@ internal interface IMeasure : ITransform, IRepresentable, ISerialize
 {
     static abstract IOperations Operations { get; }
     static abstract T Normalize<T>(IPrefixScale scaling, IInject<T> inject, in Double value);
-    static abstract (Double, IInject<T>) Lower<T>(IInject<IInject<T>> inject, in Double value);
+    static abstract (Double, T) Lower<T>(IInject<T> inject, in Double value);
 }
 internal interface ISiMeasure<in TUnit> : IMeasure
     where TUnit : ISiUnit

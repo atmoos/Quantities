@@ -1,24 +1,11 @@
 using Quantities.Prefixes;
+using Quantities.Serialization;
 
 namespace Quantities.Measures;
 
 internal interface IOperations
 {
     Quant Multiply<TMeasure>(IPrefixScale scaling, in Double value) where TMeasure : IMeasure;
-}
-
-file sealed class Product : IInject<IInject<Quant>>
-{
-    public IInject<Quant> Inject<TMeasure>(in Double value) where TMeasure : IMeasure => AllocationFree<Multiplication<TMeasure>>.Item;
-
-    private sealed class Multiplication<TRight> : IInject<Quant>
-        where TRight : IMeasure
-    {
-        public Quant Inject<TMeasure>(in Double value) where TMeasure : IMeasure
-        {
-            return Build<Product<TMeasure, TRight>>.With(in value);
-        }
-    }
 }
 
 internal sealed class FromScalar<TScalarMeasure> : IOperations
@@ -48,7 +35,7 @@ internal sealed class FromQuotient<TNominator, TDenominator> : IOperations
     public Quant Multiply<TMeasure>(IPrefixScale scaling, in Double value) where TMeasure : IMeasure
     {
         var poly = Conversion<TMeasure, TDenominator>.Polynomial;
-        return Build<TNominator>.With(poly.Evaluate(in value));
+        return TNominator.Normalize(scaling, Linear.Injection, poly.Evaluate(in value));
     }
 }
 
@@ -59,5 +46,32 @@ internal sealed class FromPower<TDim, TScalarMeasure> : IOperations
     public Quant Multiply<TMeasure>(IPrefixScale scaling, in Double value) where TMeasure : IMeasure
     {
         return Build<Product<Power<TDim, TScalarMeasure>, TMeasure>>.With(in value);
+    }
+}
+
+file static class Linear
+{
+    public static IInject<Quant> Injection { get; } = new Implementation();
+
+    private sealed class Implementation : IInject<Quant>
+    {
+        public Quant Inject<TMeasure>(in Double value) where TMeasure : IMeasure
+        {
+            return Build<TMeasure>.With(in value);
+        }
+    }
+}
+
+file sealed class Product : IInject<IInject<Quant>>
+{
+    public IInject<Quant> Inject<TMeasure>(in Double value) where TMeasure : IMeasure => AllocationFree<Multiplication<TMeasure>>.Item;
+
+    private sealed class Multiplication<TRight> : IInject<Quant>
+        where TRight : IMeasure
+    {
+        public Quant Inject<TMeasure>(in Double value) where TMeasure : IMeasure
+        {
+            return Build<Product<TMeasure, TRight>>.With(in value);
+        }
     }
 }

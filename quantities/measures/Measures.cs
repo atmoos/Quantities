@@ -36,7 +36,7 @@ internal readonly struct Si<TUnit> : ISiMeasure<TUnit>, ILinear
 {
     private static readonly Serializer<TUnit> serializer = new(nameof(Si<TUnit>));
     public static IOperations Operations { get; } = new FromScalar<Si<TUnit>>();
-    public static (Double, IInject<T>) Lower<T>(IInject<IInject<T>> inject, in Double value) => (value, inject.Inject<Si<TUnit>>(in value));
+    public static (Double, T) Lower<T>(IInject<T> inject, in Double value) => (value, inject.Inject<Si<TUnit>>(in value));
     public static T Normalize<T>(IPrefixScale scaling, IInject<T> inject, in Double value)
     {
         return scaling.Scale(new SiPrefix<T, TUnit>(inject), in value);
@@ -52,7 +52,7 @@ internal readonly struct Si<TPrefix, TUnit> : ISiMeasure<TUnit>, ILinear
     private static readonly Polynomial poly = Polynomial.Of<TPrefix>();
     private static readonly Serializer<TUnit, TPrefix> serializer = new(nameof(Si<TUnit>));
     public static IOperations Operations { get; } = new FromScalar<Si<TPrefix, TUnit>>();
-    public static (Double, IInject<T>) Lower<T>(IInject<IInject<T>> inject, in Double value)
+    public static (Double, T) Lower<T>(IInject<T> inject, in Double value)
     {
         var lowered = poly.Evaluate(in value);
         return (lowered, inject.Inject<Si<TUnit>>(in lowered));
@@ -70,7 +70,7 @@ internal readonly struct Metric<TUnit> : IMetricMeasure<TUnit>, ILinear
 {
     private static readonly Serializer<TUnit> serializer = new(nameof(Metric<TUnit>));
     public static IOperations Operations { get; } = new FromScalar<Metric<TUnit>>();
-    public static (Double, IInject<T>) Lower<T>(IInject<IInject<T>> inject, in Double value) => (value, inject.Inject<Metric<TUnit>>(in value));
+    public static (Double, T) Lower<T>(IInject<T> inject, in Double value) => (value, inject.Inject<Metric<TUnit>>(in value));
     public static T Normalize<T>(IPrefixScale scaling, IInject<T> inject, in Double value)
     {
         return scaling.Scale(new MetricPrefix<T, TUnit>(inject), in value);
@@ -86,7 +86,7 @@ internal readonly struct Metric<TPrefix, TUnit> : IMetricMeasure<TUnit>, ILinear
     private static readonly Polynomial poly = Polynomial.Of<TPrefix>();
     private static readonly Serializer<TUnit, TPrefix> serializer = new(nameof(Metric<TPrefix, TUnit>));
     public static IOperations Operations { get; } = new FromScalar<Metric<TPrefix, TUnit>>();
-    public static (Double, IInject<T>) Lower<T>(IInject<IInject<T>> inject, in Double value)
+    public static (Double, T) Lower<T>(IInject<T> inject, in Double value)
     {
         var lowered = poly.Evaluate(in value);
         return (lowered, inject.Inject<Metric<TUnit>>(in lowered));
@@ -108,7 +108,7 @@ internal readonly struct Imperial<TUnit> : IImperialMeasure<TUnit>, ILinear
     public static String Representation => TUnit.Representation;
     public static void Write(IWriter writer) => serializer.Write(writer);
     public static T Normalize<T>(IPrefixScale scaling, IInject<T> inject, in Double value) => inject.Inject<Imperial<TUnit>>(in value);
-    public static (Double, IInject<T>) Lower<T>(IInject<IInject<T>> inject, in Double value) => (value, inject.Inject<Imperial<TUnit>>(in value));
+    public static (Double, T) Lower<T>(IInject<T> inject, in Double value) => (value, inject.Inject<Imperial<TUnit>>(in value));
 }
 internal readonly struct NonStandard<TUnit> : INonStandardMeasure<TUnit>, ILinear
     where TUnit : INoSystemUnit, ITransform, IRepresentable
@@ -119,7 +119,7 @@ internal readonly struct NonStandard<TUnit> : INonStandardMeasure<TUnit>, ILinea
     public static String Representation => TUnit.Representation;
     public static void Write(IWriter writer) => serializer.Write(writer);
     public static T Normalize<T>(IPrefixScale scaling, IInject<T> inject, in Double value) => inject.Inject<NonStandard<TUnit>>(in value);
-    public static (Double, IInject<T>) Lower<T>(IInject<IInject<T>> inject, in Double value) => (value, inject.Inject<NonStandard<TUnit>>(in value));
+    public static (Double, T) Lower<T>(IInject<T> inject, in Double value) => (value, inject.Inject<NonStandard<TUnit>>(in value));
 }
 
 internal readonly struct Product<TLeft, TRight> : IMeasure
@@ -138,7 +138,7 @@ internal readonly struct Product<TLeft, TRight> : IMeasure
         writer.End();
     }
     public static T Normalize<T>(IPrefixScale scaling, IInject<T> inject, in Double value) => throw new NotImplementedException();
-    public static (Double, IInject<T>) Lower<T>(IInject<IInject<T>> inject, in Double value) => throw new NotImplementedException();
+    public static (Double, T) Lower<T>(IInject<T> inject, in Double value) => throw new NotImplementedException();
 }
 internal readonly struct Quotient<TNominator, TDenominator> : IMeasure
     where TNominator : IMeasure
@@ -155,7 +155,7 @@ internal readonly struct Quotient<TNominator, TDenominator> : IMeasure
         writer.End();
     }
     public static T Normalize<T>(IPrefixScale scaling, IInject<T> inject, in Double value) => throw new NotImplementedException();
-    public static (Double, IInject<T>) Lower<T>(IInject<IInject<T>> inject, in Double value) => throw new NotImplementedException();
+    public static (Double, T) Lower<T>(IInject<T> inject, in Double value) => throw new NotImplementedException();
 }
 internal readonly struct Power<TDim, TMeasure> : IMeasure
     where TDim : IDimension
@@ -172,5 +172,5 @@ internal readonly struct Power<TDim, TMeasure> : IMeasure
         writer.End();
     }
     public static T Normalize<T>(IPrefixScale scaling, IInject<T> inject, in Double value) => throw new NotImplementedException();
-    public static (Double, IInject<T>) Lower<T>(IInject<IInject<T>> inject, in Double value) => throw new NotImplementedException();
+    public static (Double, T) Lower<T>(IInject<T> inject, in Double value) => throw new NotImplementedException();
 }

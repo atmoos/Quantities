@@ -17,9 +17,9 @@ public sealed class ElectricCurrentTest
         ElectricalResistance ohm = ElectricalResistance.Of(3).Si<Ohm>();
         ElectricCurrent expected = ElectricCurrent.Of(4).Si<Ampere>();
 
-        ElectricCurrent current = volts / ohm;
+        ElectricCurrent actual = volts / ohm;
 
-        current.Matches(expected);
+        Assert.Equal(expected, actual);
     }
     [Fact]
     public void OhmsLawInPrefixedUnits()
@@ -28,9 +28,9 @@ public sealed class ElectricCurrentTest
         ElectricalResistance ohm = ElectricalResistance.Of(3).Si<Mega, Ohm>();
         ElectricCurrent expected = ElectricCurrent.Of(4).Si<Milli, Ampere>();
 
-        ElectricCurrent current = volts / ohm;
+        ElectricCurrent actual = volts / ohm;
 
-        current.Matches(expected);
+        Assert.Equal(expected, actual);
     }
     [Fact]
     public void PowerLawInBaseUnits()
@@ -39,19 +39,31 @@ public sealed class ElectricCurrentTest
         ElectricPotential volts = ElectricPotential.Of(230).Si<Volt>();
         ElectricCurrent expected = ElectricCurrent.Of(6).Si<Ampere>();
 
-        ElectricCurrent current = watts / volts;
+        ElectricCurrent actual = watts / volts;
 
-        current.Matches(expected);
+        Assert.Equal(expected, actual);
     }
     [Fact]
     public void PowerLawInPrefixedUnits()
     {
-        Power watts = Power.Of(9).Si<Mega, Watt>();
+        Power power = ElectricCurrent.Of(45).Si<Ampere>() * ElectricPotential.Of(200).Si<Kilo, Volt>();
         ElectricPotential volts = ElectricPotential.Of(15).Si<Kilo, Volt>();
         ElectricCurrent expected = ElectricCurrent.Of(600).Si<Ampere>();
 
-        ElectricCurrent current = watts / volts;
+        ElectricCurrent actual = power / volts;
 
-        current.Matches(expected);
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void PowerLawInPrefixedUnits_Catastrophy()
+    {
+        Power power = ElectricPotential.Of(200).Si<Kilo, Volt>() * ElectricCurrent.Of(45).Si<Ampere>();
+        ElectricPotential volts = ElectricPotential.Of(15).Si<Kilo, Volt>();
+        ElectricCurrent expected = ElectricCurrent.Of(600).Si<Ampere>();
+
+        ElectricCurrent actual = power / volts;
+
+        Assert.Equal(expected, actual);
     }
 }

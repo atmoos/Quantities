@@ -23,11 +23,11 @@ public readonly struct ElectricCurrent : IQuantity<ElectricCurrent>, IElectricCu
     static ElectricCurrent IFactory<ElectricCurrent>.Create(in Quant quant) => new(in quant);
     internal static ElectricCurrent From(in ElectricPotential potential, in ElectricalResistance resistance)
     {
-        return new(MetricPrefix.ScaleTriadic(potential.Quant.SiDivide(resistance.Quant), root));
+        return new(potential.Quant.Divide(Metric.TriadicScaling, resistance.Quant));
     }
     internal static ElectricCurrent From(in Power power, in ElectricPotential potential)
     {
-        return new(MetricPrefix.ScaleTriadic(power.Quant.SiDivide(potential.Quant), root));
+        return new(power.Quant.Divide(Metric.TriadicScaling, potential.Quant));
     }
 
     public Boolean Equals(ElectricCurrent other) => this.quant.Equals(other.quant);
@@ -48,5 +48,5 @@ public readonly struct ElectricCurrent : IQuantity<ElectricCurrent>, IElectricCu
 
     // Ohm's Law
     public static ElectricPotential operator *(ElectricCurrent current, ElectricalResistance resistance) => ElectricPotential.From(in current, in resistance);
-    public static Power operator *(ElectricCurrent left, ElectricPotential right) => Power.From(in right, in left);
+    public static Power operator *(ElectricCurrent left, ElectricPotential right) => Power.From(in left, in right);
 }

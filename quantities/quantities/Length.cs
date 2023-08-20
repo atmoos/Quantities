@@ -28,7 +28,7 @@ public readonly struct Length : IQuantity<Length>, ILength
     }
     internal static Length From(in Velocity velocity, in Time time)
     {
-        return new(velocity.Quant.SiMultiply(Metric.Scaling, time.Quant));
+        return new(velocity.Quant.Multiply(Metric.Scaling, time.Quant));
     }
     internal static Length From(in Volume volume, in Area area)
     {

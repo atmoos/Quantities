@@ -3,7 +3,7 @@ using Quantities.Measures;
 namespace Quantities.Factories;
 
 internal sealed class PowerInjector<TCreate, TDim> : IInject<TCreate>
-        where TCreate : struct, ICreate
+    where TCreate : struct, ICreate
     where TDim : IDimension
 {
     public Quant Inject<TMeasure>(in TCreate create)

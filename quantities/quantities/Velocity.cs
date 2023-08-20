@@ -23,10 +23,9 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity
     static Velocity IFactory<Velocity>.Create(in Quant quant) => new(in quant);
     internal static Velocity From(in Power power, in Force force)
     {
-        return new(MetricPrefix.Scale(power.Quant.SiDivide(force.Quant), root));
+        return new(power.Quant.Divide(Metric.TriadicScaling, force.Quant));
     }
     internal static Velocity From(in Length length, in Time time) => new(length.Quant.Divide(time.Quant));
-
     public Boolean Equals(Velocity other) => this.quant.Equals(other.quant);
     public override Boolean Equals(Object? obj) => obj is Velocity velocity && Equals(velocity);
     public override Int32 GetHashCode() => this.quant.GetHashCode();

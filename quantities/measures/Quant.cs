@@ -38,8 +38,8 @@ internal readonly struct Quant : IEquatable<Quant>, IFormattable
         var projected = Project(in denominator);
         return new(this.value / projected, in this.map);
     }
-    public Quant SiMultiply(IPrefixScale scaling, in Quant right) => right.map.Multiply(scaling, this.map, this.value * right.Value);
-    public Double SiDivide(in Quant right) => this.map.ToSi(in this.value) / right.map.ToSi(in right.value);
+    public Quant Multiply(IPrefixScale scaling, in Quant right) => right.map.Multiply(scaling, this.map, this.value * right.Value);
+    public Quant Divide(IPrefixScale scaling, in Quant divisor) => divisor.map.Divide(scaling, this.map, new Operands(in this.value, in divisor.value));
     public Quant Divide(in Quant right)
     {
         var nominator = this.map.Injector.Inject(in division, in this.value);

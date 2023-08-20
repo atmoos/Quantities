@@ -15,6 +15,7 @@ internal abstract class Map
     protected abstract Map With(IInjector injector, Polynomial polynomial);
     public abstract Double Project(Map other, in Double self);
     public abstract Quant Multiply(IPrefixScale scaling, Map other, in Double self);
+    public abstract Quant Divide(IPrefixScale scaling, Map other, in Operands operands);
     protected abstract Polynomial Project<TOtherMeasure>() where TOtherMeasure : IMeasure;
     public Double ToSi(in Double self) => this.conversion.Evaluate(in self);
     public static Map Create<TMeasure>()
@@ -30,10 +31,8 @@ internal abstract class Map
     {
         public MapImpl() : base(Polynomial.Of<TMeasure>()) { }
         private MapImpl(Polynomial polynomial) : base(polynomial) { }
-        public override Quant Multiply(IPrefixScale scaling, Map other, in Double self)
-        {
-            return other.Ops.Multiply<TMeasure>(scaling, in self);
-        }
+        public override Quant Multiply(IPrefixScale scaling, Map other, in Double self) => other.Ops.Multiply<TMeasure>(scaling, in self);
+        public override Quant Divide(IPrefixScale scaling, Map other, in Operands operands) => other.Ops.Divide<TMeasure>(scaling, in operands);
         public override Double Project(Map other, in Double self)
         {
             var poly = other.Project<TMeasure>();

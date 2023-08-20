@@ -15,7 +15,7 @@ public sealed class ElectricPotentialTest
     {
         ElectricalResistance ohm = ElectricalResistance.Of(7).Si<Ohm>();
         ElectricCurrent ampere = ElectricCurrent.Of(3).Si<Ampere>();
-        ElectricPotential expected = ElectricPotential.Of(21).Si<Volt>();
+        ElectricPotential expected = ElectricPotential.Of(2.1).Si<Deca, Volt>();
 
         ElectricPotential potential = ohm * ampere;
 
@@ -26,7 +26,7 @@ public sealed class ElectricPotentialTest
     {
         ElectricalResistance ohm = ElectricalResistance.Of(7).Si<Kilo, Ohm>();
         ElectricCurrent ampere = ElectricCurrent.Of(3).Si<Micro, Ampere>();
-        ElectricPotential expected = ElectricPotential.Of(21).Si<Milli, Volt>();
+        ElectricPotential expected = ElectricPotential.Of(2.1).Si<Centi, Volt>();
 
         ElectricPotential potential = ohm * ampere;
 

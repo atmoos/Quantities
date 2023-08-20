@@ -5,12 +5,28 @@ internal interface IOperations
     Quant Multiply<TMeasure>(in Double value) where TMeasure : IMeasure;
 }
 
+internal sealed class Product : IInject<IInject<Quant>>
+{
+    public IInject<Quant> Inject<TMeasure>(in Double value) where TMeasure : IMeasure => AllocationFree<Multiplication<TMeasure>>.Item;
+
+    private sealed class Multiplication<TRight> : IInject<Quant>
+        where TRight : IMeasure
+    {
+        public Quant Inject<TMeasure>(in Double value) where TMeasure : IMeasure
+        {
+            return Build<Product<TMeasure, TRight>>.With(in value);
+        }
+    }
+}
+
 internal sealed class FromScalar<TScalarMeasure> : IOperations
     where TScalarMeasure : IMeasure
 {
+    private static readonly Product product = new();
     public Quant Multiply<TMeasure>(in Double value) where TMeasure : IMeasure
     {
-        return Build<Product<TScalarMeasure, TMeasure>>.With(in value);
+        var (lowered, right) = TMeasure.Lower(product, in value);
+        return TScalarMeasure.Normalize(right, in lowered);
     }
 }
 internal sealed class FromProduct<TLeft, TRight> : IOperations

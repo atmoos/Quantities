@@ -25,13 +25,13 @@ public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectr
     static ElectricPotential IFactory<ElectricPotential>.Create(in Quant quant) => new(in quant);
     internal static ElectricPotential From(in ElectricCurrent current, in ElectricalResistance resistance)
     {
-        return new(current.Quant.SiMultiply(resistance.Quant));
+        return new(current.Quant.SiMultiply(Metric.TriadicScaling, resistance.Quant));
     }
     internal static ElectricPotential From(in Power power, in ElectricCurrent current)
     {
         Double siPower = power.To.Si<Watt>();
         Double siCurrent = current.To.Si<Ampere>();
-        return new(MetricPrefix.ScaleThree(siPower / siCurrent, root));
+        return new(MetricPrefix.ScaleTriadic(siPower / siCurrent, root));
     }
 
     public Boolean Equals(ElectricPotential other) => this.quant.Equals(other.quant);

@@ -40,7 +40,7 @@ internal static class MetricPrefix
             _ => Build<Quecto>.Scaled(in injector, in value)
         };
     }
-    public static T ScaleThree<T>(in Double value, IPrefixInject<T> injector)
+    public static T ScaleTriadic<T>(in Double value, IPrefixInject<T> injector)
     {
         // This is faster than taking the logarithm!
         return Abs(value) >= 1d ? ScaleUp(in value, injector) : ScaleDown(in value, injector);

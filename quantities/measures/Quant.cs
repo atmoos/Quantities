@@ -1,6 +1,7 @@
 using System.Globalization;
 using System.Numerics;
 using Quantities.Measures.Transformations;
+using Quantities.Prefixes;
 
 namespace Quantities.Measures;
 
@@ -23,9 +24,9 @@ internal readonly struct Quant : IEquatable<Quant>, IFormattable
         this.value = value;
     }
     private Double Project(in Quant other) => ReferenceEquals(this.map, other.map)
-        ? other.value : other.map.Project(in this.map, in other.value);
+        ? other.value : other.map.Project(this.map, in other.value);
     public Quant Project(in Map other) => ReferenceEquals(this.map, other)
-        ? this : new Quant(this.map.Project(in other, in this.value), in other);
+        ? this : new Quant(this.map.Project(other, in this.value), in other);
     public T Transform<T>(in IInject<T> transformation) => this.map.Injector.Inject(in transformation, in this.value);
     public Quant PseudoMultiply(in Quant right)
     {
@@ -37,7 +38,7 @@ internal readonly struct Quant : IEquatable<Quant>, IFormattable
         var projected = Project(in denominator);
         return new(this.value / projected, in this.map);
     }
-    public Quant SiMultiply(in Quant right) => right.map.Multiply(in this.map, this.value * right.Value);
+    public Quant SiMultiply(IPrefixScale scaling, in Quant right) => right.map.Multiply(scaling, this.map, this.value * right.Value);
     public Double SiDivide(in Quant right) => this.map.ToSi(in this.value) / right.map.ToSi(in right.value);
     public Quant Divide(in Quant right)
     {

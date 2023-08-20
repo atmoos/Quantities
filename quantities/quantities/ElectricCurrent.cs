@@ -23,11 +23,11 @@ public readonly struct ElectricCurrent : IQuantity<ElectricCurrent>, IElectricCu
     static ElectricCurrent IFactory<ElectricCurrent>.Create(in Quant quant) => new(in quant);
     internal static ElectricCurrent From(in ElectricPotential potential, in ElectricalResistance resistance)
     {
-        return new(MetricPrefix.ScaleThree(potential.Quant.SiDivide(resistance.Quant), root));
+        return new(MetricPrefix.ScaleTriadic(potential.Quant.SiDivide(resistance.Quant), root));
     }
     internal static ElectricCurrent From(in Power power, in ElectricPotential potential)
     {
-        return new(MetricPrefix.ScaleThree(power.Quant.SiDivide(potential.Quant), root));
+        return new(MetricPrefix.ScaleTriadic(power.Quant.SiDivide(potential.Quant), root));
     }
 
     public Boolean Equals(ElectricCurrent other) => this.quant.Equals(other.quant);

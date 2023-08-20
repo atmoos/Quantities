@@ -3,6 +3,7 @@ using Quantities.Dimensions;
 using Quantities.Factories;
 using Quantities.Measures;
 using Quantities.Measures.Transformations;
+using Quantities.Prefixes;
 
 namespace Quantities.Quantities;
 
@@ -27,7 +28,7 @@ public readonly struct Length : IQuantity<Length>, ILength
     }
     internal static Length From(in Velocity velocity, in Time time)
     {
-        return new(velocity.Quant.SiMultiply(time.Quant));
+        return new(velocity.Quant.SiMultiply(Metric.Scaling, time.Quant));
     }
     internal static Length From(in Volume volume, in Area area)
     {

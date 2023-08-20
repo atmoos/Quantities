@@ -25,7 +25,7 @@ public readonly struct Time : IQuantity<Time>, ITime
     internal static Time From(in Energy energy, in Power power)
     {
         // ToDo: Extract the time component!
-        return new(MetricPrefix.ScaleThree(energy.Quant.SiDivide(power.Quant), root));
+        return new(MetricPrefix.ScaleTriadic(energy.Quant.SiDivide(power.Quant), root));
     }
 
     public Boolean Equals(Time other) => this.quant.Equals(other.quant);

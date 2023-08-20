@@ -1,4 +1,5 @@
 using Quantities.Numerics;
+using Quantities.Prefixes;
 
 namespace Quantities.Measures;
 
@@ -12,8 +13,8 @@ internal abstract class Map
     public required Action<IWriter> Serialize { get; init; }
     public Map With(IInjector injector) => With(injector, this.conversion);
     protected abstract Map With(IInjector injector, Polynomial polynomial);
-    public abstract Double Project(in Map other, in Double self);
-    public abstract Quant Multiply(in Map other, in Double self);
+    public abstract Double Project(Map other, in Double self);
+    public abstract Quant Multiply(IPrefixScale scaling, Map other, in Double self);
     protected abstract Polynomial Project<TOtherMeasure>() where TOtherMeasure : IMeasure;
     public Double ToSi(in Double self) => this.conversion.Evaluate(in self);
     public static Map Create<TMeasure>()
@@ -29,11 +30,11 @@ internal abstract class Map
     {
         public MapImpl() : base(Polynomial.Of<TMeasure>()) { }
         private MapImpl(Polynomial polynomial) : base(polynomial) { }
-        public override Quant Multiply(in Map other, in Double self)
+        public override Quant Multiply(IPrefixScale scaling, Map other, in Double self)
         {
-            return other.Ops.Multiply<TMeasure>(in self);
+            return other.Ops.Multiply<TMeasure>(scaling, in self);
         }
-        public override Double Project(in Map other, in Double self)
+        public override Double Project(Map other, in Double self)
         {
             var poly = other.Project<TMeasure>();
             return poly.Evaluate(in self);

@@ -16,7 +16,7 @@ public sealed class PowerTest
     {
         ElectricPotential volts = ElectricPotential.Of(12).Si<Volt>();
         ElectricCurrent ampere = ElectricCurrent.Of(3).Si<Ampere>();
-        Power expected = Power.Of(3.6).Si<Deca, Watt>();
+        Power expected = Power.Of(36).Si<Watt>();
 
         Power power = volts * ampere;
 
@@ -38,7 +38,7 @@ public sealed class PowerTest
     {
         ElectricPotential volts = ElectricPotential.Of(0.6).Si<Kilo, Volt>();
         ElectricalResistance ohm = ElectricalResistance.Of(3).Si<Kilo, Ohm>();
-        Power expected = Power.Of(1.20).Si<Hecto, Watt>();
+        Power expected = Power.Of(120).Si<Watt>();
 
         Power power = volts * (volts / ohm);
 

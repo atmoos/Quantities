@@ -26,15 +26,15 @@ public readonly struct Power : IQuantity<Power>, IPower
     static Power IFactory<Power>.Create(in Quant quant) => new(in quant);
     internal static Power From(in ElectricPotential potential, in ElectricCurrent current)
     {
-        return new(potential.Quant.SiMultiply(current.Quant));
+        return new(potential.Quant.SiMultiply(Metric.TriadicScaling, current.Quant));
     }
     internal static Power From(in Force force, in Velocity velocity)
     {
-        return new(force.Quant.SiMultiply(velocity.Quant));
+        return new(force.Quant.SiMultiply(Metric.TriadicScaling, velocity.Quant));
     }
     internal static Power From(in Energy energy, in Time time)
     {
-        return new(MetricPrefix.ScaleThree(energy.Quant.SiDivide(time.Quant), root));
+        return new(MetricPrefix.ScaleTriadic(energy.Quant.SiDivide(time.Quant), root));
     }
 
     public Boolean Equals(Power other) => this.quant.Equals(other.quant);

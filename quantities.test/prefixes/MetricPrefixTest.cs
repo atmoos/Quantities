@@ -11,7 +11,7 @@ public class MetricPrefixTest
     [InlineData(968)]
     public void ScaleThreeSkipsExponentsSmallerThanKilo(Double value)
     {
-        Double actualValue = MetricPrefix.ScaleThree(value, injector);
+        Double actualValue = MetricPrefix.ScaleTriadic(value, injector);
         Assert.Equal(value, actualValue);
     }
 
@@ -22,7 +22,7 @@ public class MetricPrefixTest
     public void ScaleThreeSkipsExponentsLargerThanMilli(Double value)
     {
         // Everything usually scaled to deci ot centi should be milli!
-        Double actualValue = MetricPrefix.ScaleThree(value, injector);
+        Double actualValue = MetricPrefix.ScaleTriadic(value, injector);
         Assert.Equal(value * 1e3, actualValue);
     }
 

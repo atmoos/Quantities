@@ -22,7 +22,7 @@ public readonly struct Force : IQuantity<Force>, IForce
     static Force IFactory<Force>.Create(in Quant quant) => new(in quant);
     internal static Force From(in Power power, in Velocity velocity)
     {
-        return new(MetricPrefix.ScaleThree(power.Quant.SiDivide(velocity.Quant), root));
+        return new(MetricPrefix.ScaleTriadic(power.Quant.SiDivide(velocity.Quant), root));
     }
 
     public Boolean Equals(Force other) => this.quant.Equals(other.quant);

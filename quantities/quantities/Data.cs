@@ -31,7 +31,7 @@ public readonly struct Data : IQuantity<Data>, IAmountOfInformation
     static Data IFactory<Data>.Create(in Quant quant) => new(in quant);
     internal static Data From(in Time time, in DataRate rate)
     {
-        return new(rate.Quant.SiMultiply(time.Quant));
+        return new(rate.Quant.SiMultiply(Binary.Scaling, time.Quant));
     }
 
     public Boolean Equals(Data other) => this.quant.Equals(other.quant);

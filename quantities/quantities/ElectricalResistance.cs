@@ -22,7 +22,7 @@ public readonly struct ElectricalResistance : IQuantity<ElectricalResistance>, I
     static ElectricalResistance IFactory<ElectricalResistance>.Create(in Quant quant) => new(in quant);
     internal static ElectricalResistance From(in ElectricPotential potential, in ElectricCurrent current)
     {
-        return new(MetricPrefix.ScaleThree(potential.Quant.SiDivide(current.Quant), root));
+        return new(MetricPrefix.ScaleTriadic(potential.Quant.SiDivide(current.Quant), root));
     }
 
     public Boolean Equals(ElectricalResistance other) => this.quant.Equals(other.quant);

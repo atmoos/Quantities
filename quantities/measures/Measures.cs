@@ -1,5 +1,4 @@
-﻿using Quantities.Dimensions;
-using Quantities.Numerics;
+﻿using Quantities.Numerics;
 using Quantities.Prefixes;
 using Quantities.Units.Imperial;
 using Quantities.Units.NonStandard;
@@ -31,7 +30,7 @@ file sealed class MetricPrefix<T, TUnit> : IPrefixInject<T>
     }
 }
 
-internal readonly struct Si<TUnit> : ISiMeasure<TUnit>, ILinear
+internal readonly struct Si<TUnit> : ISiMeasure<TUnit>
     where TUnit : ISiUnit
 {
     private static readonly Serializer<TUnit> serializer = new(nameof(Si<TUnit>));
@@ -45,7 +44,7 @@ internal readonly struct Si<TUnit> : ISiMeasure<TUnit>, ILinear
     public static String Representation => TUnit.Representation;
     public static void Write(IWriter writer) => serializer.Write(writer);
 }
-internal readonly struct Si<TPrefix, TUnit> : ISiMeasure<TUnit>, ILinear
+internal readonly struct Si<TPrefix, TUnit> : ISiMeasure<TUnit>
     where TPrefix : IPrefix
     where TUnit : ISiUnit
 {
@@ -65,7 +64,7 @@ internal readonly struct Si<TPrefix, TUnit> : ISiMeasure<TUnit>, ILinear
     public static String Representation { get; } = $"{TPrefix.Representation}{TUnit.Representation}";
     public static void Write(IWriter writer) => serializer.Write(writer);
 }
-internal readonly struct Metric<TUnit> : IMetricMeasure<TUnit>, ILinear
+internal readonly struct Metric<TUnit> : IMetricMeasure<TUnit>
     where TUnit : IMetricUnit
 {
     private static readonly Serializer<TUnit> serializer = new(nameof(Metric<TUnit>));
@@ -79,7 +78,7 @@ internal readonly struct Metric<TUnit> : IMetricMeasure<TUnit>, ILinear
     public static String Representation => TUnit.Representation;
     public static void Write(IWriter writer) => serializer.Write(writer);
 }
-internal readonly struct Metric<TPrefix, TUnit> : IMetricMeasure<TUnit>, ILinear
+internal readonly struct Metric<TPrefix, TUnit> : IMetricMeasure<TUnit>
     where TPrefix : IPrefix
     where TUnit : IMetricUnit
 {
@@ -99,7 +98,7 @@ internal readonly struct Metric<TPrefix, TUnit> : IMetricMeasure<TUnit>, ILinear
     public static String Representation { get; } = $"{TPrefix.Representation}{TUnit.Representation}";
     public static void Write(IWriter writer) => serializer.Write(writer);
 }
-internal readonly struct Imperial<TUnit> : IImperialMeasure<TUnit>, ILinear
+internal readonly struct Imperial<TUnit> : IImperialMeasure<TUnit>
     where TUnit : IImperialUnit, ITransform, IRepresentable
 {
     private static readonly Serializer<TUnit> serializer = new(nameof(Imperial<TUnit>));
@@ -110,7 +109,7 @@ internal readonly struct Imperial<TUnit> : IImperialMeasure<TUnit>, ILinear
     public static T Normalize<T>(IPrefixScale scaling, IInject<T> inject, in Double value) => inject.Inject<Imperial<TUnit>>(in value);
     public static (Double, T) Lower<T>(IInject<T> inject, in Double value) => (value, inject.Inject<Imperial<TUnit>>(in value));
 }
-internal readonly struct NonStandard<TUnit> : INonStandardMeasure<TUnit>, ILinear
+internal readonly struct NonStandard<TUnit> : INonStandardMeasure<TUnit>
     where TUnit : INoSystemUnit, ITransform, IRepresentable
 {
     private static readonly Serializer<TUnit> serializer = new("any");

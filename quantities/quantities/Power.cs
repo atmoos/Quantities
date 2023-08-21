@@ -3,8 +3,6 @@ using Quantities.Dimensions;
 using Quantities.Factories;
 using Quantities.Measures;
 using Quantities.Prefixes;
-using Quantities.Quantities.Roots;
-using Quantities.Units.Si.Derived;
 
 namespace Quantities.Quantities;
 
@@ -16,7 +14,6 @@ public readonly struct Power : IQuantity<Power>, IPower
     , IDivisionOperators<Power, Force, Velocity>
     , IDivisionOperators<Power, Velocity, Force>
 {
-    private static readonly IRoot root = new SiRoot<Watt>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     Quant IQuantity<Power>.Value => this.quant;

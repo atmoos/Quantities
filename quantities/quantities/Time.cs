@@ -3,8 +3,6 @@ using Quantities.Dimensions;
 using Quantities.Factories;
 using Quantities.Measures;
 using Quantities.Prefixes;
-using Quantities.Quantities.Roots;
-using Quantities.Units.Si;
 
 namespace Quantities.Quantities;
 
@@ -14,7 +12,6 @@ public readonly struct Time : IQuantity<Time>, ITime
     , IMultiplyOperators<Time, Velocity, Length>
     , IMultiplyOperators<Time, DataRate, Data>
 {
-    private static readonly IRoot root = new SiRoot<Second>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     Quant IQuantity<Time>.Value => this.quant;

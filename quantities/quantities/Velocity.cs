@@ -3,8 +3,6 @@ using Quantities.Dimensions;
 using Quantities.Factories;
 using Quantities.Measures;
 using Quantities.Prefixes;
-using Quantities.Quantities.Roots;
-using Quantities.Units.Si;
 
 namespace Quantities.Quantities;
 
@@ -13,7 +11,6 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity
     , IMultiplyOperators<Velocity, Force, Power>
     , IMultiplyOperators<Velocity, Time, Length>
 {
-    private static readonly IRoot root = new FractionalRoot<Metre, Second>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     Quant IQuantity<Velocity>.Value => this.quant;

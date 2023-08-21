@@ -7,7 +7,7 @@ using Quantities.Units.Si;
 namespace Quantities.Measures;
 
 file sealed class SiPrefix<T, TUnit> : IPrefixInject<T>
-    where TUnit : ISiUnit
+    where TUnit : ISiUnit, Dimensions.IDimension
 {
     private readonly IInject<T> injector;
     public SiPrefix(IInject<T> injector) => this.injector = injector;
@@ -19,7 +19,7 @@ file sealed class SiPrefix<T, TUnit> : IPrefixInject<T>
 }
 
 file sealed class MetricPrefix<T, TUnit> : IPrefixInject<T>
-    where TUnit : IMetricUnit
+    where TUnit : IMetricUnit, Dimensions.IDimension
 {
     private readonly IInject<T> injector;
     public MetricPrefix(IInject<T> injector) => this.injector = injector;
@@ -31,7 +31,7 @@ file sealed class MetricPrefix<T, TUnit> : IPrefixInject<T>
 }
 
 internal readonly struct Si<TUnit> : ISiMeasure<TUnit>
-    where TUnit : ISiUnit
+    where TUnit : ISiUnit, Dimensions.IDimension
 {
     private static readonly Serializer<TUnit> serializer = new(nameof(Si<TUnit>));
     public static IOperations Operations { get; } = new FromScalar<Si<TUnit>>();
@@ -46,7 +46,7 @@ internal readonly struct Si<TUnit> : ISiMeasure<TUnit>
 }
 internal readonly struct Si<TPrefix, TUnit> : ISiMeasure<TUnit>
     where TPrefix : IPrefix
-    where TUnit : ISiUnit
+    where TUnit : ISiUnit, Dimensions.IDimension
 {
     private static readonly Polynomial poly = Polynomial.Of<TPrefix>();
     private static readonly Serializer<TUnit, TPrefix> serializer = new(nameof(Si<TUnit>));
@@ -65,7 +65,7 @@ internal readonly struct Si<TPrefix, TUnit> : ISiMeasure<TUnit>
     public static void Write(IWriter writer) => serializer.Write(writer);
 }
 internal readonly struct Metric<TUnit> : IMetricMeasure<TUnit>
-    where TUnit : IMetricUnit
+    where TUnit : IMetricUnit, Dimensions.IDimension
 {
     private static readonly Serializer<TUnit> serializer = new(nameof(Metric<TUnit>));
     public static IOperations Operations { get; } = new FromScalar<Metric<TUnit>>();
@@ -80,7 +80,7 @@ internal readonly struct Metric<TUnit> : IMetricMeasure<TUnit>
 }
 internal readonly struct Metric<TPrefix, TUnit> : IMetricMeasure<TUnit>
     where TPrefix : IPrefix
-    where TUnit : IMetricUnit
+    where TUnit : IMetricUnit, Dimensions.IDimension
 {
     private static readonly Polynomial poly = Polynomial.Of<TPrefix>();
     private static readonly Serializer<TUnit, TPrefix> serializer = new(nameof(Metric<TPrefix, TUnit>));
@@ -99,7 +99,7 @@ internal readonly struct Metric<TPrefix, TUnit> : IMetricMeasure<TUnit>
     public static void Write(IWriter writer) => serializer.Write(writer);
 }
 internal readonly struct Imperial<TUnit> : IImperialMeasure<TUnit>
-    where TUnit : IImperialUnit, ITransform, IRepresentable
+    where TUnit : IImperialUnit, ITransform, IRepresentable, Dimensions.IDimension
 {
     private static readonly Serializer<TUnit> serializer = new(nameof(Imperial<TUnit>));
     public static IOperations Operations { get; } = new FromScalar<Imperial<TUnit>>();
@@ -110,7 +110,7 @@ internal readonly struct Imperial<TUnit> : IImperialMeasure<TUnit>
     public static (Double, T) Lower<T>(IInject<T> inject, in Double value) => (value, inject.Inject<Imperial<TUnit>>(in value));
 }
 internal readonly struct NonStandard<TUnit> : INonStandardMeasure<TUnit>
-    where TUnit : INoSystemUnit, ITransform, IRepresentable
+    where TUnit : INoSystemUnit, ITransform, IRepresentable, Dimensions.IDimension
 {
     private static readonly Serializer<TUnit> serializer = new("any");
     public static IOperations Operations { get; } = new FromScalar<NonStandard<TUnit>>();

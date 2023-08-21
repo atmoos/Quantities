@@ -3,8 +3,6 @@ using Quantities.Dimensions;
 using Quantities.Factories;
 using Quantities.Measures;
 using Quantities.Prefixes;
-using Quantities.Quantities.Roots;
-using Quantities.Units.Si;
 
 namespace Quantities.Quantities;
 
@@ -13,7 +11,6 @@ public readonly struct ElectricCurrent : IQuantity<ElectricCurrent>, IElectricCu
     , IMultiplyOperators<ElectricCurrent, ElectricPotential, Power>
     , IMultiplyOperators<ElectricCurrent, ElectricalResistance, ElectricPotential>
 {
-    private static readonly IRoot root = new SiRoot<Ampere>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     Quant IQuantity<ElectricCurrent>.Value => this.quant;
@@ -29,7 +26,6 @@ public readonly struct ElectricCurrent : IQuantity<ElectricCurrent>, IElectricCu
     {
         return new(power.Quant.Divide(Metric.TriadicScaling, potential.Quant));
     }
-
     public Boolean Equals(ElectricCurrent other) => this.quant.Equals(other.quant);
     public String ToString(String? format, IFormatProvider? provider) => this.quant.ToString(format, provider);
     public override Boolean Equals(Object? obj) => obj is ElectricCurrent current && Equals(current);

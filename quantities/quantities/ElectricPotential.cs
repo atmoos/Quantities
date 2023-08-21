@@ -3,9 +3,6 @@ using Quantities.Dimensions;
 using Quantities.Factories;
 using Quantities.Measures;
 using Quantities.Prefixes;
-using Quantities.Quantities.Roots;
-using Quantities.Units.Si;
-using Quantities.Units.Si.Derived;
 
 namespace Quantities.Quantities;
 
@@ -15,7 +12,6 @@ public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectr
     , IDivisionOperators<ElectricPotential, ElectricCurrent, ElectricalResistance>
     , IDivisionOperators<ElectricPotential, ElectricalResistance, ElectricCurrent>
 {
-    private static readonly IRoot root = new SiRoot<Volt>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     Quant IQuantity<ElectricPotential>.Value => this.quant;
@@ -29,11 +25,8 @@ public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectr
     }
     internal static ElectricPotential From(in Power power, in ElectricCurrent current)
     {
-        Double siPower = power.To.Si<Watt>();
-        Double siCurrent = current.To.Si<Ampere>();
-        return new(MetricPrefix.ScaleTriadic(siPower / siCurrent, root));
+        return new(power.Quant.Divide(Metric.TriadicScaling, current.Quant));
     }
-
     public Boolean Equals(ElectricPotential other) => this.quant.Equals(other.quant);
     public String ToString(String? format, IFormatProvider? provider) => this.quant.ToString(format, provider);
     public override Boolean Equals(Object? obj) => obj is ElectricPotential potential && Equals(potential);

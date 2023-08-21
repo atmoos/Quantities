@@ -3,8 +3,6 @@ using Quantities.Dimensions;
 using Quantities.Factories;
 using Quantities.Measures;
 using Quantities.Prefixes;
-using Quantities.Quantities.Roots;
-using Quantities.Units.Si.Derived;
 
 namespace Quantities.Quantities;
 
@@ -12,7 +10,6 @@ public readonly struct Force : IQuantity<Force>, IForce
     , IFactory<ISiFactory<Force, IForce>, Linear<To, Force, IForce>, Linear<Create, Force, IForce>>
     , IMultiplyOperators<Force, Velocity, Power>
 {
-    private static readonly IRoot root = new SiRoot<Newton>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     Quant IQuantity<Force>.Value => this.quant;
@@ -24,7 +21,6 @@ public readonly struct Force : IQuantity<Force>, IForce
     {
         return new(power.Quant.Divide(Metric.TriadicScaling, velocity.Quant));
     }
-
     public Boolean Equals(Force other) => this.quant.Equals(other.quant);
     public override Boolean Equals(Object? obj) => obj is Force force && Equals(force);
     public override Int32 GetHashCode() => this.quant.GetHashCode();

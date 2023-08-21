@@ -3,8 +3,6 @@ using Quantities.Dimensions;
 using Quantities.Factories;
 using Quantities.Measures;
 using Quantities.Prefixes;
-using Quantities.Quantities.Roots;
-using Quantities.Units.Si.Derived;
 
 namespace Quantities.Quantities;
 
@@ -12,7 +10,6 @@ public readonly struct ElectricalResistance : IQuantity<ElectricalResistance>, I
     , IFactory<ISiFactory<ElectricalResistance, IElectricalResistance>, SiOnly<To, ElectricalResistance, IElectricalResistance>, SiOnly<Create, ElectricalResistance, IElectricalResistance>>
     , IMultiplyOperators<ElectricalResistance, ElectricCurrent, ElectricPotential>
 {
-    private static readonly IRoot root = new SiRoot<Ohm>();
     private readonly Quant quant;
     internal Quant Quant => this.quant;
     Quant IQuantity<ElectricalResistance>.Value => this.quant;
@@ -24,7 +21,6 @@ public readonly struct ElectricalResistance : IQuantity<ElectricalResistance>, I
     {
         return new(potential.Quant.Divide(Metric.TriadicScaling, current.Quant));
     }
-
     public Boolean Equals(ElectricalResistance other) => this.quant.Equals(other.quant);
     public override Boolean Equals(Object? obj) => obj is ElectricalResistance resistance && Equals(resistance);
     public override Int32 GetHashCode() => this.quant.GetHashCode();

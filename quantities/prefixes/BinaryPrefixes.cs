@@ -23,49 +23,49 @@ public readonly struct Kibi : IBinaryPrefix, IScaleUp
 [DebuggerDisplay(nameof(Mebi))]
 public readonly struct Mebi : IBinaryPrefix, IScaleUp
 {
-    internal const Double Factor = 1048576;
+    internal const Double Factor = 1048576; // 1024^2
     static Transformation ITransform.ToSi(Transformation self) => Factor * self;
     public static String Representation => "Mi";
 }
 [DebuggerDisplay(nameof(Gibi))]
 public readonly struct Gibi : IBinaryPrefix, IScaleUp
 {
-    internal const Double Factor = 1073741824;
+    internal const Double Factor = 1073741824; // 1024^3
     static Transformation ITransform.ToSi(Transformation self) => Factor * self;
     public static String Representation => "Gi";
 }
 [DebuggerDisplay(nameof(Tebi))]
 public readonly struct Tebi : IBinaryPrefix, IScaleUp
 {
-    internal const Double Factor = 1099511627776;
+    internal const Double Factor = 1099511627776;// 1024^4
     static Transformation ITransform.ToSi(Transformation self) => Factor * self;
     public static String Representation => "Ti";
 }
 [DebuggerDisplay(nameof(Pebi))]
 public readonly struct Pebi : IBinaryPrefix, IScaleUp
 {
-    internal const Double Factor = 1125899906842624;
+    internal const Double Factor = 1125899906842624; // 1024^5
     static Transformation ITransform.ToSi(Transformation self) => Factor * self;
     public static String Representation => "Pi";
 }
 [DebuggerDisplay(nameof(Exbi))]
 public readonly struct Exbi : IBinaryPrefix, IScaleUp
 {
-    internal const Double Factor = 1152921504606846976;
+    internal const Double Factor = 1152921504606846976; // 1024^6
     static Transformation ITransform.ToSi(Transformation self) => Factor * self;
     public static String Representation => "Ei";
 }
 [DebuggerDisplay(nameof(Zebi))]
 public readonly struct Zebi : IBinaryPrefix, IScaleUp
 {
-    internal const Double Factor = Gibi.Factor * Tebi.Factor; // 1180591620717411303424
+    internal const Double Factor = Gibi.Factor * Tebi.Factor; // 1024^7 = 1180591620717411303424
     static Transformation ITransform.ToSi(Transformation self) => Factor * self;
     public static String Representation => "Zi";
 }
 [DebuggerDisplay(nameof(Yobi))]
 public readonly struct Yobi : IBinaryPrefix, IScaleUp
 {
-    internal const Double Factor = Tebi.Factor * Tebi.Factor; // 1208925819614629174706176
+    internal const Double Factor = Tebi.Factor * Tebi.Factor; // 1024^8 =1208925819614629174706176
     static Transformation ITransform.ToSi(Transformation self) => Factor * self;
     public static String Representation => "Yi";
 }

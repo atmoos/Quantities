@@ -18,8 +18,7 @@ public readonly struct DataRate : IQuantity<DataRate>, IInformationRate
     internal DataRate(in Quant quant) => this.quant = quant;
     public static Factory<Create> Of(in Double value) => new(new Create(in value));
     static DataRate IFactory<DataRate>.Create(in Quant quant) => new(in quant);
-    internal static DataRate From(in Data data, in Time time) => new(data.Quant.Divide(time.Quant));
-
+    internal static DataRate From(in Data data, in Time time) => new(data.Quant.Divide(Binary.Scaling, time.Quant));
     public Boolean Equals(DataRate other) => this.quant.Equals(other.quant);
     public override Boolean Equals(Object? obj) => obj is DataRate rate && Equals(rate);
     public override Int32 GetHashCode() => this.quant.GetHashCode();
@@ -45,10 +44,10 @@ public readonly struct DataRate : IQuantity<DataRate>, IInformationRate
         internal Factory(in TCreate creator) => this.creator = creator;
         public Denominator<TCreate, DataRate, ITime> Binary<TPrefix, TUnit>()
             where TPrefix : IBinaryPrefix
-            where TUnit : IMetricUnit, IAmountOfInformation => new(in this.creator, AllocationFree<Factories.QuotientInjector<TCreate, Metric<TPrefix, TUnit>>>.Item);
-        public Denominator<TCreate, DataRate, ITime> Metric<TUnit>() where TUnit : IMetricUnit, IAmountOfInformation => new(in this.creator, AllocationFree<Factories.QuotientInjector<TCreate, Metric<TUnit>>>.Item);
+            where TUnit : IMetricUnit, IAmountOfInformation => new(in this.creator, AllocationFree<QuotientInjector<TCreate, Metric<TPrefix, TUnit>>>.Item);
+        public Denominator<TCreate, DataRate, ITime> Metric<TUnit>() where TUnit : IMetricUnit, IAmountOfInformation => new(in this.creator, AllocationFree<QuotientInjector<TCreate, Metric<TUnit>>>.Item);
         public Denominator<TCreate, DataRate, ITime> Metric<TPrefix, TUnit>()
             where TPrefix : IMetricPrefix
-            where TUnit : IMetricUnit, IAmountOfInformation => new(in this.creator, AllocationFree<Factories.QuotientInjector<TCreate, Metric<TPrefix, TUnit>>>.Item);
+            where TUnit : IMetricUnit, IAmountOfInformation => new(in this.creator, AllocationFree<QuotientInjector<TCreate, Metric<TPrefix, TUnit>>>.Item);
     }
 }

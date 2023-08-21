@@ -100,9 +100,20 @@ public class DataRateTest
     [Fact]
     public void DataDividedByTimeIsDataRate()
     {
-        Time time = Time.Of(12).Si<Micro, Second>();
+        Time time = Time.Of(12).Si<Deci, Second>();
         Data data = Data.Of(24).Binary<Gibi, Nibble>();
-        DataRate expected = DataRate.Of(24 / 12).Binary<Gibi, Nibble>().Per.Si<Micro, Second>();
+        DataRate expected = DataRate.Of(24 / 1.2).Binary<Gibi, Nibble>().Per.Si<Second>();
+
+        DataRate actual = data / time;
+
+        actual.Matches(expected);
+    }
+    [Fact]
+    public void DataDividedByLongTimeIsDataRateWithSmallerPrefix()
+    {
+        Time time = Time.Of(2).Si<Mega, Second>();// weird time, but good for this test!
+        Data data = Data.Of(24).Binary<Gibi, Nibble>();
+        DataRate expected = DataRate.Of(24 * Math.Pow(1024, 3 - 1) / 2e6).Binary<Kibi, Nibble>().Per.Si<Second>();
 
         DataRate actual = data / time;
 

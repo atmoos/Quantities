@@ -25,7 +25,7 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity
     {
         return new(power.Quant.Divide(Metric.TriadicScaling, force.Quant));
     }
-    internal static Velocity From(in Length length, in Time time) => new(length.Quant.Divide(time.Quant));
+    internal static Velocity From(in Length length, in Time time) => new(length.Quant.Divide(Metric.Scaling, time.Quant));
     public Boolean Equals(Velocity other) => this.quant.Equals(other.quant);
     public override Boolean Equals(Object? obj) => obj is Velocity velocity && Equals(velocity);
     public override Int32 GetHashCode() => this.quant.GetHashCode();

@@ -1,6 +1,5 @@
 using System.Globalization;
 using System.Numerics;
-using Quantities.Measures.Transformations;
 using Quantities.Prefixes;
 
 namespace Quantities.Measures;
@@ -13,8 +12,6 @@ internal readonly struct Quant : IEquatable<Quant>, IFormattable
     , IDivisionOperators<Quant, Double, Quant>
     , IDivisionOperators<Quant, Quant, Double>
 {
-    private static readonly IInject<IInject<Quant>> division = new Divide();
-    private static readonly IInject<IInject<Quant>> multiplication = new Multiply();
     private readonly Map map;
     private readonly Double value;
     public Double Value => this.value;
@@ -40,16 +37,6 @@ internal readonly struct Quant : IEquatable<Quant>, IFormattable
     }
     public Quant Multiply(IPrefixScale scaling, in Quant right) => right.map.Multiply(scaling, this.map, this.value * right.Value);
     public Quant Divide(IPrefixScale scaling, in Quant divisor) => divisor.map.Divide(scaling, this.map, new Operands(in this.value, in divisor.value));
-    public Quant Divide(in Quant right)
-    {
-        var nominator = this.map.Injector.Inject(in division, in this.value);
-        return right.map.Injector.Inject(in nominator, in right.value);
-    }
-    public Quant Multiply(in Quant right)
-    {
-        var leftTerm = this.map.Injector.Inject(in multiplication, in this.value);
-        return right.map.Injector.Inject(in leftTerm, in right.value);
-    }
 
     public Boolean Equals(Quant other)
     {

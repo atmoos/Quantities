@@ -2,6 +2,7 @@ using System.Numerics;
 using Quantities.Dimensions;
 using Quantities.Factories;
 using Quantities.Measures;
+using Quantities.Prefixes;
 
 namespace Quantities.Quantities;
 
@@ -17,7 +18,7 @@ public readonly struct Energy : IQuantity<Energy>, IEnergy
     private Energy(in Quant quant) => this.quant = quant;
     public static Product<Create, Energy, IEnergy, IPower, ITime> Of(in Double value) => new(new Create(in value));
     static Energy IFactory<Energy>.Create(in Quant quant) => new(in quant);
-    internal static Energy From(in Power power, in Time time) => new(power.Quant.Multiply(time.Quant));
+    internal static Energy From(in Power power, in Time time) => new(power.Quant.Multiply(Metric.TriadicScaling, time.Quant));
     public Boolean Equals(Energy other) => this.quant.Equals(other.quant);
     public override Boolean Equals(Object? obj) => obj is Energy energy && Equals(energy);
     public override Int32 GetHashCode() => this.quant.GetHashCode();

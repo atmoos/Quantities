@@ -1,5 +1,4 @@
 using Quantities.Prefixes;
-using Quantities.Serialization;
 using Quantities.Units.Imperial;
 using Quantities.Units.NonStandard;
 using Quantities.Units.Si;

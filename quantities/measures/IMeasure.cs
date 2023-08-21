@@ -5,13 +5,15 @@ using Quantities.Units.Si;
 
 namespace Quantities.Measures;
 
-
 internal interface IMeasure : ITransform, IRepresentable, ISerialize
 {
     static abstract IOperations Operations { get; }
+    static abstract Boolean Is<TMeasure>() where TMeasure : IMeasure;
+    static abstract Boolean HasSame<TDimension>() where TDimension : Dimensions.IDimension;
     static abstract T Normalize<T>(IPrefixScale scaling, IInject<T> inject, in Double value);
     static abstract (Double, T) Lower<T>(IInject<T> inject, in Double value);
 }
+
 internal interface ISiMeasure<in TUnit> : IMeasure
     where TUnit : ISiUnit
 {

@@ -35,6 +35,8 @@ internal readonly struct Si<TUnit> : ISiMeasure<TUnit>
 {
     private static readonly Serializer<TUnit> serializer = new(nameof(Si<TUnit>));
     public static IOperations Operations { get; } = new FromScalar<Si<TUnit>>();
+    public static Boolean Is<TMeasure>() where TMeasure : IMeasure => TMeasure.HasSame<TUnit>();
+    public static Boolean HasSame<TDimension>() where TDimension : Dimensions.IDimension => TUnit.Is<TDimension>();
     public static (Double, T) Lower<T>(IInject<T> inject, in Double value) => (value, inject.Inject<Si<TUnit>>(in value));
     public static T Normalize<T>(IPrefixScale scaling, IInject<T> inject, in Double value)
     {
@@ -51,6 +53,8 @@ internal readonly struct Si<TPrefix, TUnit> : ISiMeasure<TUnit>
     private static readonly Polynomial poly = Polynomial.Of<TPrefix>();
     private static readonly Serializer<TUnit, TPrefix> serializer = new(nameof(Si<TUnit>));
     public static IOperations Operations { get; } = new FromScalar<Si<TPrefix, TUnit>>();
+    public static Boolean Is<TMeasure>() where TMeasure : IMeasure => TMeasure.HasSame<TUnit>();
+    public static Boolean HasSame<TDimension>() where TDimension : Dimensions.IDimension => TUnit.Is<TDimension>();
     public static (Double, T) Lower<T>(IInject<T> inject, in Double value)
     {
         var lowered = poly.Evaluate(in value);
@@ -69,6 +73,8 @@ internal readonly struct Metric<TUnit> : IMetricMeasure<TUnit>
 {
     private static readonly Serializer<TUnit> serializer = new(nameof(Metric<TUnit>));
     public static IOperations Operations { get; } = new FromScalar<Metric<TUnit>>();
+    public static Boolean Is<TMeasure>() where TMeasure : IMeasure => TMeasure.HasSame<TUnit>();
+    public static Boolean HasSame<TDimension>() where TDimension : Dimensions.IDimension => TUnit.Is<TDimension>();
     public static (Double, T) Lower<T>(IInject<T> inject, in Double value) => (value, inject.Inject<Metric<TUnit>>(in value));
     public static T Normalize<T>(IPrefixScale scaling, IInject<T> inject, in Double value)
     {
@@ -85,6 +91,8 @@ internal readonly struct Metric<TPrefix, TUnit> : IMetricMeasure<TUnit>
     private static readonly Polynomial poly = Polynomial.Of<TPrefix>();
     private static readonly Serializer<TUnit, TPrefix> serializer = new(nameof(Metric<TPrefix, TUnit>));
     public static IOperations Operations { get; } = new FromScalar<Metric<TPrefix, TUnit>>();
+    public static Boolean Is<TMeasure>() where TMeasure : IMeasure => TMeasure.HasSame<TUnit>();
+    public static Boolean HasSame<TDimension>() where TDimension : Dimensions.IDimension => TUnit.Is<TDimension>();
     public static (Double, T) Lower<T>(IInject<T> inject, in Double value)
     {
         var lowered = poly.Evaluate(in value);
@@ -103,6 +111,8 @@ internal readonly struct Imperial<TUnit> : IImperialMeasure<TUnit>
 {
     private static readonly Serializer<TUnit> serializer = new(nameof(Imperial<TUnit>));
     public static IOperations Operations { get; } = new FromScalar<Imperial<TUnit>>();
+    public static Boolean Is<TMeasure>() where TMeasure : IMeasure => TMeasure.HasSame<TUnit>();
+    public static Boolean HasSame<TDimension>() where TDimension : Dimensions.IDimension => TUnit.Is<TDimension>();
     public static Transformation ToSi(Transformation self) => TUnit.ToSi(self);
     public static String Representation => TUnit.Representation;
     public static void Write(IWriter writer) => serializer.Write(writer);
@@ -114,6 +124,8 @@ internal readonly struct NonStandard<TUnit> : INonStandardMeasure<TUnit>
 {
     private static readonly Serializer<TUnit> serializer = new("any");
     public static IOperations Operations { get; } = new FromScalar<NonStandard<TUnit>>();
+    public static Boolean Is<TMeasure>() where TMeasure : IMeasure => TMeasure.HasSame<TUnit>();
+    public static Boolean HasSame<TDimension>() where TDimension : Dimensions.IDimension => TUnit.Is<TDimension>();
     public static Transformation ToSi(Transformation self) => TUnit.ToSi(self);
     public static String Representation => TUnit.Representation;
     public static void Write(IWriter writer) => serializer.Write(writer);
@@ -127,6 +139,8 @@ internal readonly struct Product<TLeft, TRight> : IMeasure
 {
     const String narrowNoBreakSpace = "\u202F";
     public static IOperations Operations { get; } = new FromProduct<TLeft, TRight>();
+    public static Boolean Is<TMeasure>() where TMeasure : IMeasure => throw new NotImplementedException();
+    public static Boolean HasSame<TDimension>() where TDimension : Dimensions.IDimension => throw new NotImplementedException();
     public static Transformation ToSi(Transformation self) => TLeft.ToSi(TRight.ToSi(self));
     public static String Representation { get; } = $"{TLeft.Representation}{narrowNoBreakSpace}{TRight.Representation}";
     public static void Write(IWriter writer)
@@ -144,6 +158,8 @@ internal readonly struct Quotient<TNominator, TDenominator> : IMeasure
     where TDenominator : IMeasure
 {
     public static IOperations Operations { get; } = new FromQuotient<TNominator, TDenominator>();
+    public static Boolean Is<TMeasure>() where TMeasure : IMeasure => throw new NotImplementedException();
+    public static Boolean HasSame<TDimension>() where TDimension : Dimensions.IDimension => throw new NotImplementedException();
     public static Transformation ToSi(Transformation self) => TNominator.ToSi(TDenominator.ToSi(self).Invert());
     public static String Representation { get; } = $"{TNominator.Representation}/{TDenominator.Representation}";
     public static void Write(IWriter writer)
@@ -162,6 +178,8 @@ internal readonly struct Power<TDim, TMeasure> : IMeasure
 {
     private static readonly String dimension = typeof(TDim).Name.ToLowerInvariant();
     public static IOperations Operations { get; } = new FromPower<TDim, TMeasure>();
+    public static Boolean Is<TMeasure1>() where TMeasure1 : IMeasure => throw new NotImplementedException();
+    public static Boolean HasSame<TDimension>() where TDimension : Dimensions.IDimension => throw new NotImplementedException();
     public static Transformation ToSi(Transformation self) => TDim.Pow(TMeasure.ToSi(self));
     public static String Representation { get; } = $"{TMeasure.Representation}{TDim.Representation}";
     public static void Write(IWriter writer)

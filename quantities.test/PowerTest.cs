@@ -12,6 +12,8 @@ public sealed class PowerTest
     [Fact]
     public void MicroWattToString() => FormattingMatches(v => Power.Of(v).Si<Micro, Watt>(), "μW");
     [Fact]
+    public void VoltAmpereToString() => FormattingMatches(v => ElectricPotential.Of(v).Si<Volt>() * ElectricCurrent.Of(1).Si<Ampere>(), "VA");
+    [Fact]
     public void PowerLawInBaseUnits()
     {
         ElectricPotential volts = ElectricPotential.Of(12).Si<Volt>();
@@ -20,7 +22,7 @@ public sealed class PowerTest
 
         Power power = volts * ampere;
 
-        power.Matches(expected);
+        Assert.Equal(expected, power);
     }
     [Fact]
     public void OhmsLawInPrefixedUnits()
@@ -31,7 +33,7 @@ public sealed class PowerTest
 
         Power power = ampere * volts;
 
-        power.Matches(expected);
+        Assert.Equal(expected, power);
     }
     [Fact]
     public void OhmsLawSquarePotentialPerResistance()
@@ -42,7 +44,7 @@ public sealed class PowerTest
 
         Power power = volts * (volts / ohm);
 
-        power.Matches(expected);
+        Assert.Equal(expected, power);
     }
     [Fact]
     public void OhmsLawSquareCurrentTimesResistance()
@@ -100,6 +102,30 @@ public sealed class PowerTest
         Power expected = Power.Of(10).Si<Mega, Watt>();
 
         Power actual = energy / time;
+
+        actual.Matches(expected);
+    }
+
+    [Fact]
+    public void ElectricVoltAmpereDividedByVolts()
+    {
+        Power power = ElectricPotential.Of(200).Si<Kilo, Volt>() * ElectricCurrent.Of(45).Si<Ampere>();
+        ElectricPotential potential = ElectricPotential.Of(15).Si<Kilo, Volt>();
+        ElectricCurrent expected = ElectricCurrent.Of(600).Si<Ampere>();
+
+        ElectricCurrent actual = power / potential;
+
+        actual.Matches(expected);
+    }
+
+    [Fact]
+    public void ElectricVoltAmpereDividedByAmpere()
+    {
+        Power power = ElectricPotential.Of(200).Si<Kilo, Volt>() * ElectricCurrent.Of(45).Si<Ampere>();
+        ElectricCurrent current = ElectricCurrent.Of(15).Si<Kilo, Ampere>();
+        ElectricPotential expected = ElectricPotential.Of(600).Si<Volt>();
+
+        ElectricPotential actual = power / current;
 
         actual.Matches(expected);
     }

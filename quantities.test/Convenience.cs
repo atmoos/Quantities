@@ -1,4 +1,5 @@
 using System.Globalization;
+using Quantities.Dimensions;
 using Xunit.Sdk;
 
 namespace Quantities.Test;

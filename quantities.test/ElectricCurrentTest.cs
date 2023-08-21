@@ -54,16 +54,4 @@ public sealed class ElectricCurrentTest
 
         Assert.Equal(expected, actual);
     }
-
-    [Fact]
-    public void PowerLawInPrefixedUnits_Catastrophe()
-    {
-        Power power = ElectricPotential.Of(200).Si<Kilo, Volt>() * ElectricCurrent.Of(45).Si<Ampere>();
-        ElectricPotential volts = ElectricPotential.Of(15).Si<Kilo, Volt>();
-        ElectricCurrent expected = ElectricCurrent.Of(600).Si<Ampere>();
-
-        ElectricCurrent actual = power / volts;
-
-        actual.Matches(expected);
-    }
 }

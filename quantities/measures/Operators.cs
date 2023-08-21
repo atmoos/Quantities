@@ -2,31 +2,52 @@ using Quantities.Prefixes;
 
 namespace Quantities.Measures;
 
+internal abstract class Comparison
+{
+    protected Comparison() { }
+    public abstract Boolean Is<TMeasure>() where TMeasure : IMeasure;
+}
+
+file sealed class Comparison<TDimension> : Comparison
+    where TDimension : Dimensions.IDimension
+{
+    public override Boolean Is<TMeasure>() => TMeasure.Is<TDimension>();
+}
+
 internal sealed class FromScalar<TScalarMeasure> : IOperations
     where TScalarMeasure : IMeasure
 {
+    private readonly Comparison comparison;
+    private FromScalar(Comparison comparison) => this.comparison = comparison;
+    public Boolean Is<TMeasure>() where TMeasure : IMeasure => this.comparison.Is<TMeasure>();
     public Quant Divide<TMeasure>(IPrefixScale scaling, in Operands operands) where TMeasure : IMeasure
     {
         var (loweredDenominator, right) = TMeasure.Lower(Operator.Quotient, in operands.Right);
         return TScalarMeasure.Normalize(scaling, right, operands.Left / loweredDenominator);
     }
-
     public Quant Multiply<TMeasure>(IPrefixScale scaling, in Double value) where TMeasure : IMeasure
     {
         var (lowered, right) = TMeasure.Lower(Operator.Product, in value);
         return TScalarMeasure.Normalize(scaling, right, in lowered);
+    }
+    public static IOperations Create<TDimension>() where TDimension : Dimensions.IDimension
+    {
+        return new FromScalar<TScalarMeasure>(AllocationFree<Comparison<TDimension>>.Item);
     }
 }
 internal sealed class FromProduct<TLeft, TRight> : IOperations
     where TLeft : IMeasure
     where TRight : IMeasure
 {
+    private static readonly IOperations left = TLeft.Operations;
+    private static readonly IOperations right = TRight.Operations;
+    public Boolean Is<TMeasure>() where TMeasure : IMeasure => false; // ToDo!
     public Quant Divide<TMeasure>(IPrefixScale scaling, in Operands operands) where TMeasure : IMeasure
     {
-        if (TRight.Is<TMeasure>()) {
+        if (right.Is<TMeasure>()) {
             return Divide<TLeft, TRight, TMeasure>(scaling, in operands);
         }
-        if (TLeft.Is<TMeasure>()) {
+        if (left.Is<TMeasure>()) {
             return Divide<TRight, TLeft, TMeasure>(scaling, in operands);
         }
         return Build<Product<TLeft, Quotient<TRight, TMeasure>>>.With(operands.Left / operands.Right);
@@ -50,6 +71,7 @@ internal sealed class FromQuotient<TNominator, TDenominator> : IOperations
     where TNominator : IMeasure
     where TDenominator : IMeasure
 {
+    public Boolean Is<TMeasure>() where TMeasure : IMeasure => false; // ToDo!
     public Quant Divide<TMeasure>(IPrefixScale scaling, in Operands operands) where TMeasure : IMeasure
     {
         throw new NotImplementedException();
@@ -65,6 +87,7 @@ internal sealed class FromPower<TDim, TScalarMeasure> : IOperations
     where TDim : IDimension
     where TScalarMeasure : IMeasure
 {
+    public Boolean Is<TMeasure>() where TMeasure : IMeasure => false; // ToDo!
     public Quant Divide<TMeasure>(IPrefixScale scaling, in Operands operands) where TMeasure : IMeasure
     {
         throw new NotImplementedException();

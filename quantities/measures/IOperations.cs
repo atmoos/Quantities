@@ -12,6 +12,7 @@ internal readonly ref struct Operands
 
 internal interface IOperations
 {
+    Boolean Is<TMeasure>() where TMeasure : IMeasure;
     Quant Divide<TMeasure>(IPrefixScale scaling, in Operands operands) where TMeasure : IMeasure;
     Quant Multiply<TMeasure>(IPrefixScale scaling, in Double value) where TMeasure : IMeasure;
 }

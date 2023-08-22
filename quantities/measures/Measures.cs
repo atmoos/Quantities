@@ -8,30 +8,6 @@ using static Quantities.Extensions;
 
 namespace Quantities.Measures;
 
-file sealed class SiPrefix<T, TUnit> : IPrefixInject<T>
-    where TUnit : ISiUnit, Dimensions.IDimension
-{
-    private readonly IInject<T> injector;
-    public SiPrefix(IInject<T> injector) => this.injector = injector;
-    public T Identity(in Double value) => this.injector.Inject<Si<TUnit>>(in value);
-    public T Inject<TPrefix>(in Double value) where TPrefix : IPrefix
-    {
-        return this.injector.Inject<Si<TPrefix, TUnit>>(in value);
-    }
-}
-
-file sealed class MetricPrefix<T, TUnit> : IPrefixInject<T>
-    where TUnit : IMetricUnit, Dimensions.IDimension
-{
-    private readonly IInject<T> injector;
-    public MetricPrefix(IInject<T> injector) => this.injector = injector;
-    public T Identity(in Double value) => this.injector.Inject<Metric<TUnit>>(in value);
-    public T Inject<TPrefix>(in Double value) where TPrefix : IPrefix
-    {
-        return this.injector.Inject<Metric<TPrefix, TUnit>>(in value);
-    }
-}
-
 internal readonly struct Si<TUnit> : ISiMeasure<TUnit>
     where TUnit : ISiUnit, Dimensions.IDimension
 {
@@ -146,8 +122,13 @@ internal readonly struct Product<TLeft, TRight> : IMeasure
         writer.End();
     }
     public static T Normalize<T>(IPrefixScale scaling, IInject<T> inject, in Double value) => throw NotImplemented<Product<TLeft, TRight>>();
-    public static (Double, T) Lower<T>(IInject<T> inject, in Double value) => throw NotImplemented<Product<TLeft, TRight>>();
+    public static (Double, T) Lower<T>(IInject<T> inject, in Double value)
+    {
+        var (tempValue, rightInject) = TRight.Lower<IInject<T>>(new ProductInject<T>(inject), in value);
+        return TLeft.Lower(rightInject, tempValue);
+    }
 }
+
 internal readonly struct Quotient<TNominator, TDenominator> : IMeasure
     where TNominator : IMeasure
     where TDenominator : IMeasure
@@ -164,7 +145,12 @@ internal readonly struct Quotient<TNominator, TDenominator> : IMeasure
         writer.End();
     }
     public static T Normalize<T>(IPrefixScale scaling, IInject<T> inject, in Double value) => throw NotImplemented<Quotient<TNominator, TDenominator>>();
-    public static (Double, T) Lower<T>(IInject<T> inject, in Double value) => throw NotImplemented<Quotient<TNominator, TDenominator>>();
+    public static (Double, T) Lower<T>(IInject<T> inject, in Double value)
+    {
+        var (nominator, injectDenominator) = TNominator.Lower(new QuotientInject<T>(inject), in value);
+        var (denominator, val) = TDenominator.Lower(injectDenominator, 1d);
+        return (nominator / denominator, val);
+    }
 }
 internal readonly struct Power<TDim, TMeasure> : IMeasure
     where TDim : IDimension
@@ -181,6 +167,78 @@ internal readonly struct Power<TDim, TMeasure> : IMeasure
         TMeasure.Write(writer);
         writer.End();
     }
-    public static T Normalize<T>(IPrefixScale scaling, IInject<T> inject, in Double value) => throw NotImplemented<Power<TDim, TMeasure>>();
-    public static (Double, T) Lower<T>(IInject<T> inject, in Double value) => throw NotImplemented<Power<TDim, TMeasure>>();
+    public static T Normalize<T>(IPrefixScale scaling, IInject<T> inject, in Double value)
+    {
+        throw NotImplemented<Power<TDim, TMeasure>>();
+    }
+    public static (Double, T) Lower<T>(IInject<T> inject, in Double value)
+    {
+        var (_, (poly, result)) = TMeasure.Lower(new PowerInject<T>(inject), in value);
+        return (poly.Evaluate(in value), result);
+    }
+
+    private sealed class PowerInject<T> : IInject<(Polynomial, T)>
+    {
+        private readonly IInject<T> injector;
+        public PowerInject(IInject<T> injector) => this.injector = injector;
+        public (Polynomial, T) Inject<TMeasure1>(in Double value) where TMeasure1 : IMeasure
+        {
+            return (Conversion<Power<TDim, TMeasure>, Power<TDim, TMeasure1>>.Polynomial, this.injector.Inject<Power<TDim, TMeasure1>>(in value));
+        }
+    }
+}
+
+
+file sealed class SiPrefix<T, TUnit> : IPrefixInject<T>
+    where TUnit : ISiUnit, Dimensions.IDimension
+{
+    private readonly IInject<T> injector;
+    public SiPrefix(IInject<T> injector) => this.injector = injector;
+    public T Identity(in Double value) => this.injector.Inject<Si<TUnit>>(in value);
+    public T Inject<TPrefix>(in Double value) where TPrefix : IPrefix
+    {
+        return this.injector.Inject<Si<TPrefix, TUnit>>(in value);
+    }
+}
+
+file sealed class MetricPrefix<T, TUnit> : IPrefixInject<T>
+    where TUnit : IMetricUnit, Dimensions.IDimension
+{
+    private readonly IInject<T> injector;
+    public MetricPrefix(IInject<T> injector) => this.injector = injector;
+    public T Identity(in Double value) => this.injector.Inject<Metric<TUnit>>(in value);
+    public T Inject<TPrefix>(in Double value) where TPrefix : IPrefix
+    {
+        return this.injector.Inject<Metric<TPrefix, TUnit>>(in value);
+    }
+}
+
+file sealed class ProductInject<T> : IInject<IInject<T>>
+{
+    private readonly IInject<T> injector;
+    public ProductInject(IInject<T> injector) => this.injector = injector;
+    public IInject<T> Inject<TMeasure>(in Double value) where TMeasure : IMeasure => new Right<TMeasure>(this.injector);
+
+    private sealed class Right<TRight> : IInject<T>
+        where TRight : IMeasure
+    {
+        private readonly IInject<T> injector;
+        public Right(IInject<T> injector) => this.injector = injector;
+        public T Inject<TMeasure>(in Double value) where TMeasure : IMeasure => this.injector.Inject<Product<TMeasure, TRight>>(in value);
+    }
+}
+
+file sealed class QuotientInject<T> : IInject<IInject<T>>
+{
+    private readonly IInject<T> injector;
+    public QuotientInject(IInject<T> injector) => this.injector = injector;
+    public IInject<T> Inject<TMeasure>(in Double value) where TMeasure : IMeasure => new Left<TMeasure>(this.injector);
+
+    private sealed class Left<TNominator> : IInject<T>
+        where TNominator : IMeasure
+    {
+        private readonly IInject<T> injector;
+        public Left(IInject<T> injector) => this.injector = injector;
+        public T Inject<TMeasure>(in Double value) where TMeasure : IMeasure => this.injector.Inject<Quotient<TNominator, TMeasure>>(in value);
+    }
 }

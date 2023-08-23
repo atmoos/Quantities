@@ -124,7 +124,7 @@ internal readonly struct Product<TLeft, TRight> : IMeasure
     public static T Normalize<T>(IPrefixScale scaling, IInject<T> inject, in Double value) => throw NotImplemented<Product<TLeft, TRight>>();
     public static (Double, T) Lower<T>(IInject<T> inject, in Double value)
     {
-        var (tempValue, rightInject) = TRight.Lower<IInject<T>>(new ProductInject<T>(inject), in value);
+        var (tempValue, rightInject) = TRight.Lower(new ProductInject<T>(inject), in value);
         return TLeft.Lower(rightInject, tempValue);
     }
 }

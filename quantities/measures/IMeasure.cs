@@ -10,6 +10,8 @@ internal interface IMeasure : ITransform, IRepresentable, ISerialize
     static abstract IOperations Operations { get; }
     static abstract Boolean Is<TDimension>() where TDimension : Dimensions.IDimension;
     static abstract T Normalize<T>(IPrefixScale scaling, IInject<T> inject, in Double value);
+
+    // ToDo: Remove in and output doubles, return polynomial instead!
     static abstract (Double, T) Lower<T>(IInject<T> inject, in Double value);
 }
 

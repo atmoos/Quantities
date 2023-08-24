@@ -1,13 +1,15 @@
 using Quantities.Measures;
 using Quantities.Numerics;
+using Quantities.Units.Imperial.Mass;
 using Quantities.Units.NonStandard.Length;
+using Quantities.Units.NonStandard.Temperature;
 using Quantities.Units.Si.Metric;
 
 namespace Quantities.Test.Measures;
 
 public class MeasuresTest
 {
-    private static readonly AssertionInjector loweringInjector = new();
+    private static readonly AssertionInjector assertionInjector = new();
     [Fact]
     public void SiToSi()
     {
@@ -32,7 +34,7 @@ public class MeasuresTest
     [Fact]
     public void LowerPureSi()
     {
-        AssertIdentityLoweringOf<Si<Second>>();
+        AssertLoweringOf<Si<Second>>();
     }
     [Fact]
     public void LowerMetric()
@@ -43,17 +45,17 @@ public class MeasuresTest
     [Fact]
     public void LowerPureMetric()
     {
-        AssertIdentityLoweringOf<Metric<Hour>>();
+        AssertLoweringOf<Metric<Hour>>();
     }
     [Fact]
     public void LowerImperial()
     {
-        AssertIdentityLoweringOf<Imperial<Mile>>();
+        AssertLoweringOf<Imperial<Mile>>();
     }
     [Fact]
     public void LowerNonStandard()
     {
-        AssertIdentityLoweringOf<NonStandard<LightYear>>();
+        AssertLoweringOf<NonStandard<LightYear>>();
     }
 
     [Fact]
@@ -76,34 +78,107 @@ public class MeasuresTest
         AssertLoweringOf<Power<Square, Si<Kilo, Metre>>, Power<Square, Si<Metre>>>(3, 3e6);
         AssertLoweringOf<Power<Square, Si<Centi, Metre>>, Power<Square, Si<Metre>>>(1e4, 1);
     }
+    [Fact]
+    public void NormalizeSi()
+    {
+        AssertNormalizationOf<Si<Metre>, Si<Mega, Metre>>(4e7, 40);
+    }
+
+    [Fact]
+    public void NormalizePrefixedSi()
+    {
+        AssertNormalizationOf<Si<Hecto, Metre>, Si<Metre>>(8e-2, 8);
+        AssertNormalizationOf<Si<Kilo, Metre>, Si<Micro, Metre>>(4e-8, 40);
+    }
+
+    [Fact]
+    public void NormalizeMetric()
+    {
+        AssertNormalizationOf<Metric<Litre>, Metric<Mega, Litre>>(4e7, 40);
+    }
+
+    [Fact]
+    public void NormalizePrefixedMetric()
+    {
+        AssertNormalizationOf<Metric<Hecto, Litre>, Metric<Litre>>(8e-2, 8);
+        AssertNormalizationOf<Metric<Kilo, Litre>, Metric<Micro, Litre>>(4e-8, 40);
+    }
+
+    [Fact]
+    public void NormalizeImperial()
+    {
+        AssertNormalizationOf<Imperial<Pound>>(91839.917356);
+    }
+
+    [Fact]
+    public void NormalizeNonStandard()
+    {
+        AssertNormalizationOf<NonStandard<Réaumur>>(5473282.972723);
+    }
+
+    [Fact]
+    public void NormalizeProduct()
+    {
+        AssertNormalizationOf<Product<Si<Hecto, Metre>, Si<Milli, Second>>, Product<Si<Kilo, Metre>, Si<Second>>>(8e5, 80);
+    }
+
+    [Fact]
+    public void NormalizeQuotient()
+    {
+        AssertNormalizationOf<Quotient<Si<Hecto, Metre>, Si<Micro, Second>>, Quotient<Si<Mega, Metre>, Si<Second>>>(8, 800);
+    }
+
+    [Fact]
+    public void NormalizePower()
+    {
+        AssertNormalizationOf<Power<Square, Si<Pico, Second>>, Power<Square, Si<Micro, Second>>>(8e12, 8);
+    }
 
     private static void AssertLoweringOf<TFrom, TExpected>(Double from, Double expected)
         where TFrom : IMeasure
         where TExpected : IMeasure
     {
-        var (actual, lowering) = TFrom.Lower(loweringInjector, from);
+        var (actual, lowering) = TFrom.Lower(assertionInjector, from);
         lowering.Is<TExpected>();
         Assert.Equal(expected, actual);
     }
 
-    private static void AssertIdentityLoweringOf<TIdentity>()
+    private static void AssertLoweringOf<TIdentity>()
         where TIdentity : IMeasure => AssertLoweringOf<TIdentity, TIdentity>(Math.PI, Math.PI);
 
-    private abstract class LoweringAssertion
+    private static void AssertNormalizationOf<TFrom, TExpected>(Double from, Double expected)
+        where TFrom : IMeasure
+        where TExpected : IMeasure
     {
+        var lowering = TFrom.Normalize(Metric.Scaling, assertionInjector, from);
+        lowering.Is<TExpected>();
+        Assert.Equal(expected, lowering.Value);
+    }
+    private static void AssertNormalizationOf<TIdentity>(Double expected)
+        where TIdentity : IMeasure
+    {
+        var lowering = TIdentity.Normalize(Metric.Scaling, assertionInjector, expected);
+        lowering.Is<TIdentity>();
+        Assert.Equal(expected, lowering.Value);
+    }
+
+    private abstract class Assertion
+    {
+        public required Double Value { get; init; }
         public abstract void Is<TExpected>() where TExpected : IMeasure;
-        public static LoweringAssertion Of<TActual>() where TActual : IMeasure => AllocationFree<Lowering<TActual>>.Item;
-        private sealed class Lowering<TActual> : LoweringAssertion
+        public static Assertion Of<TActual>(Double value) where TActual : IMeasure => new TypeOf<TActual> { Value = value };
+        private sealed class TypeOf<TActual> : Assertion
             where TActual : IMeasure
         {
             public override void Is<TExpectedMeasure>()
             {
-                Assert.IsType<Lowering<TExpectedMeasure>>(this);
+                Assert.IsType<TypeOf<TExpectedMeasure>>(this);
             }
         }
     }
-    private sealed class AssertionInjector : IInject<LoweringAssertion>
+
+    private sealed class AssertionInjector : IInject<Assertion>
     {
-        public LoweringAssertion Inject<TMeasure>(in Double value) where TMeasure : IMeasure => LoweringAssertion.Of<TMeasure>();
+        public Assertion Inject<TMeasure>(in Double value) where TMeasure : IMeasure => Assertion.Of<TMeasure>(value);
     }
 }

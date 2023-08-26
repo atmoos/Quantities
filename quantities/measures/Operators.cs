@@ -50,7 +50,7 @@ internal sealed class FromProduct<TLeft, TRight> : IOperations
         if (left.Is<TMeasure>()) {
             return Divide<TRight, TLeft, TMeasure>(scaling, in operands);
         }
-        return Build<Product<TLeft, Quotient<TRight, TMeasure>>>.With(operands.Left / operands.Right);
+        return Product<TLeft, Quotient<TRight, TMeasure>>.Normalize(scaling, Linear.Injection, operands.Left / operands.Right);
     }
     public Quant Multiply<TMeasure>(IPrefixScale scaling, in Double value) where TMeasure : IMeasure
     {
@@ -74,7 +74,8 @@ internal sealed class FromQuotient<TNominator, TDenominator> : IOperations
     public Boolean Is<TMeasure>() where TMeasure : IMeasure => false; // ToDo!
     public Quant Divide<TMeasure>(IPrefixScale scaling, in Operands operands) where TMeasure : IMeasure
     {
-        throw new NotImplementedException();
+        var poly = Conversion<TMeasure, TNominator>.Polynomial;
+        return TDenominator.Normalize(scaling, Linear.Injection, poly.Evaluate(in operands.Left) / operands.Right);
     }
     public Quant Multiply<TMeasure>(IPrefixScale scaling, in Double value) where TMeasure : IMeasure
     {

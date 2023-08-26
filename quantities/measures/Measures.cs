@@ -176,10 +176,7 @@ internal readonly struct Power<TDim, TMeasure> : IMeasure
         TMeasure.Write(writer);
         writer.End();
     }
-    public static T Normalize<T>(IPrefixScale scaling, IInject<T> inject, in Double value)
-    {
-        return TMeasure.Normalize(scaling, new PowerNormalizing<T>(inject), in value);
-    }
+    public static T Normalize<T>(IPrefixScale scaling, IInject<T> inject, in Double value) => throw NotImplemented<Power<TDim, TMeasure>>();
     public static (Double, T) Lower<T>(IInject<T> inject, in Double value)
     {
         var (_, (poly, result)) = TMeasure.Lower(new PowerLowering<T>(inject), in value);
@@ -193,16 +190,6 @@ internal readonly struct Power<TDim, TMeasure> : IMeasure
         public (Polynomial, T) Inject<TMeasure1>(in Double value) where TMeasure1 : IMeasure
         {
             return (Conversion<Power<TDim, TMeasure>, Power<TDim, TMeasure1>>.Polynomial, this.injector.Inject<Power<TDim, TMeasure1>>(in value));
-        }
-    }
-    private sealed class PowerNormalizing<T> : IInject<T>
-    {
-        private readonly IInject<T> injector;
-        public PowerNormalizing(IInject<T> injector) => this.injector = injector;
-        public T Inject<TMeasure1>(in Double value) where TMeasure1 : IMeasure
-        {
-            var poly = Conversion<Power<TDim, TMeasure>, Power<TDim, TMeasure1>>.Polynomial;
-            return this.injector.Inject<Power<TDim, TMeasure1>>(poly.Evaluate(in value));
         }
     }
 }

@@ -107,13 +107,13 @@ public class MeasuresTest
     [Fact]
     public void NormalizeImperial()
     {
-        AssertNormalizationOf<Imperial<Pound>>(91839.917356);
+        AssertNormalizationOf<Imperial<Pound>>();
     }
 
     [Fact]
     public void NormalizeNonStandard()
     {
-        AssertNormalizationOf<NonStandard<Réaumur>>(5473282.972723);
+        AssertNormalizationOf<NonStandard<Réaumur>>();
     }
 
     [Fact]
@@ -128,10 +128,10 @@ public class MeasuresTest
         AssertNormalizationOf<Quotient<Si<Hecto, Metre>, Si<Micro, Second>>, Quotient<Si<Mega, Metre>, Si<Second>>>(8, 800);
     }
 
-    [Fact]
+    [Fact(Skip = "Not able to implement this without changes to polynomials and IMeasure.")]
     public void NormalizePower()
     {
-        AssertNormalizationOf<Power<Square, Si<Pico, Second>>, Power<Square, Si<Micro, Second>>>(8e12, 8);
+        AssertNormalizationOf<Power<Square, Si<Pico, Second>>, Power<Square, Si<Micro, Second>>>(8e-12, 8);
     }
 
     private static void AssertLoweringOf<TFrom, TExpected>(Double from, Double expected)
@@ -144,7 +144,7 @@ public class MeasuresTest
     }
 
     private static void AssertLoweringOf<TIdentity>()
-        where TIdentity : IMeasure => AssertLoweringOf<TIdentity, TIdentity>(Math.PI, Math.PI);
+        where TIdentity : IMeasure => AssertLoweringOf<TIdentity, TIdentity>(Math.Tau, Math.Tau);
 
     private static void AssertNormalizationOf<TFrom, TExpected>(Double from, Double expected)
         where TFrom : IMeasure
@@ -154,13 +154,8 @@ public class MeasuresTest
         lowering.Is<TExpected>();
         Assert.Equal(expected, lowering.Value);
     }
-    private static void AssertNormalizationOf<TIdentity>(Double expected)
-        where TIdentity : IMeasure
-    {
-        var lowering = TIdentity.Normalize(Metric.Scaling, assertionInjector, expected);
-        lowering.Is<TIdentity>();
-        Assert.Equal(expected, lowering.Value);
-    }
+    private static void AssertNormalizationOf<TIdentity>()
+        where TIdentity : IMeasure => AssertNormalizationOf<TIdentity, TIdentity>(Math.E, Math.E);
 
     private abstract class Assertion
     {

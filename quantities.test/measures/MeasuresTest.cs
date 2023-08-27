@@ -4,7 +4,6 @@ using Quantities.Units.Imperial.Mass;
 using Quantities.Units.NonStandard.Length;
 using Quantities.Units.NonStandard.Temperature;
 using Quantities.Units.Si.Metric;
-using static Quantities.Extensions;
 
 namespace Quantities.Test.Measures;
 

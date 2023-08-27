@@ -80,6 +80,6 @@ public sealed class TimeTest
 
         Time actual = energy / power;
 
-        actual.Matches(expected);
+        actual.Equals(expected, MediumPrecision);
     }
 }

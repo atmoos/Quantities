@@ -10,8 +10,11 @@ public sealed class VolumeTest
     {
         Volume left = Volume.Of(20).Cubic.Si<Metre>();
         Volume right = Volume.Of(10).Cubic.Si<Metre>();
-        Volume result = left + right;
-        PrecisionIsBounded(30d, result);
+        Volume expected = Volume.Of(30).Cubic.Si<Metre>();
+
+        Volume actual = left + right;
+
+        actual.Matches(expected);
     }
     [Fact]
     public void FromSiToLitre()
@@ -29,6 +32,15 @@ public sealed class VolumeTest
         Volume expected = Volume.Of(10).Metric<Hecto, Litre>();
 
         Volume actual = si.To.Metric<Hecto, Litre>();
+        Assert.Equal(expected, actual);
+    }
+    [Fact]
+    public void FromComputedSiToHectoLitre()
+    {
+        Volume computedSi = Area.Of(0.5).Square.Si<Metre>() * Length.Of(2).Si<Metre>();
+        Volume expected = Volume.Of(10).Metric<Hecto, Litre>();
+
+        Volume actual = computedSi.To.Metric<Hecto, Litre>();
         Assert.Equal(expected, actual);
     }
     [Fact]

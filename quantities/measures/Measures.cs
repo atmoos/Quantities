@@ -105,11 +105,11 @@ internal readonly struct Product<TLeft, TRight> : IMeasure
     where TLeft : IMeasure
     where TRight : IMeasure
 {
-    const String narrowNoBreakSpace = "\u202F";
+    const String zeroWidthNonJoiner = "\u200C"; // https://en.wikipedia.org/wiki/Zero-width_non-joiner
     public static IOperations Operations { get; } = new FromProduct<TLeft, TRight>();
     public static Boolean Is<TDimension>() where TDimension : Dimensions.IDimension => false; // ToDo!
     public static Transformation ToSi(Transformation self) => TLeft.ToSi(TRight.ToSi(self));
-    public static String Representation { get; } = $"{TLeft.Representation}{narrowNoBreakSpace}{TRight.Representation}";
+    public static String Representation { get; } = $"{TLeft.Representation}{zeroWidthNonJoiner}{TRight.Representation}";
     public static void Write(IWriter writer)
     {
         writer.Start("product");

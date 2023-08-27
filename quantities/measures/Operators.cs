@@ -1,5 +1,4 @@
 using Quantities.Prefixes;
-using Quantities.Serialization;
 
 namespace Quantities.Measures;
 
@@ -28,8 +27,9 @@ internal sealed class FromScalar<TScalarMeasure> : IOperations
     }
     public Quant Multiply<TMeasure>(IPrefixScale scaling, in Double value) where TMeasure : IMeasure
     {
-        if (comparison.Is<TMeasure>()) {
-            return Power<Square, TScalarMeasure>.Normalize(scaling, Linear.Injection, in value);
+        if (this.comparison.Is<TMeasure>()) {
+            var (scaled, _) = TMeasure.Lower(Empty.Injection, in value);
+            return TScalarMeasure.Normalize(scaling, Power<Square>.Injection, scaled);
         }
         var (lowered, right) = TMeasure.Lower(Operator.Product, in value);
         return TScalarMeasure.Normalize(scaling, right, in lowered);
@@ -103,16 +103,20 @@ internal sealed class FromPower<TDim, TScalarMeasure> : IOperations
     }
 }
 
+file static class Empty
+{
+    public static IInject<Quant> Injection { get; } = new Injector();
+    private sealed class Injector : IInject<Quant>
+    {
+        public Quant Inject<TMeasure>(in Double value) where TMeasure : IMeasure => default;
+    }
+}
 file static class Linear
 {
     public static IInject<Quant> Injection { get; } = new Injector();
-
     private sealed class Injector : IInject<Quant>
     {
-        public Quant Inject<TMeasure>(in Double value) where TMeasure : IMeasure
-        {
-            return Build<TMeasure>.With(in value);
-        }
+        public Quant Inject<TMeasure>(in Double value) where TMeasure : IMeasure => Build<TMeasure>.With(in value);
     }
 }
 
@@ -122,10 +126,7 @@ file static class Power<TDim>
     public static IInject<Quant> Injection { get; } = new Injector();
     private sealed class Injector : IInject<Quant>
     {
-        public Quant Inject<TMeasure>(in Double value) where TMeasure : IMeasure
-        {
-            return Build<Power<TDim, TMeasure>>.With(in value);
-        }
+        public Quant Inject<TMeasure>(in Double value) where TMeasure : IMeasure => Build<Power<TDim, TMeasure>>.With(in value);
     }
 }
 
@@ -140,10 +141,7 @@ file static class Operator
         private sealed class Product<TRight> : IInject<Quant>
             where TRight : IMeasure
         {
-            public Quant Inject<TMeasure>(in Double value) where TMeasure : IMeasure
-            {
-                return Build<Product<TMeasure, TRight>>.With(in value);
-            }
+            public Quant Inject<TMeasure>(in Double value) where TMeasure : IMeasure => Build<Product<TMeasure, TRight>>.With(in value);
         }
     }
     private sealed class QuotientInjector : IInject<IInject<Quant>>
@@ -153,10 +151,7 @@ file static class Operator
         private sealed class Quotient<TRight> : IInject<Quant>
             where TRight : IMeasure
         {
-            public Quant Inject<TMeasure>(in Double value) where TMeasure : IMeasure
-            {
-                return Build<Quotient<TMeasure, TRight>>.With(in value);
-            }
+            public Quant Inject<TMeasure>(in Double value) where TMeasure : IMeasure => Build<Quotient<TMeasure, TRight>>.With(in value);
         }
     }
 }

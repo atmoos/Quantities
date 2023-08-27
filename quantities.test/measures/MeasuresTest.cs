@@ -146,8 +146,7 @@ public class MeasuresTest
         where TExpected : IMeasure
     {
         var (actual, lowering) = TFrom.Lower(assertionInjector, from);
-        lowering.Is<TExpected>();
-        Assert.Equal(expected, actual);
+        Assert.Equal(Assertion.Of<TExpected>(expected), lowering.With(actual));
     }
 
     private static void AssertLoweringOf<TIdentity>()
@@ -158,25 +157,35 @@ public class MeasuresTest
         where TExpected : IMeasure
     {
         var lowering = TFrom.Normalize(Metric.Scaling, assertionInjector, from);
-        lowering.Is<TExpected>();
-        Assert.Equal(expected, lowering.Value, precision);
+        Assert.Equal(Assertion.Of<TExpected>(expected, precision), lowering);
     }
     private static void AssertNormalizationOf<TIdentity>()
         where TIdentity : IMeasure => AssertNormalizationOf<TIdentity, TIdentity>(Math.E, Math.E);
 
-    private abstract class Assertion
+    private abstract class Assertion : IEquatable<Assertion>
     {
-        public required Double Value { get; init; }
-        public abstract void Is<TExpected>() where TExpected : IMeasure;
-        public static Assertion Of<TActual>(Double value) where TActual : IMeasure => new TypeOf<TActual> { Value = value };
+        public Double Value { get; init; }
+        public Int32 Precision { get; init; } = fullPrecision;
+        public static Assertion Of<TActual>(Double value, Int32 precision = fullPrecision) where TActual : IMeasure => new TypeOf<TActual>(value, precision);
+        public abstract Assertion With(Double value);
+        public abstract Boolean Equals(Assertion? other);
+
         private sealed class TypeOf<TActual> : Assertion
             where TActual : IMeasure
         {
-            public override void Is<TExpectedMeasure>()
+            public TypeOf(Double value, Int32 precision) => (this.Value, this.Precision) = (value, precision);
+            public override Assertion With(Double value) => new TypeOf<TActual>(value, this.Precision);
+            public override Boolean Equals(Assertion? other)
             {
-                Assert.IsType<TypeOf<TExpectedMeasure>>(this);
+                if (other is TypeOf<TActual>) {
+                    var precision = Math.Min(this.Precision, other.Precision);
+                    var thisValue = Math.Round(this.Value, precision);
+                    var otherValue = Math.Round(other.Value, precision);
+                    return thisValue == otherValue;
+                }
+                return false;
             }
-            public override String ToString() => NameOf<TActual>();
+            public override String ToString() => $"{this.Value} {TActual.Representation}";
         }
     }
 

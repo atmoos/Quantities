@@ -12,7 +12,7 @@ public interface IDivisionTests
 
 }
 
-public static class OperatorsTest
+public class OperatorsTest
 {
     private static readonly IPrefixScale scaling = Metric.TriadicScaling;
     public class ScalarOperator : IMultiplyTests, IDivisionTests
@@ -33,6 +33,37 @@ public static class OperatorsTest
         {
             var expected = SquareOf<Si<Metre>>(4);
             var actual = scalar.Multiply<Si<Metre>>(scaling, 4);
+
+            actual.IsSameAs(expected);
+        }
+
+        [Fact]
+        public void MultiplyWithPrefixedDimensionReturnsSquaredDimension()
+        {
+            var expected = SquareOf<Si<Milli, Metre>>(4);
+            var scalar = Scalar<Si<Micro, Metre>, Metre>();
+            // 4 * km * μm = 4 mm  
+            var actual = scalar.Multiply<Si<Kilo, Metre>>(scaling, 4);
+
+            actual.IsSameAs(expected);
+        }
+
+        [Fact]
+        public void DivideWithSameDimensionReturnsQuotient()
+        {
+            var expected = QuotientOf<Si<Metre>, Si<Metre>>(2);
+            var actual = scalar.Divide<Si<Metre>>(scaling, new Operands(8, 4));
+
+            actual.IsSameAs(expected);
+        }
+
+        [Fact]
+        public void DivideWithPrefixedDimensionReturnsNormalizedQuotient()
+        {
+            var expected = QuotientOf<Si<Kilo, Metre>, Si<Second>>(20);
+            var scalar = Scalar<Si<Deca, Metre>, Metre>();
+            // (8 * dm) / (4 ms) = 20 (km)/s
+            var actual = scalar.Divide<Si<Milli, Second>>(scaling, new Operands(8, 4));
 
             actual.IsSameAs(expected);
         }

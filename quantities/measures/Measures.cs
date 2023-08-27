@@ -12,8 +12,6 @@ internal readonly struct Si<TUnit> : ISiMeasure<TUnit>, ILinear
     private static readonly Serializer<TUnit> serializer = new(nameof(Si<TUnit>));
     public static Transformation ToSi(Transformation self) => self;
     public static String Representation => TUnit.Representation;
-
-
     public static void Write(IWriter writer) => serializer.Write(writer);
 }
 internal readonly struct Si<TPrefix, TUnit> : ISiMeasure<TUnit>, ILinear
@@ -63,9 +61,9 @@ internal readonly struct Product<TLeft, TRight> : IMeasure
     where TLeft : IMeasure
     where TRight : IMeasure
 {
-    const String narrowNoBreakSpace = "\u202F";
+    private const String zeroWidthNonJoiner = "\u200C"; // https://en.wikipedia.org/wiki/Zero-width_non-joiner
     public static Transformation ToSi(Transformation self) => TLeft.ToSi(TRight.ToSi(self));
-    public static String Representation { get; } = $"{TLeft.Representation}{narrowNoBreakSpace}{TRight.Representation}";
+    public static String Representation { get; } = $"{TLeft.Representation}{zeroWidthNonJoiner}{TRight.Representation}";
     public static void Write(IWriter writer)
     {
         writer.Start("product");

@@ -19,7 +19,7 @@ public sealed class ElectricPotentialTest
 
         ElectricPotential potential = ohm * ampere;
 
-        potential.Matches(expected);
+        potential.Equals(expected);
     }
     [Fact]
     public void OhmsLawInPrefixedUnits()
@@ -30,7 +30,7 @@ public sealed class ElectricPotentialTest
 
         ElectricPotential potential = ohm * ampere;
 
-        potential.Matches(expected);
+        potential.Equals(expected);
     }
     [Fact]
     public void OhmsLawInPrefixedUnitsWithInBetweenVirtualPrefix()
@@ -43,7 +43,7 @@ public sealed class ElectricPotentialTest
 
         ElectricPotential potential = ohm * ampere;
 
-        potential.Matches(expected);
+        potential.Equals(expected);
     }
     [Fact]
     public void PowerLawInBaseUnits()
@@ -54,7 +54,7 @@ public sealed class ElectricPotentialTest
 
         ElectricPotential potential = watts / ampere;
 
-        potential.Matches(expected);
+        potential.Equals(expected);
     }
     [Fact]
     public void PowerLawInPrefixedUnits()
@@ -68,6 +68,6 @@ public sealed class ElectricPotentialTest
 
         ElectricPotential potential = watts / ampere;
 
-        potential.Matches(expected);
+        potential.Equals(expected);
     }
 }

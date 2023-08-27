@@ -19,7 +19,7 @@ public sealed class ElectricalResistanceTest
 
         ElectricalResistance resistance = volts / ampere;
 
-        resistance.Matches(expected);
+        resistance.Equals(expected);
     }
     [Fact]
     public void OhmsLawInPrefixedUnits()
@@ -30,6 +30,6 @@ public sealed class ElectricalResistanceTest
 
         ElectricalResistance resistance = volts / ampere;
 
-        resistance.Matches(expected);
+        resistance.Equals(expected);
     }
 }

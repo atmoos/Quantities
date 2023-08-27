@@ -8,9 +8,6 @@ namespace Quantities.Test;
 // For a lot of the values here, see: https://en.wikipedia.org/wiki/Conversion_of_units_of_temperature#Comparison_of_temperature_scales
 public sealed class TemperatureTest
 {
-    private static readonly Int32 horriblyLowPrecision = FullPrecision - 4;
-    private static readonly Int32 abysmallyLowPrecision = FullPrecision - 6;
-
     [Fact]
     public void KelvinToString() => FormattingMatches(v => Temperature.Of(v).Si<Kelvin>(), "K");
     [Fact]
@@ -71,7 +68,7 @@ public sealed class TemperatureTest
 
         Temperature actual = temperature.To.Imperial<Fahrenheit>();
 
-        actual.Matches(expected, VeryLowPrecision);
+        actual.Matches(expected, MediumPrecision);
     }
     [Fact]
     public void CelsiusToKelvin()
@@ -91,7 +88,7 @@ public sealed class TemperatureTest
 
         Temperature actual = temperature.To.Si<Milli, Kelvin>();
 
-        actual.Matches(expected, abysmallyLowPrecision);
+        actual.Matches(expected, VeryLowPrecision - 2);
     }
     [Fact]
     public void CelsiusToFahrenheit()
@@ -111,7 +108,7 @@ public sealed class TemperatureTest
 
         Temperature actual = temperature.To.Si<Kelvin>();
 
-        actual.Matches(expected, VeryLowPrecision);
+        actual.Matches(expected, MediumPrecision);
     }
     [Fact]
     public void CelsiusToGasMark()
@@ -182,7 +179,7 @@ public sealed class TemperatureTest
 
         Temperature actual = temperature.To.Si<Kelvin>();
 
-        actual.Matches(expected, LowPrecision);
+        actual.Matches(expected, MediumPrecision);
     }
     [Fact]
     public void FahrenheitToRankine()
@@ -192,7 +189,7 @@ public sealed class TemperatureTest
 
         Temperature actual = temperature.To.Imperial<Rankine>();
 
-        actual.Matches(expected, VeryLowPrecision);
+        actual.Matches(expected, MediumPrecision);
     }
     [Fact]
     public void KelvinToDelisle()
@@ -202,7 +199,7 @@ public sealed class TemperatureTest
 
         Temperature actual = temperature.To.NonStandard<Delisle>();
 
-        actual.Matches(expected, horriblyLowPrecision);
+        actual.Matches(expected, MediumPrecision);
     }
     [Fact]
     public void DelisleToKelvin()
@@ -252,7 +249,7 @@ public sealed class TemperatureTest
 
         Temperature actual = temperature.To.Si<Kelvin>();
 
-        actual.Matches(expected, VeryLowPrecision);
+        actual.Matches(expected, MediumPrecision);
     }
     [Fact]
     public void KelvinToRømer()
@@ -272,6 +269,6 @@ public sealed class TemperatureTest
 
         Temperature actual = temperature.To.Si<Kelvin>();
 
-        actual.Matches(expected, VeryLowPrecision);
+        actual.Matches(expected, MediumPrecision);
     }
 }

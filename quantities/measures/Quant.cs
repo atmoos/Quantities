@@ -5,7 +5,7 @@ using Quantities.Measures.Transformations;
 namespace Quantities.Measures;
 
 internal readonly struct Quant : IEquatable<Quant>, IFormattable
-    , IMeasureEquals<Quant>
+    , IMeasureEquality<Quant>
     , IAdditionOperators<Quant, Quant, Quant>
     , ISubtractionOperators<Quant, Quant, Quant>
     , IMultiplyOperators<Quant, Double, Quant>
@@ -17,11 +17,7 @@ internal readonly struct Quant : IEquatable<Quant>, IFormattable
     private readonly Map map;
     private readonly Double value;
     public Double Value => this.value;
-    internal Quant(in Double value, in Map map)
-    {
-        this.map = map;
-        this.value = value;
-    }
+    internal Quant(in Double value, in Map map) => (this.map, this.value) = (map, value);
     private Double Project(in Quant other) => ReferenceEquals(this.map, other.map)
         ? other.value : other.map.Project(in this.map, in other.value);
     public Quant Project(in Map other) => ReferenceEquals(this.map, other)
@@ -49,7 +45,11 @@ internal readonly struct Quant : IEquatable<Quant>, IFormattable
         var leftTerm = this.map.Injector.Inject(in multiplication, in this.value);
         return right.map.Injector.Inject(in leftTerm, in right.value);
     }
-
+    public void Write(IWriter writer)
+    {
+        writer.Write("value", this.value);
+        this.map.Serialize(writer);
+    }
     public Boolean Equals(Quant other)
     {
         const Double min = 1d - 2e-15;
@@ -57,19 +57,11 @@ internal readonly struct Quant : IEquatable<Quant>, IFormattable
         Double quotient = this / other;
         return quotient is >= min and <= max;
     }
-
-    public Boolean EqualMeasure(in Quant other) => ReferenceEquals(this.map, other.map);
-
+    public Boolean HasSameMeasure(in Quant other) => ReferenceEquals(this.map, other.map);
     public override Boolean Equals(Object? obj) => obj is Quant quant && Equals(quant);
     public override Int32 GetHashCode() => this.value.GetHashCode() ^ this.map.GetHashCode();
     public override String ToString() => ToString("g5", CultureInfo.CurrentCulture);
     public String ToString(String? format, IFormatProvider? provider) => $"{this.value.ToString(format, provider)} {this.map.Representation}";
-
-    public void Write(IWriter writer)
-    {
-        writer.Write("value", this.value);
-        this.map.Serialize(writer);
-    }
 
     public static Boolean operator ==(Quant left, Quant right) => left.Equals(right);
     public static Boolean operator !=(Quant left, Quant right) => !left.Equals(right);
@@ -98,6 +90,6 @@ internal readonly struct Quant : IEquatable<Quant>, IFormattable
     public static Double operator /(Quant left, Quant right)
     {
         var rightValue = left.Project(in right);
-        return left.Value / rightValue;
+        return left.value / rightValue;
     }
 }

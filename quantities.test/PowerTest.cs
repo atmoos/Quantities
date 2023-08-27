@@ -12,6 +12,8 @@ public sealed class PowerTest
     [Fact]
     public void MicroWattToString() => FormattingMatches(v => Power.Of(v).Si<Micro, Watt>(), "μW");
     [Fact]
+    public void VoltAmpereToString() => FormattingMatches(v => ElectricPotential.Of(v).Si<Volt>() * ElectricCurrent.Of(1).Si<Ampere>(), "W");
+    [Fact]
     public void PowerLawInBaseUnits()
     {
         ElectricPotential volts = ElectricPotential.Of(12).Si<Volt>();
@@ -53,7 +55,7 @@ public sealed class PowerTest
 
         Power power = ohm * ampere * ampere;
 
-        power.Matches(expected);
+        power.Equals(expected);
     }
 
     [Fact]

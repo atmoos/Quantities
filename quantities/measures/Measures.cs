@@ -176,7 +176,12 @@ internal readonly struct Power<TDim, TMeasure> : IMeasure
         TMeasure.Write(writer);
         writer.End();
     }
-    public static T Normalize<T>(IPrefixScale scaling, IInject<T> inject, in Double value) => throw NotImplemented<Power<TDim, TMeasure>>();
+    public static T Normalize<T>(IPrefixScale scaling, IInject<T> inject, in Double value)
+    {
+        var (_, result) = TMeasure.Lower(new PowerNormalizing<T>(scaling, inject, value), 1d);
+        return result;
+    }
+
     public static (Double, T) Lower<T>(IInject<T> inject, in Double value)
     {
         var (_, (poly, result)) = TMeasure.Lower(new PowerLowering<T>(inject), in value);
@@ -190,6 +195,34 @@ internal readonly struct Power<TDim, TMeasure> : IMeasure
         public (Polynomial, T) Inject<TMeasure1>(in Double value) where TMeasure1 : IMeasure
         {
             return (Conversion<Power<TDim, TMeasure>, Power<TDim, TMeasure1>>.Polynomial, this.injector.Inject<Power<TDim, TMeasure1>>(in value));
+        }
+    }
+    private class Normalizer<TLowered, T> : IInject<T>
+        where TLowered : IMeasure
+    {
+        private readonly IInject<T> injector;
+        public Normalizer(IInject<T> injector) => this.injector = injector;
+        public T Inject<TMeasure1>(in Double value) where TMeasure1 : IMeasure
+        {
+            return this.injector.Inject<Power<TDim, TMeasure1>>(TDim.Power(value));
+        }
+    }
+    private sealed class PowerNormalizing<T> : IInject<T>
+    {
+        private readonly Double value;
+        private readonly IInject<T> injector;
+        private readonly IPrefixScale scaling;
+        public PowerNormalizing(IPrefixScale scaling, IInject<T> injector, Double value)
+        {
+            this.injector = injector;
+            this.scaling = scaling;
+            this.value = value;
+        }
+
+        public T Inject<TMeasure1>(in Double value) where TMeasure1 : IMeasure
+        {
+            var poly = Conversion<Power<TDim, TMeasure>, Power<TDim, TMeasure1>>.Polynomial;
+            return TMeasure1.Normalize(this.scaling, new Normalizer<TMeasure1, T>(this.injector), TDim.Lower(poly.Evaluate(this.value)));
         }
     }
 }

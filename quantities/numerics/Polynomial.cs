@@ -51,17 +51,17 @@ internal abstract class Polynomial
     }
     private sealed class ScaleUp : Polynomial
     {
-        private readonly Double scaling;
-        public ScaleUp(in Double scaling) => this.scaling = scaling;
-        public override T Evaluate<T>(in T value) => value * this.scaling;
-        public override T Inverse<T>(in T value) => value / this.scaling;
+        private readonly Double upscale;
+        public ScaleUp(in Double scaling) => this.upscale = scaling;
+        public override T Evaluate<T>(in T value) => value * this.upscale;
+        public override T Inverse<T>(in T value) => value / this.upscale;
     }
     private sealed class ScaleDown : Polynomial
     {
-        private readonly Double scaling;
-        public ScaleDown(in Double scaling) => this.scaling = scaling;
-        public override T Evaluate<T>(in T value) => value / this.scaling;
-        public override T Inverse<T>(in T value) => value * this.scaling;
+        private readonly Double downscale;
+        public ScaleDown(in Double scaling) => this.downscale = scaling;
+        public override T Evaluate<T>(in T value) => value / this.downscale;
+        public override T Inverse<T>(in T value) => value * this.downscale;
     }
     private sealed class LinearUp : Polynomial
     {

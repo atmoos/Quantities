@@ -4,11 +4,13 @@ using Quantities.Units.Imperial.Mass;
 using Quantities.Units.NonStandard.Length;
 using Quantities.Units.NonStandard.Temperature;
 using Quantities.Units.Si.Metric;
+using static Quantities.Extensions;
 
 namespace Quantities.Test.Measures;
 
 public class MeasuresTest
 {
+    private const Int32 fullPrecision = 15;
     private static readonly AssertionInjector assertionInjector = new();
     [Fact]
     public void SiToSi()
@@ -128,10 +130,15 @@ public class MeasuresTest
         AssertNormalizationOf<Quotient<Si<Hecto, Metre>, Si<Micro, Second>>, Quotient<Si<Mega, Metre>, Si<Second>>>(8, 800);
     }
 
-    [Fact(Skip = "Not able to implement this without changes to polynomials and IMeasure.")]
-    public void NormalizePower()
+    [Fact]
+    public void NormalizePowerToUnitPrefix()
     {
-        AssertNormalizationOf<Power<Square, Si<Pico, Second>>, Power<Square, Si<Micro, Second>>>(8e-12, 8);
+        AssertNormalizationOf<Power<Square, Si<Pico, Second>>, Power<Square, Si<Second>>>(8e24, 8, fullPrecision - 1);
+    }
+    [Fact]
+    public void NormalizePowerToOtherPrefixBase()
+    {
+        AssertNormalizationOf<Power<Square, Si<Pico, Second>>, Power<Square, Si<Milli, Second>>>(8e19, 80, fullPrecision - 2);
     }
 
     private static void AssertLoweringOf<TFrom, TExpected>(Double from, Double expected)
@@ -146,13 +153,13 @@ public class MeasuresTest
     private static void AssertLoweringOf<TIdentity>()
         where TIdentity : IMeasure => AssertLoweringOf<TIdentity, TIdentity>(Math.Tau, Math.Tau);
 
-    private static void AssertNormalizationOf<TFrom, TExpected>(Double from, Double expected)
+    private static void AssertNormalizationOf<TFrom, TExpected>(Double from, Double expected, Int32 precision = fullPrecision)
         where TFrom : IMeasure
         where TExpected : IMeasure
     {
         var lowering = TFrom.Normalize(Metric.Scaling, assertionInjector, from);
         lowering.Is<TExpected>();
-        Assert.Equal(expected, lowering.Value);
+        Assert.Equal(expected, lowering.Value, precision);
     }
     private static void AssertNormalizationOf<TIdentity>()
         where TIdentity : IMeasure => AssertNormalizationOf<TIdentity, TIdentity>(Math.E, Math.E);
@@ -169,6 +176,7 @@ public class MeasuresTest
             {
                 Assert.IsType<TypeOf<TExpectedMeasure>>(this);
             }
+            public override String ToString() => NameOf<TActual>();
         }
     }
 

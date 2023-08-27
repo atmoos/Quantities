@@ -1,14 +1,22 @@
 using System.Globalization;
+using Quantities.Measures;
 using Xunit.Sdk;
 
 namespace Quantities.Test;
-public static class Convenience
+internal static class Convenience
 {
     private const Int32 fullPrecision = 16;
     public static Int32 FullPrecision => fullPrecision;
     public static Int32 MediumPrecision => fullPrecision - 1;
     public static Int32 LowPrecision => fullPrecision - 2;
     public static Int32 VeryLowPrecision => fullPrecision - 3;
+
+    public static void IsSameAs(this Quant actual, Quant expected, Int32 precision = fullPrecision)
+    {
+        var formatting = $"g{precision}";
+        PrecisionIsBounded(expected.Value, actual.Value, precision);
+        Assert.Equal(expected.ToString(formatting), actual.ToString(formatting));
+    }
     public static void Matches<TQuantity>(this TQuantity actual, TQuantity expected)
         where TQuantity : struct, IQuantity<TQuantity>, Dimensions.IDimension
     {

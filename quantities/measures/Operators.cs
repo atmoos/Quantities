@@ -1,4 +1,5 @@
 using Quantities.Prefixes;
+using Quantities.Serialization;
 
 namespace Quantities.Measures;
 
@@ -27,6 +28,9 @@ internal sealed class FromScalar<TScalarMeasure> : IOperations
     }
     public Quant Multiply<TMeasure>(IPrefixScale scaling, in Double value) where TMeasure : IMeasure
     {
+        if (comparison.Is<TMeasure>()) {
+            return Power<Square, TScalarMeasure>.Normalize(scaling, Linear.Injection, in value);
+        }
         var (lowered, right) = TMeasure.Lower(Operator.Product, in value);
         return TScalarMeasure.Normalize(scaling, right, in lowered);
     }
@@ -101,13 +105,26 @@ internal sealed class FromPower<TDim, TScalarMeasure> : IOperations
 
 file static class Linear
 {
-    public static IInject<Quant> Injection { get; } = new Implementation();
+    public static IInject<Quant> Injection { get; } = new Injector();
 
-    private sealed class Implementation : IInject<Quant>
+    private sealed class Injector : IInject<Quant>
     {
         public Quant Inject<TMeasure>(in Double value) where TMeasure : IMeasure
         {
             return Build<TMeasure>.With(in value);
+        }
+    }
+}
+
+file static class Power<TDim>
+    where TDim : IDimension
+{
+    public static IInject<Quant> Injection { get; } = new Injector();
+    private sealed class Injector : IInject<Quant>
+    {
+        public Quant Inject<TMeasure>(in Double value) where TMeasure : IMeasure
+        {
+            return Build<Power<TDim, TMeasure>>.With(in value);
         }
     }
 }

@@ -32,6 +32,7 @@ public static class Extensions
     return new NotImplementedException($"{type.ClassName()} is missing '{memberName}' on line #{line}.");
   }
 
+  internal static String NameOf<T>() => ClassName(typeof(T));
   private static String ClassName(this Type t)
   {
     const Char arityTick = '`';

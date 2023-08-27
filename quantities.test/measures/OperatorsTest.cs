@@ -1,13 +1,13 @@
 
 using Quantities.Measures;
+using Quantities.Units.Si.Metric;
 
 namespace Quantities.Test.Measures;
 
-public interface IMultiplyTests
+public interface IMultiplyProperties
 {
-    void MultiplyNormalisesResult();
 }
-public interface IDivisionTests
+public interface IDivisionProperties
 {
 
 }
@@ -15,7 +15,7 @@ public interface IDivisionTests
 public class OperatorsTest
 {
     private static readonly IPrefixScale scaling = Metric.TriadicScaling;
-    public class ScalarOperator : IMultiplyTests, IDivisionTests
+    public class ScalarOperator : IMultiplyProperties, IDivisionProperties
     {
         private static readonly IOperations scalar = Scalar<Si<Metre>, Metre>();
 
@@ -68,8 +68,48 @@ public class OperatorsTest
             actual.IsSameAs(expected);
         }
     }
+    public class ProductOperator
+    {
+        private static readonly IOperations product = Product<Si<Metre>, Si<Second>>();
 
-    public class QuotientOperator : IMultiplyTests, IDivisionTests
+        [Fact]
+        public void MultiplicationSquaresRightTermWhenRightArgumentIsSameDimension()
+        {
+            var expected = ProductOf<Si<Kilo, Metre>, Power<Square, Si<Second>>>(4 * 3.6);
+            var actual = product.Multiply<Metric<Hour>>(scaling, 4);
+
+            actual.IsSameAs(expected);
+        }
+
+        [Fact]
+        public void DivisionSelectsLeftTermWhenDivisorIsSameDimensionAsRightTerm()
+        {
+            var expected = ScalarOf<Si<Kilo, Metre>>(4);
+            var actual = product.Divide<Si<Milli, Second>>(scaling, new Operands(8, 2));
+
+            actual.IsSameAs(expected);
+        }
+
+        [Fact]
+        public void DivisionSelectsRightTermWhenDivisorIsSameDimensionAsLeftTerm()
+        {
+            var expected = ScalarOf<Si<Micro, Second>>(4);
+            var actual = product.Divide<Si<Kilo, Metre>>(scaling, new Operands(8, 2000));
+
+            actual.IsSameAs(expected);
+        }
+
+        [Fact]
+        public void DivisionByNewDimensionIsQuotient()
+        {
+            var product = Product<Si<Metre>, Si<Milli, Second>>();
+            var expected = ProductOf<Si<Kilo, Metre>, Quotient<Si<Second>, Si<Kelvin>>>(4);
+            var actual = product.Divide<Si<Micro, Kelvin>>(scaling, new Operands(8, 2));
+
+            actual.IsSameAs(expected);
+        }
+    }
+    public class QuotientOperator : IMultiplyProperties, IDivisionProperties
     {
         private static readonly IOperations quotient = Quotient<Si<Metre>, Si<Second>>();
 

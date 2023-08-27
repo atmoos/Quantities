@@ -1,3 +1,4 @@
+using Quantities.Numerics;
 using Quantities.Prefixes;
 
 namespace Quantities.Measures;
@@ -49,26 +50,22 @@ internal sealed class FromProduct<TLeft, TRight> : IOperations
     public Quant Divide<TMeasure>(IPrefixScale scaling, in Operands operands) where TMeasure : IMeasure
     {
         if (right.Is<TMeasure>()) {
-            return Divide<TLeft, TRight, TMeasure>(scaling, in operands);
+            return Ops<TLeft>.Reduce<TRight, TMeasure>(scaling, in operands);
         }
         if (left.Is<TMeasure>()) {
-            return Divide<TRight, TLeft, TMeasure>(scaling, in operands);
+            return Ops<TRight>.Reduce<TLeft, TMeasure>(scaling, in operands);
         }
         return Product<TLeft, Quotient<TRight, TMeasure>>.Normalize(scaling, Linear.Injection, operands.Left / operands.Right);
     }
     public Quant Multiply<TMeasure>(IPrefixScale scaling, in Double value) where TMeasure : IMeasure
     {
-        // ToDo: TRight * TMeasure = TRight^2 !!!
-        return Build<Product<TLeft, Power<Square, TRight>>>.With(in value);
-    }
-
-    private static Quant Divide<TLinear, TNominator, TDenominator>(IPrefixScale scaling, in Operands operands)
-        where TLinear : IMeasure
-        where TNominator : IMeasure
-        where TDenominator : IMeasure
-    {
-        var poly = Conversion<TDenominator, TNominator>.Polynomial;
-        return TLinear.Normalize(scaling, Linear.Injection, operands.Left / poly.Evaluate(in operands.Right));
+        if (right.Is<TMeasure>()) {
+            return Ops<TLeft>.Square<TRight, TMeasure>(scaling, in value);
+        }
+        if (left.Is<TMeasure>()) {
+            return Ops<TRight>.Square<TLeft, TMeasure>(scaling, in value);
+        }
+        return Product<TLeft, Product<TRight, TMeasure>>.Normalize(scaling, Linear.Injection, in value);
     }
 }
 internal sealed class FromQuotient<TNominator, TDenominator> : IOperations
@@ -124,9 +121,23 @@ file static class Power<TDim>
     where TDim : IDimension
 {
     public static IInject<Quant> Injection { get; } = new Injector();
+    public static IInject<IInject<Quant>> Product { get; } = new ProductOfSquare();
     private sealed class Injector : IInject<Quant>
     {
         public Quant Inject<TMeasure>(in Double value) where TMeasure : IMeasure => Build<Power<TDim, TMeasure>>.With(in value);
+    }
+
+    private sealed class ProductOfSquare : IInject<IInject<Quant>>
+    {
+        public IInject<Quant> Inject<TMeasure>(in Double value) where TMeasure : IMeasure => AllocationFree<ToSquare<TMeasure>>.Item;
+    }
+    private sealed class ToSquare<TLinear> : IInject<Quant>
+        where TLinear : IMeasure
+    {
+        public Quant Inject<TMeasure>(in Double value) where TMeasure : IMeasure
+        {
+            return Build<Product<TMeasure, Power<TDim, TLinear>>>.With(in value);
+        }
     }
 }
 
@@ -156,3 +167,22 @@ file static class Operator
     }
 }
 
+file static class Ops<TResult>
+    where TResult : IMeasure
+{
+    public static Quant Square<TLeft, TRight>(IPrefixScale scaling, in Double value)
+        where TLeft : IMeasure
+        where TRight : IMeasure
+    {
+        var siPoly = Polynomial.Of<TRight>();
+        var (left, injection) = TLeft.Lower(Power<Square>.Product, siPoly.Evaluate(in value));
+        return TResult.Normalize(scaling, injection, left);
+    }
+    public static Quant Reduce<TNominator, TDenominator>(IPrefixScale scaling, in Operands operands)
+        where TNominator : IMeasure
+        where TDenominator : IMeasure
+    {
+        var poly = Conversion<TDenominator, TNominator>.Polynomial;
+        return TResult.Normalize(scaling, Linear.Injection, operands.Left / poly.Evaluate(in operands.Right));
+    }
+}

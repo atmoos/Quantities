@@ -13,9 +13,8 @@ internal static class Convenience
 
     public static void IsSameAs(this Quant actual, Quant expected, Int32 precision = fullPrecision)
     {
-        var formatting = $"g{precision}";
         PrecisionIsBounded(expected.Value, actual.Value, precision);
-        Assert.Equal(expected.ToString(formatting), actual.ToString(formatting));
+        Assert.True(actual.EqualMeasure(in expected), $"Dimension mismatch: {actual} != {expected}");
     }
     public static void Matches<TQuantity>(this TQuantity actual, TQuantity expected)
         where TQuantity : struct, IQuantity<TQuantity>, Dimensions.IDimension
@@ -25,6 +24,7 @@ internal static class Convenience
     public static void Matches<TQuantity>(this TQuantity actual, TQuantity expected, Int32 precision)
         where TQuantity : struct, IQuantity<TQuantity>, Dimensions.IDimension
     {
+        // ToDo: Use assertion of equal measures, too!
         var formatting = $"g{precision}";
         PrecisionIsBounded(expected, actual, precision);
         Assert.Equal(expected.ToString(formatting), actual.ToString(formatting));

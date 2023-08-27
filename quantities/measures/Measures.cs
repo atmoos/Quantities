@@ -4,9 +4,14 @@ using Quantities.Units.Imperial;
 using Quantities.Units.NonStandard;
 using Quantities.Units.Si;
 
-using static Quantities.Extensions;
-
 namespace Quantities.Measures;
+
+internal readonly struct Chain<TSecond, TFirst> : ITransform
+    where TFirst : ITransform
+    where TSecond : ITransform
+{
+    public static Transformation ToSi(Transformation self) => TSecond.ToSi(TFirst.ToSi(self));
+}
 
 internal readonly struct Si<TUnit> : ISiMeasure<TUnit>
     where TUnit : ISiUnit, Dimensions.IDimension
@@ -15,10 +20,7 @@ internal readonly struct Si<TUnit> : ISiMeasure<TUnit>
     public static IOperations Operations { get; } = FromScalar<Si<TUnit>>.Create<TUnit>();
     public static Boolean Is<TDimension>() where TDimension : Dimensions.IDimension => TUnit.Is<TDimension>();
     public static (Double, T) Lower<T>(IInject<T> inject, in Double value) => (value, inject.Inject<Si<TUnit>>(in value));
-    public static T Normalize<T>(IPrefixScale scaling, IInject<T> inject, in Double value)
-    {
-        return scaling.Scale(new PrefixSi<T, TUnit>(inject), in value);
-    }
+    public static T Normalize<T>(IPrefixScale scaling, IInject<T> inject, in Double value) => scaling.Scale(new PrefixSi<T, TUnit>(inject), in value);
     public static Transformation ToSi(Transformation self) => self;
     public static String Representation => TUnit.Representation;
     public static void Write(IWriter writer) => serializer.Write(writer);
@@ -36,10 +38,7 @@ internal readonly struct Si<TPrefix, TUnit> : ISiMeasure<TUnit>
         var lowered = poly.Evaluate(in value);
         return (lowered, inject.Inject<Si<TUnit>>(in lowered));
     }
-    public static T Normalize<T>(IPrefixScale scaling, IInject<T> inject, in Double value)
-    {
-        return scaling.Scale(new PrefixSi<T, TUnit>(inject), poly.Evaluate(value));
-    }
+    public static T Normalize<T>(IPrefixScale scaling, IInject<T> inject, in Double value) => scaling.Scale(new PrefixSi<T, TUnit>(inject), poly.Evaluate(value));
     public static Transformation ToSi(Transformation self) => TPrefix.ToSi(self);
     public static String Representation { get; } = $"{TPrefix.Representation}{TUnit.Representation}";
     public static void Write(IWriter writer) => serializer.Write(writer);
@@ -51,10 +50,7 @@ internal readonly struct Metric<TUnit> : IMetricMeasure<TUnit>
     public static IOperations Operations { get; } = FromScalar<Metric<TUnit>>.Create<TUnit>();
     public static Boolean Is<TDimension>() where TDimension : Dimensions.IDimension => TUnit.Is<TDimension>();
     public static (Double, T) Lower<T>(IInject<T> inject, in Double value) => (value, inject.Inject<Metric<TUnit>>(in value));
-    public static T Normalize<T>(IPrefixScale scaling, IInject<T> inject, in Double value)
-    {
-        return scaling.Scale(new PrefixMetric<T, TUnit>(inject), in value);
-    }
+    public static T Normalize<T>(IPrefixScale scaling, IInject<T> inject, in Double value) => scaling.Scale(new PrefixMetric<T, TUnit>(inject), in value);
     public static Transformation ToSi(Transformation self) => TUnit.ToSi(self);
     public static String Representation => TUnit.Representation;
     public static void Write(IWriter writer) => serializer.Write(writer);

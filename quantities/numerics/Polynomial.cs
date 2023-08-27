@@ -2,6 +2,12 @@ using System.Numerics;
 
 namespace Quantities.Numerics;
 
+file static class Cache<TTransform>
+    where TTransform : ITransform
+{
+    public static Polynomial Poly { get; } = Polynomial.Of(TTransform.ToSi(new Transformation()));
+}
+
 internal abstract class Polynomial
 {
     public static Polynomial NoOp { get; } = new NoOpPoly();
@@ -22,10 +28,7 @@ internal abstract class Polynomial
         return Of(in nominator, in denominator, in offset);
     }
     public static Polynomial Of<TTransform>()
-        where TTransform : ITransform
-    {
-        return Of(TTransform.ToSi(new Transformation()));
-    }
+        where TTransform : ITransform => Cache<TTransform>.Poly;
     private static Polynomial Of(in Double nominator, in Double denominator, in Double offset) => (nominator, denominator, offset) switch {
         (1, 1, 0) => NoOp,
         (1, 1, var o) => new Shift(in o),

@@ -38,7 +38,11 @@ internal readonly struct Si<TPrefix, TUnit> : ISiMeasure<TUnit>
         var lowered = poly.Evaluate(in value);
         return (lowered, inject.Inject<Si<TUnit>>(in lowered));
     }
-    public static T Normalize<T>(IPrefixScale scaling, IInject<T> inject, in Double value) => scaling.Scale(new PrefixSi<T, TUnit>(inject), poly.Evaluate(value));
+    public static T Normalize<T>(IPrefixScale scaling, IInject<T> inject, in Double value)
+    {
+        return scaling.Scale(new PrefixSi<T, TUnit>(inject), poly.Evaluate(value));
+    }
+
     public static Transformation ToSi(Transformation self) => TPrefix.ToSi(self);
     public static String Representation { get; } = $"{TPrefix.Representation}{TUnit.Representation}";
     public static void Write(IWriter writer) => serializer.Write(writer);

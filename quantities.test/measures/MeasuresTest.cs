@@ -7,14 +7,14 @@ public class MeasuresTest
     [Fact]
     public void SiToSi()
     {
-        var kilometre = Si<Kilo, Metre>.Poly.Evaluate(1d);
+        var kilometre = Si<Kilo, Metre>.Poly * 1d;
 
         Assert.Equal(1000d, kilometre);
     }
     [Fact]
     public void SiFromSi()
     {
-        var millimetre = Si<Milli, Metre>.Poly.Inverse(1d);
+        var millimetre = Si<Milli, Metre>.Poly / 1d;
 
         Assert.Equal(1000d, millimetre);
     }

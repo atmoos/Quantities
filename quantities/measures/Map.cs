@@ -17,5 +17,5 @@ internal sealed class Map
         Representation = this.Representation
     };
     public Double Project(in Map other, in Double self) => this.conversion / other.conversion * self;
-    public Double ToSi(in Double self) => this.conversion.Evaluate(in self);
+    public Double ToSi(in Double self) => this.conversion * self;
 }

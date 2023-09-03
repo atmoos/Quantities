@@ -12,6 +12,7 @@ public static class Convenience
     public static Int32 MediumPrecision => fullPrecision - 1;
     public static Int32 LowPrecision => fullPrecision - 2;
     public static Int32 VeryLowPrecision => fullPrecision - 3;
+    public static Double Uniform(this Random rand) => 2d * (rand.NextDouble() - 0.5);
     public static String Join(String leftUnit, String rightUnit) => $"{leftUnit}\u200C{rightUnit}";
     internal static void IsSameAs(this Quant actual, Quant expected, Int32 precision = fullPrecision)
     {

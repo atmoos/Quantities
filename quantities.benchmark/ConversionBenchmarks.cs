@@ -16,8 +16,8 @@ public class ConversionBenchmarks
     [Benchmark]
     public Double EvaluateSuccessive()
     {
-        var forward = a.Evaluate(argument);
-        return b.Inverse(forward);
+        var forward = a * argument;
+        return b / forward;
     }
 
     [Benchmark]
@@ -56,8 +56,8 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
 
 |                 Method |      Mean |     Error |    StdDev | Ratio |
 |----------------------- |----------:|----------:|----------:|------:|
-|        EvaluateTrivial | 2.6057 ns | 0.0393 ns | 0.0368 ns |  1.00 |
-|     EvaluateSuccessive | 1.5372 ns | 0.0171 ns | 0.0143 ns |  0.59 |
-|       EvaluateCombined | 0.3344 ns | 0.0128 ns | 0.0119 ns |  0.13 |
-| EvaluateArithmetically | 1.1948 ns | 0.0079 ns | 0.0074 ns |  0.46 |
+|        EvaluateTrivial | 2.6436 ns | 0.0256 ns | 0.0214 ns |  1.00 |
+|     EvaluateSuccessive | 1.6120 ns | 0.0384 ns | 0.0359 ns |  0.61 |
+|       EvaluateCombined | 0.2226 ns | 0.0084 ns | 0.0075 ns |  0.08 |
+| EvaluateArithmetically | 1.7486 ns | 0.0154 ns | 0.0144 ns |  0.66 |
 */

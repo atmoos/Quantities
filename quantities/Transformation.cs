@@ -40,6 +40,13 @@ public sealed class Transformation :
         offset = this.offset;
     }
 
+    public Transformation FusedMultiplyAdd(Double multiplicand, Double addend)
+    {
+        this.nominator *= multiplicand;
+        this.offset = Double.FusedMultiplyAdd(multiplicand, this.offset, addend);
+        return this;
+    }
+
     public static Transformation operator +(Transformation left, Double right) => left.Add(in right);
     public static Transformation operator +(Double left, Transformation right) => right.Add(in left);
     public static Transformation operator -(Transformation left, Double right) => left.Subtract(in right);

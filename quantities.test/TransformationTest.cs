@@ -1,6 +1,6 @@
 using Quantities.Numerics;
 
-namespace Quantities.Test.Numerics;
+namespace Quantities.Test;
 
 public class TransformationTest
 {
@@ -14,22 +14,39 @@ public class TransformationTest
         Double expected = (6.262 * value / 2 - 3) / 2 + 1;
 
         Polynomial poly = Polynomial.Of((6.262 * new Transformation() / 2 - 3) / 2 + 1);
-        Double actual = poly.Evaluate(value);
+        Double actual = poly * value;
+
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void FusedMultiplyAddIsEquivalentToScaledAndAdd()
+    {
+        const Double argument = 3.538213;
+        const Double scale = 8.1231;
+        const Double addend = -2.9232;
+        Polynomial fused = Polynomial.Of(Value.FusedMultiplyAdd(scale, addend));
+        Polynomial compound = Polynomial.Of(scale * Value + addend);
+
+        Double expected = compound * argument;
+        Double actual = fused * argument;
 
         Assert.Equal(expected, actual);
     }
 
     [Theory]
     [MemberData(nameof(Computations))]
-    public void TransformationComputeCorrectResult(Transformation transformation, Func<Double, Double> function)
+    public void TransformationComputesCorrectResult(Transformation transformation, Func<Double, Double> function)
     {
         var input = defaultInput;
         var expected = function(input);
         var polynomial = Polynomial.Of(transformation);
 
-        var actual = polynomial.Evaluate(input);
+        var actual = polynomial * input;
 
-        Assert.Equal(expected, actual);
+        // The polynomial may be more precise that pure double calc
+        // Hence medium precision does not mean it's bad...
+        Assert.Equal(expected, actual, MediumPrecision);
     }
 
 
@@ -41,8 +58,8 @@ public class TransformationTest
         var input = defaultInput;
         var polynomial = Polynomial.Of(transformation);
 
-        var forwardResult = polynomial.Evaluate(input);
-        var actual = polynomial.Inverse(forwardResult);
+        var forwardResult = polynomial * input;
+        var actual = polynomial / forwardResult;
 
         Assert.Equal(input, actual, LowPrecision);
     }

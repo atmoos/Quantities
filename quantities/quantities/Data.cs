@@ -36,7 +36,7 @@ public readonly struct Data : IQuantity<Data>, IAmountOfInformation
     internal static Data From(in Time time, in DataRate rate)
     {
         // ToDo: Recover data units from data rate
-        Double asBytes = bytes.Inverse(time.Quant.SiMultiply(rate.Quant));
+        Double asBytes = bytes / time.Quant.SiMultiply(rate.Quant);
         return new(BinaryPrefix.Scale(in asBytes, root));
     }
 

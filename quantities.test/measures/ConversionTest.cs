@@ -39,7 +39,7 @@ public class EvaluateTest
 
         Double actual = Evaluate<Metric<Celsius>, Si<Milli, Kelvin>>(value);
 
-        PrecisionIsBounded(expected, actual, VeryLowPrecision - 3);
+        PrecisionIsBounded(expected, actual, VeryLowPrecision - 2);
     }
 
     [Fact]
@@ -72,10 +72,9 @@ public class EvaluateTest
         const Int32 approximatelyEqual = 4;
         var source = TSource.Poly;
         var target = TTarget.Poly;
-        Polynomial poly = source / target;
 
-        var expected = target.Inverse(source.Evaluate(value));
-        var actual = poly.Evaluate(value);
+        var expected = target / (source * value);
+        var actual = source / target * value;
 
         Assert.Equal(expected, actual, approximatelyEqual);
         return actual;

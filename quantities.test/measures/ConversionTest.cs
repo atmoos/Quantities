@@ -70,9 +70,9 @@ public class EvaluateTest
         where TTarget : IMeasure
     {
         const Int32 approximatelyEqual = 4;
-        Polynomial poly = Polynomial.Conversion<TSource, TTarget>();
-        var source = Polynomial.Of<TSource>();
-        var target = Polynomial.Of<TTarget>();
+        var source = TSource.Poly;
+        var target = TTarget.Poly;
+        Polynomial poly = source / target;
 
         var expected = target.Inverse(source.Evaluate(value));
         var actual = poly.Evaluate(value);

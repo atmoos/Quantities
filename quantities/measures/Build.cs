@@ -4,7 +4,7 @@ namespace Quantities.Measures;
 
 internal static class Build<TMeasure> where TMeasure : IMeasure
 {
-    private static readonly Map defaultMap = new(Polynomial.Of<TMeasure>()) {
+    private static readonly Map defaultMap = new(TMeasure.Poly) {
         Injector = new Linear<TMeasure>(),
         Serialize = TMeasure.Write,
         Representation = TMeasure.Representation

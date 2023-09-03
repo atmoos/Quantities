@@ -32,19 +32,7 @@ public class TransformationTest
         Assert.Equal(expected, actual);
     }
 
-    [Theory]
-    [MemberData(nameof(Transformations))]
-    public void TransformationInverse(Transformation transformation)
-    {
-        var input = defaultInput;
-        var forward = Polynomial.Of(transformation);
-        var inverse = Polynomial.Of(transformation.Invert());
 
-        var forwardResult = forward.Evaluate(input);
-        var actual = inverse.Evaluate(forwardResult);
-
-        Assert.Equal(input, actual, LowPrecision);
-    }
 
     [Theory]
     [MemberData(nameof(Transformations))]

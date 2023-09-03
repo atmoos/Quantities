@@ -23,6 +23,9 @@ public class ConversionBenchmarks
     [Benchmark]
     public Double EvaluateCombined() => Polynomial.Convert<A, B>(argument);
 
+    [Benchmark]
+    public Double EvaluateArithmetically() => a / b * argument;
+
     [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
     private Double Trivial(Double value)
     {
@@ -51,9 +54,10 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
   DefaultJob : .NET 7.0.10 (7.0.1023.41001), X64 RyuJIT AVX2
 
 
-|             Method |      Mean |     Error |    StdDev | Ratio |
-|------------------- |----------:|----------:|----------:|------:|
-|    EvaluateTrivial | 2.6488 ns | 0.0256 ns | 0.0213 ns |  1.00 |
-| EvaluateSuccessive | 1.5385 ns | 0.0193 ns | 0.0171 ns |  0.58 |
-|   EvaluateCombined | 0.3258 ns | 0.0058 ns | 0.0054 ns |  0.12 |
+|                 Method |      Mean |     Error |    StdDev | Ratio |
+|----------------------- |----------:|----------:|----------:|------:|
+|        EvaluateTrivial | 2.6057 ns | 0.0393 ns | 0.0368 ns |  1.00 |
+|     EvaluateSuccessive | 1.5372 ns | 0.0171 ns | 0.0143 ns |  0.59 |
+|       EvaluateCombined | 0.3344 ns | 0.0128 ns | 0.0119 ns |  0.13 |
+| EvaluateArithmetically | 1.1948 ns | 0.0079 ns | 0.0074 ns |  0.46 |
 */

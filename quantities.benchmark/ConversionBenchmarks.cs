@@ -1,6 +1,5 @@
 using System.Runtime.CompilerServices;
 using BenchmarkDotNet.Attributes;
-using Quantities.Measures;
 using Quantities.Numerics;
 
 namespace Quantities.Benchmark;
@@ -24,7 +23,7 @@ public class ConversionBenchmarks
     [Benchmark]
     public Double EvaluateCombined()
     {
-        var poly = Conversion<B, A>.Polynomial;
+        var poly = Polynomial.Conversion<A, B>();
         return poly.Evaluate(argument);
     }
 
@@ -58,7 +57,7 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
 
 |             Method |      Mean |     Error |    StdDev | Ratio | RatioSD |
 |------------------- |----------:|----------:|----------:|------:|--------:|
-|    EvaluateTrivial |  2.629 ns | 0.0430 ns | 0.0402 ns |  1.00 |    0.00 |
-| EvaluateSuccessive | 11.490 ns | 0.1667 ns | 0.1559 ns |  4.37 |    0.07 |
-|   EvaluateCombined |  6.296 ns | 0.0314 ns | 0.0262 ns |  2.40 |    0.04 |
+|    EvaluateTrivial |  2.653 ns | 0.0415 ns | 0.0389 ns |  1.00 |    0.00 |
+| EvaluateSuccessive | 11.555 ns | 0.0658 ns | 0.0584 ns |  4.36 |    0.06 |
+|   EvaluateCombined |  5.815 ns | 0.0353 ns | 0.0330 ns |  2.19 |    0.04 |
 */

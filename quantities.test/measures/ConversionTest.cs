@@ -65,11 +65,19 @@ public class EvaluateTest
         PrecisionIsBounded(expected, actual);
     }
 
-    private static Double Evaluate<TLeft, TRight>(Double value)
-        where TLeft : IMeasure
-        where TRight : IMeasure
+    private static Double Evaluate<TSource, TTarget>(Double value)
+        where TSource : IMeasure
+        where TTarget : IMeasure
     {
-        Polynomial poly = Conversion<TLeft, TRight>.Polynomial;
-        return poly.Evaluate(value);
+        const Int32 approximatelyEqual = 4;
+        Polynomial poly = Polynomial.Conversion<TSource, TTarget>();
+        var source = Polynomial.Of<TSource>();
+        var target = Polynomial.Of<TTarget>();
+
+        var expected = target.Inverse(source.Evaluate(value));
+        var actual = poly.Evaluate(value);
+
+        Assert.Equal(expected, actual, approximatelyEqual);
+        return actual;
     }
 }

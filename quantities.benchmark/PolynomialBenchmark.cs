@@ -52,15 +52,15 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
   DefaultJob : .NET 7.0.10 (7.0.1023.41001), X64 RyuJIT AVX2
 
 
-|             Method |     Mean |     Error |    StdDev | Ratio | RatioSD |
-|------------------- |---------:|----------:|----------:|------:|--------:|
-|    EvaluateTrivial | 1.239 ns | 0.0166 ns | 0.0156 ns |  1.00 |    0.00 |
-|       EvaluateNoOp | 5.037 ns | 0.1319 ns | 0.1466 ns |  4.08 |    0.16 |
-|      EvaluateShift | 5.065 ns | 0.0190 ns | 0.0159 ns |  4.09 |    0.06 |
-|    EvaluateScaleUp | 5.378 ns | 0.1378 ns | 0.1289 ns |  4.34 |    0.14 |
-|   EvaluateLinearUp | 5.537 ns | 0.0272 ns | 0.0255 ns |  4.47 |    0.07 |
-|  EvaluateScaleDown | 5.088 ns | 0.0283 ns | 0.0221 ns |  4.11 |    0.04 |
-| EvaluateLinearDown | 5.332 ns | 0.0290 ns | 0.0257 ns |  4.30 |    0.07 |
-|   EvaluateFraction | 5.346 ns | 0.0216 ns | 0.0192 ns |  4.31 |    0.06 |
-|       EvaluateFull | 4.817 ns | 0.0182 ns | 0.0162 ns |  3.89 |    0.06 |
+|             Method |      Mean |     Error |    StdDev | Ratio | RatioSD |
+|------------------- |----------:|----------:|----------:|------:|--------:|
+|    EvaluateTrivial | 1.2533 ns | 0.0484 ns | 0.0429 ns |  1.00 |    0.00 |
+|       EvaluateNoOp | 0.1984 ns | 0.0077 ns | 0.0072 ns |  0.16 |    0.01 |
+|      EvaluateShift | 0.1886 ns | 0.0029 ns | 0.0024 ns |  0.15 |    0.01 |
+|    EvaluateScaleUp | 0.2053 ns | 0.0117 ns | 0.0104 ns |  0.16 |    0.01 |
+|   EvaluateLinearUp | 0.2340 ns | 0.0251 ns | 0.0210 ns |  0.19 |    0.02 |
+|  EvaluateScaleDown | 0.2362 ns | 0.0089 ns | 0.0079 ns |  0.19 |    0.01 |
+| EvaluateLinearDown | 0.2720 ns | 0.0055 ns | 0.0046 ns |  0.22 |    0.01 |
+|   EvaluateFraction | 0.1794 ns | 0.0086 ns | 0.0080 ns |  0.14 |    0.01 |
+|       EvaluateFull | 0.2137 ns | 0.0075 ns | 0.0071 ns |  0.17 |    0.01 |
 */

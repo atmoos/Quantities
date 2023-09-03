@@ -21,11 +21,7 @@ public class ConversionBenchmarks
     }
 
     [Benchmark]
-    public Double EvaluateCombined()
-    {
-        var poly = Polynomial.Conversion<A, B>();
-        return poly.Evaluate(argument);
-    }
+    public Double EvaluateCombined() => Polynomial.Convert<A, B>(argument);
 
     [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
     private Double Trivial(Double value)
@@ -55,9 +51,9 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
   DefaultJob : .NET 7.0.10 (7.0.1023.41001), X64 RyuJIT AVX2
 
 
-|             Method |      Mean |     Error |    StdDev | Ratio | RatioSD |
-|------------------- |----------:|----------:|----------:|------:|--------:|
-|    EvaluateTrivial |  2.653 ns | 0.0415 ns | 0.0389 ns |  1.00 |    0.00 |
-| EvaluateSuccessive | 11.555 ns | 0.0658 ns | 0.0584 ns |  4.36 |    0.06 |
-|   EvaluateCombined |  5.815 ns | 0.0353 ns | 0.0330 ns |  2.19 |    0.04 |
+|             Method |      Mean |     Error |    StdDev | Ratio |
+|------------------- |----------:|----------:|----------:|------:|
+|    EvaluateTrivial | 2.6488 ns | 0.0256 ns | 0.0213 ns |  1.00 |
+| EvaluateSuccessive | 1.5385 ns | 0.0193 ns | 0.0171 ns |  0.58 |
+|   EvaluateCombined | 0.3258 ns | 0.0058 ns | 0.0054 ns |  0.12 |
 */

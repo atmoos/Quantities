@@ -38,19 +38,17 @@ internal readonly struct Polynomial
 
     public static Polynomial operator *(Polynomial left, Polynomial right)
     {
-        var scaledOffset = Double.FusedMultiplyAdd(left.nominator, right.offset, left.denominator * left.offset) / left.denominator;
-        return new(left.nominator * right.nominator, left.denominator * right.denominator, in scaledOffset);
+        return new(left.nominator * right.nominator, left.denominator * right.denominator, left * right.offset);
     }
 
     public static Polynomial operator /(Polynomial left, Polynomial right)
     {
-        var offset = right.denominator * (left.offset - right.offset) / right.nominator;
-        return new(left.nominator * right.denominator, left.denominator * right.nominator, in offset);
+        return new(left.nominator * right.denominator, left.denominator * right.nominator, right / left.offset);
     }
 
     public static Double operator /(Polynomial left, Double right)
     {
-        return (right - left.offset) * left.denominator / left.nominator;
+        return left.denominator * (right - left.offset) / left.nominator;
     }
 
     public override String ToString() => $"f(x) = {this.nominator}*x/{this.denominator} + {this.offset}";

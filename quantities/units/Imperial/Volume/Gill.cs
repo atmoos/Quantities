@@ -7,7 +7,7 @@ namespace Quantities.Units.Imperial.Volume;
 public readonly struct Gill : IImperialUnit, IVolume, IInjectUnit<ILength>
 {
     private const Double toCubicMetre = 0.1420653125e-3;
-    public static Transformation ToSi(Transformation self) => toCubicMetre * self;
+    public static Transformation ToSi(Transformation self) => 1.420653125 * self / 1e4;
     static T IInjectUnit<ILength>.Inject<T>(in Creator<ILength, T> inject, in Double self)
     {
         const Double gillToCubicInch = toCubicMetre / (Inch.ToMetre * Inch.ToMetre * Inch.ToMetre);

@@ -7,7 +7,7 @@ namespace Quantities.Units.Imperial.Volume;
 public readonly struct Pint : IImperialUnit, IVolume, IInjectUnit<ILength>
 {
     internal const Double toCubicMetre = 0.56826125e-3; // pt -> m³ 
-    public static Transformation ToSi(Transformation self) => toCubicMetre * self;
+    public static Transformation ToSi(Transformation self) => 0.56826125 * self / 1e3;
     static T IInjectUnit<ILength>.Inject<T>(in Creator<ILength, T> inject, in Double self)
     {
         const Double pintToCubicInch = toCubicMetre / (Inch.ToMetre * Inch.ToMetre * Inch.ToMetre);

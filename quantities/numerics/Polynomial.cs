@@ -53,6 +53,8 @@ internal readonly struct Polynomial
         return (right - left.offset) * left.denominator / left.nominator;
     }
 
+    public override String ToString() => $"f(x) = {this.nominator}*x/{this.denominator} + {this.offset}";
+
     private static class Cache<T>
         where T : ITransform
     {

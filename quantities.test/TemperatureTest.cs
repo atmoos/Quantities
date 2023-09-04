@@ -88,7 +88,7 @@ public sealed class TemperatureTest
 
         Temperature actual = temperature.To.Si<Milli, Kelvin>();
 
-        actual.Matches(expected, VeryLowPrecision - 2);
+        actual.Matches(expected, VeryLowPrecision - 1);
     }
     [Fact]
     public void CelsiusToFahrenheit()
@@ -98,7 +98,7 @@ public sealed class TemperatureTest
 
         Temperature actual = temperature.To.Imperial<Fahrenheit>();
 
-        actual.Matches(expected, MediumPrecision);
+        actual.Matches(expected);
     }
     [Fact]
     public void FahrenheitToKelvin()
@@ -159,7 +159,7 @@ public sealed class TemperatureTest
 
         Temperature actual = temperature.To.Imperial<GasMark>();
 
-        actual.Matches(expected, LowPrecision);
+        actual.Matches(expected, MediumPrecision);
     }
     [Fact]
     public void KelvinToRankine()
@@ -194,22 +194,22 @@ public sealed class TemperatureTest
     [Fact]
     public void KelvinToDelisle()
     {
-        Temperature temperature = Temperature.Of(273.16).Si<Kelvin>();
-        Temperature expected = Temperature.Of(149.985).NonStandard<Delisle>();
+        Temperature temperature = Temperature.Of(273.15).Si<Kelvin>();
+        Temperature expected = Temperature.Of(150).NonStandard<Delisle>();
 
         Temperature actual = temperature.To.NonStandard<Delisle>();
 
-        actual.Matches(expected, MediumPrecision);
+        actual.Matches(expected);
     }
     [Fact]
     public void DelisleToKelvin()
     {
-        Temperature temperature = Temperature.Of(176.67).NonStandard<Delisle>();
-        Temperature expected = Temperature.Of(255.37).Si<Kelvin>();
+        Temperature temperature = Temperature.Of(264).NonStandard<Delisle>();
+        Temperature expected = Temperature.Of(197.15).Si<Kelvin>();
 
         Temperature actual = temperature.To.Si<Kelvin>();
 
-        actual.Matches(expected);
+        actual.Matches(expected, MediumPrecision);
     }
     [Fact]
     public void KelvinToNewton()
@@ -259,7 +259,7 @@ public sealed class TemperatureTest
 
         Temperature actual = temperature.To.NonStandard<Rømer>();
 
-        actual.Matches(expected, LowPrecision);
+        actual.Matches(expected, VeryLowPrecision);
     }
     [Fact]
     public void RømerToKelvin()

@@ -2,8 +2,9 @@ using System.Numerics;
 
 namespace Quantities.Numerics;
 
-internal readonly struct Polynomial
-    : IMultiplyOperators<Polynomial, Double, Double>
+internal readonly record struct Polynomial : IEquatable<Polynomial>
+    , IEqualityOperators<Polynomial, Polynomial, Boolean>
+    , IMultiplyOperators<Polynomial, Double, Double>
     , IMultiplyOperators<Polynomial, Polynomial, Polynomial>
     , IDivisionOperators<Polynomial, Polynomial, Polynomial>
     , IDivisionOperators<Polynomial, Double, Double>
@@ -13,9 +14,8 @@ internal readonly struct Polynomial
     public Polynomial() => (this.nominator, this.denominator, this.offset) = (1, 1, 0);
     private Polynomial(in Double nominator, in Double denominator, in Double offset)
     {
-        this.nominator = nominator;
-        this.denominator = denominator;
         this.offset = offset;
+        (this.nominator, this.denominator) = denominator >= 0 ? (nominator, denominator) : (-nominator, -denominator);
     }
     public static Polynomial Of(Transformation transformation)
     {
@@ -51,7 +51,31 @@ internal readonly struct Polynomial
         return left.denominator * (right - left.offset) / left.nominator;
     }
 
-    public override String ToString() => $"f(x) = {this.nominator}*x/{this.denominator} + {this.offset}";
+    public override String ToString()
+    {
+        var (fraction, offset) = Split(in this.nominator, in this.denominator, in this.offset);
+        return $"f(x) = {fraction}{offset}";
+
+        static (String fraction, String offset) Split(in Double n, in Double d, in Double o)
+        {
+            if (d == 0d || n == 0) {
+                return (d == 0d ? n >= 0 ? "∞" : "-∞" : o.ToString("g4"), String.Empty);
+            }
+            var fraction = (n, d) switch {
+                (1, 1) => "x",
+                (-1, 1) => "-x",
+                (-1, _) => $"-x/{d:g4}",
+                (_, 1) => $"{n:g4}*x",
+                _ => $"{n:g4}*x/{d:g4}",
+            };
+            var offset = o switch {
+                < 0d => $" - {-o:g4}",
+                > 0d => $" + {o:g4}",
+                _ => String.Empty,
+            };
+            return (fraction, offset);
+        }
+    }
 
     private static class Cache<T>
         where T : ITransform

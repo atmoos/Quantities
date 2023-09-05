@@ -1,6 +1,7 @@
 using System.Globalization;
 using System.Numerics;
 using Quantities.Measures;
+using Quantities.Numerics;
 using Xunit.Sdk;
 
 namespace Quantities.Test;
@@ -65,5 +66,10 @@ public static class Convenience
         String actual = formattable.ToString(format, formatProvider);
         String expected = $"{value.ToString(format, formatProvider)} {unit}";
         Assert.Equal(expected, actual);
+    }
+    internal static Polynomial Poly(in Double nominator = 1, in Double denominator = 1, in Double offset = 0)
+    {
+        var value = new Transformation();
+        return Polynomial.Of(nominator * value / denominator + offset);
     }
 }

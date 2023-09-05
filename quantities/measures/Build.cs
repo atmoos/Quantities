@@ -9,11 +9,11 @@ internal static class Build<TMeasure> where TMeasure : IMeasure
         Serialize = TMeasure.Write,
         Representation = TMeasure.Representation
     };
-    public static Quant With(in Double value) => new(in value, in defaultMap);
-    public static Quant With<TInjector>(in Double value)
+    public static Quantity With(in Double value) => new(in value, in defaultMap);
+    public static Quantity With<TInjector>(in Double value)
         where TInjector : IInjector, new() => new(in value, in MapPool<TInjector>.Item);
-    public static Quant With(in Quant value) => value.Project(in defaultMap);
-    public static Quant With<TInjector>(in Quant value)
+    public static Quantity With(in Quantity value) => value.Project(in defaultMap);
+    public static Quantity With<TInjector>(in Quantity value)
         where TInjector : IInjector, new() => value.Project(in MapPool<TInjector>.Item);
 
     private static class MapPool<TInjector>

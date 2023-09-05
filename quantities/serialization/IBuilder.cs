@@ -4,7 +4,7 @@ namespace Quantities.Serialization;
 
 internal interface IBuilder
 {
-    Quant Build(in Double value);
+    Quantity Build(in Double value);
 }
 internal interface IInject
 {

@@ -15,9 +15,9 @@ public static class Convenience
     public static Int32 VeryLowPrecision => fullPrecision - 3;
     public static Double Uniform(this Random rand) => 2d * (rand.NextDouble() - 0.5);
     public static String Join(String leftUnit, String rightUnit) => $"{leftUnit}\u200C{rightUnit}";
-    internal static void IsSameAs(this Quant actual, Quant expected, Int32 precision = fullPrecision)
+    internal static void IsSameAs(this Quantity actual, Quantity expected, Int32 precision = fullPrecision)
     {
-        PrecisionIsBounded(expected.Value, actual.Value, precision);
+        PrecisionIsBounded(expected, actual, precision);
         Assert.True(actual.HasSameMeasure(in expected), $"Measure mismatch: {actual} != {expected}");
     }
     public static void Matches<TQuantity>(this TQuantity actual, TQuantity expected)

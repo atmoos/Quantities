@@ -26,35 +26,35 @@ public readonly struct Data : IQuantity<Data>, IAmountOfInformation
 {
     private static readonly Polynomial bytes = Polynomial.Of<Units.Si.Metric.Byte>();
     private static readonly IRoot root = new MetricRoot<Units.Si.Metric.Byte>();
-    private readonly Quant quant;
-    internal Quant Quant => this.quant;
-    public Factory<To> To => new(new To(in this.quant));
-    private Data(in Quant quant) => this.quant = quant;
-    Quant IQuantity<Data>.Value => this.quant;
+    private readonly Quantity data;
+    internal Quantity Value => this.data;
+    Quantity IQuantity<Data>.Value => this.data;
+    public Factory<To> To => new(new To(in this.data));
+    private Data(in Quantity value) => this.data = value;
     public static Factory<Create> Of(in Double value) => new(new Create(in value));
-    static Data IFactory<Data>.Create(in Quant quant) => new(in quant);
+    static Data IFactory<Data>.Create(in Quantity value) => new(in value);
     internal static Data From(in Time time, in DataRate rate)
     {
         // ToDo: Recover data units from data rate
-        Double asBytes = bytes / time.Quant.SiMultiply(rate.Quant);
+        Double asBytes = bytes / time.Value.SiMultiply(rate.Value);
         return new(BinaryPrefix.Scale(in asBytes, root));
     }
 
-    public Boolean Equals(Data other) => this.quant.Equals(other.quant);
+    public Boolean Equals(Data other) => this.data.Equals(other.data);
     public override Boolean Equals(Object? obj) => obj is Data data && Equals(data);
-    public override Int32 GetHashCode() => this.quant.GetHashCode();
-    public override String ToString() => this.quant.ToString();
-    public String ToString(String? format, IFormatProvider? provider) => this.quant.ToString(format, provider);
+    public override Int32 GetHashCode() => this.data.GetHashCode();
+    public override String ToString() => this.data.ToString();
+    public String ToString(String? format, IFormatProvider? provider) => this.data.ToString(format, provider);
 
     public static Boolean operator ==(Data left, Data right) => left.Equals(right);
     public static Boolean operator !=(Data left, Data right) => !left.Equals(right);
-    public static implicit operator Double(Data data) => data.quant.Value;
-    public static Data operator +(Data left, Data right) => new(left.quant + right.quant);
-    public static Data operator -(Data left, Data right) => new(left.quant - right.quant);
-    public static Data operator *(Double scalar, Data right) => new(scalar * right.quant);
-    public static Data operator *(Data left, Double scalar) => new(scalar * left.quant);
-    public static Data operator /(Data left, Double scalar) => new(left.quant / scalar);
-    public static Double operator /(Data left, Data right) => left.quant / right.quant;
+    public static implicit operator Double(Data data) => data.data;
+    public static Data operator +(Data left, Data right) => new(left.data + right.data);
+    public static Data operator -(Data left, Data right) => new(left.data - right.data);
+    public static Data operator *(Double scalar, Data right) => new(scalar * right.data);
+    public static Data operator *(Data left, Double scalar) => new(scalar * left.data);
+    public static Data operator /(Data left, Double scalar) => new(left.data / scalar);
+    public static Double operator /(Data left, Data right) => left.data / right.data;
 
     public static DataRate operator /(Data left, Time right) => DataRate.From(in left, in right);
 

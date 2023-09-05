@@ -7,7 +7,7 @@ namespace Quantities;
 public static class Extensions
 {
   public static String ToString(this IFormattable formattable, String format) => formattable.ToString(format, CultureInfo.InvariantCulture);
-  internal static Quant To<TMeasure>(this in Double value)
+  internal static Quantity To<TMeasure>(this in Double value)
     where TMeasure : IMeasure
     => Build<TMeasure>.With(in value);
   public static void Serialize<TQuantity>(this IQuantity<TQuantity> quantity, IWriter writer)

@@ -200,5 +200,3 @@ The API seems to be stabilising and serialization is supported. Hence, It's wort
 - [ ] Add a "Normalize()" method to each quantity
   - This should then generate a "human readable" representation
   - example: 3'456 Km/d => 40 m/s
-- [ ] Rename the [Quant](./quantities/measures/Quant.cs) type
-  - Top candidate: "Amount"

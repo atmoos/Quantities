@@ -1,14 +1,25 @@
 using System.Globalization;
+using System.Numerics;
+using Quantities.Measures;
+using Quantities.Numerics;
 using Xunit.Sdk;
 
 namespace Quantities.Test;
 public static class Convenience
 {
+    public const String MeasureMismatch = "The measure needs fixing.";
     private const Int32 fullPrecision = 16;
     public static Int32 FullPrecision => fullPrecision;
     public static Int32 MediumPrecision => fullPrecision - 1;
     public static Int32 LowPrecision => fullPrecision - 2;
     public static Int32 VeryLowPrecision => fullPrecision - 3;
+    public static Double Uniform(this Random rand) => 2d * (rand.NextDouble() - 0.5);
+    public static String Join(String leftUnit, String rightUnit) => $"{leftUnit}\u200C{rightUnit}";
+    internal static void IsSameAs(this Quant actual, Quant expected, Int32 precision = fullPrecision)
+    {
+        PrecisionIsBounded(expected.Value, actual.Value, precision);
+        Assert.True(actual.HasSameMeasure(in expected), $"Measure mismatch: {actual} != {expected}");
+    }
     public static void Matches<TQuantity>(this TQuantity actual, TQuantity expected)
         where TQuantity : struct, IQuantity<TQuantity>, Dimensions.IDimension
     {
@@ -17,9 +28,14 @@ public static class Convenience
     public static void Matches<TQuantity>(this TQuantity actual, TQuantity expected, Int32 precision)
         where TQuantity : struct, IQuantity<TQuantity>, Dimensions.IDimension
     {
-        var formatting = $"g{precision}";
-        PrecisionIsBounded(expected, actual, precision);
-        Assert.Equal(expected.ToString(formatting), actual.ToString(formatting));
+        Equals(actual, expected, precision);
+        Assert.True(actual.Value.HasSameMeasure(expected.Value), $"Measure mismatch: {actual} != {expected}");
+    }
+    public static void Equals<T>(this T actual, T expected, Int32 precision)
+    where T : IDivisionOperators<T, T, Double>
+    {
+        var relativeEquality = actual / expected;
+        PrecisionIsBounded(1d, relativeEquality, precision);
     }
     public static void PrecisionIsBounded(Double expected, Double actual, Int32 precision = fullPrecision)
     {
@@ -50,5 +66,10 @@ public static class Convenience
         String actual = formattable.ToString(format, formatProvider);
         String expected = $"{value.ToString(format, formatProvider)} {unit}";
         Assert.Equal(expected, actual);
+    }
+    internal static Polynomial Poly(in Double nominator = 1, in Double denominator = 1, in Double offset = 0)
+    {
+        var value = new Transformation();
+        return Polynomial.Of(nominator * value / denominator + offset);
     }
 }

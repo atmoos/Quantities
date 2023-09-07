@@ -7,7 +7,7 @@ internal delegate Double Scale(in Double value);
 internal sealed class Map
 {
     private readonly Polynomial conversion;
-    internal Map(Polynomial conversion) => this.conversion = conversion;
+    internal Map(in Polynomial conversion) => this.conversion = conversion;
     public required IInjector Injector { get; init; }
     public required String Representation { get; init; }
     public required Action<IWriter> Serialize { get; init; }
@@ -16,10 +16,6 @@ internal sealed class Map
         Serialize = this.Serialize,
         Representation = this.Representation
     };
-    public Double Project(in Map other, in Double self)
-    {
-        var siValue = this.conversion.Evaluate(in self);
-        return other.conversion.Inverse(in siValue);
-    }
-    public Double ToSi(in Double self) => this.conversion.Evaluate(in self);
+    public Double Project(in Map other, in Double self) => this.conversion / other.conversion * self;
+    public Double ToSi(in Double self) => this.conversion * self;
 }

@@ -7,7 +7,7 @@ namespace Quantities.Units.Imperial.Volume;
 public readonly struct FluidOunce : IImperialUnit, IVolume, IInjectUnit<ILength>
 {
     internal const Double toCubicMetre = 0.0284130625e-3; // fl oz -> m³
-    public static Transformation ToSi(Transformation self) => toCubicMetre * self;
+    public static Transformation ToSi(Transformation self) => 2.84130625 * self / 1e5;
     static T IInjectUnit<ILength>.Inject<T>(in Creator<ILength, T> inject, in Double self)
     {
         const Double fluidOunceToCubicInch = toCubicMetre / (Inch.ToMetre * Inch.ToMetre * Inch.ToMetre);

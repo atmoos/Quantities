@@ -1,21 +1,15 @@
-using Quantities.Numerics;
+using System.Numerics;
 
 namespace Quantities;
 
-public sealed class Transformation
+public sealed class Transformation :
+    IAdditionOperators<Transformation, Double, Transformation>,
+    ISubtractionOperators<Transformation, Double, Transformation>,
+    IMultiplyOperators<Transformation, Double, Transformation>,
+    IDivisionOperators<Transformation, Double, Transformation>
 {
     private Double nominator, denominator, offset;
-    internal Transformation()
-    {
-        this.offset = 0d;
-        this.nominator = this.denominator = 1d;
-    }
-    private Transformation(in Double nominator, in Double denominator, in Double offset)
-    {
-        this.nominator = nominator;
-        this.denominator = denominator;
-        this.offset = offset;
-    }
+    internal Transformation() => (this.nominator, this.denominator, this.offset) = (1, 1, 0);
     private Transformation Add(in Double value)
     {
         this.offset += value;
@@ -38,31 +32,20 @@ public sealed class Transformation
         this.denominator *= value;
         return this;
     }
-    internal Transformation Pow(Int32 exponent)
+
+    internal void Deconstruct(out Double nominator, out Double denominator, out Double offset)
     {
-        if (this.offset != 0) {
-            var msg = $"{nameof(Pow)}({exponent}): Raising a {nameof(Transformation)} with a non zero offset ('{this.offset}') to any power is not yet implemented.";
-            throw new NotImplementedException(msg);
-        }
-        this.nominator = Math.Pow(this.nominator, exponent);
-        this.denominator = Math.Pow(this.denominator, exponent);
+        nominator = this.nominator;
+        denominator = this.denominator;
+        offset = this.offset;
+    }
+
+    public Transformation FusedMultiplyAdd(Double multiplicand, Double addend)
+    {
+        this.nominator *= multiplicand;
+        this.offset = Double.FusedMultiplyAdd(multiplicand, this.offset, addend);
         return this;
     }
-    internal Transformation Invert()
-    {
-        var offset = this.denominator * this.offset / this.nominator;
-        return new(in this.denominator, in this.nominator, -offset);
-    }
-    internal Polynomial Build() => (this.nominator, this.denominator, this.offset) switch {
-        (1, 1, 0) => Polynomial.NoOp,
-        (1, 1, var o) => Polynomial.Offset(in o),
-        (var s, 1, 0) => Polynomial.ScaleUp(in s),
-        (var s, 1, var o) => Polynomial.LinearUp(in s, in o),
-        (1, var d, 0) => Polynomial.ScaleDown(in d),
-        (1, var d, var o) => Polynomial.LinearDown(in d, in o),
-        (var n, var d, 0) => Polynomial.Fractional(in n, in d),
-        var (n, d, o) => Polynomial.Full(in n, in d, in o)
-    };
 
     public static Transformation operator +(Transformation left, Double right) => left.Add(in right);
     public static Transformation operator +(Double left, Transformation right) => right.Add(in left);

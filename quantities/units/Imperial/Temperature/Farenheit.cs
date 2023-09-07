@@ -6,6 +6,6 @@ namespace Quantities.Units.Imperial.Temperature;
 // See: https://en.wikipedia.org/wiki/Conversion_of_units#Temperature
 public readonly struct Fahrenheit : IImperialUnit, ITemperature
 {
-    public static Transformation ToSi(Transformation self) => 5 * self / 9 + (Double)(5m * 459.67m / 9m);
+    public static Transformation ToSi(Transformation self) => 5 * (self + 459.67) / 9;
     public static String Representation => "°F";
 }

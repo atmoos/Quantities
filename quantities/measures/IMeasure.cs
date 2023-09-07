@@ -1,12 +1,13 @@
+using Quantities.Numerics;
 using Quantities.Units.Imperial;
 using Quantities.Units.NonStandard;
 using Quantities.Units.Si;
 
 namespace Quantities.Measures;
 
-internal interface IMeasure : ITransform, IRepresentable, ISerialize
+internal interface IMeasure : IRepresentable, ISerialize
 {
-    /* marker interface*/
+    public static abstract Polynomial Poly { get; }
 }
 internal interface ISiMeasure<in TUnit> : IMeasure
     where TUnit : ISiUnit

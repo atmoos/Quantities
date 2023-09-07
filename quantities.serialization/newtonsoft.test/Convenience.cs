@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace Quantities.Serialization.Newtonsoft.Test;
 public static class Convenience

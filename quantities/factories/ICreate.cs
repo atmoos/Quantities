@@ -1,11 +1,11 @@
-using Quantities.Measures;
+﻿using Quantities.Measures;
 
 namespace Quantities.Factories;
 
 public interface ICreate
 {
-    internal Quant Create<TMeasure>()
+    internal Quantity Create<TMeasure>()
       where TMeasure : IMeasure;
-    internal Quant Create<TMeasure, TAlias>()
+    internal Quantity Create<TMeasure, TAlias>()
       where TMeasure : IMeasure where TAlias : IInjector, new();
 }

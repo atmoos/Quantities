@@ -5,7 +5,7 @@ namespace Quantities;
 
 public interface IQuantity<TSelf> : IEquatable<TSelf>, IFormattable
     , IFactory<TSelf>
-    , ICastOperators<TSelf>
+    , ICastOperators<TSelf, Double>
     , IEqualityOperators<TSelf, TSelf, Boolean>
     , IAdditionOperators<TSelf, TSelf, TSelf>
     , ISubtractionOperators<TSelf, TSelf, TSelf>
@@ -13,7 +13,7 @@ public interface IQuantity<TSelf> : IEquatable<TSelf>, IFormattable
     , IDivisionOperators<TSelf, TSelf, Double>
     where TSelf : struct, IQuantity<TSelf>, Dimensions.IDimension
 {
-    internal Quant Value { get; }
+    internal Quantity Value { get; }
     static abstract TSelf operator *(Double scalar, TSelf right);
     static abstract TSelf operator /(TSelf self, Double scalar);
 }

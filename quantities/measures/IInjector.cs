@@ -1,4 +1,4 @@
-using Quantities.Numerics;
+﻿using Quantities.Numerics;
 using Quantities.Prefixes;
 using Quantities.Units;
 

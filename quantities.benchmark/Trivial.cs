@@ -18,7 +18,7 @@ public enum Prefix
     Micro = -6,
 }
 
-public interface ITrivialQuantity<TSelf> : ICastOperators<TSelf>
+public interface ITrivialQuantity<TSelf> : ICastOperators<TSelf, Double>
     where TSelf : ITrivialQuantity<TSelf>
 {
     Double ToSi();

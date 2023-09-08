@@ -13,33 +13,33 @@ public readonly struct ElectricalResistance : IQuantity<ElectricalResistance>, I
     , IMultiplyOperators<ElectricalResistance, ElectricCurrent, ElectricPotential>
 {
     private static readonly IRoot root = new SiRoot<Ohm>();
-    private readonly Quant quant;
-    internal Quant Quant => this.quant;
-    Quant IQuantity<ElectricalResistance>.Value => this.quant;
-    public SiOnly<To, ElectricalResistance, IElectricalResistance> To => new(new To(in this.quant));
-    private ElectricalResistance(in Quant quant) => this.quant = quant;
+    private readonly Quantity resistance;
+    internal Quantity Value => this.resistance;
+    Quantity IQuantity<ElectricalResistance>.Value => this.resistance;
+    public SiOnly<To, ElectricalResistance, IElectricalResistance> To => new(new To(in this.resistance));
+    private ElectricalResistance(in Quantity value) => this.resistance = value;
     public static SiOnly<Create, ElectricalResistance, IElectricalResistance> Of(in Double value) => new(new Create(in value));
-    static ElectricalResistance IFactory<ElectricalResistance>.Create(in Quant quant) => new(in quant);
+    static ElectricalResistance IFactory<ElectricalResistance>.Create(in Quantity value) => new(in value);
     internal static ElectricalResistance From(in ElectricPotential potential, in ElectricCurrent current)
     {
-        return new(MetricPrefix.ScaleThree(potential.Quant.SiDivide(current.Quant), root));
+        return new(MetricPrefix.ScaleThree(potential.Value.SiDivide(current.Value), root));
     }
 
-    public Boolean Equals(ElectricalResistance other) => this.quant.Equals(other.quant);
+    public Boolean Equals(ElectricalResistance other) => this.resistance.Equals(other.resistance);
     public override Boolean Equals(Object? obj) => obj is ElectricalResistance resistance && Equals(resistance);
-    public override Int32 GetHashCode() => this.quant.GetHashCode();
-    public override String ToString() => this.quant.ToString();
-    public String ToString(String? format, IFormatProvider? provider) => this.quant.ToString(format, provider);
+    public override Int32 GetHashCode() => this.resistance.GetHashCode();
+    public override String ToString() => this.resistance.ToString();
+    public String ToString(String? format, IFormatProvider? provider) => this.resistance.ToString(format, provider);
 
     public static Boolean operator ==(ElectricalResistance left, ElectricalResistance right) => left.Equals(right);
     public static Boolean operator !=(ElectricalResistance left, ElectricalResistance right) => !left.Equals(right);
-    public static implicit operator Double(ElectricalResistance resistance) => resistance.quant.Value;
-    public static ElectricalResistance operator +(ElectricalResistance left, ElectricalResistance right) => new(left.quant + right.quant);
-    public static ElectricalResistance operator -(ElectricalResistance left, ElectricalResistance right) => new(left.quant - right.quant);
-    public static ElectricalResistance operator *(Double scalar, ElectricalResistance right) => new(scalar * right.quant);
-    public static ElectricalResistance operator *(ElectricalResistance left, Double scalar) => new(scalar * left.quant);
-    public static ElectricalResistance operator /(ElectricalResistance left, Double scalar) => new(left.quant / scalar);
-    public static Double operator /(ElectricalResistance left, ElectricalResistance right) => left.quant / right.quant;
+    public static implicit operator Double(ElectricalResistance resistance) => resistance.resistance;
+    public static ElectricalResistance operator +(ElectricalResistance left, ElectricalResistance right) => new(left.resistance + right.resistance);
+    public static ElectricalResistance operator -(ElectricalResistance left, ElectricalResistance right) => new(left.resistance - right.resistance);
+    public static ElectricalResistance operator *(Double scalar, ElectricalResistance right) => new(scalar * right.resistance);
+    public static ElectricalResistance operator *(ElectricalResistance left, Double scalar) => new(scalar * left.resistance);
+    public static ElectricalResistance operator /(ElectricalResistance left, Double scalar) => new(left.resistance / scalar);
+    public static Double operator /(ElectricalResistance left, ElectricalResistance right) => left.resistance / right.resistance;
 
     // Ohm's Law
     public static ElectricPotential operator *(ElectricalResistance resistance, ElectricCurrent current) => ElectricPotential.From(in current, in resistance);

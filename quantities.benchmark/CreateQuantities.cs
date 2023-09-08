@@ -16,7 +16,7 @@ internal readonly struct DummyQuant
     public DummyQuant(in Double value) => this.value = value;
 }
 
-public sealed class DummyObject : ICastOperators<DummyObject>
+public sealed class DummyObject : ICastOperators<DummyObject, Double>
 {
     private readonly DummyQuant value;
     private DummyObject(in DummyQuant value) => this.value = value;
@@ -24,7 +24,7 @@ public sealed class DummyObject : ICastOperators<DummyObject>
     public static implicit operator Double(DummyObject obj) => obj.value.Value;
 }
 
-public readonly struct DummyStruct : ICastOperators<DummyStruct>
+public readonly struct DummyStruct : ICastOperators<DummyStruct, Double>
 {
     private readonly DummyQuant value;
     private DummyStruct(in DummyQuant value) => this.value = value;

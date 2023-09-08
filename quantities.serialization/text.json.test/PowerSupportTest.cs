@@ -1,4 +1,4 @@
-namespace Quantities.Serialization.Text.Json.Text;
+﻿namespace Quantities.Serialization.Text.Json.Text;
 
 public class PowerSupportTest : ISerializationTester<Power>
 {

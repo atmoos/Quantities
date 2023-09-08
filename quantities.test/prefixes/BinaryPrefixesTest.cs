@@ -1,4 +1,4 @@
-namespace Quantities.Test.Prefixes;
+﻿namespace Quantities.Test.Prefixes;
 
 public class BinaryPrefixesTest
 {

@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Quantities.Dimensions;
 using Quantities.Prefixes;
 using Quantities.Quantities;

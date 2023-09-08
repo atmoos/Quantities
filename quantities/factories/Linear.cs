@@ -1,4 +1,4 @@
-using Quantities.Measures;
+﻿using Quantities.Measures;
 using Quantities.Prefixes;
 using Quantities.Units.Imperial;
 using Quantities.Units.NonStandard;

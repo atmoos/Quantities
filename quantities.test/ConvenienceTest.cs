@@ -1,4 +1,4 @@
-using Xunit.Sdk;
+﻿using Xunit.Sdk;
 
 namespace Quantities.Test;
 

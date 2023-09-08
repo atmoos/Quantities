@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using static Newtonsoft.Json.JsonToken;
 
 namespace Quantities.Serialization.Newtonsoft;

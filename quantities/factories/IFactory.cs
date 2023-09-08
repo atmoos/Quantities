@@ -1,4 +1,4 @@
-namespace Quantities.Factories;
+﻿namespace Quantities.Factories;
 
 public interface IFactory { /* marker interface */ }
 

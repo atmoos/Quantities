@@ -1,4 +1,4 @@
-using Quantities.Dimensions;
+﻿using Quantities.Dimensions;
 using Quantities.Numerics;
 using Quantities.Units;
 using Quantities.Units.NonStandard;

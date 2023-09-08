@@ -1,4 +1,4 @@
-using Quantities.Units.Imperial.Temperature;
+﻿using Quantities.Units.Imperial.Temperature;
 using Quantities.Units.NonStandard.Temperature;
 
 namespace Quantities.Serialization.Text.Json.Text;

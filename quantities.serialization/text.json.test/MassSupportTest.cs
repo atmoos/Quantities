@@ -1,4 +1,4 @@
-using Quantities.Units.Imperial.Mass;
+﻿using Quantities.Units.Imperial.Mass;
 using Quantities.Units.NonStandard.Mass;
 
 namespace Quantities.Serialization.Text.Json.Text;

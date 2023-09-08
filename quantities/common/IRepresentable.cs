@@ -1,4 +1,4 @@
-namespace Quantities;
+﻿namespace Quantities;
 
 public interface IRepresentable
 {

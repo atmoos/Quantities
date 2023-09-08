@@ -1,4 +1,4 @@
-global using Quantities.Prefixes;
+﻿global using Quantities.Prefixes;
 global using Quantities.Quantities;
 global using Quantities.Units.Si;
 global using Quantities.Units.Si.Derived;

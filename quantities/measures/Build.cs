@@ -1,6 +1,4 @@
-﻿using Quantities.Numerics;
-
-namespace Quantities.Measures;
+﻿namespace Quantities.Measures;
 
 internal static class Build<TMeasure> where TMeasure : IMeasure
 {

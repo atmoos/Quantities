@@ -1,4 +1,4 @@
-using System.Text.Json;
+﻿using System.Text.Json;
 using static System.Text.Json.JsonTokenType;
 
 namespace Quantities.Serialization.Text.Json;

@@ -1,4 +1,4 @@
-namespace Quantities.Serialization.Text.Json.Text;
+﻿namespace Quantities.Serialization.Text.Json.Text;
 
 internal interface ISerializationTester<TQuantity>
 {

@@ -1,4 +1,4 @@
-namespace Quantities.Serialization;
+﻿namespace Quantities.Serialization;
 
 internal static class Introspection
 {

@@ -1,4 +1,4 @@
-using Bytes = Quantities.Units.Si.Metric.Byte;
+﻿using Bytes = Quantities.Units.Si.Metric.Byte;
 
 namespace Quantities.Serialization.Text.Json.Text;
 

@@ -1,4 +1,4 @@
-namespace Quantities.Prefixes;
+﻿namespace Quantities.Prefixes;
 
 internal interface IPrefixInject<out T>
 {

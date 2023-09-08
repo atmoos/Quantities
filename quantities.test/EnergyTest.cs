@@ -1,4 +1,4 @@
-using Quantities.Units.Si.Derived;
+﻿using Quantities.Units.Si.Derived;
 using Quantities.Units.Si.Metric;
 
 namespace Quantities.Test;

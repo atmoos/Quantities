@@ -1,4 +1,4 @@
-using Quantities.Measures;
+﻿using Quantities.Measures;
 using Quantities.Numerics;
 using Quantities.Units.Imperial.Temperature;
 using Quantities.Units.Si.Derived;

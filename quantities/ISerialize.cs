@@ -1,4 +1,4 @@
-namespace Quantities;
+﻿namespace Quantities;
 
 internal interface ISerialize
 {

@@ -1,4 +1,4 @@
-namespace Quantities.Measures.Transformations;
+﻿namespace Quantities.Measures.Transformations;
 
 internal sealed class RaiseTo<TDim> : IInject<Quantity>
     where TDim : IDimension

@@ -1,4 +1,4 @@
-namespace Quantities.Test.Prefixes;
+﻿namespace Quantities.Test.Prefixes;
 
 internal static class PrefixTests
 {

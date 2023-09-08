@@ -1,4 +1,4 @@
-namespace Quantities.Measures.Transformations;
+﻿namespace Quantities.Measures.Transformations;
 
 internal sealed class Multiply : IInject<IInject<Quantity>>
 {

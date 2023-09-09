@@ -11,7 +11,7 @@ internal sealed class ScalarInjector : IInject
 }
 
 internal sealed class PowerInjector<TDim> : IInject
-    where TDim : IDimension
+    where TDim : IExponent
 {
     public IBuilder Inject<TMeasure>() where TMeasure : IMeasure => Inject<TMeasure, Linear<TMeasure>>();
     public IBuilder Inject<TMeasure, TAlias>()

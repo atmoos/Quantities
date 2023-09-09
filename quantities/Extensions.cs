@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Runtime.CompilerServices;
+using Quantities.Dimensions;
 using Quantities.Measures;
 using Quantities.Numerics;
 using Quantities.Prefixes;
@@ -19,7 +20,7 @@ public static class Extensions
     internal static Quantity To<TMeasure>(this in Double value)
       where TMeasure : IMeasure => Quantity.Of<TMeasure>(in value);
     public static void Serialize<TQuantity>(this IQuantity<TQuantity> quantity, IWriter writer)
-      where TQuantity : struct, IQuantity<TQuantity>, Dimensions.IDimension
+      where TQuantity : struct, IQuantity<TQuantity>, IDimension
     {
         writer.Start(typeof(TQuantity).Name.ToLowerInvariant());
         quantity.Value.Write(writer);

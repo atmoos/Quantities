@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using Quantities.Dimensions;
 using Quantities.Measures;
 
 namespace Quantities;
@@ -11,7 +12,7 @@ public interface IQuantity<TSelf> : IEquatable<TSelf>, IFormattable
     , ISubtractionOperators<TSelf, TSelf, TSelf>
     , IMultiplyOperators<TSelf, Double, TSelf>
     , IDivisionOperators<TSelf, TSelf, Double>
-    where TSelf : struct, IQuantity<TSelf>, Dimensions.IDimension
+    where TSelf : struct, IQuantity<TSelf>, IDimension
 {
     internal Quantity Value { get; }
     static abstract TSelf operator *(Double scalar, TSelf right);

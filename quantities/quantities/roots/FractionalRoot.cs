@@ -1,12 +1,13 @@
-﻿using Quantities.Measures;
+﻿using Quantities.Dimensions;
+using Quantities.Measures;
 using Quantities.Prefixes;
 using Quantities.Units.Si;
 
 namespace Quantities.Quantities.Roots;
 
 internal sealed class FractionalRoot<TNominator, TDenominator> : IRoot
-    where TNominator : ISiUnit
-    where TDenominator : ISiUnit
+    where TNominator : ISiUnit, IDimension
+    where TDenominator : ISiUnit, IDimension
 {
     public static Quantity One { get; } = 1d.To<Quotient<Si<TNominator>, Si<TDenominator>>>();
     public static Quantity Zero { get; } = 0d.To<Quotient<Si<TNominator>, Si<TDenominator>>>();

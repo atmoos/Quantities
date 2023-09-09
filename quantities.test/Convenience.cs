@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Numerics;
+using Quantities.Dimensions;
 using Quantities.Measures;
 using Quantities.Numerics;
 using Xunit.Sdk;
@@ -22,12 +23,12 @@ public static class Convenience
         Assert.True(actual.HasSameMeasure(in expected), $"Measure mismatch: {actual} != {expected}");
     }
     public static void Matches<TQuantity>(this TQuantity actual, TQuantity expected)
-        where TQuantity : struct, IQuantity<TQuantity>, Dimensions.IDimension
+        where TQuantity : struct, IQuantity<TQuantity>, IDimension
     {
         actual.Matches(expected, FullPrecision);
     }
     public static void Matches<TQuantity>(this TQuantity actual, TQuantity expected, Int32 precision)
-        where TQuantity : struct, IQuantity<TQuantity>, Dimensions.IDimension
+        where TQuantity : struct, IQuantity<TQuantity>, IDimension
     {
         ReformatEqualMessage((e, a, p) => a.Equals(e, p), expected, actual, precision);
         Assert.True(actual.Value.HasSameMeasure(expected.Value), $"Measure mismatch: {actual} != {expected}");

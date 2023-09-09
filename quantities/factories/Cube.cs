@@ -13,8 +13,8 @@ namespace Quantities.Factories;
 public readonly struct Cube<TCreate, TQuantity, TCubic, TLinear> : ICubicFactory<TQuantity, TCubic, TLinear>
     where TCreate : struct, ICreate
     where TQuantity : IFactory<TQuantity>
-    where TCubic : ICubic<TLinear>, Dimensions.IDimension
-    where TLinear : Dimensions.IDimension, ILinear
+    where TCubic : ICubic<TLinear>, IDimension
+    where TLinear : Dimensions.IDimension
 {
     private readonly TCreate creator;
     public Composite<TCreate, TQuantity, TLinear> Cubic => new(in this.creator, AllocationFree<PowerInjector<TCreate, Cubic>>.Item);

@@ -42,8 +42,8 @@ internal readonly struct Quantity : IEquatable<Quantity>, IFormattable
     }
     public Quantity Multiply(in Quantity right)
     {
-        var multiplication = this.measure.Multiply(right.measure);
-        return new(this.value * right.value, in multiplication);
+        var result = right.measure.Multiply(this.measure);
+        return new(result * right.value * this.value, result);
     }
     public void Write(IWriter writer)
     {

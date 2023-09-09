@@ -1,15 +1,22 @@
 ﻿namespace Quantities.Dimensions;
 
-// ToDo: rethink the utility of these dimensions!
-public interface IDimension { /* marker interface */ }
-
+public interface IDimension
+{
+    internal static abstract Rank RankOf<TDimension>() where TDimension : IDimension;
+}
 public interface ILinear { /* marker interface */ }
 
-public interface ISquare<out TDimension>
-where TDimension : IDimension
+public interface ILinear<TSelf> : ILinear, IDimension
+    where TSelf : ILinear<TSelf>
 {
+    static Rank IDimension.RankOf<TDimension>() => typeof(TDimension).IsAssignableTo(typeof(TSelf)) ? Rank.Linear : Rank.None;
 }
-public interface ICubic<out TDimension>
-    where TDimension : IDimension
+
+internal enum Rank
 {
+    Inverse,
+    None,
+    Linear,
+    Square,
+    Cubic,
 }

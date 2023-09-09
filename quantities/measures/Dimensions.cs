@@ -2,23 +2,21 @@
 
 namespace Quantities.Measures;
 
-internal interface IDimension
+internal interface IExponent
 {
-    internal static abstract Polynomial Pow(in Polynomial value);
+    public static abstract Dimensions.Rank Rank { get; }
+    public static abstract Polynomial Pow(in Polynomial value);
     public static abstract String Representation { get; }
 }
-internal readonly struct Linear : IDimension
+internal readonly struct Square : IExponent
 {
-    public static Polynomial Pow(in Polynomial value) => value;
-    public static String Representation => String.Empty;
-}
-internal readonly struct Square : IDimension
-{
+    public static Dimensions.Rank Rank => Dimensions.Rank.Square;
     public static Polynomial Pow(in Polynomial value) => value * value;
     public static String Representation => "²";
 }
-internal readonly struct Cubic : IDimension
+internal readonly struct Cubic : IExponent
 {
+    public static Dimensions.Rank Rank => Dimensions.Rank.Cubic;
     public static Polynomial Pow(in Polynomial value) => value * value * value;
     public static String Representation => "³";
 }

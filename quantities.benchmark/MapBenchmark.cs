@@ -18,10 +18,10 @@ public class MapBenchmark
     public Double ProjectTrivial() => trivialKiloMetre.To(trivialFoot);
 
     [Benchmark]
-    public Double ProjectOntoSame() => kiloMetre.Project(in kiloMetre, Math.Tau);
+    public Double ProjectOntoSame() => kiloMetre.Project(in kiloMetre) * Math.Tau;
 
     [Benchmark]
-    public Double ProjectOntoOther() => kiloMetre.Project(in ångström, Math.Tau);
+    public Double ProjectOntoOther() => kiloMetre.Project(in ångström) * Math.Tau;
 
     private static Map Build<TMeasure>()
         where TMeasure : IMeasure => new(TMeasure.Poly) {
@@ -42,8 +42,8 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
 
 | Method           | Mean      | Error     | StdDev    | Ratio | RatioSD |
 |----------------- |----------:|----------:|----------:|------:|--------:|
-| ProjectTrivial   | 0.6773 ns | 0.0189 ns | 0.0177 ns |  1.00 |    0.00 |
-| ProjectOntoSame  | 2.9818 ns | 0.0287 ns | 0.0254 ns |  4.39 |    0.11 |
-| ProjectOntoOther | 2.9079 ns | 0.0243 ns | 0.0216 ns |  4.29 |    0.11 |
+| ProjectTrivial   | 0.6792 ns | 0.0371 ns | 0.0329 ns |  1.00 |    0.00 |
+| ProjectOntoSame  | 3.0038 ns | 0.0207 ns | 0.0194 ns |  4.43 |    0.22 |
+| ProjectOntoOther | 2.9737 ns | 0.0117 ns | 0.0098 ns |  4.41 |    0.20 |
 
 */

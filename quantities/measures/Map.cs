@@ -16,6 +16,6 @@ internal sealed class Map
         Serialize = this.Serialize,
         Representation = this.Representation
     };
-    public Double Project(in Map other, in Double self) => this.conversion / other.conversion * self;
+    public Polynomial Project(in Map other) => this.conversion / other.conversion;
     public Double ToSi(in Double self) => this.conversion * self;
 }

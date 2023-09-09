@@ -19,9 +19,9 @@ internal readonly struct Quantity : IEquatable<Quantity>, IFormattable
     private readonly Double value;
     internal Quantity(in Double value, in Map map) => (this.map, this.value) = (map, value);
     private Double Project(in Quantity other) => ReferenceEquals(this.map, other.map)
-        ? other.value : other.map.Project(in this.map, in other.value);
+        ? other.value : other.map.Project(in this.map) * other.value;
     public Quantity Project(in Map other) => ReferenceEquals(this.map, other)
-        ? this : new Quantity(this.map.Project(in other, in this.value), in other);
+        ? this : new Quantity(this.map.Project(in other) * this.value, in other);
     public T Transform<T>(in IInject<T> transformation) => this.map.Injector.Inject(in transformation, in this.value);
     public Quantity PseudoMultiply(in Quantity right)
     {

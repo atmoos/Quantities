@@ -10,7 +10,7 @@ internal sealed class Builder<TMeasure> : IBuilder
 
 internal sealed class AliasedBuilder<TMeasure, TAlias> : IBuilder
     where TMeasure : IMeasure
-    where TAlias : IInjector, new()
+    where TAlias : IInjector
 {
     public Quantity Build(in Double value) => Build<TMeasure>.With<TAlias>(in value);
 }

@@ -22,7 +22,7 @@ internal readonly struct Quantity : IEquatable<Quantity>, IFormattable
         ? other.value : other.measure.Project(in this.measure) * other.value;
     public Quantity Project(in Measure other) => ReferenceEquals(this.measure, other)
         ? this : new Quantity(this.measure.Project(in other) * this.value, in other);
-    public T Transform<T>(in IFactory<T> transformation) => this.measure.Injector.Inject(in transformation, in this.value);
+    public T Transform<T>(in IFactory<T> transformation) => this.measure.Inject(transformation, in this.value);
     public Quantity PseudoMultiply(in Quantity right)
     {
         var projected = Project(in right);
@@ -37,13 +37,13 @@ internal readonly struct Quantity : IEquatable<Quantity>, IFormattable
     public Double SiDivide(in Quantity right) => this.measure.ToSi(in this.value) / right.measure.ToSi(in right.value);
     public Quantity Divide(in Quantity right)
     {
-        var nominator = this.measure.Injector.Inject(in division, in this.value);
-        return right.measure.Injector.Inject(in nominator, in right.value);
+        var nominator = this.measure.Inject(division, in this.value);
+        return right.measure.Inject(nominator, in right.value);
     }
     public Quantity Multiply(in Quantity right)
     {
-        var leftTerm = this.measure.Injector.Inject(in multiplication, in this.value);
-        return right.measure.Injector.Inject(in leftTerm, in right.value);
+        var leftTerm = this.measure.Inject(multiplication, in this.value);
+        return right.measure.Inject(leftTerm, in right.value);
     }
     public void Write(IWriter writer)
     {
@@ -61,7 +61,7 @@ internal readonly struct Quantity : IEquatable<Quantity>, IFormattable
     public override Boolean Equals(Object? obj) => obj is Quantity value && Equals(value);
     public override Int32 GetHashCode() => this.value.GetHashCode() ^ this.measure.GetHashCode();
     public override String ToString() => ToString("g5", CultureInfo.CurrentCulture);
-    public String ToString(String? format, IFormatProvider? provider) => $"{this.value.ToString(format, provider)} {this.measure.Representation}";
+    public String ToString(String? format, IFormatProvider? provider) => $"{this.value.ToString(format, provider)} {this.measure}";
 
     public static Boolean operator ==(Quantity left, Quantity right) => left.Equals(right);
     public static Boolean operator !=(Quantity left, Quantity right) => !left.Equals(right);

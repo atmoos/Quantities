@@ -9,5 +9,5 @@ internal interface IBuilder
 internal interface IInject
 {
     IBuilder Inject<TMeasure>() where TMeasure : IMeasure;
-    IBuilder Inject<TMeasure, TAlias>() where TMeasure : IMeasure where TAlias : IInjector, new();
+    IBuilder Inject<TMeasure, TAlias>() where TMeasure : IMeasure where TAlias : IInjector;
 }

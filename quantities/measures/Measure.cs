@@ -2,8 +2,6 @@
 
 namespace Quantities.Measures;
 
-internal delegate Double Scale(in Double value);
-
 internal abstract class Measure
 {
     private readonly Polynomial conversion;

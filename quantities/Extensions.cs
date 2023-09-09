@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Runtime.CompilerServices;
 using Quantities.Measures;
 using Quantities.Numerics;
 using Quantities.Prefixes;
@@ -23,5 +24,29 @@ public static class Extensions
         writer.Start(typeof(TQuantity).Name.ToLowerInvariant());
         quantity.Value.Write(writer);
         writer.End();
+    }
+    public static NotImplementedException NotImplemented(Object self, [CallerMemberName] String memberName = "", [CallerLineNumber] Int32 line = 0)
+    {
+        return NotImplemented(self.GetType(), memberName, line);
+    }
+    public static NotImplementedException NotImplemented<T>([CallerMemberName] String memberName = "", [CallerLineNumber] Int32 line = 0)
+    {
+        return NotImplemented(typeof(T), memberName, line);
+    }
+
+    private static NotImplementedException NotImplemented(Type type, String memberName, Int32 line)
+    {
+        return new NotImplementedException($"{type.ClassName()} is missing '{memberName}' on line #{line}.");
+    }
+
+    internal static String NameOf<T>() => ClassName(typeof(T));
+    private static String ClassName(this Type t)
+    {
+        const Char arityTick = '`';
+        if (t.IsGenericType) {
+            var typeParams = t.GenericTypeArguments.Select(ClassName);
+            return $"{t.Name.Split(arityTick)[0]}<{String.Join(", ", typeParams)}>";
+        }
+        return t.Name;
     }
 }

@@ -19,9 +19,9 @@ internal readonly struct Quantity : IEquatable<Quantity>, IFormattable
     private readonly Measure measure;
     private Quantity(in Double value, in Measure map) => (this.measure, this.value) = (map, value);
     private Double Project(in Quantity other) => ReferenceEquals(this.measure, other.measure)
-        ? other.value : other.measure.Project(in this.measure) * other.value;
+        ? other.value : other.measure.Project(this.measure) * other.value;
     public Quantity Project(in Measure other) => ReferenceEquals(this.measure, other)
-        ? this : new Quantity(this.measure.Project(in other) * this.value, in other);
+        ? this : new Quantity(this.measure.Project(other) * this.value, in other);
     public T Transform<T>(in IFactory<T> transformation) => this.measure.Inject(transformation, in this.value);
     public Quantity PseudoMultiply(in Quantity right)
     {
@@ -42,8 +42,8 @@ internal readonly struct Quantity : IEquatable<Quantity>, IFormattable
     }
     public Quantity Multiply(in Quantity right)
     {
-        var leftTerm = this.measure.Inject(multiplication, in this.value);
-        return right.measure.Inject(leftTerm, in right.value);
+        var multiplication = this.measure.Multiply(right.measure);
+        return new(this.value * right.value, in multiplication);
     }
     public void Write(IWriter writer)
     {

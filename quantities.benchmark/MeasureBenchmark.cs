@@ -18,10 +18,10 @@ public class MeasureBenchmark
     public Double ProjectTrivial() => trivialKiloMetre.To(trivialFoot);
 
     [Benchmark]
-    public Double ProjectOntoSame() => kiloMetre.Project(in kiloMetre) * Math.Tau;
+    public Double ProjectOntoSame() => kiloMetre.Project(kiloMetre) * Math.Tau;
 
     [Benchmark]
-    public Double ProjectOntoOther() => kiloMetre.Project(in ångström) * Math.Tau;
+    public Double ProjectOntoOther() => kiloMetre.Project(ångström) * Math.Tau;
 
     private static Measure Build<TMeasure>()
         where TMeasure : IMeasure => Measure.Of<TMeasure>();

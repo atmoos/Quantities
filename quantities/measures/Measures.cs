@@ -5,14 +5,18 @@ using Quantities.Units.Imperial;
 using Quantities.Units.NonStandard;
 using Quantities.Units.Si;
 
+using static Quantities.Extensions;
+
 namespace Quantities.Measures;
 
 internal readonly struct Si<TUnit> : IMeasure, ILinear
     where TUnit : ISiUnit
 {
     private static readonly Serializer<TUnit> serializer = new(nameof(Si<TUnit>));
-    public static String Representation => TUnit.Representation;
     public static Polynomial Poly => Polynomial.NoOp;
+    public static String Representation => TUnit.Representation;
+    public static Measure Multiply<TMeasure>()
+        where TMeasure : IMeasure => ScalarProduct<Si<TUnit>, TMeasure>.Result;
     public static void Write(IWriter writer) => serializer.Write(writer);
 }
 internal readonly struct Si<TPrefix, TUnit> : IMeasure, ILinear
@@ -22,6 +26,8 @@ internal readonly struct Si<TPrefix, TUnit> : IMeasure, ILinear
     private static readonly Serializer<TUnit, TPrefix> serializer = new(nameof(Si<TUnit>));
     public static Polynomial Poly { get; } = Polynomial.Of<TPrefix>();
     public static String Representation { get; } = $"{TPrefix.Representation}{TUnit.Representation}";
+    public static Measure Multiply<TMeasure>()
+        where TMeasure : IMeasure => ScalarProduct<Si<TPrefix, TUnit>, TMeasure>.Result;
     public static void Write(IWriter writer) => serializer.Write(writer);
 }
 internal readonly struct Metric<TUnit> : IMeasure, ILinear
@@ -30,6 +36,8 @@ internal readonly struct Metric<TUnit> : IMeasure, ILinear
     private static readonly Serializer<TUnit> serializer = new(nameof(Metric<TUnit>));
     public static Polynomial Poly { get; } = Polynomial.Of<TUnit>();
     public static String Representation => TUnit.Representation;
+    public static Measure Multiply<TMeasure>()
+        where TMeasure : IMeasure => ScalarProduct<Metric<TUnit>, TMeasure>.Result;
     public static void Write(IWriter writer) => serializer.Write(writer);
 }
 internal readonly struct Metric<TPrefix, TUnit> : IMeasure, ILinear
@@ -39,6 +47,8 @@ internal readonly struct Metric<TPrefix, TUnit> : IMeasure, ILinear
     private static readonly Serializer<TUnit, TPrefix> serializer = new(nameof(Metric<TPrefix, TUnit>));
     public static Polynomial Poly { get; } = Polynomial.Of<TPrefix, TUnit>();
     public static String Representation { get; } = $"{TPrefix.Representation}{TUnit.Representation}";
+    public static Measure Multiply<TMeasure>()
+        where TMeasure : IMeasure => ScalarProduct<Metric<TPrefix, TUnit>, TMeasure>.Result;
     public static void Write(IWriter writer) => serializer.Write(writer);
 }
 internal readonly struct Imperial<TUnit> : IMeasure, ILinear
@@ -47,6 +57,8 @@ internal readonly struct Imperial<TUnit> : IMeasure, ILinear
     private static readonly Serializer<TUnit> serializer = new(nameof(Imperial<TUnit>));
     public static Polynomial Poly { get; } = Polynomial.Of<TUnit>();
     public static String Representation => TUnit.Representation;
+    public static Measure Multiply<TMeasure>()
+        where TMeasure : IMeasure => ScalarProduct<Imperial<TUnit>, TMeasure>.Result;
     public static void Write(IWriter writer) => serializer.Write(writer);
 }
 internal readonly struct NonStandard<TUnit> : IMeasure, ILinear
@@ -55,6 +67,8 @@ internal readonly struct NonStandard<TUnit> : IMeasure, ILinear
     private static readonly Serializer<TUnit> serializer = new("any");
     public static Polynomial Poly { get; } = Polynomial.Of<TUnit>();
     public static String Representation => TUnit.Representation;
+    public static Measure Multiply<TMeasure>()
+        where TMeasure : IMeasure => ScalarProduct<NonStandard<TUnit>, TMeasure>.Result;
     public static void Write(IWriter writer) => serializer.Write(writer);
 }
 
@@ -65,6 +79,7 @@ internal readonly struct Product<TLeft, TRight> : IMeasure
     private const String zeroWidthNonJoiner = "\u200C"; // https://en.wikipedia.org/wiki/Zero-width_non-joiner
     public static Polynomial Poly { get; } = TLeft.Poly * TRight.Poly;
     public static String Representation { get; } = $"{TLeft.Representation}{zeroWidthNonJoiner}{TRight.Representation}";
+    public static Measure Multiply<TMeasure>() where TMeasure : IMeasure => throw NotImplemented<Product<TLeft, TRight>>();
     public static void Write(IWriter writer)
     {
         writer.Start("product");
@@ -79,6 +94,7 @@ internal readonly struct Quotient<TNominator, TDenominator> : IMeasure
 {
     public static Polynomial Poly { get; } = TNominator.Poly / TDenominator.Poly;
     public static String Representation { get; } = $"{TNominator.Representation}/{TDenominator.Representation}";
+    public static Measure Multiply<TMeasure>() where TMeasure : IMeasure => throw NotImplemented<Quotient<TNominator, TDenominator>>();
     public static void Write(IWriter writer)
     {
         writer.Start("quotient");
@@ -94,10 +110,29 @@ internal readonly struct Power<TDim, TMeasure> : IMeasure
     private static readonly String dimension = typeof(TDim).Name.ToLowerInvariant();
     public static Polynomial Poly { get; } = TDim.Pow(TMeasure.Poly);
     public static String Representation { get; } = $"{TMeasure.Representation}{TDim.Representation}";
+    public static Measure Multiply<TOtherMeasure>() where TOtherMeasure : IMeasure => throw NotImplemented<Power<TDim, TMeasure>>();
     public static void Write(IWriter writer)
     {
         writer.Start(dimension);
         TMeasure.Write(writer);
         writer.End();
+    }
+}
+
+file static class ScalarProduct<TScalar, TRight>
+    where TScalar : IMeasure, ILinear
+    where TRight : IMeasure
+{
+    public static Measure Result { get; } = Compute.ScalarProduct<TScalar, TRight>();
+
+}
+
+file static class Compute
+{
+    public static Measure ScalarProduct<TLeft, TRight>()
+        where TLeft : IMeasure, ILinear
+        where TRight : IMeasure
+    {
+        return Measure.Of<Product<TLeft, TRight>>();
     }
 }

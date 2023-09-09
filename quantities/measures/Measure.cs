@@ -6,7 +6,9 @@ internal abstract class Measure
 {
     private readonly Polynomial conversion;
     private Measure(in Polynomial conversion) => this.conversion = conversion;
-    public Polynomial Project(in Measure other) => this.conversion / other.conversion;
+    public Polynomial Project(Measure other) => this.conversion / other.conversion;
+    public abstract Measure Multiply(Measure other);
+    protected abstract Measure Multiply<TMeasure>() where TMeasure : IMeasure;
     public Double ToSi(in Double self) => this.conversion * self;
     public abstract void Serialize(IWriter writer);
     public abstract T Inject<T>(IFactory<T> factory, in Double value);
@@ -21,7 +23,9 @@ internal abstract class Measure
     {
         public Impl() : base(TMeasure.Poly) { }
         public override T Inject<T>(IFactory<T> factory, in Double value) => TInjector.Inject(in factory, in value);
+        public override Measure Multiply(Measure other) => other.Multiply<TMeasure>();
         public override void Serialize(IWriter writer) => TMeasure.Write(writer);
         public override String ToString() => TMeasure.Representation;
+        protected override Measure Multiply<TOtherMeasure>() => TOtherMeasure.Multiply<TMeasure>();
     }
 }

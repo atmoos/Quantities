@@ -32,17 +32,17 @@ public class ConvertingQuantities
 /*
 // * Summary *
 
-BenchmarkDotNet=v0.13.5, OS=arch 
+BenchmarkDotNet v0.13.8, Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK=7.0.110
+.NET SDK 7.0.110
   [Host]     : .NET 7.0.10 (7.0.1023.41001), X64 RyuJIT AVX2
   DefaultJob : .NET 7.0.10 (7.0.1023.41001), X64 RyuJIT AVX2
 
 
-|                  Method |       Mean |     Error |    StdDev | Ratio | RatioSD | Allocated | Alloc Ratio |
+| Method                  | Mean       | Error     | StdDev    | Ratio | RatioSD | Allocated | Alloc Ratio |
 |------------------------ |-----------:|----------:|----------:|------:|--------:|----------:|------------:|
-|   TrivialImplementation |  0.6743 ns | 0.0366 ns | 0.0342 ns |  1.00 |    0.00 |         - |          NA |
-|  QuantityImplementation |  9.4569 ns | 0.0710 ns | 0.0629 ns | 13.96 |    0.61 |         - |          NA |
-|          QuantityToSame | 20.9570 ns | 0.1145 ns | 0.1071 ns | 31.15 |    1.62 |         - |          NA |
-| QuantityToVeryDifferent | 27.6986 ns | 0.1820 ns | 0.1703 ns | 41.19 |    2.36 |         - |          NA |
+| TrivialImplementation   |  0.9024 ns | 0.0179 ns | 0.0168 ns |  1.00 |    0.00 |         - |          NA |
+| QuantityImplementation  |  8.0261 ns | 0.0697 ns | 0.0652 ns |  8.90 |    0.19 |         - |          NA |
+| QuantityToSame          | 21.3479 ns | 0.1900 ns | 0.1777 ns | 23.66 |    0.37 |         - |          NA |
+| QuantityToVeryDifferent | 25.7011 ns | 0.1693 ns | 0.1501 ns | 28.50 |    0.51 |         - |          NA |
 */

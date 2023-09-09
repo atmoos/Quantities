@@ -17,7 +17,7 @@ internal readonly struct Quantity : IEquatable<Quantity>, IFormattable
     private static readonly IFactory<IFactory<Quantity>> multiplication = new Multiply();
     private readonly Double value;
     private readonly Measure measure;
-    internal Quantity(in Double value, in Measure map) => (this.measure, this.value) = (map, value);
+    private Quantity(in Double value, in Measure map) => (this.measure, this.value) = (map, value);
     private Double Project(in Quantity other) => ReferenceEquals(this.measure, other.measure)
         ? other.value : other.measure.Project(in this.measure) * other.value;
     public Quantity Project(in Measure other) => ReferenceEquals(this.measure, other)
@@ -57,6 +57,12 @@ internal readonly struct Quantity : IEquatable<Quantity>, IFormattable
         Double quotient = this / other;
         return quotient is >= min and <= max;
     }
+
+    public static Quantity Of<TMeasure>(in Double value)
+        where TMeasure : IMeasure => new(in value, Measure.Of<TMeasure>());
+    public static Quantity Of<TMeasure, TInjector>(in Double value)
+    where TMeasure : IMeasure where TInjector : IInjector => new(in value, Measure.Of<TMeasure, TInjector>());
+
     public Boolean HasSameMeasure(in Quantity other) => ReferenceEquals(this.measure, other.measure);
     public override Boolean Equals(Object? obj) => obj is Quantity value && Equals(value);
     public override Int32 GetHashCode() => this.value.GetHashCode() ^ this.measure.GetHashCode();

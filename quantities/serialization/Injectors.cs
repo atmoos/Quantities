@@ -29,7 +29,7 @@ internal sealed class QuotientInjector : IInject
     private sealed class Nominator<TNominator> : IInject, IBuilder
         where TNominator : IMeasure
     {
-        public Quantity Build(in Double value) => Build<TNominator>.With(in value);
+        public Quantity Build(in Double value) => Quantity.Of<TNominator>(in value);
 
         // ... the denominator in a second step.
         public IBuilder Inject<TMeasure>() where TMeasure : IMeasure => new Builder<Quotient<TNominator, TMeasure>>();
@@ -47,7 +47,7 @@ internal sealed class ProductInjector : IInject
     private sealed class LeftTerm<TLeft> : IInject, IBuilder
         where TLeft : IMeasure
     {
-        public Quantity Build(in Double value) => Build<TLeft>.With(in value);
+        public Quantity Build(in Double value) => Quantity.Of<TLeft>(in value);
 
         // ... the "right term" in a second step.
         public IBuilder Inject<TMeasure>() where TMeasure : IMeasure => new Builder<Product<TLeft, TMeasure>>();

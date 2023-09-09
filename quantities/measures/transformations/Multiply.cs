@@ -8,6 +8,6 @@ internal sealed class Multiply : IFactory<IFactory<Quantity>>
     {
         private readonly Double leftFactor;
         public LeftTerm(in Double leftFactor) => this.leftFactor = leftFactor;
-        public Quantity Create<TMeasure>(in Double value) where TMeasure : IMeasure => Build<Product<TLeft, TMeasure>>.With(this.leftFactor * value);
+        public Quantity Create<TMeasure>(in Double value) where TMeasure : IMeasure => Quantity.Of<Product<TLeft, TMeasure>>(this.leftFactor * value);
     }
 }

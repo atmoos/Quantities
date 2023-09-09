@@ -8,6 +8,6 @@ internal sealed class Divide : IFactory<IFactory<Quantity>>
     {
         private readonly Double nominator;
         public Nominator(in Double nominator) => this.nominator = nominator;
-        public Quantity Create<TMeasure>(in Double value) where TMeasure : IMeasure => Build<Quotient<TNominator, TMeasure>>.With(this.nominator / value);
+        public Quantity Create<TMeasure>(in Double value) where TMeasure : IMeasure => Quantity.Of<Quotient<TNominator, TMeasure>>(this.nominator / value);
     }
 }

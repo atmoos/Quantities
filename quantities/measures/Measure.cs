@@ -12,10 +12,10 @@ internal abstract class Measure
     public Double ToSi(in Double self) => this.conversion * self;
     public abstract void Serialize(IWriter writer);
     public abstract T Inject<T>(IFactory<T> factory, in Double value);
-    public static Measure Create<TMeasure>()
-        where TMeasure : IMeasure => new Impl<TMeasure, Linear<TMeasure>>();
-    public static Measure Create<TMeasure, TInjector>()
-    where TMeasure : IMeasure where TInjector : IInjector => new Impl<TMeasure, TInjector>();
+    public static Measure Of<TMeasure>()
+        where TMeasure : IMeasure => AllocationFree<Impl<TMeasure, Linear<TMeasure>>>.Item;
+    public static Measure Of<TMeasure, TInjector>()
+    where TMeasure : IMeasure where TInjector : IInjector => AllocationFree<Impl<TMeasure, TInjector>>.Item;
 
     private sealed class Impl<TMeasure, TInjector> : Measure
         where TMeasure : IMeasure

@@ -24,7 +24,7 @@ public class MeasureBenchmark
     public Double ProjectOntoOther() => kiloMetre.Project(in ångström) * Math.Tau;
 
     private static Measure Build<TMeasure>()
-        where TMeasure : IMeasure => Measure.Create<TMeasure>();
+        where TMeasure : IMeasure => Measure.Of<TMeasure>();
 }
 /*
 // * Summary *

@@ -11,8 +11,8 @@ public readonly struct Area : IQuantity<Area>, IArea
     , IMultiplyOperators<Area, Length, Volume>
     , IDivisionOperators<Area, Length, Length>
 {
-    private static readonly Measures.IInject<Quantity> square = new RaiseTo<Square>();
-    private static readonly Measures.IInject<Quantity> linear = new ToLinear();
+    private static readonly Measures.IFactory<Quantity> square = new RaiseTo<Square>();
+    private static readonly Measures.IFactory<Quantity> linear = new ToLinear();
     private readonly Quantity area;
     internal Quantity Value => this.area;
     Quantity IQuantity<Area>.Value => this.area;

@@ -14,22 +14,22 @@ public interface IInjectUnit<TDimension>
 public readonly ref struct Creator<TAlias, T>
     where TAlias : Dimensions.IDimension
 {
-    private readonly IInject<T> injector;
-    internal Creator(in IInject<T> injector) => this.injector = injector;
+    private readonly Measures.IFactory<T> injector;
+    internal Creator(in Measures.IFactory<T> injector) => this.injector = injector;
     public T Si<TInjectedUnit>(in Double value) where TInjectedUnit : ISiUnit, TAlias
     {
-        return this.injector.Inject<Si<TInjectedUnit>>(in value);
+        return this.injector.Create<Si<TInjectedUnit>>(in value);
     }
     public T Metric<TInjectedUnit>(in Double value) where TInjectedUnit : IMetricUnit, TAlias
     {
-        return this.injector.Inject<Metric<TInjectedUnit>>(in value);
+        return this.injector.Create<Metric<TInjectedUnit>>(in value);
     }
     public T Imperial<TInjectedUnit>(in Double value) where TInjectedUnit : IImperialUnit, ITransform, TAlias
     {
-        return this.injector.Inject<Imperial<TInjectedUnit>>(in value);
+        return this.injector.Create<Imperial<TInjectedUnit>>(in value);
     }
     public T NonStandard<TInjectedUnit>(in Double value) where TInjectedUnit : INoSystemUnit, ITransform, TAlias
     {
-        return this.injector.Inject<NonStandard<TInjectedUnit>>(in value);
+        return this.injector.Create<NonStandard<TInjectedUnit>>(in value);
     }
 }

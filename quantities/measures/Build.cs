@@ -2,21 +2,21 @@
 
 internal static class Build<TMeasure> where TMeasure : IMeasure
 {
-    private static readonly Map defaultMap = new(TMeasure.Poly) {
+    private static readonly Measure defaultMeasure = new(TMeasure.Poly) {
         Injector = new Linear<TMeasure>(),
         Serialize = TMeasure.Write,
         Representation = TMeasure.Representation
     };
-    public static Quantity With(in Double value) => new(in value, in defaultMap);
+    public static Quantity With(in Double value) => new(in value, in defaultMeasure);
     public static Quantity With<TInjector>(in Double value)
-        where TInjector : IInjector, new() => new(in value, in MapPool<TInjector>.Item);
-    public static Quantity With(in Quantity value) => value.Project(in defaultMap);
+        where TInjector : IInjector, new() => new(in value, in InjectPool<TInjector>.Item);
+    public static Quantity With(in Quantity value) => value.Project(in defaultMeasure);
     public static Quantity With<TInjector>(in Quantity value)
-        where TInjector : IInjector, new() => value.Project(in MapPool<TInjector>.Item);
+        where TInjector : IInjector, new() => value.Project(in InjectPool<TInjector>.Item);
 
-    private static class MapPool<TInjector>
+    private static class InjectPool<TInjector>
         where TInjector : IInjector, new()
     {
-        public static readonly Map Item = defaultMap.With(new TInjector());
+        public static readonly Measure Item = defaultMeasure.With(new TInjector());
     }
 }

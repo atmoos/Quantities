@@ -39,18 +39,18 @@ public class MultiplyingQuantities
 /*
 // * Summary *
 
-BenchmarkDotNet=v0.13.5, OS=arch 
+BenchmarkDotNet v0.13.8, Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK=7.0.107
-  [Host]     : .NET 7.0.7 (7.0.723.32201), X64 RyuJIT AVX2
-  DefaultJob : .NET 7.0.7 (7.0.723.32201), X64 RyuJIT AVX2
+.NET SDK 7.0.110
+  [Host]     : .NET 7.0.10 (7.0.1023.41001), X64 RyuJIT AVX2
+  DefaultJob : .NET 7.0.10 (7.0.1023.41001), X64 RyuJIT AVX2
 
 
-|           Method |     Mean |    Error |   StdDev | Ratio | RatioSD | Allocated | Alloc Ratio |
-|----------------- |---------:|---------:|---------:|------:|--------:|----------:|------------:|
-|          Trivial | 16.59 ns | 0.118 ns | 0.092 ns |  1.00 |    0.00 |         - |          NA |
-|       MultiplySi | 18.63 ns | 0.392 ns | 0.385 ns |  1.13 |    0.03 |         - |          NA |
-| MultiplyImperial | 18.09 ns | 0.370 ns | 0.346 ns |  1.09 |    0.03 |         - |          NA |
-|    MultiplyMixed | 17.80 ns | 0.108 ns | 0.101 ns |  1.07 |    0.01 |         - |          NA |
-|   MultiplyPureSi | 11.82 ns | 0.256 ns | 0.263 ns |  0.71 |    0.02 |         - |          NA |
+| Method           | Mean      | Error     | StdDev    | Ratio | RatioSD | Allocated | Alloc Ratio |
+|----------------- |----------:|----------:|----------:|------:|--------:|----------:|------------:|
+| Trivial          | 16.834 ns | 0.2695 ns | 0.2521 ns |  1.00 |    0.00 |         - |          NA |
+| MultiplySi       | 20.351 ns | 0.1017 ns | 0.0849 ns |  1.21 |    0.02 |         - |          NA |
+| MultiplyImperial | 20.141 ns | 0.1917 ns | 0.1793 ns |  1.20 |    0.03 |         - |          NA |
+| MultiplyMixed    | 18.876 ns | 0.0838 ns | 0.0700 ns |  1.12 |    0.01 |         - |          NA |
+| MultiplyPureSi   |  7.648 ns | 0.0604 ns | 0.0536 ns |  0.45 |    0.01 |         - |          NA |
 */

@@ -7,7 +7,6 @@ using Xunit.Sdk;
 namespace Quantities.Test;
 public static class Convenience
 {
-    public const String MeasureMismatch = "The measure needs fixing.";
     private const Int32 fullPrecision = 16;
     public static Int32 FullPrecision => fullPrecision;
     public static Int32 MediumPrecision => fullPrecision - 1;

@@ -94,7 +94,7 @@ public class AreaTest
 
         Assert.Equal(acres, squareFeet);
     }
-    [Fact(Skip = MeasureMismatch)]
+    [Fact]
     public void SquareMetersTimesMetres()
     {
         Area area = Area.Of(27).Square.Si<Metre>();
@@ -105,7 +105,7 @@ public class AreaTest
 
         actual.Matches(expected);
     }
-    [Fact(Skip = MeasureMismatch)]
+    [Fact]
     public void SquareFeetTimesYards()
     {
         Area area = Area.Of(27).Square.Imperial<Foot>();
@@ -167,7 +167,7 @@ public class AreaTest
 
         actual.Matches(expected);
     }
-    [Fact(Skip = MeasureMismatch)]
+    [Fact]
     public void AreTimesMeterIsCubicMetre()
     {
         Area area = Area.Of(1).Metric<Are>();

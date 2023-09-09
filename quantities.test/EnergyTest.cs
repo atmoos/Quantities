@@ -56,12 +56,12 @@ public sealed class EnergyTest
         actual.Matches(expected);
     }
 
-    [Fact(Skip = MeasureMismatch)]
+    [Fact]
     public void EnergyFromMultiplicationEqualsDirectCreation()
     {
         var time = Time.Of(2).Metric<Hour>();
         var power = Power.Of(3000).Si<Watt>();
-        var expected = Energy.Of(6).Si<Kilo, Watt>().Times.Metric<Hour>();
+        var expected = Energy.Of(6000).Si<Watt>().Times.Metric<Hour>();
 
         var actual = power * time;
 

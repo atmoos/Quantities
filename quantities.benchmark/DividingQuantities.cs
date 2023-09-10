@@ -55,10 +55,10 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
 
 | Method         | Mean      | Error     | StdDev    | Ratio | Allocated | Alloc Ratio |
 |--------------- |----------:|----------:|----------:|------:|----------:|------------:|
-| Trivial        | 16.990 ns | 0.2814 ns | 0.2633 ns |  1.00 |         - |          NA |
-| DivideSi       |  7.448 ns | 0.0718 ns | 0.0672 ns |  0.44 |         - |          NA |
-| DivideImperial |  7.284 ns | 0.0323 ns | 0.0287 ns |  0.43 |         - |          NA |
-| DivideMixed    |  7.527 ns | 0.0541 ns | 0.0506 ns |  0.44 |         - |          NA |
-| DivideAliased  |  7.725 ns | 0.0544 ns | 0.0454 ns |  0.46 |         - |          NA |
-| DividePureSi   |  7.751 ns | 0.0463 ns | 0.0433 ns |  0.46 |         - |          NA |
+| Trivial        | 16.879 ns | 0.2173 ns | 0.2032 ns |  1.00 |         - |          NA |
+| DivideSi       |  7.071 ns | 0.1696 ns | 0.1666 ns |  0.42 |         - |          NA |
+| DivideImperial |  6.835 ns | 0.0365 ns | 0.0342 ns |  0.40 |         - |          NA |
+| DivideMixed    |  7.308 ns | 0.0999 ns | 0.0934 ns |  0.43 |         - |          NA |
+| DivideAliased  |  7.354 ns | 0.0914 ns | 0.0810 ns |  0.44 |         - |          NA |
+| DividePureSi   |  6.769 ns | 0.0395 ns | 0.0330 ns |  0.40 |         - |          NA |
 */

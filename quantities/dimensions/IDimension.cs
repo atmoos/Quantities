@@ -11,12 +11,3 @@ public interface ILinear<TSelf> : ILinear, IDimension
 {
     static Rank IDimension.RankOf<TDimension>() => typeof(TDimension).IsAssignableTo(typeof(TSelf)) ? Rank.Linear : Rank.None;
 }
-
-internal enum Rank
-{
-    Inverse,
-    None,
-    Linear,
-    Square,
-    Cubic,
-}

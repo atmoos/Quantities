@@ -19,7 +19,7 @@ public sealed class ElectricCurrentTest
 
         ElectricCurrent current = volts / ohm;
 
-        current.Matches(expected);
+        current.Equal(expected);
     }
     [Fact]
     public void OhmsLawInPrefixedUnits()
@@ -30,7 +30,7 @@ public sealed class ElectricCurrentTest
 
         ElectricCurrent current = volts / ohm;
 
-        current.Matches(expected);
+        current.Equal(expected);
     }
     [Fact]
     public void PowerLawInBaseUnits()
@@ -41,7 +41,7 @@ public sealed class ElectricCurrentTest
 
         ElectricCurrent current = watts / volts;
 
-        current.Matches(expected);
+        current.Equal(expected);
     }
     [Fact]
     public void PowerLawInPrefixedUnits()
@@ -52,6 +52,6 @@ public sealed class ElectricCurrentTest
 
         ElectricCurrent current = watts / volts;
 
-        current.Matches(expected);
+        current.Equal(expected);
     }
 }

@@ -13,7 +13,7 @@ public readonly struct Quadratic<TCreate, TQuantity, TSquare, TLinear> : IQuadra
     where TCreate : struct, ICreate
     where TQuantity : IFactory<TQuantity>
     where TSquare : ISquare<TLinear>, IDimension
-    where TLinear : Dimensions.IDimension
+    where TLinear : IDimension
 {
     private readonly TCreate creator;
     public Composite<TCreate, TQuantity, TLinear> Square => new(in this.creator, AllocationFree<PowerInjector<TCreate, Square>>.Item);

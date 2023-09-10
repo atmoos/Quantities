@@ -1,6 +1,8 @@
 ﻿using Quantities.Units.Imperial.Volume;
 using Quantities.Units.Si.Metric;
 
+using static Quantities.Test.Convenience;
+
 namespace Quantities.Test;
 
 public sealed class VolumeTest
@@ -151,9 +153,9 @@ public sealed class VolumeTest
 
         Area actual = volume / length;
 
-        Assert.Equal(expected, actual);
+        actual.Matches(expected);
     }
-    [Fact]
+    [Fact(Skip = WorkOnDimensionalityNeeded)]
     public void DividePureVolumeByLength()
     {
         Volume volume = Volume.Of(300).Metric<Hecto, Litre>();

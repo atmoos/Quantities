@@ -10,7 +10,7 @@ internal readonly record struct Polynomial : IEquatable<Polynomial>
     , IDivisionOperators<Polynomial, Polynomial, Polynomial>
     , IDivisionOperators<Polynomial, Double, Double>
 {
-    public static Polynomial NoOp { get; } = new();
+    public static Polynomial One { get; } = new();
     private readonly Double nominator, denominator, offset;
     public Polynomial() => (this.nominator, this.denominator, this.offset) = (1, 1, 0);
     private Polynomial(in Double nominator, in Double denominator, in Double offset)

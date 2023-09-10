@@ -23,10 +23,7 @@ public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectr
     private ElectricPotential(in Quantity value) => this.potential = value;
     public static SiOnly<Create, ElectricPotential, IElectricPotential> Of(in Double value) => new(new Create(in value));
     static ElectricPotential IFactory<ElectricPotential>.Create(in Quantity value) => new(in value);
-    internal static ElectricPotential From(in ElectricCurrent current, in ElectricalResistance resistance)
-    {
-        return new(MetricPrefix.ScaleThree(current.Value.SiMultiply(resistance.Value), root));
-    }
+    internal static ElectricPotential From(in ElectricCurrent current, in ElectricalResistance resistance) => new(current.Value * resistance.Value);
     internal static ElectricPotential From(in Power power, in ElectricCurrent current)
     {
         Double siPower = power.To.Si<Watt>();
@@ -40,20 +37,19 @@ public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectr
     public override Int32 GetHashCode() => this.potential.GetHashCode();
     public override String ToString() => this.potential.ToString();
 
+    public static implicit operator Double(ElectricPotential potential) => potential.potential;
     public static Boolean operator ==(ElectricPotential left, ElectricPotential right) => left.Equals(right);
     public static Boolean operator !=(ElectricPotential left, ElectricPotential right) => !left.Equals(right);
-    public static implicit operator Double(ElectricPotential potential) => potential.potential;
     public static ElectricPotential operator +(ElectricPotential left, ElectricPotential right) => new(left.potential + right.potential);
     public static ElectricPotential operator -(ElectricPotential left, ElectricPotential right) => new(left.potential - right.potential);
     public static ElectricPotential operator *(Double scalar, ElectricPotential right) => new(scalar * right.potential);
     public static ElectricPotential operator *(ElectricPotential left, Double scalar) => new(scalar * left.potential);
     public static ElectricPotential operator /(ElectricPotential left, Double scalar) => new(left.potential / scalar);
-    public static Double operator /(ElectricPotential left, ElectricPotential right) => left.potential / right.potential;
+    public static Double operator /(ElectricPotential left, ElectricPotential right) => left.potential.Divide(in right.potential);
 
     #region Ohm's Law
     public static ElectricalResistance operator /(ElectricPotential left, ElectricCurrent right) => ElectricalResistance.From(in left, in right);
     public static ElectricCurrent operator /(ElectricPotential left, ElectricalResistance right) => ElectricCurrent.From(in left, in right);
-
     #endregion Ohm's Law
 
     public static Power operator *(ElectricPotential left, ElectricCurrent right) => Power.From(in left, in right);

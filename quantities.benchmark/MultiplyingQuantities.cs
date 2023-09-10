@@ -46,11 +46,11 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
   DefaultJob : .NET 7.0.10 (7.0.1023.41001), X64 RyuJIT AVX2
 
 
-| Method           | Mean      | Error     | StdDev    | Ratio | RatioSD | Allocated | Alloc Ratio |
-|----------------- |----------:|----------:|----------:|------:|--------:|----------:|------------:|
-| Trivial          | 16.834 ns | 0.2695 ns | 0.2521 ns |  1.00 |    0.00 |         - |          NA |
-| MultiplySi       | 20.351 ns | 0.1017 ns | 0.0849 ns |  1.21 |    0.02 |         - |          NA |
-| MultiplyImperial | 20.141 ns | 0.1917 ns | 0.1793 ns |  1.20 |    0.03 |         - |          NA |
-| MultiplyMixed    | 18.876 ns | 0.0838 ns | 0.0700 ns |  1.12 |    0.01 |         - |          NA |
-| MultiplyPureSi   |  7.648 ns | 0.0604 ns | 0.0536 ns |  0.45 |    0.01 |         - |          NA |
+| Method           | Mean      | Error     | StdDev    | Ratio | Allocated | Alloc Ratio |
+|----------------- |----------:|----------:|----------:|------:|----------:|------------:|
+| Trivial          | 16.401 ns | 0.2684 ns | 0.2379 ns |  1.00 |         - |          NA |
+| MultiplySi       |  7.997 ns | 0.1609 ns | 0.1505 ns |  0.49 |         - |          NA |
+| MultiplyImperial |  7.175 ns | 0.1349 ns | 0.1262 ns |  0.44 |         - |          NA |
+| MultiplyMixed    |  7.055 ns | 0.0269 ns | 0.0251 ns |  0.43 |         - |          NA |
+| MultiplyPureSi   |  7.475 ns | 0.0616 ns | 0.0514 ns |  0.46 |         - |          NA |
 */

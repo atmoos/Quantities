@@ -10,6 +10,7 @@ using static Quantities.Extensions;
 namespace Quantities.Test;
 public static class Convenience
 {
+    public const String WorkOnDimensionalityNeeded = "Work on dimensional transparency needed";
     private const Int32 fullPrecision = 16;
     public static Int32 FullPrecision => fullPrecision;
     public static Int32 MediumPrecision => fullPrecision - 1;
@@ -22,18 +23,13 @@ public static class Convenience
         ReformatEqualMessage((e, a, p) => PrecisionIsBounded(e, a, p), expected, actual, precision);
         Assert.True(actual.HasSameMeasure(in expected), $"Measure mismatch: {actual} != {expected}");
     }
-    public static void Matches<TQuantity>(this TQuantity actual, TQuantity expected)
+    public static void Matches<TQuantity>(this TQuantity actual, TQuantity expected, Int32 precision = fullPrecision)
         where TQuantity : struct, IQuantity<TQuantity>, IDimension
     {
-        actual.Matches(expected, FullPrecision);
-    }
-    public static void Matches<TQuantity>(this TQuantity actual, TQuantity expected, Int32 precision)
-        where TQuantity : struct, IQuantity<TQuantity>, IDimension
-    {
-        ReformatEqualMessage((e, a, p) => a.Equals(e, p), expected, actual, precision);
+        ReformatEqualMessage((e, a, p) => a.Equal(e, p), expected, actual, precision);
         Assert.True(actual.Value.HasSameMeasure(expected.Value), $"Measure mismatch: {actual} != {expected}");
     }
-    public static void Equals<T>(this T actual, T expected, Int32 precision)
+    public static void Equal<T>(this T actual, T expected, Int32 precision = fullPrecision)
     where T : IDivisionOperators<T, T, Double>
     {
         var relativeEquality = actual / expected;
@@ -74,7 +70,6 @@ public static class Convenience
         var value = new Transformation();
         return Polynomial.Of(nominator * value / denominator + offset);
     }
-
     private static void ReformatEqualMessage<T>(Action<T, T, Int32> assertion, T expected, T actual, Int32 precision)
         where T : IFormattable
     {

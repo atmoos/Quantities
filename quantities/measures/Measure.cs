@@ -9,7 +9,8 @@ internal abstract class Measure
     public Polynomial Project(Measure other) => this.conversion / other.conversion;
     public abstract Result Multiply(Measure other);
     protected abstract Result Multiply<TMeasure>() where TMeasure : IMeasure;
-    public Double ToSi(in Double self) => this.conversion * self;
+    public abstract Result Divide(Measure other);
+    protected abstract Result Divide<TMeasure>() where TMeasure : IMeasure;
     public abstract void Serialize(IWriter writer);
     public abstract T Inject<T>(IFactory<T> factory, in Double value);
     public static Measure Of<TMeasure>()
@@ -24,8 +25,10 @@ internal abstract class Measure
         public Impl() : base(TMeasure.Poly) { }
         public override T Inject<T>(IFactory<T> factory, in Double value) => TInjector.Inject(in factory, in value);
         public override Result Multiply(Measure other) => other.Multiply<TMeasure>();
+        public override Result Divide(Measure other) => other.Divide<TMeasure>();
         public override void Serialize(IWriter writer) => TMeasure.Write(writer);
         public override String ToString() => TMeasure.Representation;
-        protected override Result Multiply<TOtherMeasure>() => TMeasure.Multiply<TOtherMeasure>();
+        protected override Result Multiply<TOtherMeasure>() => TOtherMeasure.Multiply<TMeasure>();
+        protected override Result Divide<TOtherMeasure>() => TOtherMeasure.Divide<TMeasure>();
     }
 }

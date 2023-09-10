@@ -9,4 +9,5 @@ internal interface IMeasure : IRepresentable, ISerialize
     static abstract Rank Rank<TMeasure>() where TMeasure : IMeasure;
     static abstract Rank RankOf<TDimension>() where TDimension : IDimension;
     public static abstract Result Multiply<TMeasure>() where TMeasure : IMeasure;
+    public static abstract Result Divide<TMeasure>() where TMeasure : IMeasure;
 }

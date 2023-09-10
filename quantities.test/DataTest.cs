@@ -81,10 +81,20 @@ public class DataTest
     {
         Time time = Time.Of(12).Si<Milli, Second>();
         DataRate rate = DataRate.Of(32).Metric<Mega, Bit>().Per.Si<Second>();
-        // Note that the units aren't preserved yet...
-        Data expected = Data.Of(12 * 32 / (8 * 1e3) * 1e6 / kibi).Binary<Kibi, Bytes>();
+        Data expected = Data.Of(12 * 32 / 1e3).Metric<Mega, Bit>();
 
         Data actual = rate * time;
+
+        actual.Matches(expected);
+    }
+    [Fact]
+    public void TimeTimesDataRateIsAmountOfData()
+    {
+        Time time = Time.Of(12).Si<Milli, Second>();
+        DataRate rate = DataRate.Of(32).Metric<Mega, Bit>().Per.Si<Second>();
+        Data expected = Data.Of(12 * 32 / 1e3).Metric<Mega, Bit>();
+
+        Data actual = time * rate;
 
         actual.Matches(expected);
     }

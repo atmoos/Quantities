@@ -2,7 +2,6 @@
 using Quantities.Dimensions;
 using Quantities.Factories;
 using Quantities.Measures;
-using Quantities.Measures.Transformations;
 
 namespace Quantities.Quantities;
 
@@ -11,8 +10,6 @@ public readonly struct Area : IQuantity<Area>, IArea
     , IMultiplyOperators<Area, Length, Volume>
     , IDivisionOperators<Area, Length, Length>
 {
-    private static readonly Measures.IFactory<Quantity> square = new RaiseTo<Square>();
-    private static readonly Measures.IFactory<Quantity> linear = new ToLinear();
     private readonly Quantity area;
     internal Quantity Value => this.area;
     Quantity IQuantity<Area>.Value => this.area;

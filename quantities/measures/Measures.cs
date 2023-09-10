@@ -6,6 +6,7 @@ using Quantities.Units.NonStandard;
 using Quantities.Units.Si;
 
 using static Quantities.Dimensions.Rank;
+using static Quantities.Measures.Convenience;
 
 namespace Quantities.Measures;
 
@@ -21,6 +22,8 @@ file interface ICompute
     static abstract Result Per<TMeasure>() where TMeasure : IMeasure;
 }
 
+// ToDo: what should 1/M be? M⁻¹, or simply 1/M?
+
 internal readonly struct Identity : IMeasure, ILinear
 {
     private static readonly String name = nameof(Identity).ToLowerInvariant();
@@ -30,8 +33,8 @@ internal readonly struct Identity : IMeasure, ILinear
         where TMeasure : IMeasure => new(Polynomial.One / TMeasure.Poly, Measure.Of<Quotient<Identity, TMeasure>>());
     public static Result Multiply<TMeasure>()
         where TMeasure : IMeasure => new(Polynomial.One, Measure.Of<TMeasure>());
-    public static Rank Rank<TMeasure>() where TMeasure : IMeasure => None; // Or Zero?
-    public static Rank RankOf<TDimension>() where TDimension : IDimension => None; // Or Zero?
+    public static Rank Rank<TMeasure>() where TMeasure : IMeasure => Zero;
+    public static Rank RankOf<TDimension>() where TDimension : IDimension => Zero;
     public static void Write(IWriter writer) => writer.Write(name, Representation);
 }
 
@@ -188,7 +191,7 @@ internal readonly struct Power<TDim, TMeasure> : IMeasure
         writer.End();
     }
     private static Rank Map(in Rank rank) => rank switch {
-        // ToDo: Other ranks could be mapped via "offsetting" (or & and operators)
+        // ToDo: Other ranks could be mapped via "offsetting" ('or' & 'and' operators)
         Linear => TDim.Rank,
         _ => None
     };
@@ -242,8 +245,9 @@ file static class Compute
         public static Result Times<TArgument>() where TArgument : IMeasure
         {
             return TLeft.Rank<TArgument>() switch {
-                Linear => new Result(TArgument.Poly / TLeft.Poly, Measure.Of<Power<Square, TLeft>, Linear<TLeft>>()),
-                Rank.Square => new Result(TArgument.Poly / TLeft.Poly, Measure.Of<Power<Cubic, TLeft>, Linear<TLeft>>()),
+                Zero => new Result(Polynomial.One, Measure.Of<TLeft>()),
+                Linear => new Result(TArgument.Poly / TLeft.Poly, Measure.Of<Power<Square, TLeft>>()),
+                Rank.Square => new Result(TArgument.Poly / TLeft.Poly, Measure.Of<Power<Cubic, TLeft>>()),
                 Rank.HigherOrder => TArgument.Multiply<TLeft>(),
                 _ => new Result(Polynomial.One, Measure.Of<Product<TLeft, TArgument>>())
             };
@@ -251,9 +255,10 @@ file static class Compute
         public static Result Per<TArgument>() where TArgument : IMeasure
         {
             return TLeft.Rank<TArgument>() switch {
-                Linear => new Result(TArgument.Poly / TLeft.Poly, Measure.Of<Identity>()),
+                Zero => new Result(Polynomial.One, Measure.Of<TLeft>()),
+                Linear => new Result(TLeft.Poly / TArgument.Poly, Measure.Of<Identity>()),
                 Rank.Square => new Result(TArgument.Poly / TLeft.Poly, Measure.Of<TLeft>()),
-                Rank.Cubic => new Result(TArgument.Poly / TLeft.Poly, Measure.Of<Power<Square, TLeft>, Linear<TLeft>>()),
+                Rank.Cubic => new Result(TArgument.Poly / TLeft.Poly, Measure.Of<Power<Square, TLeft>>()),
                 Rank.HigherOrder => TArgument.Divide<TLeft>(),
                 _ => new Result(Polynomial.One, Measure.Of<Quotient<TLeft, TArgument>>())
             };
@@ -315,36 +320,60 @@ file static class Compute
         where TExp : IExponent
         where TLinear : IMeasure
     {
-        private static readonly Rank dimension = TExp.Rank;
+        private static readonly Int32 dimension = ExponentOf(TExp.Rank);
         public static Result Times<TArgument>() where TArgument : IMeasure
         {
-            if (TLinear.Rank<TArgument>() == Linear) {
-                var conversion = TArgument.Poly / TLinear.Poly;
-                if (dimension == Linear) {
-                    return new(in conversion, Measure.Of<Power<Square, TLinear>, Linear<TLinear>>());
-                }
-                if (dimension == Rank.Square) {
-                    return new(in conversion, Measure.Of<Power<Cubic, TLinear>, Linear<TLinear>>());
-                }
+            Rank target = TLinear.Rank<TArgument>();
+            Int32 exponent = ExponentOf(target);
+            Measure? measure = Pow<TLinear>(dimension + exponent);
+            if (measure is null) {
+                return new(Polynomial.One, Measure.Of<Product<Power<TExp, TLinear>, TArgument>>());
             }
-            return new(Polynomial.One, Measure.Of<Product<Power<TExp, TLinear>, TArgument>>());
+            Polynomial conversion = TArgument.Poly / Pow(TLinear.Poly, target);
+            return new(in conversion, measure);
         }
 
         public static Result Per<TArgument>() where TArgument : IMeasure
         {
-            if (TLinear.Rank<TArgument>() == Linear) {
-                var conversion = TLinear.Poly / TArgument.Poly;
-                if (dimension == Linear) {
-                    return new(in conversion, Measure.Of<Identity>());
-                }
-                if (dimension == Rank.Square) {
-                    return new(in conversion, Measure.Of<TLinear>());
-                }
-                if (dimension == Rank.Cubic) {
-                    return new(in conversion, Measure.Of<Power<Square, TLinear>, Linear<TLinear>>());
-                }
+            Rank target = TLinear.Rank<TArgument>();
+            Int32 exponent = ExponentOf(target);
+            Measure? measure = Pow<TLinear>(dimension - exponent);
+            if (measure is null) {
+                return new(Polynomial.One, Measure.Of<Quotient<Power<TExp, TLinear>, TArgument>>());
             }
-            return new(Polynomial.One, Measure.Of<Quotient<Power<TExp, TLinear>, TArgument>>());
+            Polynomial conversion = Pow(TLinear.Poly, target) / TArgument.Poly;
+            return new(in conversion, measure);
         }
     }
+}
+
+file static class Convenience
+{
+    public const Int32 NoRank = Int16.MaxValue;
+    public static Int32 ExponentOf(Rank rank) => rank switch {
+        Zero => 0,
+        Linear => 1,
+        Rank.Square => 2,
+        Rank.Cubic => 3,
+        _ => NoRank
+    };
+    public static Polynomial Pow(in Polynomial poly, Rank rank) => rank switch {
+        Rank.Cubic => Cubic.Pow(in poly),
+        Rank.Square => Square.Pow(in poly),
+        Linear => poly,
+        Zero => Polynomial.One,
+        Inverse => Polynomial.One / poly,
+        _ => poly
+    };
+    public static Measure? Pow<TLinear>(Int32 exp)
+        where TLinear : IMeasure => exp switch {
+            3 => Measure.Of<Power<Cubic, TLinear>>(),
+            2 => Measure.Of<Power<Square, TLinear>>(),
+            1 => Measure.Of<TLinear>(),
+            0 => Measure.Of<Identity>(),
+            -1 => Measure.Of<Quotient<Identity, TLinear>>(),
+            -2 => Measure.Of<Quotient<Identity, Power<Square, TLinear>>>(),
+            -3 => Measure.Of<Quotient<Identity, Power<Cubic, TLinear>>>(),
+            _ => null
+        };
 }

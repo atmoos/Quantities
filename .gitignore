@@ -30,6 +30,9 @@ bld/
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
 
+# Coverage Reports
+[Cc]overage[Rr]eport/
+
 # Benchmark Results
 BenchmarkDotNet.Artifacts/
 

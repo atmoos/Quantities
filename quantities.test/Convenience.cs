@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using Quantities.Dimensions;
 using Quantities.Measures;
 using Quantities.Numerics;
@@ -65,6 +66,8 @@ public static class Convenience
         String expected = $"{value.ToString(format, formatProvider)} {unit}";
         Assert.Equal(expected, actual);
     }
+    public static void IsTrue(this Boolean condition, [CallerArgumentExpression(nameof(condition))] String test = "") => Assert.True(condition, test);
+    public static void IsFalse(this Boolean condition, [CallerArgumentExpression(nameof(condition))] String test = "") => Assert.False(condition, test);
     internal static Polynomial Poly(in Double nominator = 1, in Double denominator = 1, in Double offset = 0)
     {
         var value = new Transformation();

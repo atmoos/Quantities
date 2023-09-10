@@ -36,7 +36,9 @@ public class MultiplyingQuantities
     public Double MultiplyPureSi() => this.current * this.resistance;
 }
 
-/*
+/* It's approx 30ns / ratio of 1.8 at allocated 88 B 
+   when optimizations are turned off.
+   AllocationFree<T>, caching of Results etc...
 // * Summary *
 
 BenchmarkDotNet v0.13.8, Arch Linux

@@ -4,6 +4,7 @@ internal enum Rank
 {
     Inverse,
     None,
+    Zero,
     Linear,
     Square,
     Cubic,

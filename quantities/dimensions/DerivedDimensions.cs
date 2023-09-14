@@ -1,8 +1,9 @@
 ﻿namespace Quantities.Dimensions;
 
-public interface IArea : ISquare<ILength>, ILinear<IArea> { /* marker interface */ }
-public interface IVolume : ICubic<ILength>, ILinear<IVolume> { /* marker interface */ }
-public interface IVelocity : IQuotient<ILength, ITime>, ILinear<IVelocity> { /* marker interface */ }
+public interface IArea : ISquare<IArea, ILength> { /* marker interface */ }
+public interface IVolume : ICubic<IVolume, ILength> { /* marker interface */ }
+public interface IVelocity : IQuotient<IVelocity, ILength, ITime> { /* marker interface */ }
 public interface IForce : ILinear<IForce> { /* marker interface */ }
 public interface IPower : ILinear<IPower> { /* marker interface */ }
-public interface IEnergy : IProduct<IPower, ITime>, ILinear<IEnergy> { /* marker interface */ }
+public interface IEnergy : IProduct<IEnergy, IPower, ITime> { /* marker interface */ }
+public interface IAngle : IQuotient<IAngle, ILength, ILength> { /* marker interface */ }

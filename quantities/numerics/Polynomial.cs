@@ -35,10 +35,6 @@ internal readonly record struct Polynomial : IEquatable<Polynomial>
         where TTransform : ITransform => Cache<TTransform>.Polynomial;
     public static Polynomial Of<TSecond, TFirst>()
         where TFirst : ITransform where TSecond : ITransform => Cache<TFirst, TSecond>.Polynomial;
-    public static Polynomial Conversion<TFrom, TTo>()
-        where TFrom : ITransform where TTo : ITransform => Converter<TFrom, TTo>.Polynomial;
-    public static Double Convert<TFrom, TTo>(in Double value)
-        where TFrom : ITransform where TTo : ITransform => Converter<TFrom, TTo>.Polynomial * value;
 
     public static Double operator *(Polynomial left, Double right)
         => Double.FusedMultiplyAdd(left.nominator, right, left.denominator * left.offset) / left.denominator;
@@ -55,7 +51,7 @@ internal readonly record struct Polynomial : IEquatable<Polynomial>
     public override String ToString()
     {
         var (fraction, offset) = Split(in this.nominator, in this.denominator, in this.offset);
-        return $"f(x) = {fraction}{offset}";
+        return $"p(x) = {fraction}{offset}";
 
         static (String fraction, String offset) Split(in Double n, in Double d, in Double o)
         {
@@ -64,6 +60,7 @@ internal readonly record struct Polynomial : IEquatable<Polynomial>
             }
             var fraction = (n, d) switch {
                 (1, 1) => "x",
+                (1, _) => $"x/{d:g4}",
                 (-1, 1) => "-x",
                 (-1, _) => $"-x/{d:g4}",
                 (_, 1) => $"{n:g4}*x",
@@ -77,24 +74,15 @@ internal readonly record struct Polynomial : IEquatable<Polynomial>
             return (fraction, offset);
         }
     }
+}
+file static class Cache<T>
+    where T : ITransform
+{
+    public static readonly Polynomial Polynomial = Polynomial.Of(T.ToSi(new Transformation()));
+}
 
-    private static class Cache<T>
-        where T : ITransform
-    {
-        public static readonly Polynomial Polynomial = Of(T.ToSi(new Transformation()));
-    }
-
-    private static class Cache<First, Second>
-    where First : ITransform
-    where Second : ITransform
-    {
-        public static readonly Polynomial Polynomial = Of(Second.ToSi(First.ToSi(new Transformation())));
-    }
-
-    private static class Converter<TFrom, TTo>
-        where TFrom : ITransform
-        where TTo : ITransform
-    {
-        public static readonly Polynomial Polynomial = Of<TFrom>() / Of<TTo>();
-    }
+file static class Cache<First, Second>
+    where First : ITransform where Second : ITransform
+{
+    public static readonly Polynomial Polynomial = Polynomial.Of(Second.ToSi(First.ToSi(new Transformation())));
 }

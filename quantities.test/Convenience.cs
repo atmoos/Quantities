@@ -85,4 +85,6 @@ public static class Convenience
             throw new EqualException(expectedValue, actualValue, precision, precision + 1);
         }
     }
+    internal static Rank RankOf<TSelf, TOther>()
+        where TSelf : IDimension where TOther : IDimension => TSelf.RankOf<TOther>();
 }

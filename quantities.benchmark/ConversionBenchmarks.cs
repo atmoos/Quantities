@@ -21,7 +21,8 @@ public class ConversionBenchmarks
     }
 
     [Benchmark]
-    public Double EvaluateCombined() => Polynomial.Convert<A, B>(argument);
+    // There is only marginal benefit to be gained by cached conversion.
+    public Double EvaluateCached() => Cache<A, B>.Convert(argument);
 
     [Benchmark]
     public Double EvaluateArithmetically() => a / b * argument;
@@ -44,20 +45,27 @@ file readonly struct B : ITransform
     public static Transformation ToSi(Transformation self) => Math.E * self / Math.Tau + Math.PI;
 }
 
+file static class Cache<TFrom, TTo>
+    where TFrom : ITransform where TTo : ITransform
+{
+    private static readonly Polynomial polynomial = Polynomial.Of<TFrom>() / Polynomial.Of<TTo>();
+    public static Double Convert(in Double value) => polynomial * value;
+}
+
 /*
 // * Summary *
 
-BenchmarkDotNet=v0.13.5, OS=arch 
+BenchmarkDotNet v0.13.8, Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK=7.0.110
-  [Host]     : .NET 7.0.10 (7.0.1023.41001), X64 RyuJIT AVX2
-  DefaultJob : .NET 7.0.10 (7.0.1023.41001), X64 RyuJIT AVX2
+.NET SDK 7.0.111
+  [Host]     : .NET 7.0.11 (7.0.1123.46301), X64 RyuJIT AVX2
+  DefaultJob : .NET 7.0.11 (7.0.1123.46301), X64 RyuJIT AVX2
 
 
-|                 Method |     Mean |     Error |    StdDev | Ratio | RatioSD |
-|----------------------- |---------:|----------:|----------:|------:|--------:|
-|        EvaluateTrivial | 2.463 ns | 0.0393 ns | 0.0367 ns |  1.00 |    0.00 |
-|     EvaluateSuccessive | 1.547 ns | 0.0280 ns | 0.0262 ns |  0.63 |    0.02 |
-|       EvaluateCombined | 1.628 ns | 0.0114 ns | 0.0107 ns |  0.66 |    0.01 |
-| EvaluateArithmetically | 1.741 ns | 0.0272 ns | 0.0255 ns |  0.71 |    0.01 |
+| Method                 | Mean     | Error     | StdDev    | Ratio |
+|----------------------- |---------:|----------:|----------:|------:|
+| EvaluateTrivial        | 2.629 ns | 0.0279 ns | 0.0261 ns |  1.00 |
+| EvaluateSuccessive     | 1.597 ns | 0.0267 ns | 0.0237 ns |  0.61 |
+| EvaluateCached         | 1.543 ns | 0.0148 ns | 0.0131 ns |  0.59 |
+| EvaluateArithmetically | 2.057 ns | 0.0123 ns | 0.0115 ns |  0.78 |
 */

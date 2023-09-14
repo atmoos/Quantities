@@ -100,13 +100,14 @@ public class PolynomialTest
     [InlineData(0, 1, 2, "2")]
     [InlineData(1, 1, 0, "x")]
     [InlineData(1, -1, 0, "-x")]
+    [InlineData(1, 3, 0, "x/3")]
     [InlineData(4, 1, 0, "4*x")]
     [InlineData(4, -1, 0, "-4*x")]
     [InlineData(1, -7, 0, "-x/7")]
     [InlineData(4, 5, 0, "4*x/5")]
     [InlineData(2, -3, 0, "-2*x/3")]
     [InlineData(-2, -3, 0, "2*x/3")]
-    [InlineData(1, 2, 3, "1*x/2 + 3")]
+    [InlineData(1, 2, 3, "x/2 + 3")]
     [InlineData(3, 2, -5, "3*x/2 - 5")]
     [InlineData(5, -2, -9, "-5*x/2 - 9")]
     [InlineData(5, 0, Double.MinValue, "∞")]
@@ -117,7 +118,7 @@ public class PolynomialTest
         var poly = Poly(n, d, o);
         var actual = poly.ToString();
 
-        Assert.Equal($"f(x) = {expected}", actual);
+        Assert.Equal($"p(x) = {expected}", actual);
     }
 
     public static IEnumerable<Object[]> Polynomials()

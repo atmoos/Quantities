@@ -1,6 +1,7 @@
 ﻿namespace Quantities.Dimensions;
 
-public interface IElectricPotential : IDimension, ILinear<IElectricPotential> { /* marker interface */ }
-public interface IElectricalResistance : IDimension, ILinear<IElectricalResistance> { /* marker interface */ }
-public interface IAmountOfInformation : IDimension, ILinear<IAmountOfInformation> { /* marker interface */ }
+public interface IElectricPotential : ILinear<IElectricPotential> { /* marker interface */ }
+public interface IElectricalResistance : ILinear<IElectricalResistance> { /* marker interface */ }
+public interface IElectricCharge : IProduct<IElectricCharge, ITime, IElectricCurrent> { /* marker interface */ }
+public interface IAmountOfInformation : ILinear<IAmountOfInformation> { /* marker interface */ }
 public interface IInformationRate : IQuotient<IAmountOfInformation, ITime>, ILinear<IInformationRate> { /* marker interface */ }

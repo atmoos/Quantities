@@ -29,7 +29,7 @@ public class MeasureDivisionTest
     public void ScalarPerSameScalarIsIdentity()
     {
         var conversion = Expect<Identity>.IsQuotientOf<Metric<Hour>, Si<Kilo, Second>>();
-        Assert.Equal(Conversion<Hour, Kilo>(), conversion);
+        Assert.Equal(Of<Hour>() / Of<Kilo>(), conversion);
     }
 
     [Fact]

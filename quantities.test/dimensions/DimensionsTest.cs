@@ -9,13 +9,13 @@ public class DimensionsTest
     public void RankOfSelfIsLinear()
     {
         var rank = Rank<Time>.Of<Time>();
-        Assert.Equal(Linear, rank);
+        Assert.Equal(One, rank);
     }
     [Fact]
     public void RankOfLinearDimensionIsLinear()
     {
         var rank = Rank<Time>.Of<OtherTime>();
-        Assert.Equal(Linear, rank);
+        Assert.Equal(One, rank);
     }
     [Fact]
     public void RankOfOtherDimensionIsNone()
@@ -27,13 +27,13 @@ public class DimensionsTest
     public void RankOfSquareSelfIsLinear()
     {
         var rank = Rank<Area>.Of<OtherArea>();
-        Assert.Equal(Linear, rank);
+        Assert.Equal(One, rank);
     }
     [Fact]
     public void RankOfLinearOnSquareIsSquare()
     {
         var rank = Rank<Area>.Of<Length>();
-        Assert.Equal(Square, rank);
+        Assert.Equal(Two, rank);
     }
     [Fact]
     public void RankOfOtherLinearOnSquareIsNone()
@@ -51,13 +51,13 @@ public class DimensionsTest
     public void RankOfCubeSelfIsLinear()
     {
         var rank = Rank<Volume>.Of<OtherVolume>();
-        Assert.Equal(Linear, rank);
+        Assert.Equal(One, rank);
     }
     [Fact]
     public void RankOfLinearOnCubeIsCubic()
     {
         var rank = Rank<Volume>.Of<Length>();
-        Assert.Equal(Cubic, rank);
+        Assert.Equal(Three, rank);
     }
     [Fact]
     public void RankOfOtherLinearOnCubicIsNone()
@@ -93,7 +93,7 @@ public class DimensionsTest
     public void RankOfSimilarQuotientOnQuotientIsLinear()
     {
         var rank = Rank<Velocity>.Of<OtherVelocity>();
-        Assert.Equal(Linear, rank);
+        Assert.Equal(One, rank);
     }
     [Fact]
     public void RankOfConstituentOnDegenerateQuotientIsZero()
@@ -123,13 +123,13 @@ public class DimensionsTest
     public void RankOfSimilarProductOnProductIsLinear()
     {
         var rank = Rank<Coulomb>.Of<AmpereHour>();
-        Assert.Equal(Linear, rank);
+        Assert.Equal(One, rank);
     }
     [Fact]
     public void RankOfConstituentOnSquaringProductIsSquare()
     {
         var rank = Rank<DoubleTime>.Of<Time>();
-        Assert.Equal(Square, rank);
+        Assert.Equal(Two, rank);
     }
 
     private static class Rank<TSelf>

@@ -2,11 +2,11 @@ namespace Quantities.Dimensions;
 
 internal enum Rank
 {
-    Inverse,
     None,
+    Inverse,
     Zero,
-    Linear,
-    Square,
-    Cubic,
+    One,
+    Two,
+    Three,
     HigherOrder,
 }

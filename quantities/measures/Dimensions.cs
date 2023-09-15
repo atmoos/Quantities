@@ -10,13 +10,13 @@ internal interface IExponent
 }
 internal readonly struct Square : IExponent
 {
-    public static Dimensions.Rank Rank => Dimensions.Rank.Square;
+    public static Dimensions.Rank Rank => Dimensions.Rank.Two;
     public static Polynomial Pow(in Polynomial value) => value * value;
     public static String Representation => "²";
 }
 internal readonly struct Cubic : IExponent
 {
-    public static Dimensions.Rank Rank => Dimensions.Rank.Cubic;
+    public static Dimensions.Rank Rank => Dimensions.Rank.Three;
     public static Polynomial Pow(in Polynomial value) => value * value * value;
     public static String Representation => "³";
 }

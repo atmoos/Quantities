@@ -18,7 +18,7 @@ public interface ISquare<TSelf, out TLinear> : ISquare<TLinear>, ILinear<TSelf>
     where TLinear : ILinear<TLinear>
 {
     static Rank IDimension.RankOf<TDimension>()
-        => TLinear.RankOf<TDimension>() == Linear ? Square : Rank<TSelf>.Of<TDimension>();
+        => TLinear.RankOf<TDimension>() == One ? Two : Rank<TSelf>.Of<TDimension>();
 }
 
 public interface ICubic<TSelf, out TLinear> : ICubic<TLinear>, ILinear<TSelf>
@@ -26,7 +26,7 @@ public interface ICubic<TSelf, out TLinear> : ICubic<TLinear>, ILinear<TSelf>
     where TLinear : ILinear<TLinear>
 {
     static Rank IDimension.RankOf<TDimension>()
-        => TLinear.RankOf<TDimension>() == Linear ? Cubic : Rank<TSelf>.Of<TDimension>();
+        => TLinear.RankOf<TDimension>() == One ? Three : Rank<TSelf>.Of<TDimension>();
 }
 
 public interface IProduct<TSelf, TLeft, TRight> : IProduct<TLeft, TRight>, ILinear<TSelf>
@@ -39,9 +39,9 @@ public interface IProduct<TSelf, TLeft, TRight> : IProduct<TLeft, TRight>, ILine
         Rank left = TLeft.RankOf<TDimension>();
         Rank right = TRight.RankOf<TDimension>();
         return (left, right) switch {
-            (Linear, Linear) => Square,
-            (Linear, _) => HigherOrder,
-            (_, Linear) => HigherOrder,
+            (One, One) => Two,
+            (One, _) => HigherOrder,
+            (_, One) => HigherOrder,
             _ => Rank<TSelf>.Of<TDimension>()
         };
     }
@@ -56,9 +56,9 @@ public interface IQuotient<TSelf, TNominator, TDenominator> : IQuotient<TNominat
         Rank nominator = TNominator.RankOf<TDimension>();
         Rank denominator = TDenominator.RankOf<TDimension>();
         return (nominator, denominator) switch {
-            (Linear, Linear) => Zero,
-            (Linear, _) => HigherOrder,
-            (_, Linear) => HigherOrder,
+            (One, One) => Zero,
+            (One, _) => HigherOrder,
+            (_, One) => HigherOrder,
             _ => Rank<TSelf>.Of<TDimension>()
         };
     }
@@ -68,5 +68,5 @@ file static class Rank<TSelf>
     where TSelf : IDimension
 {
     public static Rank Of<TOther>() where TOther : IDimension
-        => typeof(TOther).IsAssignableTo(typeof(TSelf)) ? Linear : None;
+        => typeof(TOther).IsAssignableTo(typeof(TSelf)) ? One : None;
 }

@@ -87,3 +87,14 @@ public static class Convenience
     internal static Rank RankOf<TSelf, TOther>()
         where TSelf : IDimension where TOther : IDimension => TSelf.RankOf<TOther>();
 }
+
+internal static class Dim<TSelf>
+    where TSelf : IDimension
+{
+    public static Dim Value => TSelf.D;
+    public static Dim Pow(Int32 n) => TSelf.D.Pow(n);
+    public static Dim Times<TOther>()
+        where TOther : IDimension => TSelf.D * TOther.D;
+    public static Dim Per<TOther>()
+        where TOther : IDimension => TSelf.D / TOther.D;
+}

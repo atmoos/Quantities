@@ -139,28 +139,3 @@ public class DimensionsTest
             where TOther : IDimension => TSelf.RankOf<TOther>();
     }
 }
-
-// These are alle "dummy" classes.
-// They are used to test "RankOf" on these interfaces:
-// ILinear<TS>, ISquare<TS,T>, ICubic<TS,T>
-// IProduct<TS,TV>, IQuotient<TS,N,D>
-// where TS stands for TSelf.
-file sealed class Time : ITime { }
-file sealed class OtherTime : ITime { }
-file sealed class Length : ILength { }
-file sealed class Area : IArea { }
-file sealed class OtherArea : IArea { }
-file sealed class Volume : IVolume { }
-file sealed class OtherVolume : IVolume { }
-file sealed class SquareTemperature : ISquareTemperature { }
-file sealed class CubicMass : ICubicMass { }
-file sealed class Velocity : IVelocity { }
-file sealed class OtherVelocity : IVelocity { }
-file sealed class Angle : IAngle { }
-file sealed class Ampere : IElectricCurrent { }
-file sealed class Coulomb : IElectricCharge { }
-file sealed class AmpereHour : IElectricCharge { }
-file sealed class DoubleTime : IDoubleTime { }
-file interface ICubicMass : ICubic<ICubicMass, IMass> { }
-file interface IDoubleTime : IProduct<IDoubleTime, ITime, ITime> { }
-file interface ISquareTemperature : ISquare<ISquareTemperature, ITemperature> { }

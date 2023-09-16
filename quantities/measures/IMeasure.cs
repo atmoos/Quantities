@@ -5,6 +5,7 @@ namespace Quantities.Measures;
 
 internal interface IMeasure : IRepresentable, ISerialize
 {
+    public static abstract Dim D { get; }
     public static abstract Polynomial Poly { get; }
     static abstract Rank Rank<TMeasure>() where TMeasure : IMeasure;
     static abstract Rank RankOf<TDimension>() where TDimension : IDimension;
@@ -15,6 +16,7 @@ internal interface IMeasure : IRepresentable, ISerialize
 internal interface IMeasure<TBasis> : IMeasure
     where TBasis : IDimension
 {
+    static Dim IMeasure.D => TBasis.D;
     static Rank IMeasure.Rank<TMeasure>() => TMeasure.RankOf<TBasis>();
     static Rank IMeasure.RankOf<TDimension>() => TBasis.RankOf<TDimension>();
 }

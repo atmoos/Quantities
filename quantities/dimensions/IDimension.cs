@@ -4,19 +4,26 @@ namespace Quantities.Dimensions;
 
 public interface IDimension
 {
+    internal static abstract Dim D { get; }
     internal static abstract Rank RankOf<TDimension>() where TDimension : IDimension;
+}
+internal interface IIdentity : IDimension
+{
+    static Dim IDimension.D => Unit.Identity;
+    static Rank IDimension.RankOf<TDimension>() => Zero;
 }
 
 public interface ILinear<TSelf> : ILinear, IDimension
     where TSelf : ILinear<TSelf>
 {
+    static Dim IDimension.D => Scalar.Of<TSelf>();
     static Rank IDimension.RankOf<TDimension>() => Rank<TSelf>.Of<TDimension>() switch {
         HigherOrder => TDimension.RankOf<TSelf>(),
         var some => some
     };
 }
 
-public interface ISquare<TSelf, out TLinear> : ISquare<TLinear>, ILinear<TSelf>
+public interface ISquare<TSelf, TLinear> : ISquare<TLinear>, IDimension
     where TSelf : ISquare<TSelf, TLinear>
     where TLinear : ILinear<TLinear>
 {
@@ -24,7 +31,7 @@ public interface ISquare<TSelf, out TLinear> : ISquare<TLinear>, ILinear<TSelf>
         => TLinear.RankOf<TDimension>() == One ? Two : Rank<TSelf>.Of<TDimension>();
 }
 
-public interface ICubic<TSelf, out TLinear> : ICubic<TLinear>, ILinear<TSelf>
+public interface ICubic<TSelf, out TLinear> : ICubic<TLinear>, IDimension
     where TSelf : ICubic<TSelf, TLinear>
     where TLinear : ILinear<TLinear>
 {
@@ -32,7 +39,7 @@ public interface ICubic<TSelf, out TLinear> : ICubic<TLinear>, ILinear<TSelf>
         => TLinear.RankOf<TDimension>() == One ? Three : Rank<TSelf>.Of<TDimension>();
 }
 
-public interface IProduct<TSelf, TLeft, TRight> : IProduct<TLeft, TRight>, ILinear<TSelf>
+public interface IProduct<TSelf, TLeft, TRight> : IProduct<TLeft, TRight>, IDimension
     where TSelf : IProduct<TSelf, TLeft, TRight>
     where TLeft : ILinear<TLeft>
     where TRight : ILinear<TRight>
@@ -49,7 +56,7 @@ public interface IProduct<TSelf, TLeft, TRight> : IProduct<TLeft, TRight>, ILine
         };
     }
 }
-public interface IQuotient<TSelf, TNominator, TDenominator> : IQuotient<TNominator, TDenominator>, ILinear<TSelf>
+public interface IQuotient<TSelf, TNominator, TDenominator> : IQuotient<TNominator, TDenominator>, IDimension
     where TSelf : IQuotient<TSelf, TNominator, TDenominator>
     where TNominator : ILinear<TNominator>
     where TDenominator : ILinear<TDenominator>

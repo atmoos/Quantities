@@ -17,6 +17,5 @@ public sealed class TestPrefix<TPrefix> : ITestPrefix
     public TestPrefix(Double factor = Double.NaN) => Factor = Double.IsNaN(factor) ? prefix * 1d : factor;
     public Double ToSi(Double value) => prefix * value;
     public Double FromSi(Double value) => prefix / value;
-
     public override String ToString() => TPrefix.Representation;
 }

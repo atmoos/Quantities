@@ -2,8 +2,8 @@
 
 namespace Quantities.Units.Imperial.Length;
 
-public readonly struct Chain : IImperialUnit, ILength
+public readonly struct Chain : IImperialUnit<Chain, ILength>, ILength
 {
-    public static Transformation ToSi(Transformation self) => 20.1168 * self;
+    public static Transformation Derived(in From<ILength> from) => 22 * from.Imperial<Yard>();
     public static String Representation => "ch";
 }

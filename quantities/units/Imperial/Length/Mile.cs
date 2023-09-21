@@ -2,8 +2,8 @@
 
 namespace Quantities.Units.Imperial.Length;
 
-public readonly struct Mile : IImperialUnit, ILength
+public readonly struct Mile : IImperialUnit<Mile, ILength>, ILength
 {
-    public static Transformation ToSi(Transformation self) => 1609.344 * self;
+    public static Transformation Derived(in From<ILength> from) => 5280 * from.Imperial<Foot>();
     public static String Representation => "mi";
 }

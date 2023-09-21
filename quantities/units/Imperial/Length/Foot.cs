@@ -1,10 +1,10 @@
 ﻿using Quantities.Dimensions;
+using Quantities.Units.Si;
 
 namespace Quantities.Units.Imperial.Length;
 
-public readonly struct Foot : IImperialUnit, ILength
+public readonly struct Foot : IImperialUnit<Foot, ILength>, ILength
 {
-    public const Double ToMetre = 0.3048;
-    public static Transformation ToSi(Transformation self) => ToMetre * self;
+    public static Transformation Derived(in From<ILength> from) => 3048 * from.Si<Metre>() / 10000;
     public static String Representation => "ft";
 }

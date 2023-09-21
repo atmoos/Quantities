@@ -2,8 +2,8 @@
 
 namespace Quantities.Units.Imperial.Length;
 
-public readonly struct Furlong : IImperialUnit, ILength
+public readonly struct Furlong : IImperialUnit<Furlong, ILength>, ILength
 {
-    public static Transformation ToSi(Transformation self) => 201.168 * self;
+    public static Transformation Derived(in From<ILength> from) => from.Imperial<Mile>() / 8;
     public static String Representation => "fur";
 }

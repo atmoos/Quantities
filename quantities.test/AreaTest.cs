@@ -34,7 +34,7 @@ public class AreaTest
     public void SquareMilesToSquareKilometres()
     {
         Area squareMiles = Area.Of(2).Square.Imperial<Mile>();
-        Area expected = Area.Of(2 * squareMileInSquareKilometres).Square.Si<Kilo, Metre>();
+        Area expected = Area.Of(5.179976220672).Square.Si<Kilo, Metre>();
 
         Area actual = squareMiles.To.Square.Si<Kilo, Metre>();
 

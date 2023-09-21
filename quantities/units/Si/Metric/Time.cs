@@ -2,27 +2,23 @@
 
 namespace Quantities.Units.Si.Metric;
 
-public readonly struct Minute : IMetricUnit, ITime
+public readonly struct Minute : IMetricUnit<Minute, ITime>, ITime
 {
-    internal const Double toSeconds = 60; // min -> s
-    public static Transformation ToSi(Transformation self) => self * toSeconds;
+    public static Transformation Derived(in From<ITime> from) => 60 * from.Si<Second>();
     public static String Representation => "m";
 }
-public readonly struct Hour : IMetricUnit, ITime
+public readonly struct Hour : IMetricUnit<Hour, ITime>, ITime
 {
-    internal const Double toSeconds = 60 * Minute.toSeconds; // Hour -> s
-    public static Transformation ToSi(Transformation self) => self * toSeconds;
+    public static Transformation Derived(in From<ITime> from) => 60 * from.Metric<Minute>();
     public static String Representation => "h";
 }
-public readonly struct Day : IMetricUnit, ITime
+public readonly struct Day : IMetricUnit<Day, ITime>, ITime
 {
-    internal const Double toSeconds = 24 * Hour.toSeconds; // Day -> s
-    public static Transformation ToSi(Transformation self) => self * toSeconds;
+    public static Transformation Derived(in From<ITime> from) => 24 * from.Metric<Hour>();
     public static String Representation => "d";
 }
-public readonly struct Week : IMetricUnit, ITime
+public readonly struct Week : IMetricUnit<Week, ITime>, ITime
 {
-    internal const Double toSeconds = 7 * Day.toSeconds; // Week -> s
-    public static Transformation ToSi(Transformation self) => self * toSeconds;
+    public static Transformation Derived(in From<ITime> from) => 7 * from.Metric<Day>();
     public static String Representation => "w";
 }

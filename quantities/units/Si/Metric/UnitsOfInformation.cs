@@ -9,7 +9,9 @@ This is what we'll use here...
 */
 public readonly struct Bit : IMetricUnit, IAmountOfInformation
 {
+    public static Transformation ToSi(Transformation self) => self;
     public static String Representation => "bit";
+
 }
 public readonly struct Nibble : IMetricUnit, IAmountOfInformation
 {

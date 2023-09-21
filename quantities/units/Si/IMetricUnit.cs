@@ -1,4 +1,5 @@
-﻿using Quantities.Prefixes;
+﻿using Quantities.Dimensions;
+using Quantities.Prefixes;
 
 namespace Quantities.Units.Si;
 
@@ -7,11 +8,11 @@ namespace Quantities.Units.Si;
 //  SI units.
 /// </summary>
 public interface IMetricUnit : ITransform, IUnit
+{ /* marker interface */ }
+
+public interface IMetricUnit<TSelf, TDimension> : IDerived<TDimension>, IMetricUnit, IUnit
+    where TSelf : IMetricUnit<TSelf, TDimension>, TDimension
+    where TDimension : IDimension
 {
-    static Transformation ITransform.ToSi(Transformation self) => self;
-}
-public interface IMetricUnit<TPrefix> : IMetricUnit
-    where TPrefix : IMetricPrefix
-{
-    static Transformation ITransform.ToSi(Transformation self) => TPrefix.ToSi(self);
+    static Transformation ITransform.ToSi(Transformation self) => TSelf.Derived(new From<TDimension>(self));
 }

@@ -5,12 +5,12 @@ namespace Quantities.Serialization;
 internal sealed class Builder<TMeasure> : IBuilder
     where TMeasure : IMeasure
 {
-    public Quantity Build(in Double value) => Build<TMeasure>.With(in value);
+    public Quantity Build(in Double value) => Quantity.Of<TMeasure>(in value);
 }
 
 internal sealed class AliasedBuilder<TMeasure, TAlias> : IBuilder
     where TMeasure : IMeasure
-    where TAlias : IInjector, new()
+    where TAlias : IInjector
 {
-    public Quantity Build(in Double value) => Build<TMeasure>.With<TAlias>(in value);
+    public Quantity Build(in Double value) => Quantity.Of<TMeasure, TAlias>(in value);
 }

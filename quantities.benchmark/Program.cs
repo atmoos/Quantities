@@ -2,4 +2,4 @@
 using Quantities.Benchmark;
 
 // dotnet run -c Release --project quantities.benchmark/quantities.benchmark.csproj
-BenchmarkRunner.Run<ConvertingQuantities>();
+BenchmarkRunner.Run<MeasureBenchmark>();

@@ -69,21 +69,21 @@ public class CreateQuantities
 /*
 // * Summary *
 
-BenchmarkDotNet=v0.13.5, OS=arch 
+BenchmarkDotNet v0.13.8, Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK=7.0.107
-  [Host]     : .NET 7.0.7 (7.0.723.32201), X64 RyuJIT AVX2
-  DefaultJob : .NET 7.0.7 (7.0.723.32201), X64 RyuJIT AVX2
+.NET SDK 7.0.110
+  [Host]     : .NET 7.0.10 (7.0.1023.41001), X64 RyuJIT AVX2
+  DefaultJob : .NET 7.0.10 (7.0.1023.41001), X64 RyuJIT AVX2
 
 
-|                         Method |      Mean |     Error |    StdDev | Ratio | RatioSD |   Gen0 | Allocated | Alloc Ratio |
+| Method                         | Mean      | Error     | StdDev    | Ratio | RatioSD | Gen0   | Allocated | Alloc Ratio |
 |------------------------------- |----------:|----------:|----------:|------:|--------:|-------:|----------:|------------:|
-|                   CreateObject |  5.575 ns | 0.0366 ns | 0.0343 ns |  1.00 |    0.00 | 0.0057 |      24 B |        1.00 |
-|                   CreateStruct |  2.908 ns | 0.0617 ns | 0.0577 ns |  0.52 |    0.01 |      - |         - |        0.00 |
-|           CreateScalarQuantity |  7.368 ns | 0.0464 ns | 0.0434 ns |  1.32 |    0.01 |      - |         - |        0.00 |
-| CreateScalarQuantityWithoutOpt | 10.015 ns | 0.1979 ns | 0.1755 ns |  1.80 |    0.04 |      - |         - |        0.00 |
-|         CreateQuotientQuantity | 21.243 ns | 0.2918 ns | 0.2730 ns |  3.81 |    0.04 |      - |         - |        0.00 |
-|          CreateProductQuantity | 21.666 ns | 0.4418 ns | 0.4339 ns |  3.89 |    0.06 |      - |         - |        0.00 |
-|      CreateScalarPowerQuantity | 14.168 ns | 0.0747 ns | 0.0699 ns |  2.54 |    0.02 |      - |         - |        0.00 |
-|      CreateSquarePowerQuantity | 20.581 ns | 0.1437 ns | 0.1344 ns |  3.69 |    0.03 |      - |         - |        0.00 |
+| CreateObject                   |  5.098 ns | 0.0287 ns | 0.0255 ns |  1.00 |    0.00 | 0.0057 |      24 B |        1.00 |
+| CreateStruct                   |  2.846 ns | 0.0535 ns | 0.0500 ns |  0.56 |    0.01 |      - |         - |        0.00 |
+| CreateScalarQuantity           |  6.021 ns | 0.0671 ns | 0.0594 ns |  1.18 |    0.01 |      - |         - |        0.00 |
+| CreateScalarQuantityWithoutOpt | 10.003 ns | 0.1562 ns | 0.1461 ns |  1.96 |    0.02 |      - |         - |        0.00 |
+| CreateQuotientQuantity         | 19.531 ns | 0.1991 ns | 0.1765 ns |  3.83 |    0.04 |      - |         - |        0.00 |
+| CreateProductQuantity          | 19.511 ns | 0.1106 ns | 0.1035 ns |  3.83 |    0.03 |      - |         - |        0.00 |
+| CreateScalarPowerQuantity      | 14.231 ns | 0.0634 ns | 0.0593 ns |  2.79 |    0.01 |      - |         - |        0.00 |
+| CreateSquarePowerQuantity      | 18.211 ns | 0.1108 ns | 0.1037 ns |  3.57 |    0.03 |      - |         - |        0.00 |
 */

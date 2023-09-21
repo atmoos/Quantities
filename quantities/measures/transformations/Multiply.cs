@@ -1,13 +1,13 @@
 ﻿namespace Quantities.Measures.Transformations;
 
-internal sealed class Multiply : IInject<IInject<Quantity>>
+internal sealed class Multiply : IFactory<IFactory<Quantity>>
 {
-    public IInject<Quantity> Inject<TMeasure>(in Double value) where TMeasure : IMeasure => new LeftTerm<TMeasure>(in value);
-    private sealed class LeftTerm<TLeft> : IInject<Quantity>
+    public IFactory<Quantity> Create<TMeasure>(in Double value) where TMeasure : IMeasure => new LeftTerm<TMeasure>(in value);
+    private sealed class LeftTerm<TLeft> : IFactory<Quantity>
         where TLeft : IMeasure
     {
         private readonly Double leftFactor;
         public LeftTerm(in Double leftFactor) => this.leftFactor = leftFactor;
-        public Quantity Inject<TMeasure>(in Double value) where TMeasure : IMeasure => Build<Product<TLeft, TMeasure>>.With(this.leftFactor * value);
+        public Quantity Create<TMeasure>(in Double value) where TMeasure : IMeasure => Quantity.Of<Product<TLeft, TMeasure>>(this.leftFactor * value);
     }
 }

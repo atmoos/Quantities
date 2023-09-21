@@ -7,7 +7,7 @@ using Quantities.Units.Si;
 
 namespace Quantities.Measures;
 
-internal readonly struct Si<TUnit> : ISiMeasure<TUnit>, ILinear
+internal readonly struct Si<TUnit> : IMeasure, ILinear
     where TUnit : ISiUnit
 {
     private static readonly Serializer<TUnit> serializer = new(nameof(Si<TUnit>));
@@ -15,7 +15,7 @@ internal readonly struct Si<TUnit> : ISiMeasure<TUnit>, ILinear
     public static Polynomial Poly => Polynomial.NoOp;
     public static void Write(IWriter writer) => serializer.Write(writer);
 }
-internal readonly struct Si<TPrefix, TUnit> : ISiMeasure<TUnit>, ILinear
+internal readonly struct Si<TPrefix, TUnit> : IMeasure, ILinear
     where TPrefix : IPrefix
     where TUnit : ISiUnit
 {
@@ -24,7 +24,7 @@ internal readonly struct Si<TPrefix, TUnit> : ISiMeasure<TUnit>, ILinear
     public static String Representation { get; } = $"{TPrefix.Representation}{TUnit.Representation}";
     public static void Write(IWriter writer) => serializer.Write(writer);
 }
-internal readonly struct Metric<TUnit> : IMetricMeasure<TUnit>, ILinear
+internal readonly struct Metric<TUnit> : IMeasure, ILinear
     where TUnit : IMetricUnit
 {
     private static readonly Serializer<TUnit> serializer = new(nameof(Metric<TUnit>));
@@ -32,7 +32,7 @@ internal readonly struct Metric<TUnit> : IMetricMeasure<TUnit>, ILinear
     public static String Representation => TUnit.Representation;
     public static void Write(IWriter writer) => serializer.Write(writer);
 }
-internal readonly struct Metric<TPrefix, TUnit> : IMetricMeasure<TUnit>, ILinear
+internal readonly struct Metric<TPrefix, TUnit> : IMeasure, ILinear
     where TPrefix : IPrefix
     where TUnit : IMetricUnit
 {
@@ -41,7 +41,7 @@ internal readonly struct Metric<TPrefix, TUnit> : IMetricMeasure<TUnit>, ILinear
     public static String Representation { get; } = $"{TPrefix.Representation}{TUnit.Representation}";
     public static void Write(IWriter writer) => serializer.Write(writer);
 }
-internal readonly struct Imperial<TUnit> : IImperialMeasure<TUnit>, ILinear
+internal readonly struct Imperial<TUnit> : IMeasure, ILinear
     where TUnit : IImperialUnit, ITransform, IRepresentable
 {
     private static readonly Serializer<TUnit> serializer = new(nameof(Imperial<TUnit>));
@@ -49,7 +49,7 @@ internal readonly struct Imperial<TUnit> : IImperialMeasure<TUnit>, ILinear
     public static String Representation => TUnit.Representation;
     public static void Write(IWriter writer) => serializer.Write(writer);
 }
-internal readonly struct NonStandard<TUnit> : INonStandardMeasure<TUnit>, ILinear
+internal readonly struct NonStandard<TUnit> : IMeasure, ILinear
     where TUnit : INoSystemUnit, ITransform, IRepresentable
 {
     private static readonly Serializer<TUnit> serializer = new("any");

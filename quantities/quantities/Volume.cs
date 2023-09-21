@@ -11,8 +11,8 @@ public readonly struct Volume : IQuantity<Volume>, IVolume
     , IDivisionOperators<Volume, Area, Length>
     , IDivisionOperators<Volume, Length, Area>
 {
-    private static readonly Measures.IInject<Quantity> cube = new RaiseTo<Cubic>();
-    private static readonly Measures.IInject<Quantity> linear = new ToLinear();
+    private static readonly Measures.IFactory<Quantity> cube = new RaiseTo<Cubic>();
+    private static readonly Measures.IFactory<Quantity> linear = new ToLinear();
     private readonly Quantity volume;
     internal Quantity Value => this.volume;
     Quantity IQuantity<Volume>.Value => this.volume;

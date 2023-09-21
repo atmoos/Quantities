@@ -6,6 +6,6 @@ public readonly struct Create : ICreate
 {
     private readonly Double value;
     internal Create(in Double value) => this.value = value;
-    Quantity ICreate.Create<TMeasure>() => Build<TMeasure>.With(in this.value);
-    Quantity ICreate.Create<TMeasure, TAlias>() => Build<TMeasure>.With<TAlias>(in this.value);
+    Quantity ICreate.Create<TMeasure>() => Quantity.Of<TMeasure>(in this.value);
+    Quantity ICreate.Create<TMeasure, TAlias>() => Quantity.Of<TMeasure, TAlias>(in this.value);
 }

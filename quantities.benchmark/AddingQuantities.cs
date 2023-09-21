@@ -37,18 +37,18 @@ public class AddingQuantities
 /*
 // * Summary *
 
-BenchmarkDotNet=v0.13.5, OS=arch 
+BenchmarkDotNet v0.13.8, Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK=7.0.107
-  [Host]     : .NET 7.0.7 (7.0.723.32201), X64 RyuJIT AVX2
-  DefaultJob : .NET 7.0.7 (7.0.723.32201), X64 RyuJIT AVX2
+.NET SDK 7.0.110
+  [Host]     : .NET 7.0.10 (7.0.1023.41001), X64 RyuJIT AVX2
+  DefaultJob : .NET 7.0.10 (7.0.1023.41001), X64 RyuJIT AVX2
 
 
-|      Method |     Mean |     Error |    StdDev | Ratio | RatioSD | Allocated | Alloc Ratio |
-|------------ |---------:|----------:|----------:|------:|--------:|----------:|------------:|
-|     Trivial | 1.690 ns | 0.0646 ns | 0.0840 ns |  1.00 |    0.00 |         - |          NA |
-|       AddSi | 5.642 ns | 0.1415 ns | 0.1889 ns |  3.35 |    0.26 |         - |          NA |
-|   AddSiSame | 2.133 ns | 0.0223 ns | 0.0186 ns |  1.31 |    0.07 |         - |          NA |
-| AddImperial | 5.261 ns | 0.0154 ns | 0.0136 ns |  3.20 |    0.16 |         - |          NA |
-|    AddMixed | 5.435 ns | 0.0393 ns | 0.0348 ns |  3.31 |    0.16 |         - |          NA |
+| Method      | Mean      | Error     | StdDev    | Ratio | RatioSD | Allocated | Alloc Ratio |
+|------------ |----------:|----------:|----------:|------:|--------:|----------:|------------:|
+| Trivial     | 1.7210 ns | 0.0211 ns | 0.0187 ns |  1.00 |    0.00 |         - |          NA |
+| AddSi       | 3.5959 ns | 0.0635 ns | 0.0563 ns |  2.09 |    0.03 |         - |          NA |
+| AddSiSame   | 0.9675 ns | 0.0419 ns | 0.0392 ns |  0.56 |    0.02 |         - |          NA |
+| AddImperial | 3.2667 ns | 0.0242 ns | 0.0214 ns |  1.90 |    0.02 |         - |          NA |
+| AddMixed    | 3.3168 ns | 0.0999 ns | 0.0934 ns |  1.93 |    0.07 |         - |          NA |
 */

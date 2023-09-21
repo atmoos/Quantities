@@ -1,7 +1,7 @@
 ﻿namespace Quantities.Measures.Transformations;
 
-internal sealed class RaiseTo<TDim> : IInject<Quantity>
+internal sealed class RaiseTo<TDim> : IFactory<Quantity>
     where TDim : IDimension
 {
-    public Quantity Inject<TMeasure>(in Double value) where TMeasure : IMeasure => Build<Power<TDim, TMeasure>>.With(in value);
+    public Quantity Create<TMeasure>(in Double value) where TMeasure : IMeasure => Quantity.Of<Power<TDim, TMeasure>, Linear<TMeasure>>(in value);
 }

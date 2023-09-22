@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using static Quantities.Numerics.Algorithms;
 
 namespace Quantities.Numerics;
 
@@ -14,13 +15,21 @@ internal readonly record struct Polynomial : IEquatable<Polynomial>
     public Polynomial() => (this.nominator, this.denominator, this.offset) = (1, 1, 0);
     private Polynomial(in Double nominator, in Double denominator, in Double offset)
     {
-        this.offset = offset;
-        (this.nominator, this.denominator) = denominator >= 0 ? (nominator, denominator) : (-nominator, -denominator);
+        (this.nominator, this.denominator, this.offset) = (nominator, denominator, offset);
     }
     public static Polynomial Of(Transformation transformation)
     {
-        var (nominator, denominator, offset) = transformation;
-        return new(in nominator, in denominator, in offset);
+        var (n, d, offset) = transformation;
+        (n, d) = Simplify(n, d);
+        return d >= 0 ? new(n, d, offset) : new(-n, -d, offset);
+        static (Double n, Double d) Simplify(Double n, Double d)
+        {
+            if (Double.IsInteger(n) && Double.IsInteger(d) && Double.Abs(Double.MaxMagnitude(n, d)) < Int64.MaxValue) {
+                Int64 gcd = Gcd((Int64)n, (Int64)d);
+                return gcd <= 1 ? (n, d) : (n / gcd, d / gcd);
+            }
+            return (n, d);
+        }
     }
     public static Polynomial Of<TTransform>()
         where TTransform : ITransform => Cache<TTransform>.Polynomial;
@@ -32,24 +41,16 @@ internal readonly record struct Polynomial : IEquatable<Polynomial>
         where TFrom : ITransform where TTo : ITransform => Converter<TFrom, TTo>.Polynomial * value;
 
     public static Double operator *(Polynomial left, Double right)
-    {
-        return Double.FusedMultiplyAdd(left.nominator, right, left.denominator * left.offset) / left.denominator;
-    }
+        => Double.FusedMultiplyAdd(left.nominator, right, left.denominator * left.offset) / left.denominator;
 
     public static Polynomial operator *(Polynomial left, Polynomial right)
-    {
-        return new(left.nominator * right.nominator, left.denominator * right.denominator, left * right.offset);
-    }
+        => new(left.nominator * right.nominator, left.denominator * right.denominator, left * right.offset);
 
     public static Polynomial operator /(Polynomial left, Polynomial right)
-    {
-        return new(left.nominator * right.denominator, left.denominator * right.nominator, right / left.offset);
-    }
+        => new(left.nominator * right.denominator, left.denominator * right.nominator, right / left.offset);
 
     public static Double operator /(Polynomial left, Double right)
-    {
-        return left.denominator * (right - left.offset) / left.nominator;
-    }
+        => left.denominator * (right - left.offset) / left.nominator;
 
     public override String ToString()
     {

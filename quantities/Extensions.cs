@@ -5,6 +5,7 @@ namespace Quantities;
 
 public static class Extensions
 {
+    internal static Transformation With<Transform>(this Transformation self) where Transform : ITransform => Transform.ToSi(self);
     public static String ToString(this IFormattable formattable, String format) => formattable.ToString(format, CultureInfo.InvariantCulture);
     internal static Quantity To<TMeasure>(this in Double value)
       where TMeasure : IMeasure

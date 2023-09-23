@@ -1,5 +1,5 @@
 ﻿using Quantities.units.NonStandard.Length;
-using Quantities.units.NonStandard.Velocity;
+using Quantities.Units.NonStandard.Velocity;
 using Quantities.Units.Si.Metric;
 
 namespace Quantities.Test;

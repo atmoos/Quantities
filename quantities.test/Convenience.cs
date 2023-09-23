@@ -27,7 +27,13 @@ public static class Convenience
     public static void Matches<TQuantity>(this TQuantity actual, TQuantity expected, Int32 precision)
         where TQuantity : struct, IQuantity<TQuantity>, Dimensions.IDimension
     {
-        Equals(actual, expected, precision);
+        try {
+            Equals(actual, expected, precision);
+        }
+        catch (EqualException) {
+            const String roundTripSafe = "G17";
+            throw new EqualException(expected.ToString(roundTripSafe), actual.ToString(roundTripSafe), precision, precision + 1);
+        }
         Assert.True(actual.Value.HasSameMeasure(expected.Value), $"Measure mismatch: {actual} != {expected}");
     }
     public static void Equals<T>(this T actual, T expected, Int32 precision)

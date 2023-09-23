@@ -15,13 +15,11 @@ public readonly struct Bit : IMetricUnit, IAmountOfInformation
 }
 public readonly struct Nibble : IMetricUnit, IAmountOfInformation
 {
-    private const Double toBit = 4d;
-    public static Transformation ToSi(Transformation value) => value * toBit;
+    public static Transformation ToSi(Transformation self) => 4 * self.DerivedFrom<Bit>();
     public static String Representation => "N";
 }
 public readonly struct Byte : IMetricUnit, IAmountOfInformation
 {
-    private const Double toBit = 8d;
-    public static Transformation ToSi(Transformation value) => value * toBit;
+    public static Transformation ToSi(Transformation self) => 8 * self.DerivedFrom<Bit>();
     public static String Representation => "B";
 }

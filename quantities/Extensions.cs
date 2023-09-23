@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using Quantities.Measures;
+using Quantities.Numerics;
 using Quantities.Prefixes;
 using Quantities.Units;
 using Quantities.Units.Si;
@@ -8,6 +9,7 @@ namespace Quantities;
 
 public static class Extensions
 {
+    internal static Double ValueOf<T>() where T : ITransform => Polynomial.Of<T>() * 1d;
     internal static Transformation RootedIn<TSi>(this Transformation self) where TSi : ISiUnit => self;
     internal static Transformation From<TBasis>(this Transformation self) where TBasis : IPrefix => TBasis.ToSi(self);
     internal static Transformation DerivedFrom<TBasis>(this Transformation self) where TBasis : IUnit, ITransform => TBasis.ToSi(self);

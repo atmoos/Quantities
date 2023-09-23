@@ -7,6 +7,6 @@ namespace Quantities.Units.NonStandard.Temperature;
 // See: https://en.wikipedia.org/wiki/Conversion_of_scales_of_temperature
 public readonly struct Delisle : ITransform, INoSystemUnit, ITemperature
 {
-    public static Transformation ToSi(Transformation self) => -2d / 3d * self.RootedIn<Kelvin>() + 373.15;
+    public static Transformation ToSi(Transformation self) => -2d / 3 * self.RootedIn<Kelvin>() + 373.15;
     public static String Representation => "°De";
 }

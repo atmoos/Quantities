@@ -4,6 +4,8 @@ using Quantities.Measures;
 using Quantities.Numerics;
 using Xunit.Sdk;
 
+using static Quantities.Extensions;
+
 namespace Quantities.Test;
 public static class Convenience
 {
@@ -16,7 +18,7 @@ public static class Convenience
     public static String Join(String leftUnit, String rightUnit) => $"{leftUnit}\u200C{rightUnit}";
     internal static void IsSameAs(this Quantity actual, Quantity expected, Int32 precision = fullPrecision)
     {
-        PrecisionIsBounded(expected, actual, precision);
+        ReformatEqualMessage((e, a, p) => PrecisionIsBounded(e, a, p), expected, actual, precision);
         Assert.True(actual.HasSameMeasure(in expected), $"Measure mismatch: {actual} != {expected}");
     }
     public static void Matches<TQuantity>(this TQuantity actual, TQuantity expected)
@@ -27,7 +29,7 @@ public static class Convenience
     public static void Matches<TQuantity>(this TQuantity actual, TQuantity expected, Int32 precision)
         where TQuantity : struct, IQuantity<TQuantity>, Dimensions.IDimension
     {
-        Equals(actual, expected, precision);
+        ReformatEqualMessage((e, a, p) => a.Equals(e, p), expected, actual, precision);
         Assert.True(actual.Value.HasSameMeasure(expected.Value), $"Measure mismatch: {actual} != {expected}");
     }
     public static void Equals<T>(this T actual, T expected, Int32 precision)
@@ -70,5 +72,18 @@ public static class Convenience
     {
         var value = new Transformation();
         return Polynomial.Of(nominator * value / denominator + offset);
+    }
+
+    private static void ReformatEqualMessage<T>(Action<T, T, Int32> assertion, T expected, T actual, Int32 precision)
+        where T : IFormattable
+    {
+        try {
+            assertion(expected, actual, precision);
+        }
+        catch (EqualException) {
+            var actualValue = actual.ToString(RoundTripFormat);
+            var expectedValue = expected.ToString(RoundTripFormat);
+            throw new EqualException(expectedValue, actualValue, precision, precision + 1);
+        }
     }
 }

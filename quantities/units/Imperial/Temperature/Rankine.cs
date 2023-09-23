@@ -1,11 +1,12 @@
 ﻿using Quantities.Dimensions;
+using Quantities.Units.Si;
 
 namespace Quantities.Units.Imperial.Temperature;
 
 // [K] ≡ [°R] × 5/9
-// See: https://en.wikipedia.org/wiki/Conversion_of_units#Temperature
+// See: https://en.wikipedia.org/wiki/Conversion_of_scales_of_temperature
 public readonly struct Rankine : IImperialUnit, ITemperature
 {
-    public static Transformation ToSi(Transformation self) => 5d * self / 9d;
+    public static Transformation ToSi(Transformation self) => 5d * self.RootedIn<Kelvin>() / 9d;
     public static String Representation => "°R";
 }

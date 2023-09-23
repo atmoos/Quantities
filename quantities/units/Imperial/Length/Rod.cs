@@ -6,6 +6,6 @@ namespace Quantities.Units.Imperial.Length;
 // https://en.wikipedia.org/wiki/Imperial_units
 public readonly struct Rod : IImperialUnit, ILength
 {
-    public static Transformation ToSi(Transformation self) => 5.0292 * self;
+    public static Transformation ToSi(Transformation self) => 66 * self.DerivedFrom<Foot>() / 4;
     public static String Representation => "rod";
 }

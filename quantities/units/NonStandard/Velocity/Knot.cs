@@ -1,13 +1,13 @@
 ﻿using Quantities.Dimensions;
-using Quantities.Units.NonStandard;
+using Quantities.units.NonStandard.Length;
+using Quantities.Units.Si.Metric;
+using static Quantities.Extensions;
 
-namespace Quantities.units.NonStandard.Velocity;
+namespace Quantities.Units.NonStandard.Velocity;
 
 // https://en.wikipedia.org/wiki/Knot_(unit)
 public readonly struct Knot : INoSystemUnit, IVelocity
 {
-    private const Double oneHour = 3600; // s
-    private const Double oneNauticalMile = 1852; // m
-    public static Transformation ToSi(Transformation self) => oneNauticalMile * self / oneHour;
+    public static Transformation ToSi(Transformation self) => self.DerivedFrom<NauticalMile>() / ValueOf<Hour>();
     public static String Representation => "kn";
 }

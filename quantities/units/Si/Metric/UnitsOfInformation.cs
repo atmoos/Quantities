@@ -9,17 +9,18 @@ This is what we'll use here...
 */
 public readonly struct Bit : IMetricUnit, IAmountOfInformation
 {
+    public static Transformation ToSi(Transformation self) => self;
     public static String Representation => "bit";
 }
+
 public readonly struct Nibble : IMetricUnit, IAmountOfInformation
 {
-    private const Double toBit = 4d;
-    public static Transformation ToSi(Transformation value) => value * toBit;
+    public static Transformation ToSi(Transformation self) => 4 * self.DerivedFrom<Bit>();
     public static String Representation => "N";
 }
+
 public readonly struct Byte : IMetricUnit, IAmountOfInformation
 {
-    private const Double toBit = 8d;
-    public static Transformation ToSi(Transformation value) => value * toBit;
+    public static Transformation ToSi(Transformation self) => 8 * self.DerivedFrom<Bit>();
     public static String Representation => "B";
 }

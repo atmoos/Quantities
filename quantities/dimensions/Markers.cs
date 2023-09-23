@@ -2,11 +2,13 @@
 
 public interface ILinear
 { /* marker interface */ }
-
-public interface ISquare<out TLinear> : IProduct<TLinear, TLinear>
+public interface IHigherOrder<out TLinear>
 { /* marker interface */ }
 
-public interface ICubic<out TLinear> : IProduct<ISquare<TLinear>, TLinear>
+public interface ISquare<out TLinear> : IProduct<TLinear, TLinear>, IHigherOrder<TLinear>
+{ /* marker interface */ }
+
+public interface ICubic<out TLinear> : IProduct<ISquare<TLinear>, TLinear>, IHigherOrder<TLinear>
 { /* marker interface */ }
 
 public interface IProduct<out TLeft, out TRight>

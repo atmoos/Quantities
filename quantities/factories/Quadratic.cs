@@ -18,22 +18,18 @@ public readonly struct Quadratic<TCreate, TQuantity, TSquare, TLinear> : IQuadra
     private readonly TCreate creator;
     public Composite<TCreate, TQuantity, TLinear> Square => new(in this.creator, AllocationFree<PowerInjector<TCreate, Square>>.Item);
     internal Quadratic(in TCreate creator) => this.creator = creator;
-    public TQuantity Metric<TUnit>() where TUnit : IMetricUnit, TSquare, IInjectUnit<TLinear>
-    {
-        return TQuantity.Create(this.creator.Create<Metric<TUnit>, Alias<TUnit, TLinear>>());
-    }
+    public TQuantity Metric<TUnit>()
+        where TUnit : IMetricUnit, TSquare, IAlias<TLinear>
+            => TQuantity.Create(Injector<TUnit>().Inject<Metric<TUnit>>(in this.creator));
     public TQuantity Metric<TPrefix, TUnit>()
         where TPrefix : IMetricPrefix
-        where TUnit : IMetricUnit, TSquare, IInjectUnit<TLinear>
-    {
-        return TQuantity.Create(this.creator.Create<Metric<TPrefix, TUnit>, Alias<TPrefix, TUnit, TLinear>>());
-    }
-    public TQuantity Imperial<TUnit>() where TUnit : IImperialUnit, TSquare, IInjectUnit<TLinear>
-    {
-        return TQuantity.Create(this.creator.Create<Imperial<TUnit>, Alias<TUnit, TLinear>>());
-    }
-    public TQuantity NonStandard<TUnit>() where TUnit : INoSystemUnit, TSquare, IInjectUnit<TLinear>
-    {
-        return TQuantity.Create(this.creator.Create<NonStandard<TUnit>, Alias<TUnit, TLinear>>());
-    }
+        where TUnit : IMetricUnit, TSquare, IAlias<TLinear>
+            => TQuantity.Create(Injector<TUnit>().Inject<Metric<TPrefix, TUnit>>(in this.creator));
+    public TQuantity Imperial<TUnit>() where TUnit : IImperialUnit, TSquare, IAlias<TLinear>
+        => TQuantity.Create(Injector<TUnit>().Inject<Imperial<TUnit>>(in this.creator));
+    public TQuantity NonStandard<TUnit>() where TUnit : INoSystemUnit, TSquare, IAlias<TLinear>
+        => TQuantity.Create(Injector<TUnit>().Inject<NonStandard<TUnit>>(in this.creator));
+
+    private static IInject<TCreate> Injector<TUnit>()
+        where TUnit : IAlias<TLinear> => TUnit.Inject(AllocationFree<AliasInjectionFactory<TCreate, TLinear>>.Item);
 }

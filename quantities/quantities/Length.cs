@@ -2,7 +2,6 @@
 using Quantities.Dimensions;
 using Quantities.Factories;
 using Quantities.Measures;
-using Quantities.Measures.Transformations;
 
 namespace Quantities.Quantities;
 
@@ -12,7 +11,6 @@ public readonly struct Length : IQuantity<Length>, ILength
     , IMultiplyOperators<Length, Area, Volume>
     , IDivisionOperators<Length, Time, Velocity>
 {
-    private static readonly Measures.IFactory<Quantity> linear = new ToLinear();
     private readonly Quantity length;
     internal Quantity Value => this.length;
     Quantity IQuantity<Length>.Value => this.length;

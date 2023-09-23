@@ -123,9 +123,9 @@ internal readonly struct Product<TLeft, TRight> : IProduct<TLeft, TRight>, IMeas
     public static Result Multiply<TMeasure>() where TMeasure : IMeasure => ProductOps<TLeft, TRight, TMeasure>.Product;
     public static Result Divide<TMeasure>() where TMeasure : IMeasure => ProductOps<TLeft, TRight, TMeasure>.Quotient;
     public static Rank Rank<TMeasure>()
-         where TMeasure : IMeasure => Compute.HigherOrder(TLeft.Rank<TMeasure>(), TRight.Rank<TMeasure>());
+         where TMeasure : IMeasure => Compute.OrRanks(TLeft.Rank<TMeasure>(), TRight.Rank<TMeasure>());
     public static Rank RankOf<TDimension>()
-        where TDimension : IDimension => Compute.HigherOrder(TLeft.RankOf<TDimension>(), TRight.RankOf<TDimension>());
+        where TDimension : IDimension => Compute.OrRanks(TLeft.RankOf<TDimension>(), TRight.RankOf<TDimension>());
     public static void Write(IWriter writer)
     {
         writer.Start("product");
@@ -143,9 +143,9 @@ internal readonly struct Quotient<TNominator, TDenominator> : IQuotient<TNominat
     public static Result Multiply<TMeasure>() where TMeasure : IMeasure => QuotientOps<TNominator, TDenominator, TMeasure>.Product;
     public static Result Divide<TMeasure>() where TMeasure : IMeasure => QuotientOps<TNominator, TDenominator, TMeasure>.Quotient;
     public static Rank Rank<TMeasure>()
-         where TMeasure : IMeasure => Compute.HigherOrder(TNominator.Rank<TMeasure>(), TDenominator.Rank<TMeasure>());
+         where TMeasure : IMeasure => Compute.OrRanks(TNominator.Rank<TMeasure>(), TDenominator.Rank<TMeasure>());
     public static Rank RankOf<TDimension>()
-        where TDimension : IDimension => Compute.HigherOrder(TNominator.RankOf<TDimension>(), TDenominator.RankOf<TDimension>());
+        where TDimension : IDimension => Compute.OrRanks(TNominator.RankOf<TDimension>(), TDenominator.RankOf<TDimension>());
     public static void Write(IWriter writer)
     {
         writer.Start("quotient");
@@ -154,34 +154,49 @@ internal readonly struct Quotient<TNominator, TDenominator> : IQuotient<TNominat
         writer.End();
     }
 }
-internal readonly struct Power<TDim, TMeasure> : IMeasure
+
+// ToDo: Make use of all the rank info here!!
+internal readonly struct Alias<TAlias, TLinear> : IMeasure
+    where TAlias : IMeasure
+    where TLinear : IMeasure, ILinear
+{
+    public static Polynomial Poly => TAlias.Poly;
+    public static String Representation => TAlias.Representation;
+    public static Result Divide<TMeasure>() where TMeasure : IMeasure => HigherOrderOps<TAlias, TLinear, TMeasure>.Quotient;
+    public static Result Multiply<TMeasure>() where TMeasure : IMeasure => HigherOrderOps<TAlias, TLinear, TMeasure>.Product;
+    public static Rank Rank<TMeasure>() where TMeasure : IMeasure => TAlias.Rank<TMeasure>();
+    public static Rank RankOf<TDimension>() where TDimension : IDimension => TAlias.RankOf<TDimension>();
+    public static void Write(IWriter writer) => TAlias.Write(writer);
+}
+
+internal readonly struct Power<TDim, TLinear> : IMeasure
     where TDim : IExponent
-    where TMeasure : IMeasure
+    where TLinear : IMeasure
 {
     private static readonly String dimension = typeof(TDim).Name.ToLowerInvariant();
-    public static Polynomial Poly { get; } = TDim.Pow(TMeasure.Poly);
-    public static String Representation { get; } = $"{TMeasure.Representation}{TDim.Representation}";
-    public static Result Multiply<TOtherMeasure>() where TOtherMeasure : IMeasure => PowerOps<TDim, TMeasure, TOtherMeasure>.Product;
-    public static Result Divide<TOtherMeasure>() where TOtherMeasure : IMeasure => PowerOps<TDim, TMeasure, TOtherMeasure>.Quotient;
+    public static Polynomial Poly { get; } = TDim.Pow(TLinear.Poly);
+    public static String Representation { get; } = $"{TLinear.Representation}{TDim.Representation}";
+    public static Result Multiply<TOtherMeasure>() where TOtherMeasure : IMeasure => HigherOrderOps<Power<TDim, TLinear>, TLinear, TOtherMeasure>.Product;
+    public static Result Divide<TOtherMeasure>() where TOtherMeasure : IMeasure => HigherOrderOps<Power<TDim, TLinear>, TLinear, TOtherMeasure>.Quotient;
     public static Rank Rank<TOtherMeasure>()
-         where TOtherMeasure : IMeasure => Map(TMeasure.Rank<TOtherMeasure>());
-    public static Rank RankOf<TDimension>() where TDimension : IDimension => Map(TMeasure.RankOf<TDimension>());
+         where TOtherMeasure : IMeasure => Map(TLinear.Rank<TOtherMeasure>());
+    public static Rank RankOf<TDimension>() where TDimension : IDimension => Map(TLinear.RankOf<TDimension>());
     public static void Write(IWriter writer)
     {
         writer.Start(dimension);
-        TMeasure.Write(writer);
+        TLinear.Write(writer);
         writer.End();
     }
     private static Rank Map(in Rank rank) => rank switch {
-        // ToDo: Other ranks could be mapped via "offsetting" ('or' & 'and' operators)
         One => TDim.Rank,
-        _ => None
+        var self when self == TDim.Rank => One,
+        _ => rank
     };
 }
 
 
 file sealed class ScalarOps<TScalar, TArgument> : IOps
-    where TScalar : IMeasure, ILinear
+    where TScalar : IMeasure
     where TArgument : IMeasure
 {
     public static Result Product { get; } = Compute.Scalar<TScalar>.Multiply<TArgument>();
@@ -206,31 +221,30 @@ file sealed class QuotientOps<TNominator, TDenominator, TArgument> : IOps
     public static Result Quotient { get; } = Compute.Div<TNominator, TDenominator>.Divide<TArgument>();
 }
 
-file sealed class PowerOps<TDim, TLinear, TArgument> : IOps
-    where TDim : IExponent
+file sealed class HigherOrderOps<THigher, TLinear, TArgument> : IOps
+    where THigher : IMeasure
     where TLinear : IMeasure
     where TArgument : IMeasure
 {
-    public static Result Product { get; } = Compute.Pow<TDim, TLinear>.Multiply<TArgument>();
-    public static Result Quotient { get; } = Compute.Pow<TDim, TLinear>.Divide<TArgument>();
+    public static Result Product { get; } = Compute.HighOrder<THigher, TLinear>.Multiply<TArgument>();
+    public static Result Quotient { get; } = Compute.HighOrder<THigher, TLinear>.Divide<TArgument>();
 }
 
 // Everything in here is allowed to be comparatively inefficient, as it is
 // only ever executed once during the lifetime of any dependent app.
 file static class Compute
 {
-    public static Rank HigherOrder(in Rank nominator, in Rank denominator) => nominator is One || denominator is One ? Rank.HigherOrder : None;
-    private static (Polynomial, Measure) Unpack(Result result) => ((Polynomial)result, result);
+    public static Rank OrRanks(in Rank left, in Rank right) => left is One || right is One ? HigherOrder : None;
 
     public sealed class Scalar<TSelf> : ICompute
-        where TSelf : IMeasure, ILinear
+        where TSelf : IMeasure
     {
         public static Result Multiply<TArgument>()
             where TArgument : IMeasure => TSelf.Rank<TArgument>() switch {
                 Zero => new Result(Polynomial.One, Measure.Of<TSelf>()),
                 One => new Result(TArgument.Poly / TSelf.Poly, Measure.Of<Power<Square, TSelf>>()),
                 Two => new Result(TArgument.Poly / TSelf.Poly, Measure.Of<Power<Cubic, TSelf>>()),
-                Rank.HigherOrder => TArgument.Multiply<TSelf>(),
+                HigherOrder => TArgument.Multiply<TSelf>(),
                 _ => new Result(Polynomial.One, Measure.Of<Product<TSelf, TArgument>>())
             };
 
@@ -298,31 +312,29 @@ file static class Compute
             return new(Polynomial.One, Measure.Of<Quotient<TNominator, Product<TDenominator, TArgument>>>());
         }
     }
-    public sealed class Pow<TExp, TLinear> : ICompute
-        where TExp : IExponent
+    public sealed class HighOrder<THigher, TLinear> : ICompute
+        where THigher : IMeasure
         where TLinear : IMeasure
     {
-        private static readonly Int32 dimension = ExponentOf(TExp.Rank);
+        private static readonly Int32 self = ExponentOf(THigher.Rank<TLinear>());
         public static Result Multiply<TArgument>() where TArgument : IMeasure
         {
-            Rank target = TLinear.Rank<TArgument>();
-            Int32 exponent = ExponentOf(target);
-            Measure? measure = Pow<TLinear>(dimension + exponent);
+            Int32 target = self + ExponentOf(TLinear.Rank<TArgument>());
+            Measure? measure = Pow<TLinear>(target);
             if (measure is null) {
-                return new(Polynomial.One, Measure.Of<Product<Power<TExp, TLinear>, TArgument>>());
+                return new(Polynomial.One, Measure.Of<Product<THigher, TArgument>>());
             }
-            Polynomial conversion = TArgument.Poly / Pow(TLinear.Poly, target);
+            Polynomial conversion = TArgument.Poly * THigher.Poly / TLinear.Poly.Pow(target);
             return new(in conversion, measure);
         }
         public static Result Divide<TArgument>() where TArgument : IMeasure
         {
-            Rank target = TLinear.Rank<TArgument>();
-            Int32 exponent = ExponentOf(target);
-            Measure? measure = Pow<TLinear>(dimension - exponent);
+            Int32 target = self - ExponentOf(TLinear.Rank<TArgument>());
+            Measure? measure = Pow<TLinear>(target);
             if (measure is null) {
-                return new(Polynomial.One, Measure.Of<Quotient<Power<TExp, TLinear>, TArgument>>());
+                return new(Polynomial.One, Measure.Of<Quotient<THigher, TArgument>>());
             }
-            Polynomial conversion = Pow(TLinear.Poly, target) / TArgument.Poly;
+            Polynomial conversion = THigher.Poly / (TLinear.Poly.Pow(target) * TArgument.Poly);
             return new(in conversion, measure);
         }
     }
@@ -332,19 +344,12 @@ file static class Convenience
 {
     public const Int32 NoRank = Int16.MaxValue;
     public static Int32 ExponentOf(Rank rank) => rank switch {
+        Inverse => -1,
         Zero => 0,
         One => 1,
         Two => 2,
         Three => 3,
         _ => NoRank
-    };
-    public static Polynomial Pow(in Polynomial poly, Rank rank) => rank switch {
-        Three => Cubic.Pow(in poly),
-        Two => Square.Pow(in poly),
-        One => poly,
-        Zero => Polynomial.One,
-        Inverse => Polynomial.One / poly,
-        _ => poly
     };
     public static Measure? Pow<TLinear>(Int32 exp)
         where TLinear : IMeasure => exp switch {

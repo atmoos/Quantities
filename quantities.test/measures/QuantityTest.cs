@@ -48,7 +48,7 @@ public class QuantityTest
 
         a.Equals(b).IsFalse();
     }
-    [Fact(Skip = "ToDo!")]
+    [Fact(Skip = "Pending a design decision here.")] // Must quantities be able to detect this, or are the outer Quantity<T> responsible?
     public void UnequalQuantityDimensionsCompareFalse()
     {
         const Double value = 60;

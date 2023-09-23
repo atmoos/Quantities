@@ -17,24 +17,36 @@ internal readonly record struct Polynomial : IEquatable<Polynomial>
     {
         (this.nominator, this.denominator, this.offset) = (nominator, denominator, offset);
     }
+    internal Polynomial Simplify()
+    {
+        var (n, d) = Algorithms.Simplify(this.nominator, this.denominator);
+        return d >= 0 ? new(n, d, this.offset) : new(-n, -d, this.offset);
+    }
     public static Polynomial Of(Transformation transformation)
     {
         var (n, d, offset) = transformation;
-        (n, d) = Simplify(n, d);
+        (n, d) = Algorithms.Simplify(n, d);
         return d >= 0 ? new(n, d, offset) : new(-n, -d, offset);
-        static (Double n, Double d) Simplify(Double n, Double d)
-        {
-            if (Double.IsInteger(n) && Double.IsInteger(d) && Double.Abs(Double.MaxMagnitude(n, d)) < Int64.MaxValue) {
-                Int64 gcd = Gcd((Int64)n, (Int64)d);
-                return gcd <= 1 ? (n, d) : (n / gcd, d / gcd);
-            }
-            return (n, d);
-        }
     }
     public static Polynomial Of<TTransform>()
         where TTransform : ITransform => Cache<TTransform>.Polynomial;
     public static Polynomial Of<TSecond, TFirst>()
         where TFirst : ITransform where TSecond : ITransform => Cache<TFirst, TSecond>.Polynomial;
+
+    // ToDo: Consider using dynamic programming here...
+    public static Polynomial Pow(in Polynomial poly, Int32 exp)
+    {
+        return Impl(in poly, exp).Simplify();
+        static Polynomial Impl(in Polynomial p, Int32 e) => e switch {
+            < 0 => One / Pow(in p, -e),
+            0 => One,
+            1 => p,
+            2 => p * p,
+            3 => p * p * p,
+            4 => (p * p) * (p * p),
+            _ => Impl(in p, e / 2) * Impl(in p, e - e / 2)
+        };
+    }
 
     public static Double operator *(Polynomial left, Double right)
         => Double.FusedMultiplyAdd(left.nominator, right, left.denominator * left.offset) / left.denominator;

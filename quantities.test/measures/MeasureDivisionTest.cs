@@ -29,20 +29,20 @@ public class MeasureDivisionTest
     public void ScalarPerSameScalarIsIdentity()
     {
         var conversion = Expect<Identity>.IsQuotientOf<Metric<Hour>, Si<Kilo, Second>>();
-        Assert.Equal(Of<Hour>() / Of<Kilo>(), conversion);
+        Assert.Equal((Of<Hour>() / Of<Kilo>()).Simplify(), conversion);
     }
 
     [Fact]
     public void SquareScalarPerSimilarScalarIsScalar()
     {
         var conversion = Expect<Si<Kilo, Metre>>.IsQuotientOf<Power<Square, Si<Kilo, Metre>>, Imperial<Yard>>();
-        Assert.Equal(Of<Kilo>() / Of<Yard>(), conversion);
+        Assert.Equal((Of<Kilo>() / Of<Yard>()).Simplify(), conversion);
     }
     [Fact]
     public void CubicScalarPerSimilarScalarIsSquare()
     {
         var conversion = Expect<Power<Square, Si<Kilo, Metre>>>.IsQuotientOf<Power<Cubic, Si<Kilo, Metre>>, Imperial<Foot>>();
-        Assert.Equal(Of<Kilo>() / Of<Foot>(), conversion);
+        Assert.Equal((Of<Kilo>() / Of<Foot>()).Simplify(), conversion);
     }
 
     [Fact]

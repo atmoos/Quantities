@@ -21,10 +21,10 @@ public interface IHigherOrderFactory<out TQuantity, TPower, TLinear> : IFactory
     where TPower : IDimension
     where TLinear : IDimension
 {
-    TQuantity Metric<TUnit>() where TUnit : IMetricUnit, TPower, IInjectUnit<TLinear>;
+    TQuantity Metric<TUnit>() where TUnit : IMetricUnit, TPower, IAlias<TLinear>;
     TQuantity Metric<TPrefix, TUnit>()
         where TPrefix : IMetricPrefix
-        where TUnit : IMetricUnit, TPower, IInjectUnit<TLinear>;
-    TQuantity Imperial<TUnit>() where TUnit : IImperialUnit, TPower, IInjectUnit<TLinear>;
-    TQuantity NonStandard<TUnit>() where TUnit : INoSystemUnit, TPower, IInjectUnit<TLinear>;
+        where TUnit : IMetricUnit, TPower, IAlias<TLinear>;
+    TQuantity Imperial<TUnit>() where TUnit : IImperialUnit, TPower, IAlias<TLinear>;
+    TQuantity NonStandard<TUnit>() where TUnit : INoSystemUnit, TPower, IAlias<TLinear>;
 }

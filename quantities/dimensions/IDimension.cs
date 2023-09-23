@@ -10,7 +10,10 @@ public interface IDimension
 public interface ILinear<TSelf> : ILinear, IDimension
     where TSelf : ILinear<TSelf>
 {
-    static Rank IDimension.RankOf<TDimension>() => Rank<TSelf>.Of<TDimension>();
+    static Rank IDimension.RankOf<TDimension>() => Rank<TSelf>.Of<TDimension>() switch {
+        HigherOrder => TDimension.RankOf<TSelf>(),
+        var some => some
+    };
 }
 
 public interface ISquare<TSelf, out TLinear> : ISquare<TLinear>, ILinear<TSelf>
@@ -68,5 +71,7 @@ file static class Rank<TSelf>
     where TSelf : IDimension
 {
     public static Rank Of<TOther>() where TOther : IDimension
-        => typeof(TOther).IsAssignableTo(typeof(TSelf)) ? One : None;
+        => typeof(TOther).IsAssignableTo(typeof(TSelf))
+            ? One
+            : typeof(TOther).IsAssignableTo(typeof(IHigherOrder<TSelf>)) ? HigherOrder : None;
 }

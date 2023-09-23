@@ -65,7 +65,7 @@ public class AreaTest
 
         actual.Matches(expected);
     }
-    [Fact(Skip = WorkOnDimensionalityNeeded)]
+    [Fact]
     public void PureArealDimensionDividedByLength()
     {
         Area area = Area.Of(2).Imperial<Acre>();
@@ -120,6 +120,18 @@ public class AreaTest
     }
 
     [Fact]
+    public void AreTimesMeterIsCubicMetre()
+    {
+        Area area = Area.Of(1).Metric<Are>();
+        Length length = Length.Of(10).Si<Metre>();
+        Volume expected = Volume.Of(10 * 10 * 10).Cubic.Si<Metre>();
+
+        Volume actual = area * length;
+
+        actual.Matches(expected);
+    }
+
+    [Fact]
     public void AreToSiDefinition()
     {
         Area are = Area.Of(1).Metric<Are>();
@@ -166,17 +178,6 @@ public class AreaTest
         Area expected = Area.Of(40).Imperial<Perch>();
 
         Area actual = rood.To.Imperial<Perch>();
-
-        actual.Matches(expected);
-    }
-    [Fact(Skip = "Need to change the injection policy to make this produce reasonable results")]
-    public void AreTimesMeterIsCubicMetre()
-    {
-        Area area = Area.Of(1).Metric<Are>();
-        Length length = Length.Of(10).Si<Metre>();
-        Volume expected = Volume.Of(10 * 10 * 10).Cubic.Si<Metre>();
-
-        Volume actual = area * length;
 
         actual.Matches(expected);
     }

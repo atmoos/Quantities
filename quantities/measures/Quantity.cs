@@ -45,8 +45,6 @@ internal readonly struct Quantity : IEquatable<Quantity>, IFormattable
     }
     public static Quantity Of<TMeasure>(in Double value)
         where TMeasure : IMeasure => new(in value, Measure.Of<TMeasure>());
-    public static Quantity Of<TMeasure, TInjector>(in Double value)
-        where TMeasure : IMeasure where TInjector : IInjector => new(in value, Measure.Of<TMeasure, TInjector>());
     public Boolean HasSameMeasure(in Quantity other) => ReferenceEquals(this.measure, other.measure);
     public override Boolean Equals(Object? obj) => obj is Quantity value && Equals(value);
     public override Int32 GetHashCode() => HashCode.Combine(this.value, this.measure);

@@ -13,8 +13,6 @@ internal abstract class Measure
     protected abstract Result Divide<TMeasure>() where TMeasure : IMeasure;
     public abstract void Serialize(IWriter writer);
     public static Measure Of<TMeasure>() where TMeasure : IMeasure => AllocationFree<Impl<TMeasure>>.Item;
-    [Obsolete("Use the other 'Of' method.")]
-    public static Measure Of<TMeasure, TInjector>() where TMeasure : IMeasure where TInjector : IInjector => AllocationFree<Impl<TMeasure>>.Item;
 
     private sealed class Impl<TMeasure> : Measure
         where TMeasure : IMeasure

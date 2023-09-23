@@ -2,8 +2,8 @@
 
 namespace Quantities.Units.Imperial.Length;
 
-public readonly struct Yard : IImperialUnit<Yard, ILength>, ILength
+public readonly struct Yard : IImperialUnit, ILength
 {
-    public static Transformation Derived(in From<ILength> from) => 3 * from.Imperial<Foot>();
+    public static Transformation ToSi(Transformation self) => 3 * self.DerivedFrom<Foot>();
     public static String Representation => "yd";
 }

@@ -2,9 +2,9 @@
 
 namespace Quantities.Units.Si.Metric;
 
-public readonly struct Tonne : IMetricUnit<Tonne, IMass>, IMass
+public readonly struct Tonne : IMetricUnit, IMass
 {
-    public static Transformation Derived(in From<IMass> from) => 1000 * from.Si<Kilogram>();
+    public static Transformation ToSi(Transformation self) => 1000 * self.RootedIn<Kilogram>();
     public static String Representation => "t";
 
 }

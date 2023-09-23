@@ -2,9 +2,9 @@
 
 namespace Quantities.Units.Si.Derived;
 
-public readonly struct Gram : IMetricUnit<Gram, IMass>, IMass
+public readonly struct Gram : IMetricUnit, IMass
 {
-    public static Transformation Derived(in From<IMass> from) => from.Si<Kilogram>() / 1000;
+    public static Transformation ToSi(Transformation self) => self.RootedIn<Metre>() / 1000;
     public static String Representation => "g";
 
 }

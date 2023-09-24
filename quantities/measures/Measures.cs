@@ -6,7 +6,6 @@ using Quantities.Units.NonStandard;
 using Quantities.Units.Si;
 
 using static Quantities.Dimensions.Rank;
-using static Quantities.Measures.Convenience;
 
 namespace Quantities.Measures;
 
@@ -245,23 +244,33 @@ file static class Compute
         where TSelf : IMeasure
     {
         public static Result Multiply<TArgument>()
-            where TArgument : IMeasure => TSelf.Rank<TArgument>() switch {
-                Zero => new Result(Polynomial.One, Measure.Of<TSelf>()),
-                One => new Result(TArgument.Poly / TSelf.Poly, Measure.Of<Power<Square, TSelf>>()),
-                Two => new Result(TArgument.Poly / TSelf.Poly, Measure.Of<Power<Cubic, TSelf>>()),
-                HigherOrder => TArgument.Multiply<TSelf>(),
+            where TArgument : IMeasure
+        {
+            if (TArgument.D is Product) {
+                return TArgument.Multiply<TSelf>();
+            }
+            var product = TSelf.D * TArgument.D;
+            return product switch {
+                Unit => new(TSelf.Poly * TArgument.Poly, Measure.Of<Identity>()),
+                Scalar s when s.E == 1 => new Result(TArgument.Poly, Measure.Of<TSelf>()),
+                Scalar s when s.E == 2 => new Result(TArgument.Poly / TSelf.Poly, Measure.Of<Power<Square, TSelf>>()),
+                Scalar s when s.E == 3 => new Result(TArgument.Poly / TSelf.Poly, Measure.Of<Power<Cubic, TSelf>>()),
                 _ => new Result(Polynomial.One, Measure.Of<Product<TSelf, TArgument>>())
             };
+        }
 
         public static Result Divide<TArgument>()
-            where TArgument : IMeasure => TSelf.Rank<TArgument>() switch {
-                Zero => new Result(Polynomial.One, Measure.Of<TSelf>()),
-                One => new Result(TSelf.Poly / TArgument.Poly, Measure.Of<Identity>()),
-                Two => new Result(TArgument.Poly / TSelf.Poly, Measure.Of<TSelf>()),
-                Three => new Result(TArgument.Poly / TSelf.Poly, Measure.Of<Power<Square, TSelf>>()),
-                // HigherOrder => TArgument.RightDivide<TLeft>(), ToDo...
+            where TArgument : IMeasure
+        {
+            var quotient = TSelf.D / TArgument.D;
+            return quotient switch {
+                Unit => new Result(TSelf.Poly / TArgument.Poly, Measure.Of<Identity>()),
+                Scalar s when s.E == 1 => new Result(TArgument.Poly.Pow(-1), Measure.Of<TSelf>()),
+                Scalar s when s.E == 2 => new Result(TSelf.Poly / TArgument.Poly, Measure.Of<Power<Square, TSelf>>()),
+                Scalar s when s.E == 3 => new Result(TSelf.Poly / TArgument.Poly, Measure.Of<Power<Cubic, TSelf>>()),
                 _ => new Result(Polynomial.One, Measure.Of<Quotient<TSelf, TArgument>>())
             };
+        }
     }
 
     public sealed class Prod<TLeft, TRight> : ICompute
@@ -270,23 +279,27 @@ file static class Compute
     {
         public static Result Multiply<TArgument>() where TArgument : IMeasure
         {
-            var left = TLeft.Rank<TArgument>();
-            var right = TRight.Rank<TArgument>();
-            var (poly, measure) = (left, right) switch {
-                (One, One) => (TArgument.Poly * TRight.Poly / TLeft.Poly, Measure.Of<Power<Cubic, TLeft>>()),
-                (One, _) => (TArgument.Poly / TLeft.Poly, Measure.Of<Product<Power<Square, TLeft>, TRight>>()),
-                (_, One) => (TArgument.Poly / TRight.Poly, Measure.Of<Product<TLeft, Power<Square, TRight>>>()),
-                _ => (Polynomial.One, Measure.Of<Product<Product<TLeft, TRight>, TArgument>>())
-            };
-            return new(in poly, measure);
+            var product = TLeft.D * TRight.D * TArgument.D;
+            var polyProduct = TLeft.Poly * TRight.Poly * TArgument.Poly;
+            if (product is Unit) {
+                return new(polyProduct, Measure.Of<Identity>());
+            }
+            Measure? measure;
+            if (product is Scalar scalar && (measure = Pow<TLeft>(scalar.E)) != null) {
+                return new(polyProduct / TLeft.Poly, measure);
+            }
+            return new(Polynomial.One, Measure.Of<Product<Product<TLeft, TRight>, TArgument>>());
         }
         public static Result Divide<TArgument>() where TArgument : IMeasure
         {
-            if (TLeft.Rank<TArgument>() == One) {
-                return new(TLeft.Poly / TArgument.Poly, Measure.Of<TRight>());
+            var quotient = TLeft.D * TRight.D / TArgument.D;
+            var polyQuotient = TLeft.Poly * TRight.Poly / TArgument.Poly;
+            if (quotient is Unit) {
+                return new(polyQuotient, Measure.Of<Identity>());
             }
-            if (TRight.Rank<TArgument>() == One) {
-                return new(TRight.Poly / TArgument.Poly, Measure.Of<TLeft>());
+            Measure? measure;
+            if (quotient is Scalar scalar && (measure = Pow<TLeft>(scalar.E)) != null) {
+                return new(polyQuotient / TLeft.Poly, measure);
             }
             return new(Polynomial.One, Measure.Of<Quotient<Product<TLeft, TRight>, TArgument>>());
         }
@@ -296,23 +309,17 @@ file static class Compute
         where TNominator : IMeasure
         where TDenominator : IMeasure
     {
-        public static Result Multiply<TArgument>() where TArgument : IMeasure
-        {
-            if (TNominator.Rank<TArgument>() == One) {
-                return new(TNominator.Poly / TArgument.Poly, Measure.Of<Quotient<Power<Square, TNominator>, TDenominator>>());
-            }
-            if (TDenominator.Rank<TArgument>() == One) {
-                return new(TArgument.Poly / TDenominator.Poly, Measure.Of<TNominator>());
-            }
-            return new(Polynomial.One, Measure.Of<Product<Quotient<TNominator, TDenominator>, TArgument>>());
-        }
+        public static Result Multiply<TArgument>() where TArgument : IMeasure => Product<TNominator, TArgument>.Divide<TDenominator>();
         public static Result Divide<TArgument>() where TArgument : IMeasure
         {
-            if (TNominator.Rank<TArgument>() == One) {
-                return new(TNominator.Poly / TArgument.Poly, Measure.Of<Quotient<Identity, TDenominator>>());
+            var quotient = TNominator.D / (TDenominator.D * TArgument.D);
+            var polyQuotient = TNominator.Poly / (TDenominator.Poly * TArgument.Poly);
+            if (quotient is Unit) {
+                return new(polyQuotient, Measure.Of<Identity>());
             }
-            if (TDenominator.Rank<TArgument>() == One) {
-                return new(TArgument.Poly / TDenominator.Poly, Measure.Of<Quotient<TNominator, Power<Square, TDenominator>>>());
+            Measure? measure;
+            if (quotient is Scalar scalar && (measure = Pow<TNominator>(scalar.E)) != null) {
+                return new(polyQuotient / TNominator.Poly, measure);
             }
             return new(Polynomial.One, Measure.Of<Quotient<TNominator, Product<TDenominator, TArgument>>>());
         }
@@ -321,42 +328,29 @@ file static class Compute
         where THigher : IMeasure
         where TLinear : IMeasure
     {
-        private static readonly Int32 self = ExponentOf(THigher.Rank<TLinear>());
         public static Result Multiply<TArgument>() where TArgument : IMeasure
         {
-            Int32 target = self + ExponentOf(TLinear.Rank<TArgument>());
-            Measure? measure = Pow<TLinear>(target);
+            Dim target = THigher.D * TArgument.D;
+            Measure? measure = Pow<TLinear>(target.E);
             if (measure is null) {
                 return new(Polynomial.One, Measure.Of<Product<THigher, TArgument>>());
             }
-            Polynomial conversion = TArgument.Poly * THigher.Poly / TLinear.Poly.Pow(target);
+            Polynomial conversion = TArgument.Poly * THigher.Poly / TLinear.Poly.Pow(target.E);
             return new(in conversion, measure);
         }
         public static Result Divide<TArgument>() where TArgument : IMeasure
         {
-            Int32 target = self - ExponentOf(TLinear.Rank<TArgument>());
-            Measure? measure = Pow<TLinear>(target);
+            Dim target = THigher.D / TArgument.D;
+            Measure? measure = Pow<TLinear>(target.E);
             if (measure is null) {
                 return new(Polynomial.One, Measure.Of<Quotient<THigher, TArgument>>());
             }
-            Polynomial conversion = THigher.Poly / (TLinear.Poly.Pow(target) * TArgument.Poly);
+            Polynomial conversion = THigher.Poly / (TLinear.Poly.Pow(target.E) * TArgument.Poly);
             return new(in conversion, measure);
         }
     }
-}
 
-file static class Convenience
-{
-    public const Int32 NoRank = Int16.MaxValue;
-    public static Int32 ExponentOf(Rank rank) => rank switch {
-        Inverse => -1,
-        Zero => 0,
-        One => 1,
-        Two => 2,
-        Three => 3,
-        _ => NoRank
-    };
-    public static Measure? Pow<TLinear>(Int32 exp)
+    private static Measure? Pow<TLinear>(Int32 exp)
         where TLinear : IMeasure => exp switch {
             3 => Measure.Of<Power<Cubic, TLinear>>(),
             2 => Measure.Of<Power<Square, TLinear>>(),
@@ -368,3 +362,4 @@ file static class Convenience
             _ => null
         };
 }
+

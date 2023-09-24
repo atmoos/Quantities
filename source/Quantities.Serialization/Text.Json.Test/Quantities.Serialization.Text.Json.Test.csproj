@@ -21,5 +21,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Quantities\Quantities.csproj" />
     <ProjectReference Include="..\Text.Json\Quantities.Serialization.Text.Json.csproj" />
+    <ProjectReference Include="..\..\Quantities.Units\Quantities.Units.csproj" />
   </ItemGroup>
 </Project>

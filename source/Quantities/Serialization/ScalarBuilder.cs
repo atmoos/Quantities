@@ -3,9 +3,6 @@ using Quantities.Dimensions;
 using Quantities.Measures;
 using Quantities.Prefixes;
 using Quantities.Units;
-using Quantities.Units.Imperial;
-using Quantities.Units.NonStandard;
-using Quantities.Units.Si;
 
 using IDim = Quantities.Dimensions.IDimension;
 
@@ -19,7 +16,7 @@ internal static class ScalarBuilder
     private static readonly Dictionary<String, Type> siUnits = Scan(typeof(ISiUnit));
     private static readonly Dictionary<String, Type> metricUnits = Scan(typeof(IMetricUnit));
     private static readonly Dictionary<String, Type> imperialUnits = Scan(typeof(IImperialUnit));
-    private static readonly Dictionary<String, Type> nonStandardUnits = Scan(typeof(INoSystemUnit));
+    private static readonly Dictionary<String, Type> nonStandardUnits = Scan(typeof(INonStandardUnit));
     public static IBuilder Create(in QuantityModel model, in TypeVerification verification, IInject injector)
     {
         return Create(in verification, model.System, model.Prefix is null ? null : prefixes[model.Prefix], model.Unit)(injector);
@@ -43,8 +40,8 @@ internal static class ScalarBuilder
     private static Creator CreateMetricAlias<TPrefix, TMetric, TDim>() where TPrefix : IPrefix where TMetric : IMetricUnit, IDim, IAlias<TDim> where TDim : IDim, ILinear => i => Injector<TMetric, TDim>(i).Inject<Metric<TPrefix, TMetric>>();
     private static Creator CreateImperial<TImperial>() where TImperial : IImperialUnit, IDim => i => i.Inject<Imperial<TImperial>>();
     private static Creator CreateImperialAlias<TImperial, TDim>() where TImperial : IImperialUnit, IDim, IAlias<TDim> where TDim : IDim, ILinear => i => Injector<TImperial, TDim>(i).Inject<Imperial<TImperial>>();
-    private static Creator CreateNonStandard<TNonStandard>() where TNonStandard : INoSystemUnit, IDim => i => i.Inject<NonStandard<TNonStandard>>();
-    private static Creator CreateNonStandardAlias<TNonStandard, TDim>() where TNonStandard : INoSystemUnit, IDim, IAlias<TDim> where TDim : IDim, ILinear => i => Injector<TNonStandard, TDim>(i).Inject<NonStandard<TNonStandard>>();
+    private static Creator CreateNonStandard<TNonStandard>() where TNonStandard : INonStandardUnit, IDim => i => i.Inject<NonStandard<TNonStandard>>();
+    private static Creator CreateNonStandardAlias<TNonStandard, TDim>() where TNonStandard : INonStandardUnit, IDim, IAlias<TDim> where TDim : IDim, ILinear => i => Injector<TNonStandard, TDim>(i).Inject<NonStandard<TNonStandard>>();
 
     private static Creator GetMethod(String name, Type unit, Type? prefix = null)
     {

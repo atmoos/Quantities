@@ -1,8 +1,6 @@
 ﻿using Quantities.Dimensions;
 using Quantities.Prefixes;
-using Quantities.Units.Imperial;
-using Quantities.Units.NonStandard;
-using Quantities.Units.Si;
+using Quantities.Units;
 
 namespace Quantities.Factories;
 
@@ -35,7 +33,7 @@ public interface IImperialFactory<out TQuantity, in TDimension> : IFactory
 public interface INonStandardFactory<out TQuantity, in TDimension> : IFactory
     where TDimension : IDimension
 {
-    TQuantity NonStandard<TUnit>() where TUnit : INoSystemUnit, TDimension;
+    TQuantity NonStandard<TUnit>() where TUnit : INonStandardUnit, TDimension;
 }
 
 public interface IDefaultFactory<out TQuantity, in TDimension>

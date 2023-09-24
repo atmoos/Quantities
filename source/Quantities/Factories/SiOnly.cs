@@ -1,7 +1,7 @@
 ﻿using Quantities.Dimensions;
 using Quantities.Measures;
 using Quantities.Prefixes;
-using Quantities.Units.Si;
+using Quantities.Units;
 
 namespace Quantities.Factories;
 

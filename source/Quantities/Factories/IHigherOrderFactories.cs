@@ -1,9 +1,6 @@
 ﻿using Quantities.Dimensions;
 using Quantities.Prefixes;
 using Quantities.Units;
-using Quantities.Units.Imperial;
-using Quantities.Units.NonStandard;
-using Quantities.Units.Si;
 
 namespace Quantities.Factories;
 
@@ -26,5 +23,5 @@ public interface IHigherOrderFactory<out TQuantity, TPower, TLinear> : IFactory
         where TPrefix : IMetricPrefix
         where TUnit : IMetricUnit, TPower, IAlias<TLinear>;
     TQuantity Imperial<TUnit>() where TUnit : IImperialUnit, TPower, IAlias<TLinear>;
-    TQuantity NonStandard<TUnit>() where TUnit : INoSystemUnit, TPower, IAlias<TLinear>;
+    TQuantity NonStandard<TUnit>() where TUnit : INonStandardUnit, TPower, IAlias<TLinear>;
 }

@@ -1,9 +1,7 @@
 ﻿using Quantities.Dimensions;
 using Quantities.Measures;
 using Quantities.Prefixes;
-using Quantities.Units.Imperial;
-using Quantities.Units.NonStandard;
-using Quantities.Units.Si;
+using Quantities.Units;
 
 namespace Quantities.Factories;
 
@@ -24,5 +22,5 @@ public readonly struct Linear<TCreate, TQuantity, TDimension> : IDefaultFactory<
         where TPrefix : IMetricPrefix
         where TUnit : IMetricUnit, TDimension => TQuantity.Create(this.creator.Create<Metric<TPrefix, TUnit>>());
     public TQuantity Imperial<TUnit>() where TUnit : IImperialUnit, TDimension => TQuantity.Create(this.creator.Create<Imperial<TUnit>>());
-    public TQuantity NonStandard<TUnit>() where TUnit : INoSystemUnit, TDimension => TQuantity.Create(this.creator.Create<NonStandard<TUnit>>());
+    public TQuantity NonStandard<TUnit>() where TUnit : INonStandardUnit, TDimension => TQuantity.Create(this.creator.Create<NonStandard<TUnit>>());
 }

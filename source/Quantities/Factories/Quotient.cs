@@ -1,9 +1,7 @@
 ﻿using Quantities.Dimensions;
 using Quantities.Measures;
 using Quantities.Prefixes;
-using Quantities.Units.Imperial;
-using Quantities.Units.NonStandard;
-using Quantities.Units.Si;
+using Quantities.Units;
 using IDimension = Quantities.Dimensions.IDimension;
 
 namespace Quantities.Factories;
@@ -38,7 +36,7 @@ public readonly struct Quotient<TCreate, TQuantity, TQuotient, TNominator, TDeno
     public Denominator<TCreate, TQuantity, TDenominator> Metric<TPrefix, TUnit>()
         where TPrefix : IMetricPrefix
         where TUnit : IMetricUnit, TNominator => new(in this.creator, AllocationFree<QuotientInjector<TCreate, Metric<TPrefix, TUnit>>>.Item);
-    public Denominator<TCreate, TQuantity, TDenominator> NonStandard<TUnit>() where TUnit : INoSystemUnit, TNominator => new(in this.creator, AllocationFree<QuotientInjector<TCreate, NonStandard<TUnit>>>.Item);
+    public Denominator<TCreate, TQuantity, TDenominator> NonStandard<TUnit>() where TUnit : INonStandardUnit, TNominator => new(in this.creator, AllocationFree<QuotientInjector<TCreate, NonStandard<TUnit>>>.Item);
     public Denominator<TCreate, TQuantity, TDenominator> Si<TUnit>() where TUnit : ISiUnit, TNominator => new(in this.creator, AllocationFree<QuotientInjector<TCreate, Si<TUnit>>>.Item);
     public Denominator<TCreate, TQuantity, TDenominator> Si<TPrefix, TUnit>()
         where TPrefix : IMetricPrefix

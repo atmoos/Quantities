@@ -1,9 +1,7 @@
 ﻿using Quantities.Dimensions;
 using Quantities.Numerics;
 using Quantities.Prefixes;
-using Quantities.Units.Imperial;
-using Quantities.Units.NonStandard;
-using Quantities.Units.Si;
+using Quantities.Units;
 
 using static Quantities.Measures.Convenience;
 
@@ -99,7 +97,7 @@ internal readonly struct Imperial<TUnit> : IMeasure<TUnit>, ILinear
     public static void Write(IWriter writer) => serializer.Write(writer);
 }
 internal readonly struct NonStandard<TUnit> : IMeasure<TUnit>, ILinear
-    where TUnit : INoSystemUnit, ITransform, IRepresentable, IDimension
+    where TUnit : INonStandardUnit, ITransform, IRepresentable, IDimension
 {
     private static readonly Serializer<TUnit> serializer = new("any");
     public static Polynomial Poly { get; } = Polynomial.Of<TUnit>();

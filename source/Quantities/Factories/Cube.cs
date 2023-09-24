@@ -2,9 +2,6 @@
 using Quantities.Measures;
 using Quantities.Prefixes;
 using Quantities.Units;
-using Quantities.Units.Imperial;
-using Quantities.Units.NonStandard;
-using Quantities.Units.Si;
 
 namespace Quantities.Factories;
 
@@ -28,7 +25,7 @@ public readonly struct Cube<TCreate, TQuantity, TCubic, TLinear> : ICubicFactory
             => TQuantity.Create(Injector<TUnit>().Inject<Metric<TPrefix, TUnit>>(in this.creator));
     public TQuantity Imperial<TUnit>() where TUnit : IImperialUnit, TCubic, IAlias<TLinear>
         => TQuantity.Create(Injector<TUnit>().Inject<Imperial<TUnit>>(in this.creator));
-    public TQuantity NonStandard<TUnit>() where TUnit : INoSystemUnit, TCubic, IAlias<TLinear>
+    public TQuantity NonStandard<TUnit>() where TUnit : INonStandardUnit, TCubic, IAlias<TLinear>
         => TQuantity.Create(Injector<TUnit>().Inject<NonStandard<TUnit>>(in this.creator));
 
     private static IInject<TCreate> Injector<TUnit>()

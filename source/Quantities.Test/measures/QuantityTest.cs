@@ -1,5 +1,6 @@
 using Quantities.Dimensions;
 using Quantities.Measures;
+using Quantities.Units;
 
 namespace Quantities.Test.Measures;
 

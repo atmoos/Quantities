@@ -1,8 +1,6 @@
 using Quantities.Dimensions;
 using Quantities.Measures;
-using Quantities.Units.Imperial;
-using Quantities.Units.NonStandard;
-using Quantities.Units.Si;
+using Quantities.Units;
 
 namespace Quantities.Serialization;
 
@@ -21,6 +19,6 @@ internal sealed class AliasInjectorFactory<TLinear> : ISystems<TLinear, IInject>
         where TUnit : IImperialUnit, TLinear
             => new AliasInjector<Imperial<TUnit>>(this.injector);
     public IInject NonStandard<TUnit>()
-        where TUnit : INoSystemUnit, TLinear
+        where TUnit : INonStandardUnit, TLinear
             => new AliasInjector<NonStandard<TUnit>>(this.injector);
 }

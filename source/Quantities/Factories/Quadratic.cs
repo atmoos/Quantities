@@ -2,9 +2,6 @@
 using Quantities.Measures;
 using Quantities.Prefixes;
 using Quantities.Units;
-using Quantities.Units.Imperial;
-using Quantities.Units.NonStandard;
-using Quantities.Units.Si;
 
 namespace Quantities.Factories;
 
@@ -27,7 +24,7 @@ public readonly struct Quadratic<TCreate, TQuantity, TSquare, TLinear> : IQuadra
             => TQuantity.Create(Injector<TUnit>().Inject<Metric<TPrefix, TUnit>>(in this.creator));
     public TQuantity Imperial<TUnit>() where TUnit : IImperialUnit, TSquare, IAlias<TLinear>
         => TQuantity.Create(Injector<TUnit>().Inject<Imperial<TUnit>>(in this.creator));
-    public TQuantity NonStandard<TUnit>() where TUnit : INoSystemUnit, TSquare, IAlias<TLinear>
+    public TQuantity NonStandard<TUnit>() where TUnit : INonStandardUnit, TSquare, IAlias<TLinear>
         => TQuantity.Create(Injector<TUnit>().Inject<NonStandard<TUnit>>(in this.creator));
 
     private static IInject<TCreate> Injector<TUnit>()

@@ -1,9 +1,7 @@
 ﻿using Quantities.Dimensions;
 using Quantities.Measures;
 using Quantities.Prefixes;
-using Quantities.Units.Imperial;
-using Quantities.Units.NonStandard;
-using Quantities.Units.Si;
+using Quantities.Units;
 
 namespace Quantities.Factories;
 
@@ -29,5 +27,5 @@ public readonly struct Composite<TCreate, TQuantity, TDimension> : IDefaultFacto
         where TPrefix : IMetricPrefix
         where TUnit : IMetricUnit, TDimension => TQuantity.Create(this.injector.Inject<Metric<TPrefix, TUnit>>(in this.creator));
     public TQuantity Imperial<TUnit>() where TUnit : IImperialUnit, TDimension => TQuantity.Create(this.injector.Inject<Imperial<TUnit>>(in this.creator));
-    public TQuantity NonStandard<TUnit>() where TUnit : INoSystemUnit, TDimension => TQuantity.Create(this.injector.Inject<NonStandard<TUnit>>(in this.creator));
+    public TQuantity NonStandard<TUnit>() where TUnit : INonStandardUnit, TDimension => TQuantity.Create(this.injector.Inject<NonStandard<TUnit>>(in this.creator));
 }

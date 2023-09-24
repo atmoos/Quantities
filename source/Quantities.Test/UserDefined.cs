@@ -49,7 +49,7 @@ public class UserDefined
         public static Transformation ToSi(Transformation self) => 4d * self;
     }
 
-    private sealed class MyWhackWhackUnit : IUnit, INoSystemUnit, ILength
+    private sealed class MyWhackWhackUnit : IUnit, INonStandardUnit, ILength
     {
         public static String Representation => "Whack!";
         public static Transformation ToSi(Transformation self) => self / 2d;

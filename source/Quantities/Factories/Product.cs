@@ -1,9 +1,7 @@
 ﻿using Quantities.Dimensions;
 using Quantities.Measures;
 using Quantities.Prefixes;
-using Quantities.Units.Imperial;
-using Quantities.Units.NonStandard;
-using Quantities.Units.Si;
+using Quantities.Units;
 using IDimension = Quantities.Dimensions.IDimension;
 
 namespace Quantities.Factories;
@@ -38,7 +36,7 @@ public readonly struct Product<TCreate, TQuantity, TProduct, TLeftTerm, TRightTe
     public LeftTerm<TCreate, TQuantity, TRightTerm> Metric<TPrefix, TUnit>()
         where TPrefix : IMetricPrefix
         where TUnit : IMetricUnit, TLeftTerm => new(in this.creator, AllocationFree<ProductInjector<TCreate, Metric<TPrefix, TUnit>>>.Item);
-    public LeftTerm<TCreate, TQuantity, TRightTerm> NonStandard<TUnit>() where TUnit : INoSystemUnit, TLeftTerm => new(in this.creator, AllocationFree<ProductInjector<TCreate, NonStandard<TUnit>>>.Item);
+    public LeftTerm<TCreate, TQuantity, TRightTerm> NonStandard<TUnit>() where TUnit : INonStandardUnit, TLeftTerm => new(in this.creator, AllocationFree<ProductInjector<TCreate, NonStandard<TUnit>>>.Item);
     public LeftTerm<TCreate, TQuantity, TRightTerm> Si<TUnit>() where TUnit : ISiUnit, TLeftTerm => new(in this.creator, AllocationFree<ProductInjector<TCreate, Si<TUnit>>>.Item);
     public LeftTerm<TCreate, TQuantity, TRightTerm> Si<TPrefix, TUnit>()
         where TPrefix : IMetricPrefix

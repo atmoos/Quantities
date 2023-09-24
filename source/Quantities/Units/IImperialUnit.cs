@@ -1,3 +1,3 @@
-﻿namespace Quantities.Units.Imperial;
+﻿namespace Quantities.Units;
 
 public interface IImperialUnit : IUnit, ITransform { /* marker interface */ }

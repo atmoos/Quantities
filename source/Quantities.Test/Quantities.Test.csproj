@@ -20,5 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Quantities\Quantities.csproj" />
+    <ProjectReference Include="..\Quantities.Units\Quantities.Units.csproj" />
   </ItemGroup>
 </Project>

@@ -2,9 +2,6 @@
 using Quantities.Dimensions;
 using Quantities.Factories;
 using Quantities.Measures;
-using Quantities.Prefixes;
-using Quantities.Units.Si;
-using Quantities.Units.Si.Derived;
 
 namespace Quantities.Quantities;
 
@@ -22,7 +19,8 @@ public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectr
     public static SiOnly<Create, ElectricPotential, IElectricPotential> Of(in Double value) => new(new Create(in value));
     static ElectricPotential IFactory<ElectricPotential>.Create(in Quantity value) => new(in value);
     internal static ElectricPotential From(in ElectricCurrent current, in ElectricalResistance resistance) => new(current.Value * resistance.Value);
-    internal static ElectricPotential From(in Power power, in ElectricCurrent current) => new(power.Value * current.Value);
+    internal static ElectricPotential From(in Power power, in ElectricCurrent current) => new(power.Value / current.Value);
+
     public Boolean Equals(ElectricPotential other) => this.potential.Equals(other.potential);
     public String ToString(String? format, IFormatProvider? provider) => this.potential.ToString(format, provider);
     public override Boolean Equals(Object? obj) => obj is ElectricPotential potential && Equals(potential);

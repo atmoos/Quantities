@@ -1,4 +1,4 @@
-﻿namespace Quantities.Units.Si;
+﻿namespace Quantities.Units;
 
 /// <summary>
 /// Metric units are accepted by the SI system, but are themselves not considered to be

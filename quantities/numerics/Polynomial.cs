@@ -38,12 +38,12 @@ internal readonly record struct Polynomial : IEquatable<Polynomial>
         }
         var (n, d, o) = poly.Simplify();
         if (o != 0d) {
-            // Computing the new offset iteratively is orders of magnitude 
-            // less precise than this recursive implementation...
+            // Computing the new offset recursively is orders of magnitude 
+            // more precise than an iterative implementation...
             (_, _, o) = Power(new Polynomial(in n, in d, in o), exp);
         }
         // always using the "algebraic" inverses on the nominator
-        // and denominator, ensures identity [p*p⁻¹ = 𝟙] holds;
+        // and denominator, ensures identity [p*p⁻¹ = 𝟙] holds trivially;
         return new(Double.Pow(n, exp), Double.Pow(d, exp), in o);
 
         // There will rarely be large exponents. Hence, it suffices
@@ -62,7 +62,7 @@ internal readonly record struct Polynomial : IEquatable<Polynomial>
     public static Double operator *(Polynomial left, Double right)
         => Double.FusedMultiplyAdd(left.nominator, right, left.denominator * left.offset) / left.denominator;
 
-    // ToDo: Consider using vector multiplication here. Benchmark first!
+    // FYI: Vector multiplication leads to performance degradation. Not worth it here...
     public static Polynomial operator *(Polynomial left, Polynomial right)
         => new(left.nominator * right.nominator, left.denominator * right.denominator, left * right.offset);
 
@@ -78,7 +78,8 @@ internal readonly record struct Polynomial : IEquatable<Polynomial>
 
     public override String ToString()
     {
-        var (fraction, offset) = Split(in this.nominator, in this.denominator, in this.offset);
+        var (n, d, o) = Simplify();
+        var (fraction, offset) = Split(in n, in d, in o);
         return $"p(x) = {fraction}{offset}";
 
         static (String fraction, String offset) Split(in Double n, in Double d, in Double o)

@@ -29,7 +29,7 @@ internal readonly struct Quantity : IEquatable<Quantity>, IFormattable
     }
     public void Write(IWriter writer)
     {
-        writer.Write("value", this.value);
+        writer.Write(nameof(this.value), this.value);
         this.measure.Serialize(writer);
     }
     public Boolean Equals(Quantity other)

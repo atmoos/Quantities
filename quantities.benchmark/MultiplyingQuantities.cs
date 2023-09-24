@@ -59,11 +59,11 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
 
 | Method                | Mean      | Error     | StdDev    | Ratio | Allocated | Alloc Ratio |
 |---------------------- |----------:|----------:|----------:|------:|----------:|------------:|
-| Trivial               | 17.940 ns | 0.1072 ns | 0.1003 ns |  1.00 |         - |          NA |
-| MultiplySi            |  7.293 ns | 0.0572 ns | 0.0507 ns |  0.41 |         - |          NA |
-| MultiplyImperial      |  7.189 ns | 0.1748 ns | 0.2013 ns |  0.40 |         - |          NA |
-| MultiplyMixed         |  6.797 ns | 0.1697 ns | 0.1886 ns |  0.38 |         - |          NA |
-| MultiplyPureSi        |  6.753 ns | 0.0376 ns | 0.0352 ns |  0.38 |         - |          NA |
-| MultiplyPowerQuantity |  6.946 ns | 0.0771 ns | 0.0684 ns |  0.39 |         - |          NA |
-| MultiplyAliasQuantity |  7.026 ns | 0.0432 ns | 0.0361 ns |  0.39 |         - |          NA |
+| Trivial               | 17.806 ns | 0.1566 ns | 0.1465 ns |  1.00 |         - |          NA |
+| MultiplySi            |  7.392 ns | 0.0781 ns | 0.0731 ns |  0.42 |         - |          NA |
+| MultiplyImperial      |  7.812 ns | 0.0237 ns | 0.0222 ns |  0.44 |         - |          NA |
+| MultiplyMixed         |  6.851 ns | 0.0751 ns | 0.0703 ns |  0.38 |         - |          NA |
+| MultiplyPureSi        |  7.666 ns | 0.0279 ns | 0.0261 ns |  0.43 |         - |          NA |
+| MultiplyPowerQuantity |  6.848 ns | 0.1428 ns | 0.1336 ns |  0.38 |         - |          NA |
+| MultiplyAliasQuantity |  7.514 ns | 0.0375 ns | 0.0313 ns |  0.42 |         - |          NA |
 */

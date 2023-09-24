@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices;
-using Quantities.Numerics;
+﻿using Quantities.Numerics;
 
 using static System.Math;
 
@@ -256,6 +255,16 @@ public class PolynomialTest
         var actual = poly.ToString();
 
         Assert.Equal($"p(x) = {expected}", actual);
+    }
+
+    [Fact]
+    internal void ToStringCreatesSimplifiedRepresentation()
+    {
+        var poly = Poly(21, -14, 5);
+        var expected = "p(x) = -3*x/2 + 5";
+        var actual = poly.ToString();
+
+        Assert.Equal(expected, actual);
     }
 
     public static IEnumerable<Object[]> Polynomials()

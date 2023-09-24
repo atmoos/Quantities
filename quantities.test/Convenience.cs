@@ -68,11 +68,10 @@ public static class Convenience
     }
     public static void IsTrue(this Boolean condition, [CallerArgumentExpression(nameof(condition))] String test = "") => Assert.True(condition, test);
     public static void IsFalse(this Boolean condition, [CallerArgumentExpression(nameof(condition))] String test = "") => Assert.False(condition, test);
+
+    // construct polynomials such that they are not simplified upon construction.
     internal static Polynomial Poly(in Double nominator = 1, in Double denominator = 1, in Double offset = 0)
-    {
-        var value = new Transformation();
-        return Polynomial.Of(nominator * value / denominator + offset);
-    }
+        => Polynomial.Of(nominator * new Transformation() + offset) * Polynomial.Of(new Transformation() / denominator);
     private static void ReformatEqualMessage<T>(Action<T, T, Int32> assertion, T expected, T actual, Int32 precision)
         where T : IFormattable
     {

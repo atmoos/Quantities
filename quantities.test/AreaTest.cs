@@ -2,13 +2,9 @@
 using Quantities.Units.NonStandard.Area;
 using Quantities.Units.Si.Metric;
 
-using static Quantities.Test.Convenience;
-
 namespace Quantities.Test;
 public class AreaTest
 {
-    private const Double squareMileInSquareKilometres = 1.609344d * 1.609344d;
-
     [Fact]
     public void AddSquareMetres()
     {

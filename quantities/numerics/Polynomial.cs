@@ -1,5 +1,4 @@
 ﻿using System.Numerics;
-using static Quantities.Numerics.Algorithms;
 
 namespace Quantities.Numerics;
 
@@ -32,25 +31,38 @@ internal readonly record struct Polynomial : IEquatable<Polynomial>
         where TTransform : ITransform => Cache<TTransform>.Polynomial;
     public static Polynomial Of<TSecond, TFirst>()
         where TFirst : ITransform where TSecond : ITransform => Cache<TFirst, TSecond>.Polynomial;
-
-    // ToDo: Consider using dynamic programming here...
     public static Polynomial Pow(in Polynomial poly, Int32 exp)
     {
-        return Impl(in poly, exp).Simplify();
-        static Polynomial Impl(in Polynomial p, Int32 e) => e switch {
-            < 0 => One / Pow(in p, -e),
+        if (exp is 0 or 1) {
+            return exp == 0 ? One : poly;
+        }
+        var (n, d, o) = poly.Simplify();
+        if (o != 0d) {
+            // Computing the new offset iteratively is orders of magnitude 
+            // less precise than this recursive implementation...
+            (_, _, o) = Power(new Polynomial(in n, in d, in o), exp);
+        }
+        // always using the "algebraic" inverses on the nominator
+        // and denominator, ensures identity [p*p⁻¹ = 𝟙] holds;
+        return new(Double.Pow(n, exp), Double.Pow(d, exp), in o);
+
+        // There will rarely be large exponents. Hence, it suffices
+        // to implement the power function recursively.
+        static Polynomial Power(in Polynomial p, Int32 e) => e switch {
+            < 0 => One / Power(in p, -e),
             0 => One,
             1 => p,
             2 => p * p,
             3 => p * p * p,
             4 => (p * p) * (p * p),
-            _ => Impl(in p, e / 2) * Impl(in p, e - e / 2)
+            _ => Power(in p, e / 2) * Power(in p, e - e / 2)
         };
     }
 
     public static Double operator *(Polynomial left, Double right)
         => Double.FusedMultiplyAdd(left.nominator, right, left.denominator * left.offset) / left.denominator;
 
+    // ToDo: Consider using vector multiplication here. Benchmark first!
     public static Polynomial operator *(Polynomial left, Polynomial right)
         => new(left.nominator * right.nominator, left.denominator * right.denominator, left * right.offset);
 
@@ -59,6 +71,10 @@ internal readonly record struct Polynomial : IEquatable<Polynomial>
 
     public static Double operator /(Polynomial left, Double right)
         => left.denominator * (right - left.offset) / left.nominator;
+    internal void Deconstruct(out Double nominator, out Double denominator, out Double offset)
+    {
+        (nominator, denominator, offset) = (this.nominator, this.denominator, this.offset);
+    }
 
     public override String ToString()
     {

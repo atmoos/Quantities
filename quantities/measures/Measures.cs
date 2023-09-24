@@ -26,7 +26,7 @@ file interface ICompute
 internal readonly struct Identity : IMeasure, ILinear
 {
     private static readonly String name = nameof(Identity).ToLowerInvariant();
-    static Dim IMeasure.D => Unit.Identity;
+    static Dimension IMeasure.D => Unit.Identity;
     public static Polynomial Poly => Polynomial.One;
     public static String Representation => Unit.Identity.ToString();
     public static Result Divide<TMeasure>()
@@ -116,7 +116,7 @@ internal readonly struct Product<TLeft, TRight> : IMeasure
     where TRight : IMeasure
 {
     private const String zeroWidthNonJoiner = "\u200C"; // https://en.wikipedia.org/wiki/Zero-width_non-joiner
-    static Dim IMeasure.D { get; } = TLeft.D * TRight.D;
+    static Dimension IMeasure.D { get; } = TLeft.D * TRight.D;
     public static Polynomial Poly { get; } = TLeft.Poly * TRight.Poly;
     public static String Representation { get; } = $"{TLeft.Representation}{zeroWidthNonJoiner}{TRight.Representation}";
     public static Result Multiply<TMeasure>() where TMeasure : IMeasure => ProductOps<TLeft, TRight, TMeasure>.Product;
@@ -133,7 +133,7 @@ internal readonly struct Quotient<TNominator, TDenominator> : IMeasure
     where TNominator : IMeasure
     where TDenominator : IMeasure
 {
-    static Dim IMeasure.D { get; } = TNominator.D / TDenominator.D;
+    static Dimension IMeasure.D { get; } = TNominator.D / TDenominator.D;
     public static Polynomial Poly { get; } = TNominator.Poly / TDenominator.Poly;
     public static String Representation { get; } = $"{TNominator.Representation}/{TDenominator.Representation}";
     public static Result Multiply<TMeasure>() where TMeasure : IMeasure => QuotientOps<TNominator, TDenominator, TMeasure>.Product;
@@ -152,7 +152,7 @@ internal readonly struct Alias<TAlias, TLinear> : IMeasure
     where TAlias : IMeasure
     where TLinear : IMeasure, ILinear
 {
-    static Dim IMeasure.D { get; } = TAlias.D;
+    static Dimension IMeasure.D { get; } = TAlias.D;
     public static Polynomial Poly => TAlias.Poly;
     public static String Representation => TAlias.Representation;
     public static Result Divide<TMeasure>() where TMeasure : IMeasure => HigherOrderOps<TAlias, TLinear, TMeasure>.Quotient;
@@ -165,7 +165,7 @@ internal readonly struct Power<TDim, TLinear> : IMeasure
     where TLinear : IMeasure
 {
     private static readonly String dimension = typeof(TDim).Name.ToLowerInvariant();
-    static Dim IMeasure.D { get; } = TLinear.D.Pow(TDim.E);
+    static Dimension IMeasure.D { get; } = TLinear.D.Pow(TDim.E);
     public static Polynomial Poly { get; } = TLinear.Poly.Pow(TDim.E);
     public static String Representation { get; } = $"{TLinear.Representation}{TDim.Representation}";
     public static Result Multiply<TOtherMeasure>() where TOtherMeasure : IMeasure => HigherOrderOps<Power<TDim, TLinear>, TLinear, TOtherMeasure>.Product;
@@ -307,7 +307,7 @@ file sealed class HighOrder<THigher, TLinear> : ICompute
 {
     public static Result Multiply<TArgument>() where TArgument : IMeasure
     {
-        Dim target = THigher.D * TArgument.D;
+        Dimension target = THigher.D * TArgument.D;
         Measure? measure = Pow<TLinear>(target.E);
         if (measure is null) {
             return new(Polynomial.One, Measure.Of<Product<THigher, TArgument>>());
@@ -317,7 +317,7 @@ file sealed class HighOrder<THigher, TLinear> : ICompute
     }
     public static Result Divide<TArgument>() where TArgument : IMeasure
     {
-        Dim target = THigher.D / TArgument.D;
+        Dimension target = THigher.D / TArgument.D;
         Measure? measure = Pow<TLinear>(target.E);
         if (measure is null) {
             return new(Polynomial.One, Measure.Of<Quotient<THigher, TArgument>>());

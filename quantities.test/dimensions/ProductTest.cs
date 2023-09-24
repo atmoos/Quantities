@@ -4,7 +4,7 @@ namespace Quantities.Test.Dimensions;
 
 public class ProductTest
 {
-    private static readonly Dim someProduct = Dim<Length>.Per<Time>();
+    private static readonly Dimension someProduct = Dim<Length>.Per<Time>();
     [Fact]
     public void MultiplicativeDimensionsIsOfTypeProduct()
     {
@@ -242,7 +242,7 @@ public class ProductTest
     public void EnumerationResolvesProductMultiplicity()
     {
         IEnumerable<Scalar> expected = new[] { Dim<Current>.Value.Pow(2), Dim<Length>.Value.Pow(6), Dim<Temperature>.Value }.SelectMany(d => d).ToArray();
-        Dim product = (Dim<Current>.Value * Dim<Length>.Value.Pow(3)).Pow(2) * Dim<Temperature>.Value;
+        Dimension product = (Dim<Current>.Value * Dim<Length>.Value.Pow(3)).Pow(2) * Dim<Temperature>.Value;
 
         var actual = product.ToArray();
 

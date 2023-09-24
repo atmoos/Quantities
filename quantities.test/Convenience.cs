@@ -88,10 +88,10 @@ public static class Convenience
 internal static class Dim<TSelf>
     where TSelf : IDimension
 {
-    public static Dim Value => TSelf.D;
-    public static Dim Pow(Int32 n) => TSelf.D.Pow(n);
-    public static Dim Times<TOther>()
+    public static Dimension Value => TSelf.D;
+    public static Dimension Pow(Int32 n) => TSelf.D.Pow(n);
+    public static Dimension Times<TOther>()
         where TOther : IDimension => TSelf.D * TOther.D;
-    public static Dim Per<TOther>()
+    public static Dimension Per<TOther>()
         where TOther : IDimension => TSelf.D / TOther.D;
 }

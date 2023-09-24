@@ -47,7 +47,7 @@ file static class Quantity<TActual>
         Assert.Equal(1, TActual.D.E);
         Assert.Equal(name, TActual.D.ToString());
     }
-    public static void IsDerivedFrom(Dim expected)
+    public static void IsDerivedFrom(Dimension expected)
     {
         Is<IDerivedQuantity>();
         Assert.Equal(expected, TActual.D);

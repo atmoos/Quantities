@@ -3,10 +3,10 @@ using Quantities.Dimensions;
 
 namespace Quantities.Test.Dimensions;
 
-internal sealed class DimComparer : IEqualityComparer<Dim>
+internal sealed class DimComparer : IEqualityComparer<Dimension>
 {
-    public Boolean Equals(Dim? x, Dim? y) => x?.Equals(y) ?? y == null;
-    public Int32 GetHashCode([DisallowNull] Dim obj) => obj.GetHashCode();
+    public Boolean Equals(Dimension? x, Dimension? y) => x?.Equals(y) ?? y == null;
+    public Int32 GetHashCode([DisallowNull] Dimension obj) => obj.GetHashCode();
 }
 
 // These are alle "dummy" classes.

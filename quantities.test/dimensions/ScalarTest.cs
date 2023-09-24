@@ -181,7 +181,7 @@ public class ScalarTest
     [Fact]
     public void EnumeratesItselfOnly()
     {
-        Dim self = Dim<Time>.Value;
+        Dimension self = Dim<Time>.Value;
         IEnumerable<Scalar> actual = self;
         IEnumerable<Scalar> expected = new Scalar[] { (Scalar)self };
 

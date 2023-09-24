@@ -2,10 +2,10 @@
 
 public interface IDimension
 {
-    internal static abstract Dim D { get; }
+    internal static abstract Dimension D { get; }
 }
 public interface ILinear<TSelf> : ILinear, IDimension
     where TSelf : ILinear<TSelf>
 {
-    static Dim IDimension.D => Scalar.Of<TSelf>();
+    static Dimension IDimension.D => Scalar.Of<TSelf>();
 }

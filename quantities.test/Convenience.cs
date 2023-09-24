@@ -11,7 +11,6 @@ using static Quantities.Extensions;
 namespace Quantities.Test;
 public static class Convenience
 {
-    public const String WorkOnDimensionalityNeeded = "Work on dimensional transparency needed";
     private const Int32 fullPrecision = 16;
     public static Int32 FullPrecision => fullPrecision;
     public static Int32 MediumPrecision => fullPrecision - 1;
@@ -84,8 +83,6 @@ public static class Convenience
             throw new EqualException(expectedValue, actualValue, precision, precision + 1);
         }
     }
-    internal static Rank RankOf<TSelf, TOther>()
-        where TSelf : IDimension where TOther : IDimension => TSelf.RankOf<TOther>();
 }
 
 internal static class Dim<TSelf>

@@ -33,6 +33,6 @@ internal sealed class Ampere : IElectricCurrent { }
 internal sealed class Coulomb : IElectricCharge { }
 internal sealed class AmpereHour : IElectricCharge { }
 internal sealed class DoubleTime : IDoubleTime { }
-internal interface ICubicMass : ICubic<ICubicMass, IMass> { }
-internal interface IDoubleTime : IProduct<IDoubleTime, ITime, ITime> { }
-internal interface ISquareTemperature : ISquare<ISquareTemperature, ITemperature> { }
+internal interface ICubicMass : ICubic<IMass> { }
+internal interface IDoubleTime : IProduct<ITime, ITime> { }
+internal interface ISquareTemperature : ISquare<ITemperature> { }

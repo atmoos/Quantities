@@ -12,7 +12,7 @@ public sealed class PowerTest
     [Fact]
     public void MicroWattToString() => FormattingMatches(v => Power.Of(v).Si<Micro, Watt>(), "μW");
     [Fact]
-    public void VoltAmpereToString() => FormattingMatches(v => ElectricPotential.Of(v).Si<Volt>() * ElectricCurrent.Of(1).Si<Ampere>(), "W");
+    public void VoltAmpereToString() => FormattingMatches(v => ElectricPotential.Of(v).Si<Volt>() * ElectricCurrent.Of(1).Si<Ampere>(), Join("V", "A"));
     [Fact]
     public void PowerLawInBaseUnits()
     {
@@ -20,9 +20,9 @@ public sealed class PowerTest
         ElectricCurrent ampere = ElectricCurrent.Of(3).Si<Ampere>();
         Power expected = Power.Of(36).Si<Watt>();
 
-        Power power = volts * ampere;
+        Power actual = volts * ampere;
 
-        power.Matches(expected);
+        Assert.Equal(expected, actual);
     }
     [Fact]
     public void OhmsLawInPrefixedUnits()
@@ -31,9 +31,9 @@ public sealed class PowerTest
         ElectricCurrent ampere = ElectricCurrent.Of(300).Si<Milli, Ampere>();
         Power expected = Power.Of(21).Si<Kilo, Watt>();
 
-        Power power = ampere * volts;
+        Power actual = ampere * volts;
 
-        power.Matches(expected);
+        Assert.Equal(expected, actual);
     }
     [Fact]
     public void OhmsLawSquarePotentialPerResistance()
@@ -42,9 +42,9 @@ public sealed class PowerTest
         ElectricalResistance ohm = ElectricalResistance.Of(3).Si<Kilo, Ohm>();
         Power expected = Power.Of(120).Si<Watt>();
 
-        Power power = volts * (volts / ohm);
+        Power actual = volts * (volts / ohm);
 
-        power.Matches(expected);
+        Assert.Equal(expected, actual);
     }
     [Fact]
     public void OhmsLawSquareCurrentTimesResistance()
@@ -53,9 +53,9 @@ public sealed class PowerTest
         ElectricalResistance ohm = ElectricalResistance.Of(2).Si<Milli, Ohm>();
         Power expected = Power.Of(128).Si<Kilo, Watt>();
 
-        Power power = ohm * ampere * ampere;
+        Power actual = ohm * ampere * ampere;
 
-        power.Equals(expected);
+        Assert.Equal(expected, actual);
     }
 
     [Fact]
@@ -98,8 +98,8 @@ public sealed class PowerTest
     public void PowerFromEnergyDividedByTime()
     {
         Energy energy = Energy.Of(48).Si<Giga, Watt>().Times.Metric<Hour>();
-        Time time = Time.Of(200).Metric<Day>();
-        Power expected = Power.Of(10).Si<Mega, Watt>();
+        Time time = Time.Of(40).Metric<Day>();
+        Power expected = Power.Of(0.05).Si<Giga, Watt>();
 
         Power actual = energy / time;
 

@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 using Newtonsoft.Json;
-
+using Quantities.Dimensions;
 using static Newtonsoft.Json.JsonToken;
 
 namespace Quantities.Serialization.Newtonsoft;
@@ -28,7 +28,7 @@ file sealed class Writer : IWriter
 }
 
 internal sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
-    where TQuantity : struct, IQuantity<TQuantity>, Dimensions.IDimension, IFactory<TQuantity>
+    where TQuantity : struct, IQuantity<TQuantity>, IDimension, IFactory<TQuantity>
 {
     private static readonly String name = typeof(TQuantity).Name.ToLowerInvariant();
 

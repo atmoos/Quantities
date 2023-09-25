@@ -10,14 +10,14 @@ namespace Quantities.Factories;
 
 public interface IProductFactory<TProduct, TLeftTerm, TRightTerm> : IFactory
     where TProduct : IProduct<TLeftTerm, TRightTerm>, IDimension
-    where TLeftTerm : IDimension, ILinear
-    where TRightTerm : IDimension, ILinear
+    where TLeftTerm : IDimension
+    where TRightTerm : IDimension
 { /* marker interface */ }
 
 public readonly struct LeftTerm<TCreate, TQuantity, TRightTerm>
     where TCreate : struct, ICreate
     where TQuantity : IFactory<TQuantity>
-    where TRightTerm : IDimension, ILinear
+    where TRightTerm : IDimension
 {
     public Composite<TCreate, TQuantity, TRightTerm> Times { get; }
     internal LeftTerm(in TCreate creator, IInject<TCreate> inject) => this.Times = new(in creator, inject);
@@ -27,8 +27,8 @@ public readonly struct Product<TCreate, TQuantity, TProduct, TLeftTerm, TRightTe
     where TCreate : struct, ICreate
     where TQuantity : IFactory<TQuantity>, TProduct
     where TProduct : IProduct<TLeftTerm, TRightTerm>, IDimension
-    where TLeftTerm : IDimension, ILinear
-    where TRightTerm : IDimension, ILinear
+    where TLeftTerm : IDimension
+    where TRightTerm : IDimension
 {
     private readonly TCreate creator;
     public Linear<TCreate, TQuantity, TProduct> Linear => new(in this.creator);

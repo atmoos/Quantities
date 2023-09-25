@@ -23,16 +23,15 @@ public class SerializationComparisonBenchmark
 /*
 // * Summary *
 
-BenchmarkDotNet=v0.13.5, OS=arch 
+BenchmarkDotNet v0.13.8, Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK=7.0.107
-  [Host]     : .NET 7.0.7 (7.0.723.32201), X64 RyuJIT AVX2
-  DefaultJob : .NET 7.0.7 (7.0.723.32201), X64 RyuJIT AVX2
+.NET SDK 7.0.111
+  [Host]     : .NET 7.0.11 (7.0.1123.46301), X64 RyuJIT AVX2
+  DefaultJob : .NET 7.0.11 (7.0.1123.46301), X64 RyuJIT AVX2
 
 
-|     Method |     Mean |     Error |    StdDev | Ratio | RatioSD |   Gen0 | Allocated | Alloc Ratio |
-|----------- |---------:|----------:|----------:|------:|--------:|-------:|----------:|------------:|
-|   TextJson | 2.237 us | 0.0217 us | 0.0193 us |  1.00 |    0.00 | 0.1869 |     784 B |        1.00 |
-| Newtonsoft | 3.156 us | 0.0349 us | 0.0326 us |  1.41 |    0.02 | 0.9613 |    4024 B |        5.13 |
-
+| Method     | Mean     | Error     | StdDev    | Ratio | Gen0   | Allocated | Alloc Ratio |
+|----------- |---------:|----------:|----------:|------:|-------:|----------:|------------:|
+| TextJson   | 2.353 us | 0.0129 us | 0.0121 us |  1.00 | 0.1907 |     808 B |        1.00 |
+| Newtonsoft | 3.367 us | 0.0172 us | 0.0161 us |  1.43 | 0.9651 |    4048 B |        5.01 |
 */

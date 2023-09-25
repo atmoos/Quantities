@@ -1,6 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Quantities.Dimensions;
 using static System.Text.Json.JsonTokenType;
 
 namespace Quantities.Serialization.Text.Json;
@@ -16,7 +17,7 @@ file sealed class JsonWriter : IWriter
 }
 
 internal sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
-    where TQuantity : struct, IQuantity<TQuantity>, Dimensions.IDimension, IFactory<TQuantity>
+    where TQuantity : struct, IQuantity<TQuantity>, IDimension, IFactory<TQuantity>
 {
     private static readonly String name = typeof(TQuantity).Name.ToLowerInvariant();
     public override TQuantity Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)

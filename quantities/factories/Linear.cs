@@ -1,4 +1,5 @@
-﻿using Quantities.Measures;
+﻿using Quantities.Dimensions;
+using Quantities.Measures;
 using Quantities.Prefixes;
 using Quantities.Units.Imperial;
 using Quantities.Units.NonStandard;
@@ -10,7 +11,7 @@ namespace Quantities.Factories;
 public readonly struct Linear<TCreate, TQuantity, TDimension> : IDefaultFactory<TQuantity, TDimension>
     where TCreate : struct, ICreate
     where TQuantity : IFactory<TQuantity>, TDimension
-    where TDimension : Dimensions.IDimension
+    where TDimension : IDimension
 {
     private readonly TCreate creator;
     internal Linear(in TCreate creator) => this.creator = creator;

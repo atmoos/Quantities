@@ -1,5 +1,7 @@
 ﻿using System.Globalization;
 using System.Numerics;
+using System.Runtime.CompilerServices;
+using Quantities.Dimensions;
 using Quantities.Measures;
 using Quantities.Numerics;
 using Xunit.Sdk;
@@ -21,18 +23,13 @@ public static class Convenience
         ReformatEqualMessage((e, a, p) => PrecisionIsBounded(e, a, p), expected, actual, precision);
         Assert.True(actual.HasSameMeasure(in expected), $"Measure mismatch: {actual} != {expected}");
     }
-    public static void Matches<TQuantity>(this TQuantity actual, TQuantity expected)
-        where TQuantity : struct, IQuantity<TQuantity>, Dimensions.IDimension
+    public static void Matches<TQuantity>(this TQuantity actual, TQuantity expected, Int32 precision = fullPrecision)
+        where TQuantity : struct, IQuantity<TQuantity>, IDimension
     {
-        actual.Matches(expected, FullPrecision);
-    }
-    public static void Matches<TQuantity>(this TQuantity actual, TQuantity expected, Int32 precision)
-        where TQuantity : struct, IQuantity<TQuantity>, Dimensions.IDimension
-    {
-        ReformatEqualMessage((e, a, p) => a.Equals(e, p), expected, actual, precision);
+        ReformatEqualMessage((e, a, p) => a.Equal(e, p), expected, actual, precision);
         Assert.True(actual.Value.HasSameMeasure(expected.Value), $"Measure mismatch: {actual} != {expected}");
     }
-    public static void Equals<T>(this T actual, T expected, Int32 precision)
+    public static void Equal<T>(this T actual, T expected, Int32 precision = fullPrecision)
     where T : IDivisionOperators<T, T, Double>
     {
         var relativeEquality = actual / expected;
@@ -68,12 +65,12 @@ public static class Convenience
         String expected = $"{value.ToString(format, formatProvider)} {unit}";
         Assert.Equal(expected, actual);
     }
-    internal static Polynomial Poly(in Double nominator = 1, in Double denominator = 1, in Double offset = 0)
-    {
-        var value = new Transformation();
-        return Polynomial.Of(nominator * value / denominator + offset);
-    }
+    public static void IsTrue(this Boolean condition, [CallerArgumentExpression(nameof(condition))] String test = "") => Assert.True(condition, test);
+    public static void IsFalse(this Boolean condition, [CallerArgumentExpression(nameof(condition))] String test = "") => Assert.False(condition, test);
 
+    // construct polynomials such that they are not simplified upon construction.
+    internal static Polynomial Poly(in Double nominator = 1, in Double denominator = 1, in Double offset = 0)
+        => Polynomial.Of(nominator * new Transformation() + offset) * Polynomial.Of(new Transformation() / denominator);
     private static void ReformatEqualMessage<T>(Action<T, T, Int32> assertion, T expected, T actual, Int32 precision)
         where T : IFormattable
     {
@@ -86,4 +83,15 @@ public static class Convenience
             throw new EqualException(expectedValue, actualValue, precision, precision + 1);
         }
     }
+}
+
+internal static class Dim<TSelf>
+    where TSelf : IDimension
+{
+    public static Dimension Value => TSelf.D;
+    public static Dimension Pow(Int32 n) => TSelf.D.Pow(n);
+    public static Dimension Times<TOther>()
+        where TOther : IDimension => TSelf.D * TOther.D;
+    public static Dimension Per<TOther>()
+        where TOther : IDimension => TSelf.D / TOther.D;
 }

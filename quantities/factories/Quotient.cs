@@ -10,14 +10,14 @@ namespace Quantities.Factories;
 
 public interface IQuotientFactory<TQuotient, TNominator, TDenominator> : IFactory
     where TQuotient : IQuotient<TNominator, TDenominator>, IDimension
-    where TNominator : IDimension, ILinear
-    where TDenominator : IDimension, ILinear
+    where TNominator : IDimension
+    where TDenominator : IDimension
 { /* marker interface */ }
 
 public readonly struct Denominator<TCreate, TQuantity, TDenominator>
     where TCreate : struct, ICreate
     where TQuantity : IFactory<TQuantity>
-    where TDenominator : IDimension, ILinear
+    where TDenominator : IDimension
 {
     public Composite<TCreate, TQuantity, TDenominator> Per { get; }
     internal Denominator(in TCreate creator, IInject<TCreate> inject) => this.Per = new(in creator, inject);
@@ -27,8 +27,8 @@ public readonly struct Quotient<TCreate, TQuantity, TQuotient, TNominator, TDeno
     where TCreate : struct, ICreate
     where TQuantity : IFactory<TQuantity>, TQuotient
     where TQuotient : IQuotient<TNominator, TDenominator>, IDimension
-    where TNominator : IDimension, ILinear
-    where TDenominator : IDimension, ILinear
+    where TNominator : IDimension
+    where TDenominator : IDimension
 {
     private readonly TCreate creator;
     public Linear<TCreate, TQuantity, TQuotient> Linear => new(in this.creator);

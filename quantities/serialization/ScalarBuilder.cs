@@ -1,10 +1,13 @@
 ﻿using System.Reflection;
+using Quantities.Dimensions;
 using Quantities.Measures;
 using Quantities.Prefixes;
 using Quantities.Units;
 using Quantities.Units.Imperial;
 using Quantities.Units.NonStandard;
 using Quantities.Units.Si;
+
+using IDim = Quantities.Dimensions.IDimension;
 
 namespace Quantities.Serialization;
 
@@ -30,18 +33,18 @@ internal static class ScalarBuilder
         };
     }
 
-    private static Creator CreateSi<TSi>() where TSi : ISiUnit => i => i.Inject<Si<TSi>>();
-    private static Creator CreateSiAlias<TSi, TDim>() where TSi : ISiUnit, IInjectUnit<TDim> where TDim : Dimensions.IDimension => i => i.Inject<Si<TSi>, Alias<TSi, TDim>>();
-    private static Creator CreateSi<TPrefix, TSi>() where TPrefix : IPrefix where TSi : ISiUnit => i => i.Inject<Si<TPrefix, TSi>>();
-    private static Creator CreateSiAlias<TPrefix, TSi, TDim>() where TPrefix : IPrefix where TSi : ISiUnit, IInjectUnit<TDim> where TDim : Dimensions.IDimension => i => i.Inject<Si<TPrefix, TSi>, Alias<TPrefix, TSi, TDim>>();
-    private static Creator CreateMetric<TMetric>() where TMetric : IMetricUnit => i => i.Inject<Metric<TMetric>>();
-    private static Creator CreateMetricAlias<TMetric, TDim>() where TMetric : IMetricUnit, IInjectUnit<TDim> where TDim : Dimensions.IDimension => i => i.Inject<Metric<TMetric>, Alias<TMetric, TDim>>();
-    private static Creator CreateMetric<TPrefix, TMetric>() where TPrefix : IPrefix where TMetric : IMetricUnit => i => i.Inject<Metric<TPrefix, TMetric>>();
-    private static Creator CreateMetricAlias<TPrefix, TMetric, TDim>() where TPrefix : IPrefix where TMetric : IMetricUnit, IInjectUnit<TDim> where TDim : Dimensions.IDimension => i => i.Inject<Metric<TPrefix, TMetric>, Alias<TPrefix, TMetric, TDim>>();
-    private static Creator CreateImperial<TImperial>() where TImperial : IImperialUnit => i => i.Inject<Imperial<TImperial>>();
-    private static Creator CreateImperialAlias<TImperial, TDim>() where TImperial : IImperialUnit, IInjectUnit<TDim> where TDim : Dimensions.IDimension => i => i.Inject<Imperial<TImperial>, Alias<TImperial, TDim>>();
-    private static Creator CreateNonStandard<TNonStandard>() where TNonStandard : INoSystemUnit => i => i.Inject<NonStandard<TNonStandard>>();
-    private static Creator CreateNonStandardAlias<TNonStandard, TDim>() where TNonStandard : INoSystemUnit, IInjectUnit<TDim> where TDim : Dimensions.IDimension => i => i.Inject<NonStandard<TNonStandard>, Alias<TNonStandard, TDim>>();
+    private static Creator CreateSi<TSi>() where TSi : ISiUnit, IDim => i => i.Inject<Si<TSi>>();
+    private static Creator CreateSiAlias<TSi, TDim>() where TSi : ISiUnit, IDim, IAlias<TDim> where TDim : IDim, ILinear => i => Injector<TSi, TDim>(i).Inject<Si<TSi>>();
+    private static Creator CreateSi<TPrefix, TSi>() where TPrefix : IPrefix where TSi : ISiUnit, IDim => i => i.Inject<Si<TPrefix, TSi>>();
+    private static Creator CreateSiAlias<TPrefix, TSi, TDim>() where TPrefix : IPrefix where TSi : ISiUnit, IDim, IAlias<TDim> where TDim : IDim, ILinear => i => Injector<TSi, TDim>(i).Inject<Si<TPrefix, TSi>>();
+    private static Creator CreateMetric<TMetric>() where TMetric : IMetricUnit, IDim => i => i.Inject<Metric<TMetric>>();
+    private static Creator CreateMetricAlias<TMetric, TDim>() where TMetric : IMetricUnit, IDim, IAlias<TDim> where TDim : IDim, ILinear => i => Injector<TMetric, TDim>(i).Inject<Metric<TMetric>>();
+    private static Creator CreateMetric<TPrefix, TMetric>() where TPrefix : IPrefix where TMetric : IMetricUnit, IDim => i => i.Inject<Metric<TPrefix, TMetric>>();
+    private static Creator CreateMetricAlias<TPrefix, TMetric, TDim>() where TPrefix : IPrefix where TMetric : IMetricUnit, IDim, IAlias<TDim> where TDim : IDim, ILinear => i => Injector<TMetric, TDim>(i).Inject<Metric<TPrefix, TMetric>>();
+    private static Creator CreateImperial<TImperial>() where TImperial : IImperialUnit, IDim => i => i.Inject<Imperial<TImperial>>();
+    private static Creator CreateImperialAlias<TImperial, TDim>() where TImperial : IImperialUnit, IDim, IAlias<TDim> where TDim : IDim, ILinear => i => Injector<TImperial, TDim>(i).Inject<Imperial<TImperial>>();
+    private static Creator CreateNonStandard<TNonStandard>() where TNonStandard : INoSystemUnit, IDim => i => i.Inject<NonStandard<TNonStandard>>();
+    private static Creator CreateNonStandardAlias<TNonStandard, TDim>() where TNonStandard : INoSystemUnit, IDim, IAlias<TDim> where TDim : IDim, ILinear => i => Injector<TNonStandard, TDim>(i).Inject<NonStandard<TNonStandard>>();
 
     private static Creator GetMethod(String name, Type unit, Type? prefix = null)
     {
@@ -64,7 +67,7 @@ internal static class ScalarBuilder
 
         static List<Type> GetUnitTypeArgs(Type unit)
         {
-            var aliasOf = unit.InnerTypes(typeof(IInjectUnit<>));
+            var aliasOf = unit.InnerTypes(typeof(IAlias<>));
             return aliasOf.Length == 0 ? new List<Type> { unit } : new List<Type> { unit, aliasOf[0] };
         }
     }
@@ -88,4 +91,6 @@ internal static class ScalarBuilder
         }
         return types;
     }
+    private static IInject Injector<TUnit, TDim>(IInject injector)
+        where TDim : IDim, ILinear where TUnit : IAlias<TDim> => TUnit.Inject(new AliasInjectorFactory<TDim>(injector));
 }

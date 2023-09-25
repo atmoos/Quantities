@@ -3,7 +3,6 @@ using Quantities.Dimensions;
 using Quantities.Factories;
 using Quantities.Measures;
 using Quantities.Prefixes;
-using Quantities.Quantities.Roots;
 using Quantities.Units.Si;
 using Quantities.Units.Si.Derived;
 
@@ -15,7 +14,6 @@ public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectr
     , IDivisionOperators<ElectricPotential, ElectricCurrent, ElectricalResistance>
     , IDivisionOperators<ElectricPotential, ElectricalResistance, ElectricCurrent>
 {
-    private static readonly IRoot root = new SiRoot<Volt>();
     private readonly Quantity potential;
     internal Quantity Value => this.potential;
     Quantity IQuantity<ElectricPotential>.Value => this.potential;
@@ -23,37 +21,27 @@ public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectr
     private ElectricPotential(in Quantity value) => this.potential = value;
     public static SiOnly<Create, ElectricPotential, IElectricPotential> Of(in Double value) => new(new Create(in value));
     static ElectricPotential IFactory<ElectricPotential>.Create(in Quantity value) => new(in value);
-    internal static ElectricPotential From(in ElectricCurrent current, in ElectricalResistance resistance)
-    {
-        return new(MetricPrefix.ScaleThree(current.Value.SiMultiply(resistance.Value), root));
-    }
-    internal static ElectricPotential From(in Power power, in ElectricCurrent current)
-    {
-        Double siPower = power.To.Si<Watt>();
-        Double siCurrent = current.To.Si<Ampere>();
-        return new(MetricPrefix.ScaleThree(siPower / siCurrent, root));
-    }
-
+    internal static ElectricPotential From(in ElectricCurrent current, in ElectricalResistance resistance) => new(current.Value * resistance.Value);
+    internal static ElectricPotential From(in Power power, in ElectricCurrent current) => new(power.Value * current.Value);
     public Boolean Equals(ElectricPotential other) => this.potential.Equals(other.potential);
     public String ToString(String? format, IFormatProvider? provider) => this.potential.ToString(format, provider);
     public override Boolean Equals(Object? obj) => obj is ElectricPotential potential && Equals(potential);
     public override Int32 GetHashCode() => this.potential.GetHashCode();
     public override String ToString() => this.potential.ToString();
 
+    public static implicit operator Double(ElectricPotential potential) => potential.potential;
     public static Boolean operator ==(ElectricPotential left, ElectricPotential right) => left.Equals(right);
     public static Boolean operator !=(ElectricPotential left, ElectricPotential right) => !left.Equals(right);
-    public static implicit operator Double(ElectricPotential potential) => potential.potential;
     public static ElectricPotential operator +(ElectricPotential left, ElectricPotential right) => new(left.potential + right.potential);
     public static ElectricPotential operator -(ElectricPotential left, ElectricPotential right) => new(left.potential - right.potential);
     public static ElectricPotential operator *(Double scalar, ElectricPotential right) => new(scalar * right.potential);
     public static ElectricPotential operator *(ElectricPotential left, Double scalar) => new(scalar * left.potential);
     public static ElectricPotential operator /(ElectricPotential left, Double scalar) => new(left.potential / scalar);
-    public static Double operator /(ElectricPotential left, ElectricPotential right) => left.potential / right.potential;
+    public static Double operator /(ElectricPotential left, ElectricPotential right) => left.potential.Divide(in right.potential);
 
     #region Ohm's Law
     public static ElectricalResistance operator /(ElectricPotential left, ElectricCurrent right) => ElectricalResistance.From(in left, in right);
     public static ElectricCurrent operator /(ElectricPotential left, ElectricalResistance right) => ElectricCurrent.From(in left, in right);
-
     #endregion Ohm's Law
 
     public static Power operator *(ElectricPotential left, ElectricCurrent right) => Power.From(in left, in right);

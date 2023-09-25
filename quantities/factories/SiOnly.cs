@@ -8,7 +8,7 @@ namespace Quantities.Factories;
 public readonly struct SiOnly<TCreate, TQuantity, TDimension> : ISiFactory<TQuantity, TDimension>
     where TCreate : struct, ICreate
     where TQuantity : IFactory<TQuantity>
-    where TDimension : Dimensions.IDimension, ILinear
+    where TDimension : IDimension
 {
     private readonly TCreate creator;
     internal SiOnly(in TCreate creator) => this.creator = creator;

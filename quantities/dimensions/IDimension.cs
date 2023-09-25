@@ -1,15 +1,11 @@
 ﻿namespace Quantities.Dimensions;
 
-// ToDo: rethink the utility of these dimensions!
-public interface IDimension { /* marker interface */ }
-
-public interface ILinear { /* marker interface */ }
-
-public interface ISquare<out TDimension>
-where TDimension : IDimension
+public interface IDimension
 {
+    internal static abstract Dimension D { get; }
 }
-public interface ICubic<out TDimension>
-    where TDimension : IDimension
+public interface ILinear<TSelf> : ILinear, IDimension
+    where TSelf : ILinear<TSelf>
 {
+    static Dimension IDimension.D => Scalar.Of<TSelf>();
 }

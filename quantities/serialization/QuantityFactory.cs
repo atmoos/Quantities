@@ -19,7 +19,7 @@ public readonly struct QuantityFactory<TQuantity>
     private static readonly Type typeofQuantity = typeof(TQuantity);
     private static readonly ConcurrentDictionary<Int32, IBuilder> complexCache = new();
     private static readonly ConcurrentDictionary<QuantityModel, IBuilder> scalarCache = new();
-    private static readonly Type scalarVerification = typeof(TQuantity).MostDerivedOf<Dimensions.IDimension>();
+    private static readonly Type scalarVerification = typeof(TQuantity).MostDerivedOf(typeof(Dimensions.IDimension));
     private readonly IInject injector;
     private readonly Type[] verifications;
     public Int32 ExpectedModelCount => this.verifications.Length;

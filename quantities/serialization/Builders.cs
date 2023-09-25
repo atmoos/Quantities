@@ -7,10 +7,3 @@ internal sealed class Builder<TMeasure> : IBuilder
 {
     public Quantity Build(in Double value) => Quantity.Of<TMeasure>(in value);
 }
-
-internal sealed class AliasedBuilder<TMeasure, TAlias> : IBuilder
-    where TMeasure : IMeasure
-    where TAlias : IInjector
-{
-    public Quantity Build(in Double value) => Quantity.Of<TMeasure, TAlias>(in value);
-}

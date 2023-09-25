@@ -6,8 +6,8 @@ namespace Quantities;
 
 public interface ISystems<in TConstraint, out TResult>
 {
-    public TResult Si<TInjectedUnit>() where TInjectedUnit : ISiUnit, TConstraint;
-    public TResult Metric<TInjectedUnit>() where TInjectedUnit : IMetricUnit, TConstraint;
-    public TResult Imperial<TInjectedUnit>() where TInjectedUnit : IImperialUnit, TConstraint;
-    public TResult NonStandard<TInjectedUnit>() where TInjectedUnit : INoSystemUnit, TConstraint;
+    public TResult Si<TUnit>() where TUnit : ISiUnit, TConstraint;
+    public TResult Metric<TUnit>() where TUnit : IMetricUnit, TConstraint;
+    public TResult Imperial<TUnit>() where TUnit : IImperialUnit, TConstraint;
+    public TResult NonStandard<TUnit>() where TUnit : INoSystemUnit, TConstraint;
 }

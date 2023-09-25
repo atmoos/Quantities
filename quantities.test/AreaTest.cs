@@ -5,8 +5,6 @@ using Quantities.Units.Si.Metric;
 namespace Quantities.Test;
 public class AreaTest
 {
-    private const Double squareMileInSquareKilometres = 1.609344d * 1.609344d;
-
     [Fact]
     public void AddSquareMetres()
     {
@@ -61,7 +59,7 @@ public class AreaTest
 
         Length actual = area / length;
 
-        actual.Matches(expected, MediumPrecision);
+        actual.Matches(expected);
     }
     [Fact]
     public void PureArealDimensionDividedByLength()
@@ -118,6 +116,18 @@ public class AreaTest
     }
 
     [Fact]
+    public void AreTimesMeterIsCubicMetre()
+    {
+        Area area = Area.Of(1).Metric<Are>();
+        Length length = Length.Of(10).Si<Metre>();
+        Volume expected = Volume.Of(10 * 10 * 10).Cubic.Si<Metre>();
+
+        Volume actual = area * length;
+
+        actual.Matches(expected);
+    }
+
+    [Fact]
     public void AreToSiDefinition()
     {
         Area are = Area.Of(1).Metric<Are>();
@@ -164,17 +174,6 @@ public class AreaTest
         Area expected = Area.Of(40).Imperial<Perch>();
 
         Area actual = rood.To.Imperial<Perch>();
-
-        actual.Matches(expected);
-    }
-    [Fact]
-    public void AreTimesMeterIsCubicMetre()
-    {
-        Area area = Area.Of(1).Metric<Are>();
-        Length length = Length.Of(10).Si<Metre>();
-        Volume expected = Volume.Of(10 * 10 * 10).Cubic.Si<Metre>();
-
-        Volume actual = area * length;
 
         actual.Matches(expected);
     }

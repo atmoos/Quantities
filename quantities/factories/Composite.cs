@@ -10,7 +10,7 @@ namespace Quantities.Factories;
 public readonly struct Composite<TCreate, TQuantity, TDimension> : IDefaultFactory<TQuantity, TDimension>
     where TCreate : struct, ICreate
     where TQuantity : IFactory<TQuantity>
-    where TDimension : Dimensions.IDimension, ILinear
+    where TDimension : IDimension
 {
     private readonly TCreate creator;
     private readonly IInject<TCreate> injector;

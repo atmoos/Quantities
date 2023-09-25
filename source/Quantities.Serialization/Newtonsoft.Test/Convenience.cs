@@ -1,9 +1,10 @@
 ﻿using Newtonsoft.Json;
+using Quantities.Units.Si.Derived;
 
 namespace Quantities.Serialization.Newtonsoft.Test;
 public static class Convenience
 {
-    private static readonly JsonSerializerSettings options = new JsonSerializerSettings().EnableQuantities();
+    private static readonly JsonSerializerSettings options = new JsonSerializerSettings().EnableQuantities(typeof(Gram).Assembly);
 
     public static T SupportsSerialization<T>(this T value)
         where T : IEquatable<T>

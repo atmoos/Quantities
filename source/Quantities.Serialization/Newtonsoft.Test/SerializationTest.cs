@@ -13,7 +13,7 @@ namespace Quantities.Serialization.Newtonsoft.Test;
 
 public class SerializationTest
 {
-    private static readonly JsonSerializerSettings options = new JsonSerializerSettings { Formatting = Formatting.Indented }.EnableQuantities();
+    private static readonly JsonSerializerSettings options = new JsonSerializerSettings { Formatting = Formatting.Indented }.EnableQuantities(typeof(Gram).Assembly);
 
     [Fact]
     public void FalseUnitsCannotBeInjectedViaSerialization()

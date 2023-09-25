@@ -20,6 +20,8 @@ internal sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
     where TQuantity : struct, IQuantity<TQuantity>, IDimension, IFactory<TQuantity>
 {
     private static readonly String name = typeof(TQuantity).Name.ToLowerInvariant();
+    private readonly UnitRepository repository;
+    public QuantityConverter(UnitRepository repository) => this.repository = repository;
     public override TQuantity Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         var initialDepth = reader.CurrentDepth;
@@ -29,7 +31,7 @@ internal sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
         }
         Double value = reader.ReadNumber();
         String system = reader.ReadNameOf(PropertyName);
-        QuantityFactory<TQuantity> factory = QuantityFactory<TQuantity>.Create(system);
+        QuantityFactory<TQuantity> factory = QuantityFactory<TQuantity>.Create(system, this.repository);
         if (factory.ExpectedModelCount == 1) {
             if (!factory.IsScalarQuantity) {
                 reader.MoveNext(StartObject);

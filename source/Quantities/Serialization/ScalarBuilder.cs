@@ -1,31 +1,25 @@
-﻿using System.Reflection;
-using Quantities.Dimensions;
+﻿using Quantities.Dimensions;
 using Quantities.Measures;
 using Quantities.Prefixes;
 using Quantities.Units;
 
 using IDim = Quantities.Dimensions.IDimension;
+using static Quantities.Serialization.Reflection;
 
 namespace Quantities.Serialization;
 
 internal static class ScalarBuilder
 {
     private delegate IBuilder Creator(IInject injector);
-    private static readonly MethodInfo getRepresentation = GetGenericMethod(nameof(GetRepresentation), 1);
-    private static readonly Dictionary<String, Type> prefixes = Scan(typeof(IPrefix));
-    private static readonly Dictionary<String, Type> siUnits = Scan(typeof(ISiUnit));
-    private static readonly Dictionary<String, Type> metricUnits = Scan(typeof(IMetricUnit));
-    private static readonly Dictionary<String, Type> imperialUnits = Scan(typeof(IImperialUnit));
-    private static readonly Dictionary<String, Type> nonStandardUnits = Scan(typeof(INonStandardUnit));
-    public static IBuilder Create(in QuantityModel model, in TypeVerification verification, IInject injector)
+    public static IBuilder Create(in QuantityModel model, in UnitRepository repo, in TypeVerification verification, IInject injector)
     {
-        return Create(in verification, model.System, model.Prefix is null ? null : prefixes[model.Prefix], model.Unit)(injector);
+        return Create(in repo, in verification, model.System, model.Prefix is null ? null : repo.Prefix(model.Prefix), model.Unit)(injector);
 
-        static Creator Create(in TypeVerification verification, String system, Type? prefix, String unit) => system switch {
-            "si" => GetMethod(nameof(CreateSi), verification.Verify(siUnits[unit]), prefix),
-            "metric" => GetMethod(nameof(CreateMetric), verification.Verify(metricUnits[unit]), prefix),
-            "imperial" => GetMethod(nameof(CreateImperial), verification.Verify(imperialUnits[unit]), prefix),
-            "any" => GetMethod(nameof(CreateNonStandard), verification.Verify(nonStandardUnits[unit]), prefix),
+        static Creator Create(in UnitRepository repo, in TypeVerification verification, String system, Type? prefix, String unit) => system switch {
+            "si" => GetMethod(nameof(CreateSi), verification.Verify(repo.Si(unit)), prefix),
+            "metric" => GetMethod(nameof(CreateMetric), verification.Verify(repo.Metric(unit)), prefix),
+            "imperial" => GetMethod(nameof(CreateImperial), verification.Verify(repo.Imperial(unit)), prefix),
+            "any" => GetMethod(nameof(CreateNonStandard), verification.Verify(repo.NonStandard(unit)), prefix),
             _ => throw new NotImplementedException($"{system} cannot be deserialized yet :-(")
         };
     }
@@ -42,7 +36,8 @@ internal static class ScalarBuilder
     private static Creator CreateImperialAlias<TImperial, TDim>() where TImperial : IImperialUnit, IDim, IAlias<TDim> where TDim : IDim, ILinear => i => Injector<TImperial, TDim>(i).Inject<Imperial<TImperial>>();
     private static Creator CreateNonStandard<TNonStandard>() where TNonStandard : INonStandardUnit, IDim => i => i.Inject<NonStandard<TNonStandard>>();
     private static Creator CreateNonStandardAlias<TNonStandard, TDim>() where TNonStandard : INonStandardUnit, IDim, IAlias<TDim> where TDim : IDim, ILinear => i => Injector<TNonStandard, TDim>(i).Inject<NonStandard<TNonStandard>>();
-
+    private static IInject Injector<TUnit, TDim>(IInject injector)
+        where TDim : IDim, ILinear where TUnit : IAlias<TDim> => TUnit.Inject(new AliasInjectorFactory<TDim>(injector));
     private static Creator GetMethod(String name, Type unit, Type? prefix = null)
     {
         var types = GetUnitTypeArgs(unit);
@@ -53,7 +48,7 @@ internal static class ScalarBuilder
             types.Insert(0, prefix);
         }
         var typeParameters = types.ToArray();
-        var genericMethod = GetGenericMethod(name, typeParameters.Length);
+        var genericMethod = GetGenericMethod(typeof(ScalarBuilder), name, typeParameters.Length);
         var createMethod = genericMethod.MakeGenericMethod(typeParameters) ?? throw GetException(name, "created", typeParameters);
         return createMethod.Invoke(null, null) as Creator ?? throw GetException(name, "invoked", typeParameters);
 
@@ -68,26 +63,4 @@ internal static class ScalarBuilder
             return aliasOf.Length == 0 ? new List<Type> { unit } : new List<Type> { unit, aliasOf[0] };
         }
     }
-    private static String GetRepresentation(Type type)
-    {
-        var representation = getRepresentation.MakeGenericMethod(type);
-        return (representation?.Invoke(null, null)) as String ?? throw new InvalidOperationException($"Failed getting representation for: {type.Name}");
-    }
-    private static String GetRepresentation<T>() where T : IRepresentable => T.Representation;
-    private static MethodInfo GetGenericMethod(String name, Int32 typeArgumentCount)
-    {
-        var genericMethod = typeof(ScalarBuilder).GetMethod(name, typeArgumentCount, BindingFlags.Static | BindingFlags.NonPublic, null, CallingConventions.Standard, Type.EmptyTypes, null);
-        return genericMethod ?? throw new InvalidOperationException($"Method '{name}' not found");
-    }
-    private static Dictionary<String, Type> Scan(Type interfaceType)
-    {
-        var types = new Dictionary<String, Type>();
-        foreach (var type in typeof(ScalarBuilder).Assembly.GetExportedTypes().Where(t => t.IsValueType && t.IsAssignableTo(interfaceType))) {
-            var representation = GetRepresentation(type);
-            types[representation] = type;
-        }
-        return types;
-    }
-    private static IInject Injector<TUnit, TDim>(IInject injector)
-        where TDim : IDim, ILinear where TUnit : IAlias<TDim> => TUnit.Inject(new AliasInjectorFactory<TDim>(injector));
 }

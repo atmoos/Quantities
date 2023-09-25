@@ -4,7 +4,7 @@ namespace Quantities.Serialization.Text.Json.Text;
 
 public static class Convenience
 {
-    private static readonly JsonSerializerOptions options = new JsonSerializerOptions().EnableQuantities();
+    private static readonly JsonSerializerOptions options = new JsonSerializerOptions().EnableQuantities(typeof(Gram).Assembly);
     public static T SupportsSerialization<T>(this T value)
         where T : IEquatable<T>
     {

@@ -13,6 +13,10 @@ on:
       - '.gitignore'
       - '.gitattributes'
 
+defaults:
+  run:
+    working-directory: ./source
+
 jobs:
   tests:
     strategy:

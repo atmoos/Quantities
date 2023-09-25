@@ -31,15 +31,14 @@ public class MeasureBenchmark
 
 BenchmarkDotNet v0.13.8, Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK 7.0.110
-  [Host]     : .NET 7.0.10 (7.0.1023.41001), X64 RyuJIT AVX2
-  DefaultJob : .NET 7.0.10 (7.0.1023.41001), X64 RyuJIT AVX2
+.NET SDK 7.0.111
+  [Host]     : .NET 7.0.11 (7.0.1123.46301), X64 RyuJIT AVX2
+  DefaultJob : .NET 7.0.11 (7.0.1123.46301), X64 RyuJIT AVX2
 
 
 | Method           | Mean      | Error     | StdDev    | Ratio | RatioSD |
 |----------------- |----------:|----------:|----------:|------:|--------:|
-| ProjectTrivial   | 0.6385 ns | 0.0173 ns | 0.0153 ns |  1.00 |    0.00 |
-| ProjectOntoSame  | 1.9520 ns | 0.0273 ns | 0.0242 ns |  3.06 |    0.08 |
-| ProjectOntoOther | 1.9835 ns | 0.0343 ns | 0.0321 ns |  3.11 |    0.09 |
-
+| ProjectTrivial   | 0.6425 ns | 0.0063 ns | 0.0056 ns |  1.00 |    0.00 |
+| ProjectOntoSame  | 1.9094 ns | 0.0128 ns | 0.0106 ns |  2.97 |    0.03 |
+| ProjectOntoOther | 2.3987 ns | 0.0180 ns | 0.0160 ns |  3.73 |    0.04 |
 */

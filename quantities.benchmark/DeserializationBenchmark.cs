@@ -48,11 +48,11 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
 
 | Method                 | Mean       | Error    | StdDev   | Ratio | RatioSD | Gen0   | Allocated | Alloc Ratio |
 |----------------------- |-----------:|---------:|---------:|------:|--------:|-------:|----------:|------------:|
-| SystemTriple           |   202.7 ns |  3.21 ns |  2.85 ns |  1.00 |    0.00 | 0.0095 |      40 B |        1.00 |
-| SystemQuantity         |   750.8 ns |  3.76 ns |  3.51 ns |  3.70 |    0.04 | 0.0381 |     160 B |        4.00 |
-| PrefixedQuantity       |   863.0 ns |  4.15 ns |  3.68 ns |  4.26 |    0.06 | 0.0534 |     224 B |        5.60 |
-| FractionalQuantity     | 2,248.0 ns |  9.45 ns |  8.38 ns | 11.09 |    0.17 | 0.1831 |     768 B |       19.20 |
-| MultiplicativeQuantity | 2,290.0 ns |  9.35 ns |  8.75 ns | 11.30 |    0.16 | 0.1831 |     768 B |       19.20 |
-| PowerQuantity          | 2,033.7 ns | 33.68 ns | 31.50 ns | 10.03 |    0.14 | 0.1488 |     624 B |       15.60 |
-| ScalarPowerQuantity    |   953.5 ns |  5.50 ns |  5.15 ns |  4.71 |    0.07 | 0.0553 |     232 B |        5.80 |
+| SystemTriple           |   189.4 ns |  1.23 ns |  1.15 ns |  1.00 |    0.00 | 0.0095 |      40 B |        1.00 |
+| SystemQuantity         |   705.0 ns |  3.35 ns |  2.97 ns |  3.72 |    0.03 | 0.0381 |     160 B |        4.00 |
+| PrefixedQuantity       |   862.0 ns | 12.43 ns | 11.63 ns |  4.55 |    0.05 | 0.0534 |     224 B |        5.60 |
+| FractionalQuantity     | 2,141.5 ns |  4.82 ns |  4.02 ns | 11.32 |    0.08 | 0.1793 |     752 B |       18.80 |
+| MultiplicativeQuantity | 2,213.5 ns |  4.98 ns |  4.15 ns | 11.70 |    0.07 | 0.1793 |     752 B |       18.80 |
+| PowerQuantity          | 1,930.0 ns | 37.47 ns | 35.05 ns | 10.19 |    0.17 | 0.1411 |     600 B |       15.00 |
+| ScalarPowerQuantity    |   966.8 ns |  9.33 ns |  8.72 ns |  5.11 |    0.05 | 0.0553 |     232 B |        5.80 |
 */

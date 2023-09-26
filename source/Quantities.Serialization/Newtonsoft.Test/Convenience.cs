@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using Quantities.Units.Si.Derived;
+using Quantities.Units.Si.Metric;
 
 namespace Quantities.Serialization.Newtonsoft.Test;
 public static class Convenience

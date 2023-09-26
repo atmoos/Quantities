@@ -1,9 +1,8 @@
 ﻿using System.Numerics;
 using Quantities.Dimensions;
 using Quantities.Factories;
-using Quantities.Measures;
 
-namespace Quantities.Quantities;
+namespace Quantities;
 
 public readonly struct Area : IQuantity<Area>, IArea
     , IFactory<IQuadraticFactory<Area, IArea, ILength>, Quadratic<To, Area, IArea, ILength>, Quadratic<Create, Area, IArea, ILength>>

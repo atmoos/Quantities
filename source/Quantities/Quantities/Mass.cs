@@ -1,8 +1,7 @@
 ﻿using Quantities.Dimensions;
 using Quantities.Factories;
-using Quantities.Measures;
 
-namespace Quantities.Quantities;
+namespace Quantities;
 
 public readonly struct Mass : IQuantity<Mass>, IMass
     , IFactory<IDefaultFactory<Mass, IMass>, Linear<To, Mass, IMass>, Linear<Create, Mass, IMass>>

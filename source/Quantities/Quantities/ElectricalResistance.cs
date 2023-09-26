@@ -1,9 +1,8 @@
 ﻿using System.Numerics;
 using Quantities.Dimensions;
 using Quantities.Factories;
-using Quantities.Measures;
 
-namespace Quantities.Quantities;
+namespace Quantities;
 
 public readonly struct ElectricalResistance : IQuantity<ElectricalResistance>, IElectricalResistance
     , IFactory<ISiFactory<ElectricalResistance, IElectricalResistance>, SiOnly<To, ElectricalResistance, IElectricalResistance>, SiOnly<Create, ElectricalResistance, IElectricalResistance>>

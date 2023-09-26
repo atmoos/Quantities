@@ -1,9 +1,8 @@
 ﻿using System.Numerics;
 using Quantities.Dimensions;
 using Quantities.Factories;
-using Quantities.Measures;
 
-namespace Quantities.Quantities;
+namespace Quantities;
 
 public readonly struct Length : IQuantity<Length>, ILength
     , IFactory<IDefaultFactory<Length, ILength>, Linear<To, Length, ILength>, Linear<Create, Length, ILength>>

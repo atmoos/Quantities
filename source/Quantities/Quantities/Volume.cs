@@ -1,9 +1,8 @@
 ﻿using System.Numerics;
 using Quantities.Dimensions;
 using Quantities.Factories;
-using Quantities.Measures;
 
-namespace Quantities.Quantities;
+namespace Quantities;
 
 public readonly struct Volume : IQuantity<Volume>, IVolume
     , IFactory<ICubicFactory<Volume, IVolume, ILength>, Cube<To, Volume, IVolume, ILength>, Cube<Create, Volume, IVolume, ILength>>

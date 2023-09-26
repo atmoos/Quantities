@@ -5,7 +5,7 @@ using Quantities.Measures;
 using Quantities.Prefixes;
 using Quantities.Units;
 
-namespace Quantities.Quantities;
+namespace Quantities;
 
 public readonly struct DataRate : IQuantity<DataRate>, IInformationRate
     , IFactory<IQuotientFactory<IInformationRate, IAmountOfInformation, ITime>, DataRate.Factory<To>, DataRate.Factory<Create>>

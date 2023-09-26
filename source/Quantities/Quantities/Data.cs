@@ -5,7 +5,7 @@ using Quantities.Measures;
 using Quantities.Prefixes;
 using Quantities.Units;
 
-namespace Quantities.Quantities;
+namespace Quantities;
 
 /* This one is complicated..
 - https://en.wikipedia.org/wiki/Units_of_information

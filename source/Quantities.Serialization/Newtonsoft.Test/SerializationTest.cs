@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Quantities.Dimensions;
 using Quantities.Prefixes;
-using Quantities.Quantities;
 using Quantities.Units.Imperial.Length;
 using Quantities.Units.Si;
 using Quantities.Units.Si.Derived;

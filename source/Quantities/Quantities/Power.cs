@@ -1,9 +1,8 @@
 ﻿using System.Numerics;
 using Quantities.Dimensions;
 using Quantities.Factories;
-using Quantities.Measures;
 
-namespace Quantities.Quantities;
+namespace Quantities;
 
 public readonly struct Power : IQuantity<Power>, IPower
     , IFactory<IDefaultFactory<Power, IPower>, Linear<To, Power, IPower>, Linear<Create, Power, IPower>>

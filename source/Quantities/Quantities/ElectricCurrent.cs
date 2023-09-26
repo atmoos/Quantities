@@ -1,9 +1,8 @@
 ﻿using System.Numerics;
 using Quantities.Dimensions;
 using Quantities.Factories;
-using Quantities.Measures;
 
-namespace Quantities.Quantities;
+namespace Quantities;
 
 public readonly struct ElectricCurrent : IQuantity<ElectricCurrent>, IElectricCurrent
     , IFactory<ISiFactory<ElectricCurrent, IElectricCurrent>, SiOnly<To, ElectricCurrent, IElectricCurrent>, SiOnly<Create, ElectricCurrent, IElectricCurrent>>

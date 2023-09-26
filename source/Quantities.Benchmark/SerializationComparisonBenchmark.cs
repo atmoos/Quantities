@@ -1,7 +1,6 @@
 ﻿using BenchmarkDotNet.Attributes;
 using Newtonsoft.Json;
 using Quantities.Prefixes;
-using Quantities.Quantities;
 using Quantities.Serialization.Newtonsoft;
 using Quantities.Units.Si;
 

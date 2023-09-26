@@ -1,9 +1,8 @@
 ﻿using System.Numerics;
 using Quantities.Dimensions;
 using Quantities.Factories;
-using Quantities.Measures;
 
-namespace Quantities.Quantities;
+namespace Quantities;
 
 public readonly struct Force : IQuantity<Force>, IForce
     , IFactory<ISiFactory<Force, IForce>, Linear<To, Force, IForce>, Linear<Create, Force, IForce>>

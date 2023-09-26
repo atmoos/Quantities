@@ -1,9 +1,8 @@
 ﻿using System.Numerics;
 using Quantities.Dimensions;
 using Quantities.Factories;
-using Quantities.Measures;
 
-namespace Quantities.Quantities;
+namespace Quantities;
 
 public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectricPotential
     , IFactory<ISiFactory<ElectricPotential, IElectricPotential>, SiOnly<To, ElectricPotential, IElectricPotential>, SiOnly<Create, ElectricPotential, IElectricPotential>>

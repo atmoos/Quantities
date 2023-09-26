@@ -1,7 +1,6 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Diagnosers;
 using Quantities.Prefixes;
-using Quantities.Quantities;
 using Quantities.Units.Imperial.Length;
 using Quantities.Units.Si;
 

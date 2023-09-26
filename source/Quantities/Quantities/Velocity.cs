@@ -1,9 +1,8 @@
 ﻿using System.Numerics;
 using Quantities.Dimensions;
 using Quantities.Factories;
-using Quantities.Measures;
 
-namespace Quantities.Quantities;
+namespace Quantities;
 
 public readonly struct Velocity : IQuantity<Velocity>, IVelocity
     , IFactory<IQuotientFactory<IVelocity, ILength, ITime>, Quotient<To, Velocity, IVelocity, ILength, ITime>, Quotient<Create, Velocity, IVelocity, ILength, ITime>>

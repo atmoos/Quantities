@@ -1,8 +1,7 @@
 ﻿using Quantities.Dimensions;
 using Quantities.Factories;
-using Quantities.Measures;
 
-namespace Quantities.Quantities;
+namespace Quantities;
 
 public readonly struct Temperature : IQuantity<Temperature>, ITemperature
     , IFactory<IDefaultFactory<Temperature, ITemperature>, Linear<To, Temperature, ITemperature>, Linear<Create, Temperature, ITemperature>>

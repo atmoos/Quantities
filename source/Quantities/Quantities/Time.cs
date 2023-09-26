@@ -1,9 +1,8 @@
 ﻿using System.Numerics;
 using Quantities.Dimensions;
 using Quantities.Factories;
-using Quantities.Measures;
 
-namespace Quantities.Quantities;
+namespace Quantities;
 
 public readonly struct Time : IQuantity<Time>, ITime
     , IFactory<IDefaultFactory<Time, ITime>, Linear<To, Time, ITime>, Linear<Create, Time, ITime>>

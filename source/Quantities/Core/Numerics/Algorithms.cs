@@ -1,6 +1,6 @@
 using System.Numerics;
 
-namespace Quantities.Numerics;
+namespace Quantities.Core.Numerics;
 
 internal static class Algorithms
 {

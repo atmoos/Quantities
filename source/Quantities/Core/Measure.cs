@@ -1,6 +1,7 @@
-﻿using Quantities.Numerics;
+﻿using Quantities.Core.Numerics;
+using Quantities.Core.Serialization;
 
-namespace Quantities.Measures;
+namespace Quantities.Core;
 
 internal abstract class Measure
 {

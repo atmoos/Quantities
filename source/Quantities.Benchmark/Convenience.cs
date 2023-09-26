@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 using Newtonsoft.Json;
-using Quantities.Numerics;
+using Quantities.Core.Numerics;
 using Quantities.Serialization.Text.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 

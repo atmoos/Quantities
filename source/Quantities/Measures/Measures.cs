@@ -1,5 +1,6 @@
-﻿using Quantities.Dimensions;
-using Quantities.Numerics;
+﻿using Quantities.Core.Numerics;
+using Quantities.Core.Serialization;
+using Quantities.Dimensions;
 using Quantities.Prefixes;
 using Quantities.Units;
 

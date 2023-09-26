@@ -1,6 +1,4 @@
-﻿using Quantities.Measures;
-
-namespace Quantities;
+﻿namespace Quantities.Core;
 
 public interface IFactory<out TResult>
 {

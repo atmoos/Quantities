@@ -1,7 +1,7 @@
 ﻿using Quantities.Measures;
 using Quantities.Units.Si.Metric;
 
-using static Quantities.Numerics.Polynomial;
+using static Quantities.Core.Numerics.Polynomial;
 
 namespace Quantities.Test.Measures;
 

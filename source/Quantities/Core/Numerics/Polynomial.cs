@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace Quantities.Numerics;
+namespace Quantities.Core.Numerics;
 
 internal readonly record struct Polynomial : IEquatable<Polynomial>
     , IEqualityOperators<Polynomial, Polynomial, Boolean>

@@ -1,8 +1,8 @@
 ﻿using System.Globalization;
 using System.Runtime.CompilerServices;
+using Quantities.Core.Numerics;
+using Quantities.Core.Serialization;
 using Quantities.Dimensions;
-using Quantities.Measures;
-using Quantities.Numerics;
 using Quantities.Prefixes;
 using Quantities.Units;
 

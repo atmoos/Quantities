@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using BenchmarkDotNet.Attributes;
-using Quantities.Numerics;
+using Quantities.Core.Numerics;
 
 namespace Quantities.Benchmark;
 

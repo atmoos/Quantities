@@ -1,6 +1,8 @@
 ﻿using System.Runtime.Serialization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Quantities.Core;
+using Quantities.Core.Serialization;
 using Quantities.Dimensions;
 using static System.Text.Json.JsonTokenType;
 

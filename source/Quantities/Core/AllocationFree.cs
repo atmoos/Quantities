@@ -1,4 +1,4 @@
-﻿namespace Quantities;
+﻿namespace Quantities.Core;
 
 internal static class AllocationFree<TItem>
     where TItem : class, new()

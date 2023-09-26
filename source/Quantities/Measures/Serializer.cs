@@ -1,4 +1,5 @@
-﻿using Quantities.Prefixes;
+﻿using Quantities.Core.Serialization;
+using Quantities.Prefixes;
 using Quantities.Units;
 
 namespace Quantities.Measures;

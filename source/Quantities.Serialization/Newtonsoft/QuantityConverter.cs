@@ -1,5 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using Quantities.Core;
+using Quantities.Core.Serialization;
 using Quantities.Dimensions;
 using static Newtonsoft.Json.JsonToken;
 

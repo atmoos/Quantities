@@ -1,9 +1,8 @@
 ﻿using System.Globalization;
 using System.Numerics;
 using System.Runtime.CompilerServices;
+using Quantities.Core.Numerics;
 using Quantities.Dimensions;
-using Quantities.Measures;
-using Quantities.Numerics;
 using Xunit.Sdk;
 
 using static Quantities.Extensions;

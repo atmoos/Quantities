@@ -1,4 +1,4 @@
-﻿namespace Quantities;
+﻿namespace Quantities.Core.Serialization;
 
 internal interface ISerialize
 {

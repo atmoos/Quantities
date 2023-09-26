@@ -1,7 +1,8 @@
 ﻿using System.Globalization;
 using System.Numerics;
+using Quantities.Core.Serialization;
 
-namespace Quantities.Measures;
+namespace Quantities.Core;
 
 internal readonly struct Quantity : IEquatable<Quantity>, IFormattable
     , IMeasureEquality<Quantity>

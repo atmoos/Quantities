@@ -1,4 +1,4 @@
-﻿namespace Quantities;
+﻿namespace Quantities.Core.Serialization;
 
 public interface IWriter
 {

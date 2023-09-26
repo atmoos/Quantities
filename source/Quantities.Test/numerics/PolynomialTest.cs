@@ -1,4 +1,4 @@
-﻿using Quantities.Numerics;
+﻿using Quantities.Core.Numerics;
 
 using static System.Math;
 

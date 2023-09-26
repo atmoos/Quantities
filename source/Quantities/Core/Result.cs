@@ -1,7 +1,7 @@
 using System.Numerics;
-using Quantities.Numerics;
+using Quantities.Core.Numerics;
 
-namespace Quantities.Measures;
+namespace Quantities.Core;
 
 internal sealed class Result
     : ICastOperators<Result, Measure>

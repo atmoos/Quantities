@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Numerics;
-using Quantities.Numerics;
+using Quantities.Core.Numerics;
 using static Quantities.Dimensions.Convenience;
 
 namespace Quantities.Dimensions;

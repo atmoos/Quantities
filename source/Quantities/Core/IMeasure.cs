@@ -1,7 +1,8 @@
 ﻿using Quantities.Dimensions;
-using Quantities.Numerics;
+using Quantities.Core.Numerics;
+using Quantities.Core.Serialization;
 
-namespace Quantities.Measures;
+namespace Quantities.Core;
 
 internal interface IMeasure : IRepresentable, ISerialize
 {

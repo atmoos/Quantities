@@ -1,7 +1,5 @@
 ﻿using Quantities.Dimensions;
-using Quantities.Core.Numerics;
 using Quantities.Units;
-using Quantities.Units.NonStandard;
 
 namespace Quantities.Test;
 

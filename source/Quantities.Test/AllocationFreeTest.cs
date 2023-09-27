@@ -1,4 +1,4 @@
-namespace Quantities.Test;
+﻿namespace Quantities.Test;
 
 public class AllocationFreeTest
 {

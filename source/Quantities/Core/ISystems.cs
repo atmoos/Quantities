@@ -1,4 +1,4 @@
-using Quantities.Units;
+﻿using Quantities.Units;
 
 namespace Quantities;
 

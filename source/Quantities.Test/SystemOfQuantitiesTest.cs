@@ -1,4 +1,4 @@
-using Quantities.Dimensions;
+﻿using Quantities.Dimensions;
 using static Quantities.Extensions;
 
 namespace Quantities.Test;

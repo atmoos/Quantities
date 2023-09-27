@@ -8,19 +8,19 @@ namespace Quantities.Benchmark.Numerics;
 
 public class PolynomialExponentiationBenchmark
 {
-  private static readonly (Double, Double, Double) trivial = (3d, 4d, -1d);
-  private static readonly Double argument = Math.PI / Math.E;
-  private static readonly Polynomial polynomial = Poly(nominator: Math.E, denominator: Math.PI, offset: Math.Tau);
+    private static readonly (Double, Double, Double) trivial = (3d, 4d, -1d);
+    private static readonly Double argument = Math.PI / Math.E;
+    private static readonly Polynomial polynomial = Poly(nominator: Math.E, denominator: Math.PI, offset: Math.Tau);
 
 
-  [Params(-5, -2, 0, 2, 5)]
-  public Int32 Exponent { get; set; }
+    [Params(-5, -2, 0, 2, 5)]
+    public Int32 Exponent { get; set; }
 
 
-  [Benchmark(Baseline = true)]
-  public Double TrivialExp() => Poly(PolyExp(in trivial, Exponent), argument);
-  [Benchmark]
-  public Double PolynomialExp() => polynomial.Pow(Exponent) * argument;
+    [Benchmark(Baseline = true)]
+    public Double TrivialExp() => Poly(PolyExp(in trivial, Exponent), argument);
+    [Benchmark]
+    public Double PolynomialExp() => polynomial.Pow(Exponent) * argument;
 }
 
 /*

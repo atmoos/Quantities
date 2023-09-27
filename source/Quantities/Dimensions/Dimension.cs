@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Numerics;
 using Quantities.Core.Numerics;
 using static Quantities.Dimensions.Convenience;

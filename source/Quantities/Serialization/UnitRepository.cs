@@ -1,4 +1,4 @@
-using System.Reflection;
+﻿using System.Reflection;
 using Quantities.Prefixes;
 using Quantities.Units;
 using static Quantities.Serialization.Reflection;

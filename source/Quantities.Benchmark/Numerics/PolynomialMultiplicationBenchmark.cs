@@ -8,20 +8,20 @@ namespace Quantities.Benchmark.Numerics;
 
 public class PolynomialMultiplicationBenchmark
 {
-  private static readonly (Double, Double, Double) trivialA = (3d, 4d, -1d);
-  private static readonly (Double, Double, Double) trivialB = (-2d, 3d, 1d);
-  private static readonly Double argument = Math.PI / Math.E;
-  private static readonly Polynomial left = Poly(nominator: Math.E, denominator: Math.PI, offset: Math.Tau);
-  private static readonly Polynomial right = Poly(nominator: Math.Tau, denominator: Math.E, offset: Math.PI);
+    private static readonly (Double, Double, Double) trivialA = (3d, 4d, -1d);
+    private static readonly (Double, Double, Double) trivialB = (-2d, 3d, 1d);
+    private static readonly Double argument = Math.PI / Math.E;
+    private static readonly Polynomial left = Poly(nominator: Math.E, denominator: Math.PI, offset: Math.Tau);
+    private static readonly Polynomial right = Poly(nominator: Math.Tau, denominator: Math.E, offset: Math.PI);
 
-  [Benchmark(Baseline = true)]
-  public Double TrivialImplementation() => Poly(in trivialB, Poly(in trivialA, in argument));
-  [Benchmark]
-  public Double PolynomialMultiplication() => left * right * argument;
-  [Benchmark]
-  public Double PolynomialDivision() => left / right * argument;
-  [Benchmark]
-  public Double PolynomialPowerOfTwo() => left.Pow(2) * argument;
+    [Benchmark(Baseline = true)]
+    public Double TrivialImplementation() => Poly(in trivialB, Poly(in trivialA, in argument));
+    [Benchmark]
+    public Double PolynomialMultiplication() => left * right * argument;
+    [Benchmark]
+    public Double PolynomialDivision() => left / right * argument;
+    [Benchmark]
+    public Double PolynomialPowerOfTwo() => left.Pow(2) * argument;
 }
 
 /*

@@ -1,4 +1,4 @@
-using Quantities.Core.Numerics;
+﻿using Quantities.Core.Numerics;
 
 namespace Quantities.Test.Measures;
 

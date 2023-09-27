@@ -1,4 +1,4 @@
-namespace Quantities.Dimensions;
+﻿namespace Quantities.Dimensions;
 
 internal static class Tools
 {

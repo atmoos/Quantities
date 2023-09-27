@@ -1,4 +1,4 @@
-using BenchmarkDotNet.Attributes;
+﻿using BenchmarkDotNet.Attributes;
 using Quantities.Core;
 using Quantities.Measures;
 using Quantities.Prefixes;

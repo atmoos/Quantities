@@ -1,6 +1,6 @@
-﻿using Quantities.Dimensions;
-using Quantities.Core.Numerics;
+﻿using Quantities.Core.Numerics;
 using Quantities.Core.Serialization;
+using Quantities.Dimensions;
 
 namespace Quantities.Core;
 

@@ -1,4 +1,4 @@
-using System.Numerics;
+﻿using System.Numerics;
 using Quantities.Core.Numerics;
 
 namespace Quantities.Core;

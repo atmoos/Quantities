@@ -69,7 +69,7 @@ internal readonly struct Quantity : IEquatable<Quantity>, IFormattable
         Result quotient = left.measure.Divide(right.measure);
         return new(quotient * left.value / right.value, quotient);
     }
-    public static Quantity operator -(Quantity value) => new Quantity(-value.value, in value.measure);
+    public static Quantity operator -(Quantity value) => new(-value.value, in value.measure);
     public static Quantity operator *(Double scalar, Quantity right) => new(scalar * right.value, in right.measure);
     public static Quantity operator *(Quantity left, Double scalar) => new(scalar * left.value, in left.measure);
     public static Quantity operator /(Quantity left, Double scalar) => new(left.value / scalar, in left.measure);

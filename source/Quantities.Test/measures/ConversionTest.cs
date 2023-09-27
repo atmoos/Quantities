@@ -1,5 +1,5 @@
-﻿using Quantities.Measures;
-using Quantities.Core.Numerics;
+﻿using Quantities.Core.Numerics;
+using Quantities.Measures;
 using Quantities.Units.Imperial.Temperature;
 using Quantities.Units.Si.Derived;
 using Quantities.Units.Si.Metric;

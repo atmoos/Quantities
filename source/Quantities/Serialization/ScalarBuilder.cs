@@ -2,9 +2,8 @@
 using Quantities.Measures;
 using Quantities.Prefixes;
 using Quantities.Units;
-
-using IDim = Quantities.Dimensions.IDimension;
 using static Quantities.Serialization.Reflection;
+using IDim = Quantities.Dimensions.IDimension;
 
 namespace Quantities.Serialization;
 

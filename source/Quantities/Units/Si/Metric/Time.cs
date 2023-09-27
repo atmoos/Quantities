@@ -1,4 +1,4 @@
-using Quantities.Dimensions;
+﻿using Quantities.Dimensions;
 
 namespace Quantities.Units.Si.Metric;
 

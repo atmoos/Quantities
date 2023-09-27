@@ -1,9 +1,7 @@
-﻿using Quantities.Measures;
-
-namespace Quantities.Factories;
+﻿namespace Quantities.Factories;
 
 public interface ICreate
 {
     internal Quantity Create<TMeasure>()
-      where TMeasure : IMeasure;
+        where TMeasure : IMeasure;
 }

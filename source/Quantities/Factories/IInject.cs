@@ -1,6 +1,4 @@
-﻿using Quantities.Measures;
-
-namespace Quantities.Factories;
+﻿namespace Quantities.Factories;
 
 internal interface IInject<TCreate>
     where TCreate : struct, ICreate

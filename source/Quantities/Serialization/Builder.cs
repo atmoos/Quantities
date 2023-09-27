@@ -1,6 +1,4 @@
-﻿using Quantities.Measures;
-
-namespace Quantities.Serialization;
+﻿namespace Quantities.Serialization;
 
 internal sealed class Builder<TMeasure> : IBuilder
     where TMeasure : IMeasure

@@ -1,6 +1,4 @@
-﻿using Quantities.Measures;
-
-namespace Quantities.Factories;
+﻿namespace Quantities.Factories;
 
 public readonly struct To : ICreate
 {

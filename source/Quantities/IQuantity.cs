@@ -1,6 +1,5 @@
 ﻿using System.Numerics;
 using Quantities.Dimensions;
-using Quantities.Measures;
 
 namespace Quantities;
 

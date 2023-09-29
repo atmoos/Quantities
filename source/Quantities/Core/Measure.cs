@@ -3,11 +3,12 @@ using Quantities.Core.Serialization;
 
 namespace Quantities.Core;
 
-internal abstract class Measure
+internal abstract class Measure : IInjector
 {
     private readonly Polynomial conversion;
     private Measure(in Polynomial conversion) => this.conversion = conversion;
     public Polynomial Project(Measure other) => this.conversion / other.conversion;
+    public abstract TResult Inject<TResult>(IInject<TResult> inject);
     public abstract Result Multiply(Measure other);
     protected abstract Result Multiply<TMeasure>() where TMeasure : IMeasure;
     public abstract Result Divide(Measure other);
@@ -25,5 +26,6 @@ internal abstract class Measure
         public override String ToString() => TMeasure.Representation;
         protected override Result Multiply<TOtherMeasure>() => TOtherMeasure.Multiply<TMeasure>();
         protected override Result Divide<TOtherMeasure>() => TOtherMeasure.Divide<TMeasure>();
+        public override TResult Inject<TResult>(IInject<TResult> inject) => inject.Inject<TMeasure>();
     }
 }

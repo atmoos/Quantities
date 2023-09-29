@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using Quantities.Creation;
 using Quantities.Dimensions;
 using Quantities.Factories;
 
@@ -15,6 +16,7 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity
     public Quotient<To, Velocity, IVelocity, ILength, ITime> To => new(new To(in this.velocity));
     internal Velocity(in Quantity value) => this.velocity = value;
     public static Quotient<Create, Velocity, IVelocity, ILength, ITime> Of(in Double value) => new(new Create(in value));
+    public static Velocity Of<TLength, TTime>(in Double value, in Quotient<TLength, TTime> velocity) => new(velocity.Create(in value));
     static Velocity IFactory<Velocity>.Create(in Quantity value) => new(in value);
     internal static Velocity From(in Power power, in Force force) => new(power.Value / force.Value);
     internal static Velocity From(in Length length, in Time time) => new(length.Value / time.Value);

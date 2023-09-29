@@ -1,6 +1,8 @@
 ﻿using System.Numerics;
+using Quantities.Creation;
 using Quantities.Dimensions;
 using Quantities.Factories;
+using Quantities.Units;
 
 namespace Quantities;
 
@@ -15,6 +17,7 @@ public readonly struct Energy : IQuantity<Energy>, IEnergy
     public Product<To, Energy, IEnergy, IPower, ITime> To => new(new To(in this.energy));
     private Energy(in Quantity value) => this.energy = value;
     public static Product<Create, Energy, IEnergy, IPower, ITime> Of(in Double value) => new(new Create(in value));
+    public static Energy Of<TPower, TTime>(in Double value, in Product<TPower, TTime> power) where TPower : IPower, IUnit where TTime : ITime => new(power.Create(in value));
     static Energy IFactory<Energy>.Create(in Quantity value) => new(in value);
     internal static Energy From(in Power power, in Time time) => new(power.Value * time.Value);
     public Boolean Equals(Energy other) => this.energy.Equals(other.energy);

@@ -1,6 +1,8 @@
 ﻿using System.Numerics;
+using Quantities.Creation;
 using Quantities.Dimensions;
 using Quantities.Factories;
+using Quantities.Units;
 
 namespace Quantities;
 
@@ -15,6 +17,7 @@ public readonly struct Area : IQuantity<Area>, IArea
     public Quadratic<To, Area, IArea, ILength> To => new(new To(in this.area));
     private Area(in Quantity value) => this.area = value;
     public static Quadratic<Create, Area, IArea, ILength> Of(in Double value) => new(new Create(in value));
+    public static Area Of<TLength>(in Double value, in Square<TLength> square) where TLength : ILength, IUnit => new(square.Create(in value));
     static Area IFactory<Area>.Create(in Quantity value) => new(in value);
     internal static Area From(in Length left, in Length right) => new(left.Value * right.Value);
     internal static Area From(in Volume volume, in Length length) => new(volume.Value / length.Value);

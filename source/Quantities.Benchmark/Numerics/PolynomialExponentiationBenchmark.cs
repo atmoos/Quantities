@@ -35,18 +35,18 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
 
 | Method        | Exponent | Mean      | Error     | StdDev    | Ratio | RatioSD |
 |-------------- |--------- |----------:|----------:|----------:|------:|--------:|
-| TrivialExp    | -5       | 29.656 ns | 0.4883 ns | 0.4568 ns |  1.00 |    0.00 |
-| PolynomialExp | -5       | 76.709 ns | 0.5676 ns | 0.5309 ns |  2.59 |    0.05 |
+| TrivialExp    | -5       | 28.576 ns | 0.3791 ns | 0.3546 ns |  1.00 |    0.00 |
+| PolynomialExp | -5       | 46.449 ns | 0.3829 ns | 0.3394 ns |  1.63 |    0.02 |
 |               |          |           |           |           |       |         |
-| TrivialExp    | -2       | 16.293 ns | 0.0348 ns | 0.0272 ns |  1.00 |    0.00 |
-| PolynomialExp | -2       | 58.795 ns | 0.1202 ns | 0.0938 ns |  3.61 |    0.01 |
+| TrivialExp    | -2       | 15.524 ns | 0.0562 ns | 0.0526 ns |  1.00 |    0.00 |
+| PolynomialExp | -2       | 30.011 ns | 0.2166 ns | 0.1920 ns |  1.93 |    0.01 |
 |               |          |           |           |           |       |         |
-| TrivialExp    | 0        | 12.298 ns | 0.1006 ns | 0.0941 ns |  1.00 |    0.00 |
-| PolynomialExp | 0        |  3.775 ns | 0.0143 ns | 0.0127 ns |  0.31 |    0.00 |
+| TrivialExp    | 0        | 12.006 ns | 0.0947 ns | 0.0790 ns |  1.00 |    0.00 |
+| PolynomialExp | 0        |  4.608 ns | 0.0791 ns | 0.0740 ns |  0.38 |    0.01 |
 |               |          |           |           |           |       |         |
-| TrivialExp    | 2        | 16.106 ns | 0.0319 ns | 0.0299 ns |  1.00 |    0.00 |
-| PolynomialExp | 2        | 54.181 ns | 0.2202 ns | 0.1719 ns |  3.36 |    0.01 |
+| TrivialExp    | 2        | 16.041 ns | 0.1313 ns | 0.1228 ns |  1.00 |    0.00 |
+| PolynomialExp | 2        | 21.607 ns | 0.0726 ns | 0.0643 ns |  1.35 |    0.01 |
 |               |          |           |           |           |       |         |
-| TrivialExp    | 5        | 30.530 ns | 0.1160 ns | 0.1085 ns |  1.00 |    0.00 |
-| PolynomialExp | 5        | 65.918 ns | 0.5967 ns | 0.5582 ns |  2.16 |    0.02 |
+| TrivialExp    | 5        | 29.740 ns | 0.1348 ns | 0.1261 ns |  1.00 |    0.00 |
+| PolynomialExp | 5        | 37.967 ns | 0.7917 ns | 0.7405 ns |  1.28 |    0.03 |
 */

@@ -210,10 +210,16 @@ public class PolynomialTest
         Assert.Equal(1d, d);
         Assert.Equal(0, o);
     }
-    [Fact]
-    public void PowerTimesInversePowerIsIdentityForPolynomialsWithOffset()
+
+    [Theory]
+    [InlineData(0, 16)]
+    [InlineData(1, 15)]
+    [InlineData(3, 14)]
+    [InlineData(4, 15)]
+    [InlineData(5, 15)]
+    [InlineData(7, 14)]
+    public void PowerTimesInversePowerIsIdentityForPolynomialsWithOffset(Int32 exp, Int32 accuracy)
     {
-        const Int32 exp = 7;
         const Int32 offset = 8;
         var nominator = 13d;
         var denominator = 2 * 7d;
@@ -228,7 +234,7 @@ public class PolynomialTest
 
         Assert.Equal(1d, n);
         Assert.Equal(1d, d);
-        PrecisionIsBounded(0, o, 14);
+        PrecisionIsBounded(0, o, accuracy);
     }
 
     [Theory]

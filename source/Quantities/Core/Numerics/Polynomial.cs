@@ -4,12 +4,14 @@ namespace Quantities.Core.Numerics;
 
 internal readonly record struct Polynomial : IEquatable<Polynomial>
     , IEqualityOperators<Polynomial, Polynomial, Boolean>
+    , IMultiplicativeIdentity<Polynomial, Polynomial>
     , IMultiplyOperators<Polynomial, Double, Double>
     , IMultiplyOperators<Polynomial, Polynomial, Polynomial>
     , IDivisionOperators<Polynomial, Polynomial, Polynomial>
     , IDivisionOperators<Polynomial, Double, Double>
 {
     public static Polynomial One { get; } = new();
+    static Polynomial IMultiplicativeIdentity<Polynomial, Polynomial>.MultiplicativeIdentity => One;
     private readonly Double nominator, denominator, offset;
     public Polynomial() => (this.nominator, this.denominator, this.offset) = (1, 1, 0);
     private Polynomial(in Double nominator, in Double denominator, in Double offset)
@@ -38,25 +40,14 @@ internal readonly record struct Polynomial : IEquatable<Polynomial>
         }
         var (n, d, o) = poly.Simplify();
         if (o != 0d) {
-            // Computing the new offset recursively is orders of magnitude 
-            // more precise than an iterative implementation...
-            (_, _, o) = Power(new Polynomial(in n, in d, in o), exp);
+            // Computing the new offset recursively is orders of
+            // magnitude more precise than an iterative implementation...
+            var simplified = new Polynomial(in n, in d, in o);
+            (_, _, o) = Algorithms.Pow(in simplified, exp);
         }
         // always using the "algebraic" inverses on the nominator
         // and denominator, ensures identity [p*p⁻¹ = 𝟙] holds trivially;
-        return new(Double.Pow(n, exp), Double.Pow(d, exp), in o);
-
-        // There will rarely be large exponents. Hence, it suffices
-        // to implement the power function recursively.
-        static Polynomial Power(in Polynomial p, Int32 e) => e switch {
-            < 0 => One / Power(in p, -e),
-            0 => One,
-            1 => p,
-            2 => p * p,
-            3 => p * p * p,
-            4 => (p * p) * (p * p),
-            _ => Power(in p, e / 2) * Power(in p, e - e / 2)
-        };
+        return new(Algorithms.Pow(in n, exp), Algorithms.Pow(in d, exp), in o);
     }
 
     public static Double operator *(Polynomial left, Double right)

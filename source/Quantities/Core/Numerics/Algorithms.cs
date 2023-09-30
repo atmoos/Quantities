@@ -21,4 +21,21 @@ internal static class Algorithms
         }
         return (n, d);
     }
+
+    // See: https://en.wikipedia.org/wiki/Exponentiation_by_squaring#Recursive_version
+    public static T Pow<T>(in T value, Int32 exponent)
+        where T : IMultiplicativeIdentity<T, T>, IMultiplyOperators<T, T, T>, IDivisionOperators<T, T, T>
+    {
+        return exponent >= 0 ? Power(in value, exponent) : T.MultiplicativeIdentity / Power(in value, -exponent);
+        static T Power(in T value, Int32 n) => n switch {
+            0 => T.MultiplicativeIdentity,
+            1 => value,
+            2 => value * value,
+            3 => value * value * value,
+            _ => (n & 1) switch { // is the rightmost bit zero or one?
+                0 => Power(value * value, n >> 1), // right shift to divide exponent by 2
+                _ => value * Power(value * value, n >> 1)
+            }
+        };
+    }
 }

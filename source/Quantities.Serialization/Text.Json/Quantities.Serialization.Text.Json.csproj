@@ -1,11 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../../Quantities.pack.xml"/>
+
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
-    <RootNamespace>Quantities.Serialization.Text.Json</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <RootNamespace>Quantities.Serialization.Text.Json</RootNamespace>
+    <PackageId>Atmoos.Quantities.Serialization.Text.Json</PackageId>
+    <PackageTags>unit-serialization, quantities-serialization, serialization</PackageTags>
+    <Description></Description>
   </PropertyGroup>
+  
   <ItemGroup>
     <ProjectReference Include="..\..\Quantities\Quantities.csproj" />
   </ItemGroup>
+
 </Project>

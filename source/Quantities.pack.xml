@@ -1,0 +1,20 @@
+<Project>
+<!-- Packaging info common to all projects within the quantities project -->
+
+  <PropertyGroup>
+    <Version>0.1.0</Version>
+    <Copyright>Thomas Kägi</Copyright>
+    <PackageProjectUrl>https://github.com/atmoos/Quantities</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/atmoos/Quantities</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>units, quantities, measures, measurements, unitsofmeasure, units-of-measure, units-of-measurement, conversion, unit-conversion, units-measures-converter</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReleaseNotes>First version</PackageReleaseNotes>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="readme.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>
+
+</Project>

@@ -1,10 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../Quantities.pack.xml"/>
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
-    <RootNamespace>Quantities.Units</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <RootNamespace>Quantities.Units</RootNamespace>
+    <PackageId>Atmoos.Quantities.Units</PackageId>
+    <Description></Description>
   </PropertyGroup>
 
   <ItemGroup>

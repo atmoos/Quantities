@@ -13,13 +13,14 @@ internal static class Algorithms
         return Impl(T.Abs(big), T.Abs(small));
         static T Impl(T max, T min) => T.IsZero(min) ? max : Impl(min, max % min);
     }
-    public static (Double n, Double d) Simplify(Double n, Double d)
+
+    public static (Double nominator, Double denominator) Simplify(Double nominator, Double denominator)
     {
-        if (Double.IsInteger(n) && Double.IsInteger(d) && Double.Abs(Double.MaxMagnitude(n, d)) < Int64.MaxValue) {
-            Int64 gcd = Gcd((Int64)n, (Int64)d);
-            return gcd <= 1 ? (n, d) : (n / gcd, d / gcd);
+        if (Double.IsInteger(denominator) && Double.Abs(Double.MaxMagnitude(nominator, denominator)) < Int64.MaxValue) {
+            Int64 gcd = Gcd((Int64)nominator, (Int64)denominator);
+            return gcd <= 1 ? (nominator, denominator) : (nominator / gcd, denominator / gcd);
         }
-        return (n, d);
+        return (nominator, denominator);
     }
 
     // See: https://en.wikipedia.org/wiki/Exponentiation_by_squaring#Recursive_version

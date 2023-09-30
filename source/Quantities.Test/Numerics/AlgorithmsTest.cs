@@ -16,6 +16,35 @@ public class AlgorithmsTest
         Assert.Equal(expected, actual);
     }
 
+    [Fact]
+    public void SimplifyOnlySimplifiesWhenDenominatorIsAnInteger()
+    {
+        const Int64 gcd = 1156;
+        Int64 integerN = gcd * 2 * 7 * 17 * 47;
+        Int64 denominator = gcd * 5 * 23 * 53;
+        var nominator = integerN + (2d / Math.E);
+        var nonIntegerDenominator = denominator + 0.2;
+        var expected = (n: nominator / gcd, d: denominator / gcd);
+
+        var actual = Algorithms.Simplify(nominator, denominator);
+        var (unchangedNominator, _) = Algorithms.Simplify(nominator, nonIntegerDenominator);
+
+        Assert.Equal(expected, actual);
+        Assert.Equal(nominator, unchangedNominator);
+    }
+
+    [Fact]
+    public void SimplifyPreservesRatios()
+    {
+        Int64 integerN = 2 * 2 * 2 * 7 * 17 * 17 * 47;
+        Double denominator = 2 * 2 * 5 * 13 * 17 * 23 * 51;
+        var nominator = integerN + 2d / Math.E;
+
+        var actual = Algorithms.Simplify(nominator, denominator);
+
+        Assert.Equal(nominator / denominator, actual.nominator / actual.denominator);
+    }
+
     [Theory]
     [InlineData(0)]
     [InlineData(1)]

@@ -1,4 +1,3 @@
-// ToDo: Capitalise Test subfolders!
 namespace Quantities.Test.Numerics;
 
 using Quantities.Core.Numerics;
@@ -43,6 +42,7 @@ public class AlgorithmsTest
         var actual = Algorithms.Simplify(nominator, denominator);
 
         Assert.Equal(nominator / denominator, actual.nominator / actual.denominator);
+        Assert.NotEqual(nominator, actual.nominator); // Sanity check!
     }
 
     [Theory]

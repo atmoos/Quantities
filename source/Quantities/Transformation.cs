@@ -8,7 +8,6 @@ public sealed class Transformation :
     IMultiplyOperators<Transformation, Double, Transformation>,
     IDivisionOperators<Transformation, Double, Transformation>
 {
-    // ToDo: Implement internal Pow(Int32: exponent) method...
     private Double nominator, denominator, offset;
     internal Transformation() => (this.nominator, this.denominator, this.offset) = (1, 1, 0);
     private Transformation Add(in Double value)

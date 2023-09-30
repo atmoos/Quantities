@@ -45,8 +45,8 @@ internal readonly record struct Polynomial : IEquatable<Polynomial>
             var simplified = new Polynomial(in n, in d, in o);
             (_, _, o) = Algorithms.Pow(in simplified, exp);
         }
-        // always using the "algebraic" inverses on the nominator
-        // and denominator, ensures identity [p*p⁻¹ = 𝟙] holds trivially;
+        // always using the "algebraic" inverses on the nominator and
+        // denominator, ensures the identity [p*p⁻¹ = 𝟙] holds trivially;
         return new(Algorithms.Pow(in n, exp), Algorithms.Pow(in d, exp), in o);
     }
 

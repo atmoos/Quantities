@@ -7,7 +7,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageTags>$(PackageTags), json, newtonsoft, newtonsoft.json, newtonsoft-json</PackageTags>
-    <Description></Description>
+    <Description>Serialization of Atmoos.Quantities types using Newtonsoft.Json.</Description>
   </PropertyGroup>
 
   <ItemGroup>

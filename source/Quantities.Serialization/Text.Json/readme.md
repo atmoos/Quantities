@@ -1,6 +1,6 @@
-# Serialization of Quantities with System.Text.Json
+# Serialization of Quantities using System.Text.Json
 
-Enables serialisation `Atmoos.Quantities` using `System.Text.Json`.
+Enables serialisation of `Atmoos.Quantities` using `System.Text.Json`.
 
 ## Usage
 

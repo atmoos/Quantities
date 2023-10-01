@@ -79,7 +79,7 @@ public static class Convenience
         catch (EqualException) {
             var actualValue = actual.ToString(RoundTripFormat);
             var expectedValue = expected.ToString(RoundTripFormat);
-            throw new EqualException(expectedValue, actualValue, precision, precision + 1);
+            throw EqualException.ForMismatchedStrings(expectedValue, actualValue, precision, precision + 1);
         }
     }
 }

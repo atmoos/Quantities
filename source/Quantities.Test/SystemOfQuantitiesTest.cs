@@ -1,4 +1,5 @@
 ﻿using Quantities.Dimensions;
+using Quantities.Test.Dimensions;
 using static Quantities.Extensions;
 
 namespace Quantities.Test;
@@ -50,7 +51,7 @@ file static class Quantity<TActual>
     public static void IsDerivedFrom(Dimension expected)
     {
         Is<IDerivedQuantity>();
-        Assert.Equal(expected, TActual.D);
+        DimAssert.Equal(expected, TActual.D);
     }
     private static void Is<TExpected>()
     {

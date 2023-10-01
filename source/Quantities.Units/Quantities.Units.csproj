@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <RootNamespace>Quantities.Units</RootNamespace>
-    <Description>Foo</Description>
+    <Description>Many more units for use with Atmoos.Quantities.</Description>
   </PropertyGroup>
 
   <ItemGroup>

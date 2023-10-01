@@ -1,4 +1,4 @@
-# Quantities
+# Atmoos Quantities
 
 This library enables typesafe handling of quantities. It is a general purpose library that allows third parties to define their own units if needed. Many units are predefined in this library or are available on nuget.
 

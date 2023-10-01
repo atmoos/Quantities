@@ -3,9 +3,9 @@
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
+    <RootNamespace>Quantities.Units</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <RootNamespace>Quantities.Units</RootNamespace>
     <Description>Many more units for use with Atmoos.Quantities.</Description>
   </PropertyGroup>
 

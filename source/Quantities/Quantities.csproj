@@ -3,9 +3,9 @@
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
+    <RootNamespace>Quantities</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <RootNamespace>Quantities</RootNamespace>
     <Description>Typesafe and efficent handling of physical quantities.</Description>
   </PropertyGroup>
   

@@ -1,19 +1,47 @@
 # Design
 
-## Concepts
+This library was started as an attempt to create a user (developer) friendly api with which to handle quantities. Therefore, user friendliness stands at it's core.
+
+It is intended to solve the ambiguity faced when dealing with physical units. Represented here by the umbrella term "quantities".
+
+## Principles
+
+There are some core principles that govern the design of this library. This library...
+
+- is domain agnostic.
+  - Hence, we make no assumptions of what users might wan't to model.
+  - Nor what kind of data would be modelled.
+- does not validate input.
+  - As long as it's a valid `Double`, we'll take it.
+  - Example: A negative `Length` is a valid value. (It's a valid floating point value.)
+  - If users need to constrain the value of a quantity, they'll need to do that themselves.
+  - This includes "Divide by zero" scenarios, which we leave to .Net to handle.
+- is designed to be **precise**.
+  - It achieves better than `Double` precision in many cases.
+  - ToDo: examples!
+- is designed to be **fast**.
+  - It's not as fast as using `Double` directly though. But it's fast, really fast.
+  - However, precision is prioritized over speed.
+- aims to avoid memory allocations.
+  - This holds true for all quantities.
+- defines units and prefixes by types, not values.
+  - This allows users to easily [use their own](../source/Quantities.Test/UserDefined.cs) units.
+  - We don't see a scenario for user defined prefixes, but it's possible to **precise**do none the less.
+
+## Design Decisions
 
 Every...
 
 - quantity is a struct
-- quantity has an _internal_ [unit](../quantities/units/IUnit.cs) that is part of a system of measurements:
-  - [SI](../quantities/units/Si/ISiUnit.cs) (which includes [Metric](../quantities/units/Si/IMetricUnit.cs))
-  - [Imperial](../quantities/units/Imperial/IImperial.cs)
-  - [no-system](../quantities/units/NonStandard/INoSystem.cs)
-- quantity supports [prefixing](../quantities/prefixes/IPrefix.cs) of units on SI, metric or binary units with
+- quantity has an _internal_ [unit](../source/Quantities/Units/IUnit.cs) that is part of a system of measurements:
+  - [SI](../source/Quantities/Units/ISiUnit.cs) (which includes [Metric](../source/Quantities/Units/IMetricUnit.cs))
+  - [Imperial](../source/Quantities/Units/IImperial.cs)
+  - [non-standard](../source/Quantities/Units/INonStandardUnit.cs)
+- quantity supports [prefixing](../source/Quantities/Prefixes/IPrefix.cs) of units on SI, metric or binary units with
   - a decimal prefix
   - a binary prefix
   - or both
-- quantity represents a unique [dimension](../quantities/dimensions/IDimension.cs), such as one of the seven [BaseDimensions](../quantities/dimensions/BaseDimensions.cs)
+- quantity represents a unique [dimension](../source/Quantities/Dimensions/IDimension.cs), such as one of the seven [BaseDimensions](../source/Quantities/Dimensions/BaseDimensions.cs)
 - quantity can only be instantiated using _generic_ factory methods
   - that are parameterized by a combination of generic prefix and unit parameters.
   - The unit parameter is constrained by the same dimension the quantity implements
@@ -30,7 +58,7 @@ Therefore, the actual underlying unit and/or prefix of a given type is an _irrel
 
 ## Public API
 
-This library was built around an API I had in mind. The API should rely heavily on generics, which would make it very easy to use and [extend](../quantities.test/UserDefined.cs) for an arbitrary amount of units and (metric) prefixes.
+This library was built around an API I had in mind. The API should rely heavily on generics, which would make it very easy to use and [extend](../source/Quantities.Test/UserDefined.cs) for an arbitrary amount of units and (metric) prefixes.
 
 There are factories (interfaces) for each system of measurement (Si, Metric, Imperial, etc.) that define what prefixes and units may be used:
 
@@ -63,8 +91,8 @@ Length imperial = Length.Of(23).Imperial<Foot>();
 Length otherMetric = metric.To.Si<Kilo, Metre>();
 ```
 
-Notice, how the use of the type parameters resembles how one would normally use function arguments. This is a key concept!
-Also the generic constraints define what types may be used. For length quantities for instance, it does not make sense to use a unit of `Litre`, as litres are a measure of volume, not length.
+Notice, how the use of the type parameters resembles how one would normally use function arguments. This is a key concept.
+Also, the generic constraints define what types may be used. For length quantities for instance, it does not make sense to use a unit of `Litre`, as litres are a measure of volume, not length.
 
 Using UML the concept may be illustrated as follows:
 
@@ -111,58 +139,70 @@ Length oneKm = Length.Of(1d).Si<Kilo, Metre>();
 
 ## Decomposition
 
-The implementation of various quantities revolves around a single struct the `Quant` (please excuse the name! There are already too many quantities...).
+The implementation of various quantities revolves around three core types:
 
-The quant provides for all the generic conversion capabilities that actual quantities might need to make use of.
+- [Polynomial](../source/Quantities/Core/Numerics/Polynomial.cs)
+  - Does all the numerical heavy lifting.
+- [Measure](../source/Quantities/Core/Measure.cs)
+  - The manifestation of a dimension as vector in the dimension space.
+  - Where the base si dimensions are the span of that vector space.
+  - Each measures `Polynomial` can be though "magnitude" of the dimension vector.
+  - Can safely be represented as a singleton, meaning allocation is asymptotically zero.
+- [Quantity](../source/Quantities/Core/Quantity.cs)
+  - Holds the _scalar_ scaling factor of a physical quantity, as a `Double`.
+  - The `Measure` defines "direction" and "magnitude".
+  - Exposes all functionality any actual quantity may need.
 
-Each actual quantity ([Length](../quantities/quantities/Length.cs), [Time](../quantities/quantities/Time.cs), [Velocity](../quantities/quantities/Velocity.cs), etc.) wraps a 'Quant' instance, effectively restricting the operations allowed on that quantity.
+Each actual quantity ([Length](../source/Quantities/Quantities/Length.cs), [Time](../source/Quantities/Quantities/Time.cs), [Velocity](../source/Quantities/Quantities/Velocity.cs), etc.) wraps a 'Quantity' instance, effectively restricting the operations allowed on that quantity.
 
 ```mermaid
 classDiagram
     class IQuantity~TQuantity~{
         <<interface>>
     }
+    class Polynomial{
+        <<struct>>
+        ~Multiply(Polynomial other): Polynomial
+        ~Divide(Polynomial other): Polynomial
+    }
+    class Result{
+        <<class>>
+        -Measure measure
+        -Polynomial polynomial
+        ~Multiply(Double value): Double
+    }
+    class Measure{
+        <<singleton_class>>
+        -Polynomial polynomial
+        ~String Representation
+        ~Project(Measure other): Polynomial
+        ~Multiply(Measure other): Result
+        ~Divide(Measure other): Result
+    }
     class Quantity{
         <<struct>>
-        -Quant quant
-        +Factory~Quantity~ To
-        +Of(Double value) Factory~Quantity~
-    }
-    class Quant{
-        <<struct>>
-        ~Map map
+        -Measure measure
         ~Double Value
-        -Project(in Quant other) Quant
+        ~Project(in Quantity other): Quantity
     }
-    class Map{
-        <<singleton>>
-        ~String Representation
-        ~ToSi()
-        ~FromSi()
+    class SomeQuantity{
+        <<struct>>
+        -Quantity some
+        +Factory~SomeQuantity~ To
+        +Of(Double some): Factory~SomeQuantity~
     }
-    IQuantity <|.. Quantity
+    IQuantity <|.. SomeQuantity
     IQuantity <|.. IQuantity
-    Quant --o Quantity
-    Map --o Quant
+    Quantity --o SomeQuantity
+    Measure --o Result
+    Measure --o Quantity
+    Polynomial --o Result
+    Polynomial --o Measure
 ```
-
-### Design Ideas
-
-- The `Quant` can be thought of as a vector
-  - The `value` holds the magnitude of the vector
-  - The `map` is the direction within "quantity space" the vector points in
-- As such the map can be represented by a singleton
-  - Every combination of unit a prefix results in a unique map
-  - The quant [Builder](../quantities/measures/Build.cs) handles instantiation of Maps and ultimately also of `Quant`s.
-- Creation of `Quant`s is allocation free
-  - By virtue of the [Map](../quantities/measures/Map.cs) being a singleton class.
-  - and the [Quant](../quantities/measures/Quant.cs) a struct.
 
 ## Precision
 
-For now, double precision is used. Once all quantities are implemented, it may be considered making the underlying data type a generic parameter.
-
-For now, it is already complicated enough.
+This library achieves at least `Double` precision. By use of the [Polynomial](../source/Quantities/Core/Numerics/Polynomial.cs) type, we often can achieve better than `Double` precision.
 
 ## Realization of Physical Laws
 
@@ -213,3 +253,15 @@ All definitions are rooted in the [international system of units - SI](https://e
 This also holds true for spelling. SI spelling takes precedence.
 
 For imperial units the british definition and spelling are used.
+
+### Naming
+
+The naming of units and prefixes follows the definitions given by the [International System of Units](https://en.wikipedia.org/wiki/International_System_of_Units) (SI). If no naming can be found there, the consensus formed on the corresponding english Wikipedia page will be used.
+This leads to the following list of naming conventions:
+
+- We use the _international_ name as defined by SI or Wikipedia
+  - Many units are named after individuals. We respect the way they spell their own name.
+  - Hence we use [Ångström](../source/Quantities.Units/Si/Metric/Ångström.cs), not "Angstrom".
+  - We can do this since C# source code is UTF-8 and supports special characters
+- Potential duplicate names are resolved via namespaces.
+  - Examples are the well known unit of force, the [Newton](../source/Quantities.Units/Si/Derived/Newton.cs) and the lesser known unit of temperature, the [Newton](../source/Quantities.Units/NonStandard/Temperature/Newton.cs).

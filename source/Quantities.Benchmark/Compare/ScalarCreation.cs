@@ -1,6 +1,5 @@
 using BenchmarkDotNet.Attributes;
 using Quantities.Prefixes;
-using Quantities.Units.Imperial.Length;
 using Quantities.Units.Si;
 
 using nLength = UnitsNet.Length;
@@ -8,18 +7,15 @@ using nLength = UnitsNet.Length;
 namespace Quantities.Benchmark.Compare;
 
 [MemoryDiagnoser]
-public class Multiplication
+public class ScalarCreation
 {
-    private static readonly Length left = Length.Of(3).Si<Milli, Metre>();
-    private static readonly Length right = Length.Of(4).Imperial<Foot>();
-    private static readonly nLength nLeft = nLength.FromMillimeters(3);
-    private static readonly nLength nRight = nLength.FromMillimeters(4);
+    private static readonly Double value = Math.E;
 
     [Benchmark(Baseline = true)]
-    public Area Quantity() => left * right;
+    public Length Quantity() => Length.Of(value).Si<Centi, Metre>();
 
     [Benchmark]
-    public UnitsNet.Area UnitsNet() => nLeft * nRight;
+    public nLength UnitsNet() => nLength.FromCentimeters(value);
 }
 
 /*
@@ -34,6 +30,6 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
 
 | Method   | Mean     | Error    | StdDev   | Ratio | RatioSD | Allocated | Alloc Ratio |
 |--------- |---------:|---------:|---------:|------:|--------:|----------:|------------:|
-| Quantity | 10.48 ns | 0.052 ns | 0.049 ns |  1.00 |    0.00 |         - |          NA |
-| UnitsNet | 74.90 ns | 0.313 ns | 0.292 ns |  7.14 |    0.05 |         - |          NA |
+| Quantity | 10.68 ns | 0.150 ns | 0.141 ns |  1.00 |    0.00 |         - |          NA |
+| UnitsNet | 12.84 ns | 0.139 ns | 0.130 ns |  1.20 |    0.02 |         - |          NA |
 */

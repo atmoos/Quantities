@@ -1,11 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../../Quantities.build.xml"/>
   <Import Project="../Serialization.pack.xml"/>
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
     <RootNamespace>Quantities.Serialization.Newtonsoft</RootNamespace>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
     <PackageTags>$(PackageTags), json, newtonsoft, newtonsoft.json, newtonsoft-json</PackageTags>
     <Description>Serialization of Atmoos.Quantities types using Newtonsoft.Json.</Description>
   </PropertyGroup>

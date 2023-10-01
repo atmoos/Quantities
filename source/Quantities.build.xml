@@ -1,0 +1,10 @@
+<Project>
+<!-- Build info common to all projects within the quantities project -->
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

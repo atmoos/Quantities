@@ -1,11 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../Quantities.build.xml"/>
   <Import Project="../Quantities.pack.xml"/>
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
     <RootNamespace>Quantities</RootNamespace>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
     <Description>Typesafe and efficent handling of physical quantities.</Description>
   </PropertyGroup>
   

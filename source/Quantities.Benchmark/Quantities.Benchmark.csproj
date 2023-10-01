@@ -1,10 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../Quantities.build.xml"/>
+
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
     <RootNamespace>Quantities.Benchmark</RootNamespace>
-    <ImplicitUsings>enable</ImplicitUsings>
     <OutputType>Exe</OutputType>
+    <Nullable>disable</Nullable>
   </PropertyGroup>
+
   <PropertyGroup>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
@@ -14,14 +16,17 @@
     <Configuration>Release</Configuration>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.13.8" />
     <PackageReference Include="BenchmarkDotNet.Diagnostics.Windows" Version="0.13.8" Condition="'$(OS)' == 'Windows_NT'" />
   </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Quantities\Quantities.csproj" />
     <ProjectReference Include="..\Quantities.Serialization\Text.Json\Quantities.Serialization.Text.Json.csproj" />
     <ProjectReference Include="..\Quantities.Serialization\Newtonsoft\Quantities.Serialization.Newtonsoft.csproj" />
     <ProjectReference Include="..\Quantities.Units\Quantities.Units.csproj" />
   </ItemGroup>
+
 </Project>

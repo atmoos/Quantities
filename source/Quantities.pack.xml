@@ -4,6 +4,8 @@
   <PropertyGroup>
     <Version>0.1.0</Version>
     <Copyright>Thomas Kägi</Copyright>
+    <Authors>Thomas Kägi, Radu Terec</Authors>
+    <PackageId>Atmoos.$(RootNamespace)</PackageId>
     <PackageProjectUrl>https://github.com/atmoos/Quantities</PackageProjectUrl>
     <RepositoryUrl>https://github.com/atmoos/Quantities</RepositoryUrl>
     <RepositoryType>git</RepositoryType>

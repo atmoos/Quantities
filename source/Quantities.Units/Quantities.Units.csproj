@@ -6,8 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <RootNamespace>Quantities.Units</RootNamespace>
-    <PackageId>Atmoos.Quantities.Units</PackageId>
-    <Description></Description>
+    <Description>Foo</Description>
   </PropertyGroup>
 
   <ItemGroup>

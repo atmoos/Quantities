@@ -6,8 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <RootNamespace>Quantities</RootNamespace>
-    <PackageId>Atmoos.Quantities</PackageId>
-    <Description></Description>
+    <Description>Typesafe and efficent handling of physical quantities.</Description>
   </PropertyGroup>
   
 </Project>

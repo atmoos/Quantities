@@ -9,11 +9,11 @@ namespace Quantities.Benchmark;
 [MemoryDiagnoser]
 public class AddingQuantities
 {
-    private Length sameMetric = Length.Of(-7).Si<Kilo, Metre>();
-    private Length largeMetric = Length.Of(3).Si<Kilo, Metre>();
-    private Length smallMetric = Length.Of(23).Si<Micro, Metre>();
-    private Length largeImperial = Length.Of(-3).Imperial<Mile>();
-    private Length smallImperial = Length.Of(55).Imperial<Inch>();
+    private Length sameMetric = Length.Of(-7, Si<Kilo, Metre>());
+    private Length largeMetric = Length.Of(3, Si<Kilo, Metre>());
+    private Length smallMetric = Length.Of(23, Si<Micro, Metre>());
+    private Length largeImperial = Length.Of(-3, Imperial<Mile>());
+    private Length smallImperial = Length.Of(55, Imperial<Inch>());
     private Si<Metre> largeTrivial = Si<Metre>.Of(Prefix.Kilo, 3);
     private Si<Metre> smallTrivial = Si<Metre>.Of(Prefix.Micro, 12);
 

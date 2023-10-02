@@ -13,10 +13,10 @@ public class MultiplyingQuantities
 {
     private Area aliasArea = Area.Of(3).Metric<Are>();
     private Area powerArea = Area.Of(3).Square.Si<Metre>();
-    private Length largeMetric = Length.Of(3).Si<Kilo, Metre>();
-    private Length smallMetric = Length.Of(23).Si<Micro, Metre>();
-    private Length largeImperial = Length.Of(-3).Imperial<Mile>();
-    private Length smallImperial = Length.Of(55).Imperial<Inch>();
+    private Length largeMetric = Length.Of(3, Si<Kilo, Metre>());
+    private Length smallMetric = Length.Of(23, Si<Micro, Metre>());
+    private Length largeImperial = Length.Of(-3, Imperial<Mile>());
+    private Length smallImperial = Length.Of(55, Imperial<Inch>());
     private ElectricCurrent current = ElectricCurrent.Of(200).Si<Micro, Ampere>();
     private ElectricalResistance resistance = ElectricalResistance.Of(734).Si<Kilo, Ohm>();
     private Si<Metre> largeTrivial = Si<Metre>.Of(Prefix.Kilo, 3);

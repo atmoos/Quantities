@@ -1,13 +1,11 @@
 ﻿using System.Numerics;
 using Quantities.Creation;
 using Quantities.Dimensions;
-using Quantities.Factories;
 using Quantities.Units;
 
 namespace Quantities;
 
 public readonly struct Length : IQuantity<Length>, ILength
-    , IFactory<IDefaultFactory<Length, ILength>, Linear<To, Length, ILength>, Linear<Create, Length, ILength>>
     , IMultiplyOperators<Length, Length, Area>
     , IMultiplyOperators<Length, Area, Volume>
     , IDivisionOperators<Length, Time, Velocity>
@@ -15,10 +13,9 @@ public readonly struct Length : IQuantity<Length>, ILength
     private readonly Quantity length;
     internal Quantity Value => this.length;
     Quantity IQuantity<Length>.Value => this.length;
-    public Linear<To, Length, ILength> To => new(new To(in this.length));
-    public Length As<TLength>(in Scalar<TLength> other) where TLength : ILength, IUnit => new(other.Transform(in this.length));
+    public Length To<TLength>(in Scalar<TLength> other)
+        where TLength : ILength, IUnit => new(other.Transform(in this.length));
     private Length(in Quantity value) => this.length = value;
-    public static Linear<Create, Length, ILength> Of(in Double value) => new(new Create(in value));
     public static Length Of<TLength>(in Double value, in Scalar<TLength> length) where TLength : ILength, IUnit => new(length.Create(in value));
     static Length IFactory<Length>.Create(in Quantity value) => new(in value);
     internal static Length From(in Area area, in Length length) => new(area.Value / length.Value);

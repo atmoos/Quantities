@@ -10,8 +10,8 @@ namespace Quantities.Benchmark;
 public class DeserializationBenchmark
 {
     private static readonly String triple = Triple().Serialize();
-    private static readonly String simpleQuantity = Length.Of(Math.PI).Si<Metre>().Serialize();
-    private static readonly String prefixedQuantity = Length.Of(Math.PI).Si<Kilo, Metre>().Serialize();
+    private static readonly String simpleQuantity = Length.Of(Math.PI, Si<Metre>()).Serialize();
+    private static readonly String prefixedQuantity = Length.Of(Math.PI, Si<Kilo, Metre>()).Serialize();
     private static readonly String fractionalQuantity = Velocity.Of(Math.PI).Si<Kilo, Metre>().Per.Metric<Hour>().Serialize();
     private static readonly String multiplicativeQuantity = Energy.Of(Math.PI).Si<Kilo, Watt>().Times.Metric<Hour>().Serialize();
     private static readonly String powerQuantity = Volume.Of(Math.PI).Cubic.Si<Deci, Metre>().Serialize();

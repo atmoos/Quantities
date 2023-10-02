@@ -8,9 +8,9 @@ public class UserDefined
     [Fact]
     public void PrefixesWork()
     {
-        Length equivalentToFourMetres = Length.Of(1).Si<MyPrefixFour, Metre>();
+        Length equivalentToFourMetres = Length.Of(1, Si<MyPrefixFour, Metre>());
 
-        Length fourActualSiMetres = equivalentToFourMetres.To.Si<Metre>();
+        Length fourActualSiMetres = equivalentToFourMetres.To(Si<Metre>());
 
         Assert.Equal(4d, fourActualSiMetres);
     }
@@ -18,7 +18,7 @@ public class UserDefined
     [Fact]
     public void PrefixesRepresentCorrectly()
     {
-        Length oneFourMetre = Length.Of(1).Si<MyPrefixFour, Metre>();
+        Length oneFourMetre = Length.Of(1, Si<MyPrefixFour, Metre>());
 
         Assert.Equal("1 2e2m", oneFourMetre.ToString());
     }
@@ -26,9 +26,9 @@ public class UserDefined
     [Fact]
     public void UnitsWork()
     {
-        Length equivalentToOneMetre = Length.Of(2).NonStandard<MyWhackWhackUnit>();
+        Length equivalentToOneMetre = Length.Of(2, NonStandard<MyWhackWhackUnit>());
 
-        Length oneActualSiMetres = equivalentToOneMetre.To.Si<Metre>();
+        Length oneActualSiMetres = equivalentToOneMetre.To(Si<Metre>());
 
         Assert.Equal(1d, oneActualSiMetres);
     }
@@ -36,7 +36,7 @@ public class UserDefined
     [Fact]
     public void UnitsRepresentCorrectly()
     {
-        Length oneWhackWhack = Length.Of(1).NonStandard<MyWhackWhackUnit>();
+        Length oneWhackWhack = Length.Of(1, NonStandard<MyWhackWhackUnit>());
 
         Assert.Equal("1 Whack!", oneWhackWhack.ToString());
     }

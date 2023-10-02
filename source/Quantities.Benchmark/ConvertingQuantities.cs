@@ -12,14 +12,14 @@ public class ConvertingQuantities
     private const Double feetToMetre = 0.3048;
     private static readonly Si<Metre> kiloMetre = Si<Metre>.Of(Prefix.Kilo, 3);
     private static readonly Imperial<Foot> trivialFoot = new(10, feetToMetre);
-    private static readonly Length foot = Length.Of(10).Imperial<Foot>();
+    private static readonly Length foot = Length.Of(10, Imperial<Foot>());
     private static readonly Energy energy = Energy.Of(3).Si<Milli, Watt>().Times.Si<Kilo, Second>();
 
     [Benchmark(Baseline = true)]
     public Double TrivialImplementation() => trivialFoot.To(kiloMetre);
 
     [Benchmark]
-    public Double QuantityImplementation() => foot.To.Si<Kilo, Metre>();
+    public Double QuantityImplementation() => foot.To(Si<Kilo, Metre>());
 
     [Benchmark]
     public Double QuantityToSame() => energy.To.Si<Milli, Watt>().Times.Si<Kilo, Second>();
@@ -40,8 +40,8 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
 
 | Method                  | Mean       | Error     | StdDev    | Ratio | RatioSD | Allocated | Alloc Ratio |
 |------------------------ |-----------:|----------:|----------:|------:|--------:|----------:|------------:|
-| TrivialImplementation   |  0.8524 ns | 0.0230 ns | 0.0215 ns |  1.00 |    0.00 |         - |          NA |
-| QuantityImplementation  |  7.8979 ns | 0.0307 ns | 0.0272 ns |  9.26 |    0.24 |         - |          NA |
-| QuantityToSame          | 19.3333 ns | 0.0567 ns | 0.0502 ns | 22.66 |    0.57 |         - |          NA |
-| QuantityToVeryDifferent | 26.2865 ns | 0.2705 ns | 0.2530 ns | 30.86 |    0.83 |         - |          NA |
+| TrivialImplementation   |  0.5770 ns | 0.0167 ns | 0.0140 ns |  1.00 |    0.00 |         - |          NA |
+| QuantityImplementation  |  2.9454 ns | 0.0453 ns | 0.0401 ns |  5.11 |    0.11 |         - |          NA |
+| QuantityToSame          | 19.9317 ns | 0.0646 ns | 0.0504 ns | 34.52 |    0.83 |         - |          NA |
+| QuantityToVeryDifferent | 25.7943 ns | 0.2820 ns | 0.2637 ns | 44.66 |    1.31 |         - |          NA |
 */

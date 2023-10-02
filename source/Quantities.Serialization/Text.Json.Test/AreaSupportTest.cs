@@ -34,7 +34,7 @@ public class AreaSupportTest : ISerializationTester<Area>, IInjectedUnitTester<A
         // division results in very different values when using
         // an area created with the standard API or one that was
         // created using deserialization.
-        var someLength = Length.Of(2).Si<Metre>();
+        var someLength = Length.Of(2, Si<Metre>());
         var expectedLength = quantity / someLength;
 
         var deserializedArea = quantity.SerializeRoundRobin();

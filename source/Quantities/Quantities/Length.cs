@@ -6,6 +6,7 @@ using Quantities.Units;
 namespace Quantities;
 
 public readonly struct Length : IQuantity<Length>, ILength
+    , IScalar<Length, ILength>
     , IMultiplyOperators<Length, Length, Area>
     , IMultiplyOperators<Length, Area, Volume>
     , IDivisionOperators<Length, Time, Velocity>

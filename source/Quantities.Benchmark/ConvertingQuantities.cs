@@ -13,7 +13,7 @@ public class ConvertingQuantities
     private static readonly Si<Metre> kiloMetre = Si<Metre>.Of(Prefix.Kilo, 3);
     private static readonly Imperial<Foot> trivialFoot = new(10, feetToMetre);
     private static readonly Length foot = Length.Of(10, Imperial<Foot>());
-    private static readonly Energy energy = Energy.Of(3).Si<Milli, Watt>().Times.Si<Kilo, Second>();
+    private static readonly Energy energy = Energy.Of(3, Si<Milli, Watt>().Dot(Si<Kilo, Second>()));
 
     [Benchmark(Baseline = true)]
     public Double TrivialImplementation() => trivialFoot.To(kiloMetre);
@@ -22,10 +22,10 @@ public class ConvertingQuantities
     public Double QuantityImplementation() => foot.To(Si<Kilo, Metre>());
 
     [Benchmark]
-    public Double QuantityToSame() => energy.To.Si<Milli, Watt>().Times.Si<Kilo, Second>();
+    public Double QuantityToSame() => energy.To(Si<Milli, Watt>().Dot(Si<Kilo, Second>()));
 
     [Benchmark]
-    public Double QuantityToVeryDifferent() => energy.To.Si<Kilo, Watt>().Times.Si<Milli, Second>();
+    public Double QuantityToVeryDifferent() => energy.To(Si<Kilo, Watt>().Dot(Si<Milli, Second>()));
 }
 
 /*
@@ -40,8 +40,8 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
 
 | Method                  | Mean       | Error     | StdDev    | Ratio | RatioSD | Allocated | Alloc Ratio |
 |------------------------ |-----------:|----------:|----------:|------:|--------:|----------:|------------:|
-| TrivialImplementation   |  0.5770 ns | 0.0167 ns | 0.0140 ns |  1.00 |    0.00 |         - |          NA |
-| QuantityImplementation  |  2.9454 ns | 0.0453 ns | 0.0401 ns |  5.11 |    0.11 |         - |          NA |
-| QuantityToSame          | 19.9317 ns | 0.0646 ns | 0.0504 ns | 34.52 |    0.83 |         - |          NA |
-| QuantityToVeryDifferent | 25.7943 ns | 0.2820 ns | 0.2637 ns | 44.66 |    1.31 |         - |          NA |
+| TrivialImplementation   |  0.6493 ns | 0.0171 ns | 0.0152 ns |  1.00 |    0.00 |         - |          NA |
+| QuantityImplementation  |  2.9082 ns | 0.0899 ns | 0.0923 ns |  4.45 |    0.14 |         - |          NA |
+| QuantityToSame          | 26.5881 ns | 0.1631 ns | 0.1525 ns | 40.96 |    1.02 |         - |          NA |
+| QuantityToVeryDifferent | 27.2572 ns | 0.1387 ns | 0.1083 ns | 42.25 |    0.86 |         - |          NA |
 */

@@ -75,7 +75,7 @@ public sealed class TimeTest
     public void TimeFromEnergyDividedByPower()
     {
         Power power = Power.Of(3).Si<Kilo, Watt>();
-        Energy energy = Energy.Of(2.4).Linear.Si<Mega, Joule>();
+        Energy energy = Energy.Of(2.4, Si<Mega, Joule>());
         Time expected = Time.Of(800).Si<Second>();
 
         Time actual = energy / power;

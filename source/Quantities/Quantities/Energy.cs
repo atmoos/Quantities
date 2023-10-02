@@ -1,24 +1,27 @@
 ﻿using System.Numerics;
 using Quantities.Creation;
 using Quantities.Dimensions;
-using Quantities.Factories;
 using Quantities.Units;
 
 namespace Quantities;
 
 public readonly struct Energy : IQuantity<Energy>, IEnergy
-    , IFactory<IProductFactory<IEnergy, IPower, ITime>, Product<To, Energy, IEnergy, IPower, ITime>, Product<Create, Energy, IEnergy, IPower, ITime>>
+    , IScalar<Energy, IEnergy>
     , IDivisionOperators<Energy, Time, Power>
     , IDivisionOperators<Energy, Power, Time>
 {
     private readonly Quantity energy;
     internal Quantity Value => this.energy;
     Quantity IQuantity<Energy>.Value => this.energy;
-    public Product<To, Energy, IEnergy, IPower, ITime> To => new(new To(in this.energy));
+    public Energy To<TEnergy>(in Scalar<TEnergy> energy)
+        where TEnergy : IUnit, IEnergy => new(energy.Transform(in this.energy));
+    public Energy To<TPower, TTime>(in Product<TPower, TTime> energy)
+        where TPower : IUnit, IPower where TTime : IUnit, ITime => new(energy.Transform(in this.energy));
     private Energy(in Quantity value) => this.energy = value;
-    public static Product<Create, Energy, IEnergy, IPower, ITime> Of(in Double value) => new(new Create(in value));
-    public static Energy Of<TPower, TTime>(in Double value, in Product<TPower, TTime> power)
-        where TPower : IUnit, IPower where TTime : IUnit, ITime => new(power.Create(in value));
+    public static Energy Of<TEnergy>(in Double value, in Scalar<TEnergy> energy)
+        where TEnergy : IUnit, IEnergy => new(energy.Create(in value));
+    public static Energy Of<TPower, TTime>(in Double value, in Product<TPower, TTime> energy)
+        where TPower : IUnit, IPower where TTime : IUnit, ITime => new(energy.Create(in value));
     static Energy IFactory<Energy>.Create(in Quantity value) => new(in value);
     internal static Energy From(in Power power, in Time time) => new(power.Value * time.Value);
     public Boolean Equals(Energy other) => this.energy.Equals(other.energy);

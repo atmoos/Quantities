@@ -97,7 +97,7 @@ public sealed class PowerTest
     [Fact]
     public void PowerFromEnergyDividedByTime()
     {
-        Energy energy = Energy.Of(48).Si<Giga, Watt>().Times.Metric<Hour>();
+        Energy energy = Energy.Of(48, Si<Giga, Watt>().Dot(Metric<Hour>()));
         Time time = Time.Of(40).Metric<Day>();
         Power expected = Power.Of(0.05).Si<Giga, Watt>();
 

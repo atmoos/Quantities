@@ -22,8 +22,8 @@ public static class Systems
         where TDim : IImperialUnit, IDimension => new(Measure.Of<Imperial<TDim>>());
     public static Scalar<TDim> NonStandard<TDim>()
         where TDim : INonStandardUnit, IDimension => new(Measure.Of<NonStandard<TDim>>());
-    public static Cubic<TDim> Cubic<TDim>(in Scalar<TDim> scalar) => new(scalar.Cubic());
-    public static Square<TDim> Square<TDim>(in Scalar<TDim> scalar) => new(scalar.Square());
+    public static Cubic<TDim> Cubic<TDim>(in Scalar<TDim> scalar) where TDim : IUnit, IDimension => new(scalar.Cubic());
+    public static Square<TDim> Square<TDim>(in Scalar<TDim> scalar) where TDim : IUnit, IDimension => new(scalar.Square());
 }
 
 public static class AliasOf<TLinear>

@@ -1,3 +1,6 @@
+using Quantities.Dimensions;
+using Quantities.Units;
+
 namespace Quantities.Creation;
 
 public readonly ref struct Scalar<TDim>
@@ -20,7 +23,18 @@ public readonly ref struct Scalar<TDim>
 
     internal Quantity Create(in Double value) => new(in value, in this.measure);
     internal Quantity Transform(in Quantity other) => other.Project(in this.measure);
-    internal Square<TDim> Square() => new(this.measure.Inject(Injectors.Square));
+    internal Measure Cubic() => this.measure.Inject(Injectors.Cubic);
+    internal Measure Square() => this.measure.Inject(Injectors.Square);
+}
+
+public readonly ref struct Alias<TUnit, TLinear>
+    where TUnit : IAlias<TLinear>
+    where TLinear : IDimension
+{
+    private readonly Measure measure;
+    internal Alias(Measure measure) => this.measure = measure;
+    internal Quantity Create(in Double value) => new(in value, in this.measure);
+    internal Quantity Transform(in Quantity other) => other.Project(in this.measure);
 }
 
 public readonly ref struct Product<TLeft, TRight>
@@ -43,6 +57,14 @@ public readonly ref struct Square<TDim>
 {
     private readonly Measure measure;
     internal Square(Measure measure) => this.measure = measure;
+    internal Quantity Create(in Double value) => new(in value, in this.measure);
+    internal Quantity Transform(in Quantity other) => other.Project(in this.measure);
+}
+
+public readonly ref struct Cubic<TDim>
+{
+    private readonly Measure measure;
+    internal Cubic(Measure measure) => this.measure = measure;
     internal Quantity Create(in Double value) => new(in value, in this.measure);
     internal Quantity Transform(in Quantity other) => other.Project(in this.measure);
 }

@@ -2,9 +2,15 @@ namespace Quantities.Creation;
 
 internal static class Injectors
 {
+    public static IInject<Measure> Cubic { get; } = new CubicInject();
     public static IInject<Measure> Square { get; } = new SquareInject();
     public static IInject<IInject<Measure>> Product { get; } = new ProductInject();
     public static IInject<IInject<Measure>> Quotient { get; } = new QuotientInject();
+
+    private sealed class CubicInject : IInject<Measure>
+    {
+        public Measure Inject<TMeasure>() where TMeasure : IMeasure => Measure.Of<Measures.Power<Measures.Cubic, TMeasure>>();
+    }
 
     private sealed class SquareInject : IInject<Measure>
     {

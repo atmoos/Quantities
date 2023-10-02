@@ -18,6 +18,7 @@ public readonly struct Area : IQuantity<Area>, IArea
     private Area(in Quantity value) => this.area = value;
     public static Quadratic<Create, Area, IArea, ILength> Of(in Double value) => new(new Create(in value));
     public static Area Of<TLength>(in Double value, in Square<TLength> square) where TLength : ILength, IUnit => new(square.Create(in value));
+    public static Area Of<TAlias>(in Double value, in Alias<TAlias, ILength> alias) where TAlias : IArea, IAlias<ILength>, IUnit => new(alias.Create(in value));
     static Area IFactory<Area>.Create(in Quantity value) => new(in value);
     internal static Area From(in Length left, in Length right) => new(left.Value * right.Value);
     internal static Area From(in Volume volume, in Length length) => new(volume.Value / length.Value);

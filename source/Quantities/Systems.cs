@@ -9,21 +9,21 @@ namespace Quantities;
 public static class Systems
 {
     public static Scalar<TDim> Si<TDim>()
-        where TDim : ISiUnit, IDimension => new(Measure.Of<Si<TDim>>());
+        where TDim : ISiUnit, IDimension => new(Factory.Of<Si<TDim>>());
     public static Scalar<TDim> Si<TPrefix, TDim>()
         where TPrefix : IMetricPrefix
-        where TDim : ISiUnit, IDimension => new(Measure.Of<Si<TPrefix, TDim>>());
+        where TDim : ISiUnit, IDimension => new(Factory.Of<Si<TPrefix, TDim>>());
     public static Scalar<TDim> Metric<TDim>()
-        where TDim : IMetricUnit, IDimension => new(Measure.Of<Metric<TDim>>());
+        where TDim : IMetricUnit, IDimension => new(Factory.Of<Metric<TDim>>());
     public static Scalar<TDim> Metric<TPrefix, TDim>()
         where TPrefix : IMetricPrefix
-        where TDim : IMetricUnit, IDimension => new(Measure.Of<Metric<TPrefix, TDim>>());
+        where TDim : IMetricUnit, IDimension => new(Factory.Of<Metric<TPrefix, TDim>>());
     public static Scalar<TDim> Imperial<TDim>()
-        where TDim : IImperialUnit, IDimension => new(Measure.Of<Imperial<TDim>>());
+        where TDim : IImperialUnit, IDimension => new(Factory.Of<Imperial<TDim>>());
     public static Scalar<TDim> NonStandard<TDim>()
-        where TDim : INonStandardUnit, IDimension => new(Measure.Of<NonStandard<TDim>>());
-    public static Cubic<TDim> Cubic<TDim>(in Scalar<TDim> scalar) where TDim : IUnit, IDimension => new(scalar.Cubic());
-    public static Square<TDim> Square<TDim>(in Scalar<TDim> scalar) where TDim : IUnit, IDimension => new(scalar.Square());
+        where TDim : INonStandardUnit, IDimension => new(Factory.Of<NonStandard<TDim>>());
+    public static Cubic<TDim> Cubic<TDim>(in Scalar<TDim> scalar) where TDim : IUnit, IDimension => new(scalar.Factory);
+    public static Square<TDim> Square<TDim>(in Scalar<TDim> scalar) where TDim : IUnit, IDimension => new(scalar.Factory);
 }
 
 public static class AliasOf<TLinear>

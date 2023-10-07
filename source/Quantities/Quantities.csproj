@@ -3,6 +3,7 @@
   <Import Project="../Quantities.pack.xml"/>
 
   <PropertyGroup>
+    <Version>0.1.0</Version>
     <RootNamespace>Quantities</RootNamespace>
     <Description>Typesafe and efficent handling of physical quantities.</Description>
   </PropertyGroup>

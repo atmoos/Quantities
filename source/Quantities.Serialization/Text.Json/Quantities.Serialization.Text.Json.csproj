@@ -3,6 +3,7 @@
   <Import Project="../Serialization.pack.xml"/>
 
   <PropertyGroup>
+    <Version>0.1.0</Version>
     <RootNamespace>Quantities.Serialization.Text.Json</RootNamespace>
     <PackageTags>$(PackageTags), json, text.json, system.text.json, system-text-json</PackageTags>
     <Description>Serialization of Atmoos.Quantities types using System.Text.Json.</Description>

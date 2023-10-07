@@ -3,6 +3,7 @@
   <Import Project="../Serialization.pack.xml"/>
 
   <PropertyGroup>
+    <Version>0.1.0</Version>
     <RootNamespace>Quantities.Serialization.Newtonsoft</RootNamespace>
     <PackageTags>$(PackageTags), json, newtonsoft, newtonsoft.json, newtonsoft-json</PackageTags>
     <Description>Serialization of Atmoos.Quantities types using Newtonsoft.Json.</Description>

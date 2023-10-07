@@ -2,7 +2,6 @@
 <!-- Packaging info common to all projects within the quantities project -->
 
   <PropertyGroup>
-    <Version>0.1.0</Version>
     <Copyright>Thomas Kägi</Copyright>
     <Authors>Thomas Kägi, Radu Terec</Authors>
     <PackageId>Atmoos.$(RootNamespace)</PackageId>

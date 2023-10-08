@@ -10,7 +10,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>units, quantities, measures, measurements, unitsofmeasure, units-of-measure, units-of-measurement, conversion, unit-conversion, units-measures-converter</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReleaseNotes>First version</PackageReleaseNotes>
+    <PackageReleaseNotes>Please see: https://github.com/atmoos/Quantities/releases</PackageReleaseNotes>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
   </PropertyGroup>
 

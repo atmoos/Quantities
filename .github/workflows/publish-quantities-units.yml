@@ -1,17 +1,17 @@
-name: Publish Core Quantities
+name: Publish Quantities Units
 
 on:
   pull_request:
     types: [closed]
     branches: [ "main" ]
     paths: 
-      - '**/Quantities.csproj'
+      - '**/Quantities.Units.csproj'
 
 env:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
   DOTNET_NOLOGO: true
-  Prefix: 'quantities'
-  Project: 'Quantities/Quantities.csproj'
+  Prefix: 'quantities.units'
+  Project: 'Quantities.Units/Quantities.Units.csproj'
   DotNetVersion: 7.0.x
 
 defaults:

@@ -1,17 +1,17 @@
-name: Publish Core Quantities
+name: Publish Core Quantities Newtonsoft Serialization
 
 on:
   pull_request:
     types: [closed]
     branches: [ "main" ]
     paths: 
-      - '**/Quantities.csproj'
+      - '**/Quantities.Serialization.Newtonsoft.csproj'
 
 env:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
   DOTNET_NOLOGO: true
-  Prefix: 'quantities'
-  Project: 'Quantities/Quantities.csproj'
+  Prefix: 'quantities/serialization/newtonsoft'
+  Project: 'Quantities.Serialization/Newtonsoft/Quantities.Serialization.Newtonsoft.csproj'
   DotNetVersion: 7.0.x
 
 defaults:

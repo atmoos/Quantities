@@ -1,17 +1,17 @@
-name: Publish Core Quantities
+name: Publish Core Quantities System Text Json Serialization
 
 on:
   pull_request:
     types: [closed]
     branches: [ "main" ]
     paths: 
-      - '**/Quantities.csproj'
+      - '**/Quantities.Serialization.Text.Json.csproj'
 
 env:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
   DOTNET_NOLOGO: true
-  Prefix: 'quantities'
-  Project: 'Quantities/Quantities.csproj'
+  Prefix: 'quantities/serialization/text.json'
+  Project: 'Quantities.Serialization/Text.Json/Quantities.Serialization.Text.Json.csproj'
   DotNetVersion: 7.0.x
 
 defaults:

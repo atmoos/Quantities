@@ -5,7 +5,7 @@
   <PropertyGroup>
     <Version>0.1.0-alpha</Version>
     <RootNamespace>Quantities</RootNamespace>
-    <Description>Typesafe and efficent handling of physical quantities.</Description>
+    <Description>Type-safe and efficent handling of physical quantities.</Description>
   </PropertyGroup>
   
 </Project>

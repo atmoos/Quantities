@@ -11,12 +11,8 @@ env:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
   DOTNET_NOLOGO: true
   Prefix: 'quantities.units'
-  Project: 'Quantities.Units/Quantities.Units.csproj'
+  Project: 'source/Quantities.Units/Quantities.Units.csproj'
   DotNetVersion: 7.0.x
-
-defaults:
-  run:
-    working-directory: source
 
 jobs:
   publish:

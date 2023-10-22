@@ -11,12 +11,8 @@ env:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
   DOTNET_NOLOGO: true
   Prefix: 'quantities/serialization/text.json'
-  Project: 'Quantities.Serialization/Text.Json/Quantities.Serialization.Text.Json.csproj'
+  Project: 'source/Quantities.Serialization/Text.Json/Quantities.Serialization.Text.Json.csproj'
   DotNetVersion: 7.0.x
-
-defaults:
-  run:
-    working-directory: source
 
 jobs:
   publish:

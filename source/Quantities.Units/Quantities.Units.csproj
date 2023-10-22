@@ -5,7 +5,7 @@
   <PropertyGroup>
     <Version>0.1.0-alpha</Version>
     <RootNamespace>Quantities.Units</RootNamespace>
-    <Description>Many more units for use with Atmoos.Quantities.</Description>
+    <Description>Provides many more units for use with Atmoos.Quantities.</Description>
   </PropertyGroup>
 
   <ItemGroup>

@@ -11,12 +11,8 @@ env:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
   DOTNET_NOLOGO: true
   Prefix: 'quantities/serialization/newtonsoft'
-  Project: 'Quantities.Serialization/Newtonsoft/Quantities.Serialization.Newtonsoft.csproj'
+  Project: 'source/Quantities.Serialization/Newtonsoft/Quantities.Serialization.Newtonsoft.csproj'
   DotNetVersion: 7.0.x
-
-defaults:
-  run:
-    working-directory: source
 
 jobs:
   publish:

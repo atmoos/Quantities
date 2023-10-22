@@ -1,5 +1,5 @@
 <Project>
-  <Import Project="../Quantities.pack.xml"/>
+  <Import Project="../Quantities.Pack.targets"/>
 <!-- Packaging info common to all serialization projects within the quantities project -->
 
   <PropertyGroup>

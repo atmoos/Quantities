@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="../../Quantities.build.xml"/>
-  <Import Project="../../Quantities.test.xml"/>
+  <Import Project="../../Quantities.Build.targets"/>
+  <Import Project="../../Quantities.Test.targets"/>
 
   <PropertyGroup>
     <RootNamespace>Quantities.Serialization.Text.Json.Text</RootNamespace>

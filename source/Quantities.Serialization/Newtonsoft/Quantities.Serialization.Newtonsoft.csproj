@@ -6,7 +6,7 @@
     <Version>0.1.0-alpha</Version>
     <RootNamespace>Quantities.Serialization.Newtonsoft</RootNamespace>
     <PackageTags>$(PackageTags), json, newtonsoft, newtonsoft.json, newtonsoft-json</PackageTags>
-    <Description>Serialization of Atmoos.Quantities types using Newtonsoft.Json.</Description>
+    <Description>Serialization of Atmoos.Quantities types with Newtonsoft.Json.</Description>
   </PropertyGroup>
 
   <ItemGroup>

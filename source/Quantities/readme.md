@@ -1,6 +1,6 @@
 # Atmoos Quantities
 
-This library enables typesafe handling of quantities. It is a general purpose library that allows third parties to define their own units if needed. Many units are predefined in this library or are available on nuget.
+This library enables type-safe handling of quantities. It is a general purpose library that allows third parties to define their own units if needed. Many units are predefined in this library or are available on nuget.
 
 It's based on the international system of measurements (SI), but also supports many other units.
 
@@ -31,12 +31,14 @@ Area area = volume / feet; // 4.921... m²
 
 ## Supported Si Prefixes
 
-- All metric prefixes Quecto through to Quetta.
-- All binary prefixes Kibi through to Yobi.
+- All metric prefixes `Quecto` through to `Quetta`.
+- All binary prefixes `Kibi` through to `Yobi`.
 
 They are all compatible with each other.
 
 ## Supported Units of Measurement
+
+These are the units that are included in this library. Please see [Atmoos.Quantities.Units](https://www.nuget.org/packages/Atmoos.Quantities.Units/) for many more units.
 
 ```text
 ├── Si

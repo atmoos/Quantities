@@ -47,7 +47,7 @@ public readonly struct Data : IQuantity<Data>, IAmountOfInformation
     public static Data operator /(Data left, Double scalar) => new(left.data / scalar);
     public static Double operator /(Data left, Data right) => left.data.Divide(in right.data);
 
-    public static DataRate operator /(Data left, Time right) => DataRate.From(in left, in right);
+    public static DataRate operator /(Data data, Time time) => DataRate.From(in data, in time);
 
     public readonly struct Factory<TCreate> : IBinaryFactory<Data, IAmountOfInformation>, IMetricFactory<Data, IAmountOfInformation>
         where TCreate : struct, ICreate

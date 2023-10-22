@@ -32,6 +32,7 @@ public readonly struct Energy : IQuantity<Energy>, IEnergy
     public static Energy operator *(Energy left, Double scalar) => new(scalar * left.energy);
     public static Energy operator /(Energy left, Double scalar) => new(left.energy / scalar);
     public static Double operator /(Energy left, Energy right) => left.energy.Divide(in right.energy);
-    public static Power operator /(Energy left, Time right) => Power.From(in left, in right);
-    public static Time operator /(Energy left, Power right) => Time.From(in left, in right);
+
+    public static Power operator /(Energy energy, Time time) => Power.From(in energy, in time);
+    public static Time operator /(Energy energy, Power power) => Time.From(in energy, in power);
 }

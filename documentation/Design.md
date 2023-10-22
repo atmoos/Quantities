@@ -227,20 +227,20 @@ Say, Ohm's law ($V = R \cdot I$) is to be implemented. Then four separate formul
 public readonly struct Voltage
 {
     // ...
-    public static Resistance operator /(Voltage left, Current right);
-    public static Current operator /(Voltage left, Resistance right);
+    public static Resistance operator /(Voltage voltage, Current current);
+    public static Current operator /(Voltage voltage, Resistance resistance);
 }
 
 public readonly struct Current
 {
     // ...
-    public static Voltage operator *(Current left, Resistance right);
+    public static Voltage operator *(Current current, Resistance resistance);
 }
 
 public readonly struct Resistance
 {
     // ...
-    public static Voltage operator *(Resistance left, Current right);
+    public static Voltage operator *(Resistance resistance, Current current);
 }
 ```
 

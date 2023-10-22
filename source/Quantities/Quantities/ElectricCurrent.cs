@@ -36,5 +36,5 @@ public readonly struct ElectricCurrent : IQuantity<ElectricCurrent>, IElectricCu
 
     // Ohm's Law
     public static ElectricPotential operator *(ElectricCurrent current, ElectricalResistance resistance) => ElectricPotential.From(in current, in resistance);
-    public static Power operator *(ElectricCurrent left, ElectricPotential right) => Power.From(in right, in left);
+    public static Power operator *(ElectricCurrent current, ElectricPotential potential) => Power.From(in potential, in current);
 }

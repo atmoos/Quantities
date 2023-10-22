@@ -2,6 +2,7 @@
 using Quantities.Units.Si.Metric;
 
 namespace Quantities.Serialization.Newtonsoft.Test;
+
 public static class Convenience
 {
     private static readonly JsonSerializerSettings options = new JsonSerializerSettings().EnableQuantities(typeof(Gram).Assembly);

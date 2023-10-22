@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace Quantities.Serialization.Text.Json.Text;
+namespace Quantities.Serialization.Text.Json.Test;
 
 public static class Convenience
 {

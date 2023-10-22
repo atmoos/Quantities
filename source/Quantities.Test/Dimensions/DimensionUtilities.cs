@@ -1,12 +1,37 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Quantities.Dimensions;
+using Xunit.Sdk;
 
 namespace Quantities.Test.Dimensions;
 
-internal sealed class DimComparer : IEqualityComparer<Dimension>
+// xUnit has a bug that causes it to compare
+// types that implement IEnumerable<TSelf> recursively
+// such that we get a stack overflow :-(
+internal static class DimAssert
 {
-    public Boolean Equals(Dimension? x, Dimension? y) => x?.Equals(y) ?? y == null;
-    public Int32 GetHashCode([DisallowNull] Dimension obj) => obj.GetHashCode();
+    public static void Equal(Dimension expected, Dimension actual)
+    {
+        if (expected.Equals(actual)) {
+            return;
+        }
+        throw EqualException.ForMismatchedValues(expected, actual);
+    }
+    public static void NotEqual(Dimension expected, Dimension actual)
+    {
+        if (expected.Equals(actual)) {
+            var actualValue = actual.ToString() ?? "empty actual";
+            var expectedValue = expected.ToString() ?? "empty expected";
+            throw NotEqualException.ForEqualValues(expectedValue, actualValue);
+        }
+    }
+    public static void Equal(IEnumerable<Dimension> expected, IEnumerable<Dimension> actual)
+    {
+        var expectedSet = new HashSet<Dimension>(expected);
+        if (expectedSet.SetEquals(actual)) {
+            return;
+        }
+        Assert.Equal(expected.Select(e => e.ToString()), actual.Select(a => a.ToString()));
+    }
 }
 
 // These are alle "dummy" classes.

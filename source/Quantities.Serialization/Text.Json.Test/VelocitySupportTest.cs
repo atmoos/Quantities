@@ -1,7 +1,7 @@
 ﻿using Quantities.Units.Imperial.Length;
 using Quantities.Units.NonStandard.Length;
 
-namespace Quantities.Serialization.Text.Json.Text;
+namespace Quantities.Serialization.Text.Json.Test;
 
 public class VelocitySupportTest : ISerializationTester<Velocity>
 {

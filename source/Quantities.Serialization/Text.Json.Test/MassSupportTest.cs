@@ -1,7 +1,7 @@
 ﻿using Quantities.Units.Imperial.Mass;
 using Quantities.Units.NonStandard.Mass;
 
-namespace Quantities.Serialization.Text.Json.Text;
+namespace Quantities.Serialization.Text.Json.Test;
 
 public class MassSupportTest : ISerializationTester<Mass>
 {

@@ -1,7 +1,7 @@
 ﻿using Quantities.Units.Imperial.Temperature;
 using Quantities.Units.NonStandard.Temperature;
 
-namespace Quantities.Serialization.Text.Json.Text;
+namespace Quantities.Serialization.Text.Json.Test;
 
 public class TemperatureSupportTest : ISerializationTester<Temperature>
 {

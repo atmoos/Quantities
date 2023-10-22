@@ -2,7 +2,7 @@
 using Quantities.Dimensions;
 using Quantities.Units.Imperial.Length;
 
-namespace Quantities.Serialization.Text.Json.Text;
+namespace Quantities.Serialization.Text.Json.Test;
 
 public class SerializationTest
 {

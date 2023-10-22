@@ -12,49 +12,49 @@ public class ScalarTest
     [Fact]
     public void DoesNotEquateToIdentity()
     {
-        Assert.NotEqual(Dim<Time>.Value, Unit.Identity);
+        DimAssert.NotEqual(Dim<Time>.Value, Unit.Identity);
     }
     [Fact]
     public void EquatesToScalarOfEqualQuantity()
     {
-        Assert.Equal(Dim<Time>.Value, Dim<Time>.Value);
+        DimAssert.Equal(Dim<Time>.Value, Dim<Time>.Value);
     }
     [Fact]
     public void EquatesToScalarOfEqualQuantity_EvenWhenTheyAreNotTheSameInstance()
     {
         var left = Dim<Time>.Value;
         var right = Dim<Time>.Value;
-        Assert.Equal(left, right);
+        DimAssert.Equal(left, right);
         Assert.NotSame(left, right);
     }
     [Fact]
     public void EquatesToScalarOfSimilarQuantity()
     {
-        Assert.Equal(Dim<Time>.Value, Dim<OtherTime>.Value);
+        DimAssert.Equal(Dim<Time>.Value, Dim<OtherTime>.Value);
     }
     [Fact]
     public void DoesNotEquateToScalarOfDifferingQuantity()
     {
-        Assert.NotEqual(Dim<Time>.Value, Dim<Length>.Value);
+        DimAssert.NotEqual(Dim<Time>.Value, Dim<Length>.Value);
     }
     [Fact]
     public void DoesNotEquateToAnyProduct()
     {
-        Assert.NotEqual(Dim<Time>.Value, Dim<Time>.Times<Length>());
+        DimAssert.NotEqual(Dim<Time>.Value, Dim<Time>.Times<Length>());
     }
     [Fact]
     public void DoesNotEquateToSameScalarRaisedToPowerOtherThanOne()
     {
         var scalar = Dim<Time>.Value;
         var squareScalar = Dim<Time>.Pow(2);
-        Assert.NotEqual(scalar, squareScalar);
+        DimAssert.NotEqual(scalar, squareScalar);
     }
     [Fact]
     public void DoesNotEquateToScalarOfDifferentMultiplicity()
     {
         var any = Dim<Time>.Pow(-2);
         var anyOther = Dim<Time>.Pow(2);
-        Assert.NotEqual(any, anyOther);
+        DimAssert.NotEqual(any, anyOther);
     }
     [Fact]
     public void DoesNotEquateToScalarOfSameMultiplicityButDifferingQuantity()
@@ -62,7 +62,7 @@ public class ScalarTest
         const Int32 multiplicity = 5;
         var any = Dim<Time>.Pow(multiplicity);
         var anyOther = Dim<Length>.Pow(multiplicity);
-        Assert.NotEqual(any, anyOther);
+        DimAssert.NotEqual(any, anyOther);
     }
 
     [Fact]
@@ -104,14 +104,14 @@ public class ScalarTest
     {
         var expected = Dim<Time>.Pow(2);
         var actual = Dim<Time>.Times<Time>();
-        Assert.Equal(expected, actual);
+        DimAssert.Equal(expected, actual);
     }
     [Fact]
     public void TimeSimilarQuantityResultsInASquaredQuantity()
     {
         var expected = Dim<Time>.Pow(2);
         var actual = Dim<Time>.Times<OtherTime>();
-        Assert.Equal(expected, actual);
+        DimAssert.Equal(expected, actual);
     }
     [Fact]
     public void MultiplicationIsCommutative()
@@ -122,7 +122,7 @@ public class ScalarTest
         var expected = left * right;
         var actual = right * left;
 
-        Assert.Equal(expected, actual);
+        DimAssert.Equal(expected, actual);
     }
 
     [Fact]
@@ -165,7 +165,7 @@ public class ScalarTest
 
         var actual = scalar * rhProduct;
 
-        Assert.Equal(expected, actual);
+        DimAssert.Equal(expected, actual);
     }
     [Fact]
     public void ProductsAreProperlySimplifiedOnLeftHandTerm()
@@ -176,7 +176,7 @@ public class ScalarTest
 
         var actual = scalar * lhProduct;
 
-        Assert.Equal(expected, actual);
+        DimAssert.Equal(expected, actual);
     }
     [Fact]
     public void EnumeratesItselfOnly()
@@ -185,7 +185,7 @@ public class ScalarTest
         IEnumerable<Scalar> actual = self;
         IEnumerable<Scalar> expected = new Scalar[] { (Scalar)self };
 
-        Assert.Equal(expected, actual, new DimComparer()); // default comparer seems to compare recursively!
+        DimAssert.Equal(expected, actual);
     }
 
     [Theory]

@@ -1,6 +1,7 @@
 ﻿using Quantities.Units.Si.Metric;
+using Quantities.Units.Si.Metric.UnitsOfInformation;
 
-using Bytes = Quantities.Units.Si.Metric.Byte;
+using Bytes = Quantities.Units.Si.Metric.UnitsOfInformation.Byte;
 
 namespace Quantities.Test;
 

@@ -2,7 +2,7 @@
 using Quantities.Units.Imperial.Length;
 using Quantities.Units.NonStandard.Area;
 
-namespace Quantities.Serialization.Text.Json.Text;
+namespace Quantities.Serialization.Text.Json.Test;
 
 public class AreaSupportTest : ISerializationTester<Area>, IInjectedUnitTester<Area>
 {

@@ -1,6 +1,7 @@
-﻿using Bytes = Quantities.Units.Si.Metric.Byte;
+﻿using Quantities.Units.Si.Metric.UnitsOfInformation;
+using Bytes = Quantities.Units.Si.Metric.UnitsOfInformation.Byte;
 
-namespace Quantities.Serialization.Text.Json.Text;
+namespace Quantities.Serialization.Text.Json.Test;
 
 public class DataRateSupportTest : ISerializationTester<DataRate>
 {

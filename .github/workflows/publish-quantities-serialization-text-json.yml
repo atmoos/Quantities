@@ -1,0 +1,35 @@
+name: Publish Core Quantities System Text Json Serialization
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [ "main" ]
+    paths: 
+      - '**/Quantities.Serialization.Text.Json.csproj'
+
+env:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+  DOTNET_NOLOGO: true
+  Prefix: 'quantities/serialization/text.json'
+  Project: 'Quantities.Serialization/Text.Json/Quantities.Serialization.Text.Json.csproj'
+  DotNetVersion: 7.0.x
+
+defaults:
+  run:
+    working-directory: source
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ env.DotNetVersion }}
+      - uses: tedd/publish-nuget-neo@v1
+        with:
+          NUGET_KEY: ${{secrets.CREATENEWNUGETPACKAGE}}
+          PROJECT_FILE_PATH: ${{env.Project}}
+          TAG_COMMIT: true
+          TAG_FORMAT: ${{env.Prefix}}/v*

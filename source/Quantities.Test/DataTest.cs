@@ -79,7 +79,7 @@ public class DataTest
     [Fact]
     public void DataRateTimesTimeIsAmountOfData()
     {
-        Time time = Time.Of(12).Si<Milli, Second>();
+        Time time = Time.Of(12, Si<Milli, Second>());
         DataRate rate = DataRate.Of(32, Metric<Mega, Bit>().Per(Si<Second>()));
         Data expected = Data.Of(12 * 32 / 1e3, Metric<Mega, Bit>());
 
@@ -90,7 +90,7 @@ public class DataTest
     [Fact]
     public void TimeTimesDataRateIsAmountOfData()
     {
-        Time time = Time.Of(12).Si<Milli, Second>();
+        Time time = Time.Of(12, Si<Milli, Second>());
         DataRate rate = DataRate.Of(32, Metric<Mega, Bit>().Per(Si<Second>()));
         Data expected = Data.Of(12 * 32 / 1e3, Metric<Mega, Bit>());
 

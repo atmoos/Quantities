@@ -154,7 +154,7 @@ public sealed class LengthTest
     public void SiLengthBySiTimeIsVelocity()
     {
         Length distance = Length.Of(100, Si<Milli, Metre>());
-        Time duration = Time.Of(20).Si<Second>();
+        Time duration = Time.Of(20, Si<Second>());
         Velocity expected = Velocity.Of(5, Si<Milli, Metre>().Per(Si<Second>()));
 
         Velocity actual = distance / duration;
@@ -165,7 +165,7 @@ public sealed class LengthTest
     public void SiLengthByMetricTimeIsVelocity()
     {
         Length distance = Length.Of(120, Si<Kilo, Metre>());
-        Time duration = Time.Of(10).Metric<Hour>();
+        Time duration = Time.Of(10, Metric<Hour>());
         Velocity expected = Velocity.Of(12, Si<Kilo, Metre>().Per(Metric<Hour>()));
 
         Velocity actual = distance / duration;
@@ -176,7 +176,7 @@ public sealed class LengthTest
     public void ImperialLengthByTimeIsVelocity()
     {
         Length distance = Length.Of(70, Imperial<Mile>());
-        Time duration = Time.Of(2).Metric<Hour>();
+        Time duration = Time.Of(2, Metric<Hour>());
         Velocity expected = Velocity.Of(35, Imperial<Mile>().Per(Metric<Hour>()));
 
         Velocity actual = distance / duration;
@@ -186,7 +186,7 @@ public sealed class LengthTest
     [Fact]
     public void VelocityTimesTimeIsLength()
     {
-        Time duration = Time.Of(12).Metric<Minute>();
+        Time duration = Time.Of(12, Metric<Minute>());
         Velocity velocity = Velocity.Of(350, Imperial<Mile>().Per(Metric<Hour>()));
         Length expected = Length.Of(70, Imperial<Mile>());
 

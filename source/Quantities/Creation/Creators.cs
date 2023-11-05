@@ -14,16 +14,13 @@ public readonly struct Scalar<TUnit>
     public Quotient<TUnit, TDenominator> Per<TDenominator>(in Scalar<TDenominator> denominator)
         where TDenominator : IUnit, IDimension => new(denominator.factory.Inject(this.factory.Quotient));
     internal Quantity Create(in Double value) => new(in value, this.factory.Create());
+    internal Quantity Create<TAlias, TLinear>(in Double value)
+        where TAlias : TUnit, IAlias<TLinear>
+        where TLinear : ILinear, IDimension => new(in value, this.factory.AliasTo<TAlias, TLinear>());
     internal Quantity Transform(in Quantity other) => other.Project(this.factory.Create());
-}
-
-public readonly struct Alias<TUnit>
-    where TUnit : IAlias, IUnit, IDimension
-{
-    private readonly Measure measure;
-    internal Alias(Measure measure) => this.measure = measure;
-    internal Quantity Create(in Double value) => new(in value, in this.measure);
-    internal Quantity Transform(in Quantity other) => other.Project(in this.measure);
+    internal Quantity Transform<TAlias, TLinear>(in Quantity other)
+        where TAlias : TUnit, IAlias<TLinear>
+        where TLinear : ILinear, IDimension => other.Project(this.factory.AliasTo<TAlias, TLinear>());
 }
 
 public readonly struct Product<TLeft, TRight>
@@ -46,8 +43,8 @@ public readonly struct Quotient<TN, TD>
     internal Quantity Transform(in Quantity other) => other.Project(this.factory.Create());
 }
 
-public readonly struct Square<TDim>
-    where TDim : IUnit, IDimension
+public readonly struct Square<TUnit>
+    where TUnit : IUnit, IDimension
 {
     private readonly Factory factory;
     internal Square(Factory factory) => this.factory = factory;
@@ -55,8 +52,8 @@ public readonly struct Square<TDim>
     internal Quantity Transform(in Quantity other) => other.Project(this.factory.Square());
 }
 
-public readonly struct Cubic<TDim>
-    where TDim : IUnit, IDimension
+public readonly struct Cubic<TUnit>
+    where TUnit : IUnit, IDimension
 {
     private readonly Factory factory;
     internal Cubic(Factory factory) => this.factory = factory;

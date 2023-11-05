@@ -141,7 +141,7 @@ public sealed class LengthTest
     [Fact]
     public void LengthByDivisionIsSameAsLengthByConstruction()
     {
-        Volume volume = Volume.Of(300, AliasOf<ILength>.Metric<Hecto, Litre>());
+        Volume volume = Volume.Of(300, Metric<Hecto, Litre>());
         Area area = Area.Of(6, Square(Si<Metre>()));
         Length expected = Length.Of(5, Si<Metre>());
 

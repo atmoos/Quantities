@@ -1,5 +1,4 @@
 ﻿using Quantities.Creation;
-using Quantities.Dimensions;
 using Quantities.Units.Imperial.Volume;
 using Quantities.Units.Si.Metric;
 
@@ -7,9 +6,9 @@ namespace Quantities.Test;
 
 public sealed class VolumeTest
 {
-    private static readonly Alias<Litre> litre = AliasOf<ILength>.Metric<Litre>();
-    private static readonly Alias<Litre> milliLitre = AliasOf<ILength>.Metric<Milli, Litre>();
-    private static readonly Alias<Litre> hectoLitre = AliasOf<ILength>.Metric<Hecto, Litre>();
+    private static readonly Scalar<Litre> litre = Metric<Litre>();
+    private static readonly Scalar<Litre> milliLitre = Metric<Milli, Litre>();
+    private static readonly Scalar<Litre> hectoLitre = Metric<Hecto, Litre>();
     [Fact]
     public void AddCubicMetres()
     {
@@ -60,7 +59,7 @@ public sealed class VolumeTest
     [Fact]
     public void FromCubicMillimetreToMicroLitre()
     {
-        var microLitre = AliasOf<ILength>.Metric<Micro, Litre>();
+        var microLitre = Metric<Micro, Litre>();
         Volume si = Volume.Of(5, Cubic(Si<Milli, Metre>()));
         Volume expected = Volume.Of(5, microLitre);
 
@@ -88,7 +87,7 @@ public sealed class VolumeTest
     [Fact]
     public void FromGallonToLitre()
     {
-        Volume si = Volume.Of(1, AliasOf<ILength>.Imperial<Gallon>());
+        Volume si = Volume.Of(1, Imperial<Gallon>());
         Volume expected = Volume.Of(4.54609, litre);
 
         Volume actual = si.To(litre);
@@ -98,9 +97,9 @@ public sealed class VolumeTest
     public void FromLitreToPint()
     {
         Volume si = Volume.Of(0.56826125, litre);
-        Volume expected = Volume.Of(1, AliasOf<ILength>.Imperial<Pint>());
+        Volume expected = Volume.Of(1, Imperial<Pint>());
 
-        Volume actual = si.To(AliasOf<ILength>.Imperial<Pint>());
+        Volume actual = si.To(Imperial<Pint>());
         Assert.Equal(expected, actual);
     }
     [Fact]
@@ -116,15 +115,15 @@ public sealed class VolumeTest
     public void FromMillilitreToImperialFluidOunce()
     {
         Volume si = Volume.Of(2 * 28.4130625, milliLitre);
-        Volume expected = Volume.Of(2, AliasOf<ILength>.Imperial<FluidOunce>());
+        Volume expected = Volume.Of(2, Imperial<FluidOunce>());
 
-        Volume actual = si.To(AliasOf<ILength>.Imperial<FluidOunce>());
+        Volume actual = si.To(Imperial<FluidOunce>());
         Assert.Equal(expected, actual);
     }
     [Fact]
     public void FromStereToCubicMetre()
     {
-        Volume stere = Volume.Of(3, AliasOf<ILength>.Metric<Stere>());
+        Volume stere = Volume.Of(3, Metric<Stere>());
         Volume expected = Volume.Of(3, Cubic(Si<Metre>()));
 
         Volume actual = stere.To(Cubic(Si<Metre>()));
@@ -133,16 +132,16 @@ public sealed class VolumeTest
     [Fact]
     public void FromLambdaToMicroLitre()
     {
-        Volume lambda = Volume.Of(2, AliasOf<ILength>.Metric<Lambda>());
-        Volume expected = Volume.Of(2, AliasOf<ILength>.Metric<Micro, Litre>());
+        Volume lambda = Volume.Of(2, Metric<Lambda>());
+        Volume expected = Volume.Of(2, Metric<Micro, Litre>());
 
-        Volume actual = lambda.To(AliasOf<ILength>.Metric<Micro, Litre>());
+        Volume actual = lambda.To(Metric<Micro, Litre>());
         Assert.Equal(expected, actual);
     }
     [Fact]
     public void FromLambdaToCubicMilliMetre()
     {
-        Volume lambda = Volume.Of(5, AliasOf<ILength>.Metric<Lambda>());
+        Volume lambda = Volume.Of(5, Metric<Lambda>());
         Volume expected = Volume.Of(5, Cubic(Si<Milli, Metre>()));
 
         Volume actual = lambda.To(Cubic(Si<Milli, Metre>()));

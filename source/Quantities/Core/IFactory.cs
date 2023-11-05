@@ -64,11 +64,11 @@ public interface ICubic<out TQuantity, in TDimension, TLinear> : IAlias<TQuantit
     public static abstract TQuantity Of<TUnit>(in Double value, in Cubic<TUnit> measure) where TUnit : TLinear, IUnit;
 }
 
-public interface IAlias<out TQuantity, in TDimension, TAliasedDimension>
-    where TQuantity : struct, IAlias<TQuantity, TDimension, TAliasedDimension>, TDimension
+public interface IAlias<out TQuantity, in TDimension, TLinear>
+    where TQuantity : struct, IAlias<TQuantity, TDimension, TLinear>, TDimension
     where TDimension : IDimension
-    where TAliasedDimension : IDimension, ILinear
+    where TLinear : IDimension, ILinear
 {
-    public TQuantity To<TAlias>(in Alias<TAlias> alias) where TAlias : TDimension, IAlias<TAliasedDimension>, IUnit;
-    public static abstract TQuantity Of<TAlias>(in Double value, in Alias<TAlias> alias) where TAlias : TDimension, IAlias<TAliasedDimension>, IUnit;
+    public TQuantity To<TUnit>(in Scalar<TUnit> alias) where TUnit : TDimension, IAlias<TLinear>, IUnit;
+    public static abstract TQuantity Of<TUnit>(in Double value, in Scalar<TUnit> alias) where TUnit : TDimension, IAlias<TLinear>, IUnit;
 }

@@ -14,14 +14,14 @@ public readonly struct Area : IQuantity<Area>, IArea
     internal Quantity Value => this.area;
     Quantity IQuantity<Area>.Value => this.area;
     private Area(in Quantity value) => this.area = value;
-    public Area To<TLength>(in Square<TLength> square)
-        where TLength : ILength, IUnit => new(square.Transform(in this.area));
-    public Area To<TAlias>(in Alias<TAlias> alias)
-        where TAlias : IArea, IAlias<ILength>, IUnit => new(alias.Transform(in this.area));
-    public static Area Of<TLength>(in Double value, in Square<TLength> square)
-        where TLength : ILength, IUnit => new(square.Create(in value));
-    public static Area Of<TAlias>(in Double value, in Alias<TAlias> alias)
-        where TAlias : IArea, IAlias<ILength>, IUnit => new(alias.Create(in value));
+    public Area To<TLength>(in Square<TLength> other)
+        where TLength : ILength, IUnit => new(other.Transform(in this.area));
+    public Area To<TArea>(in Scalar<TArea> other)
+        where TArea : IArea, IAlias<ILength>, IUnit => new(other.Transform<TArea, ILength>(in this.area));
+    public static Area Of<TLength>(in Double value, in Square<TLength> measure)
+        where TLength : ILength, IUnit => new(measure.Create(in value));
+    public static Area Of<TArea>(in Double value, in Scalar<TArea> measure)
+        where TArea : IArea, IAlias<ILength>, IUnit => new(measure.Create<TArea, ILength>(in value));
     static Area IFactory<Area>.Create(in Quantity value) => new(in value);
     internal static Area From(in Length left, in Length right) => new(left.Value * right.Value);
     internal static Area From(in Volume volume, in Length length) => new(volume.Value / length.Value);

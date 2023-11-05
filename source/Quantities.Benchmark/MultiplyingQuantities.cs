@@ -1,6 +1,5 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Diagnosers;
-using Quantities.Dimensions;
 using Quantities.Prefixes;
 using Quantities.Units.Imperial.Length;
 using Quantities.Units.Si;
@@ -12,7 +11,7 @@ namespace Quantities.Benchmark;
 [MemoryDiagnoser]
 public class MultiplyingQuantities
 {
-    private Area aliasArea = Area.Of(3, AliasOf<ILength>.Metric<Are>());
+    private Area aliasArea = Area.Of(3, Metric<Are>());
     private Area powerArea = Area.Of(3, Square(Si<Metre>()));
     private Length largeMetric = Length.Of(3, Si<Kilo, Metre>());
     private Length smallMetric = Length.Of(23, Si<Micro, Metre>());

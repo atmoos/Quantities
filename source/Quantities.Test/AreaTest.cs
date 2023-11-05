@@ -3,14 +3,12 @@ using Quantities.Units.Imperial.Area;
 using Quantities.Units.NonStandard.Area;
 using Quantities.Units.Si.Metric;
 
-using static Quantities.AliasOf<Quantities.Dimensions.ILength>;
-
 namespace Quantities.Test;
 public class AreaTest
 {
-    private static readonly Creation.Alias<Are> are = AliasOf<ILength>.Metric<Are>();
-    private static readonly Creation.Alias<Are> hectare = AliasOf<ILength>.Metric<Hecto, Are>();
-    private static readonly Creation.Alias<Acre> acre = AliasOf<ILength>.Imperial<Acre>();
+    private static readonly Creation.Scalar<Are> are = Metric<Are>();
+    private static readonly Creation.Scalar<Are> hectare = Metric<Hecto, Are>();
+    private static readonly Creation.Scalar<Acre> acre = Imperial<Acre>();
     [Fact]
     public void AddSquareMetres()
     {
@@ -156,7 +154,7 @@ public class AreaTest
     [Fact]
     public void MorgenToHectare()
     {
-        Area morgen = Area.Of(4, AliasOf<ILength>.NonStandard<Morgen>());
+        Area morgen = Area.Of(4, NonStandard<Morgen>());
         Area expected = Area.Of(1, hectare);
 
         Area actual = morgen.To(hectare);
@@ -166,7 +164,7 @@ public class AreaTest
     [Fact]
     public void MorgenToSquareMetre()
     {
-        Area morgen = Area.Of(2, AliasOf<ILength>.NonStandard<Morgen>());
+        Area morgen = Area.Of(2, NonStandard<Morgen>());
         Area expected = Area.Of(5000, Square(Si<Metre>()));
 
         Area actual = morgen.To(Square(Si<Metre>()));
@@ -176,10 +174,10 @@ public class AreaTest
     [Fact]
     public void RoodToPerches()
     {
-        Area rood = Area.Of(1, AliasOf<ILength>.Imperial<Rood>());
-        Area expected = Area.Of(40, AliasOf<ILength>.Imperial<Perch>());
+        Area rood = Area.Of(1, Imperial<Rood>());
+        Area expected = Area.Of(40, Imperial<Perch>());
 
-        Area actual = rood.To(AliasOf<ILength>.Imperial<Perch>());
+        Area actual = rood.To(Imperial<Perch>());
 
         actual.Matches(expected);
     }

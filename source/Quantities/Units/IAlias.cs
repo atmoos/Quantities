@@ -2,9 +2,7 @@
 
 namespace Quantities.Units;
 
-public interface IAlias { /* marker */}
-
-public interface IAlias<TDimension> : IAlias
+public interface IAlias<TDimension>
     where TDimension : IDimension
 {
     static abstract T Inject<T>(ISystems<TDimension, T> basis);

@@ -1,6 +1,5 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Diagnosers;
-using Quantities.Dimensions;
 using Quantities.Prefixes;
 using Quantities.Units.Imperial.Area;
 using Quantities.Units.Imperial.Length;
@@ -14,9 +13,9 @@ namespace Quantities.Benchmark;
 public class DividingQuantities
 {
     private Volume metricVolume = Volume.Of(3, Cubic(Si<Kilo, Metre>()));
-    private Volume metricAcceptedVolume = Volume.Of(3, AliasOf<ILength>.Metric<Kilo, Litre>());
+    private Volume metricAcceptedVolume = Volume.Of(3, Metric<Kilo, Litre>());
     private Area metricArea = Area.Of(23, Square(Si<Deca, Metre>()));
-    private Area imperialPureArea = Area.Of(23, AliasOf<ILength>.Imperial<Acre>());
+    private Area imperialPureArea = Area.Of(23, Imperial<Acre>());
     private Volume imperialVolume = Volume.Of(-3, Cubic(Imperial<Mile>()));
     private Area imperialArea = Area.Of(55, Square(Imperial<Yard>()));
     private ElectricPotential potential = ElectricPotential.Of(33, Si<Kilo, Volt>());

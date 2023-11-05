@@ -8,9 +8,9 @@ namespace Quantities.Serialization.Text.Json.Test;
 public class AreaSupportTest : ISerializationTester<Area>, IInjectedUnitTester<Area>
 {
 
-    private static readonly Creation.Alias<Are> are = AliasOf<ILength>.Metric<Are>();
-    private static readonly Creation.Alias<Acre> acre = AliasOf<ILength>.Imperial<Acre>();
-    private static readonly Creation.Alias<Perch> perch = AliasOf<ILength>.Imperial<Perch>();
+    private static readonly Creation.Scalar<Are> are = Metric<Are>();
+    private static readonly Creation.Scalar<Acre> acre = Imperial<Acre>();
+    private static readonly Creation.Scalar<Perch> perch = Imperial<Perch>();
     [Theory]
     [MemberData(nameof(Quantities))]
     public void SupportsSerialization(Area quantity) => quantity.SupportsSerialization();
@@ -54,9 +54,9 @@ public class AreaSupportTest : ISerializationTester<Area>, IInjectedUnitTester<A
         {
             yield return Area.Of(1, in are);
             yield return Area.Of(2, in acre);
-            yield return Area.Of(3, AliasOf<ILength>.Imperial<Rood>());
+            yield return Area.Of(3, Imperial<Rood>());
             yield return Area.Of(4, in perch);
-            yield return Area.Of(5, AliasOf<ILength>.NonStandard<Morgen>());
+            yield return Area.Of(5, NonStandard<Morgen>());
         }
         return Interesting().Select(l => new Object[] { l });
     }

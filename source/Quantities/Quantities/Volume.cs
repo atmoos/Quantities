@@ -14,14 +14,14 @@ public readonly struct Volume : IQuantity<Volume>, IVolume
     internal Quantity Value => this.volume;
     Quantity IQuantity<Volume>.Value => this.volume;
     private Volume(in Quantity value) => this.volume = value;
-    public Volume To<TLength>(in Cubic<TLength> cubic)
-        where TLength : ILength, IUnit => new(cubic.Transform(in this.volume));
-    public Volume To<TAlias>(in Alias<TAlias> alias)
-        where TAlias : IVolume, IAlias<ILength>, IUnit => new(alias.Transform(in this.volume));
-    public static Volume Of<TLength>(in Double value, in Cubic<TLength> cubic)
-        where TLength : ILength, IUnit => new(cubic.Create(in value));
-    public static Volume Of<TAlias>(in Double value, in Alias<TAlias> alias)
-        where TAlias : IVolume, IAlias<ILength>, IUnit => new(alias.Create(in value));
+    public Volume To<TLength>(in Cubic<TLength> other)
+        where TLength : ILength, IUnit => new(other.Transform(in this.volume));
+    public Volume To<TVolume>(in Scalar<TVolume> other)
+        where TVolume : IVolume, IAlias<ILength>, IUnit => new(other.Transform<TVolume, ILength>(in this.volume));
+    public static Volume Of<TLength>(in Double value, in Cubic<TLength> measure)
+        where TLength : ILength, IUnit => new(measure.Create(in value));
+    public static Volume Of<TVolume>(in Double value, in Scalar<TVolume> measure)
+        where TVolume : IVolume, IAlias<ILength>, IUnit => new(measure.Create<TVolume, ILength>(in value));
     static Volume IFactory<Volume>.Create(in Quantity value) => new(in value);
     internal static Volume Times(in Length length, in Area area) => new(length.Value * area.Value);
     internal static Volume Times(in Area area, in Length length) => new(area.Value * length.Value);

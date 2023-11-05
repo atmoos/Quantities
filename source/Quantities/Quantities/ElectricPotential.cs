@@ -1,11 +1,12 @@
 ﻿using System.Numerics;
 using Quantities.Dimensions;
 using Quantities.Factories;
+using Quantities.Units;
 
 namespace Quantities;
 
 public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectricPotential
-    , IFactory<ISiFactory<ElectricPotential, IElectricPotential>, SiOnly<To, ElectricPotential, IElectricPotential>, SiOnly<Create, ElectricPotential, IElectricPotential>>
+    , IScalar<ElectricPotential, IElectricPotential>
     , IMultiplyOperators<ElectricPotential, ElectricCurrent, Power>
     , IDivisionOperators<ElectricPotential, ElectricCurrent, ElectricalResistance>
     , IDivisionOperators<ElectricPotential, ElectricalResistance, ElectricCurrent>
@@ -13,9 +14,11 @@ public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectr
     private readonly Quantity potential;
     internal Quantity Value => this.potential;
     Quantity IQuantity<ElectricPotential>.Value => this.potential;
-    public SiOnly<To, ElectricPotential, IElectricPotential> To => new(new To(in this.potential));
     private ElectricPotential(in Quantity value) => this.potential = value;
-    public static SiOnly<Create, ElectricPotential, IElectricPotential> Of(in Double value) => new(new Create(in value));
+    public ElectricPotential To<TUnit>(in Creation.Scalar<TUnit> other)
+        where TUnit : IElectricPotential, IUnit => new(other.Transform(in this.potential));
+    public static ElectricPotential Of<TUnit>(in Double value, in Creation.Scalar<TUnit> measure)
+        where TUnit : IElectricPotential, IUnit => new(measure.Create(in value));
     static ElectricPotential IFactory<ElectricPotential>.Create(in Quantity value) => new(in value);
     internal static ElectricPotential From(in ElectricCurrent current, in ElectricalResistance resistance) => new(current.Value * resistance.Value);
     internal static ElectricPotential From(in Power power, in ElectricCurrent current) => new(power.Value / current.Value);

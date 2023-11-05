@@ -9,9 +9,9 @@ public class ElectricCurrentSupportTest : ISerializationTester<ElectricCurrent>
     {
         static IEnumerable<ElectricCurrent> Interesting()
         {
-            yield return ElectricCurrent.Of(21).Si<Ampere>();
-            yield return ElectricCurrent.Of(342).Si<Femto, Ampere>();
-            yield return ElectricCurrent.Of(6).Si<Kilo, Ampere>();
+            yield return ElectricCurrent.Of(21, Si<Ampere>());
+            yield return ElectricCurrent.Of(342, Si<Femto, Ampere>());
+            yield return ElectricCurrent.Of(6, Si<Kilo, Ampere>());
         }
         return Interesting().Select(l => new Object[] { l });
     }

@@ -12,12 +12,12 @@ public sealed class PowerTest
     [Fact]
     public void MicroWattToString() => FormattingMatches(v => Power.Of(v).Si<Micro, Watt>(), "μW");
     [Fact]
-    public void VoltAmpereToString() => FormattingMatches(v => ElectricPotential.Of(v).Si<Volt>() * ElectricCurrent.Of(1).Si<Ampere>(), Join("V", "A"));
+    public void VoltAmpereToString() => FormattingMatches(v => ElectricPotential.Of(v, Si<Volt>()) * ElectricCurrent.Of(1, Si<Ampere>()), Join("V", "A"));
     [Fact]
     public void PowerLawInBaseUnits()
     {
-        ElectricPotential volts = ElectricPotential.Of(12).Si<Volt>();
-        ElectricCurrent ampere = ElectricCurrent.Of(3).Si<Ampere>();
+        ElectricPotential volts = ElectricPotential.Of(12, Si<Volt>());
+        ElectricCurrent ampere = ElectricCurrent.Of(3, Si<Ampere>());
         Power expected = Power.Of(36).Si<Watt>();
 
         Power actual = volts * ampere;
@@ -27,8 +27,8 @@ public sealed class PowerTest
     [Fact]
     public void OhmsLawInPrefixedUnits()
     {
-        ElectricPotential volts = ElectricPotential.Of(70).Si<Kilo, Volt>();
-        ElectricCurrent ampere = ElectricCurrent.Of(300).Si<Milli, Ampere>();
+        ElectricPotential volts = ElectricPotential.Of(70, Si<Kilo, Volt>());
+        ElectricCurrent ampere = ElectricCurrent.Of(300, Si<Milli, Ampere>());
         Power expected = Power.Of(21).Si<Kilo, Watt>();
 
         Power actual = ampere * volts;
@@ -38,7 +38,7 @@ public sealed class PowerTest
     [Fact]
     public void OhmsLawSquarePotentialPerResistance()
     {
-        ElectricPotential volts = ElectricPotential.Of(0.6).Si<Kilo, Volt>();
+        ElectricPotential volts = ElectricPotential.Of(0.6, Si<Kilo, Volt>());
         ElectricalResistance ohm = ElectricalResistance.Of(3, Si<Kilo, Ohm>());
         Power expected = Power.Of(120).Si<Watt>();
 
@@ -49,7 +49,7 @@ public sealed class PowerTest
     [Fact]
     public void OhmsLawSquareCurrentTimesResistance()
     {
-        ElectricCurrent ampere = ElectricCurrent.Of(8).Si<Kilo, Ampere>();
+        ElectricCurrent ampere = ElectricCurrent.Of(8, Si<Kilo, Ampere>());
         ElectricalResistance ohm = ElectricalResistance.Of(2, Si<Milli, Ohm>());
         Power expected = Power.Of(128).Si<Kilo, Watt>();
 

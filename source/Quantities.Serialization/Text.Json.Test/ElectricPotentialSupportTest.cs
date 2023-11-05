@@ -9,9 +9,9 @@ public class ElectricPotentialSupportTest : ISerializationTester<ElectricPotenti
     {
         static IEnumerable<ElectricPotential> Interesting()
         {
-            yield return ElectricPotential.Of(21).Si<Volt>();
-            yield return ElectricPotential.Of(342).Si<Micro, Volt>();
-            yield return ElectricPotential.Of(0.0747).Si<Giga, Volt>();
+            yield return ElectricPotential.Of(21, Si<Volt>());
+            yield return ElectricPotential.Of(342, Si<Micro, Volt>());
+            yield return ElectricPotential.Of(0.0747, Si<Giga, Volt>());
         }
         return Interesting().Select(l => new Object[] { l });
     }

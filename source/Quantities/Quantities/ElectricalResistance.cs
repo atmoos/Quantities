@@ -1,19 +1,21 @@
 ﻿using System.Numerics;
 using Quantities.Dimensions;
-using Quantities.Factories;
+using Quantities.Units;
 
 namespace Quantities;
 
 public readonly struct ElectricalResistance : IQuantity<ElectricalResistance>, IElectricalResistance
-    , IFactory<ISiFactory<ElectricalResistance, IElectricalResistance>, SiOnly<To, ElectricalResistance, IElectricalResistance>, SiOnly<Create, ElectricalResistance, IElectricalResistance>>
+    , IScalar<ElectricalResistance, IElectricalResistance>
     , IMultiplyOperators<ElectricalResistance, ElectricCurrent, ElectricPotential>
 {
     private readonly Quantity resistance;
     internal Quantity Value => this.resistance;
     Quantity IQuantity<ElectricalResistance>.Value => this.resistance;
-    public SiOnly<To, ElectricalResistance, IElectricalResistance> To => new(new To(in this.resistance));
     private ElectricalResistance(in Quantity value) => this.resistance = value;
-    public static SiOnly<Create, ElectricalResistance, IElectricalResistance> Of(in Double value) => new(new Create(in value));
+    public ElectricalResistance To<TUnit>(in Creation.Scalar<TUnit> other)
+        where TUnit : IElectricalResistance, IUnit => new(other.Transform(in this.resistance));
+    public static ElectricalResistance Of<TUnit>(in Double value, in Creation.Scalar<TUnit> measure)
+        where TUnit : IElectricalResistance, IUnit => new(measure.Create(in value));
     static ElectricalResistance IFactory<ElectricalResistance>.Create(in Quantity value) => new(in value);
     internal static ElectricalResistance From(in ElectricPotential potential, in ElectricCurrent current) => new(potential.Value / current.Value);
     public Boolean Equals(ElectricalResistance other) => this.resistance.Equals(other.resistance);

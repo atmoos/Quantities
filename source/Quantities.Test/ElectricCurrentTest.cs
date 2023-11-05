@@ -14,7 +14,7 @@ public sealed class ElectricCurrentTest
     public void OhmsLawInBaseUnits()
     {
         ElectricPotential volts = ElectricPotential.Of(12).Si<Volt>();
-        ElectricalResistance ohm = ElectricalResistance.Of(3).Si<Ohm>();
+        ElectricalResistance ohm = ElectricalResistance.Of(3, Si<Ohm>());
         ElectricCurrent expected = ElectricCurrent.Of(4).Si<Ampere>();
 
         ElectricCurrent current = volts / ohm;
@@ -25,7 +25,7 @@ public sealed class ElectricCurrentTest
     public void OhmsLawInPrefixedUnits()
     {
         ElectricPotential volts = ElectricPotential.Of(12).Si<Kilo, Volt>();
-        ElectricalResistance ohm = ElectricalResistance.Of(3).Si<Mega, Ohm>();
+        ElectricalResistance ohm = ElectricalResistance.Of(3, Si<Mega, Ohm>());
         ElectricCurrent expected = ElectricCurrent.Of(4).Si<Milli, Ampere>();
 
         ElectricCurrent current = volts / ohm;

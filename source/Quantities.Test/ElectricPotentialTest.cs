@@ -13,7 +13,7 @@ public sealed class ElectricPotentialTest
     [Fact]
     public void OhmsLawInBaseUnits()
     {
-        ElectricalResistance ohm = ElectricalResistance.Of(7).Si<Ohm>();
+        ElectricalResistance ohm = ElectricalResistance.Of(7, Si<Ohm>());
         ElectricCurrent ampere = ElectricCurrent.Of(3).Si<Ampere>();
         ElectricPotential expected = ElectricPotential.Of(21).Si<Volt>();
 
@@ -24,7 +24,7 @@ public sealed class ElectricPotentialTest
     [Fact]
     public void OhmsLawInPrefixedUnits()
     {
-        ElectricalResistance ohm = ElectricalResistance.Of(7).Si<Kilo, Ohm>();
+        ElectricalResistance ohm = ElectricalResistance.Of(7, Si<Kilo, Ohm>());
         ElectricCurrent ampere = ElectricCurrent.Of(3).Si<Micro, Ampere>();
         ElectricPotential expected = ElectricPotential.Of(21).Si<Milli, Volt>();
 
@@ -35,7 +35,7 @@ public sealed class ElectricPotentialTest
     [Fact]
     public void OhmsLawInPrefixedUnitsWithInBetweenVirtualPrefix()
     {
-        ElectricalResistance ohm = ElectricalResistance.Of(7).Si<Deca, Ohm>();
+        ElectricalResistance ohm = ElectricalResistance.Of(7, Si<Deca, Ohm>());
         ElectricCurrent ampere = ElectricCurrent.Of(3).Si<Kilo, Ampere>();
 
         // 7e1Ω * 3e3A = 21e4V, since e4 is no prefix: expect 210e3 V

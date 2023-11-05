@@ -9,9 +9,9 @@ public class ElectricalResistanceSupportTest : ISerializationTester<ElectricalRe
     {
         static IEnumerable<ElectricalResistance> Interesting()
         {
-            yield return ElectricalResistance.Of(21).Si<Ohm>();
-            yield return ElectricalResistance.Of(342).Si<Pico, Ohm>();
-            yield return ElectricalResistance.Of(6).Si<Mega, Ohm>();
+            yield return ElectricalResistance.Of(21, Si<Ohm>());
+            yield return ElectricalResistance.Of(342, Si<Pico, Ohm>());
+            yield return ElectricalResistance.Of(6, Si<Mega, Ohm>());
         }
         return Interesting().Select(l => new Object[] { l });
     }

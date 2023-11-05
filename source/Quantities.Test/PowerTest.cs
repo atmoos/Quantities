@@ -39,7 +39,7 @@ public sealed class PowerTest
     public void OhmsLawSquarePotentialPerResistance()
     {
         ElectricPotential volts = ElectricPotential.Of(0.6).Si<Kilo, Volt>();
-        ElectricalResistance ohm = ElectricalResistance.Of(3).Si<Kilo, Ohm>();
+        ElectricalResistance ohm = ElectricalResistance.Of(3, Si<Kilo, Ohm>());
         Power expected = Power.Of(120).Si<Watt>();
 
         Power actual = volts * (volts / ohm);
@@ -50,7 +50,7 @@ public sealed class PowerTest
     public void OhmsLawSquareCurrentTimesResistance()
     {
         ElectricCurrent ampere = ElectricCurrent.Of(8).Si<Kilo, Ampere>();
-        ElectricalResistance ohm = ElectricalResistance.Of(2).Si<Milli, Ohm>();
+        ElectricalResistance ohm = ElectricalResistance.Of(2, Si<Milli, Ohm>());
         Power expected = Power.Of(128).Si<Kilo, Watt>();
 
         Power actual = ohm * ampere * ampere;

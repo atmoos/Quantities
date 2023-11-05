@@ -1,19 +1,21 @@
 ﻿using System.Numerics;
 using Quantities.Dimensions;
-using Quantities.Factories;
+using Quantities.Units;
 
 namespace Quantities;
 
 public readonly struct Force : IQuantity<Force>, IForce
-    , IFactory<ISiFactory<Force, IForce>, Linear<To, Force, IForce>, Linear<Create, Force, IForce>>
+    , IScalar<Force, IForce>
     , IMultiplyOperators<Force, Velocity, Power>
 {
     private readonly Quantity force;
     internal Quantity Value => this.force;
     Quantity IQuantity<Force>.Value => this.force;
-    public Linear<To, Force, IForce> To => new(new To(in this.force));
     private Force(in Quantity value) => this.force = value;
-    public static Linear<Create, Force, IForce> Of(in Double value) => new(new Create(in value));
+    public Force To<TUnit>(in Creation.Scalar<TUnit> other)
+        where TUnit : IForce, IUnit => new(other.Transform(in this.force));
+    public static Force Of<TUnit>(in Double value, in Creation.Scalar<TUnit> measure)
+        where TUnit : IForce, IUnit => new(measure.Create(in value));
     static Force IFactory<Force>.Create(in Quantity value) => new(in value);
     internal static Force From(in Power power, in Velocity velocity) => new(power.Value / velocity.Value);
     public Boolean Equals(Force other) => this.force.Equals(other.force);

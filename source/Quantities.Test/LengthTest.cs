@@ -120,7 +120,7 @@ public sealed class LengthTest
     {
         Length length = Length.Of(2, Si<Kilo, Metre>());
         Length width = Length.Of(1, Si<Hecto, Metre>());
-        Area expected = Area.Of(0.2).Square.Si<Kilo, Metre>();
+        Area expected = Area.Of(0.2, Square(Si<Kilo, Metre>()));
 
         Area actual = length * width;
 
@@ -131,7 +131,7 @@ public sealed class LengthTest
     {
         Length length = Length.Of(2, Imperial<Mile>());
         Length width = Length.Of(1760 / 2, Imperial<Yard>());
-        Area expected = Area.Of(1).Square.Imperial<Mile>();
+        Area expected = Area.Of(1, Square(Imperial<Mile>()));
 
         Area actual = length * width;
 
@@ -141,7 +141,7 @@ public sealed class LengthTest
     public void LengthByDivisionIsSameAsLengthByConstruction()
     {
         Volume volume = Volume.Of(300).Metric<Hecto, Litre>();
-        Area area = Area.Of(6).Square.Si<Metre>();
+        Area area = Area.Of(6, Square(Si<Metre>()));
         Length expected = Length.Of(5, Si<Metre>());
 
         Length actual = volume / area;

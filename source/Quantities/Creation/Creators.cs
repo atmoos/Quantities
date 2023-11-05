@@ -3,21 +3,21 @@ using Quantities.Units;
 
 namespace Quantities.Creation;
 
-public readonly struct Scalar<TDim>
-    where TDim : IUnit, IDimension
+public readonly struct Scalar<TUnit>
+    where TUnit : IUnit, IDimension
 {
     private readonly Factory factory;
     internal Factory Factory => this.factory;
     internal Scalar(Factory factory) => this.factory = factory;
-    public Product<TDim, TRight> Dot<TRight>(in Scalar<TRight> rightTerm)
+    public Product<TUnit, TRight> Dot<TRight>(in Scalar<TRight> rightTerm)
         where TRight : IUnit, IDimension => new(rightTerm.factory.Inject(this.factory.Product));
-    public Quotient<TDim, TDenominator> Per<TDenominator>(in Scalar<TDenominator> denominator)
+    public Quotient<TUnit, TDenominator> Per<TDenominator>(in Scalar<TDenominator> denominator)
         where TDenominator : IUnit, IDimension => new(denominator.factory.Inject(this.factory.Quotient));
     internal Quantity Create(in Double value) => new(in value, this.factory.Create());
     internal Quantity Transform(in Quantity other) => other.Project(this.factory.Create());
 }
 
-public readonly ref struct Alias<TUnit, TLinear>
+public readonly struct Alias<TUnit, TLinear>
     where TUnit : IAlias<TLinear>, IUnit, IDimension
     where TLinear : IDimension
 {
@@ -37,7 +37,7 @@ public readonly struct Product<TLeft, TRight>
     internal Quantity Transform(in Quantity other) => other.Project(this.factory.Create());
 }
 
-public readonly ref struct Quotient<TN, TD>
+public readonly struct Quotient<TN, TD>
     where TN : IUnit, IDimension
     where TD : IUnit, IDimension
 {
@@ -47,7 +47,7 @@ public readonly ref struct Quotient<TN, TD>
     internal Quantity Transform(in Quantity other) => other.Project(this.factory.Create());
 }
 
-public readonly ref struct Square<TDim>
+public readonly struct Square<TDim>
     where TDim : IUnit, IDimension
 {
     private readonly Factory factory;
@@ -56,7 +56,7 @@ public readonly ref struct Square<TDim>
     internal Quantity Transform(in Quantity other) => other.Project(this.factory.Square());
 }
 
-public readonly ref struct Cubic<TDim>
+public readonly struct Cubic<TDim>
     where TDim : IUnit, IDimension
 {
     private readonly Factory factory;

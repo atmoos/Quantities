@@ -39,7 +39,7 @@ public sealed class VolumeTest
     [Fact]
     public void FromComputedSiToHectoLitre()
     {
-        Volume computedSi = Area.Of(0.5).Square.Si<Metre>() * Length.Of(2, Si<Metre>());
+        Volume computedSi = Area.Of(0.5, Square(Si<Metre>())) * Length.Of(2, Si<Metre>());
         Volume expected = Volume.Of(10).Metric<Hecto, Litre>();
 
         Volume actual = computedSi.To.Metric<Hecto, Litre>();
@@ -149,7 +149,7 @@ public sealed class VolumeTest
     {
         Volume volume = Volume.Of(81).Cubic.Si<Metre>();
         Length length = Length.Of(3, Si<Metre>());
-        Area expected = Area.Of(27).Square.Si<Metre>();
+        Area expected = Area.Of(27, Square(Si<Metre>()));
 
         Area actual = volume / length;
 
@@ -160,7 +160,7 @@ public sealed class VolumeTest
     {
         Volume volume = Volume.Of(300).Metric<Hecto, Litre>();
         Length length = Length.Of(5, Si<Metre>());
-        Area expected = Area.Of(6).Square.Si<Metre>();
+        Area expected = Area.Of(6, Square(Si<Metre>()));
 
         Area actual = volume / length;
 

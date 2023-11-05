@@ -1,22 +1,22 @@
 ﻿using System.Numerics;
 using Quantities.Creation;
 using Quantities.Dimensions;
-using Quantities.Factories;
 using Quantities.Units;
 
 namespace Quantities;
 
 public readonly struct Area : IQuantity<Area>, IArea
-    , IFactory<IQuadraticFactory<Area, IArea, ILength>, Quadratic<To, Area, IArea, ILength>, Quadratic<Create, Area, IArea, ILength>>
+    , ISquare<Area, ILength>
+    , IAlias<Area, IArea, ILength>
     , IMultiplyOperators<Area, Length, Volume>
     , IDivisionOperators<Area, Length, Length>
 {
     private readonly Quantity area;
     internal Quantity Value => this.area;
     Quantity IQuantity<Area>.Value => this.area;
-    public Quadratic<To, Area, IArea, ILength> To => new(new To(in this.area));
+    public Area To<TLength>(in Square<TLength> square) where TLength : ILength, IUnit => new(square.Transform(in this.area));
+    public Area To<TAlias>(in Alias<TAlias, ILength> alias) where TAlias : IArea, IAlias<ILength>, IUnit => new(alias.Transform(in this.area));
     private Area(in Quantity value) => this.area = value;
-    public static Quadratic<Create, Area, IArea, ILength> Of(in Double value) => new(new Create(in value));
     public static Area Of<TLength>(in Double value, in Square<TLength> square) where TLength : ILength, IUnit => new(square.Create(in value));
     public static Area Of<TAlias>(in Double value, in Alias<TAlias, ILength> alias) where TAlias : IArea, IAlias<ILength>, IUnit => new(alias.Create(in value));
     static Area IFactory<Area>.Create(in Quantity value) => new(in value);

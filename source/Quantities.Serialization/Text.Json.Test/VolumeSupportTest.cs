@@ -38,7 +38,7 @@ public class VolumeSupportTest : ISerializationTester<Volume>, IInjectedUnitTest
         // division results in very different values when using
         // a volume created with the standard API or one that was
         // created using deserialization.
-        var someArea = Area.Of(2).Square.Si<Metre>();
+        var someArea = Area.Of(2, Square(Si<Metre>()));
         var expectedLength = quantity / someArea;
 
         var deserializedVolume = quantity.SerializeRoundRobin();

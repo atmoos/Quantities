@@ -32,7 +32,7 @@ public class SerializationTest
     public void AliasingUnitsAreSupported()
     {
         Volume fourCubicMetersInLitres = Volume.Of(4000).Metric<Litre>();
-        Area oneSquareMetre = Area.Of(1).Square.Si<Metre>();
+        Area oneSquareMetre = Area.Of(1, Square(Si<Metre>()));
         Length expectedHeight = fourCubicMetersInLitres / oneSquareMetre;
 
         Volume deserializedVolume = fourCubicMetersInLitres.SerializeRoundRobin();

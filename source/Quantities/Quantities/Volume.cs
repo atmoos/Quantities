@@ -16,11 +16,11 @@ public readonly struct Volume : IQuantity<Volume>, IVolume
     private Volume(in Quantity value) => this.volume = value;
     public Volume To<TLength>(in Cubic<TLength> cubic)
         where TLength : ILength, IUnit => new(cubic.Transform(in this.volume));
-    public Volume To<TAlias>(in Alias<TAlias, ILength> alias)
+    public Volume To<TAlias>(in Alias<TAlias> alias)
         where TAlias : IVolume, IAlias<ILength>, IUnit => new(alias.Transform(in this.volume));
     public static Volume Of<TLength>(in Double value, in Cubic<TLength> cubic)
         where TLength : ILength, IUnit => new(cubic.Create(in value));
-    public static Volume Of<TAlias>(in Double value, in Alias<TAlias, ILength> alias)
+    public static Volume Of<TAlias>(in Double value, in Alias<TAlias> alias)
         where TAlias : IVolume, IAlias<ILength>, IUnit => new(alias.Create(in value));
     static Volume IFactory<Volume>.Create(in Quantity value) => new(in value);
     internal static Volume Times(in Length length, in Area area) => new(length.Value * area.Value);

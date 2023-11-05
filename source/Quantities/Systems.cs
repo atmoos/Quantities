@@ -8,50 +8,50 @@ namespace Quantities;
 
 public static class Systems
 {
-    public static Scalar<TDim> Si<TDim>()
-        where TDim : ISiUnit, IDimension => new(Factory.Of<Si<TDim>>());
-    public static Scalar<TDim> Si<TPrefix, TDim>()
+    public static Scalar<TUnit> Si<TUnit>()
+        where TUnit : ISiUnit, IDimension => new(Factory.Of<Si<TUnit>>());
+    public static Scalar<TUnit> Si<TPrefix, TUnit>()
         where TPrefix : IMetricPrefix
-        where TDim : ISiUnit, IDimension => new(Factory.Of<Si<TPrefix, TDim>>());
-    public static Scalar<TDim> Metric<TDim>()
-        where TDim : IMetricUnit, IDimension => new(Factory.Of<Metric<TDim>>());
-    public static Scalar<TDim> Metric<TPrefix, TDim>()
+        where TUnit : ISiUnit, IDimension => new(Factory.Of<Si<TPrefix, TUnit>>());
+    public static Scalar<TUnit> Metric<TUnit>()
+        where TUnit : IMetricUnit, IDimension => new(Factory.Of<Metric<TUnit>>());
+    public static Scalar<TUnit> Metric<TPrefix, TUnit>()
         where TPrefix : IMetricPrefix
-        where TDim : IMetricUnit, IDimension => new(Factory.Of<Metric<TPrefix, TDim>>());
-    public static Scalar<TDim> Binary<TPrefix, TDim>()
+        where TUnit : IMetricUnit, IDimension => new(Factory.Of<Metric<TPrefix, TUnit>>());
+    public static Scalar<TUnit> Binary<TPrefix, TUnit>()
         where TPrefix : IBinaryPrefix
-        where TDim : IMetricUnit, IDimension => new(Factory.Of<Metric<TPrefix, TDim>>());
-    public static Scalar<TDim> Imperial<TDim>()
-        where TDim : IImperialUnit, IDimension => new(Factory.Of<Imperial<TDim>>());
-    public static Scalar<TDim> NonStandard<TDim>()
-        where TDim : INonStandardUnit, IDimension => new(Factory.Of<NonStandard<TDim>>());
-    public static Cubic<TDim> Cubic<TDim>(in Scalar<TDim> scalar) where TDim : IUnit, IDimension => new(scalar.Factory);
-    public static Square<TDim> Square<TDim>(in Scalar<TDim> scalar) where TDim : IUnit, IDimension => new(scalar.Factory);
+        where TUnit : IMetricUnit, IDimension => new(Factory.Of<Metric<TPrefix, TUnit>>());
+    public static Scalar<TUnit> Imperial<TUnit>()
+        where TUnit : IImperialUnit, IDimension => new(Factory.Of<Imperial<TUnit>>());
+    public static Scalar<TUnit> NonStandard<TUnit>()
+        where TUnit : INonStandardUnit, IDimension => new(Factory.Of<NonStandard<TUnit>>());
+    public static Cubic<TUnit> Cubic<TUnit>(in Scalar<TUnit> scalar) where TUnit : IUnit, IDimension => new(scalar.Factory);
+    public static Square<TUnit> Square<TUnit>(in Scalar<TUnit> scalar) where TUnit : IUnit, IDimension => new(scalar.Factory);
 }
 
 public static class AliasOf<TLinear>
     where TLinear : IDimension
 {
-    public static Creation.Alias<TDim, TLinear> Si<TDim>()
-        where TDim : ISiUnit, IAlias<TLinear>, IDimension
-            => new(TDim.Inject(AllocationFree<AliasInjectionFactory<TLinear, Si<TDim>>>.Item));
-    public static Creation.Alias<TDim, TLinear> Si<TPrefix, TDim>()
+    public static Alias<TUnit> Si<TUnit>()
+        where TUnit : ISiUnit, IAlias<TLinear>, IDimension
+            => new(TUnit.Inject(AllocationFree<AliasInjectionFactory<TLinear, Si<TUnit>>>.Item));
+    public static Alias<TUnit> Si<TPrefix, TUnit>()
         where TPrefix : IMetricPrefix
-        where TDim : ISiUnit, IAlias<TLinear>, IDimension
-            => new(TDim.Inject(AllocationFree<AliasInjectionFactory<TLinear, Si<TPrefix, TDim>>>.Item));
-    public static Creation.Alias<TDim, TLinear> Metric<TDim>()
-        where TDim : IMetricUnit, IAlias<TLinear>, IDimension
-            => new(TDim.Inject(AllocationFree<AliasInjectionFactory<TLinear, Metric<TDim>>>.Item));
-    public static Creation.Alias<TDim, TLinear> Metric<TPrefix, TDim>()
+        where TUnit : ISiUnit, IAlias<TLinear>, IDimension
+            => new(TUnit.Inject(AllocationFree<AliasInjectionFactory<TLinear, Si<TPrefix, TUnit>>>.Item));
+    public static Alias<TUnit> Metric<TUnit>()
+        where TUnit : IMetricUnit, IAlias<TLinear>, IDimension
+            => new(TUnit.Inject(AllocationFree<AliasInjectionFactory<TLinear, Metric<TUnit>>>.Item));
+    public static Alias<TUnit> Metric<TPrefix, TUnit>()
         where TPrefix : IMetricPrefix
-        where TDim : IMetricUnit, IAlias<TLinear>, IDimension
-            => new(TDim.Inject(AllocationFree<AliasInjectionFactory<TLinear, Metric<TPrefix, TDim>>>.Item));
-    public static Creation.Alias<TDim, TLinear> Imperial<TDim>()
-        where TDim : IImperialUnit, IAlias<TLinear>, IDimension
-            => new(TDim.Inject(AllocationFree<AliasInjectionFactory<TLinear, Imperial<TDim>>>.Item));
-    public static Creation.Alias<TDim, TLinear> NonStandard<TDim>()
-        where TDim : INonStandardUnit, IAlias<TLinear>, IDimension
-            => new(TDim.Inject(AllocationFree<AliasInjectionFactory<TLinear, NonStandard<TDim>>>.Item));
+        where TUnit : IMetricUnit, IAlias<TLinear>, IDimension
+            => new(TUnit.Inject(AllocationFree<AliasInjectionFactory<TLinear, Metric<TPrefix, TUnit>>>.Item));
+    public static Alias<TUnit> Imperial<TUnit>()
+        where TUnit : IImperialUnit, IAlias<TLinear>, IDimension
+            => new(TUnit.Inject(AllocationFree<AliasInjectionFactory<TLinear, Imperial<TUnit>>>.Item));
+    public static Alias<TUnit> NonStandard<TUnit>()
+        where TUnit : INonStandardUnit, IAlias<TLinear>, IDimension
+            => new(TUnit.Inject(AllocationFree<AliasInjectionFactory<TLinear, NonStandard<TUnit>>>.Item));
 }
 
 

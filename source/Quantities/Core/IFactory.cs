@@ -69,6 +69,6 @@ public interface IAlias<out TQuantity, in TDimension, TAliasedDimension>
     where TDimension : IDimension
     where TAliasedDimension : IDimension, ILinear
 {
-    public TQuantity To<TAlias>(in Alias<TAlias, TAliasedDimension> alias) where TAlias : TDimension, IAlias<TAliasedDimension>, IUnit;
-    public static abstract TQuantity Of<TAlias>(in Double value, in Alias<TAlias, TAliasedDimension> alias) where TAlias : TDimension, IAlias<TAliasedDimension>, IUnit;
+    public TQuantity To<TAlias>(in Alias<TAlias> alias) where TAlias : TDimension, IAlias<TAliasedDimension>, IUnit;
+    public static abstract TQuantity Of<TAlias>(in Double value, in Alias<TAlias> alias) where TAlias : TDimension, IAlias<TAliasedDimension>, IUnit;
 }

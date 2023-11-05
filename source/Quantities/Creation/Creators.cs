@@ -17,9 +17,8 @@ public readonly struct Scalar<TUnit>
     internal Quantity Transform(in Quantity other) => other.Project(this.factory.Create());
 }
 
-public readonly struct Alias<TUnit, TLinear>
-    where TUnit : IAlias<TLinear>, IUnit, IDimension
-    where TLinear : IDimension
+public readonly struct Alias<TUnit>
+    where TUnit : IAlias, IUnit, IDimension
 {
     private readonly Measure measure;
     internal Alias(Measure measure) => this.measure = measure;

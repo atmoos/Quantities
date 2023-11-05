@@ -8,9 +8,9 @@ using static Quantities.AliasOf<Quantities.Dimensions.ILength>;
 namespace Quantities.Test;
 public class AreaTest
 {
-    private static readonly Creation.Alias<Are, ILength> are = AliasOf<ILength>.Metric<Are>();
-    private static readonly Creation.Alias<Are, ILength> hectare = AliasOf<ILength>.Metric<Hecto, Are>();
-    private static readonly Creation.Alias<Acre, ILength> acre = AliasOf<ILength>.Imperial<Acre>();
+    private static readonly Creation.Alias<Are> are = AliasOf<ILength>.Metric<Are>();
+    private static readonly Creation.Alias<Are> hectare = AliasOf<ILength>.Metric<Hecto, Are>();
+    private static readonly Creation.Alias<Acre> acre = AliasOf<ILength>.Imperial<Acre>();
     [Fact]
     public void AddSquareMetres()
     {

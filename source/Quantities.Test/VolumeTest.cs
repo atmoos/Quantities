@@ -7,9 +7,9 @@ namespace Quantities.Test;
 
 public sealed class VolumeTest
 {
-    private static readonly Alias<Litre, ILength> litre = AliasOf<ILength>.Metric<Litre>();
-    private static readonly Alias<Litre, ILength> milliLitre = AliasOf<ILength>.Metric<Milli, Litre>();
-    private static readonly Alias<Litre, ILength> hectoLitre = AliasOf<ILength>.Metric<Hecto, Litre>();
+    private static readonly Alias<Litre> litre = AliasOf<ILength>.Metric<Litre>();
+    private static readonly Alias<Litre> milliLitre = AliasOf<ILength>.Metric<Milli, Litre>();
+    private static readonly Alias<Litre> hectoLitre = AliasOf<ILength>.Metric<Hecto, Litre>();
     [Fact]
     public void AddCubicMetres()
     {

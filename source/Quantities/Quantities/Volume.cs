@@ -6,8 +6,7 @@ using Quantities.Units;
 namespace Quantities;
 
 public readonly struct Volume : IQuantity<Volume>, IVolume
-    , ICubic<Volume, ILength>
-    , IAlias<Volume, IVolume, ILength>
+    , ICubic<Volume, IVolume, ILength>
     , IDivisionOperators<Volume, Area, Length>
     , IDivisionOperators<Volume, Length, Area>
 {

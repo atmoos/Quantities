@@ -6,8 +6,7 @@ using Quantities.Units;
 namespace Quantities;
 
 public readonly struct Area : IQuantity<Area>, IArea
-    , ISquare<Area, ILength>
-    , IAlias<Area, IArea, ILength>
+    , ISquare<Area, IArea, ILength>
     , IMultiplyOperators<Area, Length, Volume>
     , IDivisionOperators<Area, Length, Length>
 {

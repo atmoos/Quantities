@@ -46,20 +46,22 @@ public interface IProduct<out TQuantity, in TDimension, in TLeftDimension, in TR
         where TDenominator : TRightDimension, IUnit;
 }
 
-public interface ISquare<out TQuantity, in TDimension>
-    where TQuantity : struct, ISquare<TQuantity, TDimension>, ISquare<TDimension>
-    where TDimension : IDimension, ILinear
+public interface ISquare<out TQuantity, in TDimension, TLinear> : IAlias<TQuantity, TDimension, TLinear>
+    where TQuantity : struct, ISquare<TQuantity, TDimension, TLinear>, TDimension
+    where TDimension : ISquare<TLinear>
+    where TLinear : IDimension, ILinear
 {
-    public TQuantity To<TUnit>(in Square<TUnit> other) where TUnit : TDimension, IUnit;
-    public static abstract TQuantity Of<TUnit>(in Double value, in Square<TUnit> measure) where TUnit : TDimension, IUnit;
+    public TQuantity To<TUnit>(in Square<TUnit> other) where TUnit : TLinear, IUnit;
+    public static abstract TQuantity Of<TUnit>(in Double value, in Square<TUnit> measure) where TUnit : TLinear, IUnit;
 }
 
-public interface ICubic<out TQuantity, in TDimension>
-    where TQuantity : struct, ICubic<TQuantity, TDimension>, ICubic<TDimension>
-    where TDimension : IDimension, ILinear
+public interface ICubic<out TQuantity, in TDimension, TLinear> : IAlias<TQuantity, TDimension, TLinear>
+    where TQuantity : struct, ICubic<TQuantity, TDimension, TLinear>, TDimension
+    where TDimension : ICubic<TLinear>
+    where TLinear : IDimension, ILinear
 {
-    public TQuantity To<TUnit>(in Cubic<TUnit> other) where TUnit : TDimension, IUnit;
-    public static abstract TQuantity Of<TUnit>(in Double value, in Cubic<TUnit> measure) where TUnit : TDimension, IUnit;
+    public TQuantity To<TUnit>(in Cubic<TUnit> other) where TUnit : TLinear, IUnit;
+    public static abstract TQuantity Of<TUnit>(in Double value, in Cubic<TUnit> measure) where TUnit : TLinear, IUnit;
 }
 
 public interface IAlias<out TQuantity, in TDimension, TAliasedDimension>

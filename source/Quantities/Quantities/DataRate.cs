@@ -1,22 +1,28 @@
 ﻿using System.Numerics;
+using Quantities.Creation;
 using Quantities.Dimensions;
-using Quantities.Factories;
-using Quantities.Measures;
-using Quantities.Prefixes;
 using Quantities.Units;
 
 namespace Quantities;
 
 public readonly struct DataRate : IQuantity<DataRate>, IInformationRate
-    , IFactory<IQuotientFactory<IInformationRate, IAmountOfInformation, ITime>, DataRate.Factory<To>, DataRate.Factory<Create>>
+    , IQuotient<DataRate, IInformationRate, IAmountOfInformation, ITime>
     , IMultiplyOperators<DataRate, Time, Data>
 {
     private readonly Quantity dataRate;
     internal Quantity Value => this.dataRate;
     Quantity IQuantity<DataRate>.Value => this.dataRate;
-    public Factory<To> To => new(new To(in this.dataRate));
+    public DataRate To<TUnit>(in Scalar<TUnit> other)
+        where TUnit : IInformationRate, IUnit => new(other.Transform(in this.dataRate));
+    public DataRate To<TNominator, TDenominator>(in Quotient<TNominator, TDenominator> other)
+        where TNominator : IAmountOfInformation, IUnit
+        where TDenominator : ITime, IUnit => new(other.Transform(in this.dataRate));
     internal DataRate(in Quantity value) => this.dataRate = value;
-    public static Factory<Create> Of(in Double value) => new(new Create(in value));
+    public static DataRate Of<TUnit>(in Double value, in Scalar<TUnit> measure)
+        where TUnit : IInformationRate, IUnit => new(measure.Create(in value));
+    public static DataRate Of<TNominator, TDenominator>(in Double value, in Quotient<TNominator, TDenominator> measure)
+        where TNominator : IAmountOfInformation, IUnit
+        where TDenominator : ITime, IUnit => new(measure.Create(in value));
     static DataRate IFactory<DataRate>.Create(in Quantity value) => new(in value);
     internal static DataRate From(in Data data, in Time time) => new(data.Value / time.Value);
     public Boolean Equals(DataRate other) => this.dataRate.Equals(other.dataRate);
@@ -24,6 +30,7 @@ public readonly struct DataRate : IQuantity<DataRate>, IInformationRate
     public override Int32 GetHashCode() => this.dataRate.GetHashCode();
     public override String ToString() => this.dataRate.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.dataRate.ToString(format, provider);
+
 
     public static implicit operator Double(DataRate rate) => rate.dataRate;
     public static Boolean operator ==(DataRate left, DataRate right) => left.Equals(right);
@@ -36,18 +43,4 @@ public readonly struct DataRate : IQuantity<DataRate>, IInformationRate
     public static Double operator /(DataRate left, DataRate right) => left.dataRate.Divide(in right.dataRate);
 
     public static Data operator *(DataRate rate, Time time) => Data.From(in rate, in time);
-
-    public readonly struct Factory<TCreate> : IQuotientFactory<IInformationRate, IAmountOfInformation, ITime>, IBinaryFactory<Denominator<TCreate, DataRate, ITime>, IAmountOfInformation>, IMetricFactory<Denominator<TCreate, DataRate, ITime>, IAmountOfInformation>
-        where TCreate : struct, ICreate
-    {
-        private readonly TCreate creator;
-        internal Factory(in TCreate creator) => this.creator = creator;
-        public Denominator<TCreate, DataRate, ITime> Binary<TPrefix, TUnit>()
-            where TPrefix : IBinaryPrefix
-            where TUnit : IMetricUnit, IAmountOfInformation => new(in this.creator, AllocationFree<QuotientInjector<TCreate, Metric<TPrefix, TUnit>>>.Item);
-        public Denominator<TCreate, DataRate, ITime> Metric<TUnit>() where TUnit : IMetricUnit, IAmountOfInformation => new(in this.creator, AllocationFree<QuotientInjector<TCreate, Metric<TUnit>>>.Item);
-        public Denominator<TCreate, DataRate, ITime> Metric<TPrefix, TUnit>()
-            where TPrefix : IMetricPrefix
-            where TUnit : IMetricUnit, IAmountOfInformation => new(in this.creator, AllocationFree<QuotientInjector<TCreate, Metric<TPrefix, TUnit>>>.Item);
-    }
 }

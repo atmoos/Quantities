@@ -17,7 +17,8 @@ public readonly struct Length : IQuantity<Length>, ILength
     public Length To<TLength>(in Scalar<TLength> other)
         where TLength : ILength, IUnit => new(other.Transform(in this.length));
     private Length(in Quantity value) => this.length = value;
-    public static Length Of<TLength>(in Double value, in Scalar<TLength> length) where TLength : ILength, IUnit => new(length.Create(in value));
+    public static Length Of<TLength>(in Double value, in Scalar<TLength> measure)
+        where TLength : ILength, IUnit => new(measure.Create(in value));
     static Length IFactory<Length>.Create(in Quantity value) => new(in value);
     internal static Length From(in Area area, in Length length) => new(area.Value / length.Value);
     internal static Length From(in Velocity velocity, in Time time) => new(velocity.Value * time.Value);

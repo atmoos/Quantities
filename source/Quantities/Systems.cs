@@ -18,6 +18,9 @@ public static class Systems
     public static Scalar<TDim> Metric<TPrefix, TDim>()
         where TPrefix : IMetricPrefix
         where TDim : IMetricUnit, IDimension => new(Factory.Of<Metric<TPrefix, TDim>>());
+    public static Scalar<TDim> Binary<TPrefix, TDim>()
+        where TPrefix : IBinaryPrefix
+        where TDim : IMetricUnit, IDimension => new(Factory.Of<Metric<TPrefix, TDim>>());
     public static Scalar<TDim> Imperial<TDim>()
         where TDim : IImperialUnit, IDimension => new(Factory.Of<Imperial<TDim>>());
     public static Scalar<TDim> NonStandard<TDim>()

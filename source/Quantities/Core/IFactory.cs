@@ -1,4 +1,5 @@
-﻿using Quantities.Dimensions;
+﻿using Quantities.Creation;
+using Quantities.Dimensions;
 using Quantities.Units;
 
 namespace Quantities.Core;
@@ -12,24 +13,52 @@ public interface IScalar<out TQuantity, in TDimension>
     where TQuantity : struct, IScalar<TQuantity, TDimension>, TDimension
     where TDimension : IDimension
 {
-    public TQuantity To<TDim>(in Creation.Scalar<TDim> measure) where TDim : TDimension, IUnit;
-    public static abstract TQuantity Of<TDim>(in Double value, in Creation.Scalar<TDim> measure) where TDim : TDimension, IUnit;
+    public TQuantity To<TUnit>(in Scalar<TUnit> other) where TUnit : TDimension, IUnit;
+    public static abstract TQuantity Of<TUnit>(in Double value, in Scalar<TUnit> measure) where TUnit : TDimension, IUnit;
+}
+
+public interface IQuotient<out TQuantity, in TDimension, in TNominatorDimension, in TDenominatorDimension> : IScalar<TQuantity, TDimension>
+    where TQuantity : struct, IQuotient<TQuantity, TDimension, TNominatorDimension, TDenominatorDimension>, TDimension
+    where TDimension : IQuotient<TNominatorDimension, TDenominatorDimension>
+    where TNominatorDimension : IDimension
+    where TDenominatorDimension : IDimension
+{
+    public TQuantity To<TNominator, TDenominator>(in Quotient<TNominator, TDenominator> other)
+        where TNominator : TNominatorDimension, IUnit
+        where TDenominator : TDenominatorDimension, IUnit;
+    public static abstract TQuantity Of<TNominator, TDenominator>(in Double value, in Quotient<TNominator, TDenominator> measure)
+        where TNominator : TNominatorDimension, IUnit
+        where TDenominator : TDenominatorDimension, IUnit;
+}
+
+public interface IProduct<out TQuantity, in TDimension, in TLeftDimension, in TRightDimension> : IScalar<TQuantity, TDimension>
+    where TQuantity : struct, IProduct<TQuantity, TDimension, TLeftDimension, TRightDimension>, TDimension
+    where TDimension : IProduct<TLeftDimension, TRightDimension>
+    where TLeftDimension : IDimension
+    where TRightDimension : IDimension
+{
+    public TQuantity To<TNominator, TDenominator>(in Product<TNominator, TDenominator> other)
+        where TNominator : TLeftDimension, IUnit
+        where TDenominator : TRightDimension, IUnit;
+    public static abstract TQuantity Of<TNominator, TDenominator>(in Double value, in Product<TNominator, TDenominator> measure)
+        where TNominator : TLeftDimension, IUnit
+        where TDenominator : TRightDimension, IUnit;
 }
 
 public interface ISquare<out TQuantity, in TDimension>
     where TQuantity : struct, ISquare<TQuantity, TDimension>, ISquare<TDimension>
     where TDimension : IDimension, ILinear
 {
-    public TQuantity To<TDim>(in Creation.Square<TDim> measure) where TDim : TDimension, IUnit;
-    public static abstract TQuantity Of<TDim>(in Double value, in Creation.Square<TDim> measure) where TDim : TDimension, IUnit;
+    public TQuantity To<TUnit>(in Square<TUnit> other) where TUnit : TDimension, IUnit;
+    public static abstract TQuantity Of<TUnit>(in Double value, in Square<TUnit> measure) where TUnit : TDimension, IUnit;
 }
 
 public interface ICubic<out TQuantity, in TDimension>
     where TQuantity : struct, ICubic<TQuantity, TDimension>, ICubic<TDimension>
     where TDimension : IDimension, ILinear
 {
-    public TQuantity To<TDim>(in Creation.Cubic<TDim> measure) where TDim : TDimension, IUnit;
-    public static abstract TQuantity Of<TDim>(in Double value, in Creation.Cubic<TDim> measure) where TDim : TDimension, IUnit;
+    public TQuantity To<TUnit>(in Cubic<TUnit> other) where TUnit : TDimension, IUnit;
+    public static abstract TQuantity Of<TUnit>(in Double value, in Cubic<TUnit> measure) where TUnit : TDimension, IUnit;
 }
 
 public interface IAlias<out TQuantity, in TDimension, TAliasedDimension>
@@ -37,6 +66,6 @@ public interface IAlias<out TQuantity, in TDimension, TAliasedDimension>
     where TDimension : IDimension
     where TAliasedDimension : IDimension, ILinear
 {
-    public TQuantity To<TAlias>(in Creation.Alias<TAlias, TAliasedDimension> alias) where TAlias : TDimension, IAlias<TAliasedDimension>, IUnit;
-    public static abstract TQuantity Of<TAlias>(in Double value, in Creation.Alias<TAlias, TAliasedDimension> alias) where TAlias : TDimension, IAlias<TAliasedDimension>, IUnit;
+    public TQuantity To<TAlias>(in Alias<TAlias, TAliasedDimension> alias) where TAlias : TDimension, IAlias<TAliasedDimension>, IUnit;
+    public static abstract TQuantity Of<TAlias>(in Double value, in Alias<TAlias, TAliasedDimension> alias) where TAlias : TDimension, IAlias<TAliasedDimension>, IUnit;
 }

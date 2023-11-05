@@ -1,8 +1,6 @@
 ﻿using System.Numerics;
+using Quantities.Creation;
 using Quantities.Dimensions;
-using Quantities.Factories;
-using Quantities.Measures;
-using Quantities.Prefixes;
 using Quantities.Units;
 
 namespace Quantities;
@@ -19,15 +17,17 @@ namespace Quantities;
 - Information
 */
 public readonly struct Data : IQuantity<Data>, IAmountOfInformation
-    , IFactory<IMetricFactory<Data, IAmountOfInformation>, Data.Factory<To>, Data.Factory<Create>>
+    , IScalar<Data, IAmountOfInformation>
     , IDivisionOperators<Data, Time, DataRate>
 {
     private readonly Quantity data;
     internal Quantity Value => this.data;
     Quantity IQuantity<Data>.Value => this.data;
-    public Factory<To> To => new(new To(in this.data));
+    public Data To<TDim>(in Scalar<TDim> other)
+        where TDim : IAmountOfInformation, IUnit => new(other.Transform(in this.data));
     private Data(in Quantity value) => this.data = value;
-    public static Factory<Create> Of(in Double value) => new(new Create(in value));
+    public static Data Of<TDim>(in Double value, in Scalar<TDim> measure)
+        where TDim : IAmountOfInformation, IUnit => new(measure.Create(in value));
     static Data IFactory<Data>.Create(in Quantity value) => new(in value);
     internal static Data From(in Time time, in DataRate rate) => new(time.Value * rate.Value);
     internal static Data From(in DataRate rate, in Time time) => new(rate.Value * time.Value);
@@ -48,18 +48,4 @@ public readonly struct Data : IQuantity<Data>, IAmountOfInformation
     public static Double operator /(Data left, Data right) => left.data.Divide(in right.data);
 
     public static DataRate operator /(Data data, Time time) => DataRate.From(in data, in time);
-
-    public readonly struct Factory<TCreate> : IBinaryFactory<Data, IAmountOfInformation>, IMetricFactory<Data, IAmountOfInformation>
-        where TCreate : struct, ICreate
-    {
-        private readonly TCreate creator;
-        internal Factory(in TCreate creator) => this.creator = creator;
-        public Data Binary<TPrefix, TUnit>()
-            where TPrefix : IBinaryPrefix
-            where TUnit : IMetricUnit, IAmountOfInformation => new(this.creator.Create<Metric<TPrefix, TUnit>>());
-        public Data Metric<TUnit>() where TUnit : IMetricUnit, IAmountOfInformation => new(this.creator.Create<Metric<TUnit>>());
-        public Data Metric<TPrefix, TUnit>()
-            where TPrefix : IMetricPrefix
-            where TUnit : IMetricUnit, IAmountOfInformation => new(this.creator.Create<Metric<TPrefix, TUnit>>());
-    }
 }

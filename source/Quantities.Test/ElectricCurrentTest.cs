@@ -35,7 +35,7 @@ public sealed class ElectricCurrentTest
     [Fact]
     public void PowerLawInBaseUnits()
     {
-        Power watts = Power.Of(1380).Si<Watt>();
+        Power watts = Power.Of(1380, Si<Watt>());
         ElectricPotential volts = ElectricPotential.Of(230, Si<Volt>());
         ElectricCurrent expected = ElectricCurrent.Of(6, Si<Ampere>());
 
@@ -46,7 +46,7 @@ public sealed class ElectricCurrentTest
     [Fact]
     public void PowerLawInPrefixedUnits()
     {
-        Power watts = Power.Of(9).Si<Mega, Watt>();
+        Power watts = Power.Of(9, Si<Mega, Watt>());
         ElectricPotential volts = ElectricPotential.Of(15, Si<Kilo, Volt>());
         ElectricCurrent expected = ElectricCurrent.Of(600, Si<Ampere>());
 

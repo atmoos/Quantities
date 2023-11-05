@@ -1,6 +1,6 @@
 ﻿using Quantities.Units.Imperial.Length;
 using Quantities.Units.Imperial.Volume;
-
+using In = Quantities.AliasOf<Quantities.Dimensions.ILength>;
 namespace Quantities.Serialization.Text.Json.Test;
 
 public class VolumeSupportTest : ISerializationTester<Volume>, IInjectedUnitTester<Volume>
@@ -12,19 +12,19 @@ public class VolumeSupportTest : ISerializationTester<Volume>, IInjectedUnitTest
     {
         static IEnumerable<Volume> Interesting()
         {
-            yield return Volume.Of(21).Metric<Litre>();
-            yield return Volume.Of(243).Metric<Micro, Litre>();
-            yield return Volume.Of(342).Metric<Hecto, Litre>();
-            yield return Volume.Of(6).Imperial<Pint>();
-            yield return Volume.Of(3).Imperial<FluidOunce>();
-            yield return Volume.Of(9).Imperial<Gallon>();
-            yield return Volume.Of(9).Imperial<Quart>();
-            yield return Volume.Of(-41).Cubic.Si<Metre>();
-            yield return Volume.Of(1.21).Cubic.Si<Pico, Metre>();
-            yield return Volume.Of(121).Cubic.Si<Kilo, Metre>();
-            yield return Volume.Of(95.2).Cubic.Metric<AstronomicalUnit>();
-            yield return Volume.Of(-11).Cubic.Imperial<Yard>();
-            yield return Volume.Of(9).Cubic.Imperial<Foot>();
+            yield return Volume.Of(21, In.Metric<Litre>());
+            yield return Volume.Of(243, In.Metric<Micro, Litre>());
+            yield return Volume.Of(342, In.Metric<Hecto, Litre>());
+            yield return Volume.Of(6, In.Imperial<Pint>());
+            yield return Volume.Of(3, In.Imperial<FluidOunce>());
+            yield return Volume.Of(9, In.Imperial<Gallon>());
+            yield return Volume.Of(9, In.Imperial<Quart>());
+            yield return Volume.Of(-41, Cubic(Si<Metre>()));
+            yield return Volume.Of(1.21, Cubic(Si<Pico, Metre>()));
+            yield return Volume.Of(121, Cubic(Si<Kilo, Metre>()));
+            yield return Volume.Of(95.2, Cubic(Metric<AstronomicalUnit>()));
+            yield return Volume.Of(-11, Cubic(Imperial<Yard>()));
+            yield return Volume.Of(9, Cubic(Imperial<Foot>()));
         }
         return Interesting().Select(l => new Object[] { l });
     }
@@ -51,14 +51,14 @@ public class VolumeSupportTest : ISerializationTester<Volume>, IInjectedUnitTest
     {
         static IEnumerable<Volume> Interesting()
         {
-            yield return Volume.Of(1).Metric<Litre>();
-            yield return Volume.Of(2).Metric<Stere>();
-            yield return Volume.Of(3).Metric<Lambda>();
-            yield return Volume.Of(4).Imperial<FluidOunce>();
-            yield return Volume.Of(5).Imperial<Gill>();
-            yield return Volume.Of(6).Imperial<Pint>();
-            yield return Volume.Of(7).Imperial<Quart>();
-            yield return Volume.Of(8).Imperial<Gallon>();
+            yield return Volume.Of(1, In.Metric<Litre>());
+            yield return Volume.Of(2, In.Metric<Stere>());
+            yield return Volume.Of(3, In.Metric<Lambda>());
+            yield return Volume.Of(4, In.Imperial<FluidOunce>());
+            yield return Volume.Of(5, In.Imperial<Gill>());
+            yield return Volume.Of(6, In.Imperial<Pint>());
+            yield return Volume.Of(7, In.Imperial<Quart>());
+            yield return Volume.Of(8, In.Imperial<Gallon>());
         }
         return Interesting().Select(l => new Object[] { l });
     }

@@ -1,20 +1,28 @@
 ﻿using System.Numerics;
+using Quantities.Creation;
 using Quantities.Dimensions;
-using Quantities.Factories;
+using Quantities.Units;
 
 namespace Quantities;
 
 public readonly struct Volume : IQuantity<Volume>, IVolume
-    , IFactory<ICubicFactory<Volume, IVolume, ILength>, Cube<To, Volume, IVolume, ILength>, Cube<Create, Volume, IVolume, ILength>>
+    , ICubic<Volume, ILength>
+    , IAlias<Volume, IVolume, ILength>
     , IDivisionOperators<Volume, Area, Length>
     , IDivisionOperators<Volume, Length, Area>
 {
     private readonly Quantity volume;
     internal Quantity Value => this.volume;
     Quantity IQuantity<Volume>.Value => this.volume;
-    public Cube<To, Volume, IVolume, ILength> To => new(new To(in this.volume));
+    public Volume To<TLength>(in Cubic<TLength> cubic)
+        where TLength : ILength, IUnit => new(cubic.Transform(in this.volume));
+    public Volume To<TAlias>(in Alias<TAlias, ILength> alias)
+        where TAlias : IVolume, IAlias<ILength>, IUnit => new(alias.Transform(in this.volume));
     private Volume(in Quantity value) => this.volume = value;
-    public static Cube<Create, Volume, IVolume, ILength> Of(in Double value) => new(new Create(in value));
+    public static Volume Of<TLength>(in Double value, in Cubic<TLength> cubic)
+        where TLength : ILength, IUnit => new(cubic.Create(in value));
+    public static Volume Of<TAlias>(in Double value, in Alias<TAlias, ILength> alias)
+        where TAlias : IVolume, IAlias<ILength>, IUnit => new(alias.Create(in value));
     static Volume IFactory<Volume>.Create(in Quantity value) => new(in value);
     internal static Volume Times(in Length length, in Area area) => new(length.Value * area.Value);
     internal static Volume Times(in Area area, in Length length) => new(area.Value * length.Value);

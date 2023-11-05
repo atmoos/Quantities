@@ -4,9 +4,10 @@ using Quantities.Units;
 
 namespace Quantities.Core;
 
-public interface IFactory<out TResult>
+public interface IFactory<out TSelf>
+    where TSelf : IFactory<TSelf>
 {
-    internal static abstract TResult Create(in Quantity value);
+    internal static abstract TSelf Create(in Quantity value);
 }
 
 public interface IScalar<out TQuantity, in TDimension>

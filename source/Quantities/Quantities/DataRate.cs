@@ -12,12 +12,12 @@ public readonly struct DataRate : IQuantity<DataRate>, IInformationRate
     private readonly Quantity dataRate;
     internal Quantity Value => this.dataRate;
     Quantity IQuantity<DataRate>.Value => this.dataRate;
+    internal DataRate(in Quantity value) => this.dataRate = value;
     public DataRate To<TUnit>(in Scalar<TUnit> other)
         where TUnit : IInformationRate, IUnit => new(other.Transform(in this.dataRate));
     public DataRate To<TNominator, TDenominator>(in Quotient<TNominator, TDenominator> other)
         where TNominator : IAmountOfInformation, IUnit
         where TDenominator : ITime, IUnit => new(other.Transform(in this.dataRate));
-    internal DataRate(in Quantity value) => this.dataRate = value;
     public static DataRate Of<TUnit>(in Double value, in Scalar<TUnit> measure)
         where TUnit : IInformationRate, IUnit => new(measure.Create(in value));
     public static DataRate Of<TNominator, TDenominator>(in Double value, in Quotient<TNominator, TDenominator> measure)

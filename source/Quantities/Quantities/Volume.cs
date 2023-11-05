@@ -14,11 +14,11 @@ public readonly struct Volume : IQuantity<Volume>, IVolume
     private readonly Quantity volume;
     internal Quantity Value => this.volume;
     Quantity IQuantity<Volume>.Value => this.volume;
+    private Volume(in Quantity value) => this.volume = value;
     public Volume To<TLength>(in Cubic<TLength> cubic)
         where TLength : ILength, IUnit => new(cubic.Transform(in this.volume));
     public Volume To<TAlias>(in Alias<TAlias, ILength> alias)
         where TAlias : IVolume, IAlias<ILength>, IUnit => new(alias.Transform(in this.volume));
-    private Volume(in Quantity value) => this.volume = value;
     public static Volume Of<TLength>(in Double value, in Cubic<TLength> cubic)
         where TLength : ILength, IUnit => new(cubic.Create(in value));
     public static Volume Of<TAlias>(in Double value, in Alias<TAlias, ILength> alias)

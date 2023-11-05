@@ -14,9 +14,9 @@ public readonly struct Length : IQuantity<Length>, ILength
     private readonly Quantity length;
     internal Quantity Value => this.length;
     Quantity IQuantity<Length>.Value => this.length;
+    private Length(in Quantity value) => this.length = value;
     public Length To<TLength>(in Scalar<TLength> other)
         where TLength : ILength, IUnit => new(other.Transform(in this.length));
-    private Length(in Quantity value) => this.length = value;
     public static Length Of<TLength>(in Double value, in Scalar<TLength> measure)
         where TLength : ILength, IUnit => new(measure.Create(in value));
     static Length IFactory<Length>.Create(in Quantity value) => new(in value);

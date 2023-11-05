@@ -14,11 +14,11 @@ public readonly struct Area : IQuantity<Area>, IArea
     private readonly Quantity area;
     internal Quantity Value => this.area;
     Quantity IQuantity<Area>.Value => this.area;
+    private Area(in Quantity value) => this.area = value;
     public Area To<TLength>(in Square<TLength> square)
         where TLength : ILength, IUnit => new(square.Transform(in this.area));
     public Area To<TAlias>(in Alias<TAlias, ILength> alias)
         where TAlias : IArea, IAlias<ILength>, IUnit => new(alias.Transform(in this.area));
-    private Area(in Quantity value) => this.area = value;
     public static Area Of<TLength>(in Double value, in Square<TLength> square)
         where TLength : ILength, IUnit => new(square.Create(in value));
     public static Area Of<TAlias>(in Double value, in Alias<TAlias, ILength> alias)

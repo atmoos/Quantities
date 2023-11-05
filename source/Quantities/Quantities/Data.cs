@@ -23,9 +23,9 @@ public readonly struct Data : IQuantity<Data>, IAmountOfInformation
     private readonly Quantity data;
     internal Quantity Value => this.data;
     Quantity IQuantity<Data>.Value => this.data;
+    private Data(in Quantity value) => this.data = value;
     public Data To<TDim>(in Scalar<TDim> other)
         where TDim : IAmountOfInformation, IUnit => new(other.Transform(in this.data));
-    private Data(in Quantity value) => this.data = value;
     public static Data Of<TDim>(in Double value, in Scalar<TDim> measure)
         where TDim : IAmountOfInformation, IUnit => new(measure.Create(in value));
     static Data IFactory<Data>.Create(in Quantity value) => new(in value);

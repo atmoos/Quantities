@@ -13,12 +13,12 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity
     private readonly Quantity velocity;
     internal Quantity Value => this.velocity;
     Quantity IQuantity<Velocity>.Value => this.velocity;
+    internal Velocity(in Quantity value) => this.velocity = value;
     public Velocity To<TUnit>(in Scalar<TUnit> other)
         where TUnit : IVelocity, IUnit => new(other.Transform(in this.velocity));
     public Velocity To<TNominator, TDenominator>(in Quotient<TNominator, TDenominator> other)
         where TNominator : ILength, IUnit
         where TDenominator : ITime, IUnit => new(other.Transform(in this.velocity));
-    internal Velocity(in Quantity value) => this.velocity = value;
     public static Velocity Of<TUnit>(in Double value, in Scalar<TUnit> measure)
         where TUnit : IVelocity, IUnit => new(measure.Create(in value));
     public static Velocity Of<TLength, TTime>(in Double value, in Quotient<TLength, TTime> measure)

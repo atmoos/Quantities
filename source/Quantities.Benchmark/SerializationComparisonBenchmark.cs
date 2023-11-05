@@ -10,7 +10,7 @@ namespace Quantities.Benchmark;
 public class SerializationComparisonBenchmark
 {
     private static readonly JsonSerializerSettings settings = new JsonSerializerSettings().EnableQuantities();
-    private static readonly String fractionalQuantity = Velocity.Of(Math.PI).Si<Kilo, Metre>().Per.Si<Milli, Second>().Serialize();
+    private static readonly String fractionalQuantity = Velocity.Of(Math.PI, Si<Kilo, Metre>().Per(Si<Milli, Second>())).Serialize();
 
     [Benchmark(Baseline = true)]
     public Velocity TextJson() => fractionalQuantity.Deserialize<Velocity>();

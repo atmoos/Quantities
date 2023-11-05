@@ -138,7 +138,7 @@ public class SerializationTest
     public void Compound()
     {
         Double value = Math.PI;
-        Velocity velocity = Velocity.Of(value).Si<Kilo, Metre>().Per.Metric<Hour>();
+        Velocity velocity = Velocity.Of(value, Si<Kilo, Metre>().Per(Metric<Hour>()));
         String actual = velocity.Serialize(options);
         String expected = $$"""
         {

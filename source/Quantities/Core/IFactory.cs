@@ -11,7 +11,7 @@ public interface IFactory<out TSelf>
 }
 
 public interface IScalar<out TQuantity, in TDimension>
-    where TQuantity : struct, IScalar<TQuantity, TDimension>, TDimension
+    where TQuantity : IScalar<TQuantity, TDimension>, TDimension
     where TDimension : IDimension
 {
     public TQuantity To<TUnit>(in Scalar<TUnit> other) where TUnit : TDimension, IUnit;
@@ -19,7 +19,7 @@ public interface IScalar<out TQuantity, in TDimension>
 }
 
 public interface IQuotient<out TQuantity, in TDimension, in TNominatorDimension, in TDenominatorDimension> : IScalar<TQuantity, TDimension>
-    where TQuantity : struct, IQuotient<TQuantity, TDimension, TNominatorDimension, TDenominatorDimension>, TDimension
+    where TQuantity : IQuotient<TQuantity, TDimension, TNominatorDimension, TDenominatorDimension>, TDimension
     where TDimension : IQuotient<TNominatorDimension, TDenominatorDimension>
     where TNominatorDimension : IDimension
     where TDenominatorDimension : IDimension
@@ -33,7 +33,7 @@ public interface IQuotient<out TQuantity, in TDimension, in TNominatorDimension,
 }
 
 public interface IProduct<out TQuantity, in TDimension, in TLeftDimension, in TRightDimension> : IScalar<TQuantity, TDimension>
-    where TQuantity : struct, IProduct<TQuantity, TDimension, TLeftDimension, TRightDimension>, TDimension
+    where TQuantity : IProduct<TQuantity, TDimension, TLeftDimension, TRightDimension>, TDimension
     where TDimension : IProduct<TLeftDimension, TRightDimension>
     where TLeftDimension : IDimension
     where TRightDimension : IDimension
@@ -47,7 +47,7 @@ public interface IProduct<out TQuantity, in TDimension, in TLeftDimension, in TR
 }
 
 public interface ISquare<out TQuantity, in TDimension, in TLinear> : IAlias<TQuantity, TDimension, TLinear>
-    where TQuantity : struct, ISquare<TQuantity, TDimension, TLinear>, TDimension
+    where TQuantity : ISquare<TQuantity, TDimension, TLinear>, TDimension
     where TDimension : ISquare<TLinear>
     where TLinear : IDimension, ILinear
 {
@@ -56,7 +56,7 @@ public interface ISquare<out TQuantity, in TDimension, in TLinear> : IAlias<TQua
 }
 
 public interface ICubic<out TQuantity, in TDimension, in TLinear> : IAlias<TQuantity, TDimension, TLinear>
-    where TQuantity : struct, ICubic<TQuantity, TDimension, TLinear>, TDimension
+    where TQuantity : ICubic<TQuantity, TDimension, TLinear>, TDimension
     where TDimension : ICubic<TLinear>
     where TLinear : IDimension, ILinear
 {
@@ -65,7 +65,7 @@ public interface ICubic<out TQuantity, in TDimension, in TLinear> : IAlias<TQuan
 }
 
 public interface IAlias<out TQuantity, in TDimension, in TLinear>
-    where TQuantity : struct, IAlias<TQuantity, TDimension, TLinear>, TDimension
+    where TQuantity : IAlias<TQuantity, TDimension, TLinear>, TDimension
     where TDimension : IDimension
     where TLinear : IDimension, ILinear
 {

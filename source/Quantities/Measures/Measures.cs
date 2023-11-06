@@ -4,8 +4,6 @@ using Quantities.Dimensions;
 using Quantities.Prefixes;
 using Quantities.Units;
 
-using static Quantities.Measures.Convenience;
-
 namespace Quantities.Measures;
 
 file interface IOps
@@ -165,7 +163,7 @@ internal readonly struct Power<TDim, TLinear> : IMeasure
     private static readonly String dimension = typeof(TDim).Name.ToLowerInvariant();
     static Dimension IMeasure.D { get; } = TLinear.D.Pow(TDim.E);
     public static Polynomial Poly { get; } = TLinear.Poly.Pow(TDim.E);
-    public static String Representation { get; } = $"{TLinear.Representation}{TDim.Representation}";
+    public static String Representation { get; } = $"{TLinear.Representation}{Tools.ExpToString(TDim.E)}";
     public static Result Multiply<TOtherMeasure>() where TOtherMeasure : IMeasure => HigherOrderOps<Power<TDim, TLinear>, TLinear, TOtherMeasure>.Product;
     public static Result Divide<TOtherMeasure>() where TOtherMeasure : IMeasure => HigherOrderOps<Power<TDim, TLinear>, TLinear, TOtherMeasure>.Quotient;
     public static void Write(IWriter writer)
@@ -260,7 +258,7 @@ file sealed class Prod<TLeft, TRight> : ICompute
             return new(polyProduct, Measure.Of<Identity>());
         }
         Measure? measure;
-        if (product is Scalar scalar && (measure = Pow<TLeft>(scalar.E)) != null) {
+        if (product is Scalar scalar && (measure = scalar.As<TLeft>()) != null) {
             return new(polyProduct / TLeft.Poly, measure);
         }
         return new(Polynomial.One, Measure.Of<Product<Product<TLeft, TRight>, TArgument>>());
@@ -273,7 +271,7 @@ file sealed class Prod<TLeft, TRight> : ICompute
             return new(polyQuotient, Measure.Of<Identity>());
         }
         Measure? measure;
-        if (quotient is Scalar scalar && (measure = Pow<TLeft>(scalar.E)) != null) {
+        if (quotient is Scalar scalar && (measure = scalar.As<TLeft>()) != null) {
             return new(polyQuotient / TLeft.Poly, measure);
         }
         return new(Polynomial.One, Measure.Of<Quotient<Product<TLeft, TRight>, TArgument>>());
@@ -293,7 +291,7 @@ file sealed class Div<TNominator, TDenominator> : ICompute
             return new(polyQuotient, Measure.Of<Identity>());
         }
         Measure? measure;
-        if (quotient is Scalar scalar && (measure = Pow<TNominator>(scalar.E)) != null) {
+        if (quotient is Scalar scalar && (measure = scalar.As<TNominator>()) != null) {
             return new(polyQuotient / TNominator.Poly, measure);
         }
         return new(Polynomial.One, Measure.Of<Quotient<TNominator, Product<TDenominator, TArgument>>>());
@@ -306,7 +304,7 @@ file sealed class HighOrder<THigher, TLinear> : ICompute
     public static Result Multiply<TArgument>() where TArgument : IMeasure
     {
         Dimension target = THigher.D * TArgument.D;
-        Measure? measure = Pow<TLinear>(target.E);
+        Measure? measure = target.As<TLinear>();
         if (measure is null) {
             return new(Polynomial.One, Measure.Of<Product<THigher, TArgument>>());
         }
@@ -316,7 +314,7 @@ file sealed class HighOrder<THigher, TLinear> : ICompute
     public static Result Divide<TArgument>() where TArgument : IMeasure
     {
         Dimension target = THigher.D / TArgument.D;
-        Measure? measure = Pow<TLinear>(target.E);
+        Measure? measure = target.As<TLinear>();
         if (measure is null) {
             return new(Polynomial.One, Measure.Of<Quotient<THigher, TArgument>>());
         }
@@ -327,15 +325,15 @@ file sealed class HighOrder<THigher, TLinear> : ICompute
 
 file static class Convenience
 {
-    public static Measure? Pow<TLinear>(Int32 exp)
-    where TLinear : IMeasure => exp switch {
-        3 => Measure.Of<Power<Cubic, TLinear>>(),
-        2 => Measure.Of<Power<Square, TLinear>>(),
-        1 => Measure.Of<TLinear>(),
-        0 => Measure.Of<Identity>(),
-        -1 => Measure.Of<Quotient<Identity, TLinear>>(),
-        -2 => Measure.Of<Quotient<Identity, Power<Square, TLinear>>>(),
-        -3 => Measure.Of<Quotient<Identity, Power<Cubic, TLinear>>>(),
-        _ => null
-    };
+    public static Measure? As<TLinear>(this Dimension d)
+        where TLinear : IMeasure => d.E switch {
+            3 => Measure.Of<Power<Cubic, TLinear>>(),
+            2 => Measure.Of<Power<Square, TLinear>>(),
+            1 => Measure.Of<TLinear>(),
+            0 => Measure.Of<Identity>(),
+            -1 => Measure.Of<Quotient<Identity, TLinear>>(),
+            -2 => Measure.Of<Quotient<Identity, Power<Square, TLinear>>>(),
+            -3 => Measure.Of<Quotient<Identity, Power<Cubic, TLinear>>>(),
+            _ => null
+        };
 }

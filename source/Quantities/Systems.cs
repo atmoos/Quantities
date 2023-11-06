@@ -25,6 +25,6 @@ public static class Systems
         where TUnit : IImperialUnit, IDimension => new(Factory.Of<Imperial<TUnit>>());
     public static Scalar<TUnit> NonStandard<TUnit>()
         where TUnit : INonStandardUnit, IDimension => new(Factory.Of<NonStandard<TUnit>>());
-    public static Cubic<TUnit> Cubic<TUnit>(in Scalar<TUnit> scalar) where TUnit : IUnit, IDimension => new(scalar.Factory);
-    public static Square<TUnit> Square<TUnit>(in Scalar<TUnit> scalar) where TUnit : IUnit, IDimension => new(scalar.Factory);
+    public static Cubic<TUnit> Cubic<TUnit>(in Scalar<TUnit> scalar) where TUnit : IUnit, ILinear, IDimension => new(scalar.Factory);
+    public static Square<TUnit> Square<TUnit>(in Scalar<TUnit> scalar) where TUnit : IUnit, ILinear, IDimension => new(scalar.Factory);
 }

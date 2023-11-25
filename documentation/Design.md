@@ -26,7 +26,7 @@ There are some core principles that govern the design of this library. This libr
   - This holds true for all quantities.
 - defines units and prefixes by types, not values.
   - This allows users to easily [use their own](../source/Quantities.Test/UserDefined.cs) units.
-  - We don't see a scenario for user defined prefixes, but it's possible to **precise**do none the less.
+  - We don't see a scenario for user defined prefixes, but it's possible to do none the less.
 
 ## Design Decisions
 
@@ -136,8 +136,8 @@ classDiagram
     }
     class Length{
         <<struct>>
-        +To(in Scalar~TUnit~ other): Length
-        +Of(in Double value, in Scalar~TUnit~ measure): Length$
+        +To(in Scalar~TUnit~ other): Length where TUnit: ILength , IUnit
+        +Of(in Double value, in Scalar~TUnit~ measure): Length where TUnit: ILength , IUnit $
     }
     Scalar <.. Length
     ILength <|.. Length
@@ -164,11 +164,12 @@ The implementation of various quantities revolves around three core types:
 
 - [Polynomial](../source/Quantities/Core/Numerics/Polynomial.cs)
   - Does all the numerical heavy lifting.
+  - Specifically, retaining higher numerical stability than relying on `Double` alone.
 - [Measure](../source/Quantities/Core/Measure.cs)
-  - The manifestation of a dimension as vector in the dimension space.
+  - The manifestation of a dimension as vector in the _dimension space_.
   - Where the base si dimensions are the span of that vector space.
-  - Each measures `Polynomial` can be though "magnitude" of the dimension vector.
-  - Can safely be represented as a singleton, meaning allocation is asymptotically zero.
+  - Each measure's `Polynomial` can be thought of as "magnitude" of the dimension vector.
+  - Can safely be represented as a singleton, meaning allocation is _asymptotically_ zero.
 - [Quantity](../source/Quantities/Core/Quantity.cs)
   - Holds the _scalar_ scaling factor of a physical quantity, as a `Double`.
   - The `Measure` defines "direction" and "magnitude".
@@ -178,6 +179,9 @@ Each actual quantity ([Length](../source/Quantities/Quantities/Length.cs), [Time
 
 ```mermaid
 classDiagram
+    class Scalar~TUnit~{
+        <<struct>>
+    }
     class IQuantity~TQuantity~{
         <<interface>>
     }
@@ -209,12 +213,13 @@ classDiagram
     class SomeQuantity{
         <<struct>>
         -Quantity some
-        +Factory~SomeQuantity~ To
-        +Of(Double some): Factory~SomeQuantity~
+        +To(in Scalar~TUnit~ other): SomeQuantity
+        +Of(in Double some, Scalar~TUnit~ measure): SomeQuantity $
     }
     IQuantity <|.. SomeQuantity
     IQuantity <|.. IQuantity
     Quantity --o SomeQuantity
+    Scalar <.. SomeQuantity
     Measure --o Result
     Measure --o Quantity
     Polynomial --o Result
@@ -223,7 +228,7 @@ classDiagram
 
 ## Precision
 
-This library achieves at least `Double` precision. By use of the [Polynomial](../source/Quantities/Core/Numerics/Polynomial.cs) type, we often can achieve better than `Double` precision.
+This library achieves at least `Double` precision. By use of the [Polynomial](../source/Quantities/Core/Numerics/Polynomial.cs) type, we often can achieve better than `Double` precision. Numerical stability is also improved.
 
 ## Realization of Physical Laws
 
@@ -285,4 +290,4 @@ This leads to the following list of naming conventions:
   - Hence we use [Ångström](../source/Quantities.Units/Si/Metric/Ångström.cs), not "Angstrom".
   - We can do this since C# source code is UTF-8 and supports special characters
 - Potential duplicate names are resolved via namespaces.
-  - Examples are the well known unit of force, the [Newton](../source/Quantities.Units/Si/Derived/Newton.cs) and the lesser known unit of temperature, the [Newton](../source/Quantities.Units/NonStandard/Temperature/Newton.cs).
+  - Examples are the well known unit of force, the [Newton](../source/Quantities.Units/Si/Derived/Newton.cs) and the less well-known unit of temperature, the [Newton](../source/Quantities.Units/NonStandard/Temperature/Newton.cs).

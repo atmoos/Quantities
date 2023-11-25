@@ -16,13 +16,13 @@ Usage is designed to be intuitive:
 
 ### Instantiation
 
-Somewhere in your project define this global static using directive:
+Somewhere in your project, define this global static using directive:
 
 ```csharp
 global using static Quantities.Systems;
 ```
 
-Then use quantities intuitively:
+Then, use quantities intuitively:
 
 ```csharp
 Length metres = Length.Of(4, Si<Metre>());
@@ -112,4 +112,3 @@ Console.WriteLine($"Equal amount of data: {kiloByte.Equals(kibiByte)}"); // Equa
 Yes. The API has stabilised. Furthermore, the library outperforms naive implementations both in terms of performance and accuracy. Additionally, any combination of prefix and unit is supported out of the box for si and metric quantities.
 
 Also, this library supports serialization for json with both `System.Text.Json` and `Newtonsoft.Json`. If a specific form of serialization is required, the library provides api's to extend it with custom serialization. (See [write](./source/Quantities/Core/Serialization/IWriter.cs) and [read](./source/Quantities/Serialization/QuantityFactory.cs) support.)
-

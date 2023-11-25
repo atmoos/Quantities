@@ -1,5 +1,4 @@
-﻿using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Diagnosers;
+﻿using BenchmarkDotNet.Diagnosers;
 using Quantities.Prefixes;
 using Quantities.Units.Imperial.Area;
 using Quantities.Units.Imperial.Length;

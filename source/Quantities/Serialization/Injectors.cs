@@ -3,32 +3,32 @@ using Quantities.Measures;
 
 namespace Quantities.Serialization;
 
-internal sealed class ScalarInjector : IInject
+internal sealed class ScalarInjector : IInject<IBuilder>
 {
     public IBuilder Inject<TMeasure>() where TMeasure : IMeasure => new Builder<TMeasure>();
 }
 
-internal sealed class PowerInjector<TDim> : IInject
+internal sealed class PowerInjector<TDim> : IInject<IBuilder>
     where TDim : IExponent
 {
     public IBuilder Inject<TMeasure>() where TMeasure : IMeasure => new Builder<Power<TDim, TMeasure>>();
 }
 
-internal sealed class AliasInjector<TLinear> : IInject
+internal sealed class AliasInjector<TLinear> : IInject<IBuilder>
     where TLinear : IMeasure, ILinear
 {
-    private readonly IInject inject;
-    public AliasInjector(IInject inject) => this.inject = inject;
+    private readonly IInject<IBuilder> inject;
+    public AliasInjector(IInject<IBuilder> inject) => this.inject = inject;
     public IBuilder Inject<TMeasure>() where TMeasure : IMeasure => this.inject.Inject<Alias<TMeasure, TLinear>>();
 }
 
-internal sealed class QuotientInjector : IInject
+internal sealed class QuotientInjector : IInject<IBuilder>
 {
     public IBuilder Inject<TMeasure>() where TMeasure : IMeasure => new Nominator<TMeasure>();
 
     // the nominator is the first half of a fractional dimension to be created.
-    // Hence, it must itself be an instance of IInject to inject ... 
-    private sealed class Nominator<TNominator> : IInject, IBuilder
+    // Hence, it must itself be an instance of IInject<IBuilder> to inject ... 
+    private sealed class Nominator<TNominator> : IInject<IBuilder>, IBuilder
         where TNominator : IMeasure
     {
         public Quantity Build(in Double value) => Quantity.Of<TNominator>(in value);
@@ -37,13 +37,13 @@ internal sealed class QuotientInjector : IInject
     }
 }
 
-internal sealed class ProductInjector : IInject
+internal sealed class ProductInjector : IInject<IBuilder>
 {
     public IBuilder Inject<TMeasure>() where TMeasure : IMeasure => new LeftTerm<TMeasure>();
 
     // the "left term" is the first half of a multiplicative dimension (product) to be created.
-    // Hence, it must itself be an instance of IInject to inject ... 
-    private sealed class LeftTerm<TLeft> : IInject, IBuilder
+    // Hence, it must itself be an instance of IInject<IBuilder> to inject ... 
+    private sealed class LeftTerm<TLeft> : IInject<IBuilder>, IBuilder
         where TLeft : IMeasure
     {
         public Quantity Build(in Double value) => Quantity.Of<TLeft>(in value);

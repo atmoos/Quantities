@@ -1,5 +1,4 @@
 ﻿using System.Runtime.CompilerServices;
-using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Diagnosers;
 using Quantities.Prefixes;
 using Quantities.Units.Si;

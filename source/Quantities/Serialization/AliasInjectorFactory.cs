@@ -4,21 +4,21 @@ using Quantities.Units;
 
 namespace Quantities.Serialization;
 
-internal sealed class AliasInjectorFactory<TLinear> : ISystems<TLinear, IInject>
+internal sealed class AliasInjectorFactory<TLinear> : ISystems<TLinear, IInject<IBuilder>>
     where TLinear : IDimension, ILinear
 {
-    private readonly IInject injector;
-    public AliasInjectorFactory(IInject injector) => this.injector = injector;
-    public IInject Si<TUnit>()
+    private readonly IInject<IBuilder> injector;
+    public AliasInjectorFactory(IInject<IBuilder> injector) => this.injector = injector;
+    public IInject<IBuilder> Si<TUnit>()
         where TUnit : ISiUnit, TLinear
             => new AliasInjector<Si<TUnit>>(this.injector);
-    public IInject Metric<TUnit>()
+    public IInject<IBuilder> Metric<TUnit>()
         where TUnit : IMetricUnit, TLinear
             => new AliasInjector<Metric<TUnit>>(this.injector);
-    public IInject Imperial<TUnit>()
+    public IInject<IBuilder> Imperial<TUnit>()
         where TUnit : IImperialUnit, TLinear
             => new AliasInjector<Imperial<TUnit>>(this.injector);
-    public IInject NonStandard<TUnit>()
+    public IInject<IBuilder> NonStandard<TUnit>()
         where TUnit : INonStandardUnit, TLinear
             => new AliasInjector<NonStandard<TUnit>>(this.injector);
 }

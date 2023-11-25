@@ -1,5 +1,4 @@
-﻿using BenchmarkDotNet.Attributes;
-using Quantities.Prefixes;
+﻿using Quantities.Prefixes;
 using Quantities.Units.Imperial.Length;
 using Quantities.Units.Si;
 using Quantities.Units.Si.Derived;

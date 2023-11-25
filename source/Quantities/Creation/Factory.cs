@@ -4,7 +4,7 @@ using Quantities.Units;
 
 namespace Quantities.Creation;
 
-internal abstract class Factory : IInjector
+internal abstract class Factory
 {
     public IInject<Factory> Product { get; }
     public IInject<Factory> Quotient { get; }

@@ -1,14 +1,10 @@
-﻿using Quantities.Dimensions;
-using Quantities.Units.Imperial.Area;
+﻿using Quantities.Units.Imperial.Area;
 using Quantities.Units.NonStandard.Area;
 using Quantities.Units.Si.Metric;
 
 namespace Quantities.Test;
 public class AreaTest
 {
-    private static readonly Creation.Scalar<Are> are = Metric<Are>();
-    private static readonly Creation.Scalar<Are> hectare = Metric<Hecto, Are>();
-    private static readonly Creation.Scalar<Acre> acre = Imperial<Acre>();
     [Fact]
     public void AddSquareMetres()
     {
@@ -68,7 +64,7 @@ public class AreaTest
     [Fact]
     public void PureArealDimensionDividedByLength()
     {
-        Area area = Area.Of(2, in acre);
+        Area area = Area.Of(2, Imperial<Acre>());
         Length length = Length.Of(1815, Imperial<Foot>());
         Length expected = Length.Of(16, Imperial<Yard>());
 
@@ -91,7 +87,7 @@ public class AreaTest
     [Fact]
     public void AcreDividedBySquareFeet()
     {
-        Area acres = Area.Of(2, in acre);
+        Area acres = Area.Of(2, Imperial<Acre>());
         Area squareFeet = Area.Of(2 * 43560, Square(Imperial<Foot>()));
 
         Assert.Equal(acres, squareFeet);
@@ -122,7 +118,7 @@ public class AreaTest
     [Fact]
     public void AreTimesMeterIsCubicMetre()
     {
-        Area area = Area.Of(1, in are);
+        Area area = Area.Of(1, Metric<Are>());
         Length length = Length.Of(10, Si<Metre>());
         Volume expected = Volume.Of(10 * 10 * 10, Cubic(Si<Metre>()));
 
@@ -134,7 +130,7 @@ public class AreaTest
     [Fact]
     public void AreToSiDefinition()
     {
-        Area area = Area.Of(1, in are);
+        Area area = Area.Of(1, Metric<Are>());
         Area expected = Area.Of(100, Square(Si<Metre>()));
 
         Area actual = area.To(Square(Si<Metre>()));
@@ -144,10 +140,10 @@ public class AreaTest
     [Fact]
     public void AreToHectare()
     {
-        Area area = Area.Of(100, in are);
-        Area expected = Area.Of(1, hectare);
+        Area area = Area.Of(100, Metric<Are>());
+        Area expected = Area.Of(1, Metric<Hecto, Are>());
 
-        Area actual = area.To(hectare);
+        Area actual = area.To(Metric<Hecto, Are>());
 
         actual.Matches(expected);
     }
@@ -155,9 +151,9 @@ public class AreaTest
     public void MorgenToHectare()
     {
         Area morgen = Area.Of(4, NonStandard<Morgen>());
-        Area expected = Area.Of(1, hectare);
+        Area expected = Area.Of(1, Metric<Hecto, Are>());
 
-        Area actual = morgen.To(hectare);
+        Area actual = morgen.To(Metric<Hecto, Are>());
 
         actual.Matches(expected);
     }

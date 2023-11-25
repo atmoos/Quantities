@@ -1,6 +1,4 @@
-﻿using BenchmarkDotNet.Attributes;
-using Quantities.Dimensions;
-using Quantities.Prefixes;
+﻿using Quantities.Prefixes;
 using Quantities.Units.Si;
 using Quantities.Units.Si.Derived;
 using Quantities.Units.Si.Metric;
@@ -41,18 +39,18 @@ public class DeserializationBenchmark
 
 BenchmarkDotNet v0.13.8, Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK 7.0.111
-  [Host]     : .NET 7.0.11 (7.0.1123.46301), X64 RyuJIT AVX2
-  DefaultJob : .NET 7.0.11 (7.0.1123.46301), X64 RyuJIT AVX2
+.NET SDK 7.0.113
+  [Host]     : .NET 7.0.13 (7.0.1323.52501), X64 RyuJIT AVX2
+  DefaultJob : .NET 7.0.13 (7.0.1323.52501), X64 RyuJIT AVX2
 
 
 | Method                 | Mean       | Error    | StdDev   | Ratio | RatioSD | Gen0   | Allocated | Alloc Ratio |
 |----------------------- |-----------:|---------:|---------:|------:|--------:|-------:|----------:|------------:|
-| SystemTriple           |   189.4 ns |  1.23 ns |  1.15 ns |  1.00 |    0.00 | 0.0095 |      40 B |        1.00 |
-| SystemQuantity         |   705.0 ns |  3.35 ns |  2.97 ns |  3.72 |    0.03 | 0.0381 |     160 B |        4.00 |
-| PrefixedQuantity       |   862.0 ns | 12.43 ns | 11.63 ns |  4.55 |    0.05 | 0.0534 |     224 B |        5.60 |
-| FractionalQuantity     | 2,141.5 ns |  4.82 ns |  4.02 ns | 11.32 |    0.08 | 0.1793 |     752 B |       18.80 |
-| MultiplicativeQuantity | 2,213.5 ns |  4.98 ns |  4.15 ns | 11.70 |    0.07 | 0.1793 |     752 B |       18.80 |
-| PowerQuantity          | 1,930.0 ns | 37.47 ns | 35.05 ns | 10.19 |    0.17 | 0.1411 |     600 B |       15.00 |
-| ScalarPowerQuantity    |   966.8 ns |  9.33 ns |  8.72 ns |  5.11 |    0.05 | 0.0553 |     232 B |        5.80 |
+| SystemTriple           |   195.6 ns |  1.90 ns |  1.68 ns |  1.00 |    0.00 | 0.0095 |      40 B |        1.00 |
+| SystemQuantity         |   758.5 ns |  9.67 ns |  9.04 ns |  3.88 |    0.07 | 0.0381 |     160 B |        4.00 |
+| PrefixedQuantity       |   847.8 ns | 13.04 ns | 11.56 ns |  4.34 |    0.09 | 0.0534 |     224 B |        5.60 |
+| FractionalQuantity     | 2,164.2 ns | 41.96 ns | 56.02 ns | 11.03 |    0.31 | 0.1755 |     744 B |       18.60 |
+| MultiplicativeQuantity | 2,102.1 ns | 14.80 ns | 13.12 ns | 10.75 |    0.10 | 0.1755 |     744 B |       18.60 |
+| PowerQuantity          | 1,961.4 ns |  8.74 ns |  7.74 ns | 10.03 |    0.11 | 0.1411 |     592 B |       14.80 |
+| ScalarPowerQuantity    |   934.2 ns |  2.81 ns |  2.63 ns |  4.78 |    0.04 | 0.0553 |     232 B |        5.80 |
 */

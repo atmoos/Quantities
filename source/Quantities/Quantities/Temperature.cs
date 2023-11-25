@@ -1,17 +1,19 @@
 ﻿using Quantities.Dimensions;
-using Quantities.Factories;
+using Quantities.Units;
 
 namespace Quantities;
 
 public readonly struct Temperature : IQuantity<Temperature>, ITemperature
-    , IFactory<IDefaultFactory<Temperature, ITemperature>, Linear<To, Temperature, ITemperature>, Linear<Create, Temperature, ITemperature>>
+    , IScalar<Temperature, ITemperature>
 {
     private readonly Quantity temperature;
     internal Quantity Value => this.temperature;
     Quantity IQuantity<Temperature>.Value => this.temperature;
-    public Linear<To, Temperature, ITemperature> To => new(new To(in this.temperature));
     private Temperature(in Quantity value) => this.temperature = value;
-    public static Linear<Create, Temperature, ITemperature> Of(in Double value) => new(new Create(in value));
+    public Temperature To<TUnit>(in Creation.Scalar<TUnit> other)
+        where TUnit : ITemperature, IUnit => new(other.Transform(in this.temperature));
+    public static Temperature Of<TUnit>(in Double value, in Creation.Scalar<TUnit> measure)
+        where TUnit : ITemperature, IUnit => new(measure.Create(in value));
     static Temperature IFactory<Temperature>.Create(in Quantity value) => new(in value);
 
     public Boolean Equals(Temperature other) => this.temperature.Equals(other.temperature);
@@ -28,5 +30,5 @@ public readonly struct Temperature : IQuantity<Temperature>, ITemperature
     public static Temperature operator *(Double scalar, Temperature right) => new(scalar * right.temperature);
     public static Temperature operator *(Temperature left, Double scalar) => new(scalar * left.temperature);
     public static Temperature operator /(Temperature left, Double scalar) => new(left.temperature / scalar);
-    public static Double operator /(Temperature left, Temperature right) => left.temperature.Divide(in right.temperature);
+    public static Double operator /(Temperature left, Temperature right) => left.temperature.Ratio(in right.temperature);
 }

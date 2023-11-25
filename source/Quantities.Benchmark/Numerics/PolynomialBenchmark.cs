@@ -1,5 +1,4 @@
-﻿using BenchmarkDotNet.Attributes;
-using Quantities.Core.Numerics;
+﻿using Quantities.Core.Numerics;
 
 using static Quantities.Benchmark.Convenience;
 using static Quantities.Benchmark.Numerics.Trivial;

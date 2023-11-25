@@ -26,7 +26,7 @@ There are some core principles that govern the design of this library. This libr
   - This holds true for all quantities.
 - defines units and prefixes by types, not values.
   - This allows users to easily [use their own](../source/Quantities.Test/UserDefined.cs) units.
-  - We don't see a scenario for user defined prefixes, but it's possible to **precise**do none the less.
+  - We don't see a scenario for user defined prefixes, but it's possible to do none the less.
 
 ## Design Decisions
 
@@ -42,8 +42,9 @@ Every...
   - a binary prefix
   - or both
 - quantity represents a unique [dimension](../source/Quantities/Dimensions/IDimension.cs), such as one of the seven [BaseDimensions](../source/Quantities/Dimensions/BaseDimensions.cs)
-- quantity can only be instantiated using _generic_ factory methods
-  - that are parameterized by a combination of generic prefix and unit parameters.
+- quantity can only be instantiated using _generic_ measure parameters
+  - that can themselves only be instantiated using factory methods on the [Systems](../source/Quantities/Systems.cs) class.
+  - these parameters are themselves parameterized by a combination of generic prefix and unit parameters.
   - The unit parameter is constrained by the same dimension the quantity implements
 - quantity is implicitly convertible to a `Double`
 - quantity supports
@@ -51,7 +52,7 @@ Every...
   - scalar multiplicative operations
   - comparison to quantities of the same type
 - quantity is left associative
-  - a compound expression will take the prefix and unit of the left most term
+  - a compound expression will take the prefix and unit of the leftmost term
 - quantity can be converted to any other valid combination of prefix and unit
 
 Therefore, the actual underlying unit and/or prefix of a given type is an _irrelevant detail_ of any quantity.
@@ -60,35 +61,55 @@ Therefore, the actual underlying unit and/or prefix of a given type is an _irrel
 
 This library was built around an API I had in mind. The API should rely heavily on generics, which would make it very easy to use and [extend](../source/Quantities.Test/UserDefined.cs) for an arbitrary amount of units and (metric) prefixes.
 
-There are factories (interfaces) for each system of measurement (Si, Metric, Imperial, etc.) that define what prefixes and units may be used:
+The static class [Systems](../source/Quantities/Systems.cs) defines factory methods for each system of measurement (Si, Metric, Imperial, etc.)
 
 ```csharp
-public struct Factory<TQuantity> : ISystemFactory
+public static class Systems
 {
-    public TQuantity System<TPrefix, TUnit>()
+    public static Scalar<TUnit> Si<TPrefix, TUnit>()
         where TPrefix : IPrefix
-        where TUnit : IMyDimension, IUnit;
+        where TUnit : ISiUnit;
     
-    // other factory methods, depending on the system of measurement...
+    /* other factory methods, depending on the system of measurement... */
+
+    public static Square<TUnit> Square<TUnit>(in Scalar<TUnit> scalar) where TUnit : IUnit, ILinear;
+
+    /* other changes in dimension... */
 }
 ```
 
-The API for conversion and creation looks like this:
+with these measure parameters are created, which then parametrize the creation of units.
+
+The API for conversion and creation thus looks like this:
 
 ```csharp
-public struct TQuantity : IMyDimension
+public struct MyQuantity : IMyDimension
 {
-    public Factory<TQuantity> To { get; };
-    public static Factory<TQuantity> Of(in Double value);
+    public MyQuantity To(in Measure<TUnit> other) where TUnit : IMyDimension;
+    public static MyQuantity Of(in Double value, in Measure<TUnit> measure) where TUnit : IMyDimension;
 }
 ```
+
+where `Measure<TUnit>` is one of:
+
+- `Scalar<TUnit>` for scalar units.
+  - such as meter \[m\] for length.
+- `Alias<TUnit>` for units based on other units of different dimension.
+  - such as litre \[ℓ\] for volume, which is defined as one _cubic_ deci-metre \[(dm)³\].
+- `Square<TUnit>` for units defined directly by the square of a linear base unit.
+  - such as square feet \[ft²\] for area.
+- `Cubic<TUnit>` for units defined directly by the cube of a linear base unit.
+  - such as cubic metres \[m³\] for volume.
 
 Thus, allowing for concise and expressive handling of units:
 
 ```csharp
-Length metric = Length.Of(100).Si<Milli, Metre>();
-Length imperial = Length.Of(23).Imperial<Foot>();
-Length otherMetric = metric.To.Si<Kilo, Metre>();
+Length metric = Length.Of(100, Si<Milli, Metre>());
+Length imperial = Length.Of(23, Imperial<Foot>());
+Length otherMetric = metric.To(Si<Kilo, Metre>());
+
+Area hectares = Area.Of(3, Metric<Hecto, Are>());
+Area squareKilometres = Area.Of(24, Square(Si<Kilo, Metre>()));
 ```
 
 Notice, how the use of the type parameters resembles how one would normally use function arguments. This is a key concept.
@@ -101,7 +122,7 @@ Using UML the concept may be illustrated as follows:
 title: Public API using Length as Example
 ---
 classDiagram
-    class Factory~TQuantity~{
+    class Scalar~TUnit~{
         <<struct>>
     }
     class ILength{
@@ -115,10 +136,10 @@ classDiagram
     }
     class Length{
         <<struct>>
-        +To: Factory~Length~
-        +Of(Double value)$ Factory~Length~
+        +To(in Scalar~TUnit~ other): Length where TUnit: ILength , IUnit
+        +Of(in Double value, in Scalar~TUnit~ measure): Length where TUnit: ILength , IUnit $
     }
-    Factory <|.. Length
+    Scalar <.. Length
     ILength <|.. Length
     IUnit <|.. Metre
     ILength <|.. Metre
@@ -134,7 +155,7 @@ Note, that `Length` implements `ILength`, but not `IUnit`!
 Creating one kilometre is then as simple as:
 
 ```csharp
-Length oneKm = Length.Of(1d).Si<Kilo, Metre>();
+Length oneKm = Length.Of(1d, Si<Kilo, Metre>());
 ```
 
 ## Decomposition
@@ -143,11 +164,12 @@ The implementation of various quantities revolves around three core types:
 
 - [Polynomial](../source/Quantities/Core/Numerics/Polynomial.cs)
   - Does all the numerical heavy lifting.
+  - Specifically, retaining higher numerical stability than relying on `Double` alone.
 - [Measure](../source/Quantities/Core/Measure.cs)
-  - The manifestation of a dimension as vector in the dimension space.
+  - The manifestation of a dimension as vector in the _dimension space_.
   - Where the base si dimensions are the span of that vector space.
-  - Each measures `Polynomial` can be though "magnitude" of the dimension vector.
-  - Can safely be represented as a singleton, meaning allocation is asymptotically zero.
+  - Each measure's `Polynomial` can be thought of as "magnitude" of the dimension vector.
+  - Can safely be represented as a singleton, meaning allocation is _asymptotically_ zero.
 - [Quantity](../source/Quantities/Core/Quantity.cs)
   - Holds the _scalar_ scaling factor of a physical quantity, as a `Double`.
   - The `Measure` defines "direction" and "magnitude".
@@ -157,6 +179,9 @@ Each actual quantity ([Length](../source/Quantities/Quantities/Length.cs), [Time
 
 ```mermaid
 classDiagram
+    class Scalar~TUnit~{
+        <<struct>>
+    }
     class IQuantity~TQuantity~{
         <<interface>>
     }
@@ -188,12 +213,13 @@ classDiagram
     class SomeQuantity{
         <<struct>>
         -Quantity some
-        +Factory~SomeQuantity~ To
-        +Of(Double some): Factory~SomeQuantity~
+        +To(in Scalar~TUnit~ other): SomeQuantity
+        +Of(in Double some, Scalar~TUnit~ measure): SomeQuantity $
     }
     IQuantity <|.. SomeQuantity
     IQuantity <|.. IQuantity
     Quantity --o SomeQuantity
+    Scalar <.. SomeQuantity
     Measure --o Result
     Measure --o Quantity
     Polynomial --o Result
@@ -202,7 +228,7 @@ classDiagram
 
 ## Precision
 
-This library achieves at least `Double` precision. By use of the [Polynomial](../source/Quantities/Core/Numerics/Polynomial.cs) type, we often can achieve better than `Double` precision.
+This library achieves at least `Double` precision. By use of the [Polynomial](../source/Quantities/Core/Numerics/Polynomial.cs) type, we often can achieve better than `Double` precision. Numerical stability is also improved.
 
 ## Realization of Physical Laws
 
@@ -264,4 +290,4 @@ This leads to the following list of naming conventions:
   - Hence we use [Ångström](../source/Quantities.Units/Si/Metric/Ångström.cs), not "Angstrom".
   - We can do this since C# source code is UTF-8 and supports special characters
 - Potential duplicate names are resolved via namespaces.
-  - Examples are the well known unit of force, the [Newton](../source/Quantities.Units/Si/Derived/Newton.cs) and the lesser known unit of temperature, the [Newton](../source/Quantities.Units/NonStandard/Temperature/Newton.cs).
+  - Examples are the well known unit of force, the [Newton](../source/Quantities.Units/Si/Derived/Newton.cs) and the less well-known unit of temperature, the [Newton](../source/Quantities.Units/NonStandard/Temperature/Newton.cs).

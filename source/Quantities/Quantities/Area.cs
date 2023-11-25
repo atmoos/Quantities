@@ -1,20 +1,27 @@
 ﻿using System.Numerics;
+using Quantities.Creation;
 using Quantities.Dimensions;
-using Quantities.Factories;
+using Quantities.Units;
 
 namespace Quantities;
 
 public readonly struct Area : IQuantity<Area>, IArea
-    , IFactory<IQuadraticFactory<Area, IArea, ILength>, Quadratic<To, Area, IArea, ILength>, Quadratic<Create, Area, IArea, ILength>>
+    , ISquare<Area, IArea, ILength>
     , IMultiplyOperators<Area, Length, Volume>
     , IDivisionOperators<Area, Length, Length>
 {
     private readonly Quantity area;
     internal Quantity Value => this.area;
     Quantity IQuantity<Area>.Value => this.area;
-    public Quadratic<To, Area, IArea, ILength> To => new(new To(in this.area));
     private Area(in Quantity value) => this.area = value;
-    public static Quadratic<Create, Area, IArea, ILength> Of(in Double value) => new(new Create(in value));
+    public Area To<TLength>(in Square<TLength> other)
+        where TLength : ILength, IUnit => new(other.Transform(in this.area));
+    public Area To<TArea>(in Scalar<TArea> other)
+        where TArea : IArea, IAlias<ILength>, IUnit => new(other.Transform<TArea, ILength>(in this.area));
+    public static Area Of<TLength>(in Double value, in Square<TLength> measure)
+        where TLength : ILength, IUnit => new(measure.Create(in value));
+    public static Area Of<TArea>(in Double value, in Scalar<TArea> measure)
+        where TArea : IArea, IAlias<ILength>, IUnit => new(measure.Create<TArea, ILength>(in value));
     static Area IFactory<Area>.Create(in Quantity value) => new(in value);
     internal static Area From(in Length left, in Length right) => new(left.Value * right.Value);
     internal static Area From(in Volume volume, in Length length) => new(volume.Value / length.Value);
@@ -34,5 +41,5 @@ public readonly struct Area : IQuantity<Area>, IArea
     public static Area operator *(Area left, Double scalar) => new(scalar * left.area);
     public static Length operator /(Area left, Length right) => Length.From(in left, in right);
     public static Area operator /(Area left, Double scalar) => new(left.area / scalar);
-    public static Double operator /(Area left, Area right) => left.area.Divide(in right.area);
+    public static Double operator /(Area left, Area right) => left.area.Ratio(in right.area);
 }

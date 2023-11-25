@@ -1,11 +1,11 @@
 ﻿using System.Numerics;
 using Quantities.Dimensions;
-using Quantities.Factories;
+using Quantities.Units;
 
 namespace Quantities;
 
 public readonly struct Power : IQuantity<Power>, IPower
-    , IFactory<IDefaultFactory<Power, IPower>, Linear<To, Power, IPower>, Linear<Create, Power, IPower>>
+    , IScalar<Power, IPower>
     , IMultiplyOperators<Power, Time, Energy>
     , IDivisionOperators<Power, ElectricCurrent, ElectricPotential>
     , IDivisionOperators<Power, ElectricPotential, ElectricCurrent>
@@ -15,9 +15,11 @@ public readonly struct Power : IQuantity<Power>, IPower
     private readonly Quantity power;
     internal Quantity Value => this.power;
     Quantity IQuantity<Power>.Value => this.power;
-    public Linear<To, Power, IPower> To => new(new To(in this.power));
     private Power(in Quantity value) => this.power = value;
-    public static Linear<Create, Power, IPower> Of(in Double value) => new(new Create(in value));
+    public Power To<TUnit>(in Creation.Scalar<TUnit> other)
+        where TUnit : IPower, IUnit => new(other.Transform(in this.power));
+    public static Power Of<TUnit>(in Double value, in Creation.Scalar<TUnit> measure)
+        where TUnit : IPower, IUnit => new(measure.Create(in value));
     static Power IFactory<Power>.Create(in Quantity value) => new(in value);
     internal static Power From(in ElectricPotential potential, in ElectricCurrent current) => new(potential.Value * current.Value);
     internal static Power From(in Force force, in Velocity velocity) => new(force.Value * velocity.Value);
@@ -36,7 +38,7 @@ public readonly struct Power : IQuantity<Power>, IPower
     public static Power operator *(Double scalar, Power right) => new(scalar * right.power);
     public static Power operator *(Power left, Double scalar) => new(scalar * left.power);
     public static Power operator /(Power left, Double scalar) => new(left.power / scalar);
-    public static Double operator /(Power left, Power right) => left.power.Divide(in right.power);
+    public static Double operator /(Power left, Power right) => left.power.Ratio(in right.power);
 
     public static ElectricPotential operator /(Power power, ElectricCurrent current) => ElectricPotential.From(in power, in current);
     public static ElectricCurrent operator /(Power power, ElectricPotential potential) => ElectricCurrent.From(in power, in potential);

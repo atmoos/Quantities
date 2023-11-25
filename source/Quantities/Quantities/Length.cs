@@ -1,11 +1,12 @@
 ﻿using System.Numerics;
+using Quantities.Creation;
 using Quantities.Dimensions;
-using Quantities.Factories;
+using Quantities.Units;
 
 namespace Quantities;
 
 public readonly struct Length : IQuantity<Length>, ILength
-    , IFactory<IDefaultFactory<Length, ILength>, Linear<To, Length, ILength>, Linear<Create, Length, ILength>>
+    , IScalar<Length, ILength>
     , IMultiplyOperators<Length, Length, Area>
     , IMultiplyOperators<Length, Area, Volume>
     , IDivisionOperators<Length, Time, Velocity>
@@ -13,9 +14,11 @@ public readonly struct Length : IQuantity<Length>, ILength
     private readonly Quantity length;
     internal Quantity Value => this.length;
     Quantity IQuantity<Length>.Value => this.length;
-    public Linear<To, Length, ILength> To => new(new To(in this.length));
     private Length(in Quantity value) => this.length = value;
-    public static Linear<Create, Length, ILength> Of(in Double value) => new(new Create(in value));
+    public Length To<TLength>(in Scalar<TLength> other)
+        where TLength : ILength, IUnit => new(other.Transform(in this.length));
+    public static Length Of<TLength>(in Double value, in Scalar<TLength> measure)
+        where TLength : ILength, IUnit => new(measure.Create(in value));
     static Length IFactory<Length>.Create(in Quantity value) => new(in value);
     internal static Length From(in Area area, in Length length) => new(area.Value / length.Value);
     internal static Length From(in Velocity velocity, in Time time) => new(velocity.Value * time.Value);
@@ -36,7 +39,7 @@ public readonly struct Length : IQuantity<Length>, ILength
     public static Length operator *(Double scalar, Length right) => new(scalar * right.length);
     public static Length operator *(Length left, Double scalar) => new(scalar * left.length);
     public static Length operator /(Length left, Double scalar) => new(left.length / scalar);
-    public static Double operator /(Length left, Length right) => left.length.Divide(in right.length);
+    public static Double operator /(Length left, Length right) => left.length.Ratio(in right.length);
 
     public static Velocity operator /(Length length, Time time) => Velocity.From(in length, in time);
 }

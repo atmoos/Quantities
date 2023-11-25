@@ -1,20 +1,28 @@
 ﻿using System.Numerics;
+using Quantities.Creation;
 using Quantities.Dimensions;
-using Quantities.Factories;
+using Quantities.Units;
 
 namespace Quantities;
 
 public readonly struct Velocity : IQuantity<Velocity>, IVelocity
-    , IFactory<IQuotientFactory<IVelocity, ILength, ITime>, Quotient<To, Velocity, IVelocity, ILength, ITime>, Quotient<Create, Velocity, IVelocity, ILength, ITime>>
+    , IQuotient<Velocity, IVelocity, ILength, ITime>
     , IMultiplyOperators<Velocity, Force, Power>
     , IMultiplyOperators<Velocity, Time, Length>
 {
     private readonly Quantity velocity;
     internal Quantity Value => this.velocity;
     Quantity IQuantity<Velocity>.Value => this.velocity;
-    public Quotient<To, Velocity, IVelocity, ILength, ITime> To => new(new To(in this.velocity));
     internal Velocity(in Quantity value) => this.velocity = value;
-    public static Quotient<Create, Velocity, IVelocity, ILength, ITime> Of(in Double value) => new(new Create(in value));
+    public Velocity To<TUnit>(in Scalar<TUnit> other)
+        where TUnit : IVelocity, IUnit => new(other.Transform(in this.velocity));
+    public Velocity To<TNominator, TDenominator>(in Quotient<TNominator, TDenominator> other)
+        where TNominator : ILength, IUnit
+        where TDenominator : ITime, IUnit => new(other.Transform(in this.velocity));
+    public static Velocity Of<TUnit>(in Double value, in Scalar<TUnit> measure)
+        where TUnit : IVelocity, IUnit => new(measure.Create(in value));
+    public static Velocity Of<TLength, TTime>(in Double value, in Quotient<TLength, TTime> measure)
+       where TLength : IUnit, ILength where TTime : IUnit, ITime => new(measure.Create(in value));
     static Velocity IFactory<Velocity>.Create(in Quantity value) => new(in value);
     internal static Velocity From(in Power power, in Force force) => new(power.Value / force.Value);
     internal static Velocity From(in Length length, in Time time) => new(length.Value / time.Value);
@@ -32,7 +40,7 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity
     public static Velocity operator *(Double scalar, Velocity right) => new(scalar * right.velocity);
     public static Velocity operator *(Velocity left, Double scalar) => new(scalar * left.velocity);
     public static Velocity operator /(Velocity left, Double scalar) => new(left.velocity / scalar);
-    public static Double operator /(Velocity left, Velocity right) => left.velocity.Divide(in right.velocity);
+    public static Double operator /(Velocity left, Velocity right) => left.velocity.Ratio(in right.velocity);
 
     public static Power operator *(Velocity velocity, Force force) => Power.From(in force, in velocity);
     public static Length operator *(Velocity velocity, Time time) => Length.From(in velocity, in time);

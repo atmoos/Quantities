@@ -11,7 +11,7 @@ public class SerializationTest
     [Fact]
     public void FalseUnitsCannotBeInjectedViaSerialization()
     {
-        Length length = Length.Of(6).Si<Metre>();
+        Length length = Length.Of(6, Si<Metre>());
 
         String falseUnit = length.Serialize().Replace(Metre.Representation, Ohm.Representation);
 
@@ -25,8 +25,8 @@ public class SerializationTest
     [Fact]
     public void AliasingUnitsAreSupported()
     {
-        Volume fourCubicMetersInLitres = Volume.Of(4000).Metric<Litre>();
-        Area oneSquareMetre = Area.Of(1).Square.Si<Metre>();
+        Volume fourCubicMetersInLitres = Volume.Of(4000, Metric<Litre>());
+        Area oneSquareMetre = Area.Of(1, Square(Si<Metre>()));
         Length expectedHeight = fourCubicMetersInLitres / oneSquareMetre;
 
         Volume deserializedVolume = fourCubicMetersInLitres.SerializeRoundRobin();
@@ -39,7 +39,7 @@ public class SerializationTest
     public void ReadMetric()
     {
         Double value = Math.PI;
-        Length expected = Length.Of(value).Si<Metre>();
+        Length expected = Length.Of(value, Si<Metre>());
 
         expected.SupportsSerialization();
     }
@@ -48,7 +48,7 @@ public class SerializationTest
     public void ReadPrefixedMetric()
     {
         Double value = Math.PI;
-        Length expected = Length.Of(value).Si<Centi, Metre>();
+        Length expected = Length.Of(value, Si<Centi, Metre>());
 
         expected.SupportsSerialization();
     }
@@ -57,7 +57,7 @@ public class SerializationTest
     public void ReadImperial()
     {
         Double value = Math.E;
-        Length expected = Length.Of(value).Imperial<Mile>();
+        Length expected = Length.Of(value, Imperial<Mile>());
 
         expected.SupportsSerialization();
     }
@@ -66,7 +66,7 @@ public class SerializationTest
     public void Metric()
     {
         Double value = Math.PI;
-        Length length = Length.Of(value).Si<Metre>();
+        Length length = Length.Of(value, Si<Metre>());
         String actual = length.Serialize(options);
         String expected = $$"""
         {
@@ -84,7 +84,7 @@ public class SerializationTest
     public void MetricWithPrefix()
     {
         Double value = Math.PI;
-        Length length = Length.Of(value).Si<Kilo, Metre>();
+        Length length = Length.Of(value, Si<Kilo, Metre>());
         String actual = length.Serialize(options);
         String expected = $$"""
         {
@@ -103,7 +103,7 @@ public class SerializationTest
     public void Imperial()
     {
         Double value = Math.PI;
-        Length length = Length.Of(value).Imperial<Yard>();
+        Length length = Length.Of(value, Imperial<Yard>());
         String actual = length.Serialize(options);
         String expected = $$"""
         {
@@ -121,7 +121,7 @@ public class SerializationTest
     [Fact]
     public void PowerRepresentationsSupported()
     {
-        Volume volume = Volume.Of(2).Cubic.Si<Metre>();
+        Volume volume = Volume.Of(2, Cubic(Si<Metre>()));
 
         Volume roundRobinSerialization = volume.SerializeRoundRobin();
 
@@ -132,7 +132,7 @@ public class SerializationTest
     public void Compound()
     {
         Double value = Math.PI;
-        Velocity velocity = Velocity.Of(value).Si<Kilo, Metre>().Per.Metric<Hour>();
+        Velocity velocity = Velocity.Of(value, Si<Kilo, Metre>().Per(Metric<Hour>()));
         String actual = velocity.Serialize(options);
         String expected = $$"""
         {
@@ -157,8 +157,8 @@ public class SerializationTest
     {
         var person = new Person {
             Name = "Foo Bar",
-            Height = Length.Of(1.67).Si<Metre>(),
-            Weight = Mass.Of(72).Si<Kilogram>()
+            Height = Length.Of(1.67, Si<Metre>()),
+            Weight = Mass.Of(72, Si<Kilogram>())
         };
         String actual = person.Serialize(options);
         String expected = """
@@ -190,8 +190,8 @@ public class SerializationTest
     {
         var expected = new Person {
             Name = "Hello Deserialization!",
-            Height = Length.Of(16.7).Si<Deci, Metre>(),
-            Weight = Mass.Of(68).Si<Kilogram>()
+            Height = Length.Of(16.7, Si<Deci, Metre>()),
+            Weight = Mass.Of(68, Si<Kilogram>())
         };
 
         Person actual = expected.SerializeRoundRobin();

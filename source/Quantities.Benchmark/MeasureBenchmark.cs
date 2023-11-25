@@ -1,6 +1,4 @@
-﻿using BenchmarkDotNet.Attributes;
-using Quantities.Core;
-using Quantities.Measures;
+﻿using Quantities.Measures;
 using Quantities.Prefixes;
 using Quantities.Units.Imperial.Length;
 using Quantities.Units.Si;
@@ -19,10 +17,10 @@ public class MeasureBenchmark
     public Double ProjectTrivial() => trivialKiloMetre.To(trivialFoot);
 
     [Benchmark]
-    public Double ProjectOntoSame() => kiloMetre.Project(kiloMetre) * Math.Tau;
+    public Double ProjectOntoSame() => kiloMetre.Project(kiloMetre, Math.Tau);
 
     [Benchmark]
-    public Double ProjectOntoOther() => kiloMetre.Project(ångström) * Math.Tau;
+    public Double ProjectOntoOther() => kiloMetre.Project(ångström, Math.Tau);
 
     private static Measure Build<TMeasure>()
         where TMeasure : IMeasure => Measure.Of<TMeasure>();
@@ -32,14 +30,14 @@ public class MeasureBenchmark
 
 BenchmarkDotNet v0.13.8, Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK 7.0.111
-  [Host]     : .NET 7.0.11 (7.0.1123.46301), X64 RyuJIT AVX2
-  DefaultJob : .NET 7.0.11 (7.0.1123.46301), X64 RyuJIT AVX2
+.NET SDK 7.0.113
+  [Host]     : .NET 7.0.13 (7.0.1323.52501), X64 RyuJIT AVX2
+  DefaultJob : .NET 7.0.13 (7.0.1323.52501), X64 RyuJIT AVX2
 
 
 | Method           | Mean      | Error     | StdDev    | Ratio | RatioSD |
 |----------------- |----------:|----------:|----------:|------:|--------:|
-| ProjectTrivial   | 0.6425 ns | 0.0063 ns | 0.0056 ns |  1.00 |    0.00 |
-| ProjectOntoSame  | 1.9094 ns | 0.0128 ns | 0.0106 ns |  2.97 |    0.03 |
-| ProjectOntoOther | 2.3987 ns | 0.0180 ns | 0.0160 ns |  3.73 |    0.04 |
+| ProjectTrivial   | 0.6096 ns | 0.0288 ns | 0.0241 ns |  1.00 |    0.00 |
+| ProjectOntoSame  | 1.0746 ns | 0.0110 ns | 0.0103 ns |  1.76 |    0.06 |
+| ProjectOntoOther | 1.6110 ns | 0.0504 ns | 0.0472 ns |  2.64 |    0.14 |
 */

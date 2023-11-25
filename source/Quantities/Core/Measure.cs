@@ -7,7 +7,7 @@ internal abstract class Measure
 {
     private readonly Polynomial conversion;
     private Measure(in Polynomial conversion) => this.conversion = conversion;
-    public Polynomial Project(Measure other) => this.conversion / other.conversion;
+    public Double Project(Measure other, in Double value) => this.conversion / other.conversion * value;
     public abstract Result Multiply(Measure other);
     protected abstract Result Multiply<TMeasure>() where TMeasure : IMeasure;
     public abstract Result Divide(Measure other);

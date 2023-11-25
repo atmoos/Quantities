@@ -1,20 +1,27 @@
 ﻿using System.Numerics;
+using Quantities.Creation;
 using Quantities.Dimensions;
-using Quantities.Factories;
+using Quantities.Units;
 
 namespace Quantities;
 
 public readonly struct Volume : IQuantity<Volume>, IVolume
-    , IFactory<ICubicFactory<Volume, IVolume, ILength>, Cube<To, Volume, IVolume, ILength>, Cube<Create, Volume, IVolume, ILength>>
+    , ICubic<Volume, IVolume, ILength>
     , IDivisionOperators<Volume, Area, Length>
     , IDivisionOperators<Volume, Length, Area>
 {
     private readonly Quantity volume;
     internal Quantity Value => this.volume;
     Quantity IQuantity<Volume>.Value => this.volume;
-    public Cube<To, Volume, IVolume, ILength> To => new(new To(in this.volume));
     private Volume(in Quantity value) => this.volume = value;
-    public static Cube<Create, Volume, IVolume, ILength> Of(in Double value) => new(new Create(in value));
+    public Volume To<TLength>(in Cubic<TLength> other)
+        where TLength : ILength, IUnit => new(other.Transform(in this.volume));
+    public Volume To<TVolume>(in Scalar<TVolume> other)
+        where TVolume : IVolume, IAlias<ILength>, IUnit => new(other.Transform<TVolume, ILength>(in this.volume));
+    public static Volume Of<TLength>(in Double value, in Cubic<TLength> measure)
+        where TLength : ILength, IUnit => new(measure.Create(in value));
+    public static Volume Of<TVolume>(in Double value, in Scalar<TVolume> measure)
+        where TVolume : IVolume, IAlias<ILength>, IUnit => new(measure.Create<TVolume, ILength>(in value));
     static Volume IFactory<Volume>.Create(in Quantity value) => new(in value);
     internal static Volume Times(in Length length, in Area area) => new(length.Value * area.Value);
     internal static Volume Times(in Area area, in Length length) => new(area.Value * length.Value);
@@ -32,7 +39,7 @@ public readonly struct Volume : IQuantity<Volume>, IVolume
     public static Volume operator *(Double scalar, Volume right) => new(scalar * right.volume);
     public static Volume operator *(Volume left, Double scalar) => new(scalar * left.volume);
     public static Volume operator /(Volume left, Double scalar) => new(left.volume / scalar);
-    public static Double operator /(Volume left, Volume right) => left.volume.Divide(in right.volume);
+    public static Double operator /(Volume left, Volume right) => left.volume.Ratio(in right.volume);
 
     public static Area operator /(Volume volume, Length length) => Area.From(in volume, in length);
     public static Length operator /(Volume volume, Area area) => Length.From(in volume, in area);

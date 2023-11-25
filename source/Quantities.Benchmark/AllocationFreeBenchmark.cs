@@ -1,15 +1,13 @@
-﻿using BenchmarkDotNet.Attributes;
-
-namespace Quantities.Benchmark;
-
-file class MyClass : IFactory<MyClass>
-{
-    public static MyClass Create() => new();
-}
+﻿namespace Quantities.Benchmark;
 
 file interface IFactory<out T>
 {
     static abstract T Create();
+}
+
+file class MyClass : IFactory<MyClass>
+{
+    public static MyClass Create() => new();
 }
 
 // This pattern turns out to not really be any

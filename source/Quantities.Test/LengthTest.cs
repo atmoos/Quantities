@@ -1,4 +1,5 @@
-﻿using Quantities.Units.Si.Metric;
+﻿using Quantities.Dimensions;
+using Quantities.Units.Si.Metric;
 
 using static Quantities.Test.Convenience;
 
@@ -12,115 +13,115 @@ public sealed class LengthTest
     [Fact]
     public void MetreToKilometre()
     {
-        Length metres = Length.Of(1000).Si<Metre>();
-        Length kilometres = metres.To.Si<Kilo, Metre>();
+        Length metres = Length.Of(1000, Si<Metre>());
+        Length kilometres = metres.To(Si<Kilo, Metre>());
         PrecisionIsBounded(1d, kilometres);
     }
 
     [Fact]
     public void MetreToMillimetre()
     {
-        Length metres = Length.Of(1).Si<Metre>();
-        Length millimetres = metres.To.Si<Milli, Metre>();
+        Length metres = Length.Of(1, Si<Metre>());
+        Length millimetres = metres.To(Si<Milli, Metre>());
         PrecisionIsBounded(1000d, millimetres);
     }
 
     [Fact]
     public void ÅngströmToNanoMetre()
     {
-        Length ångström = Length.Of(10).Metric<Ångström>();
-        Length nanoMetres = ångström.To.Si<Nano, Metre>();
+        Length ångström = Length.Of(10, Metric<Ångström>());
+        Length nanoMetres = ångström.To(Si<Nano, Metre>());
         PrecisionIsBounded(1d, nanoMetres);
     }
 
     [Fact]
     public void MillimetreToKilometre()
     {
-        Length millimetres = Length.Of(2e6).Si<Milli, Metre>();
-        Length kilometres = millimetres.To.Si<Kilo, Metre>();
+        Length millimetres = Length.Of(2e6, Si<Milli, Metre>());
+        Length kilometres = millimetres.To(Si<Kilo, Metre>());
         PrecisionIsBounded(2d, kilometres);
     }
 
     [Fact]
     public void MileToKilometre()
     {
-        Length miles = Length.Of(1).Imperial<Mile>();
-        Length kilometres = miles.To.Si<Kilo, Metre>();
+        Length miles = Length.Of(1, Imperial<Mile>());
+        Length kilometres = miles.To(Si<Kilo, Metre>());
         PrecisionIsBounded(1.609344, kilometres);
     }
 
     [Fact]
     public void KilometreToMile()
     {
-        Length kilometres = Length.Of(1.609344).Si<Kilo, Metre>();
-        Length miles = kilometres.To.Imperial<Mile>();
+        Length kilometres = Length.Of(1.609344, Si<Kilo, Metre>());
+        Length miles = kilometres.To(Imperial<Mile>());
         PrecisionIsBounded(1d, miles);
     }
     [Fact]
     public void FootToMile()
     {
-        Length feet = Length.Of(5280).Imperial<Foot>();
-        Length expected = Length.Of(1).Imperial<Mile>();
-        Length actual = feet.To.Imperial<Mile>();
+        Length feet = Length.Of(5280, Imperial<Foot>());
+        Length expected = Length.Of(1, Imperial<Mile>());
+        Length actual = feet.To(Imperial<Mile>());
         actual.Matches(expected);
     }
 
     [Fact]
     public void AddMetresToKiloMetres()
     {
-        Length kilometres = Length.Of(10).Si<Kilo, Metre>();
-        Length metres = Length.Of(20).Si<Metre>();
+        Length kilometres = Length.Of(10, Si<Kilo, Metre>());
+        Length metres = Length.Of(20, Si<Metre>());
         Length result = kilometres + metres;
         PrecisionIsBounded(10.02, result);
     }
     [Fact]
     public void AddKilometresToMiles()
     {
-        Length kilometres = Length.Of(1).Si<Kilo, Metre>();
-        Length miles = Length.Of(1).Imperial<Mile>();
+        Length kilometres = Length.Of(1, Si<Kilo, Metre>());
+        Length miles = Length.Of(1, Imperial<Mile>());
         Length result = miles + kilometres;
         PrecisionIsBounded(1 + kilometre_in_miles, result);
     }
     [Fact]
     public void AddMilesToKilometres()
     {
-        Length kilometres = Length.Of(1).Si<Kilo, Metre>();
-        Length miles = Length.Of(1).Imperial<Mile>();
+        Length kilometres = Length.Of(1, Si<Kilo, Metre>());
+        Length miles = Length.Of(1, Imperial<Mile>());
         Length result = kilometres + miles;
         PrecisionIsBounded(2.609344, result);
     }
     [Fact]
     public void SubtractKilometresFromMetres()
     {
-        Length metres = Length.Of(2000).Si<Metre>();
-        Length kilometres = Length.Of(0.5).Si<Kilo, Metre>();
+        Length metres = Length.Of(2000, Si<Metre>());
+        Length kilometres = Length.Of(0.5, Si<Kilo, Metre>());
         Length result = metres - kilometres;
         PrecisionIsBounded(1500d, result);
     }
     [Fact]
     public void SubtractMilesFromKilometres()
     {
-        Length kilometres = Length.Of(2.609344).Si<Kilo, Metre>();
-        Length miles = Length.Of(1).Imperial<Mile>();
+        Length kilometres = Length.Of(2.609344, Si<Kilo, Metre>());
+        Length miles = Length.Of(1, Imperial<Mile>());
         Length result = kilometres - miles;
         PrecisionIsBounded(1d, result);
     }
     [Fact]
     public void OneMileInYards()
     {
-        Length length = Length.Of(1).Imperial<Mile>();
-        Length expected = Length.Of(1760).Imperial<Yard>();
+        Length length = Length.Of(1, Imperial<Mile>());
+        Length expected = Length.Of(1760, Imperial<Yard>());
 
-        Length actual = length.To.Imperial<Yard>();
+        Length actual = length.To(Imperial<Yard>());
 
         actual.Matches(expected);
     }
     [Fact]
     public void SiLengthBySiLengthIsSiArea()
     {
-        Length length = Length.Of(2).Si<Kilo, Metre>();
-        Length width = Length.Of(1).Si<Hecto, Metre>();
-        Area expected = Area.Of(0.2).Square.Si<Kilo, Metre>();
+        Length length = Length.Of(2, Si<Kilo, Metre>());
+        Length width = Length.Of(1, Si<Hecto, Metre>());
+        Area expected = Area.Of(0.2, Square(Si<Kilo, Metre>()));
 
         Area actual = length * width;
 
@@ -129,9 +130,9 @@ public sealed class LengthTest
     [Fact]
     public void ImperialLengthByImperialLengthIsImperialArea()
     {
-        Length length = Length.Of(2).Imperial<Mile>();
-        Length width = Length.Of(1760 / 2).Imperial<Yard>();
-        Area expected = Area.Of(1).Square.Imperial<Mile>();
+        Length length = Length.Of(2, Imperial<Mile>());
+        Length width = Length.Of(1760 / 2, Imperial<Yard>());
+        Area expected = Area.Of(1, Square(Imperial<Mile>()));
 
         Area actual = length * width;
 
@@ -140,9 +141,9 @@ public sealed class LengthTest
     [Fact]
     public void LengthByDivisionIsSameAsLengthByConstruction()
     {
-        Volume volume = Volume.Of(300).Metric<Hecto, Litre>();
-        Area area = Area.Of(6).Square.Si<Metre>();
-        Length expected = Length.Of(5).Si<Metre>();
+        Volume volume = Volume.Of(300, Metric<Hecto, Litre>());
+        Area area = Area.Of(6, Square(Si<Metre>()));
+        Length expected = Length.Of(5, Si<Metre>());
 
         Length actual = volume / area;
 
@@ -152,9 +153,9 @@ public sealed class LengthTest
     [Fact]
     public void SiLengthBySiTimeIsVelocity()
     {
-        Length distance = Length.Of(100).Si<Milli, Metre>();
-        Time duration = Time.Of(20).Si<Second>();
-        Velocity expected = Velocity.Of(5).Si<Milli, Metre>().Per.Si<Second>();
+        Length distance = Length.Of(100, Si<Milli, Metre>());
+        Time duration = Time.Of(20, Si<Second>());
+        Velocity expected = Velocity.Of(5, Si<Milli, Metre>().Per(Si<Second>()));
 
         Velocity actual = distance / duration;
 
@@ -163,9 +164,9 @@ public sealed class LengthTest
     [Fact]
     public void SiLengthByMetricTimeIsVelocity()
     {
-        Length distance = Length.Of(120).Si<Kilo, Metre>();
-        Time duration = Time.Of(10).Metric<Hour>();
-        Velocity expected = Velocity.Of(12).Si<Kilo, Metre>().Per.Metric<Hour>();
+        Length distance = Length.Of(120, Si<Kilo, Metre>());
+        Time duration = Time.Of(10, Metric<Hour>());
+        Velocity expected = Velocity.Of(12, Si<Kilo, Metre>().Per(Metric<Hour>()));
 
         Velocity actual = distance / duration;
 
@@ -174,9 +175,9 @@ public sealed class LengthTest
     [Fact]
     public void ImperialLengthByTimeIsVelocity()
     {
-        Length distance = Length.Of(70).Imperial<Mile>();
-        Time duration = Time.Of(2).Metric<Hour>();
-        Velocity expected = Velocity.Of(35).Imperial<Mile>().Per.Metric<Hour>();
+        Length distance = Length.Of(70, Imperial<Mile>());
+        Time duration = Time.Of(2, Metric<Hour>());
+        Velocity expected = Velocity.Of(35, Imperial<Mile>().Per(Metric<Hour>()));
 
         Velocity actual = distance / duration;
 
@@ -185,9 +186,9 @@ public sealed class LengthTest
     [Fact]
     public void VelocityTimesTimeIsLength()
     {
-        Time duration = Time.Of(12).Metric<Minute>();
-        Velocity velocity = Velocity.Of(350).Imperial<Mile>().Per.Metric<Hour>();
-        Length expected = Length.Of(70).Imperial<Mile>();
+        Time duration = Time.Of(12, Metric<Minute>());
+        Velocity velocity = Velocity.Of(350, Imperial<Mile>().Per(Metric<Hour>()));
+        Length expected = Length.Of(70, Imperial<Mile>());
 
         Length actual = velocity * duration;
 

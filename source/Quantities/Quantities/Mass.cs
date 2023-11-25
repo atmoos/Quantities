@@ -29,5 +29,5 @@ public readonly struct Mass : IQuantity<Mass>, IMass
     public static Mass operator *(Double scalar, Mass right) => new(scalar * right.mass);
     public static Mass operator *(Mass left, Double scalar) => new(scalar * left.mass);
     public static Mass operator /(Mass left, Double scalar) => new(left.mass / scalar);
-    public static Double operator /(Mass left, Mass right) => left.mass.Divide(in right.mass);
+    public static Double operator /(Mass left, Mass right) => left.mass.Ratio(in right.mass);
 }

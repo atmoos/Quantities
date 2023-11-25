@@ -19,11 +19,11 @@ internal readonly struct Quantity : IEquatable<Quantity>, IFormattable
     private readonly Double value;
     private readonly Measure measure;
     internal Quantity(in Double value, in Measure map) => (this.measure, this.value) = (map, value);
-    private Double Project(in Quantity other) => ReferenceEquals(this.measure, other.measure)
-        ? other.value : other.measure.Project(this.measure) * other.value;
     public Quantity Project(in Measure other) => ReferenceEquals(this.measure, other)
-        ? this : new Quantity(this.measure.Project(other) * this.value, in other);
-    public Double Divide(in Quantity right)
+        ? this : new Quantity(this.measure.Project(other, in this.value), in other);
+    private Double Project(in Quantity other) => ReferenceEquals(this.measure, other.measure)
+        ? other.value : other.measure.Project(this.measure, in other.value);
+    public Double Ratio(in Quantity right)
     {
         var rightValue = Project(in right);
         return this.value / rightValue;

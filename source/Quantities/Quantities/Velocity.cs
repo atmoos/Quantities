@@ -40,7 +40,7 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity
     public static Velocity operator *(Double scalar, Velocity right) => new(scalar * right.velocity);
     public static Velocity operator *(Velocity left, Double scalar) => new(scalar * left.velocity);
     public static Velocity operator /(Velocity left, Double scalar) => new(left.velocity / scalar);
-    public static Double operator /(Velocity left, Velocity right) => left.velocity.Divide(in right.velocity);
+    public static Double operator /(Velocity left, Velocity right) => left.velocity.Ratio(in right.velocity);
 
     public static Power operator *(Velocity velocity, Force force) => Power.From(in force, in velocity);
     public static Length operator *(Velocity velocity, Time time) => Length.From(in velocity, in time);

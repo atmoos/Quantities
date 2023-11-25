@@ -39,7 +39,7 @@ public readonly struct Length : IQuantity<Length>, ILength
     public static Length operator *(Double scalar, Length right) => new(scalar * right.length);
     public static Length operator *(Length left, Double scalar) => new(scalar * left.length);
     public static Length operator /(Length left, Double scalar) => new(left.length / scalar);
-    public static Double operator /(Length left, Length right) => left.length.Divide(in right.length);
+    public static Double operator /(Length left, Length right) => left.length.Ratio(in right.length);
 
     public static Velocity operator /(Length length, Time time) => Velocity.From(in length, in time);
 }

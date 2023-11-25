@@ -39,7 +39,7 @@ public readonly struct Volume : IQuantity<Volume>, IVolume
     public static Volume operator *(Double scalar, Volume right) => new(scalar * right.volume);
     public static Volume operator *(Volume left, Double scalar) => new(scalar * left.volume);
     public static Volume operator /(Volume left, Double scalar) => new(left.volume / scalar);
-    public static Double operator /(Volume left, Volume right) => left.volume.Divide(in right.volume);
+    public static Double operator /(Volume left, Volume right) => left.volume.Ratio(in right.volume);
 
     public static Area operator /(Volume volume, Length length) => Area.From(in volume, in length);
     public static Length operator /(Volume volume, Area area) => Length.From(in volume, in area);

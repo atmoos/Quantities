@@ -32,7 +32,7 @@ public readonly struct ElectricalResistance : IQuantity<ElectricalResistance>, I
     public static ElectricalResistance operator *(Double scalar, ElectricalResistance right) => new(scalar * right.resistance);
     public static ElectricalResistance operator *(ElectricalResistance left, Double scalar) => new(scalar * left.resistance);
     public static ElectricalResistance operator /(ElectricalResistance left, Double scalar) => new(left.resistance / scalar);
-    public static Double operator /(ElectricalResistance left, ElectricalResistance right) => left.resistance.Divide(in right.resistance);
+    public static Double operator /(ElectricalResistance left, ElectricalResistance right) => left.resistance.Ratio(in right.resistance);
 
     // Ohm's Law
     public static ElectricPotential operator *(ElectricalResistance resistance, ElectricCurrent current) => ElectricPotential.From(in current, in resistance);

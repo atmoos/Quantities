@@ -34,7 +34,7 @@ public readonly struct ElectricCurrent : IQuantity<ElectricCurrent>, IElectricCu
     public static ElectricCurrent operator *(Double scalar, ElectricCurrent right) => new(scalar * right.current);
     public static ElectricCurrent operator *(ElectricCurrent left, Double scalar) => new(scalar * left.current);
     public static ElectricCurrent operator /(ElectricCurrent left, Double scalar) => new(left.current / scalar);
-    public static Double operator /(ElectricCurrent left, ElectricCurrent right) => left.current.Divide(in right.current);
+    public static Double operator /(ElectricCurrent left, ElectricCurrent right) => left.current.Ratio(in right.current);
 
     // Ohm's Law
     public static ElectricPotential operator *(ElectricCurrent current, ElectricalResistance resistance) => ElectricPotential.From(in current, in resistance);

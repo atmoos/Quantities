@@ -36,7 +36,7 @@ public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectr
     public static ElectricPotential operator *(Double scalar, ElectricPotential right) => new(scalar * right.potential);
     public static ElectricPotential operator *(ElectricPotential left, Double scalar) => new(scalar * left.potential);
     public static ElectricPotential operator /(ElectricPotential left, Double scalar) => new(left.potential / scalar);
-    public static Double operator /(ElectricPotential left, ElectricPotential right) => left.potential.Divide(in right.potential);
+    public static Double operator /(ElectricPotential left, ElectricPotential right) => left.potential.Ratio(in right.potential);
 
     #region Ohm's Law
     public static ElectricalResistance operator /(ElectricPotential potential, ElectricCurrent current) => ElectricalResistance.From(in potential, in current);

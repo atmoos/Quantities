@@ -45,7 +45,7 @@ public readonly struct Data : IQuantity<Data>, IAmountOfInformation
     public static Data operator *(Double scalar, Data right) => new(scalar * right.data);
     public static Data operator *(Data left, Double scalar) => new(scalar * left.data);
     public static Data operator /(Data left, Double scalar) => new(left.data / scalar);
-    public static Double operator /(Data left, Data right) => left.data.Divide(in right.data);
+    public static Double operator /(Data left, Data right) => left.data.Ratio(in right.data);
 
     public static DataRate operator /(Data data, Time time) => DataRate.From(in data, in time);
 }

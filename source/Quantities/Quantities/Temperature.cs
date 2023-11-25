@@ -30,5 +30,5 @@ public readonly struct Temperature : IQuantity<Temperature>, ITemperature
     public static Temperature operator *(Double scalar, Temperature right) => new(scalar * right.temperature);
     public static Temperature operator *(Temperature left, Double scalar) => new(scalar * left.temperature);
     public static Temperature operator /(Temperature left, Double scalar) => new(left.temperature / scalar);
-    public static Double operator /(Temperature left, Temperature right) => left.temperature.Divide(in right.temperature);
+    public static Double operator /(Temperature left, Temperature right) => left.temperature.Ratio(in right.temperature);
 }

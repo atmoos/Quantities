@@ -40,7 +40,7 @@ public readonly struct DataRate : IQuantity<DataRate>, IInformationRate
     public static DataRate operator *(Double scalar, DataRate right) => new(scalar * right.dataRate);
     public static DataRate operator *(DataRate left, Double scalar) => new(scalar * left.dataRate);
     public static DataRate operator /(DataRate left, Double scalar) => new(left.dataRate / scalar);
-    public static Double operator /(DataRate left, DataRate right) => left.dataRate.Divide(in right.dataRate);
+    public static Double operator /(DataRate left, DataRate right) => left.dataRate.Ratio(in right.dataRate);
 
     public static Data operator *(DataRate rate, Time time) => Data.From(in rate, in time);
 }

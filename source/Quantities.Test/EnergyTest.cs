@@ -12,11 +12,11 @@ public sealed class EnergyTest
     [Fact]
     public void FemtoJouleToString() => FormattingMatches(v => Energy.Of(v, Si<Femto, Joule>()), "fJ");
     [Fact]
-    public void KiloWattHourToString() => FormattingMatches(v => Energy.Of(v, Si<Kilo, Watt>().Dot(Metric<Hour>())), Join("KW", "h"));
+    public void KiloWattHourToString() => FormattingMatches(v => Energy.Of(v, Si<Kilo, Watt>().Times(Metric<Hour>())), Join("KW", "h"));
     [Fact]
     public void WattSecondToJoule()
     {
-        var energy = Energy.Of(36, Si<Kilo, Watt>().Dot(Si<Second>()));
+        var energy = Energy.Of(36, Si<Kilo, Watt>().Times(Si<Second>()));
         var expected = Energy.Of(36, Si<Kilo, Joule>());
 
         var actual = energy.To(Si<Kilo, Joule>());
@@ -26,7 +26,7 @@ public sealed class EnergyTest
     [Fact]
     public void JouleToKiloWattHour()
     {
-        var energy = Energy.Of(1, Si<Kilo, Watt>().Dot(Metric<Hour>()));
+        var energy = Energy.Of(1, Si<Kilo, Watt>().Times(Metric<Hour>()));
         var expected = Energy.Of(3600, Si<Kilo, Joule>());
 
         var actual = energy.To(Si<Kilo, Joule>());
@@ -37,7 +37,7 @@ public sealed class EnergyTest
     [Fact]
     public void WattHourToJoule()
     {
-        var energy = Energy.Of(1, Si<Watt>().Dot(Metric<Hour>()));
+        var energy = Energy.Of(1, Si<Watt>().Times(Metric<Hour>()));
         var expected = Energy.Of(3600, Si<Joule>());
 
         var actual = energy.To(Si<Joule>());
@@ -49,9 +49,9 @@ public sealed class EnergyTest
     public void DefinitionOfKiloWattHour()
     {
         var oneKiloWattHourInJoule = Energy.Of(3.6, Si<Mega, Joule>());
-        var expected = Energy.Of(1, Si<Kilo, Watt>().Dot(Metric<Hour>()));
+        var expected = Energy.Of(1, Si<Kilo, Watt>().Times(Metric<Hour>()));
 
-        var actual = oneKiloWattHourInJoule.To(Si<Kilo, Watt>().Dot(Metric<Hour>()));
+        var actual = oneKiloWattHourInJoule.To(Si<Kilo, Watt>().Times(Metric<Hour>()));
 
         actual.Matches(expected);
     }
@@ -61,7 +61,7 @@ public sealed class EnergyTest
     {
         var time = Time.Of(2, Metric<Hour>());
         var power = Power.Of(3000, Si<Watt>());
-        var expected = Energy.Of(6000, Si<Watt>().Dot(Metric<Hour>()));
+        var expected = Energy.Of(6000, Si<Watt>().Times(Metric<Hour>()));
 
         var actual = power * time;
 

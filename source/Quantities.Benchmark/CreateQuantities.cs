@@ -35,7 +35,7 @@ public readonly struct DummyStruct : ICastOperators<DummyStruct, Double>
 //[EventPipeProfiler(EventPipeProfile.CpuSampling)]
 public class CreateQuantities
 {
-    private static readonly Creation.Product<Watt, Hour> kwh = Si<Kilo, Watt>().Dot(Metric<Hour>());
+    private static readonly Creation.Product<Watt, Hour> kwh = Si<Kilo, Watt>().Times(Metric<Hour>());
     private static readonly Random random = new();
     private readonly Double value = random.NextDouble();
 
@@ -57,7 +57,7 @@ public class CreateQuantities
     public Velocity CreateQuotientQuantity() => Velocity.Of(in this.value, Si<Kilo, Metre>().Per(Metric<Hour>()));
 
     [Benchmark]
-    public Energy CreateProductQuantity() => Energy.Of(in this.value, Si<Kilo, Watt>().Dot(Metric<Hour>()));
+    public Energy CreateProductQuantity() => Energy.Of(in this.value, Si<Kilo, Watt>().Times(Metric<Hour>()));
 
     [Benchmark]
     public Energy CreateCachedProductQuantity() => Energy.Of(in this.value, in kwh);

@@ -9,7 +9,7 @@ public readonly struct Scalar<TUnit>
     private readonly Factory factory;
     internal Factory Factory => this.factory;
     internal Scalar(Factory factory) => this.factory = factory;
-    public Product<TUnit, TRight> Dot<TRight>(in Scalar<TRight> rightTerm)
+    public Product<TUnit, TRight> Times<TRight>(in Scalar<TRight> rightTerm)
         where TRight : IUnit, IDimension => new(rightTerm.factory.Inject(this.factory.Product));
     public Quotient<TUnit, TDenominator> Per<TDenominator>(in Scalar<TDenominator> denominator)
         where TDenominator : IUnit, IDimension => new(denominator.factory.Inject(this.factory.Quotient));

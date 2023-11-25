@@ -13,7 +13,7 @@ public class ConvertingQuantities
     private static readonly Si<Metre> kiloMetre = Si<Metre>.Of(Prefix.Kilo, 3);
     private static readonly Imperial<Foot> trivialFoot = new(10, feetToMetre);
     private static readonly Length foot = Length.Of(10, Imperial<Foot>());
-    private static readonly Energy energy = Energy.Of(3, Si<Milli, Watt>().Dot(Si<Kilo, Second>()));
+    private static readonly Energy energy = Energy.Of(3, Si<Milli, Watt>().Times(Si<Kilo, Second>()));
 
     [Benchmark(Baseline = true)]
     public Double TrivialImplementation() => trivialFoot.To(kiloMetre);
@@ -22,10 +22,10 @@ public class ConvertingQuantities
     public Double QuantityImplementation() => foot.To(Si<Kilo, Metre>());
 
     [Benchmark]
-    public Double QuantityToSame() => energy.To(Si<Milli, Watt>().Dot(Si<Kilo, Second>()));
+    public Double QuantityToSame() => energy.To(Si<Milli, Watt>().Times(Si<Kilo, Second>()));
 
     [Benchmark]
-    public Double QuantityToVeryDifferent() => energy.To(Si<Kilo, Watt>().Dot(Si<Milli, Second>()));
+    public Double QuantityToVeryDifferent() => energy.To(Si<Kilo, Watt>().Times(Si<Milli, Second>()));
 }
 
 /*

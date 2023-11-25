@@ -1,4 +1,3 @@
-using BenchmarkDotNet.Attributes;
 using Quantities.Prefixes;
 using Quantities.Units.Si;
 using Quantities.Units.Si.Metric;
@@ -11,13 +10,13 @@ public class ComplexCreation
     private static readonly Double value = Math.E;
 
     [Benchmark(Baseline = true)]
-    public Volume CreateQuantity() => Volume.Of(value).Cubic.Si<Centi, Metre>();
+    public Volume CreateQuantity() => Volume.Of(value, Cubic(Si<Centi, Metre>()));
 
     [Benchmark]
     public UnitsNet.Volume CreateUnitsNet() => UnitsNet.Volume.FromCubicCentimeters(value);
 
     [Benchmark]
-    public Volume CreateQuantityCentiLitre() => Volume.Of(value).Metric<Centi, Litre>();
+    public Volume CreateQuantityCentiLitre() => Volume.Of(value, Metric<Centi, Litre>());
 
     [Benchmark]
     public UnitsNet.Volume CreateUnitsNetCentiLitre() => UnitsNet.Volume.FromCentiliters(value);
@@ -27,15 +26,15 @@ public class ComplexCreation
 
 BenchmarkDotNet v0.13.8, Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK 7.0.111
-  [Host]     : .NET 7.0.11 (7.0.1123.46301), X64 RyuJIT AVX2
-  DefaultJob : .NET 7.0.11 (7.0.1123.46301), X64 RyuJIT AVX2
+.NET SDK 7.0.113
+  [Host]     : .NET 7.0.13 (7.0.1323.52501), X64 RyuJIT AVX2
+  DefaultJob : .NET 7.0.13 (7.0.1323.52501), X64 RyuJIT AVX2
 
 
-| Method                   | Mean     | Error    | StdDev   | Ratio | Allocated | Alloc Ratio |
-|------------------------- |---------:|---------:|---------:|------:|----------:|------------:|
-| CreateQuantity           | 23.63 ns | 0.247 ns | 0.231 ns |  1.00 |         - |          NA |
-| CreateUnitsNet           | 12.92 ns | 0.044 ns | 0.041 ns |  0.55 |         - |          NA |
-| CreateQuantityCentiLitre | 27.19 ns | 0.068 ns | 0.064 ns |  1.15 |         - |          NA |
-| CreateUnitsNetCentiLitre | 12.66 ns | 0.095 ns | 0.089 ns |  0.54 |         - |          NA |
+| Method                   | Mean      | Error     | StdDev    | Ratio | RatioSD | Allocated | Alloc Ratio |
+|------------------------- |----------:|----------:|----------:|------:|--------:|----------:|------------:|
+| CreateQuantity           |  5.076 ns | 0.0454 ns | 0.0425 ns |  1.00 |    0.00 |         - |          NA |
+| CreateUnitsNet           | 13.141 ns | 0.0400 ns | 0.0355 ns |  2.59 |    0.02 |         - |          NA |
+| CreateQuantityCentiLitre | 13.738 ns | 0.0480 ns | 0.0449 ns |  2.71 |    0.03 |         - |          NA |
+| CreateUnitsNetCentiLitre | 12.870 ns | 0.0431 ns | 0.0403 ns |  2.54 |    0.02 |         - |          NA |
 */

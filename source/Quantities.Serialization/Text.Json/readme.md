@@ -1,6 +1,6 @@
 # Serialization of Quantities using System.Text.Json
 
-Enables serialisation of `Atmoos.Quantities` using `System.Text.Json`.
+Enables serialisation of [Atmoos.Quantities](https://www.nuget.org/packages/Atmoos.Quantities/) using `System.Text.Json`.
 
 ## Usage
 

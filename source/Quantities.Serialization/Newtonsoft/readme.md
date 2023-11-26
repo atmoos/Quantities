@@ -1,6 +1,6 @@
 # Serialization of Quantities using Newtonsoft.Json
 
-Enables serialisation of `Atmoos.Quantities` using `Newtonsoft.Json`.
+Enables serialisation of [Atmoos.Quantities](https://www.nuget.org/packages/Atmoos.Quantities/) using `Newtonsoft.Json`.
 
 ## Usage
 

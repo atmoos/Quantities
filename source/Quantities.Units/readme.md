@@ -1,6 +1,6 @@
-# More Units for Atmoos Quantities
+# More Units for Atmoos.Quantities
 
-Extends `Atmoos.Quantities` with many more units.
+Extends [Atmoos.Quantities](https://www.nuget.org/packages/Atmoos.Quantities/) with many more units.
 
 ## Supported Units of Measurement
 

@@ -3,19 +3,15 @@
   <Import Project="../Serialization.Pack.targets"/>
 
   <PropertyGroup>
-    <Version>0.1.0-alpha</Version>
+    <Version>1.0.0</Version>
     <RootNamespace>Quantities.Serialization.Newtonsoft</RootNamespace>
     <PackageTags>$(PackageTags), json, newtonsoft, newtonsoft.json, newtonsoft-json</PackageTags>
     <Description>Serialization of Atmoos.Quantities types with Newtonsoft.Json.</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Quantities\Quantities.csproj" />
-    <ProjectReference Include="..\..\Quantities.Units\Quantities.Units.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Atmoos.Quantities" Version="1.0.0" />
   </ItemGroup>
 
 </Project>

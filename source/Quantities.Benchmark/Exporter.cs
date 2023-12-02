@@ -15,11 +15,15 @@ public static class Exporter
         }
     }
 
-    public static void Export(Summary summary)
+    public static void Export(Summary summary) => Export(summary, MarkdownExporter.Console);
+
+    private static void Export(Summary summary, IExporter exporter)
     {
         var dir = FindSourceDir();
-        foreach (var file in DefaultExporters.Markdown.ExportToFiles(summary, new Logger())) {
-            var fileName = $"{new FileInfo(file).Name.Replace("-report-default.md", String.Empty).Split(".")[^1]}.cs";
+        foreach (var file in exporter.ExportToFiles(summary, new Logger())) {
+            var name = BenchmarkName(file);
+            var fileName = $"{name}.cs";
+            Console.WriteLine($"Exporting: {name}");
             var sourceFile = dir.EnumerateFiles("*.cs", SearchOption.AllDirectories).Single(f => f.Name.EndsWith(fileName));
             UpdateSourceFile(sourceFile, File.ReadAllText(file));
             File.Delete(file);
@@ -69,6 +73,13 @@ public static class Exporter
             }
         }
         return dir;
+    }
+    private static String BenchmarkName(ReadOnlySpan<Char> reportPath)
+    {
+        var index = reportPath.IndexOf('-');
+        var sourceName = reportPath[..index];
+        index = sourceName.LastIndexOf('.') + 1;
+        return new String(sourceName[index..]);
     }
 }
 

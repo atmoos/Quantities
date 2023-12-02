@@ -20,7 +20,7 @@ public static class Exporter
         var dir = FindSourceDir();
         foreach (var file in DefaultExporters.Markdown.ExportToFiles(summary, new Logger())) {
             var fileName = $"{new FileInfo(file).Name.Replace("-report-default.md", String.Empty).Split(".")[^1]}.cs";
-            var sourceFile = dir.EnumerateFiles().Single(f => f.Name.EndsWith(fileName));
+            var sourceFile = dir.EnumerateFiles("*.cs", SearchOption.AllDirectories).Single(f => f.Name.EndsWith(fileName));
             UpdateSourceFile(sourceFile, File.ReadAllText(file));
             File.Delete(file);
         }

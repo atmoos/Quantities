@@ -1,4 +1,4 @@
-﻿using Quantities.Core.Numerics;
+using Quantities.Core.Numerics;
 
 using static Quantities.Benchmark.Convenience;
 using static Quantities.Benchmark.Numerics.Trivial;
@@ -24,16 +24,16 @@ public class PolynomialBenchmark
 
 /* Summary *
 
-BenchmarkDotNet v0.13.8, Arch Linux
+BenchmarkDotNet v0.13.10, Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK 7.0.111
-  [Host]     : .NET 7.0.11 (7.0.1123.46301), X64 RyuJIT AVX2
-  DefaultJob : .NET 7.0.11 (7.0.1123.46301), X64 RyuJIT AVX2
+.NET SDK 8.0.100
+  [Host]     : .NET 8.0.0 (8.0.23.53103), X64 RyuJIT AVX2
+  DefaultJob : .NET 8.0.0 (8.0.23.53103), X64 RyuJIT AVX2
 
 
-| Method                          | Mean      | Error     | StdDev    | Ratio |
-|-------------------------------- |----------:|----------:|----------:|------:|
-| EvaluateTrivial                 | 1.6770 ns | 0.0396 ns | 0.0370 ns |  1.00 |
-| EvaluatePolynomial              | 0.4558 ns | 0.0054 ns | 0.0045 ns |  0.27 |
-| EvaluatePolynomialWithoutOffset | 0.4691 ns | 0.0114 ns | 0.0107 ns |  0.28 |
+ Method                          | Mean      | Error     | StdDev    | Ratio |
+-------------------------------- |----------:|----------:|----------:|------:|
+ EvaluateTrivial                 | 1.6241 ns | 0.0172 ns | 0.0161 ns |  1.00 |
+ EvaluatePolynomial              | 0.0920 ns | 0.0051 ns | 0.0045 ns |  0.06 |
+ EvaluatePolynomialWithoutOffset | 0.3155 ns | 0.0069 ns | 0.0061 ns |  0.19 |
 */

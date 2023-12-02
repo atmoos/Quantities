@@ -1,4 +1,4 @@
-﻿using Quantities.Prefixes;
+using Quantities.Prefixes;
 using Quantities.Units.Imperial.Length;
 using Quantities.Units.Si;
 using Quantities.Units.Si.Derived;
@@ -29,17 +29,17 @@ public class ConvertingQuantities
 
 /* Summary *
 
-BenchmarkDotNet v0.13.8, Arch Linux
+BenchmarkDotNet v0.13.10, Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK 7.0.113
-  [Host]     : .NET 7.0.13 (7.0.1323.52501), X64 RyuJIT AVX2
-  DefaultJob : .NET 7.0.13 (7.0.1323.52501), X64 RyuJIT AVX2
+.NET SDK 8.0.100
+  [Host]     : .NET 8.0.0 (8.0.23.53103), X64 RyuJIT AVX2
+  DefaultJob : .NET 8.0.0 (8.0.23.53103), X64 RyuJIT AVX2
 
 
-| Method                  | Mean       | Error     | StdDev    | Ratio | RatioSD | Allocated | Alloc Ratio |
-|------------------------ |-----------:|----------:|----------:|------:|--------:|----------:|------------:|
-| TrivialImplementation   |  0.3728 ns | 0.0366 ns | 0.0343 ns |  1.00 |    0.00 |         - |          NA |
-| QuantityImplementation  |  3.5886 ns | 0.0259 ns | 0.0229 ns |  9.64 |    0.83 |         - |          NA |
-| QuantityToSame          | 14.3661 ns | 0.0381 ns | 0.0337 ns | 38.59 |    3.35 |         - |          NA |
-| QuantityToVeryDifferent | 16.2971 ns | 0.0869 ns | 0.0812 ns | 44.04 |    3.81 |         - |          NA |
+ Method                  | Mean      | Error     | StdDev    | Ratio | RatioSD | Allocated | Alloc Ratio |
+------------------------ |----------:|----------:|----------:|------:|--------:|----------:|------------:|
+ TrivialImplementation   |  2.368 ns | 0.0106 ns | 0.0094 ns |  1.00 |    0.00 |         - |          NA |
+ QuantityImplementation  |  3.576 ns | 0.0104 ns | 0.0097 ns |  1.51 |    0.01 |         - |          NA |
+ QuantityToSame          | 14.701 ns | 0.0422 ns | 0.0353 ns |  6.21 |    0.03 |         - |          NA |
+ QuantityToVeryDifferent | 16.418 ns | 0.0875 ns | 0.0776 ns |  6.93 |    0.03 |         - |          NA |
 */

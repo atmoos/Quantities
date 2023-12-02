@@ -1,4 +1,4 @@
-﻿using Quantities.Measures;
+using Quantities.Measures;
 using Quantities.Prefixes;
 using Quantities.Units.Imperial.Length;
 using Quantities.Units.Si;
@@ -27,16 +27,16 @@ public class MeasureBenchmark
 }
 /* Summary *
 
-BenchmarkDotNet v0.13.8, Arch Linux
+BenchmarkDotNet v0.13.10, Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK 7.0.113
-  [Host]     : .NET 7.0.13 (7.0.1323.52501), X64 RyuJIT AVX2
-  DefaultJob : .NET 7.0.13 (7.0.1323.52501), X64 RyuJIT AVX2
+.NET SDK 8.0.100
+  [Host]     : .NET 8.0.0 (8.0.23.53103), X64 RyuJIT AVX2
+  DefaultJob : .NET 8.0.0 (8.0.23.53103), X64 RyuJIT AVX2
 
 
-| Method           | Mean      | Error     | StdDev    | Ratio | RatioSD |
-|----------------- |----------:|----------:|----------:|------:|--------:|
-| ProjectTrivial   | 0.6096 ns | 0.0288 ns | 0.0241 ns |  1.00 |    0.00 |
-| ProjectOntoSame  | 1.0746 ns | 0.0110 ns | 0.0103 ns |  1.76 |    0.06 |
-| ProjectOntoOther | 1.6110 ns | 0.0504 ns | 0.0472 ns |  2.64 |    0.14 |
+ Method           | Mean      | Error     | StdDev    | Ratio | RatioSD |
+----------------- |----------:|----------:|----------:|------:|--------:|
+ ProjectTrivial   | 0.3750 ns | 0.0075 ns | 0.0067 ns |  1.00 |    0.00 |
+ ProjectOntoSame  | 0.9192 ns | 0.0162 ns | 0.0144 ns |  2.45 |    0.05 |
+ ProjectOntoOther | 1.5805 ns | 0.0070 ns | 0.0062 ns |  4.22 |    0.08 |
 */

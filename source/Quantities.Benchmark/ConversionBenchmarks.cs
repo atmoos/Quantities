@@ -51,8 +51,7 @@ file static class Cache<TFrom, TTo>
     public static Double Convert(in Double value) => polynomial * value;
 }
 
-/*
-// * Summary *
+/* Summary *
 
 BenchmarkDotNet v0.13.8, Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores

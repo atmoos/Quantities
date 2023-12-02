@@ -68,8 +68,7 @@ public class CreateQuantities
     public Area CreateSquarePowerQuantity() => Area.Of(in this.value, Square(Si<Metre>()));
 }
 
-/*
-// * Summary *
+/* Summary *
 
 BenchmarkDotNet v0.13.10, Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores

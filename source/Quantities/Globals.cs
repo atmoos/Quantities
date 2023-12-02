@@ -2,4 +2,4 @@
 
 using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("Atmoos.Quantities.Test")]
-[assembly: InternalsVisibleTo("Atmoos.Quantities.Benchmark")]
+[assembly: InternalsVisibleTo("Quantities.Benchmark")] // Benchmark.Net requires the .csproj and assembly name to be the same...

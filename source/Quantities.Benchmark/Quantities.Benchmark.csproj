@@ -5,6 +5,7 @@
     <RootNamespace>Quantities.Benchmark</RootNamespace>
     <OutputType>Exe</OutputType>
     <Nullable>disable</Nullable>
+    <AssemblyName>$(RootNamespace)</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup>

@@ -21,18 +21,17 @@ public class Division
     public UnitsNet.Area UnitsNet() => nLeft / nRight;
 }
 
-/*
-// * Summary *
+/* Summary *
 
-BenchmarkDotNet v0.13.8, Arch Linux
+BenchmarkDotNet v0.13.10, Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK 7.0.113
-  [Host]     : .NET 7.0.13 (7.0.1323.52501), X64 RyuJIT AVX2
-  DefaultJob : .NET 7.0.13 (7.0.1323.52501), X64 RyuJIT AVX2
+.NET SDK 8.0.100
+  [Host]     : .NET 8.0.0 (8.0.23.53103), X64 RyuJIT AVX2
+  DefaultJob : .NET 8.0.0 (8.0.23.53103), X64 RyuJIT AVX2
 
 
-| Method   | Mean     | Error    | StdDev   | Ratio | RatioSD | Allocated | Alloc Ratio |
-|--------- |---------:|---------:|---------:|------:|--------:|----------:|------------:|
-| Quantity | 12.70 ns | 0.211 ns | 0.187 ns |  1.00 |    0.00 |         - |          NA |
-| UnitsNet | 81.20 ns | 0.413 ns | 0.386 ns |  6.40 |    0.10 |         - |          NA |
+| Method   | Mean      | Error     | Ratio | Allocated | Alloc Ratio |
+|--------- |----------:|----------:|------:|----------:|------------:|
+| Quantity |  7.879 ns | 0.1558 ns |  1.00 |         - |          NA |
+| UnitsNet | 46.107 ns | 0.2162 ns |  5.86 |         - |          NA |
 */

@@ -1,5 +1,5 @@
 ﻿using Quantities.Dimensions;
-using Quantities.units.NonStandard.Length;
+using Quantities.Units.NonStandard.Length;
 using Quantities.Units.Si.Metric;
 using static Quantities.Extensions;
 

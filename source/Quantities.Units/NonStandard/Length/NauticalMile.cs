@@ -1,8 +1,7 @@
 ﻿using Quantities.Dimensions;
-using Quantities.Units;
 using Quantities.Units.Si;
 
-namespace Quantities.units.NonStandard.Length;
+namespace Quantities.Units.NonStandard.Length;
 
 // https://en.wikipedia.org/wiki/Nautical_mile
 public readonly struct NauticalMile : INonStandardUnit, ILength

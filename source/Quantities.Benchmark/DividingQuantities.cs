@@ -8,7 +8,7 @@ using Quantities.Units.Si.Metric;
 
 namespace Quantities.Benchmark;
 
-[MemoryDiagnoser]
+[MemoryDiagnoser(displayGenColumns: false)]
 public class DividingQuantities
 {
     private Volume metricVolume = Volume.Of(3, Cubic(Si<Kilo, Metre>()));
@@ -50,12 +50,12 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
   DefaultJob : .NET 8.0.0 (8.0.23.53103), X64 RyuJIT AVX2
 
 
- Method         | Mean      | Error     | StdDev    | Ratio | Allocated | Alloc Ratio |
---------------- |----------:|----------:|----------:|------:|----------:|------------:|
- Trivial        | 18.044 ns | 0.0677 ns | 0.0528 ns |  1.00 |         - |          NA |
- DivideSi       |  6.717 ns | 0.0419 ns | 0.0392 ns |  0.37 |         - |          NA |
- DivideImperial |  7.297 ns | 0.1105 ns | 0.0980 ns |  0.40 |         - |          NA |
- DivideMixed    |  6.446 ns | 0.0197 ns | 0.0175 ns |  0.36 |         - |          NA |
- DivideAliased  |  6.743 ns | 0.0310 ns | 0.0290 ns |  0.37 |         - |          NA |
- DividePureSi   |  6.450 ns | 0.0317 ns | 0.0297 ns |  0.36 |         - |          NA |
+| Method         | Mean      | Error     | Ratio | Allocated | Alloc Ratio |
+|--------------- |----------:|----------:|------:|----------:|------------:|
+| Trivial        | 16.228 ns | 0.0854 ns |  1.00 |         - |          NA |
+| DivideSi       |  6.308 ns | 0.0385 ns |  0.39 |         - |          NA |
+| DivideImperial |  6.464 ns | 0.0357 ns |  0.40 |         - |          NA |
+| DivideMixed    |  6.568 ns | 0.0212 ns |  0.40 |         - |          NA |
+| DivideAliased  |  6.337 ns | 0.0351 ns |  0.39 |         - |          NA |
+| DividePureSi   |  6.223 ns | 0.0330 ns |  0.38 |         - |          NA |
 */

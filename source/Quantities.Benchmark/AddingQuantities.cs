@@ -5,7 +5,7 @@ using Quantities.Units.Si;
 
 namespace Quantities.Benchmark;
 
-[MemoryDiagnoser]
+[MemoryDiagnoser(displayGenColumns: false)]
 public class AddingQuantities
 {
     private Length sameMetric = Length.Of(-7, Si<Kilo, Metre>());
@@ -41,11 +41,11 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
   DefaultJob : .NET 8.0.0 (8.0.23.53103), X64 RyuJIT AVX2
 
 
- Method      | Mean      | Error     | StdDev    | Ratio | RatioSD | Allocated | Alloc Ratio |
------------- |----------:|----------:|----------:|------:|--------:|----------:|------------:|
- Trivial     | 1.4008 ns | 0.0126 ns | 0.0112 ns |  1.00 |    0.00 |         - |          NA |
- AddSi       | 2.5497 ns | 0.0143 ns | 0.0119 ns |  1.82 |    0.02 |         - |          NA |
- AddSiSame   | 0.7304 ns | 0.0111 ns | 0.0104 ns |  0.52 |    0.01 |         - |          NA |
- AddImperial | 3.0440 ns | 0.0111 ns | 0.0093 ns |  2.17 |    0.02 |         - |          NA |
- AddMixed    | 2.4705 ns | 0.0203 ns | 0.0169 ns |  1.76 |    0.02 |         - |          NA |
+| Method      | Mean      | Error     | Ratio | Allocated | Alloc Ratio |
+|------------ |----------:|----------:|------:|----------:|------------:|
+| Trivial     | 1.4131 ns | 0.0185 ns |  1.00 |         - |          NA |
+| AddSi       | 2.5279 ns | 0.0790 ns |  1.78 |         - |          NA |
+| AddSiSame   | 0.7713 ns | 0.0469 ns |  0.54 |         - |          NA |
+| AddImperial | 2.4031 ns | 0.0066 ns |  1.70 |         - |          NA |
+| AddMixed    | 2.4445 ns | 0.0193 ns |  1.73 |         - |          NA |
 */

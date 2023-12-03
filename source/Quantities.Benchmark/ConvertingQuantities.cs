@@ -5,7 +5,7 @@ using Quantities.Units.Si.Derived;
 
 namespace Quantities.Benchmark;
 
-[MemoryDiagnoser]
+[MemoryDiagnoser(displayGenColumns: false)]
 public class ConvertingQuantities
 {
     private const Double feetToMetre = 0.3048;
@@ -36,10 +36,10 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
   DefaultJob : .NET 8.0.0 (8.0.23.53103), X64 RyuJIT AVX2
 
 
- Method                  | Mean      | Error     | StdDev    | Ratio | RatioSD | Allocated | Alloc Ratio |
------------------------- |----------:|----------:|----------:|------:|--------:|----------:|------------:|
- TrivialImplementation   |  2.368 ns | 0.0106 ns | 0.0094 ns |  1.00 |    0.00 |         - |          NA |
- QuantityImplementation  |  3.576 ns | 0.0104 ns | 0.0097 ns |  1.51 |    0.01 |         - |          NA |
- QuantityToSame          | 14.701 ns | 0.0422 ns | 0.0353 ns |  6.21 |    0.03 |         - |          NA |
- QuantityToVeryDifferent | 16.418 ns | 0.0875 ns | 0.0776 ns |  6.93 |    0.03 |         - |          NA |
+| Method                  | Mean      | Error     | Ratio | Allocated | Alloc Ratio |
+|------------------------ |----------:|----------:|------:|----------:|------------:|
+| TrivialImplementation   |  2.374 ns | 0.0081 ns |  1.00 |         - |          NA |
+| QuantityImplementation  |  4.316 ns | 0.0176 ns |  1.82 |         - |          NA |
+| QuantityToSame          | 14.429 ns | 0.0546 ns |  6.08 |         - |          NA |
+| QuantityToVeryDifferent | 15.515 ns | 0.0696 ns |  6.53 |         - |          NA |
 */

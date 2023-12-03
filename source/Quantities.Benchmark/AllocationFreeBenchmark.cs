@@ -18,7 +18,7 @@ file static class AllocationFreeFactory<T>
     public static T Item { get; } = T.Create();
 }
 
-[MemoryDiagnoser]
+[MemoryDiagnoser(displayGenColumns: false)]
 public class AllocationFreeBenchmark
 {
     [Benchmark(Baseline = true)]
@@ -40,9 +40,9 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
   DefaultJob : .NET 8.0.0 (8.0.23.53103), X64 RyuJIT AVX2
 
 
- Method                | Mean      | Error     | StdDev    | Ratio | Gen0   | Allocated | Alloc Ratio |
----------------------- |----------:|----------:|----------:|------:|-------:|----------:|------------:|
- Constructor           | 6.3689 ns | 0.1417 ns | 0.1256 ns |  1.00 | 0.0057 |      24 B |        1.00 |
- AllocationFree        | 0.6929 ns | 0.0109 ns | 0.0102 ns |  0.11 |      - |         - |        0.00 |
- AllocationFreeFactory | 0.6462 ns | 0.0729 ns | 0.0682 ns |  0.10 |      - |         - |        0.00 |
+| Method                | Mean      | Error     | Ratio | Allocated | Alloc Ratio |
+|---------------------- |----------:|----------:|------:|----------:|------------:|
+| Constructor           | 6.5466 ns | 0.0194 ns |  1.00 |      24 B |        1.00 |
+| AllocationFree        | 0.6569 ns | 0.0077 ns |  0.10 |         - |        0.00 |
+| AllocationFreeFactory | 0.6458 ns | 0.0728 ns |  0.10 |         - |        0.00 |
 */

@@ -7,7 +7,7 @@ using Quantities.Units.Si.Metric;
 
 namespace Quantities.Benchmark;
 
-[MemoryDiagnoser]
+[MemoryDiagnoser(displayGenColumns: false)]
 public class MultiplyingQuantities
 {
     private Area aliasArea = Area.Of(3, Metric<Are>());
@@ -52,13 +52,13 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
   DefaultJob : .NET 8.0.0 (8.0.23.53103), X64 RyuJIT AVX2
 
 
- Method                | Mean      | Error     | StdDev    | Ratio | Allocated | Alloc Ratio |
----------------------- |----------:|----------:|----------:|------:|----------:|------------:|
- Trivial               | 16.637 ns | 0.0933 ns | 0.0827 ns |  1.00 |         - |          NA |
- MultiplySi            |  6.541 ns | 0.0508 ns | 0.0424 ns |  0.39 |         - |          NA |
- MultiplyImperial      |  6.516 ns | 0.0318 ns | 0.0282 ns |  0.39 |         - |          NA |
- MultiplyMixed         |  6.763 ns | 0.0422 ns | 0.0374 ns |  0.41 |         - |          NA |
- MultiplyPureSi        |  6.532 ns | 0.0459 ns | 0.0407 ns |  0.39 |         - |          NA |
- MultiplyPowerQuantity |  6.303 ns | 0.1226 ns | 0.1147 ns |  0.38 |         - |          NA |
- MultiplyAliasQuantity |  6.477 ns | 0.0374 ns | 0.0332 ns |  0.39 |         - |          NA |
+| Method                | Mean      | Error     | Ratio | Allocated | Alloc Ratio |
+|---------------------- |----------:|----------:|------:|----------:|------------:|
+| Trivial               | 16.196 ns | 0.0928 ns |  1.00 |         - |          NA |
+| MultiplySi            |  6.620 ns | 0.0215 ns |  0.41 |         - |          NA |
+| MultiplyImperial      |  6.117 ns | 0.0287 ns |  0.38 |         - |          NA |
+| MultiplyMixed         |  6.464 ns | 0.0319 ns |  0.40 |         - |          NA |
+| MultiplyPureSi        |  6.062 ns | 0.0199 ns |  0.37 |         - |          NA |
+| MultiplyPowerQuantity |  6.276 ns | 0.0417 ns |  0.39 |         - |          NA |
+| MultiplyAliasQuantity |  6.160 ns | 0.0282 ns |  0.38 |         - |          NA |
 */

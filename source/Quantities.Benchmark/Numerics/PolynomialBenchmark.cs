@@ -31,9 +31,9 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
   DefaultJob : .NET 8.0.0 (8.0.23.53103), X64 RyuJIT AVX2
 
 
- Method                          | Mean      | Error     | StdDev    | Ratio |
--------------------------------- |----------:|----------:|----------:|------:|
- EvaluateTrivial                 | 1.6241 ns | 0.0172 ns | 0.0161 ns |  1.00 |
- EvaluatePolynomial              | 0.0920 ns | 0.0051 ns | 0.0045 ns |  0.06 |
- EvaluatePolynomialWithoutOffset | 0.3155 ns | 0.0069 ns | 0.0061 ns |  0.19 |
+| Method                          | Mean      | Error     | Ratio |
+|-------------------------------- |----------:|----------:|------:|
+| EvaluateTrivial                 | 1.6150 ns | 0.0081 ns |  1.00 |
+| EvaluatePolynomial              | 0.3128 ns | 0.0097 ns |  0.19 |
+| EvaluatePolynomialWithoutOffset | 0.3406 ns | 0.0089 ns |  0.21 |
 */

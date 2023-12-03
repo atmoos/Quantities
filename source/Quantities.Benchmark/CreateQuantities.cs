@@ -30,7 +30,7 @@ public readonly struct DummyStruct : ICastOperators<DummyStruct, Double>
     public static implicit operator Double(DummyStruct obj) => obj.value.Value;
 }
 
-[MemoryDiagnoser]
+[MemoryDiagnoser(displayGenColumns: false)]
 //[EventPipeProfiler(EventPipeProfile.CpuSampling)]
 public class CreateQuantities
 {
@@ -77,15 +77,15 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
   DefaultJob : .NET 8.0.0 (8.0.23.53103), X64 RyuJIT AVX2
 
 
- Method                         | Mean      | Error     | StdDev    | Ratio | RatioSD | Gen0   | Allocated | Alloc Ratio |
-------------------------------- |----------:|----------:|----------:|------:|--------:|-------:|----------:|------------:|
- CreateObject                   |  6.667 ns | 0.1870 ns | 0.2000 ns |  1.00 |    0.00 | 0.0057 |      24 B |        1.00 |
- CreateStruct                   |  1.221 ns | 0.0065 ns | 0.0054 ns |  0.19 |    0.01 |      - |         - |        0.00 |
- CreateScalarQuantity           |  1.061 ns | 0.0082 ns | 0.0068 ns |  0.16 |    0.00 |      - |         - |        0.00 |
- CreateScalarQuantityWithoutOpt |  3.490 ns | 0.0106 ns | 0.0089 ns |  0.53 |    0.02 |      - |         - |        0.00 |
- CreateQuotientQuantity         | 16.478 ns | 0.1448 ns | 0.1284 ns |  2.49 |    0.08 |      - |         - |        0.00 |
- CreateProductQuantity          | 14.364 ns | 0.1109 ns | 0.0983 ns |  2.17 |    0.06 |      - |         - |        0.00 |
- CreateCachedProductQuantity    |  1.164 ns | 0.0118 ns | 0.0110 ns |  0.18 |    0.01 |      - |         - |        0.00 |
- CreateScalarPowerQuantity      | 10.756 ns | 0.0373 ns | 0.0331 ns |  1.63 |    0.05 |      - |         - |        0.00 |
- CreateSquarePowerQuantity      |  1.066 ns | 0.0121 ns | 0.0107 ns |  0.16 |    0.01 |      - |         - |        0.00 |
+| Method                         | Mean       | Error     | Ratio | Allocated | Alloc Ratio |
+|------------------------------- |-----------:|----------:|------:|----------:|------------:|
+| CreateObject                   |  6.5121 ns | 0.0446 ns |  1.00 |      24 B |        1.00 |
+| CreateStruct                   |  1.3764 ns | 0.0507 ns |  0.21 |         - |        0.00 |
+| CreateScalarQuantity           |  0.8206 ns | 0.0354 ns |  0.13 |         - |        0.00 |
+| CreateScalarQuantityWithoutOpt |  3.4004 ns | 0.0235 ns |  0.52 |         - |        0.00 |
+| CreateQuotientQuantity         | 13.1254 ns | 0.0655 ns |  2.02 |         - |        0.00 |
+| CreateProductQuantity          | 15.1995 ns | 0.1573 ns |  2.33 |         - |        0.00 |
+| CreateCachedProductQuantity    |  1.0541 ns | 0.0074 ns |  0.16 |         - |        0.00 |
+| CreateScalarPowerQuantity      | 11.3300 ns | 0.2369 ns |  1.74 |         - |        0.00 |
+| CreateSquarePowerQuantity      |  0.7973 ns | 0.0156 ns |  0.12 |         - |        0.00 |
 */

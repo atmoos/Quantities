@@ -10,8 +10,8 @@ public class MeasureBenchmark
     private const Double feetToMetre = 0.3048;
     private static readonly Si<Metre> trivialKiloMetre = Si<Metre>.Of(Prefix.Kilo, 3);
     private static readonly Imperial<Foot> trivialFoot = new(10, feetToMetre);
-    private static readonly Measure kiloMetre = Build<Si<Kilo, Metre>>();
-    private static readonly Measure ångström = Build<Metric<Mega, Ångström>>();
+    private static readonly Measure kiloMetre = Measure.Of<Si<Kilo, Metre>>();
+    private static readonly Measure ångström = Measure.Of<Metric<Mega, Ångström>>();
 
     [Benchmark(Baseline = true)]
     public Double ProjectTrivial() => trivialKiloMetre.To(trivialFoot);
@@ -21,10 +21,8 @@ public class MeasureBenchmark
 
     [Benchmark]
     public Double ProjectOntoOther() => kiloMetre.Project(ångström, Math.Tau);
-
-    private static Measure Build<TMeasure>()
-        where TMeasure : IMeasure => Measure.Of<TMeasure>();
 }
+
 /* Summary *
 
 BenchmarkDotNet v0.13.10, Arch Linux

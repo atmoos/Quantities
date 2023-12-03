@@ -11,10 +11,8 @@ public class PolynomialExponentiationBenchmark
     private static readonly Double argument = Math.PI / Math.E;
     private static readonly Polynomial polynomial = Poly(nominator: Math.E, denominator: Math.PI, offset: Math.Tau);
 
-
     [Params(-5, -2, 0, 2, 5)]
     public Int32 Exponent { get; set; }
-
 
     [Benchmark(Baseline = true)]
     public Double TrivialExp() => Poly(PolyExp(in trivial, Exponent), argument);

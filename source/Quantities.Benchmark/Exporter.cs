@@ -7,29 +7,29 @@ namespace Quantities.Benchmark;
 public static class Exporter
 {
     private static readonly String mark = "/* Summary *";
+    private static readonly ILogger logger = new Logger();
 
     public static void Export(IEnumerable<Summary> summaries)
     {
+        var sourceDir = FindSourceDir();
         foreach (var summary in summaries) {
-            Export(summary);
+            Export(summary, sourceDir);
         }
     }
-
-    public static void Export(Summary summary) => Export(summary, MarkdownExporter.Console);
-
-    private static void Export(Summary summary, IExporter exporter)
+    public static void Export(Summary summary) => Export(summary, FindSourceDir());
+    private static void Export(Summary summary, DirectoryInfo sourceDir)
+        => Export(summary, MarkdownExporter.Console, sourceDir);
+    private static void Export(Summary summary, IExporter exporter, DirectoryInfo sourceDir)
     {
-        var dir = FindSourceDir();
-        foreach (var file in exporter.ExportToFiles(summary, new Logger())) {
+        foreach (var file in exporter.ExportToFiles(summary, logger)) {
             var name = BenchmarkName(file);
             var fileName = $"{name}.cs";
             Console.WriteLine($"Exporting: {name}");
-            var sourceFile = dir.EnumerateFiles("*.cs", SearchOption.AllDirectories).Single(f => f.Name.EndsWith(fileName));
+            var sourceFile = sourceDir.EnumerateFiles("*.cs", SearchOption.AllDirectories).Single(f => f.Name.EndsWith(fileName));
             UpdateSourceFile(sourceFile, File.ReadAllText(file));
             File.Delete(file);
         }
     }
-
     private static void UpdateSourceFile(FileInfo source, String result)
     {
         var tmpFile = $"{source.FullName}.tmp";
@@ -85,7 +85,7 @@ public static class Exporter
 
 file sealed class Logger : ILogger
 {
-    public String Id => "SomeId";
+    public String Id => "ConsoleLogger";
     public Int32 Priority => 1;
     public void WriteLine() => Console.WriteLine();
     public void Write(LogKind logKind, String text) => Console.Write(text);

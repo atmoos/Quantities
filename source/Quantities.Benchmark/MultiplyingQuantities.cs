@@ -1,4 +1,4 @@
-﻿using BenchmarkDotNet.Diagnosers;
+using BenchmarkDotNet.Diagnosers;
 using Quantities.Prefixes;
 using Quantities.Units.Imperial.Length;
 using Quantities.Units.Si;
@@ -7,7 +7,7 @@ using Quantities.Units.Si.Metric;
 
 namespace Quantities.Benchmark;
 
-[MemoryDiagnoser]
+[MemoryDiagnoser(displayGenColumns: false)]
 public class MultiplyingQuantities
 {
     private Area aliasArea = Area.Of(3, Metric<Are>());
@@ -43,25 +43,22 @@ public class MultiplyingQuantities
     public Double MultiplyAliasQuantity() => this.aliasArea * this.largeMetric;
 }
 
-/* It's approx 30ns / ratio of 1.8 at allocated 88 B 
-   when optimizations are turned off.
-   AllocationFree<T>, caching of Results etc...
-// * Summary *
+/* Summary *
 
-BenchmarkDotNet v0.13.8, Arch Linux
+BenchmarkDotNet v0.13.10, Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK 7.0.111
-  [Host]     : .NET 7.0.11 (7.0.1123.46301), X64 RyuJIT AVX2
-  DefaultJob : .NET 7.0.11 (7.0.1123.46301), X64 RyuJIT AVX2
+.NET SDK 8.0.100
+  [Host]     : .NET 8.0.0 (8.0.23.53103), X64 RyuJIT AVX2
+  DefaultJob : .NET 8.0.0 (8.0.23.53103), X64 RyuJIT AVX2
 
 
-| Method                | Mean      | Error     | StdDev    | Ratio | Allocated | Alloc Ratio |
-|---------------------- |----------:|----------:|----------:|------:|----------:|------------:|
-| Trivial               | 16.547 ns | 0.1302 ns | 0.1154 ns |  1.00 |         - |          NA |
-| MultiplySi            |  6.753 ns | 0.0230 ns | 0.0204 ns |  0.41 |         - |          NA |
-| MultiplyImperial      |  6.848 ns | 0.0428 ns | 0.0400 ns |  0.41 |         - |          NA |
-| MultiplyMixed         |  6.755 ns | 0.0337 ns | 0.0298 ns |  0.41 |         - |          NA |
-| MultiplyPureSi        |  6.665 ns | 0.0425 ns | 0.0377 ns |  0.40 |         - |          NA |
-| MultiplyPowerQuantity |  6.654 ns | 0.1593 ns | 0.1636 ns |  0.40 |         - |          NA |
-| MultiplyAliasQuantity |  7.869 ns | 0.0378 ns | 0.0315 ns |  0.48 |         - |          NA |
+| Method                | Mean      | Error     | Ratio | Allocated | Alloc Ratio |
+|---------------------- |----------:|----------:|------:|----------:|------------:|
+| Trivial               | 16.196 ns | 0.0928 ns |  1.00 |         - |          NA |
+| MultiplySi            |  6.620 ns | 0.0215 ns |  0.41 |         - |          NA |
+| MultiplyImperial      |  6.117 ns | 0.0287 ns |  0.38 |         - |          NA |
+| MultiplyMixed         |  6.464 ns | 0.0319 ns |  0.40 |         - |          NA |
+| MultiplyPureSi        |  6.062 ns | 0.0199 ns |  0.37 |         - |          NA |
+| MultiplyPowerQuantity |  6.276 ns | 0.0417 ns |  0.39 |         - |          NA |
+| MultiplyAliasQuantity |  6.160 ns | 0.0282 ns |  0.38 |         - |          NA |
 */

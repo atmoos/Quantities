@@ -1,11 +1,11 @@
-﻿using Quantities.Prefixes;
+using Quantities.Prefixes;
 using Quantities.Units.Imperial.Length;
 using Quantities.Units.Si;
 using Quantities.Units.Si.Derived;
 
 namespace Quantities.Benchmark;
 
-[MemoryDiagnoser]
+[MemoryDiagnoser(displayGenColumns: false)]
 public class ConvertingQuantities
 {
     private const Double feetToMetre = 0.3048;
@@ -27,20 +27,19 @@ public class ConvertingQuantities
     public Double QuantityToVeryDifferent() => energy.To(Si<Kilo, Watt>().Times(Si<Milli, Second>()));
 }
 
-/*
-// * Summary *
+/* Summary *
 
-BenchmarkDotNet v0.13.8, Arch Linux
+BenchmarkDotNet v0.13.10, Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK 7.0.113
-  [Host]     : .NET 7.0.13 (7.0.1323.52501), X64 RyuJIT AVX2
-  DefaultJob : .NET 7.0.13 (7.0.1323.52501), X64 RyuJIT AVX2
+.NET SDK 8.0.100
+  [Host]     : .NET 8.0.0 (8.0.23.53103), X64 RyuJIT AVX2
+  DefaultJob : .NET 8.0.0 (8.0.23.53103), X64 RyuJIT AVX2
 
 
-| Method                  | Mean       | Error     | StdDev    | Ratio | RatioSD | Allocated | Alloc Ratio |
-|------------------------ |-----------:|----------:|----------:|------:|--------:|----------:|------------:|
-| TrivialImplementation   |  0.6200 ns | 0.0304 ns | 0.0284 ns |  1.00 |    0.00 |         - |          NA |
-| QuantityImplementation  |  4.0954 ns | 0.0377 ns | 0.0315 ns |  6.64 |    0.34 |         - |          NA |
-| QuantityToSame          | 14.5757 ns | 0.0652 ns | 0.0610 ns | 23.55 |    1.02 |         - |          NA |
-| QuantityToVeryDifferent | 16.9657 ns | 0.1247 ns | 0.1041 ns | 27.49 |    1.41 |         - |          NA |
+| Method                  | Mean      | Error     | Ratio | Allocated | Alloc Ratio |
+|------------------------ |----------:|----------:|------:|----------:|------------:|
+| TrivialImplementation   |  2.374 ns | 0.0081 ns |  1.00 |         - |          NA |
+| QuantityImplementation  |  4.316 ns | 0.0176 ns |  1.82 |         - |          NA |
+| QuantityToSame          | 14.429 ns | 0.0546 ns |  6.08 |         - |          NA |
+| QuantityToVeryDifferent | 15.515 ns | 0.0696 ns |  6.53 |         - |          NA |
 */

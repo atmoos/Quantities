@@ -1,4 +1,4 @@
-﻿using System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices;
 using Quantities.Core.Numerics;
 
 namespace Quantities.Benchmark;
@@ -51,20 +51,19 @@ file static class Cache<TFrom, TTo>
     public static Double Convert(in Double value) => polynomial * value;
 }
 
-/*
-// * Summary *
+/* Summary *
 
-BenchmarkDotNet v0.13.8, Arch Linux
+BenchmarkDotNet v0.13.10, Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK 7.0.111
-  [Host]     : .NET 7.0.11 (7.0.1123.46301), X64 RyuJIT AVX2
-  DefaultJob : .NET 7.0.11 (7.0.1123.46301), X64 RyuJIT AVX2
+.NET SDK 8.0.100
+  [Host]     : .NET 8.0.0 (8.0.23.53103), X64 RyuJIT AVX2
+  DefaultJob : .NET 8.0.0 (8.0.23.53103), X64 RyuJIT AVX2
 
 
-| Method                 | Mean     | Error     | StdDev    | Ratio |
-|----------------------- |---------:|----------:|----------:|------:|
-| EvaluateTrivial        | 2.576 ns | 0.0175 ns | 0.0164 ns |  1.00 |
-| EvaluateSuccessive     | 1.672 ns | 0.0134 ns | 0.0119 ns |  0.65 |
-| EvaluateCached         | 1.573 ns | 0.0087 ns | 0.0068 ns |  0.61 |
-| EvaluateArithmetically | 1.735 ns | 0.0099 ns | 0.0078 ns |  0.67 |
+| Method                 | Mean      | Error     | Ratio |
+|----------------------- |----------:|----------:|------:|
+| EvaluateTrivial        | 3.1148 ns | 0.0791 ns |  1.00 |
+| EvaluateSuccessive     | 0.8463 ns | 0.0224 ns |  0.27 |
+| EvaluateCached         | 1.2761 ns | 0.0175 ns |  0.41 |
+| EvaluateArithmetically | 0.1341 ns | 0.0054 ns |  0.04 |
 */

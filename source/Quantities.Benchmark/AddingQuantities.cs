@@ -1,11 +1,11 @@
-﻿using BenchmarkDotNet.Diagnosers;
+using BenchmarkDotNet.Diagnosers;
 using Quantities.Prefixes;
 using Quantities.Units.Imperial.Length;
 using Quantities.Units.Si;
 
 namespace Quantities.Benchmark;
 
-[MemoryDiagnoser]
+[MemoryDiagnoser(displayGenColumns: false)]
 public class AddingQuantities
 {
     private Length sameMetric = Length.Of(-7, Si<Kilo, Metre>());
@@ -32,21 +32,20 @@ public class AddingQuantities
     public Double AddMixed() => this.smallMetric + this.largeImperial;
 }
 
-/*
-// * Summary *
+/* Summary *
 
-BenchmarkDotNet v0.13.8, Arch Linux
+BenchmarkDotNet v0.13.10, Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK 7.0.113
-  [Host]     : .NET 7.0.13 (7.0.1323.52501), X64 RyuJIT AVX2
-  DefaultJob : .NET 7.0.13 (7.0.1323.52501), X64 RyuJIT AVX2
+.NET SDK 8.0.100
+  [Host]     : .NET 8.0.0 (8.0.23.53103), X64 RyuJIT AVX2
+  DefaultJob : .NET 8.0.0 (8.0.23.53103), X64 RyuJIT AVX2
 
 
-| Method      | Mean      | Error     | StdDev    | Ratio | RatioSD | Allocated | Alloc Ratio |
-|------------ |----------:|----------:|----------:|------:|--------:|----------:|------------:|
-| Trivial     | 1.6263 ns | 0.0347 ns | 0.0325 ns |  1.00 |    0.00 |         - |          NA |
-| AddSi       | 3.2011 ns | 0.0293 ns | 0.0274 ns |  1.97 |    0.05 |         - |          NA |
-| AddSiSame   | 0.8805 ns | 0.0386 ns | 0.0361 ns |  0.54 |    0.03 |         - |          NA |
-| AddImperial | 3.2012 ns | 0.0227 ns | 0.0213 ns |  1.97 |    0.04 |         - |          NA |
-| AddMixed    | 3.3678 ns | 0.0720 ns | 0.0638 ns |  2.07 |    0.07 |         - |          NA |
+| Method      | Mean      | Error     | Ratio | Allocated | Alloc Ratio |
+|------------ |----------:|----------:|------:|----------:|------------:|
+| Trivial     | 1.4131 ns | 0.0185 ns |  1.00 |         - |          NA |
+| AddSi       | 2.5279 ns | 0.0790 ns |  1.78 |         - |          NA |
+| AddSiSame   | 0.7713 ns | 0.0469 ns |  0.54 |         - |          NA |
+| AddImperial | 2.4031 ns | 0.0066 ns |  1.70 |         - |          NA |
+| AddMixed    | 2.4445 ns | 0.0193 ns |  1.73 |         - |          NA |
 */

@@ -9,7 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Atmoos.Quantities" Version="1.0.0" />
+    <ProjectReference Include="..\Quantities\Quantities.csproj" Condition="'$(Configuration)'=='DEBUG'"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Atmoos.Quantities" Version="1.0.0" Condition="'$(Configuration)'!='DEBUG'"/>
   </ItemGroup>
 
 </Project>

@@ -36,7 +36,7 @@ public readonly struct Time : IQuantity<Time>, ITime
     public static Time operator /(Time left, Double scalar) => new(left.time / scalar);
     public static Double operator /(Time left, Time right) => left.time.Ratio(in right.time);
 
-    public static Energy operator *(Time time, Power power) => Energy.From(in power, in time);
+    public static Energy operator *(Time time, Power power) => Energy.Times(in power, in time);
     public static Length operator *(Time time, Velocity velocity) => Length.From(in velocity, in time);
     public static Data operator *(Time time, DataRate rate) => Data.From(in time, in rate);
 }

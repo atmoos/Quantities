@@ -8,6 +8,7 @@ namespace Quantities;
 public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectricPotential
     , IScalar<ElectricPotential, IElectricPotential>
     , IMultiplyOperators<ElectricPotential, ElectricCurrent, Power>
+    , IMultiplyOperators<ElectricPotential, ElectricCharge, Energy>
     , IDivisionOperators<ElectricPotential, ElectricCurrent, ElectricalResistance>
     , IDivisionOperators<ElectricPotential, ElectricalResistance, ElectricCurrent>
 {
@@ -22,6 +23,7 @@ public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectr
     static ElectricPotential IFactory<ElectricPotential>.Create(in Quantity value) => new(in value);
     internal static ElectricPotential From(in ElectricCurrent current, in ElectricalResistance resistance) => new(current.Value * resistance.Value);
     internal static ElectricPotential From(in Power power, in ElectricCurrent current) => new(power.Value / current.Value);
+    internal static ElectricPotential From(in Energy energy, in ElectricCharge charge) => new(energy.Value / charge.Value);
     public Boolean Equals(ElectricPotential other) => this.potential.Equals(other.potential);
     public String ToString(String? format, IFormatProvider? provider) => this.potential.ToString(format, provider);
     public override Boolean Equals(Object? obj) => obj is ElectricPotential potential && Equals(potential);
@@ -44,4 +46,6 @@ public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectr
     #endregion Ohm's Law
 
     public static Power operator *(ElectricPotential potential, ElectricCurrent current) => Power.From(in potential, in current);
+
+    public static Energy operator *(ElectricPotential potential, ElectricCharge charge) => Energy.Times(in potential, in charge);
 }

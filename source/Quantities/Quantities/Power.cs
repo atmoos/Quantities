@@ -44,5 +44,5 @@ public readonly struct Power : IQuantity<Power>, IPower
     public static ElectricCurrent operator /(Power power, ElectricPotential potential) => ElectricCurrent.From(in power, in potential);
     public static Velocity operator /(Power power, Force force) => Velocity.From(in power, in force);
     public static Force operator /(Power power, Velocity velocity) => Force.From(in power, in velocity);
-    public static Energy operator *(Power power, Time time) => Energy.From(in power, in time);
+    public static Energy operator *(Power power, Time time) => Energy.Times(in power, in time);
 }

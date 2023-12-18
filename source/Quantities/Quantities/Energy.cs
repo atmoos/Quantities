@@ -9,6 +9,8 @@ public readonly struct Energy : IQuantity<Energy>, IEnergy
     , IProduct<Energy, IEnergy, IPower, ITime>
     , IDivisionOperators<Energy, Time, Power>
     , IDivisionOperators<Energy, Power, Time>
+    , IDivisionOperators<Energy, ElectricCharge, ElectricPotential>
+    , IDivisionOperators<Energy, ElectricPotential, ElectricCharge>
 {
     private readonly Quantity energy;
     internal Quantity Value => this.energy;
@@ -23,7 +25,9 @@ public readonly struct Energy : IQuantity<Energy>, IEnergy
     public static Energy Of<TPower, TTime>(in Double value, in Product<TPower, TTime> measure)
         where TPower : IUnit, IPower where TTime : IUnit, ITime => new(measure.Create(in value));
     static Energy IFactory<Energy>.Create(in Quantity value) => new(in value);
-    internal static Energy From(in Power power, in Time time) => new(power.Value * time.Value);
+    internal static Energy Times(in Power power, in Time time) => new(power.Value * time.Value);
+    internal static Energy Times(in ElectricCharge charge, in ElectricPotential potential) => new(charge.Value * potential.Value);
+    internal static Energy Times(in ElectricPotential potential, in ElectricCharge charge) => new(potential.Value * charge.Value);
     public Boolean Equals(Energy other) => this.energy.Equals(other.energy);
     public override Boolean Equals(Object? obj) => obj is Energy energy && Equals(energy);
     public override Int32 GetHashCode() => this.energy.GetHashCode();
@@ -42,4 +46,8 @@ public readonly struct Energy : IQuantity<Energy>, IEnergy
 
     public static Power operator /(Energy energy, Time time) => Power.From(in energy, in time);
     public static Time operator /(Energy energy, Power power) => Time.From(in energy, in power);
+
+    public static ElectricPotential operator /(Energy energy, ElectricCharge charge) => ElectricPotential.From(in energy, in charge);
+
+    public static ElectricCharge operator /(Energy energy, ElectricPotential potential) => ElectricCharge.From(in energy, in potential);
 }

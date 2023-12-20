@@ -12,7 +12,7 @@ env:
   DOTNET_NOLOGO: true
   Prefix: 'quantities/serialization/newtonsoft'
   Project: 'source/Quantities.Serialization/Newtonsoft/Quantities.Serialization.Newtonsoft.csproj'
-  DotNetVersion: 7.0.x
+  DotNetVersion: 8.0.x
 
 jobs:
   publish:

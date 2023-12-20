@@ -8,7 +8,7 @@ public sealed class PowerTest
     [Fact]
     public void WattToString() => FormattingMatches(v => Power.Of(v, Si<Watt>()), "W");
     [Fact]
-    public void KiloWattToString() => FormattingMatches(v => Power.Of(v, Si<Kilo, Watt>()), "KW");
+    public void KiloWattToString() => FormattingMatches(v => Power.Of(v, Si<Kilo, Watt>()), "kW");
     [Fact]
     public void MicroWattToString() => FormattingMatches(v => Power.Of(v, Si<Micro, Watt>()), "μW");
     [Fact]

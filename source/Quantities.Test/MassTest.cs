@@ -14,11 +14,11 @@ public sealed class MassTest
     [Fact]
     public void TonneToString() => FormattingMatches(v => Mass.Of(v, Metric<Tonne>()), "t");
     [Fact]
-    public void KiloGramToString() => FormattingMatches(v => Mass.Of(v, Metric<Kilo, Gram>()), "Kg");
+    public void KiloGramToString() => FormattingMatches(v => Mass.Of(v, Metric<Kilo, Gram>()), "kg");
     [Fact]
     public void MicroGramToString() => FormattingMatches(v => Mass.Of(v, Metric<Micro, Gram>()), "μg");
     [Fact]
-    public void KiloTonneToString() => FormattingMatches(v => Mass.Of(v, Metric<Kilo, Tonne>()), "Kt");
+    public void KiloTonneToString() => FormattingMatches(v => Mass.Of(v, Metric<Kilo, Tonne>()), "kt");
     [Fact]
     public void MegaTonneToString() => FormattingMatches(v => Mass.Of(v, Metric<Mega, Tonne>()), "Mt");
     [Fact]

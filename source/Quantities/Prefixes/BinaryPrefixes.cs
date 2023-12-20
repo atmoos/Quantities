@@ -2,7 +2,7 @@
 
 namespace Quantities.Prefixes;
 
-/*
+/* https://en.wikipedia.org/wiki/Binary_prefix
 kibi Ki 1024 2^10
 mebi Mi 1048576 2^20
 gibi Gi 1073741824 2^30

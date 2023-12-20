@@ -21,9 +21,9 @@ public class DataRateTest
     [Fact]
     public void KibiBitPerSecondToString() => FormattingMatches(v => DataRate.Of(v, Binary<Kibi, Bit>().Per(Si<Second>())), "Kibit/s");
     [Fact]
-    public void KiloBitPerSecondToString() => FormattingMatches(v => DataRate.Of(v, Metric<Kilo, Bit>().Per(Si<Second>())), "Kbit/s");
+    public void KiloBitPerSecondToString() => FormattingMatches(v => DataRate.Of(v, Metric<Kilo, Bit>().Per(Si<Second>())), "kbit/s");
     [Fact]
-    public void KiloBytePerSecondToString() => FormattingMatches(v => DataRate.Of(v, Metric<Kilo, Bytes>().Per(Si<Second>())), "KB/s");
+    public void KiloBytePerSecondToString() => FormattingMatches(v => DataRate.Of(v, Metric<Kilo, Bytes>().Per(Si<Second>())), "kB/s");
     [Fact]
     public void KibiBytePerSecondToString() => FormattingMatches(v => DataRate.Of(v, Binary<Kibi, Bytes>().Per(Si<Second>())), "KiB/s");
     [Fact]

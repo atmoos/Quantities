@@ -2,7 +2,7 @@
 
 namespace Quantities.Prefixes;
 
-/*
+/* https://en.wikipedia.org/wiki/Metric_prefix
 quetta 	Q   1000000000000000000000000000000   1e30
 ronna 	R   1000000000000000000000000000   1e27
 yotta   Y   1000000000000000000000000   1e24
@@ -88,7 +88,7 @@ public readonly struct Mega : IMetricPrefix, IScaleUp
 public readonly struct Kilo : IMetricPrefix, IScaleUp
 {
     static Transformation ITransform.ToSi(Transformation self) => 1e3 * self;
-    static String IRepresentable.Representation => "K";
+    static String IRepresentable.Representation => "k";
 }
 [DebuggerDisplay(nameof(Hecto))]
 public readonly struct Hecto : IMetricPrefix, IScaleUp

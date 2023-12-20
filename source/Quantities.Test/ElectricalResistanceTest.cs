@@ -7,7 +7,7 @@ public sealed class ElectricalResistanceTest
     [Fact]
     public void OhmToString() => FormattingMatches(v => ElectricalResistance.Of(v, Si<Ohm>()), "Ω");
     [Fact]
-    public void KiloOhmToString() => FormattingMatches(v => ElectricalResistance.Of(v, Si<Kilo, Ohm>()), "KΩ");
+    public void KiloOhmToString() => FormattingMatches(v => ElectricalResistance.Of(v, Si<Kilo, Ohm>()), "kΩ");
     [Fact]
     public void MilliOhmToString() => FormattingMatches(v => ElectricalResistance.Of(v, Si<Milli, Ohm>()), "mΩ");
     [Fact]

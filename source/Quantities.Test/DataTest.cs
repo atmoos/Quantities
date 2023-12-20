@@ -19,9 +19,9 @@ public class DataTest
     [Fact]
     public void KibiBitToString() => FormattingMatches(v => Data.Of(v, Binary<Kibi, Bit>()), "Kibit");
     [Fact]
-    public void KiloBitToString() => FormattingMatches(v => Data.Of(v, Metric<Kilo, Bit>()), "Kbit");
+    public void KiloBitToString() => FormattingMatches(v => Data.Of(v, Metric<Kilo, Bit>()), "kbit");
     [Fact]
-    public void KiloByteToString() => FormattingMatches(v => Data.Of(v, Metric<Kilo, Bytes>()), "KB");
+    public void KiloByteToString() => FormattingMatches(v => Data.Of(v, Metric<Kilo, Bytes>()), "kB");
     [Fact]
     public void KibiByteToString() => FormattingMatches(v => Data.Of(v, Binary<Kibi, Bytes>()), "KiB");
     [Fact]

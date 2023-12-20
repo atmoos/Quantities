@@ -3,7 +3,7 @@ using Quantities.Units.Imperial.Length;
 
 namespace Quantities.Units.Imperial.Volume;
 
-// https://en.wikipedia.org/wiki/Pint
+// See: https://en.wikipedia.org/wiki/Pint
 public readonly struct Pint : IImperialUnit, IVolume, IAlias<ILength>
 {
     public static Transformation ToSi(Transformation self) => 0.56826125 * self / 1e3;

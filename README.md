@@ -47,14 +47,14 @@ Quantities support common operations such as addition, subtraction, multiplicati
 ```csharp
 Time time = Time.Of(3, Metric<Hour>());
 
-Velocity metricVelocity = kilometres / time; // 6 Km/h
+Velocity metricVelocity = kilometres / time; // 6 km/h
 Velocity imperialVelocity = miles / time; // 4 mi/h
 
-Area metricArea = kilometres * miles; // 347.62 Km²
+Area metricArea = kilometres * miles; // 347.62 km²
 Area imperialArea = miles * kilometres; // 134.22 mi²
 Console.WriteLine($"Equal area: {metricArea.Equals(imperialArea)}"); // Equal area: True
 
-Length metricSum = kilometres + miles - metres; // 37.308 Km
+Length metricSum = kilometres + miles - metres; // 37.308 km
 Length imperialSum = miles + kilometres - metres; // 23.182 mi
 Console.WriteLine($"Equal length: {imperialSum.Equals(metricSum)}"); // Equal length: True
 ```
@@ -103,7 +103,7 @@ Different types of prefixes are also supported. This is useful for [IEC binary p
 
 ```csharp
 Data kibiByte = Data.Of(1, Binary<Kibi, Byte>()); // 1 KiB, binary prefix
-Data kiloByte = Data.Of(1.024, Metric<Kilo, Byte>()); // 1 KB, metric prefix
+Data kiloByte = Data.Of(1.024, Metric<Kilo, Byte>()); // 1 kB, metric prefix
 Console.WriteLine($"Equal amount of data: {kiloByte.Equals(kibiByte)}"); // Equal amount of data: True
 ```
 

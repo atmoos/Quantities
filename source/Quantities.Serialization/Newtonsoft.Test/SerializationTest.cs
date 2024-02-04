@@ -97,7 +97,7 @@ public class SerializationTest
           "length": {
             "value": {{value:R}},
             "si": {
-              "prefix": "K",
+              "prefix": "k",
               "unit": "m"
             }
           }
@@ -146,7 +146,7 @@ public class SerializationTest
             "value": {{value:R}},
             "quotient": {
               "si": {
-                "prefix": "K",
+                "prefix": "k",
                 "unit": "m"
               },
               "metric": {

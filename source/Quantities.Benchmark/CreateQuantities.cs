@@ -70,22 +70,22 @@ public class CreateQuantities
 
 /* Summary *
 
-BenchmarkDotNet v0.13.12, Arch Linux
-Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
+BenchmarkDotNet v0.13.12, Arch Linux ARM
+ARMv7 Processor rev 4 (v7l), 4 logical cores
 .NET SDK 8.0.101
-  [Host]     : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
-  DefaultJob : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
+  [Host]     : .NET 8.0.1 (8.0.123.58001), Arm RyuJIT
+  DefaultJob : .NET 8.0.1 (8.0.123.58001), Arm RyuJIT
 
 
-| Method                         | Mean       | Error     | Ratio | Allocated | Alloc Ratio |
-|------------------------------- |-----------:|----------:|------:|----------:|------------:|
-| CreateObject                   |  6.4661 ns | 0.0478 ns |  1.00 |      24 B |        1.00 |
-| CreateStruct                   |  1.1826 ns | 0.0065 ns |  0.18 |         - |        0.00 |
-| CreateScalarQuantity           |  0.8521 ns | 0.0069 ns |  0.13 |         - |        0.00 |
-| CreateScalarQuantityWithoutOpt |  3.4100 ns | 0.0053 ns |  0.53 |         - |        0.00 |
-| CreateQuotientQuantity         | 13.4490 ns | 0.2649 ns |  2.08 |         - |        0.00 |
-| CreateProductQuantity          | 14.4045 ns | 0.0578 ns |  2.23 |         - |        0.00 |
-| CreateCachedProductQuantity    |  1.1532 ns | 0.0111 ns |  0.18 |         - |        0.00 |
-| CreateScalarPowerQuantity      | 10.5036 ns | 0.0530 ns |  1.63 |         - |        0.00 |
-| CreateSquarePowerQuantity      |  1.0484 ns | 0.0153 ns |  0.16 |         - |        0.00 |
+| Method                         | Mean      | Error    | Ratio | Allocated | Alloc Ratio |
+|------------------------------- |----------:|---------:|------:|----------:|------------:|
+| CreateObject                   | 672.00 ns | 2.659 ns |  1.00 |      32 B |        1.00 |
+| CreateStruct                   |  19.52 ns | 0.095 ns |  0.03 |         - |        0.00 |
+| CreateScalarQuantity           |  24.22 ns | 0.122 ns |  0.04 |         - |        0.00 |
+| CreateScalarQuantityWithoutOpt |  53.32 ns | 0.041 ns |  0.08 |         - |        0.00 |
+| CreateQuotientQuantity         | 433.66 ns | 3.351 ns |  0.65 |         - |        0.00 |
+| CreateProductQuantity          | 396.70 ns | 0.517 ns |  0.59 |         - |        0.00 |
+| CreateCachedProductQuantity    |  24.94 ns | 0.040 ns |  0.04 |         - |        0.00 |
+| CreateScalarPowerQuantity      | 354.23 ns | 1.276 ns |  0.53 |         - |        0.00 |
+| CreateSquarePowerQuantity      |  41.17 ns | 0.049 ns |  0.06 |         - |        0.00 |
 */

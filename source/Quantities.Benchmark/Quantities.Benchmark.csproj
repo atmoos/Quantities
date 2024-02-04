@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <DebugSymbols>true</DebugSymbols>
@@ -24,9 +25,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Quantities\Quantities.csproj" />
+    <ProjectReference Include="..\Quantities.Units\Quantities.Units.csproj" />
     <ProjectReference Include="..\Quantities.Serialization\Text.Json\Quantities.Serialization.Text.Json.csproj" />
     <ProjectReference Include="..\Quantities.Serialization\Newtonsoft\Quantities.Serialization.Newtonsoft.csproj" />
-    <ProjectReference Include="..\Quantities.Units\Quantities.Units.csproj" />
   </ItemGroup>
 
 </Project>

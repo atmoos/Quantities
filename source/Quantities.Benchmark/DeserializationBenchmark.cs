@@ -36,20 +36,20 @@ public class DeserializationBenchmark
 
 /* Summary *
 
-BenchmarkDotNet v0.13.12, Arch Linux
-Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
+BenchmarkDotNet v0.13.12, Arch Linux ARM
+ARMv7 Processor rev 4 (v7l), 4 logical cores
 .NET SDK 8.0.101
-  [Host]     : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
-  DefaultJob : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
+  [Host]     : .NET 8.0.1 (8.0.123.58001), Arm RyuJIT
+  DefaultJob : .NET 8.0.1 (8.0.123.58001), Arm RyuJIT
 
 
-| Method                 | Mean       | Error   | Ratio | Allocated | Alloc Ratio |
-|----------------------- |-----------:|--------:|------:|----------:|------------:|
-| SystemTriple           |   171.0 ns | 1.79 ns |  1.00 |      40 B |        1.00 |
-| SystemQuantity         |   596.6 ns | 2.06 ns |  3.49 |     160 B |        4.00 |
-| PrefixedQuantity       |   686.7 ns | 0.76 ns |  4.02 |     224 B |        5.60 |
-| FractionalQuantity     | 1,362.4 ns | 3.68 ns |  7.97 |     744 B |       18.60 |
-| MultiplicativeQuantity | 1,319.7 ns | 4.03 ns |  7.72 |     744 B |       18.60 |
-| PowerQuantity          | 1,125.8 ns | 2.42 ns |  6.59 |     592 B |       14.80 |
-| ScalarPowerQuantity    |   788.2 ns | 1.79 ns |  4.61 |     232 B |        5.80 |
+| Method                 | Mean      | Error     | Ratio | Allocated | Alloc Ratio |
+|----------------------- |----------:|----------:|------:|----------:|------------:|
+| SystemTriple           |  2.700 μs | 0.0053 μs |  1.00 |      24 B |        1.00 |
+| SystemQuantity         |  8.098 μs | 0.0127 μs |  3.00 |     104 B |        4.33 |
+| PrefixedQuantity       |  9.545 μs | 0.0160 μs |  3.53 |     148 B |        6.17 |
+| FractionalQuantity     | 19.067 μs | 0.0662 μs |  7.06 |     452 B |       18.83 |
+| MultiplicativeQuantity | 19.459 μs | 0.0719 μs |  7.21 |     444 B |       18.50 |
+| PowerQuantity          | 16.137 μs | 0.0819 μs |  5.97 |     347 B |       14.46 |
+| ScalarPowerQuantity    | 10.544 μs | 0.0098 μs |  3.90 |     156 B |        6.50 |
 */

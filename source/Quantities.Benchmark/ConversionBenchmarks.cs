@@ -53,17 +53,17 @@ file static class Cache<TFrom, TTo>
 
 /* Summary *
 
-BenchmarkDotNet v0.13.12, Arch Linux
-Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
+BenchmarkDotNet v0.13.12, Arch Linux ARM
+Unknown processor
 .NET SDK 8.0.101
-  [Host]     : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
-  DefaultJob : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
+  [Host]     : .NET 8.0.1 (8.0.123.58001), Arm64 RyuJIT AdvSIMD
+  DefaultJob : .NET 8.0.1 (8.0.123.58001), Arm64 RyuJIT AdvSIMD
 
 
-| Method                 | Mean      | Error     | Ratio | 
-|----------------------- |----------:|----------:|------:|-
-| EvaluateTrivial        | 2.5300 ns | 0.0105 ns |  1.00 | 
-| EvaluateSuccessive     | 0.8875 ns | 0.0371 ns |  0.35 | 
-| EvaluateCached         | 1.5962 ns | 0.0495 ns |  0.63 | 
-| EvaluateArithmetically | 0.3239 ns | 0.0068 ns |  0.13 | 
+| Method                 | Mean      | Error     | Ratio |
+|----------------------- |----------:|----------:|------:|
+| EvaluateTrivial        | 22.265 ns | 0.0010 ns |  1.00 |
+| EvaluateSuccessive     |  9.437 ns | 0.0009 ns |  0.42 |
+| EvaluateCached         |  3.335 ns | 0.0006 ns |  0.15 |
+| EvaluateArithmetically |  1.272 ns | 0.0047 ns |  0.06 |
 */

@@ -25,16 +25,16 @@ public class MeasureBenchmark
 
 /* Summary *
 
-BenchmarkDotNet v0.13.10, Arch Linux
+BenchmarkDotNet v0.13.12, Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK 8.0.100
-  [Host]     : .NET 8.0.0 (8.0.23.53103), X64 RyuJIT AVX2
-  DefaultJob : .NET 8.0.0 (8.0.23.53103), X64 RyuJIT AVX2
+.NET SDK 8.0.101
+  [Host]     : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
+  DefaultJob : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
 
 
 | Method           | Mean      | Error     | Ratio | 
 |----------------- |----------:|----------:|------:|-
-| ProjectTrivial   | 0.5526 ns | 0.0089 ns |  1.00 | 
-| ProjectOntoSame  | 0.8368 ns | 0.0073 ns |  1.51 | 
-| ProjectOntoOther | 1.6007 ns | 0.0078 ns |  2.90 | 
+| ProjectTrivial   | 0.5208 ns | 0.0091 ns |  1.00 | 
+| ProjectOntoSame  | 0.9375 ns | 0.0077 ns |  1.80 | 
+| ProjectOntoOther | 2.1371 ns | 0.0046 ns |  4.09 | 
 */

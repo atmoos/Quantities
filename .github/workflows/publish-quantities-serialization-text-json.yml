@@ -12,15 +12,15 @@ env:
   DOTNET_NOLOGO: true
   Prefix: 'quantities/serialization/text.json'
   Project: 'source/Quantities.Serialization/Text.Json/Quantities.Serialization.Text.Json.csproj'
-  DotNetVersion: 7.0.x
+  DotNetVersion: 8.0.x
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ env.DotNetVersion }}
       - uses: tedd/publish-nuget-neo@v1

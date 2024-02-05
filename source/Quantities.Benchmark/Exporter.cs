@@ -11,21 +11,21 @@ public static class Exporter
 
     public static void Export(IEnumerable<Summary> summaries)
     {
-        var sourceDir = FindSourceDir();
+        var sourceFiles = FindSourceFiles();
         foreach (var summary in summaries) {
-            Export(summary, sourceDir);
+            Export(summary, sourceFiles);
         }
     }
-    public static void Export(Summary summary) => Export(summary, FindSourceDir());
-    private static void Export(Summary summary, DirectoryInfo sourceDir)
-        => Export(summary, MarkdownExporter.Console, sourceDir);
-    private static void Export(Summary summary, IExporter exporter, DirectoryInfo sourceDir)
+    public static void Export(Summary summary) => Export(summary, FindSourceFiles());
+    private static void Export(Summary summary, List<FileInfo> allFiles)
+        => Export(summary, MarkdownExporter.Console, allFiles);
+    private static void Export(Summary summary, IExporter exporter, List<FileInfo> allFiles)
     {
         foreach (var file in exporter.ExportToFiles(summary, logger)) {
             var name = BenchmarkName(file);
             var fileName = $"{name}.cs";
             Console.WriteLine($"Exporting: {name}");
-            var sourceFile = sourceDir.EnumerateFiles("*.cs", SearchOption.AllDirectories).Single(f => f.Name.EndsWith(fileName));
+            var sourceFile = allFiles.Single(f => f.Name.EndsWith(fileName));
             UpdateSourceFile(sourceFile, File.ReadAllText(file));
             File.Delete(file);
         }
@@ -33,10 +33,18 @@ public static class Exporter
     private static void UpdateSourceFile(FileInfo source, String result)
     {
         var tmpFile = $"{source.FullName}.tmp";
-        using var reader = source.OpenText();
-        using var writer = File.CreateText(tmpFile);
         try {
+            Update(source, tmpFile, result);
+        }
+        finally {
+            File.Move(tmpFile, source.FullName, overwrite: true);
+        }
+
+        static void Update(FileInfo source, String dest, String result)
+        {
             String line;
+            using var reader = source.OpenText();
+            using var writer = File.CreateText(dest);
             while ((line = reader.ReadLine()) != null) {
                 if (line.StartsWith(mark)) {
                     // overwrite existing result
@@ -48,19 +56,17 @@ public static class Exporter
             // No mark found, first time appending a result
             writer.WriteLine();
             Append(writer, result);
-        }
-        finally {
-            File.Move(tmpFile, source.FullName, overwrite: true);
-        }
 
-        static void Append(TextWriter writer, String result)
-        {
-            writer.WriteLine(mark);
-            writer.Write(result);
-            writer.WriteLine("*/");
+            static void Append(TextWriter writer, String result)
+            {
+                writer.WriteLine(mark);
+                writer.Write(result);
+                writer.WriteLine("*/");
+            }
         }
     }
-    private static DirectoryInfo FindSourceDir()
+
+    private static List<FileInfo> FindSourceFiles()
     {
         var myAssembly = typeof(Exporter).Assembly;
         var assemblyName = myAssembly.GetName().Name;
@@ -72,7 +78,7 @@ public static class Exporter
                 throw new Exception($"Failed finding source dir @ {prev}");
             }
         }
-        return dir;
+        return dir.EnumerateFiles("*.cs", SearchOption.AllDirectories).ToList();
     }
     private static String BenchmarkName(ReadOnlySpan<Char> reportPath)
     {

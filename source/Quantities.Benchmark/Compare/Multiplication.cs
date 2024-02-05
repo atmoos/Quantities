@@ -23,8 +23,8 @@ public class Multiplication
 
 /* Summary *
 
-BenchmarkDotNet v0.13.12, Arch Linux
-Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
+BenchmarkDotNet v0.13.12, Windows 11 (10.0.22631.3007/23H2/2023Update/SunValley3)
+12th Gen Intel Core i7-1260P, 1 CPU, 16 logical and 12 physical cores
 .NET SDK 8.0.101
   [Host]     : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
   DefaultJob : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
@@ -32,6 +32,6 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
 
 | Method   | Mean      | Error     | Ratio | Allocated | Alloc Ratio |
 |--------- |----------:|----------:|------:|----------:|------------:|
-| Quantity |  6.469 ns | 0.0175 ns |  1.00 |         - |          NA |
-| UnitsNet | 41.891 ns | 0.3139 ns |  6.48 |         - |          NA |
+| Quantity |  6.646 ns | 0.0605 ns |  1.00 |         - |          NA |
+| UnitsNet | 21.431 ns | 0.1119 ns |  3.22 |         - |          NA |
 */

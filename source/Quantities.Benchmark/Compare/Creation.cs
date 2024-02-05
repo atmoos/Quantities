@@ -36,21 +36,21 @@ public class Creation
 
 /* Summary *
 
-BenchmarkDotNet v0.13.12, Arch Linux
-Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
+BenchmarkDotNet v0.13.12, Windows 11 (10.0.22631.3007/23H2/2023Update/SunValley3)
+12th Gen Intel Core i7-1260P, 1 CPU, 16 logical and 12 physical cores
 .NET SDK 8.0.101
   [Host]     : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
   DefaultJob : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
 
 
-| Method                | Categories | Mean       | Error     | Ratio | Allocated | Alloc Ratio |
-|---------------------- |----------- |-----------:|----------:|------:|----------:|------------:|
-| CreateAliasedQuantity | Aliasing   | 11.6151 ns | 0.1729 ns |  1.00 |         - |          NA |
-| CreateAliasedUnitsNet | Aliasing   | 11.3702 ns | 0.0411 ns |  0.98 |         - |          NA |
-|                       |            |            |           |       |           |             |
-| CreateCubedQuantity   | Cubed      |  0.7358 ns | 0.0085 ns |  1.00 |         - |          NA |
-| CreateCubedUnitsNet   | Cubed      | 11.7242 ns | 0.0352 ns | 15.94 |         - |          NA |
-|                       |            |            |           |       |           |             |
-| CreateScalarQuantity  | Scalar     |  0.7579 ns | 0.0066 ns |  1.00 |         - |          NA |
-| CreateScalarUnitsNet  | Scalar     | 11.7629 ns | 0.0114 ns | 15.53 |         - |          NA |
+| Method                | Categories | Mean      | Error     | Ratio | Allocated | Alloc Ratio |
+|---------------------- |----------- |----------:|----------:|------:|----------:|------------:|
+| CreateAliasedQuantity | Aliasing   | 11.847 ns | 0.1295 ns |  1.00 |         - |          NA |
+| CreateAliasedUnitsNet | Aliasing   |  3.543 ns | 0.0291 ns |  0.30 |         - |          NA |
+|                       |            |           |           |       |           |             |
+| CreateCubedQuantity   | Cubed      |  1.576 ns | 0.0293 ns |  1.00 |         - |          NA |
+| CreateCubedUnitsNet   | Cubed      |  3.562 ns | 0.0355 ns |  2.26 |         - |          NA |
+|                       |            |           |           |       |           |             |
+| CreateScalarQuantity  | Scalar     |  1.349 ns | 0.0181 ns |  1.00 |         - |          NA |
+| CreateScalarUnitsNet  | Scalar     |  2.943 ns | 0.0353 ns |  2.18 |         - |          NA |
 */

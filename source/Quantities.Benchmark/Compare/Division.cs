@@ -23,8 +23,8 @@ public class Division
 
 /* Summary *
 
-BenchmarkDotNet v0.13.12, Arch Linux
-Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
+BenchmarkDotNet v0.13.12, Windows 11 (10.0.22631.3007/23H2/2023Update/SunValley3)
+12th Gen Intel Core i7-1260P, 1 CPU, 16 logical and 12 physical cores
 .NET SDK 8.0.101
   [Host]     : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
   DefaultJob : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
@@ -32,6 +32,6 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
 
 | Method   | Mean      | Error     | Ratio | Allocated | Alloc Ratio |
 |--------- |----------:|----------:|------:|----------:|------------:|
-| Quantity |  8.882 ns | 0.0463 ns |  1.00 |         - |          NA |
-| UnitsNet | 46.304 ns | 0.1927 ns |  5.21 |         - |          NA |
+| Quantity |  6.624 ns | 0.0736 ns |  1.00 |         - |          NA |
+| UnitsNet | 24.402 ns | 0.1962 ns |  3.68 |         - |          NA |
 */

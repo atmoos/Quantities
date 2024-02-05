@@ -36,8 +36,8 @@ public class ValueConversionComparison
 
 /* Summary *
 
-BenchmarkDotNet v0.13.12, Arch Linux
-Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
+BenchmarkDotNet v0.13.12, Windows 11 (10.0.22631.3007/23H2/2023Update/SunValley3)
+12th Gen Intel Core i7-1260P, 1 CPU, 16 logical and 12 physical cores
 .NET SDK 8.0.101
   [Host]     : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
   DefaultJob : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
@@ -45,12 +45,12 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
 
 | Method             | Mean       | Error     | Ratio | Allocated | Alloc Ratio |
 |------------------- |-----------:|----------:|------:|----------:|------------:|
-| QuantityToImperial |  3.6227 ns | 0.0133 ns |  1.00 |         - |          NA |
-| UnitsNetToImperial | 81.2674 ns | 0.2776 ns | 22.43 |      48 B |          NA |
+| QuantityToImperial |  0.7591 ns | 0.0442 ns |  1.00 |         - |          NA |
+| UnitsNetToImperial | 39.1487 ns | 0.4276 ns | 51.91 |      48 B |          NA |
 |                    |            |           |       |           |             |
-| QuantityToSame     |  1.4156 ns | 0.0133 ns |  1.00 |         - |          NA |
-| UnitsNetToSame     |  0.6307 ns | 0.0131 ns |  0.45 |         - |          NA |
+| QuantityToSame     |  0.3554 ns | 0.0148 ns |  1.00 |         - |          NA |
+| UnitsNetToSame     |  0.1525 ns | 0.0145 ns |  0.43 |         - |          NA |
 |                    |            |           |       |           |             |
-| QuantityToSi       |  3.5307 ns | 0.0135 ns |  1.00 |         - |          NA |
-| UnitsNetToSi       | 84.8318 ns | 0.4783 ns | 24.03 |      48 B |          NA |
+| QuantityToSi       |  0.7803 ns | 0.0433 ns |  1.00 |         - |          NA |
+| UnitsNetToSi       | 39.7448 ns | 0.3878 ns | 51.33 |      48 B |          NA |
 */

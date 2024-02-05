@@ -22,27 +22,27 @@ public class PolynomialExponentiationBenchmark
 
 /* Summary *
 
-BenchmarkDotNet v0.13.12, Arch Linux
-Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
+BenchmarkDotNet v0.13.12, Windows 11 (10.0.22631.3007/23H2/2023Update/SunValley3)
+12th Gen Intel Core i7-1260P, 1 CPU, 16 logical and 12 physical cores
 .NET SDK 8.0.101
   [Host]     : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
   DefaultJob : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
 
 
-| Method        | Exponent | Mean      | Error     | Ratio |
-|-------------- |--------- |----------:|----------:|------:|
-| TrivialExp    | -5       | 28.487 ns | 0.0435 ns |  1.00 |
-| PolynomialExp | -5       | 39.455 ns | 0.0633 ns |  1.39 |
-|               |          |           |           |       |
-| TrivialExp    | -2       | 15.077 ns | 0.0132 ns |  1.00 |
-| PolynomialExp | -2       | 26.505 ns | 0.0163 ns |  1.76 |
-|               |          |           |           |       |
-| TrivialExp    | 0        | 11.868 ns | 0.0240 ns |  1.00 |
-| PolynomialExp | 0        |  2.921 ns | 0.0078 ns |  0.25 |
-|               |          |           |           |       |
-| TrivialExp    | 2        | 15.117 ns | 0.0443 ns |  1.00 |
-| PolynomialExp | 2        | 17.293 ns | 0.0481 ns |  1.14 |
-|               |          |           |           |       |
-| TrivialExp    | 5        | 29.160 ns | 0.0399 ns |  1.00 |
-| PolynomialExp | 5        | 33.342 ns | 0.0597 ns |  1.14 |
+| Method        | Exponent | Mean      | Error     | Ratio | 
+|-------------- |--------- |----------:|----------:|------:|-
+| TrivialExp    | -5       | 14.965 ns | 0.1260 ns |  1.00 | 
+| PolynomialExp | -5       | 33.697 ns | 0.2481 ns |  2.25 | 
+|               |          |           |           |       | 
+| TrivialExp    | -2       | 13.885 ns | 0.0917 ns |  1.00 | 
+| PolynomialExp | -2       | 22.154 ns | 0.1284 ns |  1.60 | 
+|               |          |           |           |       | 
+| TrivialExp    | 0        | 11.879 ns | 0.1437 ns |  1.00 | 
+| PolynomialExp | 0        |  1.885 ns | 0.0195 ns |  0.16 | 
+|               |          |           |           |       | 
+| TrivialExp    | 2        | 12.562 ns | 0.1730 ns |  1.00 | 
+| PolynomialExp | 2        | 10.585 ns | 0.0771 ns |  0.84 | 
+|               |          |           |           |       | 
+| TrivialExp    | 5        | 15.017 ns | 0.2204 ns |  1.00 | 
+| PolynomialExp | 5        | 23.441 ns | 0.2045 ns |  1.56 | 
 */

@@ -53,8 +53,8 @@ file static class Cache<TFrom, TTo>
 
 /* Summary *
 
-BenchmarkDotNet v0.13.12, Arch Linux
-Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
+BenchmarkDotNet v0.13.12, Windows 11 (10.0.22631.3007/23H2/2023Update/SunValley3)
+12th Gen Intel Core i7-1260P, 1 CPU, 16 logical and 12 physical cores
 .NET SDK 8.0.101
   [Host]     : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
   DefaultJob : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
@@ -62,8 +62,8 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
 
 | Method                 | Mean      | Error     | Ratio | 
 |----------------------- |----------:|----------:|------:|-
-| EvaluateTrivial        | 2.5300 ns | 0.0105 ns |  1.00 | 
-| EvaluateSuccessive     | 0.8875 ns | 0.0371 ns |  0.35 | 
-| EvaluateCached         | 1.5962 ns | 0.0495 ns |  0.63 | 
-| EvaluateArithmetically | 0.3239 ns | 0.0068 ns |  0.13 | 
+| EvaluateTrivial        | 0.9516 ns | 0.0453 ns |  1.00 | 
+| EvaluateSuccessive     | 0.5052 ns | 0.0224 ns |  0.53 | 
+| EvaluateCached         | 1.6084 ns | 0.0281 ns |  1.69 | 
+| EvaluateArithmetically | 0.0204 ns | 0.0094 ns |  0.02 | 
 */

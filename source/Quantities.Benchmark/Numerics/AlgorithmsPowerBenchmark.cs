@@ -18,8 +18,8 @@ public class AlgorithmsPowerBenchmark
 
 /* Summary *
 
-BenchmarkDotNet v0.13.12, Arch Linux
-Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
+BenchmarkDotNet v0.13.12, Windows 11 (10.0.22631.3007/23H2/2023Update/SunValley3)
+12th Gen Intel Core i7-1260P, 1 CPU, 16 logical and 12 physical cores
 .NET SDK 8.0.101
   [Host]     : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
   DefaultJob : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
@@ -27,15 +27,15 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
 
 | Method        | Exponent | Mean      | Error     | Ratio |
 |-------------- |--------- |----------:|----------:|------:|
-| MathPow       | 2        | 14.779 ns | 0.0418 ns |  1.00 |
-| AlgorithmsPow | 2        |  2.997 ns | 0.0113 ns |  0.20 |
+| MathPow       | 2        | 13.287 ns | 0.1363 ns |  1.00 |
+| AlgorithmsPow | 2        |  1.816 ns | 0.0113 ns |  0.14 |
 |               |          |           |           |       |
-| MathPow       | 5        | 15.207 ns | 0.0110 ns |  1.00 |
-| AlgorithmsPow | 5        |  5.935 ns | 0.0178 ns |  0.39 |
+| MathPow       | 5        | 13.292 ns | 0.0695 ns |  1.00 |
+| AlgorithmsPow | 5        |  4.139 ns | 0.0549 ns |  0.31 |
 |               |          |           |           |       |
-| MathPow       | 12       | 15.029 ns | 0.0273 ns |  1.00 |
-| AlgorithmsPow | 12       |  9.869 ns | 0.0387 ns |  0.66 |
+| MathPow       | 12       | 13.633 ns | 0.1344 ns |  1.00 |
+| AlgorithmsPow | 12       |  5.899 ns | 0.0895 ns |  0.43 |
 |               |          |           |           |       |
-| MathPow       | 23       | 14.696 ns | 0.0329 ns |  1.00 |
-| AlgorithmsPow | 23       |  8.850 ns | 0.0203 ns |  0.60 |
+| MathPow       | 23       | 13.591 ns | 0.0869 ns |  1.00 |
+| AlgorithmsPow | 23       |  8.056 ns | 0.0537 ns |  0.59 |
 */

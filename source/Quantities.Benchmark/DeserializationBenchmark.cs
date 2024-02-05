@@ -36,20 +36,20 @@ public class DeserializationBenchmark
 
 /* Summary *
 
-BenchmarkDotNet v0.13.12, Arch Linux
-Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
+BenchmarkDotNet v0.13.12, Windows 11 (10.0.22631.3007/23H2/2023Update/SunValley3)
+12th Gen Intel Core i7-1260P, 1 CPU, 16 logical and 12 physical cores
 .NET SDK 8.0.101
   [Host]     : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
   DefaultJob : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
 
 
-| Method                 | Mean       | Error   | Ratio | Allocated | Alloc Ratio |
-|----------------------- |-----------:|--------:|------:|----------:|------------:|
-| SystemTriple           |   171.0 ns | 1.79 ns |  1.00 |      40 B |        1.00 |
-| SystemQuantity         |   596.6 ns | 2.06 ns |  3.49 |     160 B |        4.00 |
-| PrefixedQuantity       |   686.7 ns | 0.76 ns |  4.02 |     224 B |        5.60 |
-| FractionalQuantity     | 1,362.4 ns | 3.68 ns |  7.97 |     744 B |       18.60 |
-| MultiplicativeQuantity | 1,319.7 ns | 4.03 ns |  7.72 |     744 B |       18.60 |
-| PowerQuantity          | 1,125.8 ns | 2.42 ns |  6.59 |     592 B |       14.80 |
-| ScalarPowerQuantity    |   788.2 ns | 1.79 ns |  4.61 |     232 B |        5.80 |
+| Method                 | Mean      | Error     | Ratio | Allocated | Alloc Ratio |
+|----------------------- |----------:|----------:|------:|----------:|------------:|
+| SystemTriple           |  88.86 ns |  1.264 ns |  1.00 |      40 B |        1.00 |
+| SystemQuantity         | 317.09 ns |  3.436 ns |  3.57 |     160 B |        4.00 |
+| PrefixedQuantity       | 363.72 ns |  3.821 ns |  4.09 |     224 B |        5.60 |
+| FractionalQuantity     | 702.82 ns |  6.623 ns |  7.88 |     744 B |       18.60 |
+| MultiplicativeQuantity | 696.38 ns | 13.537 ns |  7.83 |     744 B |       18.60 |
+| PowerQuantity          | 587.81 ns |  6.686 ns |  6.63 |     592 B |       14.80 |
+| ScalarPowerQuantity    | 435.96 ns |  3.718 ns |  4.90 |     232 B |        5.80 |
 */

@@ -1,10 +1,12 @@
 ﻿using Quantities.Core.Numerics;
 using Quantities.Core.Serialization;
+using Quantities.Measures;
 
 namespace Quantities.Core;
 
 internal abstract class Measure
 {
+    public static Measure Identity => Of<Identity>();
     private readonly Polynomial conversion;
     private Measure(in Polynomial conversion) => this.conversion = conversion;
     public Double Project(Measure other, in Double value) => this.conversion / other.conversion * value;

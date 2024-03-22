@@ -3,7 +3,8 @@
   <Import Project="../Serialization.Pack.targets"/>
 
   <PropertyGroup>
-    <Version>1.1.0</Version>
+    <Version>1.1.1</Version>
+    <RootDirectory>../../../</RootDirectory>
     <RootNamespace>Quantities.Serialization.Newtonsoft</RootNamespace>
     <PackageTags>$(PackageTags), json, newtonsoft, newtonsoft.json, newtonsoft-json</PackageTags>
     <Description>Serialization of Atmoos.Quantities types with Newtonsoft.Json.</Description>

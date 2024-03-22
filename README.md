@@ -1,8 +1,14 @@
+<!-- markdownlint-disable-next-line MD041 -->
+![Logo](./assets/images/atmoos.quantities.svg)
+<!-- markdownlint-disable-next-line MD033 -->
+<link rel="stylesheet" href="./assets/styles.css">
+
 # Quantities
 
 A library to safely handle various types of quantities, typically physical quantities.
 
 [![master status](https://github.com/atmoos/Quantities/actions/workflows/dotnet.yml/badge.svg)](https://github.com/atmoos/Quantities/actions/workflows/dotnet.yml)
+[![nuget package](https://img.shields.io/nuget/v/Atmoos.Quantities.svg?logo=nuget)](https://www.nuget.org/packages/Atmoos.Quantities)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/atmoos/Quantities/blob/master/LICENSE)
 
 ## Examples
@@ -112,3 +118,8 @@ Console.WriteLine($"Equal amount of data: {kiloByte.Equals(kibiByte)}"); // Equa
 Yes. The API has stabilised. Furthermore, the library outperforms naive implementations both in terms of performance and accuracy. Additionally, any combination of prefix and unit is supported out of the box for si and metric quantities.
 
 Also, this library supports serialization for json with both `System.Text.Json` and `Newtonsoft.Json`. If a specific form of serialization is required, the library provides api's to extend it with custom serialization. (See [write](./source/Quantities/Core/Serialization/IWriter.cs) and [read](./source/Quantities/Serialization/QuantityFactory.cs) support.)
+
+## Thanks
+
+- to contributors for providing feedback and ideas.
+- to my sister [Lucy Kägi](https://www.lucykaegi.ch/) for creating the [logo](assets/images/atmoos.quantities.svg).

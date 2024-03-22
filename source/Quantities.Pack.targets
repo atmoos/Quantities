@@ -4,6 +4,7 @@
   <PropertyGroup>
     <Authors>Thomas Kägi</Authors>
     <Copyright>Thomas Kägi</Copyright>
+    <PackageIcon>icon.png</PackageIcon>
     <PackageProjectUrl>https://github.com/atmoos/Quantities</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>units, quantities, measures, measurements, unitsofmeasure, units-of-measure, units-of-measurement, conversion, unit-conversion, units-measures-converter</PackageTags>
@@ -14,6 +15,7 @@
 
   <ItemGroup>
     <None Include="readme.md" Pack="true" PackagePath="\"/>
+    <None Include="$(RootDirectory)assets\images\nuget.png" Pack="true" PackagePath="\icon.png"/>
   </ItemGroup>
 
   <ItemGroup>

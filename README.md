@@ -1,7 +1,8 @@
-<!-- markdownlint-disable-next-line MD041 -->
-![Logo](./assets/images/atmoos.quantities.svg)
-<!-- markdownlint-disable-next-line MD033 -->
-<link rel="stylesheet" href="./assets/styles.css">
+<!-- markdownlint-disable MD033 MD041 -->
+<div align="center">
+ <img src="./assets/images/atmoos.quantities.svg" height="160" alt="Logo">
+</div>
+<!-- markdownlint-enable MD033 MD041 -->
 
 # Quantities
 

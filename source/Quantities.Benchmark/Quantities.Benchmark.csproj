@@ -20,7 +20,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="UnitsNet" Version="5.43.0" />
+    <PackageReference Include="UnitsNet" Version="5.49.0" />
+    <PackageReference Include="QuantityTypes" Version="5.0.0" />
+    <PackageReference Include="Towel" Version="1.0.40" />
     <PackageReference Include="BenchmarkDotNet" Version="0.13.12" />
   </ItemGroup>
 

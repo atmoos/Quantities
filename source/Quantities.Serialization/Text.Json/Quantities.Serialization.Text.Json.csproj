@@ -3,14 +3,15 @@
   <Import Project="../Serialization.Pack.targets"/>
 
   <PropertyGroup>
-    <Version>1.1.0</Version>
+    <Version>1.1.1</Version>
+    <RootDirectory>../../../</RootDirectory>
     <RootNamespace>Quantities.Serialization.Text.Json</RootNamespace>
     <PackageTags>$(PackageTags), json, text.json, system.text.json, system-text-json</PackageTags>
     <Description>Serialization of Atmoos.Quantities types with System.Text.Json.</Description>
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="Atmoos.Quantities" Version="1.1.0" />
+    <PackageReference Include="Atmoos.Quantities" Version="1.1.1" />
   </ItemGroup>
 
 </Project>

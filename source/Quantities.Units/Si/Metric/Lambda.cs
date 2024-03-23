@@ -8,6 +8,6 @@ public readonly struct Lambda : IMetricUnit, IVolume, IAlias<ILength>
 {
     internal const Double fromCubicMetre = 1e9; // 1e9 λ = 1 m³
     public static Transformation ToSi(Transformation self) => self / fromCubicMetre;
-    static T IAlias<ILength>.Inject<T>(ISystems<ILength, T> basis) => basis.Si<Metre>();
+    static T ISystemInject<ILength>.Inject<T>(ISystems<ILength, T> basis) => basis.Si<Metre>();
     public static String Representation => "λ";
 }

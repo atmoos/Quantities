@@ -64,6 +64,15 @@ public interface ICubic<out TQuantity, in TDimension, in TLinear> : IAlias<TQuan
     public static abstract TQuantity Of<TUnit>(in Double value, in Cubic<TUnit> measure) where TUnit : TLinear, IUnit;
 }
 
+public interface IInvertible<out TQuantity, in TDimension, in TInverse>
+    where TQuantity : IInvertible<TQuantity, TDimension, TInverse>, TDimension
+    where TDimension : IDimension, IInverse<TInverse>, ILinear
+    where TInverse : IDimension, ILinear
+{
+    public TQuantity To<TUnit>(in Scalar<TUnit> other) where TUnit : TDimension, IInvertible<TInverse>, IUnit;
+    public static abstract TQuantity Of<TUnit>(in Double value, in Scalar<TUnit> measure) where TUnit : TDimension, IInvertible<TInverse>, IUnit;
+}
+
 public interface IAlias<out TQuantity, in TDimension, in TLinear>
     where TQuantity : IAlias<TQuantity, TDimension, TLinear>, TDimension
     where TDimension : IDimension

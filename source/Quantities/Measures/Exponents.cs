@@ -14,3 +14,9 @@ internal readonly struct Cubic : IExponent
 {
     public static Int32 E => 3;
 }
+
+internal readonly struct InverseExp<TExp> : IExponent
+ where TExp : IExponent
+{
+    public static Int32 E { get; } = -TExp.E;
+}

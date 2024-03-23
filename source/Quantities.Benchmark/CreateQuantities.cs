@@ -72,20 +72,20 @@ public class CreateQuantities
 
 BenchmarkDotNet v0.13.12, Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK 8.0.101
-  [Host]     : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
-  DefaultJob : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
+.NET SDK 8.0.103
+  [Host]     : .NET 8.0.3 (8.0.324.11423), X64 RyuJIT AVX2
+  DefaultJob : .NET 8.0.3 (8.0.324.11423), X64 RyuJIT AVX2
 
 
 | Method                         | Mean       | Error     | Ratio | Allocated | Alloc Ratio |
 |------------------------------- |-----------:|----------:|------:|----------:|------------:|
-| CreateObject                   |  6.4661 ns | 0.0478 ns |  1.00 |      24 B |        1.00 |
-| CreateStruct                   |  1.1826 ns | 0.0065 ns |  0.18 |         - |        0.00 |
-| CreateScalarQuantity           |  0.8521 ns | 0.0069 ns |  0.13 |         - |        0.00 |
-| CreateScalarQuantityWithoutOpt |  3.4100 ns | 0.0053 ns |  0.53 |         - |        0.00 |
-| CreateQuotientQuantity         | 13.4490 ns | 0.2649 ns |  2.08 |         - |        0.00 |
-| CreateProductQuantity          | 14.4045 ns | 0.0578 ns |  2.23 |         - |        0.00 |
-| CreateCachedProductQuantity    |  1.1532 ns | 0.0111 ns |  0.18 |         - |        0.00 |
-| CreateScalarPowerQuantity      | 10.5036 ns | 0.0530 ns |  1.63 |         - |        0.00 |
-| CreateSquarePowerQuantity      |  1.0484 ns | 0.0153 ns |  0.16 |         - |        0.00 |
+| CreateObject                   |  6.7878 ns | 0.0640 ns |  1.00 |      24 B |        1.00 |
+| CreateStruct                   |  1.3145 ns | 0.0108 ns |  0.19 |         - |        0.00 |
+| CreateScalarQuantity           |  1.0382 ns | 0.0052 ns |  0.15 |         - |        0.00 |
+| CreateScalarQuantityWithoutOpt |  3.5620 ns | 0.0695 ns |  0.52 |         - |        0.00 |
+| CreateQuotientQuantity         | 15.7592 ns | 0.0932 ns |  2.32 |         - |        0.00 |
+| CreateProductQuantity          | 13.9695 ns | 0.2699 ns |  2.06 |         - |        0.00 |
+| CreateCachedProductQuantity    |  1.0291 ns | 0.0509 ns |  0.15 |         - |        0.00 |
+| CreateScalarPowerQuantity      | 14.0329 ns | 0.0562 ns |  2.07 |         - |        0.00 |
+| CreateSquarePowerQuantity      |  0.7702 ns | 0.0455 ns |  0.11 |         - |        0.00 |
 */

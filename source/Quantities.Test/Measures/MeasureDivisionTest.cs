@@ -10,8 +10,8 @@ public class MeasureDivisionTest
     [Fact]
     public void IdentityPerAnyIsInverseAny()
     {
-        var conversion = Expect<Quotient<Identity, Si<Micro, Second>>>.IsQuotientOf<Identity, Si<Micro, Second>>();
-        Assert.Equal(One / Of<Micro>(), conversion);
+        var conversion = Expect<Inverse<Si<Micro, Second>>>.IsQuotientOf<Identity, Si<Micro, Second>>();
+        Assert.Equal(One, conversion);
     }
     [Fact]
     public void AnyPerIdentityIsAny()

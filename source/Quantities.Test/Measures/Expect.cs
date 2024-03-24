@@ -6,7 +6,22 @@ internal static class Expect<TResult>
     where TResult : IMeasure
 {
     private static readonly Measure expected = Measure.Of<TResult>();
-    public static Polynomial IsProductOf<TLeft, TRight>()
+
+    public static Polynomial ToBeInverseOf<TMeasure>(String expectedRepresentation)
+        where TMeasure : IMeasure
+    {
+        var measure = Measure.Of<TMeasure>();
+
+        var result = measure.Invert();
+        var actual = (Measure)result;
+
+        Assert.Same(expected, actual);
+        Assert.Equal(expectedRepresentation, actual.ToString());
+        return (Polynomial)result;
+
+    }
+
+    public static Polynomial ToBeProductOf<TLeft, TRight>()
         where TLeft : IMeasure
         where TRight : IMeasure
     {
@@ -18,7 +33,7 @@ internal static class Expect<TResult>
         Assert.Same(expected, (Measure)actual);
         return (Polynomial)actual;
     }
-    public static Polynomial IsQuotientOf<TNumerator, TDenominator>()
+    public static Polynomial ToBeQuotientOf<TNumerator, TDenominator>()
         where TNumerator : IMeasure
         where TDenominator : IMeasure
     {

@@ -8,6 +8,6 @@ public readonly struct Stere : IMetricUnit, IVolume, IAlias<ILength>
 {
     // one stere is defined as one cubic metre.
     public static Transformation ToSi(Transformation value) => value;
-    static T IAlias<ILength>.Inject<T>(ISystems<ILength, T> basis) => basis.Si<Metre>();
+    static T ISystemInject<ILength>.Inject<T>(ISystems<ILength, T> basis) => basis.Si<Metre>();
     public static String Representation => "st";
 }

@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Quantities.Dimensions;
+﻿using Quantities.Dimensions;
 using Xunit.Sdk;
 
 namespace Quantities.Test.Dimensions;

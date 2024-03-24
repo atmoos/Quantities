@@ -34,6 +34,7 @@ public readonly struct DummyStruct : ICastOperators<DummyStruct, Double>
 //[EventPipeProfiler(EventPipeProfile.CpuSampling)]
 public class CreateQuantities
 {
+    private static readonly Creation.Scalar<Hertz> kHz = Si<Kilo, Hertz>();
     private static readonly Creation.Product<Watt, Hour> kwh = Si<Kilo, Watt>().Times(Metric<Hour>());
     private static readonly Random random = new();
     private readonly Double value = random.NextDouble();
@@ -66,6 +67,12 @@ public class CreateQuantities
 
     [Benchmark]
     public Area CreateSquarePowerQuantity() => Area.Of(in this.value, Square(Si<Metre>()));
+
+    [Benchmark]
+    public Frequency CreateInvertibleQuantity() => Frequency.Of(in this.value, Si<Hertz>());
+
+    [Benchmark]
+    public Frequency CreateCachedInvertibleQuantity() => Frequency.Of(in this.value, in kHz);
 }
 
 /* Summary *
@@ -79,13 +86,15 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
 
 | Method                         | Mean       | Error     | Ratio | Allocated | Alloc Ratio |
 |------------------------------- |-----------:|----------:|------:|----------:|------------:|
-| CreateObject                   |  6.7878 ns | 0.0640 ns |  1.00 |      24 B |        1.00 |
-| CreateStruct                   |  1.3145 ns | 0.0108 ns |  0.19 |         - |        0.00 |
-| CreateScalarQuantity           |  1.0382 ns | 0.0052 ns |  0.15 |         - |        0.00 |
-| CreateScalarQuantityWithoutOpt |  3.5620 ns | 0.0695 ns |  0.52 |         - |        0.00 |
-| CreateQuotientQuantity         | 15.7592 ns | 0.0932 ns |  2.32 |         - |        0.00 |
-| CreateProductQuantity          | 13.9695 ns | 0.2699 ns |  2.06 |         - |        0.00 |
-| CreateCachedProductQuantity    |  1.0291 ns | 0.0509 ns |  0.15 |         - |        0.00 |
-| CreateScalarPowerQuantity      | 14.0329 ns | 0.0562 ns |  2.07 |         - |        0.00 |
-| CreateSquarePowerQuantity      |  0.7702 ns | 0.0455 ns |  0.11 |         - |        0.00 |
+| CreateObject                   |  7.2560 ns | 0.0666 ns |  1.00 |      24 B |        1.00 |
+| CreateStruct                   |  1.2198 ns | 0.0159 ns |  0.17 |         - |        0.00 |
+| CreateScalarQuantity           |  1.0194 ns | 0.0059 ns |  0.14 |         - |        0.00 |
+| CreateScalarQuantityWithoutOpt |  3.3624 ns | 0.0942 ns |  0.47 |         - |        0.00 |
+| CreateQuotientQuantity         | 15.6573 ns | 0.0503 ns |  2.16 |         - |        0.00 |
+| CreateProductQuantity          | 14.8361 ns | 0.0314 ns |  2.05 |         - |        0.00 |
+| CreateCachedProductQuantity    |  0.7745 ns | 0.0038 ns |  0.11 |         - |        0.00 |
+| CreateScalarPowerQuantity      | 15.5596 ns | 0.0925 ns |  2.14 |         - |        0.00 |
+| CreateSquarePowerQuantity      |  0.8693 ns | 0.0160 ns |  0.12 |         - |        0.00 |
+| CreateInvertibleQuantity       | 14.4266 ns | 0.0360 ns |  1.99 |         - |        0.00 |
+| CreateCachedInvertibleQuantity | 12.5255 ns | 0.0443 ns |  1.73 |         - |        0.00 |
 */

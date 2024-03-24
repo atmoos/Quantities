@@ -30,21 +30,43 @@ internal abstract class Factory
         public override Measure Create() => Measure.Of<TMeasure>();
         public override Measure Square() => Measure.Of<Power<Square, TMeasure>>();
         public override Measure Cubic() => Measure.Of<Power<Cubic, TMeasure>>();
-        public override Measure AliasOf<TUnit, TLinear>() => InjectionOf<TUnit, TLinear, AliasInjectionFactory<TLinear, TMeasure>>.Measure;
-        public override Measure InverseOf<TUnit, TLinear>() => InjectionOf<TUnit, TLinear, InversionInjectionFactory<TLinear, TMeasure>>.Measure;
+        public override Measure AliasOf<TUnit, TLinear>() => InjectionOf<TUnit, TLinear, AliasInjectionFactory<TLinear>>.Measure;
+        public override Measure InverseOf<TUnit, TLinear>() => InjectionOf<TUnit, TLinear, InversionInjectionFactory<TLinear>>.Measure;
         public override TResult Inject<TResult>(IInject<TResult> inject) => inject.Inject<TMeasure>();
-    }
 
-    private sealed class ProductInject<TLeftTerm> : IInject<Factory>
-        where TLeftTerm : IMeasure
-    {
-        public Factory Inject<TMeasure>() where TMeasure : IMeasure => Of<Measures.Product<TLeftTerm, TMeasure>>();
-    }
+        private sealed class AliasInjectionFactory<TLinear> : ISystems<TLinear, Measure>
+            where TLinear : IDimension
+        {
+            public Measure Si<TUnit>()
+                where TUnit : ISiUnit, TLinear
+                    => Measure.Of<Alias<TMeasure, Si<TUnit>>>();
+            public Measure Metric<TUnit>()
+                where TUnit : IMetricUnit, TLinear
+                    => Measure.Of<Alias<TMeasure, Metric<TUnit>>>();
+            public Measure Imperial<TUnit>()
+                where TUnit : IImperialUnit, TLinear
+                    => Measure.Of<Alias<TMeasure, Imperial<TUnit>>>();
+            public Measure NonStandard<TUnit>()
+                where TUnit : INonStandardUnit, TLinear
+                    => Measure.Of<Alias<TMeasure, NonStandard<TUnit>>>();
+        }
 
-    private sealed class QuotientInject<TLeftTerm> : IInject<Factory>
-        where TLeftTerm : IMeasure
-    {
-        public Factory Inject<TMeasure>() where TMeasure : IMeasure => Of<Measures.Quotient<TLeftTerm, TMeasure>>();
+        private sealed class InversionInjectionFactory<TLinear> : ISystems<TLinear, Measure>
+            where TLinear : IDimension
+        {
+            public Measure Si<TUnit>()
+                where TUnit : ISiUnit, TLinear
+                    => Measure.Of<Inverse<TMeasure, Si<TUnit>>>();
+            public Measure Metric<TUnit>()
+                where TUnit : IMetricUnit, TLinear
+                    => Measure.Of<Inverse<TMeasure, Metric<TUnit>>>();
+            public Measure Imperial<TUnit>()
+                where TUnit : IImperialUnit, TLinear
+                    => Measure.Of<Inverse<TMeasure, Imperial<TUnit>>>();
+            public Measure NonStandard<TUnit>()
+                where TUnit : INonStandardUnit, TLinear
+                    => Measure.Of<Inverse<TMeasure, NonStandard<TUnit>>>();
+        }
     }
 }
 
@@ -56,38 +78,14 @@ file static class InjectionOf<TUnit, TLinear, TFactory>
     public static Measure Measure { get; } = TUnit.Inject(new TFactory());
 }
 
-file sealed class AliasInjectionFactory<TLinear, TOuter> : ISystems<TLinear, Measure>
-    where TOuter : IMeasure
-    where TLinear : IDimension
+file sealed class ProductInject<TLeftTerm> : IInject<Factory>
+    where TLeftTerm : IMeasure
 {
-    public Measure Si<TUnit>()
-        where TUnit : ISiUnit, TLinear
-            => Measure.Of<Alias<TOuter, Si<TUnit>>>();
-    public Measure Metric<TUnit>()
-        where TUnit : IMetricUnit, TLinear
-            => Measure.Of<Alias<TOuter, Metric<TUnit>>>();
-    public Measure Imperial<TUnit>()
-        where TUnit : IImperialUnit, TLinear
-            => Measure.Of<Alias<TOuter, Imperial<TUnit>>>();
-    public Measure NonStandard<TUnit>()
-        where TUnit : INonStandardUnit, TLinear
-            => Measure.Of<Alias<TOuter, NonStandard<TUnit>>>();
+    public Factory Inject<TMeasure>() where TMeasure : IMeasure => Factory.Of<Measures.Product<TLeftTerm, TMeasure>>();
 }
 
-file sealed class InversionInjectionFactory<TLinear, TOuter> : ISystems<TLinear, Measure>
-    where TOuter : IMeasure
-    where TLinear : IDimension
+file sealed class QuotientInject<TLeftTerm> : IInject<Factory>
+    where TLeftTerm : IMeasure
 {
-    public Measure Si<TUnit>()
-        where TUnit : ISiUnit, TLinear
-            => Measure.Of<Inverse<TOuter, Si<TUnit>>>();
-    public Measure Metric<TUnit>()
-        where TUnit : IMetricUnit, TLinear
-            => Measure.Of<Inverse<TOuter, Metric<TUnit>>>();
-    public Measure Imperial<TUnit>()
-        where TUnit : IImperialUnit, TLinear
-            => Measure.Of<Inverse<TOuter, Imperial<TUnit>>>();
-    public Measure NonStandard<TUnit>()
-        where TUnit : INonStandardUnit, TLinear
-            => Measure.Of<Inverse<TOuter, NonStandard<TUnit>>>();
+    public Factory Inject<TMeasure>() where TMeasure : IMeasure => Factory.Of<Measures.Quotient<TLeftTerm, TMeasure>>();
 }

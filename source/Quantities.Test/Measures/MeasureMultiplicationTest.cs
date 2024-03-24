@@ -1,4 +1,5 @@
 ﻿using Quantities.Measures;
+using Quantities.Units.Si.Derived;
 using Quantities.Units.Si.Metric;
 
 using static Quantities.Core.Numerics.Polynomial;
@@ -37,5 +38,11 @@ public class MeasureMultiplicationTest
     {
         var conversion = Expect<Power<Cubic, Metric<Hour>>>.ToBeProductOf<Metric<Hour>, Power<Square, Metric<Day>>>();
         Assert.Equal((Of<Day>().Pow(2) / Of<Hour>()).Simplify(), conversion);
+    }
+    [Fact]
+    public void ProductOfMeasureTimesItsInverseIsIdentity()
+    {
+        var conversion = Expect<Identity>.ToBeProductOf<Metric<Hour>, Si<Hertz>>();
+        Assert.Equal(Of<Hour>().Simplify(), conversion);
     }
 }

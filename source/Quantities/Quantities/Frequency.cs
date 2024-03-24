@@ -36,5 +36,4 @@ public readonly struct Frequency : IQuantity<Frequency>, IFrequency
 
     public static Time operator /(Double scalar, Frequency frequency) => Time.From(scalar, in frequency);
     public static Double operator *(Frequency frequency, Time time) => frequency.frequency * time.Value;
-
 }

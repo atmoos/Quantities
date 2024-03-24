@@ -18,7 +18,7 @@ internal readonly struct Quantity : IEquatable<Quantity>, IFormattable
 {
     private readonly Double value;
     private readonly Measure measure;
-    internal Quantity(in Double value, in Measure map) => (this.measure, this.value) = (map, value);
+    internal Quantity(in Double value, in Measure measure) => (this.measure, this.value) = (measure, value);
     public Quantity Project(in Measure other) => ReferenceEquals(this.measure, other)
         ? this : new Quantity(this.measure.Project(other, in this.value), in other);
     private Double Project(in Quantity other) => ReferenceEquals(this.measure, other.measure)
@@ -58,7 +58,6 @@ internal readonly struct Quantity : IEquatable<Quantity>, IFormattable
     public static Boolean operator >=(Quantity left, Quantity right) => left.value >= left.Project(in right);
     public static Boolean operator <(Quantity left, Quantity right) => left.value < left.Project(in right);
     public static Boolean operator <=(Quantity left, Quantity right) => left.value <= left.Project(in right);
-
     public static Quantity operator *(Quantity left, Quantity right)
     {
         Result product = left.measure.Multiply(right.measure);
@@ -75,7 +74,7 @@ internal readonly struct Quantity : IEquatable<Quantity>, IFormattable
     public static Quantity operator /(Quantity left, Double scalar) => new(left.value / scalar, in left.measure);
     public static Quantity operator /(Double scalar, Quantity right)
     {
-        var inverse = Measure.Identity.Divide(right.measure);
+        var inverse = right.measure.Invert();
         return new(inverse * scalar / right.value, inverse);
     }
 

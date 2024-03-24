@@ -18,6 +18,7 @@ file interface ICompute
     static abstract Result Divide<TMeasure>() where TMeasure : IMeasure;
 }
 
+// Try making this a class scoped to this file only.
 internal readonly struct Identity : IMeasure, ILinear
 {
     private static readonly String name = nameof(Identity).ToLowerInvariant();

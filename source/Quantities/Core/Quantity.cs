@@ -74,18 +74,17 @@ internal readonly struct Quantity : IEquatable<Quantity>, IFormattable
     public static Quantity operator /(Quantity left, Double scalar) => new(left.value / scalar, in left.measure);
     public static Quantity operator /(Double scalar, Quantity right)
     {
-        var inverse = right.measure.Invert();
+        Result inverse = right.measure.Invert();
         return new(inverse * scalar / right.value, inverse);
     }
-
     public static Quantity operator +(Quantity left, Quantity right)
     {
-        var rightValue = left.Project(in right);
+        Double rightValue = left.Project(in right);
         return new(left.value + rightValue, in left.measure);
     }
     public static Quantity operator -(Quantity left, Quantity right)
     {
-        var rightValue = left.Project(in right);
+        Double rightValue = left.Project(in right);
         return new(left.value - rightValue, in left.measure);
     }
     public static implicit operator Double(Quantity self) => self.value;

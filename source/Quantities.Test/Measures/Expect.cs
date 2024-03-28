@@ -18,7 +18,6 @@ internal static class Expect<TResult>
         Assert.Same(expected, actual);
         Assert.Equal(expectedRepresentation, actual.ToString());
         return (Polynomial)result;
-
     }
 
     public static Polynomial ToBeProductOf<TLeft, TRight>()

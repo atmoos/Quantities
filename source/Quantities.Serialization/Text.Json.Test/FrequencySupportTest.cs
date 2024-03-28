@@ -4,19 +4,19 @@ public class FrequencySupportTest : IInjectedUnitTester<Frequency>
 {
 
     [Theory]
-    [MemberData(nameof(InjectingAreas))]
+    [MemberData(nameof(InjectingFrequencies))]
     public void DeserializationSupportsInjectedUnits(Frequency quantity)
     {
         const Double scalar = 2;
         Time expectedTime = scalar / quantity;
-        Frequency deserializedFrequency = quantity.SupportsSerialization();
 
+        Frequency deserializedFrequency = quantity.SupportsSerialization();
         Time actualTimeFromDeserializedFrequency = scalar / deserializedFrequency;
 
         Assert.Equal(expectedTime.ToString(), actualTimeFromDeserializedFrequency.ToString());
     }
 
-    public static IEnumerable<Object[]> InjectingAreas()
+    public static IEnumerable<Object[]> InjectingFrequencies()
     {
         static IEnumerable<Frequency> Interesting()
         {

@@ -10,6 +10,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- Do not merge in this state! Quantities.Units must reference the nuget packet, not the project!
+         Revert the entire file before merging! -->
     <ProjectReference Include="..\Quantities\Quantities.csproj" />
     <!--PackageReference Include="Atmoos.Quantities" Version="1.1.1" /-->
   </ItemGroup>

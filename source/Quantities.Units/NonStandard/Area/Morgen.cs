@@ -4,7 +4,7 @@ using Quantities.Units.Si;
 namespace Quantities.Units.NonStandard.Area;
 
 // See: https://de.wikipedia.org/wiki/Morgen_(Einheit)
-public readonly struct Morgen : INonStandardUnit, IArea, IAlias<ILength>
+public readonly struct Morgen : INonStandardUnit, IArea, IPowerOf<ILength>
 {
     internal const Double ToSquareMetre = 2500; // Mg -> m²
     public static Transformation ToSi(Transformation value) => ToSquareMetre * value;

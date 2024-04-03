@@ -13,8 +13,8 @@ internal abstract class Factory
     public abstract Measure Square();
     public abstract Measure Cubic();
     public abstract TResult Inject<TResult>(IInject<TResult> inject);
-    public abstract Measure AliasOf<TUnit, TLinear>()
-        where TUnit : IAlias<TLinear>, IDimension
+    public abstract Measure PowerOf<TUnit, TLinear>()
+        where TUnit : IPowerOf<TLinear>, IDimension
         where TLinear : IDimension, ILinear;
     public abstract Measure InverseOf<TUnit, TLinear>()
         where TUnit : IInvertible<TLinear>, IDimension
@@ -30,7 +30,7 @@ internal abstract class Factory
         public override Measure Create() => Measure.Of<TMeasure>();
         public override Measure Square() => Measure.Of<Power<Square, TMeasure>>();
         public override Measure Cubic() => Measure.Of<Power<Cubic, TMeasure>>();
-        public override Measure AliasOf<TUnit, TLinear>() => InjectionOf<TUnit, TLinear, AliasInjectionFactory<TLinear>>.Measure;
+        public override Measure PowerOf<TUnit, TLinear>() => InjectionOf<TUnit, TLinear, AliasInjectionFactory<TLinear>>.Measure;
         public override Measure InverseOf<TUnit, TLinear>() => InjectionOf<TUnit, TLinear, InversionInjectionFactory<TLinear>>.Measure;
         public override TResult Inject<TResult>(IInject<TResult> inject) => inject.Inject<TMeasure>();
 

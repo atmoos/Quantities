@@ -129,6 +129,8 @@ internal readonly struct Inverse<TSelf> : IMeasure, ILinear
     public static String Representation { get; } = $"{TSelf.Representation}{Tools.ExpToString(-TSelf.D.E)}";
     public static Result Divide<TMeasure>() where TMeasure : IMeasure => ((Measure)ScalarOps<TSelf, TMeasure>.Product).Invert();
     public static Result Multiply<TMeasure>() where TMeasure : IMeasure => ScalarOps<TMeasure, TSelf>.Quotient;
+
+    // ToDo: This should not simply write out self!
     public static void Write(IWriter writer) => TSelf.Write(writer);
 }
 
@@ -142,6 +144,8 @@ internal readonly struct Inverse<TSelf, TInverse> : IMeasure, ILinear
     public static String Representation => TSelf.Representation;
     public static Result Divide<TMeasure>() where TMeasure : IMeasure => ScalarOps<TSelf, TMeasure>.Quotient;
     public static Result Multiply<TMeasure>() where TMeasure : IMeasure => ScalarOps<TSelf, TMeasure>.Product;
+
+    // ToDo: This should not simply write out self!
     public static void Write(IWriter writer) => TSelf.Write(writer);
 }
 
@@ -204,10 +208,8 @@ internal readonly struct Power<TDim, TLinear> : IMeasure
     private static readonly String dimension = typeof(TDim).Name.ToLowerInvariant();
     static Dimension IMeasure.D { get; } = TLinear.D.Pow(TDim.E);
     public static Polynomial Poly { get; } = TLinear.Poly.Pow(TDim.E);
+    public static Result Inverse { get; } = TDim.Invert(new PowerInverse<TLinear>());
     public static String Representation { get; } = $"{TLinear.Representation}{Tools.ExpToString(TDim.E)}";
-
-    // ToDo: This can lead to infinite recursion if implemented using a standard getter!
-    public static Result Inverse => new(Polynomial.One, Measure.Of<Power<InverseExp<TDim>, TLinear>>());
     public static Result Multiply<TOtherMeasure>() where TOtherMeasure : IMeasure => HigherOrderOps<Power<TDim, TLinear>, TLinear, TOtherMeasure>.Product;
     public static Result Divide<TOtherMeasure>() where TOtherMeasure : IMeasure => HigherOrderOps<Power<TDim, TLinear>, TLinear, TOtherMeasure>.Quotient;
     public static void Write(IWriter writer)
@@ -216,6 +218,12 @@ internal readonly struct Power<TDim, TLinear> : IMeasure
         TLinear.Write(writer);
         writer.End();
     }
+}
+
+file sealed class PowerInverse<TLinear> : IInjectExponent<Result>
+    where TLinear : IMeasure
+{
+    public Result Inject<TExponent>() where TExponent : IExponent => new(Polynomial.One, Measure.Of<Power<TExponent, TLinear>>());
 }
 
 file static class SafeInverse<TMeasure>

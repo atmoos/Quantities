@@ -20,10 +20,10 @@ internal sealed class AliasInjector<TLinear>(IInject<IBuilder> injector) : IInje
     public IBuilder Inject<TMeasure>() where TMeasure : IMeasure => injector.Inject<Alias<TMeasure, TLinear>>();
 }
 
-internal sealed class InversionInjector<TInverse>(IInject<IBuilder> injector) : IInject<IBuilder>
+internal sealed class InvertibleInjector<TInverse>(IInject<IBuilder> injector) : IInject<IBuilder>
     where TInverse : IMeasure, ILinear
 {
-    public IBuilder Inject<TMeasure>() where TMeasure : IMeasure => injector.Inject<Inverse<TMeasure, TInverse>>();
+    public IBuilder Inject<TMeasure>() where TMeasure : IMeasure => injector.Inject<Invertible<TMeasure, TInverse>>();
 }
 
 internal sealed class QuotientInjector : IInject<IBuilder>

@@ -44,7 +44,7 @@ internal static class ScalarBuilder
     private static IInject<IBuilder> AliasInjector<TUnit, TDim>(IInject<IBuilder> injector)
         where TDim : IDim, ILinear where TUnit : IPowerOf<TDim> => TUnit.Inject(new InjectorFactory<AliasCreator, TDim>(injector));
     private static IInject<IBuilder> InvertibleInjector<TUnit, TDim>(IInject<IBuilder> injector)
-        where TDim : IDim, ILinear where TUnit : IInvertible<TDim> => TUnit.Inject(new InjectorFactory<InversionCreator, TDim>(injector));
+        where TDim : IDim, ILinear where TUnit : IInvertible<TDim> => TUnit.Inject(new InjectorFactory<InvertibleCreator, TDim>(injector));
     private static Creator GetMethod(String name, Type unit, Type? prefix = null)
     {
         (var types, name) = GetUnitTypeArgs(unit, name);
@@ -80,8 +80,8 @@ file readonly struct AliasCreator : ICreateInjectable
         where TMeasure : IMeasure, ILinear => new AliasInjector<TMeasure>(builder);
 }
 
-file readonly struct InversionCreator : ICreateInjectable
+file readonly struct InvertibleCreator : ICreateInjectable
 {
     public static IInject<IBuilder> Create<TMeasure>(IInject<IBuilder> builder)
-        where TMeasure : IMeasure, ILinear => new InversionInjector<TMeasure>(builder);
+        where TMeasure : IMeasure, ILinear => new InvertibleInjector<TMeasure>(builder);
 }

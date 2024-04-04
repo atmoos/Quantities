@@ -134,7 +134,7 @@ internal readonly struct Inverse<TSelf> : IMeasure, ILinear
     public static void Write(IWriter writer) => TSelf.Write(writer);
 }
 
-internal readonly struct Inverse<TSelf, TInverse> : IMeasure, ILinear
+internal readonly struct Invertible<TSelf, TInverse> : IMeasure, ILinear
     where TSelf : IMeasure
     where TInverse : IMeasure, ILinear
 {
@@ -144,8 +144,6 @@ internal readonly struct Inverse<TSelf, TInverse> : IMeasure, ILinear
     public static String Representation => TSelf.Representation;
     public static Result Divide<TMeasure>() where TMeasure : IMeasure => ScalarOps<TSelf, TMeasure>.Quotient;
     public static Result Multiply<TMeasure>() where TMeasure : IMeasure => ScalarOps<TSelf, TMeasure>.Product;
-
-    // ToDo: This should not simply write out self!
     public static void Write(IWriter writer) => TSelf.Write(writer);
 }
 

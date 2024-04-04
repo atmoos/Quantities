@@ -31,7 +31,7 @@ internal abstract class Factory
         public override Measure Square() => Measure.Of<Power<Square, TMeasure>>();
         public override Measure Cubic() => Measure.Of<Power<Cubic, TMeasure>>();
         public override Measure PowerOf<TUnit, TLinear>() => InjectionOf<TUnit, TLinear, AliasInjectionFactory<TLinear>>.Measure;
-        public override Measure InverseOf<TUnit, TLinear>() => InjectionOf<TUnit, TLinear, InversionInjectionFactory<TLinear>>.Measure;
+        public override Measure InverseOf<TUnit, TLinear>() => InjectionOf<TUnit, TLinear, InvertibleInjectionFactory<TLinear>>.Measure;
         public override TResult Inject<TResult>(IInject<TResult> inject) => inject.Inject<TMeasure>();
 
         private sealed class AliasInjectionFactory<TLinear> : ISystems<TLinear, Measure>
@@ -51,21 +51,21 @@ internal abstract class Factory
                     => Measure.Of<Alias<TMeasure, NonStandard<TUnit>>>();
         }
 
-        private sealed class InversionInjectionFactory<TLinear> : ISystems<TLinear, Measure>
+        private sealed class InvertibleInjectionFactory<TLinear> : ISystems<TLinear, Measure>
             where TLinear : IDimension
         {
             public Measure Si<TUnit>()
                 where TUnit : ISiUnit, TLinear
-                    => Measure.Of<Inverse<TMeasure, Si<TUnit>>>();
+                    => Measure.Of<Invertible<TMeasure, Si<TUnit>>>();
             public Measure Metric<TUnit>()
                 where TUnit : IMetricUnit, TLinear
-                    => Measure.Of<Inverse<TMeasure, Metric<TUnit>>>();
+                    => Measure.Of<Invertible<TMeasure, Metric<TUnit>>>();
             public Measure Imperial<TUnit>()
                 where TUnit : IImperialUnit, TLinear
-                    => Measure.Of<Inverse<TMeasure, Imperial<TUnit>>>();
+                    => Measure.Of<Invertible<TMeasure, Imperial<TUnit>>>();
             public Measure NonStandard<TUnit>()
                 where TUnit : INonStandardUnit, TLinear
-                    => Measure.Of<Inverse<TMeasure, NonStandard<TUnit>>>();
+                    => Measure.Of<Invertible<TMeasure, NonStandard<TUnit>>>();
         }
     }
 }

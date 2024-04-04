@@ -22,7 +22,7 @@ public sealed class FrequencyTest
     }
 
     [Fact]
-    // ToDo: To enable correct time prefix requires issue #5 to be resolved
+    // ToDo #5: Enable correct time prefix
     public void InvertedPrefixedFrequencyIsTimeWithoutPrefix()
     {
         var expected = Time.Of(500, Si<Micro, Second>());
@@ -30,7 +30,7 @@ public sealed class FrequencyTest
 
         Time actual = 1 / freq;
 
-        // ToDo: actual.Matches(expected);
+        // ToDo #5: actual.Matches(expected);
         Assert.Equal(expected, actual);
     }
 

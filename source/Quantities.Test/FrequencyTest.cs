@@ -57,4 +57,18 @@ public sealed class FrequencyTest
 
         Assert.Equal(expected, actual);
     }
+
+    [Fact]
+    public void InvertedTimeIsFrequency()
+    {
+        const Double hertz = 4;
+        var time = Time.Of(1 / hertz, Si<Second>());
+        var frequency = Frequency.Of(hertz, Si<Hertz>());
+
+        Frequency actual = 1 / time;
+
+        // we'll get 4 s⁻¹. Hence, not comparing for matching units!
+        Assert.Equal(frequency, actual);
+        Assert.Equal("4 s⁻¹", actual.ToString());
+    }
 }

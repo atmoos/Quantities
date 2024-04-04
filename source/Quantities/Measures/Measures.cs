@@ -130,7 +130,7 @@ internal readonly struct Inverse<TSelf> : IMeasure, ILinear
     public static Result Divide<TMeasure>() where TMeasure : IMeasure => ((Measure)ScalarOps<TSelf, TMeasure>.Product).Invert();
     public static Result Multiply<TMeasure>() where TMeasure : IMeasure => ScalarOps<TMeasure, TSelf>.Quotient;
 
-    // ToDo: This should not simply write out self!
+    // ToDo: #70 This should not simply write out self!
     public static void Write(IWriter writer) => TSelf.Write(writer);
 }
 

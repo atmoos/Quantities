@@ -25,7 +25,7 @@ internal readonly struct Quantity : IEquatable<Quantity>, IFormattable
         ? other.value : other.measure.Project(this.measure, in other.value);
     public Double Ratio(in Quantity right)
     {
-        var rightValue = Project(in right);
+        Double rightValue = Project(in right);
         return this.value / rightValue;
     }
     public void Write(IWriter writer)
@@ -37,7 +37,7 @@ internal readonly struct Quantity : IEquatable<Quantity>, IFormattable
     {
         const Double min = 1d - 2e-15;
         const Double max = 1d + 2e-15;
-        var projectedOther = Project(in other);
+        Double projectedOther = Project(in other);
         if (projectedOther == 0d) {
             return this.value == 0d;
         }

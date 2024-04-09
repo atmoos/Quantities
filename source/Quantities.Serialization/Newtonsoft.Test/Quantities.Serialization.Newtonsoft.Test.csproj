@@ -8,11 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Quantities.Units\Quantities.Units.csproj" />
     <ProjectReference Include="..\Newtonsoft\Quantities.Serialization.Newtonsoft.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Atmoos.Quantities.Units" Version="1.1.0" />
   </ItemGroup>
 
 </Project>

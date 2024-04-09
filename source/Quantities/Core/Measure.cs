@@ -8,6 +8,7 @@ internal abstract class Measure
     private readonly Polynomial conversion;
     private Measure(in Polynomial conversion) => this.conversion = conversion;
     public Double Project(Measure other, in Double value) => this.conversion / other.conversion * value;
+    public abstract Result Invert();
     public abstract Result Multiply(Measure other);
     protected abstract Result Multiply<TMeasure>() where TMeasure : IMeasure;
     public abstract Result Divide(Measure other);
@@ -19,6 +20,7 @@ internal abstract class Measure
         where TMeasure : IMeasure
     {
         public Impl() : base(TMeasure.Poly) { }
+        public override Result Invert() => TMeasure.Inverse;
         public override Result Multiply(Measure other) => other.Multiply<TMeasure>();
         public override Result Divide(Measure other) => other.Divide<TMeasure>();
         public override void Serialize(IWriter writer) => TMeasure.Write(writer);

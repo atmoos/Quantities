@@ -6,6 +6,17 @@ namespace Quantities.Test;
 public sealed class VolumeTest
 {
     [Fact]
+    public void CubicMetreToString() => FormattingMatches(v => Volume.Of(v, Cubic(Si<Metre>())), "m³");
+    [Fact]
+    public void CubicKiloMetreToString() => FormattingMatches(v => Volume.Of(v, Cubic(Si<Kilo, Metre>())), "km³");
+    [Fact]
+    public void MilliLitreToString() => FormattingMatches(v => Volume.Of(v, Metric<Milli, Litre>()), "mℓ");
+    [Fact]
+    public void CubicFootToString() => FormattingMatches(v => Volume.Of(v, Cubic(Imperial<Foot>())), "ft³");
+    [Fact]
+    public void PintToString() => FormattingMatches(v => Volume.Of(v, Imperial<Pint>()), "pt");
+
+    [Fact]
     public void AddCubicMetres()
     {
         Volume left = Volume.Of(20, Cubic(Si<Metre>()));

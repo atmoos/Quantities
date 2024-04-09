@@ -14,12 +14,16 @@ internal sealed class PowerInjector<TDim> : IInject<IBuilder>
     public IBuilder Inject<TMeasure>() where TMeasure : IMeasure => new Builder<Power<TDim, TMeasure>>();
 }
 
-internal sealed class AliasInjector<TLinear> : IInject<IBuilder>
+internal sealed class AliasInjector<TLinear>(IInject<IBuilder> injector) : IInject<IBuilder>
     where TLinear : IMeasure, ILinear
 {
-    private readonly IInject<IBuilder> inject;
-    public AliasInjector(IInject<IBuilder> inject) => this.inject = inject;
-    public IBuilder Inject<TMeasure>() where TMeasure : IMeasure => this.inject.Inject<Alias<TMeasure, TLinear>>();
+    public IBuilder Inject<TMeasure>() where TMeasure : IMeasure => injector.Inject<Alias<TMeasure, TLinear>>();
+}
+
+internal sealed class InvertibleInjector<TInverse>(IInject<IBuilder> injector) : IInject<IBuilder>
+    where TInverse : IMeasure, ILinear
+{
+    public IBuilder Inject<TMeasure>() where TMeasure : IMeasure => injector.Inject<Invertible<TMeasure, TInverse>>();
 }
 
 internal sealed class QuotientInjector : IInject<IBuilder>

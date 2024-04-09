@@ -6,7 +6,7 @@ internal static class Expect<TResult>
     where TResult : IMeasure
 {
     private static readonly Measure expected = Measure.Of<TResult>();
-    public static Polynomial IsProductOf<TLeft, TRight>()
+    public static Polynomial ToBeProductOf<TLeft, TRight>()
         where TLeft : IMeasure
         where TRight : IMeasure
     {
@@ -18,7 +18,7 @@ internal static class Expect<TResult>
         Assert.Same(expected, (Measure)actual);
         return (Polynomial)actual;
     }
-    public static Polynomial IsQuotientOf<TNumerator, TDenominator>()
+    public static Polynomial ToBeQuotientOf<TNumerator, TDenominator>()
         where TNumerator : IMeasure
         where TDenominator : IMeasure
     {

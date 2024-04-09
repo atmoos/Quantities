@@ -1,7 +1,4 @@
-﻿using Quantities.Dimensions;
-using Quantities.Units.Si.Metric;
-
-using static Quantities.Test.Convenience;
+﻿using Quantities.Units.Si.Metric;
 
 namespace Quantities.Test;
 
@@ -9,6 +6,13 @@ public sealed class LengthTest
 {
     private const Double miles_in_kilometre = 1.609344d;
     private const Double kilometre_in_miles = 1d / miles_in_kilometre;
+
+    [Fact]
+    public void MetreToString() => FormattingMatches(v => Length.Of(v, Si<Metre>()), "m");
+    [Fact]
+    public void KiloMetreToString() => FormattingMatches(v => Length.Of(v, Si<Kilo, Metre>()), "km");
+    [Fact]
+    public void MileToString() => FormattingMatches(v => Length.Of(v, Imperial<Mile>()), "mi");
 
     [Fact]
     public void MetreToKilometre()

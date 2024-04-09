@@ -10,12 +10,7 @@ namespace Quantities;
 - https://en.wikipedia.org/wiki/Bit
 - https://en.wikipedia.org/wiki/Byte#History
 */
-/* ToDo: Find better naming:
-- AmountOfInformation
-- DataSize
-- AmountOfData
-- Information
-*/
+// ToDo #71: Find better naming
 public readonly struct Data : IQuantity<Data>, IAmountOfInformation
     , IScalar<Data, IAmountOfInformation>
     , IDivisionOperators<Data, Time, DataRate>

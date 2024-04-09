@@ -10,45 +10,45 @@ public class MeasureDivisionTest
     [Fact]
     public void IdentityPerAnyIsInverseAny()
     {
-        var conversion = Expect<Quotient<Identity, Si<Micro, Second>>>.IsQuotientOf<Identity, Si<Micro, Second>>();
+        var conversion = Expect<Quotient<Identity, Si<Micro, Second>>>.ToBeQuotientOf<Identity, Si<Micro, Second>>();
         Assert.Equal(One / Of<Micro>(), conversion);
     }
     [Fact]
     public void AnyPerIdentityIsAny()
     {
-        var conversion = Expect<Si<Pico, Second>>.IsQuotientOf<Si<Pico, Second>, Identity>();
+        var conversion = Expect<Si<Pico, Second>>.ToBeQuotientOf<Si<Pico, Second>, Identity>();
         Assert.Equal(One, conversion);
     }
     [Fact]
     public void ScalarPerOtherScalarIsQuotient()
     {
-        var conversion = Expect<Quotient<Si<Metre>, Si<Second>>>.IsQuotientOf<Si<Metre>, Si<Second>>();
+        var conversion = Expect<Quotient<Si<Metre>, Si<Second>>>.ToBeQuotientOf<Si<Metre>, Si<Second>>();
         Assert.Equal(One, conversion);
     }
     [Fact]
     public void ScalarPerSameScalarIsIdentity()
     {
-        var conversion = Expect<Identity>.IsQuotientOf<Metric<Hour>, Si<Kilo, Second>>();
+        var conversion = Expect<Identity>.ToBeQuotientOf<Metric<Hour>, Si<Kilo, Second>>();
         Assert.Equal((Of<Hour>() / Of<Kilo>()).Simplify(), conversion);
     }
 
     [Fact]
     public void SquareScalarPerSimilarScalarIsScalar()
     {
-        var conversion = Expect<Si<Kilo, Metre>>.IsQuotientOf<Power<Square, Si<Kilo, Metre>>, Imperial<Yard>>();
+        var conversion = Expect<Si<Kilo, Metre>>.ToBeQuotientOf<Power<Square, Si<Kilo, Metre>>, Imperial<Yard>>();
         Assert.Equal((Of<Kilo>() / Of<Yard>()).Simplify(), conversion);
     }
     [Fact]
     public void CubicScalarPerSimilarScalarIsSquare()
     {
-        var conversion = Expect<Power<Square, Si<Kilo, Metre>>>.IsQuotientOf<Power<Cubic, Si<Kilo, Metre>>, Imperial<Foot>>();
+        var conversion = Expect<Power<Square, Si<Kilo, Metre>>>.ToBeQuotientOf<Power<Cubic, Si<Kilo, Metre>>, Imperial<Foot>>();
         Assert.Equal((Of<Kilo>() / Of<Foot>()).Simplify(), conversion);
     }
 
     [Fact]
     public void CubicScalarPerSquareScalarIsScalar()
     {
-        var conversion = Expect<Si<Metre>>.IsQuotientOf<Power<Cubic, Si<Metre>>, Power<Square, Si<Metre>>>();
+        var conversion = Expect<Si<Metre>>.ToBeQuotientOf<Power<Cubic, Si<Metre>>, Power<Square, Si<Metre>>>();
         Assert.Equal(One, conversion);
     }
 }

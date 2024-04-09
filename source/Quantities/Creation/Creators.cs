@@ -3,6 +3,8 @@ using Quantities.Units;
 
 namespace Quantities.Creation;
 
+internal delegate Measure MeasureSelector(Factory factory);
+
 public readonly struct Scalar<TUnit>
     where TUnit : IUnit, IDimension
 {
@@ -14,13 +16,9 @@ public readonly struct Scalar<TUnit>
     public Quotient<TUnit, TDenominator> Per<TDenominator>(in Scalar<TDenominator> denominator)
         where TDenominator : IUnit, IDimension => new(denominator.factory.Inject(this.factory.Quotient));
     internal Quantity Create(in Double value) => new(in value, this.factory.Create());
-    internal Quantity Create<TAlias, TLinear>(in Double value)
-        where TAlias : TUnit, IAlias<TLinear>
-        where TLinear : ILinear, IDimension => new(in value, this.factory.AliasTo<TAlias, TLinear>());
+    internal Quantity Create(in Double value, MeasureSelector selectMeasure) => new(in value, selectMeasure(this.factory));
     internal Quantity Transform(in Quantity other) => other.Project(this.factory.Create());
-    internal Quantity Transform<TAlias, TLinear>(in Quantity other)
-        where TAlias : TUnit, IAlias<TLinear>
-        where TLinear : ILinear, IDimension => other.Project(this.factory.AliasTo<TAlias, TLinear>());
+    internal Quantity Transform(in Quantity other, MeasureSelector selectMeasure) => other.Project(selectMeasure(this.factory));
 }
 
 public readonly struct Product<TLeft, TRight>

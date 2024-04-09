@@ -8,7 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Quantities\Quantities.csproj" />
     <ProjectReference Include="..\..\Quantities.Units\Quantities.Units.csproj" />
     <ProjectReference Include="..\Newtonsoft\Quantities.Serialization.Newtonsoft.csproj" />
   </ItemGroup>

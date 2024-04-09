@@ -375,11 +375,12 @@ public class QuantityTest
         Quantity r = Create<Metre>(2);
         Quantity s = Create<Second>(3);
 
-        // ToDo: Quantity div = (p/q)/(r/s);
         Quantity actualA = (p / q) * (s / r);
         Quantity actualB = (p * s) / (q * r);
+        Quantity actualC = (p / q) / (r / s);
 
         Assert.Equal(actualA, actualB);
+        Assert.Equal(actualA, actualC);
     }
 
     [Fact]

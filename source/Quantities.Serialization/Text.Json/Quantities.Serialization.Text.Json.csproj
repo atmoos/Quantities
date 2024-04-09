@@ -3,7 +3,7 @@
   <Import Project="../Serialization.Pack.targets"/>
 
   <PropertyGroup>
-    <Version>1.1.1</Version>
+    <Version>1.2.0</Version>
     <RootDirectory>../../../</RootDirectory>
     <RootNamespace>Quantities.Serialization.Text.Json</RootNamespace>
     <PackageTags>$(PackageTags), json, text.json, system.text.json, system-text-json</PackageTags>
@@ -11,7 +11,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="Atmoos.Quantities" Version="1.1.1" />
+    <PackageReference Include="Atmoos.Quantities" Version="1.2" />
   </ItemGroup>
 
 </Project>

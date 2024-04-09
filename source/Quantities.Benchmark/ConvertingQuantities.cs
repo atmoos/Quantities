@@ -31,15 +31,15 @@ public class ConvertingQuantities
 
 BenchmarkDotNet v0.13.12, Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK 8.0.101
-  [Host]     : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
-  DefaultJob : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
+.NET SDK 8.0.103
+  [Host]     : .NET 8.0.3 (8.0.324.11423), X64 RyuJIT AVX2
+  DefaultJob : .NET 8.0.3 (8.0.324.11423), X64 RyuJIT AVX2
 
 
 | Method                  | Mean      | Error     | Ratio | Allocated | Alloc Ratio |
 |------------------------ |----------:|----------:|------:|----------:|------------:|
-| TrivialImplementation   |  2.166 ns | 0.0055 ns |  1.00 |         - |          NA |
-| QuantityImplementation  |  3.457 ns | 0.0984 ns |  1.60 |         - |          NA |
-| QuantityToSame          | 14.680 ns | 0.0500 ns |  6.78 |         - |          NA |
-| QuantityToVeryDifferent | 15.641 ns | 0.0234 ns |  7.22 |         - |          NA |
+| TrivialImplementation   |  2.073 ns | 0.0135 ns |  1.00 |         - |          NA |
+| QuantityImplementation  |  3.579 ns | 0.0351 ns |  1.73 |         - |          NA |
+| QuantityToSame          | 14.795 ns | 0.0288 ns |  7.14 |         - |          NA |
+| QuantityToVeryDifferent | 15.621 ns | 0.0210 ns |  7.54 |         - |          NA |
 */

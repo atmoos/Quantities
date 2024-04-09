@@ -47,18 +47,18 @@ public class MultiplyingQuantities
 
 BenchmarkDotNet v0.13.12, Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK 8.0.101
-  [Host]     : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
-  DefaultJob : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
+.NET SDK 8.0.103
+  [Host]     : .NET 8.0.3 (8.0.324.11423), X64 RyuJIT AVX2
+  DefaultJob : .NET 8.0.3 (8.0.324.11423), X64 RyuJIT AVX2
 
 
 | Method                | Mean      | Error     | Ratio | Allocated | Alloc Ratio |
 |---------------------- |----------:|----------:|------:|----------:|------------:|
-| Trivial               | 16.300 ns | 0.0267 ns |  1.00 |         - |          NA |
-| MultiplySi            |  6.998 ns | 0.0881 ns |  0.43 |         - |          NA |
-| MultiplyImperial      |  6.398 ns | 0.0263 ns |  0.39 |         - |          NA |
-| MultiplyMixed         |  6.500 ns | 0.0178 ns |  0.40 |         - |          NA |
-| MultiplyPureSi        |  6.414 ns | 0.0142 ns |  0.39 |         - |          NA |
-| MultiplyPowerQuantity |  7.247 ns | 0.0203 ns |  0.44 |         - |          NA |
-| MultiplyAliasQuantity |  6.529 ns | 0.0179 ns |  0.40 |         - |          NA |
+| Trivial               | 16.520 ns | 0.0574 ns |  1.00 |         - |          NA |
+| MultiplySi            |  6.299 ns | 0.0192 ns |  0.38 |         - |          NA |
+| MultiplyImperial      |  6.334 ns | 0.0276 ns |  0.38 |         - |          NA |
+| MultiplyMixed         |  6.399 ns | 0.0458 ns |  0.39 |         - |          NA |
+| MultiplyPureSi        |  6.220 ns | 0.0464 ns |  0.38 |         - |          NA |
+| MultiplyPowerQuantity |  6.079 ns | 0.0279 ns |  0.37 |         - |          NA |
+| MultiplyAliasQuantity |  6.196 ns | 0.0379 ns |  0.38 |         - |          NA |
 */

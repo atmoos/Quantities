@@ -3,14 +3,14 @@
   <Import Project="../Quantities.Pack.targets"/>
 
   <PropertyGroup>
-    <Version>1.1.1</Version>
+    <Version>1.2.0</Version>
     <RootDirectory>../../</RootDirectory>
     <RootNamespace>Quantities.Units</RootNamespace>
     <Description>Provides many more units for use with Atmoos.Quantities.</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Atmoos.Quantities" Version="1.1.1" />
+    <PackageReference Include="Atmoos.Quantities" Version="1.2" />
   </ItemGroup>
 
 </Project>

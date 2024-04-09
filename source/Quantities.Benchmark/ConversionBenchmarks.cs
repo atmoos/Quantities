@@ -55,15 +55,15 @@ file static class Cache<TFrom, TTo>
 
 BenchmarkDotNet v0.13.12, Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK 8.0.101
-  [Host]     : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
-  DefaultJob : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
+.NET SDK 8.0.103
+  [Host]     : .NET 8.0.3 (8.0.324.11423), X64 RyuJIT AVX2
+  DefaultJob : .NET 8.0.3 (8.0.324.11423), X64 RyuJIT AVX2
 
 
 | Method                 | Mean      | Error     | Ratio | 
 |----------------------- |----------:|----------:|------:|-
-| EvaluateTrivial        | 2.5300 ns | 0.0105 ns |  1.00 | 
-| EvaluateSuccessive     | 0.8875 ns | 0.0371 ns |  0.35 | 
-| EvaluateCached         | 1.5962 ns | 0.0495 ns |  0.63 | 
-| EvaluateArithmetically | 0.3239 ns | 0.0068 ns |  0.13 | 
+| EvaluateTrivial        | 2.4951 ns | 0.0268 ns |  1.00 | 
+| EvaluateSuccessive     | 0.8791 ns | 0.0064 ns |  0.35 | 
+| EvaluateCached         | 1.5942 ns | 0.0632 ns |  0.64 | 
+| EvaluateArithmetically | 0.2955 ns | 0.0082 ns |  0.12 | 
 */

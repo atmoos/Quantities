@@ -86,15 +86,15 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
 
 | Method                         | Mean       | Error     | Ratio | Allocated | Alloc Ratio |
 |------------------------------- |-----------:|----------:|------:|----------:|------------:|
-| CreateObject                   |  7.2560 ns | 0.0666 ns |  1.00 |      24 B |        1.00 |
-| CreateStruct                   |  1.2198 ns | 0.0159 ns |  0.17 |         - |        0.00 |
-| CreateScalarQuantity           |  1.0194 ns | 0.0059 ns |  0.14 |         - |        0.00 |
-| CreateScalarQuantityWithoutOpt |  3.3624 ns | 0.0942 ns |  0.47 |         - |        0.00 |
-| CreateQuotientQuantity         | 15.6573 ns | 0.0503 ns |  2.16 |         - |        0.00 |
-| CreateProductQuantity          | 14.8361 ns | 0.0314 ns |  2.05 |         - |        0.00 |
-| CreateCachedProductQuantity    |  0.7745 ns | 0.0038 ns |  0.11 |         - |        0.00 |
-| CreateScalarPowerQuantity      | 15.5596 ns | 0.0925 ns |  2.14 |         - |        0.00 |
-| CreateSquarePowerQuantity      |  0.8693 ns | 0.0160 ns |  0.12 |         - |        0.00 |
-| CreateInvertibleQuantity       | 14.4266 ns | 0.0360 ns |  1.99 |         - |        0.00 |
-| CreateCachedInvertibleQuantity | 12.5255 ns | 0.0443 ns |  1.73 |         - |        0.00 |
+| CreateObject                   |  6.9026 ns | 0.1083 ns |  1.00 |      24 B |        1.00 |
+| CreateStruct                   |  1.2959 ns | 0.0166 ns |  0.19 |         - |        0.00 |
+| CreateScalarQuantity           |  0.8059 ns | 0.0054 ns |  0.12 |         - |        0.00 |
+| CreateScalarQuantityWithoutOpt |  3.4030 ns | 0.0065 ns |  0.49 |         - |        0.00 |
+| CreateQuotientQuantity         | 14.1086 ns | 0.1600 ns |  2.04 |         - |        0.00 |
+| CreateProductQuantity          | 15.2728 ns | 0.0593 ns |  2.21 |         - |        0.00 |
+| CreateCachedProductQuantity    |  0.7974 ns | 0.0078 ns |  0.12 |         - |        0.00 |
+| CreateScalarPowerQuantity      | 14.8134 ns | 0.2844 ns |  2.15 |         - |        0.00 |
+| CreateSquarePowerQuantity      |  0.7277 ns | 0.0066 ns |  0.11 |         - |        0.00 |
+| CreateInvertibleQuantity       | 14.9650 ns | 0.1502 ns |  2.17 |         - |        0.00 |
+| CreateCachedInvertibleQuantity | 11.3702 ns | 0.0257 ns |  1.64 |         - |        0.00 |
 */

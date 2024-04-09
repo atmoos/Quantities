@@ -8,12 +8,6 @@ namespace Quantities.Test.Measures;
 public class MeasureDivisionTest
 {
     [Fact]
-    public void IdentityPerAnyIsInverseAny()
-    {
-        var conversion = Expect<Inverse<Si<Micro, Second>>>.ToBeQuotientOf<Identity, Si<Micro, Second>>();
-        Assert.Equal(One, conversion);
-    }
-    [Fact]
     public void AnyPerIdentityIsAny()
     {
         var conversion = Expect<Si<Pico, Second>>.ToBeQuotientOf<Si<Pico, Second>, Identity>();

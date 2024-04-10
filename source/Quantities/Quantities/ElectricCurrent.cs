@@ -29,6 +29,10 @@ public readonly struct ElectricCurrent : IQuantity<ElectricCurrent>, IElectricCu
     public static implicit operator Double(ElectricCurrent current) => current.current;
     public static Boolean operator ==(ElectricCurrent left, ElectricCurrent right) => left.Equals(right);
     public static Boolean operator !=(ElectricCurrent left, ElectricCurrent right) => !left.Equals(right);
+    public static Boolean operator >(ElectricCurrent left, ElectricCurrent right) => left.current > right.current;
+    public static Boolean operator >=(ElectricCurrent left, ElectricCurrent right) => left.current >= right.current;
+    public static Boolean operator <(ElectricCurrent left, ElectricCurrent right) => left.current < right.current;
+    public static Boolean operator <=(ElectricCurrent left, ElectricCurrent right) => left.current <= right.current;
     public static ElectricCurrent operator +(ElectricCurrent left, ElectricCurrent right) => new(left.current + right.current);
     public static ElectricCurrent operator -(ElectricCurrent left, ElectricCurrent right) => new(left.current - right.current);
     public static ElectricCurrent operator *(Double scalar, ElectricCurrent right) => new(scalar * right.current);

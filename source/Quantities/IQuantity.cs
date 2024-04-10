@@ -6,6 +6,7 @@ namespace Quantities;
 public interface IQuantity<TSelf> : IEquatable<TSelf>, IFormattable
     , IFactory<TSelf>
     , ICastOperators<TSelf, Double>
+    , IComparisonOperators<TSelf, TSelf, Boolean>
     , IEqualityOperators<TSelf, TSelf, Boolean>
     , IAdditionOperators<TSelf, TSelf, TSelf>
     , ISubtractionOperators<TSelf, TSelf, TSelf>

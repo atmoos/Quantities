@@ -34,6 +34,10 @@ public readonly struct Volume : IQuantity<Volume>, IVolume
     public static implicit operator Double(Volume Volume) => Volume.volume;
     public static Boolean operator ==(Volume left, Volume right) => left.Equals(right);
     public static Boolean operator !=(Volume left, Volume right) => !left.Equals(right);
+    public static Boolean operator >(Volume left, Volume right) => left.volume > right.volume;
+    public static Boolean operator >=(Volume left, Volume right) => left.volume >= right.volume;
+    public static Boolean operator <(Volume left, Volume right) => left.volume < right.volume;
+    public static Boolean operator <=(Volume left, Volume right) => left.volume <= right.volume;
     public static Volume operator +(Volume left, Volume right) => new(left.volume + right.volume);
     public static Volume operator -(Volume left, Volume right) => new(left.volume - right.volume);
     public static Volume operator *(Double scalar, Volume right) => new(scalar * right.volume);

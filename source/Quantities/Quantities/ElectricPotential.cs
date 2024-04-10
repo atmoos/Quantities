@@ -31,6 +31,10 @@ public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectr
     public static implicit operator Double(ElectricPotential potential) => potential.potential;
     public static Boolean operator ==(ElectricPotential left, ElectricPotential right) => left.Equals(right);
     public static Boolean operator !=(ElectricPotential left, ElectricPotential right) => !left.Equals(right);
+    public static Boolean operator >(ElectricPotential left, ElectricPotential right) => left.potential > right.potential;
+    public static Boolean operator >=(ElectricPotential left, ElectricPotential right) => left.potential >= right.potential;
+    public static Boolean operator <(ElectricPotential left, ElectricPotential right) => left.potential < right.potential;
+    public static Boolean operator <=(ElectricPotential left, ElectricPotential right) => left.potential <= right.potential;
     public static ElectricPotential operator +(ElectricPotential left, ElectricPotential right) => new(left.potential + right.potential);
     public static ElectricPotential operator -(ElectricPotential left, ElectricPotential right) => new(left.potential - right.potential);
     public static ElectricPotential operator *(Double scalar, ElectricPotential right) => new(scalar * right.potential);

@@ -33,6 +33,10 @@ public readonly struct Power : IQuantity<Power>, IPower
     public static implicit operator Double(Power power) => power.power;
     public static Boolean operator ==(Power left, Power right) => left.Equals(right);
     public static Boolean operator !=(Power left, Power right) => !left.Equals(right);
+    public static Boolean operator >(Power left, Power right) => left.power > right.power;
+    public static Boolean operator >=(Power left, Power right) => left.power >= right.power;
+    public static Boolean operator <(Power left, Power right) => left.power < right.power;
+    public static Boolean operator <=(Power left, Power right) => left.power <= right.power;
     public static Power operator +(Power left, Power right) => new(left.power + right.power);
     public static Power operator -(Power left, Power right) => new(left.power - right.power);
     public static Power operator *(Double scalar, Power right) => new(scalar * right.power);

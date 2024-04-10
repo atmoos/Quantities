@@ -27,6 +27,10 @@ public readonly struct Frequency : IQuantity<Frequency>, IFrequency
     public static implicit operator Double(Frequency frequency) => frequency.frequency;
     public static Boolean operator ==(Frequency left, Frequency right) => left.Equals(right);
     public static Boolean operator !=(Frequency left, Frequency right) => !left.Equals(right);
+    public static Boolean operator >(Frequency left, Frequency right) => left.frequency > right.frequency;
+    public static Boolean operator >=(Frequency left, Frequency right) => left.frequency >= right.frequency;
+    public static Boolean operator <(Frequency left, Frequency right) => left.frequency < right.frequency;
+    public static Boolean operator <=(Frequency left, Frequency right) => left.frequency <= right.frequency;
     public static Frequency operator +(Frequency left, Frequency right) => new(left.frequency + right.frequency);
     public static Frequency operator -(Frequency left, Frequency right) => new(left.frequency - right.frequency);
     public static Frequency operator *(Double scalar, Frequency right) => new(scalar * right.frequency);

@@ -9,7 +9,7 @@ dotnet test --collect:"XPlat Code Coverage"
 Then:
 
 ```shell
-reportgenerator -reports:$(echo quantities.test/**/*cov*.xml) -targetdir:"coveragereport" -reporttypes:Html
+reportgenerator -reports:$(echo Quantities.Test/**/*cov*.xml) -targetdir:"coveragereport" -reporttypes:Html
 ```
 
 Now, view the coverage in the browser

@@ -11,4 +11,8 @@
     <ProjectReference Include="..\Quantities.Units\Quantities.Units.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="UnitsNet" Version="5.36.0" />
+  </ItemGroup>
+
 </Project>

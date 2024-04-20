@@ -50,16 +50,17 @@ They are all compatible with each other.
 
 The currently supported quantities are:
 
-```text
+```text quantities
 Quantities
 ├── Area
 ├── Data
 ├── DataRate
+├── ElectricalResistance
 ├── ElectricCurrent
 ├── ElectricPotential
-├── ElectricalResistance
 ├── Energy
 ├── Force
+├── Frequency
 ├── Length
 ├── Mass
 ├── Power
@@ -75,21 +76,24 @@ They support a broad range of compatible units as indicated by the examples abov
 
 The following units are included in this library. Please see [Atmoos.Quantities.Units](https://www.nuget.org/packages/Atmoos.Quantities.Units/) for many more units.
 
-```text
+```text units
+Units
 ├── Si
 │   ├── Ampere
 │   ├── Candela
-│   ├── Derived
-│   │   └── Celsius
 │   ├── Kelvin
 │   ├── Kilogram
 │   ├── Metre
-│   ├── Metric
-│   │   ├── Hour
-│   │   ├── Litre
-│   │   └── Minute
 │   ├── Mole
-│   └── Second
+│   ├── Second
+│   └── Metric
+│       ├── Temperature
+│       │   └── Celsius
+│       ├── Time
+│       │   ├── Hour
+│       │   └── Minute
+│       └── Volume
+│           └── Litre
 └── Imperial
     ├── Length
     │   ├── Foot

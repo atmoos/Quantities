@@ -32,6 +32,10 @@ public readonly struct Length : IQuantity<Length>, ILength
     public static implicit operator Double(Length length) => length.length;
     public static Boolean operator ==(Length left, Length right) => left.Equals(right);
     public static Boolean operator !=(Length left, Length right) => !left.Equals(right);
+    public static Boolean operator >(Length left, Length right) => left.length > right.length;
+    public static Boolean operator >=(Length left, Length right) => left.length >= right.length;
+    public static Boolean operator <(Length left, Length right) => left.length < right.length;
+    public static Boolean operator <=(Length left, Length right) => left.length <= right.length;
     public static Length operator +(Length left, Length right) => new(left.length + right.length);
     public static Length operator -(Length left, Length right) => new(left.length - right.length);
     public static Area operator *(Length left, Length right) => Area.From(in left, in right);

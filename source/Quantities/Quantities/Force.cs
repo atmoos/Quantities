@@ -27,6 +27,10 @@ public readonly struct Force : IQuantity<Force>, IForce
     public static implicit operator Double(Force force) => force.force;
     public static Boolean operator ==(Force left, Force right) => left.Equals(right);
     public static Boolean operator !=(Force left, Force right) => !left.Equals(right);
+    public static Boolean operator >(Force left, Force right) => left.force > right.force;
+    public static Boolean operator >=(Force left, Force right) => left.force >= right.force;
+    public static Boolean operator <(Force left, Force right) => left.force < right.force;
+    public static Boolean operator <=(Force left, Force right) => left.force <= right.force;
     public static Force operator +(Force left, Force right) => new(left.force + right.force);
     public static Force operator -(Force left, Force right) => new(left.force - right.force);
     public static Force operator *(Double scalar, Force right) => new(scalar * right.force);

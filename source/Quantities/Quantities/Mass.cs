@@ -24,6 +24,10 @@ public readonly struct Mass : IQuantity<Mass>, IMass
     public static implicit operator Double(Mass mass) => mass.mass;
     public static Boolean operator ==(Mass left, Mass right) => left.Equals(right);
     public static Boolean operator !=(Mass left, Mass right) => !left.Equals(right);
+    public static Boolean operator >(Mass left, Mass right) => left.mass > right.mass;
+    public static Boolean operator >=(Mass left, Mass right) => left.mass >= right.mass;
+    public static Boolean operator <(Mass left, Mass right) => left.mass < right.mass;
+    public static Boolean operator <=(Mass left, Mass right) => left.mass <= right.mass;
     public static Mass operator +(Mass left, Mass right) => new(left.mass + right.mass);
     public static Mass operator -(Mass left, Mass right) => new(left.mass - right.mass);
     public static Mass operator *(Double scalar, Mass right) => new(scalar * right.mass);

@@ -30,6 +30,10 @@ public readonly struct Time : IQuantity<Time>, ITime
     public static implicit operator Double(Time time) => time.time;
     public static Boolean operator ==(Time left, Time right) => left.Equals(right);
     public static Boolean operator !=(Time left, Time right) => !left.Equals(right);
+    public static Boolean operator >(Time left, Time right) => left.time > right.time;
+    public static Boolean operator >=(Time left, Time right) => left.time >= right.time;
+    public static Boolean operator <(Time left, Time right) => left.time < right.time;
+    public static Boolean operator <=(Time left, Time right) => left.time <= right.time;
     public static Time operator +(Time left, Time right) => new(left.time + right.time);
     public static Time operator -(Time left, Time right) => new(left.time - right.time);
     public static Time operator *(Double scalar, Time right) => new(scalar * right.time);

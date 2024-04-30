@@ -27,6 +27,10 @@ public readonly struct ElectricalResistance : IQuantity<ElectricalResistance>, I
     public static implicit operator Double(ElectricalResistance resistance) => resistance.resistance;
     public static Boolean operator ==(ElectricalResistance left, ElectricalResistance right) => left.Equals(right);
     public static Boolean operator !=(ElectricalResistance left, ElectricalResistance right) => !left.Equals(right);
+    public static Boolean operator >(ElectricalResistance left, ElectricalResistance right) => left.resistance > right.resistance;
+    public static Boolean operator >=(ElectricalResistance left, ElectricalResistance right) => left.resistance >= right.resistance;
+    public static Boolean operator <(ElectricalResistance left, ElectricalResistance right) => left.resistance < right.resistance;
+    public static Boolean operator <=(ElectricalResistance left, ElectricalResistance right) => left.resistance <= right.resistance;
     public static ElectricalResistance operator +(ElectricalResistance left, ElectricalResistance right) => new(left.resistance + right.resistance);
     public static ElectricalResistance operator -(ElectricalResistance left, ElectricalResistance right) => new(left.resistance - right.resistance);
     public static ElectricalResistance operator *(Double scalar, ElectricalResistance right) => new(scalar * right.resistance);

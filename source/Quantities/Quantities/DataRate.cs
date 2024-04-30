@@ -35,6 +35,10 @@ public readonly struct DataRate : IQuantity<DataRate>, IInformationRate
     public static implicit operator Double(DataRate rate) => rate.dataRate;
     public static Boolean operator ==(DataRate left, DataRate right) => left.Equals(right);
     public static Boolean operator !=(DataRate left, DataRate right) => !left.Equals(right);
+    public static Boolean operator >(DataRate left, DataRate right) => left.dataRate > right.dataRate;
+    public static Boolean operator >=(DataRate left, DataRate right) => left.dataRate >= right.dataRate;
+    public static Boolean operator <(DataRate left, DataRate right) => left.dataRate < right.dataRate;
+    public static Boolean operator <=(DataRate left, DataRate right) => left.dataRate <= right.dataRate;
     public static DataRate operator +(DataRate left, DataRate right) => new(left.dataRate + right.dataRate);
     public static DataRate operator -(DataRate left, DataRate right) => new(left.dataRate - right.dataRate);
     public static DataRate operator *(Double scalar, DataRate right) => new(scalar * right.dataRate);

@@ -4,30 +4,43 @@ Extends [Atmoos.Quantities](https://www.nuget.org/packages/Atmoos.Quantities/) w
 
 ## Supported Units of Measurement
 
-```text
+```text units
 Quantities.Units
 ├── Si
 │   ├── Derived
-│   │   ├── Joule
-│   │   ├── Newton
-│   │   ├── Ohm
-│   │   ├── Volt
-│   │   └── Watt
+│   │   ├── ElectricalResistance
+│   │   │   └── Ohm
+│   │   ├── ElectricPotential
+│   │   │   └── Volt
+│   │   ├── Energy
+│   │   │   └── Joule
+│   │   ├── Force
+│   │   │   └── Newton
+│   │   ├── Frequency
+│   │   │   └── Hertz
+│   │   └── Power
+│   │       └── Watt
 │   └── Metric
-│       ├── Are
-│       ├── AstronomicalUnit
-│       ├── Day
-│       ├── Gram
-│       ├── HorsePower
-│       ├── Lambda
-│       ├── Stere
-│       ├── Tonne
-│       ├── UnitsOfInformation
+│       ├── AmountOfInformation
 │       │   ├── Bit
 │       │   ├── Byte
 │       │   └── Nibble
-│       ├── Week
-│       └── Ångström
+│       ├── Area
+│       │   └── Are
+│       ├── Length
+│       │   ├── Ångström
+│       │   └── AstronomicalUnit
+│       ├── Mass
+│       │   ├── Gram
+│       │   └── Tonne
+│       ├── Power
+│       │   └── HorsePower
+│       ├── Time
+│       │   ├── Day
+│       │   └── Week
+│       └── Volume
+│           ├── Lambda
+│           └── Stere
 ├── Imperial
 │   ├── Area
 │   │   ├── Acre

@@ -33,6 +33,10 @@ public readonly struct Energy : IQuantity<Energy>, IEnergy
     public static implicit operator Double(Energy energy) => energy.energy;
     public static Boolean operator ==(Energy left, Energy right) => left.Equals(right);
     public static Boolean operator !=(Energy left, Energy right) => !left.Equals(right);
+    public static Boolean operator >(Energy left, Energy right) => left.energy > right.energy;
+    public static Boolean operator >=(Energy left, Energy right) => left.energy >= right.energy;
+    public static Boolean operator <(Energy left, Energy right) => left.energy < right.energy;
+    public static Boolean operator <=(Energy left, Energy right) => left.energy <= right.energy;
     public static Energy operator +(Energy left, Energy right) => new(left.energy + right.energy);
     public static Energy operator -(Energy left, Energy right) => new(left.energy - right.energy);
     public static Energy operator *(Double scalar, Energy right) => new(scalar * right.energy);

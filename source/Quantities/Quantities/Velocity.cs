@@ -35,6 +35,10 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity
     public static implicit operator Double(Velocity velocity) => velocity.velocity;
     public static Boolean operator ==(Velocity left, Velocity right) => left.Equals(right);
     public static Boolean operator !=(Velocity left, Velocity right) => !left.Equals(right);
+    public static Boolean operator >(Velocity left, Velocity right) => left.velocity > right.velocity;
+    public static Boolean operator >=(Velocity left, Velocity right) => left.velocity >= right.velocity;
+    public static Boolean operator <(Velocity left, Velocity right) => left.velocity < right.velocity;
+    public static Boolean operator <=(Velocity left, Velocity right) => left.velocity <= right.velocity;
     public static Velocity operator +(Velocity left, Velocity right) => new(left.velocity + right.velocity);
     public static Velocity operator -(Velocity left, Velocity right) => new(left.velocity - right.velocity);
     public static Velocity operator *(Double scalar, Velocity right) => new(scalar * right.velocity);

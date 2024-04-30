@@ -35,6 +35,10 @@ public readonly struct Data : IQuantity<Data>, IAmountOfInformation
     public static implicit operator Double(Data data) => data.data;
     public static Boolean operator ==(Data left, Data right) => left.Equals(right);
     public static Boolean operator !=(Data left, Data right) => !left.Equals(right);
+    public static Boolean operator >(Data left, Data right) => left.data > right.data;
+    public static Boolean operator >=(Data left, Data right) => left.data >= right.data;
+    public static Boolean operator <(Data left, Data right) => left.data < right.data;
+    public static Boolean operator <=(Data left, Data right) => left.data <= right.data;
     public static Data operator +(Data left, Data right) => new(left.data + right.data);
     public static Data operator -(Data left, Data right) => new(left.data - right.data);
     public static Data operator *(Double scalar, Data right) => new(scalar * right.data);

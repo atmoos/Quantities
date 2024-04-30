@@ -25,6 +25,10 @@ public readonly struct Temperature : IQuantity<Temperature>, ITemperature
     public static implicit operator Double(Temperature temperature) => temperature.temperature;
     public static Boolean operator ==(Temperature left, Temperature right) => left.Equals(right);
     public static Boolean operator !=(Temperature left, Temperature right) => !left.Equals(right);
+    public static Boolean operator >(Temperature left, Temperature right) => left.temperature > right.temperature;
+    public static Boolean operator >=(Temperature left, Temperature right) => left.temperature >= right.temperature;
+    public static Boolean operator <(Temperature left, Temperature right) => left.temperature < right.temperature;
+    public static Boolean operator <=(Temperature left, Temperature right) => left.temperature <= right.temperature;
     public static Temperature operator +(Temperature left, Temperature right) => new(left.temperature + right.temperature);
     public static Temperature operator -(Temperature left, Temperature right) => new(left.temperature - right.temperature);
     public static Temperature operator *(Double scalar, Temperature right) => new(scalar * right.temperature);

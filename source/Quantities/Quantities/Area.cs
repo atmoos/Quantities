@@ -34,6 +34,10 @@ public readonly struct Area : IQuantity<Area>, IArea
     public static implicit operator Double(Area area) => area.area;
     public static Boolean operator ==(Area left, Area right) => left.Equals(right);
     public static Boolean operator !=(Area left, Area right) => !left.Equals(right);
+    public static Boolean operator >(Area left, Area right) => left.area > right.area;
+    public static Boolean operator >=(Area left, Area right) => left.area >= right.area;
+    public static Boolean operator <(Area left, Area right) => left.area < right.area;
+    public static Boolean operator <=(Area left, Area right) => left.area <= right.area;
     public static Area operator +(Area left, Area right) => new(left.area + right.area);
     public static Area operator -(Area left, Area right) => new(left.area - right.area);
     public static Area operator *(Double scalar, Area right) => new(scalar * right.area);

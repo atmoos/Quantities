@@ -11,6 +11,7 @@ public class ReadmeUpdates
     private const String child = "├── ";
     private const String empty = "    ";
     private const String separator = "│   ";
+    private static readonly DirectoryInfo repoDir = FindRepoDir();
 
     [Fact]
     public void ExportAllImplementationsOf_OnSimpleType()
@@ -42,14 +43,14 @@ public class ReadmeUpdates
     public void ExportAllQuantities()
     {
         var allQuantities = typeof(IQuantity<>).ExportAllImplementations().OrderBy(q => q.Name);
-        var readme = FindRepoDir().FindFile(Path.Combine("source", "Quantities", "readme.md"));
+        var readme = repoDir.FindFile(Path.Combine("source", "Quantities", "readme.md"));
         InsertCode(readme, "quantities", Section("Quantities", allQuantities, String.Empty));
     }
 
     [Fact]
     public void ExportAllQuantityUnits()
     {
-        var readme = FindRepoDir().FindFile(Path.Combine("source", "Quantities", "readme.md"));
+        var readme = repoDir.FindFile(Path.Combine("source", "Quantities", "readme.md"));
         InsertCode(readme, "units", AllUnits("Units", typeof(Metre).Assembly));
     }
 
@@ -57,7 +58,7 @@ public class ReadmeUpdates
     public void ExportAllOtherQuantityUnits()
     {
         const String title = "Quantities.Units";
-        var readme = FindRepoDir().FindFile(Path.Combine("source", title, "readme.md"));
+        var readme = repoDir.FindFile(Path.Combine("source", title, "readme.md"));
         InsertCode(readme, "units", AllUnits(title, typeof(Gram).Assembly));
     }
 

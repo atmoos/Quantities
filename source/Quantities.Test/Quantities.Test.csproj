@@ -1,14 +1,14 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="../Quantities.Build.targets"/>
   <Import Project="../Quantities.Test.props"/>
 
   <PropertyGroup>
-    <RootNamespace>Quantities.Units.Test</RootNamespace>
+    <RootNamespace>Quantities.Test</RootNamespace>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\Quantities.Units\Quantities.Units.csproj" />
+    <ProjectReference Include="..\Quantities\Quantities.csproj" />
     <ProjectReference Include="..\Quantities.TestTools\Quantities.TestTools.csproj" />
   </ItemGroup>
 

@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../Quantities.Build.targets"/>
+
+  <PropertyGroup>
+    <RootNamespace>Quantities.TestTools</RootNamespace>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Quantities\Quantities.csproj" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="xunit.assert" Version="2.8.0" />
+  </ItemGroup>
+
+</Project>

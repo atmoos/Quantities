@@ -1,6 +1,7 @@
 ﻿using Quantities.Core.Numerics;
 
 using static System.Math;
+using static Quantities.Test.Convenience;
 
 namespace Quantities.Test.Numerics;
 

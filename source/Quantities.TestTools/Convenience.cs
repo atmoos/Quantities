@@ -1,13 +1,14 @@
 ﻿using System.Globalization;
 using System.Numerics;
 using System.Runtime.CompilerServices;
-using Quantities.Core.Numerics;
 using Quantities.Dimensions;
+using Xunit;
 using Xunit.Sdk;
 
 using static Quantities.Extensions;
 
-namespace Quantities.Test;
+namespace Quantities.TestTools;
+
 public static class Convenience
 {
     private const Int32 fullPrecision = 16;
@@ -17,11 +18,6 @@ public static class Convenience
     public static Int32 VeryLowPrecision => fullPrecision - 3;
     public static Double Uniform(this Random rand) => 2d * (rand.NextDouble() - 0.5);
     public static String Join(String leftUnit, String rightUnit) => $"{leftUnit}\u200C{rightUnit}";
-    internal static void IsSameAs(this Quantity actual, Quantity expected, Int32 precision = fullPrecision)
-    {
-        ReformatEqualMessage((e, a, p) => PrecisionIsBounded(e, a, p), expected, actual, precision);
-        Assert.True(actual.HasSameMeasure(in expected), $"Measure mismatch: {actual} != {expected}");
-    }
     public static void Matches<TQuantity>(this TQuantity actual, TQuantity expected, Int32 precision = fullPrecision)
         where TQuantity : struct, IQuantity<TQuantity>, IDimension
     {
@@ -66,10 +62,6 @@ public static class Convenience
     }
     public static void IsTrue(this Boolean condition, [CallerArgumentExpression(nameof(condition))] String test = "") => Assert.True(condition, test);
     public static void IsFalse(this Boolean condition, [CallerArgumentExpression(nameof(condition))] String test = "") => Assert.False(condition, test);
-
-    // construct polynomials such that they are not simplified upon construction.
-    internal static Polynomial Poly(in Double nominator = 1, in Double denominator = 1, in Double offset = 0)
-        => Polynomial.Of(nominator * new Transformation() + offset) * Polynomial.Of(new Transformation() / denominator);
     private static void ReformatEqualMessage<T>(Action<T, T, Int32> assertion, T expected, T actual, Int32 precision)
         where T : IFormattable
     {
@@ -82,15 +74,4 @@ public static class Convenience
             throw EqualException.ForMismatchedStrings(expectedValue, actualValue, precision, precision + 1);
         }
     }
-}
-
-internal static class Dim<TSelf>
-    where TSelf : IDimension
-{
-    public static Dimension Value => TSelf.D;
-    public static Dimension Pow(Int32 n) => TSelf.D.Pow(n);
-    public static Dimension Times<TOther>()
-        where TOther : IDimension => TSelf.D * TOther.D;
-    public static Dimension Per<TOther>()
-        where TOther : IDimension => TSelf.D / TOther.D;
 }

@@ -1,5 +1,6 @@
-﻿using Quantities.Measures;
-using Quantities.Units.Si.Derived;
+﻿using Quantities.Dimensions;
+using Quantities.Measures;
+using Quantities.Units;
 using Quantities.Units.Si.Metric;
 
 using static Quantities.Core.Numerics.Polynomial;
@@ -30,19 +31,26 @@ public class MeasureMultiplicationTest
     [Fact]
     public void ScalarTimesSimilarScalarIsSquareScalar()
     {
-        var conversion = Expect<Power<Square, Si<Metre>>>.ToBeProductOf<Si<Metre>, Imperial<Yard>>();
-        Assert.Equal(Of<Yard>(), conversion);
+        var conversion = Expect<Power<Square, Si<Metre>>>.ToBeProductOf<Si<Metre>, Imperial<Foot>>();
+        Assert.Equal(Of<Foot>(), conversion);
     }
     [Fact]
     public void ScalarTimesSquareSimilarScalarIsCubicScalar()
     {
-        var conversion = Expect<Power<Cubic, Metric<Hour>>>.ToBeProductOf<Metric<Hour>, Power<Square, Metric<Day>>>();
-        Assert.Equal((Of<Day>().Pow(2) / Of<Hour>()).Simplify(), conversion);
+        var conversion = Expect<Power<Cubic, Metric<Hour>>>.ToBeProductOf<Metric<Hour>, Power<Square, Metric<Minute>>>();
+        Assert.Equal((Of<Minute>().Pow(2) / Of<Hour>()).Simplify(), conversion);
     }
     [Fact]
     public void ProductOfMeasureTimesItsInverseIsIdentity()
     {
-        var conversion = Expect<Identity>.ToBeProductOf<Metric<Hour>, Si<Hertz>>();
+        var conversion = Expect<Identity>.ToBeProductOf<Metric<Hour>, Si<InverseTime>>();
         Assert.Equal(Of<Hour>().Simplify(), conversion);
     }
+}
+
+file readonly struct InverseTime : ISiUnit, IFrequency, IInvertible<ITime>
+{
+    public static Transformation ToSi(Transformation self) => self;
+    static T ISystemInject<ITime>.Inject<T>(ISystems<ITime, T> basis) => basis.Si<Second>();
+    public static String Representation => "s⁻¹";
 }

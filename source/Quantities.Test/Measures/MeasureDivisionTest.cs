@@ -35,8 +35,8 @@ public class MeasureDivisionTest
     [Fact]
     public void SquareScalarPerSimilarScalarIsScalar()
     {
-        var conversion = Expect<Si<Kilo, Metre>>.ToBeQuotientOf<Power<Square, Si<Kilo, Metre>>, Imperial<Yard>>();
-        Assert.Equal((Of<Kilo>() / Of<Yard>()).Simplify(), conversion);
+        var conversion = Expect<Si<Kilo, Metre>>.ToBeQuotientOf<Power<Square, Si<Kilo, Metre>>, Imperial<Foot>>();
+        Assert.Equal((Of<Kilo>() / Of<Foot>()).Simplify(), conversion);
     }
     [Fact]
     public void CubicScalarPerSimilarScalarIsSquare()

@@ -1,7 +1,7 @@
 using System.Reflection;
 using Quantities.Dimensions;
 
-namespace Quantities.Test.Infrastructure;
+namespace Quantities.TestTools;
 
 public static class Extensions
 {

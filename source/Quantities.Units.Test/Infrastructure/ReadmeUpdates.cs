@@ -1,9 +1,9 @@
 using System.Reflection;
-using Quantities.Units;
 using Quantities.Units.Si.Metric;
-using static Quantities.Test.Infrastructure.Extensions;
 
-namespace Quantities.Test.Infrastructure;
+using static Quantities.TestTools.Extensions;
+
+namespace Quantities.Units.Test.Infrastructure;
 
 public class ReadmeUpdates
 {
@@ -99,7 +99,7 @@ public class ReadmeUpdates
 
     private static IEnumerable<String> GroupBySystem(String title, IEnumerable<Type> units, String prefix)
     {
-        var groups = units.GroupBy(Extensions.SystemName).OrderBy(g => g.Key).ToArray();
+        var groups = units.GroupBy(TestTools.Extensions.SystemName).OrderBy(g => g.Key).ToArray();
         if (groups.Length == 0) {
             yield break;
         }

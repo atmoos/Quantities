@@ -1,6 +1,6 @@
 using Quantities.Units.Si.Derived;
 
-namespace Quantities.Test;
+namespace Quantities.Units.Test;
 
 public sealed class FrequencyTest
 {

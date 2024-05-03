@@ -1,7 +1,7 @@
 ﻿using Quantities.Units.Si.Derived;
 using Quantities.Units.Si.Metric;
 
-namespace Quantities.Test;
+namespace Quantities.Units.Test;
 
 public sealed class PowerTest
 {

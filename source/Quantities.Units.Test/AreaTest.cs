@@ -2,7 +2,8 @@
 using Quantities.Units.NonStandard.Area;
 using Quantities.Units.Si.Metric;
 
-namespace Quantities.Test;
+namespace Quantities.Units.Test;
+
 public class AreaTest
 {
     [Fact]

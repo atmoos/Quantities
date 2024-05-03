@@ -3,7 +3,7 @@ using Quantities.Units.NonStandard.Temperature;
 using Quantities.Units.Si.Derived;
 using Newton = Quantities.Units.NonStandard.Temperature.Newton;
 
-namespace Quantities.Test;
+namespace Quantities.Units.Test;
 
 // For a lot of the values here, see: https://en.wikipedia.org/wiki/Conversion_of_units_of_temperature#Comparison_of_temperature_scales
 public sealed class TemperatureTest

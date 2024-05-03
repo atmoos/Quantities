@@ -3,7 +3,7 @@ using Quantities.Units.Si.Metric.UnitsOfInformation;
 
 using Bytes = Quantities.Units.Si.Metric.UnitsOfInformation.Byte;
 
-namespace Quantities.Test;
+namespace Quantities.Units.Test;
 
 public class DataRateTest
 {

@@ -12,6 +12,8 @@ public static class Extensions
         AttributesToSkip = FileAttributes.Archive
     };
 
+    public static DirectoryInfo RepoDir { get; } = FindRepoDirOf(typeof(Extensions).Assembly);
+
     public static IEnumerable<Type> ExportAllImplementationsOf(this Assembly assembly, Type declaringType)
     {
         foreach (var type in assembly.ExportedTypes) {
@@ -64,19 +66,6 @@ public static class Extensions
         }
     }
 
-    public static DirectoryInfo FindRepoDir()
-    {
-        var myAssembly = typeof(Extensions).Assembly;
-        var dir = new FileInfo(myAssembly.Location).Directory ?? throw new Exception("Assembly folder not found");
-        while (dir.EnumerateDirectories(".git", repoOptions).SingleOrDefault() == null) {
-            var prev = dir.FullName;
-            dir = dir.Parent;
-            if (dir == null || prev == dir.FullName) {
-                throw new Exception($"Failed finding containing repo of assembly {myAssembly.GetName().Name}.");
-            }
-        }
-        return dir;
-    }
 
     public static FileInfo FindFile(this DirectoryInfo dir, String relativePath)
     {
@@ -89,5 +78,18 @@ public static class Extensions
         return type.FindInterfaces(IsSystem, null).Single().Name[1..]; // remove interface "I".
 
         static Boolean IsSystem(Type type, Object? _) => type.IsAssignableTo(dimension) && !(type.IsGenericType || type == dimension);
+    }
+
+    private static DirectoryInfo FindRepoDirOf(Assembly assembly)
+    {
+        var dir = new FileInfo(assembly.Location).Directory ?? throw new Exception("Assembly folder not found");
+        while (dir.EnumerateDirectories(".git", repoOptions).SingleOrDefault() == null) {
+            var prev = dir.FullName;
+            dir = dir.Parent;
+            if (dir == null || prev == dir.FullName) {
+                throw new Exception($"Failed finding containing repo of assembly {assembly.GetName().Name}.");
+            }
+        }
+        return dir;
     }
 }

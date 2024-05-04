@@ -5,7 +5,7 @@ Extends [Atmoos.Quantities](https://www.nuget.org/packages/Atmoos.Quantities/) w
 ## Supported Units of Measurement
 
 ```text units
-Quantities.Units
+Units
 ├── Si
 │   ├── Derived
 │   │   ├── ElectricalResistance

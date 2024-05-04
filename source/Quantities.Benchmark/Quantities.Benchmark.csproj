@@ -1,5 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="../Quantities.Build.targets"/>
+  <Import Project="../Quantities.Build.targets" />
 
   <PropertyGroup>
     <RootNamespace>Quantities.Benchmark</RootNamespace>

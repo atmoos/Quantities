@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="../../Quantities.Build.targets"/>
-  <Import Project="../Serialization.Pack.targets"/>
+  <Import Project="../../Quantities.Build.targets" />
+  <Import Project="../Serialization.Pack.targets" />
 
   <PropertyGroup>
     <Version>1.2.0</Version>

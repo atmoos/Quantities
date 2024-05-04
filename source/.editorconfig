@@ -3,8 +3,10 @@
 # https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/code-style-rule-options
 
 [*]
+charset = utf-8-bom
 indent_style = space
 insert_final_newline = true
+trim_trailing_whitespace = true
 
 # XML project files
 [*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,projitems,shproj}]
@@ -21,7 +23,6 @@ indent_size = 2
 # C# files
 [*.cs]
 indent_size = 4
-charset = utf-8-bom
 #### Core EditorConfig Options ####
 
 #### .NET Coding Conventions ####

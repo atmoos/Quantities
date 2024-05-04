@@ -1,5 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="../Quantities.Build.targets"/>
+  <Import Project="../Quantities.Build.targets" />
 
   <PropertyGroup>
     <RootNamespace>Quantities.TestTools</RootNamespace>
@@ -9,7 +9,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Quantities\Quantities.csproj" PrivateAssets="All" />
   </ItemGroup>
-
 
   <ItemGroup>
     <PackageReference Include="xunit.assert" Version="2.8.0" />

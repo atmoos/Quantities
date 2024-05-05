@@ -1,4 +1,4 @@
-name: Publish Core Quantities System Text Json Serialization
+name: Publish Quantities System Text Json Serialization
 
 on:
   pull_request:

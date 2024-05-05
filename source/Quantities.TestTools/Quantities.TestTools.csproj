@@ -1,15 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="../Quantities.Build.targets" />
-  <Import Project="../Quantities.Test.props" />
 
   <PropertyGroup>
-    <RootNamespace>Quantities.Test</RootNamespace>
+    <RootNamespace>Quantities.TestTools</RootNamespace>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- ToDo: Re-enable PrivateAssets="All" -->
     <ProjectReference Include="..\Quantities\Quantities.csproj" />
-    <ProjectReference Include="..\Quantities.TestTools\Quantities.TestTools.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.assert" Version="2.8.0" />
   </ItemGroup>
 
 </Project>

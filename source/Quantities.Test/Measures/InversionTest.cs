@@ -1,6 +1,6 @@
+using Quantities.Dimensions;
 using Quantities.Measures;
-using Quantities.Units.NonStandard.Velocity;
-using Quantities.Units.Si.Derived;
+using Quantities.Units;
 using Quantities.Units.Si.Metric;
 
 namespace Quantities.Test.Measures;
@@ -17,7 +17,7 @@ public class InversionTest
     [Fact]
     public void MetricInvertedIsInverseOfMetric()
     {
-        Expect<Inverse<Metric<Milli, Celsius>>>.ToBeInverseOf<Metric<Milli, Celsius>>("m°C⁻¹");
+        Expect<Inverse<Metric<Milli, Hour>>>.ToBeInverseOf<Metric<Milli, Hour>>($"m{Hour.Representation}⁻¹");
     }
 
     [Fact]
@@ -29,7 +29,7 @@ public class InversionTest
     [Fact]
     public void NonStandardInvertedIsInverseOfNonStandard()
     {
-        Expect<Inverse<NonStandard<Knot>>>.ToBeInverseOf<NonStandard<Knot>>("kn⁻¹");
+        Expect<Inverse<NonStandard<SomeNonStandardUnit>>>.ToBeInverseOf<NonStandard<SomeNonStandardUnit>>("snu⁻¹");
     }
 
     [Fact]
@@ -42,4 +42,10 @@ public class InversionTest
     {
         Expect<Quotient<Metric<Hour>, Si<Metre>>>.ToBeInverseOf<Quotient<Si<Metre>, Metric<Hour>>>("h/m");
     }
+}
+
+file readonly struct SomeNonStandardUnit : INonStandardUnit, IVelocity
+{
+    public static Transformation ToSi(Transformation self) => self * 1.234;
+    public static String Representation => "snu";
 }

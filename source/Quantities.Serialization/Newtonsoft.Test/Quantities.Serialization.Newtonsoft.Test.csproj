@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="../../Quantities.Build.targets"/>
-  <Import Project="../../Quantities.Test.targets"/>
+  <Import Project="../../Quantities.Build.targets" />
+  <Import Project="../../Quantities.Test.props" />
 
   <PropertyGroup>
     <RootNamespace>Quantities.Serialization.Newtonsoft.Test</RootNamespace>

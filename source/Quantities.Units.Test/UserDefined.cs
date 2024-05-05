@@ -1,7 +1,6 @@
 ﻿using Quantities.Dimensions;
-using Quantities.Units;
 
-namespace Quantities.Test;
+namespace Quantities.Units.Test;
 
 public class UserDefined
 {

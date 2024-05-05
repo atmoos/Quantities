@@ -5,7 +5,7 @@ using Quantities.Units.Si.Metric;
 
 namespace Quantities.Test.Measures;
 
-public class EvaluateTest
+public class PolynomialConversionTest
 {
 
     [Fact]
@@ -42,14 +42,14 @@ public class EvaluateTest
     }
 
     [Fact]
-    public void FromCelsiusToGasMark()
+    public void FromCelsiusToFahrenheit()
     {
-        const Double value = 218d + (1d / 3d);
-        const Double expected = 7;
+        const Double value = 100;
+        const Double expected = 212;
 
-        Double actual = Evaluate<Metric<Celsius>, Imperial<GasMark>>(value);
+        Double actual = Evaluate<Metric<Celsius>, Imperial<Fahrenheit>>(value);
 
-        PrecisionIsBounded(expected, actual, LowPrecision);
+        PrecisionIsBounded(expected, actual);
     }
 
     [Fact]

@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="../Quantities.Build.targets"/>
-  <Import Project="../Quantities.Pack.targets"/>
+  <Import Project="../Quantities.Build.targets" />
+  <Import Project="../Quantities.Pack.targets" />
 
   <PropertyGroup>
-    <Version>1.2.0</Version>
+    <Version>1.2.1</Version>
     <RootDirectory>../../</RootDirectory>
     <RootNamespace>Quantities</RootNamespace>
     <Description>Type-safe and efficient handling of physical quantities.</Description>
   </PropertyGroup>
-  
+
 </Project>

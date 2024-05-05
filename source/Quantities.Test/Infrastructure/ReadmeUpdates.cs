@@ -4,6 +4,7 @@ using static Quantities.TestTools.Extensions;
 
 namespace Quantities.Test.Infrastructure;
 
+[Trait(AutoGenerate, Kind.Documentation)]
 public class ReadmeUpdates
 {
     private static readonly FileInfo readme = RepoDir.FindFile(Path.Combine("source", "Quantities", "readme.md"));

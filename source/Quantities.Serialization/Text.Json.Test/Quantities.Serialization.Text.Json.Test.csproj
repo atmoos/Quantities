@@ -3,8 +3,7 @@
   <Import Project="../../Quantities.Test.props" />
 
   <PropertyGroup>
-    <RootNamespace>Quantities.Serialization.Text.Json.Text</RootNamespace>
-    <IsPackable>false</IsPackable>
+    <RootNamespace>Quantities.Serialization.Text.Json.Test</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

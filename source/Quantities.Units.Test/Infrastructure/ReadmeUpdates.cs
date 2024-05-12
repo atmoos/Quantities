@@ -1,6 +1,8 @@
+using Atmoos.Sphere.Text;
 using Quantities.Units.Si.Metric;
 using Quantities.TestTools;
 
+using static Atmoos.Sphere.Text.LineTags;
 using static Quantities.TestTools.Extensions;
 
 namespace Quantities.Units.Test.Infrastructure;
@@ -13,6 +15,7 @@ public class ReadmeUpdates
     [Fact]
     public void ExportAllUnits()
     {
-        InsertCode(readme, "units", Export.AllUnits("Units", typeof(Gram).Assembly));
+        var tag = Markdown.Code("text units");
+        readme.InsertSection(tag, Export.AllUnits("Units", typeof(Gram).Assembly));
     }
 }

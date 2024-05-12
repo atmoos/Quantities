@@ -29,44 +29,6 @@ public static class Extensions
 
     public static IEnumerable<Type> ExportAllImplementations(this Type declaringType) => declaringType.Assembly.ExportAllImplementationsOf(declaringType);
 
-    public static void InsertCode(FileInfo file, String marker, IEnumerable<String> lines)
-    {
-        const String codeMark = "```";
-        String copy = Impl(file, $"{codeMark}text {marker}", lines);
-        File.Move(copy, file.FullName, overwrite: true);
-
-        static String Impl(FileInfo file, String marker, IEnumerable<String> lines)
-        {
-            String? line;
-            Boolean deleting = false;
-            var copyName = $"{file.FullName}.tmp";
-            using var copy = File.CreateText(copyName);
-            using var source = file.OpenText();
-            while ((line = source.ReadLine()) != null) {
-                if (deleting && line == codeMark) {
-                    deleting = false;
-                    copy.WriteLines(lines);
-                }
-                if (deleting) {
-                    continue;
-                }
-                if (line == marker) {
-                    deleting = true;
-                }
-                copy.WriteLine(line);
-            }
-            return copyName;
-        }
-    }
-
-    public static void WriteLines(this StreamWriter writer, IEnumerable<String> lines)
-    {
-        foreach (var line in lines) {
-            writer.WriteLine(line);
-        }
-    }
-
-
     public static FileInfo FindFile(this DirectoryInfo dir, String relativePath)
     {
         var file = dir.EnumerateFiles(relativePath).SingleOrDefault();

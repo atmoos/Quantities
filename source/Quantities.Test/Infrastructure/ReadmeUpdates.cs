@@ -1,5 +1,7 @@
+using Atmoos.Sphere.Text;
 using Quantities.TestTools;
 
+using static Atmoos.Sphere.Text.LineTags;
 using static Quantities.TestTools.Extensions;
 
 namespace Quantities.Test.Infrastructure;
@@ -12,13 +14,15 @@ public class ReadmeUpdates
     [Fact]
     public void ExportAllQuantities()
     {
+        var tag = Markdown.Code("text quantities");
         var allQuantities = typeof(IQuantity<>).ExportAllImplementations().OrderBy(q => q.Name);
-        InsertCode(readme, "quantities", Export.Section("Quantities", allQuantities, String.Empty));
+        readme.InsertSection(tag, Export.Section("Quantities", allQuantities, String.Empty));
     }
 
     [Fact]
     public void ExportAllUnits()
     {
-        InsertCode(readme, "units", Export.AllUnits("Units", typeof(Metre).Assembly));
+        var mark = Markdown.Code("text units");
+        readme.InsertSection(mark, Export.AllUnits("Units", typeof(Metre).Assembly));
     }
 }

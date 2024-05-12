@@ -31,7 +31,7 @@ public class AllocationFreeBenchmark
     public Object AllocationFreeFactory() => AllocationFreeFactory<MyClass>.Item;
 }
 
-/* Summary *
+/* Summary
 
 BenchmarkDotNet v0.13.12, Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores

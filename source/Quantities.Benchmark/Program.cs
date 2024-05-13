@@ -11,7 +11,7 @@ using static BenchmarkDotNet.Columns.StatisticColumn;
 var assembly = typeof(Program).Assembly;
 var config = DefaultConfig.Instance.HideColumns(StdDev, Median, Kurtosis, BaselineRatioColumn.RatioStdDev);
 
-var summary = BenchmarkSwitcher.FromAssembly(assembly).Run(args, config);
+var summary = BenchmarkSwitcher.FromAssembly(assembly).Run(args, config.KeepBenchmarkFiles(false));
 
 var summaryTag = new LineTag { Start = "/* Summary", End = "*/" };
 await assembly.Export(summary, new ExportConfig { Tag = summaryTag });

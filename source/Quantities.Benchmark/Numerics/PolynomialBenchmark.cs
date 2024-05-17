@@ -22,7 +22,7 @@ public class PolynomialBenchmark
     public Double EvaluatePolynomialWithoutOffset() => polynomialWithoutOffset * argument;
 }
 
-/* Summary *
+/* Summary
 
 BenchmarkDotNet v0.13.12, Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
@@ -31,9 +31,9 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
   DefaultJob : .NET 8.0.3 (8.0.324.11423), X64 RyuJIT AVX2
 
 
-| Method                          | Mean      | Error     | Ratio | 
+| Method                          | Mean      | Error     | Ratio |
 |-------------------------------- |----------:|----------:|------:|-
-| EvaluateTrivial                 | 1.3786 ns | 0.0036 ns |  1.00 | 
-| EvaluatePolynomial              | 0.0932 ns | 0.0337 ns |  0.07 | 
-| EvaluatePolynomialWithoutOffset | 0.1154 ns | 0.0054 ns |  0.08 | 
+| EvaluateTrivial                 | 1.3786 ns | 0.0036 ns |  1.00 |
+| EvaluatePolynomial              | 0.0932 ns | 0.0337 ns |  0.07 |
+| EvaluatePolynomialWithoutOffset | 0.1154 ns | 0.0054 ns |  0.08 |
 */

@@ -51,7 +51,7 @@ file static class Cache<TFrom, TTo>
     public static Double Convert(in Double value) => polynomial * value;
 }
 
-/* Summary *
+/* Summary
 
 BenchmarkDotNet v0.13.12, Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
@@ -60,10 +60,10 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
   DefaultJob : .NET 8.0.3 (8.0.324.11423), X64 RyuJIT AVX2
 
 
-| Method                 | Mean      | Error     | Ratio | 
+| Method                 | Mean      | Error     | Ratio |
 |----------------------- |----------:|----------:|------:|-
-| EvaluateTrivial        | 2.4951 ns | 0.0268 ns |  1.00 | 
-| EvaluateSuccessive     | 0.8791 ns | 0.0064 ns |  0.35 | 
-| EvaluateCached         | 1.5942 ns | 0.0632 ns |  0.64 | 
-| EvaluateArithmetically | 0.2955 ns | 0.0082 ns |  0.12 | 
+| EvaluateTrivial        | 2.4951 ns | 0.0268 ns |  1.00 |
+| EvaluateSuccessive     | 0.8791 ns | 0.0064 ns |  0.35 |
+| EvaluateCached         | 1.5942 ns | 0.0632 ns |  0.64 |
+| EvaluateArithmetically | 0.2955 ns | 0.0082 ns |  0.12 |
 */

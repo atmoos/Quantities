@@ -23,7 +23,7 @@ public class MeasureBenchmark
     public Double ProjectOntoOther() => kiloMetre.Project(ångström, Math.Tau);
 }
 
-/* Summary *
+/* Summary
 
 BenchmarkDotNet v0.13.12, Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
@@ -32,9 +32,9 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
   DefaultJob : .NET 8.0.3 (8.0.324.11423), X64 RyuJIT AVX2
 
 
-| Method           | Mean      | Error     | Ratio | 
+| Method           | Mean      | Error     | Ratio |
 |----------------- |----------:|----------:|------:|-
-| ProjectTrivial   | 0.4827 ns | 0.0050 ns |  1.00 | 
-| ProjectOntoSame  | 0.8848 ns | 0.0129 ns |  1.83 | 
-| ProjectOntoOther | 1.5829 ns | 0.0053 ns |  3.28 | 
+| ProjectTrivial   | 0.4827 ns | 0.0050 ns |  1.00 |
+| ProjectOntoSame  | 0.8848 ns | 0.0129 ns |  1.83 |
+| ProjectOntoOther | 1.5829 ns | 0.0053 ns |  3.28 |
 */

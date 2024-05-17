@@ -20,7 +20,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet" Version="0.13.12" />
+    <PackageReference Include="Atmoos.Sphere.BenchmarkDotNet" Version="0.1.*" />
   </ItemGroup>
 
   <ItemGroup>

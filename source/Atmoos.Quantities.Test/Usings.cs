@@ -1,4 +1,4 @@
-﻿global using Atmoos.Quantities.Core;
+global using Atmoos.Quantities.Core;
 global using Atmoos.Quantities.Prefixes;
 global using Atmoos.Quantities.Units.Imperial.Length;
 global using Atmoos.Quantities.Units.Si;

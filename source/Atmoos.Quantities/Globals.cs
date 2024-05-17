@@ -1,2 +1,2 @@
-﻿global using Atmoos.Quantities.Core;
+global using Atmoos.Quantities.Core;
 

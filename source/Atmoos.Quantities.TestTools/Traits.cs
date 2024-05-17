@@ -1,4 +1,4 @@
-﻿namespace Atmoos.Quantities.TestTools;
+namespace Atmoos.Quantities.TestTools;
 
 public static class Traits
 {

@@ -1,15 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="../../Quantities.Build.targets" />
-  <Import Project="../../Quantities.Test.props" />
+  <Import Project="../../Atmoos.Quantities.Build.props" />
+  <Import Project="../../Atmoos.Quantities.Test.props" />
 
   <PropertyGroup>
-    <RootNamespace>Quantities.Serialization.Text.Json.Text</RootNamespace>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Quantities.Units\Quantities.Units.csproj" />
-    <ProjectReference Include="..\Text.Json\Quantities.Serialization.Text.Json.csproj" />
+    <ProjectReference Include="..\..\Atmoos.Quantities.Units\Atmoos.Quantities.Units.csproj" />
+    <ProjectReference Include="..\Text.Json\Atmoos.Quantities.Serialization.Text.Json.csproj" />
   </ItemGroup>
 
 </Project>

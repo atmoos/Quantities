@@ -1,15 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="../../Quantities.Build.targets" />
-  <Import Project="../../Quantities.Test.props" />
+  <Import Project="../../Atmoos.Quantities.Build.props" />
+  <Import Project="../../Atmoos.Quantities.Test.props" />
 
   <PropertyGroup>
-    <RootNamespace>Quantities.Serialization.Newtonsoft.Test</RootNamespace>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Quantities.Units\Quantities.Units.csproj" />
-    <ProjectReference Include="..\Newtonsoft\Quantities.Serialization.Newtonsoft.csproj" />
+    <ProjectReference Include="..\..\Atmoos.Quantities.Units\Atmoos.Quantities.Units.csproj" />
+    <ProjectReference Include="..\Newtonsoft\Atmoos.Quantities.Serialization.Newtonsoft.csproj" />
   </ItemGroup>
 
 </Project>

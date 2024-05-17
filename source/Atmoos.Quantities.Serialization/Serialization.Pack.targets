@@ -1,6 +1,6 @@
 <Project>
-  <Import Project="../Quantities.Pack.targets"/>
-<!-- Packaging info common to all serialization projects within the quantities project -->
+  <Import Project="../Atmoos.Quantities.Pack.targets" />
+  <!-- Packaging info common to all serialization projects within the quantities project -->
 
   <PropertyGroup>
     <PackageTags>$(PackageTags), unit-serialization, quantities-serialization, serialization</PackageTags>

@@ -34,20 +34,16 @@ public static class Convenience
     {
         const Int32 maxDoublePrecision = 16;
         const Int32 maxRoundingPrecision = maxDoublePrecision - 1;
-        if (precision >= maxDoublePrecision)
-        {
-            if (precision == maxDoublePrecision)
-            {
+        if (precision >= maxDoublePrecision) {
+            if (precision == maxDoublePrecision) {
                 Assert.Equal(expected, actual);
                 return;
             }
             throw new ArgumentOutOfRangeException(nameof(precision), precision, $"Doubles can't be compared to precisions higher than {maxDoublePrecision}.");
         }
         Assert.Equal(expected, actual, precision);
-        if (precision <= maxRoundingPrecision)
-        {
-            if (precision == maxRoundingPrecision)
-            {
+        if (precision <= maxRoundingPrecision) {
+            if (precision == maxRoundingPrecision) {
                 Assert.Throws<EqualException>(() => Assert.Equal(expected, actual));
                 return;
             }
@@ -69,12 +65,10 @@ public static class Convenience
     private static void ReformatEqualMessage<T>(Action<T, T, Int32> assertion, T expected, T actual, Int32 precision)
         where T : IFormattable
     {
-        try
-        {
+        try {
             assertion(expected, actual, precision);
         }
-        catch (EqualException)
-        {
+        catch (EqualException) {
             var actualValue = actual.ToString(RoundTripFormat);
             var expectedValue = expected.ToString(RoundTripFormat);
             throw EqualException.ForMismatchedStrings(expectedValue, actualValue, precision, precision + 1);

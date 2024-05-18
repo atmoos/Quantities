@@ -10,16 +10,14 @@ internal static class DimAssert
 {
     public static void Equal(Dimension expected, Dimension actual)
     {
-        if (expected.Equals(actual))
-        {
+        if (expected.Equals(actual)) {
             return;
         }
         throw EqualException.ForMismatchedValues(expected, actual);
     }
     public static void NotEqual(Dimension expected, Dimension actual)
     {
-        if (expected.Equals(actual))
-        {
+        if (expected.Equals(actual)) {
             var actualValue = actual.ToString() ?? "empty actual";
             var expectedValue = expected.ToString() ?? "empty expected";
             throw NotEqualException.ForEqualValues(expectedValue, actualValue);
@@ -28,8 +26,7 @@ internal static class DimAssert
     public static void Equal(IEnumerable<Dimension> expected, IEnumerable<Dimension> actual)
     {
         var expectedSet = new HashSet<Dimension>(expected);
-        if (expectedSet.SetEquals(actual))
-        {
+        if (expectedSet.SetEquals(actual)) {
             return;
         }
         Assert.Equal(expected.Select(e => e.ToString()), actual.Select(a => a.ToString()));

@@ -1,4 +1,4 @@
-namespace Atmoos.Quantities.Core;
+﻿namespace Atmoos.Quantities.Core;
 
 internal interface IInject<out TResult>
 {

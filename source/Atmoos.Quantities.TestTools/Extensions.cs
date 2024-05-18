@@ -1,4 +1,4 @@
-using System.Reflection;
+﻿using System.Reflection;
 using Atmoos.Quantities.Dimensions;
 
 namespace Atmoos.Quantities.TestTools;
@@ -6,8 +6,7 @@ namespace Atmoos.Quantities.TestTools;
 public static class Extensions
 {
     private static readonly Type dimension = typeof(IDimension);
-    private static readonly EnumerationOptions repoOptions = new()
-    {
+    private static readonly EnumerationOptions repoOptions = new() {
         RecurseSubdirectories = false,
         MatchCasing = MatchCasing.CaseSensitive,
         AttributesToSkip = FileAttributes.Archive
@@ -17,15 +16,12 @@ public static class Extensions
 
     public static IEnumerable<Type> ExportAllImplementationsOf(this Assembly assembly, Type declaringType)
     {
-        foreach (var type in assembly.ExportedTypes)
-        {
-            if (type.IsAssignableTo(declaringType) && type != declaringType)
-            {
+        foreach (var type in assembly.ExportedTypes) {
+            if (type.IsAssignableTo(declaringType) && type != declaringType) {
                 yield return type;
             }
             var interfaces = type.FindInterfaces((i, _) => i.IsGenericType && i.GetGenericTypeDefinition() == declaringType, null);
-            if (interfaces?.Length > 0)
-            {
+            if (interfaces?.Length > 0) {
                 yield return type;
             }
         }
@@ -49,12 +45,10 @@ public static class Extensions
     private static DirectoryInfo FindRepoDirOf(Assembly assembly)
     {
         var dir = new FileInfo(assembly.Location).Directory ?? throw new Exception("Assembly folder not found");
-        while (dir.EnumerateDirectories(".git", repoOptions).SingleOrDefault() == null)
-        {
+        while (dir.EnumerateDirectories(".git", repoOptions).SingleOrDefault() == null) {
             var prev = dir.FullName;
             dir = dir.Parent;
-            if (dir == null || prev == dir.FullName)
-            {
+            if (dir == null || prev == dir.FullName) {
                 throw new Exception($"Failed finding containing repo of assembly {assembly.GetName().Name}.");
             }
         }

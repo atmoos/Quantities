@@ -6,8 +6,7 @@ public class MetricPrefixesTest
 {
     private const Int32 fullPrecision = 16;
     private const Int32 mediumPrecision = fullPrecision - 1;
-    private static readonly Dictionary<String, ITestPrefix> outliers = new()
-    {
+    private static readonly Dictionary<String, ITestPrefix> outliers = new() {
         ["quetta"] = new TestPrefix<Quetta>(1e30),
         ["zetta"] = new TestPrefix<Zetta>(1e21),
         ["zepto"] = new TestPrefix<Zepto>(1e-21),

@@ -1,4 +1,4 @@
-# Atmoos Quantities
+# Atmoos.Quantities
 
 This library enables type-safe handling of quantities. It is a general purpose library that allows third parties to define their own units if needed. Many units are predefined in this library or are available on nuget [here](https://www.nuget.org/packages/Atmoos.Quantities.Units/).
 
@@ -51,7 +51,7 @@ They are all compatible with each other.
 The currently supported quantities are:
 
 ```text quantities
-Quantities
+Atmoos.Quantities
 ├── Area
 ├── Data
 ├── DataRate
@@ -77,7 +77,7 @@ They support a broad range of compatible units as indicated by the examples abov
 The following units are included in this library. Please see [Atmoos.Quantities.Units](https://www.nuget.org/packages/Atmoos.Quantities.Units/) for many more units.
 
 ```text units
-Units
+Atmoos.Quantities.Units
 ├── Si
 │   ├── Ampere
 │   ├── Candela

@@ -4,7 +4,7 @@
 </div>
 <!-- markdownlint-enable MD033 MD041 -->
 
-# Quantities
+# Atmoos Quantities
 
 A library to safely handle various types of quantities, typically physical quantities.
 
@@ -26,7 +26,7 @@ Usage is designed to be intuitive:
 Somewhere in your project, define this global static using directive:
 
 ```csharp
-global using static Quantities.Systems;
+global using static Atmoos.Quantities.Systems;
 ```
 
 Then, use quantities intuitively:

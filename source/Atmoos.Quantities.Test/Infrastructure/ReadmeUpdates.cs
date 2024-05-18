@@ -16,13 +16,13 @@ public class ReadmeUpdates
     {
         var tag = Markdown.Code("text quantities");
         var allQuantities = typeof(IQuantity<>).ExportAllImplementations().OrderBy(q => q.Name);
-        readme.InsertSection(tag, Export.Section("Quantities", allQuantities, String.Empty));
+        readme.InsertSection(tag, Export.Section("Atmoos.Quantities", allQuantities, String.Empty));
     }
 
     [Fact]
     public void ExportAllUnits()
     {
         var mark = Markdown.Code("text units");
-        readme.InsertSection(mark, Export.AllUnits("Units", typeof(Metre).Assembly));
+        readme.InsertSection(mark, Export.AllUnits("Atmoos.Quantities.Units", typeof(Metre).Assembly));
     }
 }

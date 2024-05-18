@@ -1,0 +1,32 @@
+name: Publish Library to NuGet
+
+on:
+  workflow_call:
+    inputs:
+      tag-prefix:
+        required: true
+        type: string
+      project-path:
+        required: true
+        type: string
+
+env:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+  DOTNET_NOLOGO: true
+  DotNetVersion: 8.0.x
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DotNetVersion }}
+      - uses: tedd/publish-nuget-neo@v1
+        with:
+          NUGET_KEY: ${{secrets.PUSH_NEW_QUANTITY_VERSION}}
+          PROJECT_FILE_PATH: ${{inputs.project-path}}
+          TAG_COMMIT: true
+          TAG_FORMAT: ${{inputs.tag-prefix}}/v*

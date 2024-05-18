@@ -5,27 +5,12 @@ on:
     types: [closed]
     branches: [ "main" ]
     paths: 
-      - '**/Quantities.csproj'
-
-env:
-  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
-  DOTNET_NOLOGO: true
-  Prefix: 'quantities'
-  Project: 'source/Quantities/Quantities.csproj'
-  DotNetVersion: 8.0.x
+      - '**/Atmoos.Quantities.csproj'
 
 jobs:
-  publish:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: ${{ env.DotNetVersion }}
-      - uses: tedd/publish-nuget-neo@v1
-        with:
-          NUGET_KEY: ${{secrets.PUSH_NEW_QUANTITY_VERSION}}
-          PROJECT_FILE_PATH: ${{env.Project}}
-          TAG_COMMIT: true
-          TAG_FORMAT: ${{env.Prefix}}/v*
+  publish-quantities:
+    uses: ./.github/workflows/publish-library.yml
+    with:
+      project-path: 'source/Atmoos.Quantities/Atmoos.Quantities.csproj'
+      tag-prefix: 'quantities'
+    secrets: inherit

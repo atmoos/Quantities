@@ -1,14 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <!-- INtermediate state, will be deleted! -->
-  <Import Project="../Quantities.Build.targets" />
+  <Import Project="../Atmoos.Quantities.Build.props" />
 
   <PropertyGroup>
-    <RootNamespace>Quantities.TestTools</RootNamespace>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Atmoos.Quantities" Version="1.2.1" />
+    <!-- ToDo: Re-enable PrivateAssets="All" -->
+    <ProjectReference Include="..\Atmoos.Quantities\Atmoos.Quantities.csproj" />
   </ItemGroup>
 
   <ItemGroup>

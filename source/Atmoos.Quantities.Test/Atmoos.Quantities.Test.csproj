@@ -1,0 +1,10 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../Atmoos.Quantities.Build.props" />
+  <Import Project="../Atmoos.Quantities.Test.props" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\Atmoos.Quantities\Atmoos.Quantities.csproj" />
+    <ProjectReference Include="..\Atmoos.Quantities.TestTools\Atmoos.Quantities.TestTools.csproj" />
+  </ItemGroup>
+
+</Project>

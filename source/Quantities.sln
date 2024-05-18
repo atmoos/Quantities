@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atmoos.Quantities.Test", "A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atmoos.Quantities.TestTools", "Atmoos.Quantities.TestTools\Atmoos.Quantities.TestTools.csproj", "{FAAE0F41-D2D5-4A48-83AD-3A2216D55DFD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quantities.TestTools", "Quantities.TestTools\Quantities.TestTools.csproj", "{9F41E95A-795F-40B1-A1BE-01072BDE8026}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -74,6 +76,10 @@ Global
 		{FAAE0F41-D2D5-4A48-83AD-3A2216D55DFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FAAE0F41-D2D5-4A48-83AD-3A2216D55DFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FAAE0F41-D2D5-4A48-83AD-3A2216D55DFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F41E95A-795F-40B1-A1BE-01072BDE8026}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F41E95A-795F-40B1-A1BE-01072BDE8026}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F41E95A-795F-40B1-A1BE-01072BDE8026}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F41E95A-795F-40B1-A1BE-01072BDE8026}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{64C99937-7C3C-437A-BB52-CDF80F156EEE} = {E04095D5-F6D9-467F-9D7E-CC7AF8396E9F}

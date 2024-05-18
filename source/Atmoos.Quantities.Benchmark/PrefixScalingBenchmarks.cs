@@ -1,6 +1,6 @@
-using Quantities.Prefixes;
+using Atmoos.Quantities.Prefixes;
 
-namespace Quantities.Benchmark;
+namespace Atmoos.Quantities.Benchmark;
 
 public class PrefixScalingBenchmarks
 {

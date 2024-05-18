@@ -1,3 +1,3 @@
 global using BenchmarkDotNet.Attributes;
-global using Quantities.Core;
-global using static Quantities.Systems;
+global using Atmoos.Quantities.Core;
+global using static Atmoos.Quantities.Systems;

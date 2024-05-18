@@ -1,7 +1,7 @@
 using System.Runtime.CompilerServices;
-using Quantities.Core.Numerics;
+using Atmoos.Quantities.Core.Numerics;
 
-namespace Quantities.Benchmark;
+namespace Atmoos.Quantities.Benchmark;
 
 public class ConversionBenchmarks
 {

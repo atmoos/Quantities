@@ -1,12 +1,12 @@
 using BenchmarkDotNet.Diagnosers;
-using Quantities.Prefixes;
+using Atmoos.Quantities.Prefixes;
 using Quantities.Units.Imperial.Area;
-using Quantities.Units.Imperial.Length;
-using Quantities.Units.Si;
+using Atmoos.Quantities.Units.Imperial.Length;
+using Atmoos.Quantities.Units.Si;
 using Quantities.Units.Si.Derived;
-using Quantities.Units.Si.Metric;
+using Atmoos.Quantities.Units.Si.Metric;
 
-namespace Quantities.Benchmark;
+namespace Atmoos.Quantities.Benchmark;
 
 [MemoryDiagnoser(displayGenColumns: false)]
 public class DividingQuantities

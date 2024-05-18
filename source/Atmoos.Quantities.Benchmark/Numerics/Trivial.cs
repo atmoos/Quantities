@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace Quantities.Benchmark.Numerics;
+namespace Atmoos.Quantities.Benchmark.Numerics;
 
 public static class Trivial
 {

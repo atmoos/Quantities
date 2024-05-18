@@ -1,9 +1,9 @@
 using Newtonsoft.Json;
-using Quantities.Prefixes;
+using Atmoos.Quantities.Prefixes;
 using Quantities.Serialization.Newtonsoft;
-using Quantities.Units.Si;
+using Atmoos.Quantities.Units.Si;
 
-namespace Quantities.Benchmark;
+namespace Atmoos.Quantities.Benchmark;
 
 [MemoryDiagnoser(displayGenColumns: false)]
 public class SerializationComparisonBenchmark

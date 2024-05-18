@@ -1,30 +1,30 @@
-using Quantities.Prefixes;
-using Quantities.Units.Imperial.Length;
-using Quantities.Units.Si;
-using Quantities.Units.Si.Derived;
+using Atmoos.Quantities.Prefixes;
+using Atmoos.Quantities.Units.Imperial.Length;
+using Atmoos.Quantities.Units.Si;
+using Atmoos.Quantities.Units.Si.Derived;
 
-namespace Quantities.Benchmark;
+namespace Atmoos.Quantities.Benchmark;
 
 [MemoryDiagnoser(displayGenColumns: false)]
 public class ConvertingQuantities
 {
-    private const Double feetToMetre = 0.3048;
-    private static readonly Si<Metre> kiloMetre = Si<Metre>.Of(Prefix.Kilo, 3);
-    private static readonly Imperial<Foot> trivialFoot = new(10, feetToMetre);
-    private static readonly Length foot = Length.Of(10, Imperial<Foot>());
-    private static readonly Energy energy = Energy.Of(3, Si<Milli, Watt>().Times(Si<Kilo, Second>()));
+  private const Double feetToMetre = 0.3048;
+  private static readonly Si<Metre> kiloMetre = Si<Metre>.Of(Prefix.Kilo, 3);
+  private static readonly Imperial<Foot> trivialFoot = new(10, feetToMetre);
+  private static readonly Length foot = Length.Of(10, Imperial<Foot>());
+  private static readonly Energy energy = Energy.Of(3, Si<Milli, Watt>().Times(Si<Kilo, Second>()));
 
-    [Benchmark(Baseline = true)]
-    public Double TrivialImplementation() => trivialFoot.To(kiloMetre);
+  [Benchmark(Baseline = true)]
+  public Double TrivialImplementation() => trivialFoot.To(kiloMetre);
 
-    [Benchmark]
-    public Double QuantityImplementation() => foot.To(Si<Kilo, Metre>());
+  [Benchmark]
+  public Double QuantityImplementation() => foot.To(Si<Kilo, Metre>());
 
-    [Benchmark]
-    public Double QuantityToSame() => energy.To(Si<Milli, Watt>().Times(Si<Kilo, Second>()));
+  [Benchmark]
+  public Double QuantityToSame() => energy.To(Si<Milli, Watt>().Times(Si<Kilo, Second>()));
 
-    [Benchmark]
-    public Double QuantityToVeryDifferent() => energy.To(Si<Kilo, Watt>().Times(Si<Milli, Second>()));
+  [Benchmark]
+  public Double QuantityToVeryDifferent() => energy.To(Si<Kilo, Watt>().Times(Si<Milli, Second>()));
 }
 
 /* Summary

@@ -1,7 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
-using Quantities.Units;
+using Atmoos.Quantities.Units;
 
-namespace Quantities.Benchmark;
+namespace Atmoos.Quantities.Benchmark;
 
 [Flags]
 public enum Prefix

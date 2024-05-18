@@ -1,37 +1,37 @@
-using Quantities.Prefixes;
-using Quantities.Units.Si;
-using Quantities.Units.Si.Derived;
-using Quantities.Units.Si.Metric;
+using Atmoos.Quantities.Prefixes;
+using Atmoos.Quantities.Units.Si;
+using Atmoos.Quantities.Units.Si.Derived;
+using Atmoos.Quantities.Units.Si.Metric;
 
-namespace Quantities.Benchmark;
+namespace Atmoos.Quantities.Benchmark;
 
 [MemoryDiagnoser(displayGenColumns: false)]
 public class DeserializationBenchmark
 {
-    private static readonly String triple = Triple().Serialize();
-    private static readonly String simpleQuantity = Length.Of(Math.PI, Si<Metre>()).Serialize();
-    private static readonly String prefixedQuantity = Length.Of(Math.PI, Si<Kilo, Metre>()).Serialize();
-    private static readonly String fractionalQuantity = Velocity.Of(Math.PI, Si<Kilo, Metre>().Per(Metric<Hour>())).Serialize();
-    private static readonly String multiplicativeQuantity = Energy.Of(Math.PI, Si<Kilo, Watt>().Times(Metric<Hour>())).Serialize();
-    private static readonly String powerQuantity = Volume.Of(Math.PI, Cubic(Si<Deci, Metre>())).Serialize();
-    private static readonly String scalarPowerQuantity = Volume.Of(Math.PI, Metric<Deci, Litre>()).Serialize();
+  private static readonly String triple = Triple().Serialize();
+  private static readonly String simpleQuantity = Length.Of(Math.PI, Si<Metre>()).Serialize();
+  private static readonly String prefixedQuantity = Length.Of(Math.PI, Si<Kilo, Metre>()).Serialize();
+  private static readonly String fractionalQuantity = Velocity.Of(Math.PI, Si<Kilo, Metre>().Per(Metric<Hour>())).Serialize();
+  private static readonly String multiplicativeQuantity = Energy.Of(Math.PI, Si<Kilo, Watt>().Times(Metric<Hour>())).Serialize();
+  private static readonly String powerQuantity = Volume.Of(Math.PI, Cubic(Si<Deci, Metre>())).Serialize();
+  private static readonly String scalarPowerQuantity = Volume.Of(Math.PI, Metric<Deci, Litre>()).Serialize();
 
-    [Benchmark(Baseline = true)]
-    public (Double, String, String) SystemTriple() => triple.Deserialize<(Double, String, String)>();
-    [Benchmark]
-    public Length SystemQuantity() => simpleQuantity.Deserialize<Length>();
-    [Benchmark]
-    public Length PrefixedQuantity() => prefixedQuantity.Deserialize<Length>();
-    [Benchmark]
-    public Velocity FractionalQuantity() => fractionalQuantity.Deserialize<Velocity>();
-    [Benchmark]
-    public Energy MultiplicativeQuantity() => multiplicativeQuantity.Deserialize<Energy>();
-    [Benchmark]
-    public Volume PowerQuantity() => powerQuantity.Deserialize<Volume>();
-    [Benchmark]
-    public Volume ScalarPowerQuantity() => scalarPowerQuantity.Deserialize<Volume>();
+  [Benchmark(Baseline = true)]
+  public (Double, String, String) SystemTriple() => triple.Deserialize<(Double, String, String)>();
+  [Benchmark]
+  public Length SystemQuantity() => simpleQuantity.Deserialize<Length>();
+  [Benchmark]
+  public Length PrefixedQuantity() => prefixedQuantity.Deserialize<Length>();
+  [Benchmark]
+  public Velocity FractionalQuantity() => fractionalQuantity.Deserialize<Velocity>();
+  [Benchmark]
+  public Energy MultiplicativeQuantity() => multiplicativeQuantity.Deserialize<Energy>();
+  [Benchmark]
+  public Volume PowerQuantity() => powerQuantity.Deserialize<Volume>();
+  [Benchmark]
+  public Volume ScalarPowerQuantity() => scalarPowerQuantity.Deserialize<Volume>();
 
-    private static (Double value, String prefix, String unit) Triple() => (Math.PI, "K", "m");
+  private static (Double value, String prefix, String unit) Triple() => (Math.PI, "K", "m");
 }
 
 /* Summary

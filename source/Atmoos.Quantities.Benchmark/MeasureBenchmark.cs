@@ -1,10 +1,10 @@
-using Quantities.Measures;
-using Quantities.Prefixes;
-using Quantities.Units.Imperial.Length;
-using Quantities.Units.Si;
-using Quantities.Units.Si.Metric;
+using Atmoos.Quantities.Measures;
+using Atmoos.Quantities.Prefixes;
+using Atmoos.Quantities.Units.Imperial.Length;
+using Atmoos.Quantities.Units.Si.Metric;
+using Atmoos.Quantities.Units.Si;
 
-namespace Quantities.Benchmark;
+namespace Atmoos.Quantities.Benchmark;
 public class MeasureBenchmark
 {
     private const Double feetToMetre = 0.3048;

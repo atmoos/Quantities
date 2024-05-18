@@ -1,4 +1,4 @@
-namespace Quantities.Benchmark;
+namespace Atmoos.Quantities.Benchmark;
 
 file interface IFactory<out T>
 {

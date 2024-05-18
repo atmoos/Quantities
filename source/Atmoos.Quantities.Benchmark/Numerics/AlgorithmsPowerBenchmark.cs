@@ -1,19 +1,19 @@
-using Quantities.Core.Numerics;
+using Atmoos.Quantities.Core.Numerics;
 
-namespace Quantities.Benchmark.Numerics;
+namespace Atmoos.Quantities.Benchmark.Numerics;
 
 public class AlgorithmsPowerBenchmark
 {
-    private const Double value = Math.Tau;
+  private const Double value = Math.Tau;
 
-    [Params(2, 5, 12, 23)]
-    public Int32 Exponent { get; set; }
+  [Params(2, 5, 12, 23)]
+  public Int32 Exponent { get; set; }
 
-    [Benchmark(Baseline = true)]
-    public Double MathPow() => Math.Pow(value, Exponent);
+  [Benchmark(Baseline = true)]
+  public Double MathPow() => Math.Pow(value, Exponent);
 
-    [Benchmark]
-    public Double AlgorithmsPow() => Algorithms.Pow(value, Exponent);
+  [Benchmark]
+  public Double AlgorithmsPow() => Algorithms.Pow(value, Exponent);
 }
 
 /* Summary

@@ -1,4 +1,4 @@
-﻿using Atmoos.Quantities.Dimensions;
+using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Measures;
 using Atmoos.Quantities.Units;
 

@@ -1,11 +1,11 @@
 ﻿using System.Text.Json;
 using Newtonsoft.Json;
-using Quantities.Core.Numerics;
+using Atmoos.Quantities.Core.Numerics;
 using Quantities.Serialization.Text.Json;
 using Quantities.Units.Si.Metric;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
-namespace Quantities.Benchmark;
+namespace Atmoos.Quantities.Benchmark;
 
 internal static class Convenience
 {

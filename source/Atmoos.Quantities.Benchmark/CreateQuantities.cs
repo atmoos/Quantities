@@ -1,11 +1,11 @@
 using System.Runtime.CompilerServices;
 using BenchmarkDotNet.Diagnosers;
-using Quantities.Prefixes;
-using Quantities.Units.Si;
+using Atmoos.Quantities.Prefixes;
+using Atmoos.Quantities.Units.Si;
 using Quantities.Units.Si.Derived;
-using Quantities.Units.Si.Metric;
+using Atmoos.Quantities.Units.Si.Metric;
 
-namespace Quantities.Benchmark;
+namespace Atmoos.Quantities.Benchmark;
 
 internal readonly struct DummyQuantity
 {

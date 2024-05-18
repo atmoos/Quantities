@@ -5,13 +5,13 @@ on:
     types: [closed]
     branches: [ "main" ]
     paths: 
-      - '**/Quantities.csproj'
+      - '**/Atmoos.Quantities.csproj'
 
 env:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
   DOTNET_NOLOGO: true
   Prefix: 'quantities'
-  Project: 'source/Quantities/Quantities.csproj'
+  Project: 'source/Atmoos.Quantities/Atmoos.Quantities.csproj'
   DotNetVersion: 8.0.x
 
 jobs:

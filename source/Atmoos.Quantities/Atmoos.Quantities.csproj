@@ -3,7 +3,7 @@
   <Import Project="../Atmoos.Quantities.Pack.targets" />
 
   <PropertyGroup>
-    <Version>1.2.1</Version>
+    <Version>1.3.0</Version>
     <RootDirectory>../../</RootDirectory>
     <Description>Type-safe and efficient handling of physical quantities.</Description>
   </PropertyGroup>

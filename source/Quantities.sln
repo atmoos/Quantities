@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quantities", "Quantities\Quantities.csproj", "{D958569A-559A-4804-8C9B-5A11F9AEB563}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atmoos.Quantities", "Atmoos.Quantities\Atmoos.Quantities.csproj", "{D958569A-559A-4804-8C9B-5A11F9AEB563}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quantities.Benchmark", "Quantities.Benchmark\Quantities.Benchmark.csproj", "{846DA54C-EE92-4BCE-8E83-C2B173DB4F8F}"
 EndProject
@@ -21,9 +21,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quantities.Units", "Quantit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quantities.Units.Test", "Quantities.Units.Test\Quantities.Units.Test.csproj", "{45F72F9C-F4EA-49DA-8354-C90CB6DC9705}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quantities.Test", "Quantities.Test\Quantities.Test.csproj", "{43BAE3B6-0B07-4F56-93D3-A79C7608EFBD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atmoos.Quantities.Test", "Atmoos.Quantities.Test\Atmoos.Quantities.Test.csproj", "{43BAE3B6-0B07-4F56-93D3-A79C7608EFBD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quantities.TestTools", "Quantities.TestTools\Quantities.TestTools.csproj", "{FAAE0F41-D2D5-4A48-83AD-3A2216D55DFD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atmoos.Quantities.TestTools", "Atmoos.Quantities.TestTools\Atmoos.Quantities.TestTools.csproj", "{FAAE0F41-D2D5-4A48-83AD-3A2216D55DFD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

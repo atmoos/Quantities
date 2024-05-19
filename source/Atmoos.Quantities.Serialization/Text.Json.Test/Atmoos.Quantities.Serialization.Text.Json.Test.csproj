@@ -2,10 +2,6 @@
   <Import Project="../../Atmoos.Quantities.Build.props" />
   <Import Project="../../Atmoos.Quantities.Test.props" />
 
-  <PropertyGroup>
-    <IsPackable>false</IsPackable>
-  </PropertyGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\..\Atmoos.Quantities.Units\Atmoos.Quantities.Units.csproj" />
     <ProjectReference Include="..\Text.Json\Atmoos.Quantities.Serialization.Text.Json.csproj" />

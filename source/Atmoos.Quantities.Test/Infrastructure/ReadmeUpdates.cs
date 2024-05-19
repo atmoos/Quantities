@@ -10,7 +10,6 @@ namespace Atmoos.Quantities.Test.Infrastructure;
 public class ReadmeUpdates
 {
     private const String quantitiesNamespace = "Atmoos.Quantities";
-
     private static readonly FileInfo readme = RepoDir.FindFile(Path.Combine("source", quantitiesNamespace, "readme.md"));
 
     [Fact]

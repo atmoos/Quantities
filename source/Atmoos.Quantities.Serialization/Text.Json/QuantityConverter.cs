@@ -4,6 +4,7 @@ using System.Text.Json.Serialization;
 using Atmoos.Quantities.Core;
 using Atmoos.Quantities.Core.Serialization;
 using Atmoos.Quantities.Dimensions;
+
 using static System.Text.Json.JsonTokenType;
 
 namespace Atmoos.Quantities.Serialization.Text.Json;

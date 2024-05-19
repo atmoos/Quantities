@@ -1,11 +1,11 @@
-# More Units for Atmoos.Quantities
+# Atmoos.Quantities.Units
 
 Extends [Atmoos.Quantities](https://www.nuget.org/packages/Atmoos.Quantities/) with many more units.
 
 ## Supported Units of Measurement
 
 ```text units
-Units
+Atmoos.Quantities.Units
 ├── Si
 │   ├── Derived
 │   │   ├── ElectricalResistance

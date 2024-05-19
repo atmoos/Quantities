@@ -1,4 +1,4 @@
-# Serialization of Quantities using Newtonsoft.Json
+# Atmoos.Quantities.Serialization.Newtonsoft
 
 Enables serialisation of [Atmoos.Quantities](https://www.nuget.org/packages/Atmoos.Quantities/) using `Newtonsoft.Json`.
 
@@ -7,7 +7,7 @@ Enables serialisation of [Atmoos.Quantities](https://www.nuget.org/packages/Atmo
 Use the extension method:
 
 ```csharp
-using Quantities.Serialization.Newtonsoft;
+using Atmoos.Quantities.Serialization.Newtonsoft;
 
 /* ... */
 

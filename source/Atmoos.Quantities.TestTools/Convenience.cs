@@ -22,7 +22,7 @@ public static class Convenience
         where TQuantity : struct, IQuantity<TQuantity>, IDimension
     {
         ReformatEqualMessage((e, a, p) => a.Equal(e, p), expected, actual, precision);
-        Assert.True(actual.Value.HasSameMeasure(expected.Value), $"Measure mismatch: {actual} != {expected}");
+        Xunit.Assert.True(actual.Value.HasSameMeasure(expected.Value), $"Measure mismatch: {actual} != {expected}");
     }
     public static void Equal<T>(this T actual, T expected, Int32 precision = fullPrecision)
     where T : IDivisionOperators<T, T, Double>
@@ -36,18 +36,18 @@ public static class Convenience
         const Int32 maxRoundingPrecision = maxDoublePrecision - 1;
         if (precision >= maxDoublePrecision) {
             if (precision == maxDoublePrecision) {
-                Assert.Equal(expected, actual);
+                Xunit.Assert.Equal(expected, actual);
                 return;
             }
             throw new ArgumentOutOfRangeException(nameof(precision), precision, $"Doubles can't be compared to precisions higher than {maxDoublePrecision}.");
         }
-        Assert.Equal(expected, actual, precision);
+        Xunit.Assert.Equal(expected, actual, precision);
         if (precision <= maxRoundingPrecision) {
             if (precision == maxRoundingPrecision) {
-                Assert.Throws<EqualException>(() => Assert.Equal(expected, actual));
+                Xunit.Assert.Throws<EqualException>(() => Xunit.Assert.Equal(expected, actual));
                 return;
             }
-            Assert.Throws<EqualException>(() => Assert.Equal(expected, actual, precision + 1));
+            Xunit.Assert.Throws<EqualException>(() => Xunit.Assert.Equal(expected, actual, precision + 1));
         }
     }
     public static void FormattingMatches(Func<Double, IFormattable> formatterFactory, String unit)
@@ -58,10 +58,10 @@ public static class Convenience
         CultureInfo formatProvider = CultureInfo.CurrentCulture;
         String actual = formattable.ToString(format, formatProvider);
         String expected = $"{value.ToString(format, formatProvider)} {unit}";
-        Assert.Equal(expected, actual);
+        Xunit.Assert.Equal(expected, actual);
     }
-    public static void IsTrue(this Boolean condition, [CallerArgumentExpression(nameof(condition))] String test = "") => Assert.True(condition, test);
-    public static void IsFalse(this Boolean condition, [CallerArgumentExpression(nameof(condition))] String test = "") => Assert.False(condition, test);
+    public static void IsTrue(this Boolean condition, [CallerArgumentExpression(nameof(condition))] String test = "") => Xunit.Assert.True(condition, test);
+    public static void IsFalse(this Boolean condition, [CallerArgumentExpression(nameof(condition))] String test = "") => Xunit.Assert.False(condition, test);
     private static void ReformatEqualMessage<T>(Action<T, T, Int32> assertion, T expected, T actual, Int32 precision)
         where T : IFormattable
     {

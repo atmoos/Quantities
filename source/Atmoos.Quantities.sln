@@ -1,0 +1,84 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atmoos.Quantities", "Atmoos.Quantities\Atmoos.Quantities.csproj", "{D958569A-559A-4804-8C9B-5A11F9AEB563}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atmoos.Quantities.Benchmark", "Atmoos.Quantities.Benchmark\Atmoos.Quantities.Benchmark.csproj", "{846DA54C-EE92-4BCE-8E83-C2B173DB4F8F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Atmoos.Quantities.Serialization", "Atmoos.Quantities.Serialization", "{E04095D5-F6D9-467F-9D7E-CC7AF8396E9F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atmoos.Quantities.Serialization.Text.Json", "Atmoos.Quantities.Serialization\Text.Json\Atmoos.Quantities.Serialization.Text.Json.csproj", "{64C99937-7C3C-437A-BB52-CDF80F156EEE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atmoos.Quantities.Serialization.Newtonsoft", "Atmoos.Quantities.Serialization\Newtonsoft\Atmoos.Quantities.Serialization.Newtonsoft.csproj", "{77CD9A1A-1965-414B-B6A4-C580448E46BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atmoos.Quantities.Serialization.Newtonsoft.Test", "Atmoos.Quantities.Serialization\Newtonsoft.Test\Atmoos.Quantities.Serialization.Newtonsoft.Test.csproj", "{A8F2E897-0E78-4675-8A02-448EC8A61388}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atmoos.Quantities.Serialization.Text.Json.Test", "Atmoos.Quantities.Serialization\Text.Json.Test\Atmoos.Quantities.Serialization.Text.Json.Test.csproj", "{1C0B88CF-0A15-4128-9643-55945694C522}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atmoos.Quantities.Units", "Atmoos.Quantities.Units\Atmoos.Quantities.Units.csproj", "{D68CBF58-5BC4-495E-A0FF-30659CA9A159}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atmoos.Quantities.Units.Test", "Atmoos.Quantities.Units.Test\Atmoos.Quantities.Units.Test.csproj", "{45F72F9C-F4EA-49DA-8354-C90CB6DC9705}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atmoos.Quantities.Test", "Atmoos.Quantities.Test\Atmoos.Quantities.Test.csproj", "{43BAE3B6-0B07-4F56-93D3-A79C7608EFBD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atmoos.Quantities.TestTools", "Atmoos.Quantities.TestTools\Atmoos.Quantities.TestTools.csproj", "{FAAE0F41-D2D5-4A48-83AD-3A2216D55DFD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D958569A-559A-4804-8C9B-5A11F9AEB563}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D958569A-559A-4804-8C9B-5A11F9AEB563}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D958569A-559A-4804-8C9B-5A11F9AEB563}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D958569A-559A-4804-8C9B-5A11F9AEB563}.Release|Any CPU.Build.0 = Release|Any CPU
+		{846DA54C-EE92-4BCE-8E83-C2B173DB4F8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{846DA54C-EE92-4BCE-8E83-C2B173DB4F8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{846DA54C-EE92-4BCE-8E83-C2B173DB4F8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{846DA54C-EE92-4BCE-8E83-C2B173DB4F8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64C99937-7C3C-437A-BB52-CDF80F156EEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64C99937-7C3C-437A-BB52-CDF80F156EEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64C99937-7C3C-437A-BB52-CDF80F156EEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64C99937-7C3C-437A-BB52-CDF80F156EEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77CD9A1A-1965-414B-B6A4-C580448E46BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77CD9A1A-1965-414B-B6A4-C580448E46BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77CD9A1A-1965-414B-B6A4-C580448E46BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77CD9A1A-1965-414B-B6A4-C580448E46BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8F2E897-0E78-4675-8A02-448EC8A61388}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8F2E897-0E78-4675-8A02-448EC8A61388}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8F2E897-0E78-4675-8A02-448EC8A61388}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8F2E897-0E78-4675-8A02-448EC8A61388}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C0B88CF-0A15-4128-9643-55945694C522}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C0B88CF-0A15-4128-9643-55945694C522}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C0B88CF-0A15-4128-9643-55945694C522}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C0B88CF-0A15-4128-9643-55945694C522}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D68CBF58-5BC4-495E-A0FF-30659CA9A159}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D68CBF58-5BC4-495E-A0FF-30659CA9A159}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D68CBF58-5BC4-495E-A0FF-30659CA9A159}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D68CBF58-5BC4-495E-A0FF-30659CA9A159}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45F72F9C-F4EA-49DA-8354-C90CB6DC9705}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45F72F9C-F4EA-49DA-8354-C90CB6DC9705}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45F72F9C-F4EA-49DA-8354-C90CB6DC9705}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45F72F9C-F4EA-49DA-8354-C90CB6DC9705}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43BAE3B6-0B07-4F56-93D3-A79C7608EFBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43BAE3B6-0B07-4F56-93D3-A79C7608EFBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43BAE3B6-0B07-4F56-93D3-A79C7608EFBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43BAE3B6-0B07-4F56-93D3-A79C7608EFBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAAE0F41-D2D5-4A48-83AD-3A2216D55DFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAAE0F41-D2D5-4A48-83AD-3A2216D55DFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAAE0F41-D2D5-4A48-83AD-3A2216D55DFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAAE0F41-D2D5-4A48-83AD-3A2216D55DFD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{64C99937-7C3C-437A-BB52-CDF80F156EEE} = {E04095D5-F6D9-467F-9D7E-CC7AF8396E9F}
+		{77CD9A1A-1965-414B-B6A4-C580448E46BA} = {E04095D5-F6D9-467F-9D7E-CC7AF8396E9F}
+		{A8F2E897-0E78-4675-8A02-448EC8A61388} = {E04095D5-F6D9-467F-9D7E-CC7AF8396E9F}
+		{1C0B88CF-0A15-4128-9643-55945694C522} = {E04095D5-F6D9-467F-9D7E-CC7AF8396E9F}
+	EndGlobalSection
+EndGlobal

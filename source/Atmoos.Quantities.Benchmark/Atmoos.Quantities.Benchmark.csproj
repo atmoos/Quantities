@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../Atmoos.Quantities.Build.props" />
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <Configuration>Release</Configuration>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Atmoos.Sphere.BenchmarkDotNet" Version="0.1.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Atmoos.Quantities.Units\Atmoos.Quantities.Units.csproj" />
+    <ProjectReference Include="..\Atmoos.Quantities.Serialization\Text.Json\Atmoos.Quantities.Serialization.Text.Json.csproj" />
+    <ProjectReference Include="..\Atmoos.Quantities.Serialization\Newtonsoft\Atmoos.Quantities.Serialization.Newtonsoft.csproj" />
+  </ItemGroup>
+
+</Project>

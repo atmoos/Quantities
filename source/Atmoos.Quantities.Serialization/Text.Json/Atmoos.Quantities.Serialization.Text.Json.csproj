@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../../Atmoos.Quantities.Build.props" />
+  <Import Project="../Serialization.Pack.targets" />
+
+  <PropertyGroup>
+    <Version>1.3.0</Version>
+    <RootDirectory>../../../</RootDirectory>
+    <PackageTags>$(PackageTags), json, text.json, system.text.json, system-text-json</PackageTags>
+    <Description>Serialization of Atmoos.Quantities types with System.Text.Json.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Atmoos.Quantities" Version="1.3.*" />
+  </ItemGroup>
+
+</Project>

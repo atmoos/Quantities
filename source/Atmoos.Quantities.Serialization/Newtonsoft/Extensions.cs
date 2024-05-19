@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using Newtonsoft.Json;
 
-namespace Quantities.Serialization.Newtonsoft;
+namespace Atmoos.Quantities.Serialization.Newtonsoft;
 
 public static class Extensions
 {

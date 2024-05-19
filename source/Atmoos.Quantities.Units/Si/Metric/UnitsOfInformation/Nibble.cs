@@ -1,6 +1,6 @@
-using Quantities.Dimensions;
+using Atmoos.Quantities.Dimensions;
 
-namespace Quantities.Units.Si.Metric.UnitsOfInformation;
+namespace Atmoos.Quantities.Units.Si.Metric.UnitsOfInformation;
 
 public readonly struct Nibble : IMetricUnit, IAmountOfInformation
 {

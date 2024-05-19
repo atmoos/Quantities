@@ -1,7 +1,7 @@
-﻿using Quantities.Dimensions;
-using Quantities.Units.Imperial.Length;
+﻿using Atmoos.Quantities.Dimensions;
+using Atmoos.Quantities.Units.Imperial.Length;
 
-namespace Quantities.Units.Imperial.Volume;
+namespace Atmoos.Quantities.Units.Imperial.Volume;
 
 // https://en.wikipedia.org/wiki/Gallon
 public readonly struct Gallon : IImperialUnit, IVolume, IPowerOf<ILength>

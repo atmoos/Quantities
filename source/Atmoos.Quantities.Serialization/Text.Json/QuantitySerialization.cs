@@ -2,7 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Quantities.Serialization.Text.Json;
+namespace Atmoos.Quantities.Serialization.Text.Json;
 
 internal sealed class QuantitySerialization : JsonConverterFactory
 {

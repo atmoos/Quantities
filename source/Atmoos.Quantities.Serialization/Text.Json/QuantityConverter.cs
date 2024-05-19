@@ -1,12 +1,12 @@
 ﻿using System.Runtime.Serialization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Quantities.Core;
-using Quantities.Core.Serialization;
-using Quantities.Dimensions;
+using Atmoos.Quantities.Core;
+using Atmoos.Quantities.Core.Serialization;
+using Atmoos.Quantities.Dimensions;
 using static System.Text.Json.JsonTokenType;
 
-namespace Quantities.Serialization.Text.Json;
+namespace Atmoos.Quantities.Serialization.Text.Json;
 
 file sealed class JsonWriter : IWriter
 {

@@ -1,6 +1,6 @@
-﻿using Quantities.Units.Si.Derived;
+﻿using Atmoos.Quantities.Units.Si.Derived;
 
-namespace Quantities.Units.Test;
+namespace Atmoos.Quantities.Units.Test;
 
 public sealed class ElectricalResistanceTest
 {

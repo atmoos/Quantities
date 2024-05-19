@@ -1,9 +1,9 @@
-﻿using Quantities.Dimensions;
-using Quantities.Units.NonStandard.Length;
-using Quantities.Units.Si.Metric;
-using static Quantities.Extensions;
+﻿using Atmoos.Quantities.Dimensions;
+using Atmoos.Quantities.Units.NonStandard.Length;
+using Atmoos.Quantities.Units.Si.Metric;
+using static Atmoos.Quantities.Extensions;
 
-namespace Quantities.Units.NonStandard.Velocity;
+namespace Atmoos.Quantities.Units.NonStandard.Velocity;
 
 // https://en.wikipedia.org/wiki/Knot_(unit)
 public readonly struct Knot : INonStandardUnit, IVelocity

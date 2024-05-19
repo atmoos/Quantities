@@ -1,7 +1,7 @@
-﻿using Quantities.Dimensions;
-using Quantities.Units.Imperial.Length;
+﻿using Atmoos.Quantities.Dimensions;
+using Atmoos.Quantities.Units.Imperial.Length;
 
-namespace Quantities.Units.Imperial.Area;
+namespace Atmoos.Quantities.Units.Imperial.Area;
 
 // https://en.wikipedia.org/wiki/Imperial_units
 public readonly struct Perch : IImperialUnit, IArea, IPowerOf<ILength>

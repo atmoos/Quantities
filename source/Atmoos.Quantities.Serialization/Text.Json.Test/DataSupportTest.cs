@@ -1,7 +1,7 @@
-﻿using Quantities.Units.Si.Metric.UnitsOfInformation;
-using Bytes = Quantities.Units.Si.Metric.UnitsOfInformation.Byte;
+﻿using Atmoos.Quantities.Units.Si.Metric.UnitsOfInformation;
+using Bytes = Atmoos.Quantities.Units.Si.Metric.UnitsOfInformation.Byte;
 
-namespace Quantities.Serialization.Text.Json.Test;
+namespace Atmoos.Quantities.Serialization.Text.Json.Test;
 
 public class DataSupportTest : ISerializationTester<Data>
 {

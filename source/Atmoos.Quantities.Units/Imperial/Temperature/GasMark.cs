@@ -1,8 +1,8 @@
-﻿using Quantities.Dimensions;
+﻿using Atmoos.Quantities.Dimensions;
 
-namespace Quantities.Units.Imperial.Temperature;
+namespace Atmoos.Quantities.Units.Imperial.Temperature;
 
-// [K] ≡ [GM] × ​125⁄9 + 394.261 
+// [K] ≡ [GM] × ​125⁄9 + 394.261
 // See: https://en.wikipedia.org/wiki/Gas_mark
 public readonly struct GasMark : IImperialUnit, ITemperature
 {

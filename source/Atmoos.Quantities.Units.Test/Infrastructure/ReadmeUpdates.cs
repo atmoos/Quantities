@@ -1,11 +1,11 @@
 using Atmoos.Sphere.Text;
-using Quantities.Units.Si.Metric;
-using Quantities.TestTools;
+using Atmoos.Quantities.Units.Si.Metric;
+using Atmoos.Quantities.TestTools;
 
 using static Atmoos.Sphere.Text.LineTags;
-using static Quantities.TestTools.Extensions;
+using static Atmoos.Quantities.TestTools.Extensions;
 
-namespace Quantities.Units.Test.Infrastructure;
+namespace Atmoos.Quantities.Units.Test.Infrastructure;
 
 [Trait(AutoGenerate, Kind.Documentation)]
 public class ReadmeUpdates

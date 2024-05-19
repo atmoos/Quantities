@@ -1,6 +1,6 @@
-﻿using Quantities.Dimensions;
+﻿using Atmoos.Quantities.Dimensions;
 
-namespace Quantities.Units.Test;
+namespace Atmoos.Quantities.Units.Test;
 
 public class UserDefined
 {

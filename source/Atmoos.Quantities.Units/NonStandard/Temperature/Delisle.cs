@@ -1,7 +1,7 @@
-﻿using Quantities.Dimensions;
-using Quantities.Units.Si;
+﻿using Atmoos.Quantities.Dimensions;
+using Atmoos.Quantities.Units.Si;
 
-namespace Quantities.Units.NonStandard.Temperature;
+namespace Atmoos.Quantities.Units.NonStandard.Temperature;
 
 // [K] = 373.15 − [°De] × ​2⁄3
 // See: https://en.wikipedia.org/wiki/Conversion_of_scales_of_temperature

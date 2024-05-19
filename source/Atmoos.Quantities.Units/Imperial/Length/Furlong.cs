@@ -1,6 +1,6 @@
-﻿using Quantities.Dimensions;
+﻿using Atmoos.Quantities.Dimensions;
 
-namespace Quantities.Units.Imperial.Length;
+namespace Atmoos.Quantities.Units.Imperial.Length;
 
 public readonly struct Furlong : IImperialUnit, ILength
 {

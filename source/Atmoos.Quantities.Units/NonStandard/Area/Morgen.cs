@@ -1,7 +1,7 @@
-﻿using Quantities.Dimensions;
-using Quantities.Units.Si;
+﻿using Atmoos.Quantities.Dimensions;
+using Atmoos.Quantities.Units.Si;
 
-namespace Quantities.Units.NonStandard.Area;
+namespace Atmoos.Quantities.Units.NonStandard.Area;
 
 // See: https://de.wikipedia.org/wiki/Morgen_(Einheit)
 public readonly struct Morgen : INonStandardUnit, IArea, IPowerOf<ILength>

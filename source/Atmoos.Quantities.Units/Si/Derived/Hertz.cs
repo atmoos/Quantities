@@ -1,6 +1,6 @@
-using Quantities.Dimensions;
+using Atmoos.Quantities.Dimensions;
 
-namespace Quantities.Units.Si.Derived;
+namespace Atmoos.Quantities.Units.Si.Derived;
 public readonly struct Hertz : ISiUnit, IFrequency, IInvertible<ITime>
 {
     public static Transformation ToSi(Transformation self) => self;

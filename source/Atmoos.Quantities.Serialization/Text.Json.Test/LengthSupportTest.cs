@@ -1,7 +1,7 @@
-﻿using Quantities.Units.Imperial.Length;
-using Quantities.Units.NonStandard.Length;
+﻿using Atmoos.Quantities.Units.Imperial.Length;
+using Atmoos.Quantities.Units.NonStandard.Length;
 
-namespace Quantities.Serialization.Text.Json.Test;
+namespace Atmoos.Quantities.Serialization.Text.Json.Test;
 
 public class LengthSupportTest : ISerializationTester<Length>
 {

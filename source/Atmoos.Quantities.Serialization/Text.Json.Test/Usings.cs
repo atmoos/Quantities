@@ -1,7 +1,7 @@
-﻿global using Quantities.Prefixes;
-global using Quantities.Units.Si;
-global using Quantities.Units.Si.Derived;
-global using Quantities.Units.Si.Metric;
+﻿global using Atmoos.Quantities.Prefixes;
+global using Atmoos.Quantities.Units.Si;
+global using Atmoos.Quantities.Units.Si.Derived;
+global using Atmoos.Quantities.Units.Si.Metric;
 global using Xunit;
 
-global using static Quantities.Systems;
+global using static Atmoos.Quantities.Systems;

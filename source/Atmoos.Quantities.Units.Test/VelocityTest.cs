@@ -1,8 +1,8 @@
-﻿using Quantities.Units.NonStandard.Length;
-using Quantities.Units.NonStandard.Velocity;
-using Quantities.Units.Si.Metric;
+﻿using Atmoos.Quantities.Units.NonStandard.Length;
+using Atmoos.Quantities.Units.NonStandard.Velocity;
+using Atmoos.Quantities.Units.Si.Metric;
 
-namespace Quantities.Units.Test;
+namespace Atmoos.Quantities.Units.Test;
 
 public sealed class VelocityTest
 {

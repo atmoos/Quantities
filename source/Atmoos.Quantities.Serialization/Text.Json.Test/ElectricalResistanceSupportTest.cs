@@ -1,4 +1,4 @@
-﻿namespace Quantities.Serialization.Text.Json.Test;
+﻿namespace Atmoos.Quantities.Serialization.Text.Json.Test;
 
 public class ElectricalResistanceSupportTest : ISerializationTester<ElectricalResistance>
 {

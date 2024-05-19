@@ -1,7 +1,7 @@
-﻿using Quantities.Units.Si.Derived;
-using Quantities.Units.Si.Metric;
+﻿using Atmoos.Quantities.Units.Si.Derived;
+using Atmoos.Quantities.Units.Si.Metric;
 
-namespace Quantities.Units.Test;
+namespace Atmoos.Quantities.Units.Test;
 
 public sealed class EnergyTest
 {

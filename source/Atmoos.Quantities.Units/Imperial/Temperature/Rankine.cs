@@ -1,7 +1,7 @@
-﻿using Quantities.Dimensions;
-using Quantities.Units.Si;
+﻿using Atmoos.Quantities.Dimensions;
+using Atmoos.Quantities.Units.Si;
 
-namespace Quantities.Units.Imperial.Temperature;
+namespace Atmoos.Quantities.Units.Imperial.Temperature;
 
 // [K] ≡ [°R] × 5/9
 // See: https://en.wikipedia.org/wiki/Conversion_of_scales_of_temperature

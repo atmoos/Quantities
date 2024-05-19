@@ -1,8 +1,8 @@
-﻿global using Quantities.Prefixes;
-global using Quantities.Units.Imperial.Length;
-global using Quantities.Units.Si;
+﻿global using Atmoos.Quantities.Prefixes;
+global using Atmoos.Quantities.Units.Imperial.Length;
+global using Atmoos.Quantities.Units.Si;
 global using Xunit;
 
-global using static Quantities.Systems;
-global using static Quantities.TestTools.Traits;
-global using static Quantities.TestTools.Convenience;
+global using static Atmoos.Quantities.Systems;
+global using static Atmoos.Quantities.TestTools.Traits;
+global using static Atmoos.Quantities.TestTools.Convenience;

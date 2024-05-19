@@ -1,7 +1,7 @@
-﻿using Quantities.Dimensions;
-using Quantities.Units.Si;
+﻿using Atmoos.Quantities.Dimensions;
+using Atmoos.Quantities.Units.Si;
 
-namespace Quantities.Units.NonStandard.Length;
+namespace Atmoos.Quantities.Units.NonStandard.Length;
 
 // https://en.wikipedia.org/wiki/Light-year
 public readonly struct LightYear : INonStandardUnit, ILength

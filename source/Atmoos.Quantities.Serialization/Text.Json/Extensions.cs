@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using System.Text.Json;
 
-namespace Quantities.Serialization.Text.Json;
+namespace Atmoos.Quantities.Serialization.Text.Json;
 
 public static class Extensions
 {

@@ -1,6 +1,6 @@
-﻿using Quantities.Dimensions;
+﻿using Atmoos.Quantities.Dimensions;
 
-namespace Quantities.Units.Si.Metric;
+namespace Atmoos.Quantities.Units.Si.Metric;
 
 // https://en.wikipedia.org/wiki/Astronomical_unit
 public readonly struct AstronomicalUnit : IMetricUnit, ILength

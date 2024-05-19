@@ -1,6 +1,6 @@
-﻿using Quantities.Dimensions;
+﻿using Atmoos.Quantities.Dimensions;
 
-namespace Quantities.Units.Imperial.Power;
+namespace Atmoos.Quantities.Units.Imperial.Power;
 
 // See: https://en.wikipedia.org/wiki/Horsepower
 public readonly struct HorsePower : IImperialUnit, IPower

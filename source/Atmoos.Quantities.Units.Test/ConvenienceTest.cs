@@ -1,6 +1,6 @@
 ﻿using Xunit.Sdk;
 
-namespace Quantities.Units.Test;
+namespace Atmoos.Quantities.Units.Test;
 
 public class ConvenienceTest
 {

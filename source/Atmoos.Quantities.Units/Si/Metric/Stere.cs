@@ -1,6 +1,6 @@
-﻿using Quantities.Dimensions;
+﻿using Atmoos.Quantities.Dimensions;
 
-namespace Quantities.Units.Si.Metric;
+namespace Atmoos.Quantities.Units.Si.Metric;
 
 // https://en.wikipedia.org/wiki/Stere
 // https://en.wikipedia.org/wiki/List_of_metric_units

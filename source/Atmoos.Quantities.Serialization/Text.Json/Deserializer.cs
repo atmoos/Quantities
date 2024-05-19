@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using static System.Text.Json.JsonTokenType;
 
-namespace Quantities.Serialization.Text.Json;
+namespace Atmoos.Quantities.Serialization.Text.Json;
 
 internal static class Deserializer
 {

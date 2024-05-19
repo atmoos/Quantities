@@ -1,7 +1,7 @@
-﻿using Quantities.Dimensions;
-using Quantities.Units.Si;
+﻿using Atmoos.Quantities.Dimensions;
+using Atmoos.Quantities.Units.Si;
 
-namespace Quantities.Units.NonStandard.Mass;
+namespace Atmoos.Quantities.Units.NonStandard.Mass;
 
 // https://de.wikipedia.org/wiki/Pfund
 public readonly struct Pfund : INonStandardUnit, IMass

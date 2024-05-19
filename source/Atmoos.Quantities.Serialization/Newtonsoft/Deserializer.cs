@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using static Newtonsoft.Json.JsonToken;
 
-namespace Quantities.Serialization.Newtonsoft;
+namespace Atmoos.Quantities.Serialization.Newtonsoft;
 
 internal static class Deserializer
 {

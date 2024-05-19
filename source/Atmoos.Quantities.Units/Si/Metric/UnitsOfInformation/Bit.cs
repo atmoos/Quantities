@@ -1,6 +1,6 @@
-﻿using Quantities.Dimensions;
+﻿using Atmoos.Quantities.Dimensions;
 
-namespace Quantities.Units.Si.Metric.UnitsOfInformation;
+namespace Atmoos.Quantities.Units.Si.Metric.UnitsOfInformation;
 
 /* There is no SI unit for "amount of information".
 Wikipedia seems to suggest it's best to define the 'bit' as the base unit.

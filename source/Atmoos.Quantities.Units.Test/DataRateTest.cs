@@ -1,9 +1,9 @@
-﻿using Quantities.Units.Si.Metric;
-using Quantities.Units.Si.Metric.UnitsOfInformation;
+﻿using Atmoos.Quantities.Units.Si.Metric;
+using Atmoos.Quantities.Units.Si.Metric.UnitsOfInformation;
 
-using Bytes = Quantities.Units.Si.Metric.UnitsOfInformation.Byte;
+using Bytes = Atmoos.Quantities.Units.Si.Metric.UnitsOfInformation.Byte;
 
-namespace Quantities.Units.Test;
+namespace Atmoos.Quantities.Units.Test;
 
 public class DataRateTest
 {

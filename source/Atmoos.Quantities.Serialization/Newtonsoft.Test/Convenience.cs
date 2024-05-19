@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
-using Quantities.Units.Si.Metric;
+using Atmoos.Quantities.Units.Si.Metric;
 
-namespace Quantities.Serialization.Newtonsoft.Test;
+namespace Atmoos.Quantities.Serialization.Newtonsoft.Test;
 
 public static class Convenience
 {

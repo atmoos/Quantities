@@ -1,3 +1,3 @@
 ﻿global using Xunit;
 
-global using static Quantities.Systems;
+global using static Atmoos.Quantities.Systems;

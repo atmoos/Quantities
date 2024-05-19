@@ -1,7 +1,7 @@
-﻿using Quantities.Units.Imperial.Length;
-using Quantities.Units.Imperial.Volume;
+﻿using Atmoos.Quantities.Units.Imperial.Length;
+using Atmoos.Quantities.Units.Imperial.Volume;
 
-namespace Quantities.Serialization.Text.Json.Test;
+namespace Atmoos.Quantities.Serialization.Text.Json.Test;
 
 public class VolumeSupportTest : ISerializationTester<Volume>, IInjectedUnitTester<Volume>
 {

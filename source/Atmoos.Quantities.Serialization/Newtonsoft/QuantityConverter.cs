@@ -1,11 +1,11 @@
 ﻿using System.Runtime.Serialization;
 using Newtonsoft.Json;
-using Quantities.Core;
-using Quantities.Core.Serialization;
-using Quantities.Dimensions;
+using Atmoos.Quantities.Core;
+using Atmoos.Quantities.Core.Serialization;
+using Atmoos.Quantities.Dimensions;
 using static Newtonsoft.Json.JsonToken;
 
-namespace Quantities.Serialization.Newtonsoft;
+namespace Atmoos.Quantities.Serialization.Newtonsoft;
 
 file sealed class Writer : IWriter
 {

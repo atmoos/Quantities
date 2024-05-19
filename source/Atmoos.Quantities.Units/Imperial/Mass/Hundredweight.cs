@@ -1,6 +1,6 @@
-﻿using Quantities.Dimensions;
+﻿using Atmoos.Quantities.Dimensions;
 
-namespace Quantities.Units.Imperial.Mass;
+namespace Atmoos.Quantities.Units.Imperial.Mass;
 
 public readonly struct Hundredweight : IImperialUnit, IMass
 {

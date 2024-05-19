@@ -1,74 +1,74 @@
 ﻿using System.Text.Json;
-using Quantities.Dimensions;
-using Quantities.Units.Imperial.Length;
+using Atmoos.Quantities.Dimensions;
+using Atmoos.Quantities.Units.Imperial.Length;
 
-namespace Quantities.Serialization.Text.Json.Test;
+namespace Atmoos.Quantities.Serialization.Text.Json.Test;
 
 public class SerializationTest
 {
-    private static readonly JsonSerializerOptions options = new JsonSerializerOptions { WriteIndented = true }.EnableQuantities();
+  private static readonly JsonSerializerOptions options = new JsonSerializerOptions { WriteIndented = true }.EnableQuantities();
 
-    [Fact]
-    public void FalseUnitsCannotBeInjectedViaSerialization()
-    {
-        Length length = Length.Of(6, Si<Metre>());
+  [Fact]
+  public void FalseUnitsCannotBeInjectedViaSerialization()
+  {
+    Length length = Length.Of(6, Si<Metre>());
 
-        String falseUnit = length.Serialize().Replace(Metre.Representation, Ohm.Representation);
+    String falseUnit = length.Serialize().Replace(Metre.Representation, Ohm.Representation);
 
-        var msg = Assert.Throws<InvalidOperationException>(() => falseUnit.Deserialize<Length>()).Message;
-        Assert.StartsWith("Dimension mismatch:", msg);
-        Assert.Contains(nameof(Ohm), msg);
-        Assert.Contains(nameof(ILength), msg);
-        Assert.Contains(nameof(IElectricalResistance), msg);
-    }
+    var msg = Assert.Throws<InvalidOperationException>(() => falseUnit.Deserialize<Length>()).Message;
+    Assert.StartsWith("Dimension mismatch:", msg);
+    Assert.Contains(nameof(Ohm), msg);
+    Assert.Contains(nameof(ILength), msg);
+    Assert.Contains(nameof(IElectricalResistance), msg);
+  }
 
-    [Fact]
-    public void AliasingUnitsAreSupported()
-    {
-        Volume fourCubicMetersInLitres = Volume.Of(4000, Metric<Litre>());
-        Area oneSquareMetre = Area.Of(1, Square(Si<Metre>()));
-        Length expectedHeight = fourCubicMetersInLitres / oneSquareMetre;
+  [Fact]
+  public void AliasingUnitsAreSupported()
+  {
+    Volume fourCubicMetersInLitres = Volume.Of(4000, Metric<Litre>());
+    Area oneSquareMetre = Area.Of(1, Square(Si<Metre>()));
+    Length expectedHeight = fourCubicMetersInLitres / oneSquareMetre;
 
-        Volume deserializedVolume = fourCubicMetersInLitres.SerializeRoundRobin();
-        Length actualHeight = deserializedVolume / oneSquareMetre;
+    Volume deserializedVolume = fourCubicMetersInLitres.SerializeRoundRobin();
+    Length actualHeight = deserializedVolume / oneSquareMetre;
 
-        Assert.Equal(expectedHeight, actualHeight);
-    }
+    Assert.Equal(expectedHeight, actualHeight);
+  }
 
-    [Fact]
-    public void ReadMetric()
-    {
-        Double value = Math.PI;
-        Length expected = Length.Of(value, Si<Metre>());
+  [Fact]
+  public void ReadMetric()
+  {
+    Double value = Math.PI;
+    Length expected = Length.Of(value, Si<Metre>());
 
-        expected.SupportsSerialization();
-    }
+    expected.SupportsSerialization();
+  }
 
-    [Fact]
-    public void ReadPrefixedMetric()
-    {
-        Double value = Math.PI;
-        Length expected = Length.Of(value, Si<Centi, Metre>());
+  [Fact]
+  public void ReadPrefixedMetric()
+  {
+    Double value = Math.PI;
+    Length expected = Length.Of(value, Si<Centi, Metre>());
 
-        expected.SupportsSerialization();
-    }
+    expected.SupportsSerialization();
+  }
 
-    [Fact]
-    public void ReadImperial()
-    {
-        Double value = Math.E;
-        Length expected = Length.Of(value, Imperial<Mile>());
+  [Fact]
+  public void ReadImperial()
+  {
+    Double value = Math.E;
+    Length expected = Length.Of(value, Imperial<Mile>());
 
-        expected.SupportsSerialization();
-    }
+    expected.SupportsSerialization();
+  }
 
-    [Fact]
-    public void Metric()
-    {
-        Double value = Math.PI;
-        Length length = Length.Of(value, Si<Metre>());
-        String actual = length.Serialize(options);
-        String expected = $$"""
+  [Fact]
+  public void Metric()
+  {
+    Double value = Math.PI;
+    Length length = Length.Of(value, Si<Metre>());
+    String actual = length.Serialize(options);
+    String expected = $$"""
         {
           "length": {
             "value": {{value:R}},
@@ -78,15 +78,15 @@ public class SerializationTest
           }
         }
         """;
-        Assert.Equal(expected, actual);
-    }
-    [Fact]
-    public void MetricWithPrefix()
-    {
-        Double value = Math.PI;
-        Length length = Length.Of(value, Si<Kilo, Metre>());
-        String actual = length.Serialize(options);
-        String expected = $$"""
+    Assert.Equal(expected, actual);
+  }
+  [Fact]
+  public void MetricWithPrefix()
+  {
+    Double value = Math.PI;
+    Length length = Length.Of(value, Si<Kilo, Metre>());
+    String actual = length.Serialize(options);
+    String expected = $$"""
         {
           "length": {
             "value": {{value:R}},
@@ -97,15 +97,15 @@ public class SerializationTest
           }
         }
         """;
-        Assert.Equal(expected, actual);
-    }
-    [Fact]
-    public void Imperial()
-    {
-        Double value = Math.PI;
-        Length length = Length.Of(value, Imperial<Yard>());
-        String actual = length.Serialize(options);
-        String expected = $$"""
+    Assert.Equal(expected, actual);
+  }
+  [Fact]
+  public void Imperial()
+  {
+    Double value = Math.PI;
+    Length length = Length.Of(value, Imperial<Yard>());
+    String actual = length.Serialize(options);
+    String expected = $$"""
         {
           "length": {
             "value": {{value:R}},
@@ -115,26 +115,26 @@ public class SerializationTest
           }
         }
         """;
-        Assert.Equal(expected, actual);
-    }
+    Assert.Equal(expected, actual);
+  }
 
-    [Fact]
-    public void PowerRepresentationsSupported()
-    {
-        Volume volume = Volume.Of(2, Cubic(Si<Metre>()));
+  [Fact]
+  public void PowerRepresentationsSupported()
+  {
+    Volume volume = Volume.Of(2, Cubic(Si<Metre>()));
 
-        Volume roundRobinSerialization = volume.SerializeRoundRobin();
+    Volume roundRobinSerialization = volume.SerializeRoundRobin();
 
-        Assert.Equal(volume.ToString(), roundRobinSerialization.ToString());
-    }
+    Assert.Equal(volume.ToString(), roundRobinSerialization.ToString());
+  }
 
-    [Fact]
-    public void Compound()
-    {
-        Double value = Math.PI;
-        Velocity velocity = Velocity.Of(value, Si<Kilo, Metre>().Per(Metric<Hour>()));
-        String actual = velocity.Serialize(options);
-        String expected = $$"""
+  [Fact]
+  public void Compound()
+  {
+    Double value = Math.PI;
+    Velocity velocity = Velocity.Of(value, Si<Kilo, Metre>().Per(Metric<Hour>()));
+    String actual = velocity.Serialize(options);
+    String expected = $$"""
         {
           "velocity": {
             "value": {{value:R}},
@@ -150,18 +150,18 @@ public class SerializationTest
           }
         }
         """;
-        Assert.Equal(expected, actual);
-    }
-    [Fact]
-    public void Complex()
-    {
-        var person = new Person {
-            Name = "Foo Bar",
-            Height = Length.Of(1.67, Si<Metre>()),
-            Weight = Mass.Of(72, Si<Kilogram>())
-        };
-        String actual = person.Serialize(options);
-        String expected = """
+    Assert.Equal(expected, actual);
+  }
+  [Fact]
+  public void Complex()
+  {
+    var person = new Person {
+      Name = "Foo Bar",
+      Height = Length.Of(1.67, Si<Metre>()),
+      Weight = Mass.Of(72, Si<Kilogram>())
+    };
+    String actual = person.Serialize(options);
+    String expected = """
         {
           "Name": "Foo Bar",
           "Height": {
@@ -182,29 +182,29 @@ public class SerializationTest
           }
         }
         """;
-        Assert.Equal(expected, actual);
-    }
+    Assert.Equal(expected, actual);
+  }
 
-    [Fact]
-    public void DeserializeComplex()
-    {
-        var expected = new Person {
-            Name = "Hello Deserialization!",
-            Height = Length.Of(16.7, Si<Deci, Metre>()),
-            Weight = Mass.Of(68, Si<Kilogram>())
-        };
+  [Fact]
+  public void DeserializeComplex()
+  {
+    var expected = new Person {
+      Name = "Hello Deserialization!",
+      Height = Length.Of(16.7, Si<Deci, Metre>()),
+      Weight = Mass.Of(68, Si<Kilogram>())
+    };
 
-        Person actual = expected.SerializeRoundRobin();
+    Person actual = expected.SerializeRoundRobin();
 
-        Assert.Equal(expected.Name, actual.Name);
-        Assert.Equal(expected.Height, actual.Height);
-        Assert.Equal(expected.Weight, actual.Weight);
-    }
+    Assert.Equal(expected.Name, actual.Name);
+    Assert.Equal(expected.Height, actual.Height);
+    Assert.Equal(expected.Weight, actual.Weight);
+  }
 
-    private sealed class Person
-    {
-        public required String Name { get; init; }
-        public required Length Height { get; init; }
-        public required Mass Weight { get; init; }
-    }
+  private sealed class Person
+  {
+    public required String Name { get; init; }
+    public required Length Height { get; init; }
+    public required Mass Weight { get; init; }
+  }
 }

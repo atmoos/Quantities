@@ -1,7 +1,7 @@
-﻿using Quantities.Dimensions;
-using Quantities.Units.Imperial.Length;
+﻿using Atmoos.Quantities.Dimensions;
+using Atmoos.Quantities.Units.Imperial.Length;
 
-namespace Quantities.Units.Imperial.Volume;
+namespace Atmoos.Quantities.Units.Imperial.Volume;
 
 // https://en.wikipedia.org/wiki/Fluid_ounce
 public readonly struct FluidOunce : IImperialUnit, IVolume, IPowerOf<ILength>

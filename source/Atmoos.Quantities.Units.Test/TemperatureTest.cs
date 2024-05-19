@@ -1,9 +1,9 @@
-﻿using Quantities.Units.Imperial.Temperature;
-using Quantities.Units.NonStandard.Temperature;
-using Quantities.Units.Si.Derived;
-using Newton = Quantities.Units.NonStandard.Temperature.Newton;
+﻿using Atmoos.Quantities.Units.Imperial.Temperature;
+using Atmoos.Quantities.Units.NonStandard.Temperature;
+using Atmoos.Quantities.Units.Si.Derived;
+using Newton = Atmoos.Quantities.Units.NonStandard.Temperature.Newton;
 
-namespace Quantities.Units.Test;
+namespace Atmoos.Quantities.Units.Test;
 
 // For a lot of the values here, see: https://en.wikipedia.org/wiki/Conversion_of_units_of_temperature#Comparison_of_temperature_scales
 public sealed class TemperatureTest

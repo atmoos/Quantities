@@ -1,6 +1,6 @@
-﻿using Quantities.Dimensions;
+﻿using Atmoos.Quantities.Dimensions;
 
-namespace Quantities.Units.Si.Metric;
+namespace Atmoos.Quantities.Units.Si.Metric;
 
 public readonly struct Are : IMetricUnit, IArea, IPowerOf<ILength>
 {

@@ -1,7 +1,7 @@
-﻿using Quantities.Dimensions;
-using Quantities.Units.Imperial.Length;
+﻿using Atmoos.Quantities.Dimensions;
+using Atmoos.Quantities.Units.Imperial.Length;
 
-namespace Quantities.Units.Imperial.Volume;
+namespace Atmoos.Quantities.Units.Imperial.Volume;
 
 // https://en.wikipedia.org/wiki/Quart
 public readonly struct Quart : IImperialUnit, IVolume, IPowerOf<ILength>

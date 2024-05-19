@@ -1,9 +1,9 @@
-﻿using Quantities.Dimensions;
-using Quantities.Units.Imperial.Area;
-using Quantities.Units.Imperial.Length;
-using Quantities.Units.NonStandard.Area;
+﻿using Atmoos.Quantities.Dimensions;
+using Atmoos.Quantities.Units.Imperial.Area;
+using Atmoos.Quantities.Units.Imperial.Length;
+using Atmoos.Quantities.Units.NonStandard.Area;
 
-namespace Quantities.Serialization.Text.Json.Test;
+namespace Atmoos.Quantities.Serialization.Text.Json.Test;
 
 public class AreaSupportTest : ISerializationTester<Area>, IInjectedUnitTester<Area>
 {

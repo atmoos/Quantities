@@ -1,7 +1,7 @@
-﻿using Quantities.Units.Imperial.Mass;
-using Quantities.Units.NonStandard.Mass;
+﻿using Atmoos.Quantities.Units.Imperial.Mass;
+using Atmoos.Quantities.Units.NonStandard.Mass;
 
-namespace Quantities.Serialization.Text.Json.Test;
+namespace Atmoos.Quantities.Serialization.Text.Json.Test;
 
 public class MassSupportTest : ISerializationTester<Mass>
 {

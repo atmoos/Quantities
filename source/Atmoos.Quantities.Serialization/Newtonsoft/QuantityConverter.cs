@@ -1,8 +1,8 @@
 ﻿using System.Runtime.Serialization;
-using Newtonsoft.Json;
 using Atmoos.Quantities.Core;
 using Atmoos.Quantities.Core.Serialization;
 using Atmoos.Quantities.Dimensions;
+using Newtonsoft.Json;
 using static Newtonsoft.Json.JsonToken;
 
 namespace Atmoos.Quantities.Serialization.Newtonsoft;

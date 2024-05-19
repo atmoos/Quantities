@@ -1,4 +1,4 @@
-using Atmoos.Quantities.Core.Numerics;
+﻿using Atmoos.Quantities.Core.Numerics;
 
 using static Atmoos.Quantities.Benchmark.Convenience;
 using static Atmoos.Quantities.Benchmark.Numerics.Trivial;
@@ -7,19 +7,19 @@ namespace Atmoos.Quantities.Benchmark.Numerics;
 
 public class PolynomialBenchmark
 {
-  private const Double scale = Math.E;
-  private const Double offset = Math.Tau + Math.E;
-  private const Double argument = 0.1321;
-  private static readonly (Double, Double, Double) trivial = (3d, 4d, -1d);
-  private static readonly Polynomial polynomial = Poly(nominator: scale, denominator: Math.PI, offset: offset);
-  private static readonly Polynomial polynomialWithoutOffset = Poly(nominator: scale, denominator: Math.PI);
+    private const Double scale = Math.E;
+    private const Double offset = Math.Tau + Math.E;
+    private const Double argument = 0.1321;
+    private static readonly (Double, Double, Double) trivial = (3d, 4d, -1d);
+    private static readonly Polynomial polynomial = Poly(nominator: scale, denominator: Math.PI, offset: offset);
+    private static readonly Polynomial polynomialWithoutOffset = Poly(nominator: scale, denominator: Math.PI);
 
-  [Benchmark(Baseline = true)]
-  public Double EvaluateTrivial() => Poly(in trivial, argument);
-  [Benchmark]
-  public Double EvaluatePolynomial() => polynomial * argument;
-  [Benchmark]
-  public Double EvaluatePolynomialWithoutOffset() => polynomialWithoutOffset * argument;
+    [Benchmark(Baseline = true)]
+    public Double EvaluateTrivial() => Poly(in trivial, argument);
+    [Benchmark]
+    public Double EvaluatePolynomial() => polynomial * argument;
+    [Benchmark]
+    public Double EvaluatePolynomialWithoutOffset() => polynomialWithoutOffset * argument;
 }
 
 /* Summary

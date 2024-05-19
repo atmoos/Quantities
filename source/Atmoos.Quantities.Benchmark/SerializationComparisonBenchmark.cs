@@ -1,21 +1,21 @@
-using Newtonsoft.Json;
-using Atmoos.Quantities.Prefixes;
+﻿using Atmoos.Quantities.Prefixes;
 using Atmoos.Quantities.Serialization.Newtonsoft;
 using Atmoos.Quantities.Units.Si;
+using Newtonsoft.Json;
 
 namespace Atmoos.Quantities.Benchmark;
 
 [MemoryDiagnoser(displayGenColumns: false)]
 public class SerializationComparisonBenchmark
 {
-  private static readonly JsonSerializerSettings settings = new JsonSerializerSettings().EnableQuantities();
-  private static readonly String fractionalQuantity = Velocity.Of(Math.PI, Si<Kilo, Metre>().Per(Si<Milli, Second>())).Serialize();
+    private static readonly JsonSerializerSettings settings = new JsonSerializerSettings().EnableQuantities();
+    private static readonly String fractionalQuantity = Velocity.Of(Math.PI, Si<Kilo, Metre>().Per(Si<Milli, Second>())).Serialize();
 
-  [Benchmark(Baseline = true)]
-  public Velocity TextJson() => fractionalQuantity.Deserialize<Velocity>();
+    [Benchmark(Baseline = true)]
+    public Velocity TextJson() => fractionalQuantity.Deserialize<Velocity>();
 
-  [Benchmark]
-  public Velocity Newtonsoft() => fractionalQuantity.Deserialize<Velocity>(settings);
+    [Benchmark]
+    public Velocity Newtonsoft() => fractionalQuantity.Deserialize<Velocity>(settings);
 }
 
 /* Summary

@@ -1,9 +1,9 @@
-using System.Runtime.CompilerServices;
-using BenchmarkDotNet.Diagnosers;
+﻿using System.Runtime.CompilerServices;
 using Atmoos.Quantities.Prefixes;
 using Atmoos.Quantities.Units.Si;
 using Atmoos.Quantities.Units.Si.Derived;
 using Atmoos.Quantities.Units.Si.Metric;
+using BenchmarkDotNet.Diagnosers;
 
 namespace Atmoos.Quantities.Benchmark;
 

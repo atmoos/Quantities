@@ -1,4 +1,4 @@
-using Atmoos.Quantities.Dimensions;
+﻿using Atmoos.Quantities.Dimensions;
 
 namespace Atmoos.Quantities.Units.Si.Derived;
 public readonly struct Hertz : ISiUnit, IFrequency, IInvertible<ITime>

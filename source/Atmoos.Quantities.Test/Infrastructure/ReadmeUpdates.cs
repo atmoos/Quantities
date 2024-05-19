@@ -1,8 +1,7 @@
+﻿using Atmoos.Quantities.TestTools;
 using Atmoos.Sphere.Text;
-using Atmoos.Quantities.TestTools;
-
-using static Atmoos.Sphere.Text.LineTags;
 using static Atmoos.Quantities.TestTools.Extensions;
+using static Atmoos.Sphere.Text.LineTags;
 
 namespace Atmoos.Quantities.Test.Infrastructure;
 

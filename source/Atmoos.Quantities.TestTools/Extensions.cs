@@ -1,4 +1,4 @@
-using System.Reflection;
+﻿using System.Reflection;
 using Atmoos.Quantities.Dimensions;
 
 namespace Atmoos.Quantities.TestTools;

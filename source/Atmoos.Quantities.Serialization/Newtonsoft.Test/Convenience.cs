@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using Atmoos.Quantities.Units.Si.Metric;
+﻿using Atmoos.Quantities.Units.Si.Metric;
+using Newtonsoft.Json;
 
 namespace Atmoos.Quantities.Serialization.Newtonsoft.Test;
 

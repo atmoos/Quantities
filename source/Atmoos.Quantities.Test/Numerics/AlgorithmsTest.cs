@@ -1,4 +1,4 @@
-namespace Atmoos.Quantities.Test.Numerics;
+﻿namespace Atmoos.Quantities.Test.Numerics;
 
 using Atmoos.Quantities.Core.Numerics;
 

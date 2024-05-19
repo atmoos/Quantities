@@ -1,8 +1,8 @@
 ﻿using System.Text.Json;
-using Newtonsoft.Json;
 using Atmoos.Quantities.Core.Numerics;
 using Atmoos.Quantities.Serialization.Text.Json;
 using Atmoos.Quantities.Units.Si.Metric;
+using Newtonsoft.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Atmoos.Quantities.Benchmark;

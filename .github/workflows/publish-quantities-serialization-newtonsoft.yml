@@ -1,31 +1,16 @@
-name: Publish Core Quantities Newtonsoft Serialization
+name: Publish Quantities Newtonsoft Serialization
 
 on:
   pull_request:
     types: [closed]
     branches: [ "main" ]
     paths: 
-      - '**/Quantities.Serialization.Newtonsoft.csproj'
-
-env:
-  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
-  DOTNET_NOLOGO: true
-  Prefix: 'quantities/serialization/newtonsoft'
-  Project: 'source/Quantities.Serialization/Newtonsoft/Quantities.Serialization.Newtonsoft.csproj'
-  DotNetVersion: 8.0.x
+      - '**/Atmoos.Quantities.Serialization.Newtonsoft.csproj'
 
 jobs:
-  publish:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: ${{ env.DotNetVersion }}
-      - uses: tedd/publish-nuget-neo@v1
-        with:
-          NUGET_KEY: ${{secrets.PUSH_NEW_QUANTITY_VERSION}}
-          PROJECT_FILE_PATH: ${{env.Project}}
-          TAG_COMMIT: true
-          TAG_FORMAT: ${{env.Prefix}}/v*
+  publish-quantities-serialization-newtonsoft:
+    uses: ./.github/workflows/publish-library.yml
+    with:
+      project-path: 'source/Atmoos.Quantities.Serialization/Newtonsoft/Atmoos.Quantities.Serialization.Newtonsoft.csproj'
+      tag-prefix: 'quantities/serialization/newtonsoft'
+    secrets: inherit

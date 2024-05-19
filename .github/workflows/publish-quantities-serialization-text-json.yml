@@ -1,31 +1,16 @@
-name: Publish Core Quantities System Text Json Serialization
+name: Publish Quantities System Text Json Serialization
 
 on:
   pull_request:
     types: [closed]
     branches: [ "main" ]
     paths: 
-      - '**/Quantities.Serialization.Text.Json.csproj'
-
-env:
-  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
-  DOTNET_NOLOGO: true
-  Prefix: 'quantities/serialization/text.json'
-  Project: 'source/Quantities.Serialization/Text.Json/Quantities.Serialization.Text.Json.csproj'
-  DotNetVersion: 8.0.x
+      - '**/Atmoos.Quantities.Serialization.Text.Json.csproj'
 
 jobs:
-  publish:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: ${{ env.DotNetVersion }}
-      - uses: tedd/publish-nuget-neo@v1
-        with:
-          NUGET_KEY: ${{secrets.PUSH_NEW_QUANTITY_VERSION}}
-          PROJECT_FILE_PATH: ${{env.Project}}
-          TAG_COMMIT: true
-          TAG_FORMAT: ${{env.Prefix}}/v*
+  publish-quantities-serialization-text-json:
+    uses: ./.github/workflows/publish-library.yml
+    with:
+      project-path: 'source/Atmoos.Quantities.Serialization/Text.Json/Atmoos.Quantities.Serialization.Text.Json.csproj'
+      tag-prefix: 'quantities/serialization/text.json'
+    secrets: inherit

@@ -5,7 +5,12 @@ namespace Atmoos.Quantities.Creation;
 
 internal delegate Measure MeasureSelector(Factory factory);
 
-public readonly struct Scalar<TUnit>
+internal interface ICreator
+{
+    public Quantity Create(in Double value);
+}
+
+public readonly struct Scalar<TUnit> : ICreator
     where TUnit : IUnit, IDimension
 {
     private readonly Factory factory;
@@ -19,9 +24,10 @@ public readonly struct Scalar<TUnit>
     internal Quantity Create(in Double value, MeasureSelector selectMeasure) => new(in value, selectMeasure(this.factory));
     internal Quantity Transform(in Quantity other) => other.Project(this.factory.Create());
     internal Quantity Transform(in Quantity other, MeasureSelector selectMeasure) => other.Project(selectMeasure(this.factory));
+    Quantity ICreator.Create(in Double value) => Create(in value);
 }
 
-public readonly struct Product<TLeft, TRight>
+public readonly struct Product<TLeft, TRight> : ICreator
     where TLeft : IUnit, IDimension
     where TRight : IUnit, IDimension
 {
@@ -29,9 +35,10 @@ public readonly struct Product<TLeft, TRight>
     internal Product(Factory factory) => this.factory = factory;
     internal Quantity Create(in Double value) => new(in value, this.factory.Create());
     internal Quantity Transform(in Quantity other) => other.Project(this.factory.Create());
+    Quantity ICreator.Create(in Double value) => Create(in value);
 }
 
-public readonly struct Quotient<TN, TD>
+public readonly struct Quotient<TN, TD> : ICreator
     where TN : IUnit, IDimension
     where TD : IUnit, IDimension
 {
@@ -39,22 +46,25 @@ public readonly struct Quotient<TN, TD>
     internal Quotient(Factory factory) => this.factory = factory;
     internal Quantity Create(in Double value) => new(in value, this.factory.Create());
     internal Quantity Transform(in Quantity other) => other.Project(this.factory.Create());
+    Quantity ICreator.Create(in Double value) => Create(in value);
 }
 
-public readonly struct Square<TUnit>
+public readonly struct Square<TUnit> : ICreator
     where TUnit : IUnit, IDimension
 {
     private readonly Factory factory;
     internal Square(Factory factory) => this.factory = factory;
     internal Quantity Create(in Double value) => new(in value, this.factory.Square());
     internal Quantity Transform(in Quantity other) => other.Project(this.factory.Square());
+    Quantity ICreator.Create(in Double value) => Create(in value);
 }
 
-public readonly struct Cubic<TUnit>
+public readonly struct Cubic<TUnit> : ICreator
     where TUnit : IUnit, IDimension
 {
     private readonly Factory factory;
     internal Cubic(Factory factory) => this.factory = factory;
     internal Quantity Create(in Double value) => new(in value, this.factory.Cubic());
     internal Quantity Transform(in Quantity other) => other.Project(this.factory.Cubic());
+    Quantity ICreator.Create(in Double value) => Create(in value);
 }

@@ -10,7 +10,7 @@ public class UnitRepositoryTest
     public void TypeRetrievalThrowsUserFriendlyMessageWhenDefiningAssemblyHasNotBeenReferenced()
     {
         var fancy = MyFancyUnit.Representation;
-        var repo = UnitRepository.Create(Array.Empty<Assembly>());
+        var repo = UnitRepository.Create([]);
 
         var actual = Assert.Throws<ArgumentException>(() => repo.NonStandard(MyFancyUnit.Representation));
         var expectedMessage = $"Could not find the non standard unit '{fancy}'. Has the assembly that defines '{fancy}' been registered with the deserializer?";
@@ -21,7 +21,7 @@ public class UnitRepositoryTest
     public void TypeRetrievalRetrievesCorrectTypeWhenAssemblyHasBeenRegistered()
     {
         var expected = typeof(MyFancyUnit);
-        var repo = UnitRepository.Create(new[] { expected.Assembly });
+        var repo = UnitRepository.Create([expected.Assembly]);
 
         var actual = repo.NonStandard(MyFancyUnit.Representation);
 
@@ -32,7 +32,7 @@ public class UnitRepositoryTest
     public void TypeRetrievalOfBaseSiUnitsWorksWithoutRegistrationOfQuantityAssembly()
     {
         var expected = typeof(Metre);
-        var repo = UnitRepository.Create(Array.Empty<Assembly>());
+        var repo = UnitRepository.Create([]);
 
         var actual = repo.Si(Metre.Representation);
 

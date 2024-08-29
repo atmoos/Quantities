@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Atmoos.Quantities" Version="1.3.*" />
+    <ProjectReference Include="..\..\Atmoos.Quantities\Atmoos.Quantities.csproj" />
   </ItemGroup>
 
 </Project>

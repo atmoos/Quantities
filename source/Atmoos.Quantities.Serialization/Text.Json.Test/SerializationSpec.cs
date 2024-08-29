@@ -47,15 +47,15 @@ public sealed class SerializationSpec
     public void InverseMetric()
     {
         Double value = Math.PI;
-        Frequency frequency = value / Time.Of(1d, Si<Second>());
+        Frequency frequency = value / Time.Of(1d, Si<Milli, Second>());
         String actual = frequency.Serialize(options);
         String expected = $$"""
         {
           "value": {{value:R}},
           "quantity": "frequency",
           "si": {
-              "dimension": "time",
               "exponent": -1,
+              "prefix": "m",
               "unit": "s"
           }
         }
@@ -74,7 +74,6 @@ public sealed class SerializationSpec
           "value": {{value:R}},
           "quantity": "area",
           "si": {
-            "dimension": "length",
             "exponent": 2,
             "unit": "m"
           }
@@ -93,9 +92,7 @@ public sealed class SerializationSpec
         {
           "value": {{value:R}},
           "quantity": "volume"
-          "si": {
-            "dimension": "length",
-            "exponent": 3,
+          "metric": {
             "unit": "ℓ"
           }
         }
@@ -116,14 +113,12 @@ public sealed class SerializationSpec
           "measures": [
             {
               "si": {
-                "dimension": "length",
                 "prefix": "k",
                 "unit": "m"
               }
             },
             {
               "metric": {
-                "dimension": "time",
                 "exponent": -1,
                 "unit": "h"
               }

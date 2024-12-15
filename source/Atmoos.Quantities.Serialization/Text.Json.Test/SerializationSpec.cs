@@ -1,4 +1,6 @@
 using System.Text.Json;
+using Atmoos.Quantities.Units.Imperial.Length;
+using Atmoos.Quantities.Units.Imperial.Volume;
 
 namespace Atmoos.Quantities.Serialization.Text.Json.Test;
 
@@ -35,7 +37,7 @@ public sealed class SerializationSpec
           "value": {{value:R}},
           "quantity": "length",
           "si": {
-            "prefix": "K"
+            "prefix": "k",
             "unit": "m"
           }
         }
@@ -54,9 +56,9 @@ public sealed class SerializationSpec
           "value": {{value:R}},
           "quantity": "frequency",
           "si": {
-              "exponent": -1,
-              "prefix": "m",
-              "unit": "s"
+            "exponent": -1,
+            "prefix": "m",
+            "unit": "s"
           }
         }
         """;
@@ -83,17 +85,55 @@ public sealed class SerializationSpec
     }
 
     [Fact]
-    public void CubicMetricWithLitre()
+    public void CubicImperial()
     {
         Double value = Math.PI;
-        Volume volume = Volume.Of(value, Metric<Litre>());
+        Volume volume = Volume.Of(value, Cubic(Imperial<Foot>()));
         String actual = volume.Serialize(options);
         String expected = $$"""
         {
           "value": {{value:R}},
-          "quantity": "volume"
+          "quantity": "volume",
+          "imperial": {
+            "exponent": 3,
+            "unit": "ft"
+          }
+        }
+        """;
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void CubicWithImperialPint()
+    {
+        Double value = Math.PI;
+        Volume volume = Volume.Of(value, Imperial<Pint>());
+        String actual = volume.Serialize(options);
+        String expected = $$"""
+        {
+          "value": {{value:R}},
+          "quantity": "volume",
+          "imperial": {
+            "unit": "pt"
+          }
+        }
+        """;
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void CubicWithMetricLitre()
+    {
+        Double value = Math.PI;
+        Volume volume = Volume.Of(value, Metric<Hecto, Litre>());
+        String actual = volume.Serialize(options);
+        String expected = $$"""
+        {
+          "value": {{value:R}},
+          "quantity": "volume",
           "metric": {
-            "unit": "ℓ"
+            "prefix": "h",
+            "unit": "\u2113"
           }
         }
         """;
@@ -111,17 +151,13 @@ public sealed class SerializationSpec
           "value": {{value:R}},
           "quantity": "velocity",
           "measures": [
-            {
-              "si": {
-                "prefix": "k",
-                "unit": "m"
-              }
+            "si": {
+              "prefix": "k",
+              "unit": "m"
             },
-            {
-              "metric": {
-                "exponent": -1,
-                "unit": "h"
-              }
+            "metric": {
+              "exponent": -1,
+              "unit": "h"
             }
           ]
         }

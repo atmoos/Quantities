@@ -22,9 +22,7 @@ public static class Extensions
     public static void Serialize<TQuantity>(this IQuantity<TQuantity> quantity, IWriter writer)
       where TQuantity : struct, IQuantity<TQuantity>, IDimension
     {
-        writer.Start(typeof(TQuantity).Name.ToLowerInvariant());
-        quantity.Value.Write(writer);
-        writer.End();
+        quantity.Value.Write(writer, typeof(TQuantity).Name.ToLowerInvariant());
     }
     public static NotImplementedException NotImplemented(Object self, [CallerMemberName] String memberName = "", [CallerLineNumber] Int32 line = 0)
     {

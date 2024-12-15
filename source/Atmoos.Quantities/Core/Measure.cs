@@ -23,7 +23,7 @@ internal abstract class Measure
         public override Result Invert() => TMeasure.Inverse;
         public override Result Multiply(Measure other) => other.Multiply<TMeasure>();
         public override Result Divide(Measure other) => other.Divide<TMeasure>();
-        public override void Serialize(IWriter writer) => TMeasure.Write(writer);
+        public override void Serialize(IWriter writer) => TMeasure.Write(writer, TMeasure.D.E);
         public override String ToString() => TMeasure.Representation;
         protected override Result Multiply<TOtherMeasure>() => TOtherMeasure.Multiply<TMeasure>();
         protected override Result Divide<TOtherMeasure>() => TOtherMeasure.Divide<TMeasure>();

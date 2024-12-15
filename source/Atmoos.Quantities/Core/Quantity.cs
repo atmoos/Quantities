@@ -28,9 +28,10 @@ internal readonly struct Quantity : IEquatable<Quantity>, IFormattable
         Double rightValue = Project(in right);
         return this.value / rightValue;
     }
-    public void Write(IWriter writer)
+    public void Write(IWriter writer, String name)
     {
         writer.Write(nameof(this.value), this.value);
+        writer.Write("quantity", name);
         this.measure.Serialize(writer);
     }
     public Boolean Equals(Quantity other)

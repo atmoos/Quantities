@@ -29,7 +29,9 @@ internal readonly struct Identity : IMeasure, ILinear
         where TMeasure : IMeasure => TMeasure.Inverse;
     public static Result Multiply<TMeasure>()
         where TMeasure : IMeasure => Result<TMeasure>.Unit;
-    public static void Write(IWriter writer) => writer.Write(name, Representation);
+
+    // ToDo: Include this in the deserializer as a special case.
+    public static void Write(IWriter writer, Int32 exponent) => writer.Write(name, Representation);
 
     private static class Result<TMeasure>
         where TMeasure : IMeasure
@@ -49,13 +51,13 @@ internal readonly struct Si<TUnit> : IMeasure<TUnit>, ILinear
         where TMeasure : IMeasure => ScalarOps<Si<TUnit>, TMeasure>.Product;
     public static Result Divide<TMeasure>()
         where TMeasure : IMeasure => ScalarOps<Si<TUnit>, TMeasure>.Quotient;
-    public static void Write(IWriter writer) => serializer.Write(writer);
+    public static void Write(IWriter writer, Int32 exponent) => serializer.Write(writer, exponent);
 }
 internal readonly struct Si<TPrefix, TUnit> : IMeasure<TUnit>, ILinear
     where TPrefix : IPrefix
     where TUnit : ISiUnit, IDimension
 {
-    private static readonly Serializer<TUnit, TPrefix> serializer = new(nameof(Si<TUnit>));
+    private static readonly Serializer<TUnit> serializer = new(nameof(Si<TPrefix, TUnit>));
     public static Polynomial Poly { get; } = Polynomial.Of<TPrefix>();
     public static Result Inverse => SafeInverse<Si<TPrefix, TUnit>>.Value;
     public static String Representation { get; } = $"{TPrefix.Representation}{TUnit.Representation}";
@@ -63,7 +65,7 @@ internal readonly struct Si<TPrefix, TUnit> : IMeasure<TUnit>, ILinear
         where TMeasure : IMeasure => ScalarOps<Si<TPrefix, TUnit>, TMeasure>.Product;
     public static Result Divide<TMeasure>()
         where TMeasure : IMeasure => ScalarOps<Si<TPrefix, TUnit>, TMeasure>.Quotient;
-    public static void Write(IWriter writer) => serializer.Write(writer);
+    public static void Write(IWriter writer, Int32 exponent) => serializer.Write<TPrefix>(writer, exponent);
 }
 internal readonly struct Metric<TUnit> : IMeasure<TUnit>, ILinear
     where TUnit : IMetricUnit, IDimension
@@ -76,13 +78,13 @@ internal readonly struct Metric<TUnit> : IMeasure<TUnit>, ILinear
         where TMeasure : IMeasure => ScalarOps<Metric<TUnit>, TMeasure>.Product;
     public static Result Divide<TMeasure>()
         where TMeasure : IMeasure => ScalarOps<Metric<TUnit>, TMeasure>.Quotient;
-    public static void Write(IWriter writer) => serializer.Write(writer);
+    public static void Write(IWriter writer, Int32 exponent) => serializer.Write(writer, exponent);
 }
 internal readonly struct Metric<TPrefix, TUnit> : IMeasure<TUnit>, ILinear
     where TPrefix : IPrefix
     where TUnit : IMetricUnit, IDimension
 {
-    private static readonly Serializer<TUnit, TPrefix> serializer = new(nameof(Metric<TPrefix, TUnit>));
+    private static readonly Serializer<TUnit> serializer = new(nameof(Metric<TPrefix, TUnit>));
     public static Polynomial Poly { get; } = Polynomial.Of<TPrefix, TUnit>();
     public static Result Inverse => SafeInverse<Metric<TPrefix, TUnit>>.Value;
     public static String Representation { get; } = $"{TPrefix.Representation}{TUnit.Representation}";
@@ -90,7 +92,7 @@ internal readonly struct Metric<TPrefix, TUnit> : IMeasure<TUnit>, ILinear
         where TMeasure : IMeasure => ScalarOps<Metric<TPrefix, TUnit>, TMeasure>.Product;
     public static Result Divide<TMeasure>()
         where TMeasure : IMeasure => ScalarOps<Metric<TPrefix, TUnit>, TMeasure>.Quotient;
-    public static void Write(IWriter writer) => serializer.Write(writer);
+    public static void Write(IWriter writer, Int32 exponent) => serializer.Write<TPrefix>(writer, exponent);
 }
 internal readonly struct Imperial<TUnit> : IMeasure<TUnit>, ILinear
     where TUnit : IImperialUnit, ITransform, IRepresentable, IDimension
@@ -103,7 +105,7 @@ internal readonly struct Imperial<TUnit> : IMeasure<TUnit>, ILinear
         where TMeasure : IMeasure => ScalarOps<Imperial<TUnit>, TMeasure>.Product;
     public static Result Divide<TMeasure>()
         where TMeasure : IMeasure => ScalarOps<Imperial<TUnit>, TMeasure>.Quotient;
-    public static void Write(IWriter writer) => serializer.Write(writer);
+    public static void Write(IWriter writer, Int32 exponent) => serializer.Write(writer, exponent);
 }
 internal readonly struct NonStandard<TUnit> : IMeasure<TUnit>, ILinear
     where TUnit : INonStandardUnit, ITransform, IRepresentable, IDimension
@@ -116,7 +118,7 @@ internal readonly struct NonStandard<TUnit> : IMeasure<TUnit>, ILinear
         where TMeasure : IMeasure => ScalarOps<NonStandard<TUnit>, TMeasure>.Product;
     public static Result Divide<TMeasure>()
         where TMeasure : IMeasure => ScalarOps<NonStandard<TUnit>, TMeasure>.Quotient;
-    public static void Write(IWriter writer) => serializer.Write(writer);
+    public static void Write(IWriter writer, Int32 exponent) => serializer.Write(writer, exponent);
 }
 
 internal readonly struct Inverse<TSelf> : IMeasure, ILinear
@@ -128,9 +130,7 @@ internal readonly struct Inverse<TSelf> : IMeasure, ILinear
     public static String Representation { get; } = $"{TSelf.Representation}{Tools.ExpToString(-TSelf.D.E)}";
     public static Result Divide<TMeasure>() where TMeasure : IMeasure => ((Measure)ScalarOps<TSelf, TMeasure>.Product).Invert();
     public static Result Multiply<TMeasure>() where TMeasure : IMeasure => ScalarOps<TMeasure, TSelf>.Quotient;
-
-    // ToDo #70: This should not simply write out self!
-    public static void Write(IWriter writer) => TSelf.Write(writer);
+    public static void Write(IWriter writer, Int32 exponent) => TSelf.Write(writer, exponent);
 }
 
 internal readonly struct Invertible<TSelf, TInverse> : IMeasure, ILinear
@@ -143,7 +143,7 @@ internal readonly struct Invertible<TSelf, TInverse> : IMeasure, ILinear
     public static String Representation => TSelf.Representation;
     public static Result Divide<TMeasure>() where TMeasure : IMeasure => ScalarOps<TSelf, TMeasure>.Quotient;
     public static Result Multiply<TMeasure>() where TMeasure : IMeasure => ScalarOps<TSelf, TMeasure>.Product;
-    public static void Write(IWriter writer) => TSelf.Write(writer);
+    public static void Write(IWriter writer, Int32 exponent) => TSelf.Write(writer, exponent);
 }
 
 internal readonly struct Product<TLeft, TRight> : IMeasure
@@ -157,12 +157,12 @@ internal readonly struct Product<TLeft, TRight> : IMeasure
     public static String Representation { get; } = $"{TLeft.Representation}{zeroWidthNonJoiner}{TRight.Representation}";
     public static Result Multiply<TMeasure>() where TMeasure : IMeasure => ProductOps<TLeft, TRight, TMeasure>.Product;
     public static Result Divide<TMeasure>() where TMeasure : IMeasure => ProductOps<TLeft, TRight, TMeasure>.Quotient;
-    public static void Write(IWriter writer)
+    public static void Write(IWriter writer, Int32 exponent)
     {
-        writer.Start("product");
-        TLeft.Write(writer);
-        TRight.Write(writer);
-        writer.End();
+        writer.StartArray("measures");
+        TLeft.Write(writer, exponent * TLeft.D.E);
+        TRight.Write(writer, exponent * TRight.D.E);
+        writer.EndArray();
     }
 }
 internal readonly struct Quotient<TNominator, TDenominator> : IMeasure
@@ -176,12 +176,12 @@ internal readonly struct Quotient<TNominator, TDenominator> : IMeasure
     public static String Representation => representation;
     public static Result Multiply<TMeasure>() where TMeasure : IMeasure => QuotientOps<TNominator, TDenominator, TMeasure>.Product;
     public static Result Divide<TMeasure>() where TMeasure : IMeasure => QuotientOps<TNominator, TDenominator, TMeasure>.Quotient;
-    public static void Write(IWriter writer)
+    public static void Write(IWriter writer, Int32 exponent)
     {
-        writer.Start("quotient");
-        TNominator.Write(writer);
-        TDenominator.Write(writer);
-        writer.End();
+        writer.StartArray("measures");
+        TNominator.Write(writer, exponent * TNominator.D.E);
+        TDenominator.Write(writer, -exponent * TDenominator.D.E);
+        writer.EndArray();
     }
 }
 
@@ -195,26 +195,20 @@ internal readonly struct Alias<TAlias, TLinear> : IMeasure
     public static String Representation => TAlias.Representation;
     public static Result Divide<TMeasure>() where TMeasure : IMeasure => HigherOrderOps<TAlias, TLinear, TMeasure>.Quotient;
     public static Result Multiply<TMeasure>() where TMeasure : IMeasure => HigherOrderOps<TAlias, TLinear, TMeasure>.Product;
-    public static void Write(IWriter writer) => TAlias.Write(writer);
+    public static void Write(IWriter writer, Int32 exponent) => TAlias.Write(writer, exponent >= 0 ? 1 : -1);
 }
 
 internal readonly struct Power<TDim, TLinear> : IMeasure
     where TDim : IExponent
     where TLinear : IMeasure
 {
-    private static readonly String dimension = typeof(TDim).Name.ToLowerInvariant();
     static Dimension IMeasure.D { get; } = TLinear.D.Pow(TDim.E);
     public static Polynomial Poly { get; } = TLinear.Poly.Pow(TDim.E);
     public static Result Inverse { get; } = TDim.Invert(new PowerInverse<TLinear>());
     public static String Representation { get; } = $"{TLinear.Representation}{Tools.ExpToString(TDim.E)}";
     public static Result Multiply<TOtherMeasure>() where TOtherMeasure : IMeasure => HigherOrderOps<Power<TDim, TLinear>, TLinear, TOtherMeasure>.Product;
     public static Result Divide<TOtherMeasure>() where TOtherMeasure : IMeasure => HigherOrderOps<Power<TDim, TLinear>, TLinear, TOtherMeasure>.Quotient;
-    public static void Write(IWriter writer)
-    {
-        writer.Start(dimension);
-        TLinear.Write(writer);
-        writer.End();
-    }
+    public static void Write(IWriter writer, Int32 exponent) => TLinear.Write(writer, exponent);
 }
 
 file sealed class PowerInverse<TLinear> : IInjectExponent<Result>

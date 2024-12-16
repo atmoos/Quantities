@@ -20,42 +20,40 @@ public readonly struct QuantityFactory<TQuantity>
     private static readonly ConcurrentDictionary<Int32, IBuilder> complexCache = new();
     private static readonly ConcurrentDictionary<QuantityModel, IBuilder> scalarCache = new();
     private static readonly Type scalarVerification = typeof(TQuantity).MostDerivedOf(typeof(IDimension));
-    private readonly IInject<IBuilder> injector;
-    private readonly Type[] verifications;
-    private readonly UnitRepository repository;
-    public Int32 ExpectedModelCount => this.verifications.Length;
-    public Boolean IsScalarQuantity { get; }
-    private QuantityFactory(IInject<IBuilder> injector, UnitRepository repository, params Type[] verifications) : this()
+    private readonly IBuilder builder;
+    private QuantityFactory(IBuilder builder) : this() => this.builder = builder;
+    public TQuantity Build(in Double value)
     {
-        this.injector = injector;
-        this.repository = repository;
-        this.verifications = verifications;
-        this.IsScalarQuantity = injector is ScalarInjector;
-    }
-    public TQuantity Build(in Double value, in QuantityModel deserializedQuantity)
-    {
-        if (this.verifications.Length != 1) {
-            throw new InvalidOperationException($"Expected to build a quantity using '{this.verifications.Length}' sub models, but attempted to build with only one.");
-        }
-        var builder = Create(this.repository, in deserializedQuantity, this.verifications[0], this.injector);
-        return TQuantity.Create(builder.Build(in value));
-    }
-    public TQuantity Build(in Double value, QuantityModel[] deserializedQuantity)
-    {
-        if (deserializedQuantity.Length != this.verifications.Length) {
-            throw new ArgumentOutOfRangeException(nameof(deserializedQuantity), $"Expected '{this.verifications.Length}' quantity sub models, but received only '{deserializedQuantity.Length}'.");
-        }
-        var builder = Create(this.repository, deserializedQuantity, this.verifications, this.injector);
-        return TQuantity.Create(builder.Build(in value));
+        return TQuantity.Create(this.builder.Build(in value));
     }
 
-    public static QuantityFactory<TQuantity> Create(String system, UnitRepository repository) => system switch {
-        "quotient" => new(Inject.Quotient, repository, typeofQuantity.InnerTypes(typeof(IQuotient<,>))),
-        "product" => new(Inject.Product, repository, typeofQuantity.InnerTypes(typeof(IProduct<,>))),
-        "square" => new(Inject.Square, repository, typeofQuantity.InnerType(typeof(ISquare<>))),
-        "cubic" => new(Inject.Cubic, repository, typeofQuantity.InnerType(typeof(ICubic<>))),
-        _ => new(Inject.Scalar, repository, scalarVerification)
+    public static QuantityFactory<TQuantity> Create(UnitRepository repository, in QuantityModel model)
+        => new(Builder(repository, in model));
+    public static QuantityFactory<TQuantity> Create(UnitRepository repository, QuantityModel[] models)
+    {
+        var builder = models switch {
+            { Length: 1 } => Builder(repository, models[0]),
+            [QuantityModel l, QuantityModel r] => Builder(repository, l, r),
+            _ => throw new NotSupportedException($"Cannot build quantities with '{models.Length}' models.")
+        };
+        return new(builder);
+    }
+
+    private static IBuilder Builder(UnitRepository repository, in QuantityModel model) => model.Exponent switch {
+        1 => Create(repository, in model, scalarVerification, Inject.Scalar),
+        2 => Create(repository, in model, typeofQuantity.InnerType(typeof(ISquare<>)), Inject.Square),
+        3 => Create(repository, in model, typeofQuantity.InnerType(typeof(ICubic<>)), Inject.Cubic),
+        _ => throw new NotSupportedException($"Cannot build a quantity with an exponent of '{model.Exponent}'.")
     };
+    private static IBuilder Builder(UnitRepository repository, in QuantityModel left, in QuantityModel right)
+    {
+        var (verifications, injector) = (left.Exponent, right.Exponent) switch {
+            ( > 0, > 0) => (typeofQuantity.InnerTypes(typeof(IProduct<,>)), Inject.Product),
+            ( > 0, < 0) => (typeofQuantity.InnerTypes(typeof(IQuotient<,>)), Inject.Quotient),
+            _ => throw new NotSupportedException($"Cannot build a quantity with an exponents of '[{left.Exponent}, {right.Exponent}]'.")
+        };
+        return Create(repository, [left, right], verifications, injector);
+    }
 
     private static IBuilder Create(UnitRepository repo, in QuantityModel model, Type verification, IInject<IBuilder> injector)
     {

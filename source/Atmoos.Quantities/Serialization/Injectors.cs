@@ -55,4 +55,3 @@ internal sealed class ProductInjector : IInject<IBuilder>
         public IBuilder Inject<TMeasure>() where TMeasure : IMeasure => new Builder<Product<TLeft, TMeasure>>();
     }
 }
-

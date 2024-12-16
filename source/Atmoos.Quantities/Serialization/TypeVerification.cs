@@ -2,7 +2,7 @@
 
 namespace Atmoos.Quantities.Serialization;
 
-public readonly record struct QuantityModel(String System, String? Prefix, String Unit);
+public readonly record struct QuantityModel(String System, Int32 Exponent, String? Prefix, String Unit);
 
 internal readonly struct TypeVerification
 {

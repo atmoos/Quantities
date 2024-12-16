@@ -143,7 +143,8 @@ internal readonly struct Invertible<TSelf, TInverse> : IMeasure, ILinear
     public static String Representation => TSelf.Representation;
     public static Result Divide<TMeasure>() where TMeasure : IMeasure => ScalarOps<TSelf, TMeasure>.Quotient;
     public static Result Multiply<TMeasure>() where TMeasure : IMeasure => ScalarOps<TSelf, TMeasure>.Product;
-    public static void Write(IWriter writer, Int32 exponent) => TSelf.Write(writer, exponent);
+    // ToDo: Inversion of the exponent is not really what we want here. This must be refined.
+    public static void Write(IWriter writer, Int32 exponent) => TSelf.Write(writer, -exponent);
 }
 
 internal readonly struct Product<TLeft, TRight> : IMeasure

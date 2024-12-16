@@ -1,7 +1,30 @@
-﻿namespace Atmoos.Quantities.Serialization.Text.Json.Test;
+﻿using System.Text.Json;
+
+namespace Atmoos.Quantities.Serialization.Text.Json.Test;
 
 public class FrequencySupportTest : IInjectedUnitTester<Frequency>
 {
+    private static readonly JsonSerializerOptions options = new JsonSerializerOptions { WriteIndented = true }.EnableQuantities();
+
+    [Fact]
+    public void HertzDeserializesCorrectly()
+    {
+        const Double scalar = 2;
+        Frequency frequency = Frequency.Of(scalar, Si<Hertz>());
+
+        String actual = frequency.Serialize(options);
+
+        String expected = $$"""
+        {
+          "value": {{scalar:R}},
+          "quantity": "frequency",
+          "si": {
+            "unit": "Hz"
+          }
+        }
+        """;
+        Assert.Equal(expected, actual);
+    }
 
     [Theory]
     [MemberData(nameof(InjectingFrequencies))]

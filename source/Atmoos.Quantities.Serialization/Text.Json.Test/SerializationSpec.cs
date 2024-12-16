@@ -9,12 +9,6 @@ public sealed class SerializationSpec
     private static readonly JsonSerializerOptions options = new JsonSerializerOptions { WriteIndented = true }.EnableQuantities();
 
     [Fact]
-    public void Identity()
-    {
-        throw new NotImplementedException("ToDo...");
-    }
-
-    [Fact]
     public void LinearMetric()
     {
         Double value = Math.PI;

@@ -160,8 +160,12 @@ internal readonly struct Product<TLeft, TRight> : IMeasure
     public static void Write(IWriter writer, Int32 exponent)
     {
         writer.StartArray("measures");
+        writer.Start();
         TLeft.Write(writer, exponent * TLeft.D.E);
+        writer.End();
+        writer.Start();
         TRight.Write(writer, exponent * TRight.D.E);
+        writer.End();
         writer.EndArray();
     }
 }
@@ -179,8 +183,12 @@ internal readonly struct Quotient<TNominator, TDenominator> : IMeasure
     public static void Write(IWriter writer, Int32 exponent)
     {
         writer.StartArray("measures");
+        writer.Start();
         TNominator.Write(writer, exponent * TNominator.D.E);
+        writer.End();
+        writer.Start();
         TDenominator.Write(writer, -exponent * TDenominator.D.E);
+        writer.End();
         writer.EndArray();
     }
 }

@@ -157,13 +157,17 @@ public sealed class SerializationSpec
           "value": {{value:R}},
           "quantity": "velocity",
           "measures": [
-            "si": {
-              "prefix": "k",
-              "unit": "m"
+            {
+              "si": {
+                "prefix": "k",
+                "unit": "m"
+              }
             },
-            "metric": {
-              "exponent": -1,
-              "unit": "h"
+            {
+              "metric": {
+                "exponent": -1,
+                "unit": "h"
+              }
             }
           ]
         }

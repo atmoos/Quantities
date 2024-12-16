@@ -4,7 +4,6 @@ using System.Text.Json.Serialization;
 using Atmoos.Quantities.Core;
 using Atmoos.Quantities.Core.Serialization;
 using Atmoos.Quantities.Dimensions;
-using Atmoos.Quantities.Units;
 using static System.Text.Json.JsonTokenType;
 
 namespace Atmoos.Quantities.Serialization.Text.Json;
@@ -13,6 +12,7 @@ file sealed class JsonWriter : IWriter
 {
     private readonly Utf8JsonWriter writer;
     public JsonWriter(in Utf8JsonWriter writer) => this.writer = writer;
+    public void Start() => this.writer.WriteStartObject();
     public void Start(String propertyName) => this.writer.WriteStartObject(propertyName);
     public void StartArray(String propertyName) => this.writer.WriteStartArray(propertyName);
     public void Write(String name, Double value) => this.writer.WriteNumber(name, value);
@@ -54,9 +54,11 @@ internal sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
     {
         reader.MoveNext(StartArray);
         var models = new List<QuantityModel>();
-        while (reader.TokenType != EndArray) {
+        while (reader.MoveNext(StartObject)) {
             models.Add(reader.Read(reader.ReadNameOf(PropertyName)));
+            reader.MoveNext(EndObject);
         }
+        reader.MoveNext(EndArray);
         return QuantityFactory<TQuantity>.Create(this.repository, [.. models]);
     }
     private QuantityFactory<TQuantity> Read(ref Utf8JsonReader reader, String system)

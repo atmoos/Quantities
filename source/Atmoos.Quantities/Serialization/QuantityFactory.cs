@@ -11,6 +11,7 @@ file static class Inject
     public static IInject<IBuilder> Square { get; } = new PowerInjector<Square>();
     public static IInject<IBuilder> Cubic { get; } = new PowerInjector<Cubic>();
     public static IInject<IBuilder> Scalar { get; } = new ScalarInjector();
+    public static IInject<IBuilder> Inverse { get; } = new InverseInjector();
 }
 
 public readonly struct QuantityFactory<TQuantity>
@@ -40,6 +41,7 @@ public readonly struct QuantityFactory<TQuantity>
     }
 
     private static IBuilder Builder(UnitRepository repository, in QuantityModel model) => model.Exponent switch {
+        -1 => Create(repository, in model, typeofQuantity.InnerType(typeof(IInverse<>)), Inject.Inverse),
         1 => Create(repository, in model, scalarVerification, Inject.Scalar),
         2 => Create(repository, in model, typeofQuantity.InnerType(typeof(ISquare<>)), Inject.Square),
         3 => Create(repository, in model, typeofQuantity.InnerType(typeof(ICubic<>)), Inject.Cubic),

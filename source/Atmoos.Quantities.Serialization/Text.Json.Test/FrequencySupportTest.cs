@@ -26,6 +26,38 @@ public class FrequencySupportTest : IInjectedUnitTester<Frequency>
         Assert.Equal(expected, actual);
     }
 
+    [Fact]
+    public void InverseTimeDeserializesCorrectly()
+    {
+        Time time = Time.Of(0.5, Si<Second>());
+        Frequency frequency = 2 / time;
+
+        String actual = frequency.Serialize(options);
+
+        String expected = $$"""
+        {
+          "value": 4,
+          "quantity": "frequency",
+          "si": {
+            "exponent": -1,
+            "unit": "s"
+          }
+        }
+        """;
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void InverseTimeSerializesRoundRobin()
+    {
+        Time time = Time.Of(1, Si<Second>());
+        Frequency expected = 6 / time;
+
+        Frequency roundRobin = expected.SerializeRoundRobin();
+
+        Assert.Equal(expected, roundRobin);
+    }
+
     [Theory]
     [MemberData(nameof(InjectingFrequencies))]
     public void DeserializationSupportsInjectedUnits(Frequency quantity)

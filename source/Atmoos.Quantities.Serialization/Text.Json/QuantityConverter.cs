@@ -49,7 +49,6 @@ internal sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
         value.Serialize(new JsonWriter(writer));
         writer.WriteEndObject();
     }
-
     private QuantityFactory<TQuantity> ReadMany(ref Utf8JsonReader reader)
     {
         reader.MoveNext(StartArray);
@@ -59,7 +58,7 @@ internal sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
             reader.MoveNext(EndObject);
         }
         reader.MoveNext(EndArray);
-        return QuantityFactory<TQuantity>.Create(this.repository, [.. models]);
+        return QuantityFactory<TQuantity>.Create(this.repository, models);
     }
     private QuantityFactory<TQuantity> Read(ref Utf8JsonReader reader, String system)
     {

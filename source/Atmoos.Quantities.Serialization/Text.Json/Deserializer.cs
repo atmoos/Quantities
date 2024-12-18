@@ -3,6 +3,8 @@ using static System.Text.Json.JsonTokenType;
 
 namespace Atmoos.Quantities.Serialization.Text.Json;
 
+file record struct Measure(Int32? exponent, String? prefix, String unit);
+
 internal static class Deserializer
 {
     public static Boolean MoveNext(this ref Utf8JsonReader reader, JsonTokenType tokenType)
@@ -28,14 +30,6 @@ internal static class Deserializer
         throw new InvalidDataException("Failed finding next number");
     }
 
-    public static Int32 ReadInteger(this ref Utf8JsonReader reader)
-    {
-        if (reader.MoveNext(Number)) {
-            return reader.GetInt32();
-        }
-        throw new InvalidDataException("Failed finding next integer");
-    }
-
     public static String ReadString(this ref Utf8JsonReader reader)
     {
         if (reader.MoveNext(JsonTokenType.String)) {
@@ -51,26 +45,12 @@ internal static class Deserializer
 
     public static QuantityModel Read(this ref Utf8JsonReader reader, String system)
     {
-        reader.MoveNext(StartObject);
-        Int32 exponent = 1;
-        String? unit = null, prefix = null;
-        while (unit == null) {
-            var propertyName = reader.ReadNameOf(PropertyName);
-            if (propertyName is nameof(prefix)) {
-                prefix = reader.ReadString();
-                continue;
-            }
-            if (propertyName is nameof(unit)) {
-                unit = reader.ReadString();
-                continue;
-            }
-            if (propertyName is nameof(exponent)) {
-                exponent = reader.ReadInteger();
-                continue;
-            }
-            throw new InvalidDataException($"Unknown property '{propertyName}' found on '{system}-system'.");
-        }
-
-        return new QuantityModel(system, exponent, prefix, unit);
+        var measure = JsonSerializer.Deserialize<Measure>(ref reader);
+        return new QuantityModel {
+            System = system,
+            Exponent = measure.exponent ?? 1,
+            Prefix = measure.prefix,
+            Unit = measure.unit
+        };
     }
 }

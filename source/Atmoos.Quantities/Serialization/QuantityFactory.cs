@@ -30,12 +30,12 @@ public readonly struct QuantityFactory<TQuantity>
 
     public static QuantityFactory<TQuantity> Create(UnitRepository repository, in QuantityModel model)
         => new(Builder(repository, in model));
-    public static QuantityFactory<TQuantity> Create(UnitRepository repository, QuantityModel[] models)
+    public static QuantityFactory<TQuantity> Create(UnitRepository repository, List<QuantityModel> models)
     {
         var builder = models switch {
-            { Length: 1 } => Builder(repository, models[0]),
+            { Count: 1 } => Builder(repository, models[0]),
             [QuantityModel l, QuantityModel r] => Builder(repository, l, r),
-            _ => throw new NotSupportedException($"Cannot build quantities with '{models.Length}' models.")
+            _ => throw new NotSupportedException($"Cannot build quantities with '{models.Count}' models.")
         };
         return new(builder);
     }
@@ -79,6 +79,7 @@ public readonly struct QuantityFactory<TQuantity>
         }
         return complexCache[key] = builder;
 
+        // ToDo: Check if this is still required...
         static Int32 ComputeAggregateKey(QuantityModel[] models)
         {
             const Int32 notZero = 2;

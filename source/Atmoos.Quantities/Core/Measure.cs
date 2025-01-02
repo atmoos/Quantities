@@ -16,6 +16,10 @@ internal abstract class Measure
     public abstract void Serialize(IWriter writer);
     public static Measure Of<TMeasure>() where TMeasure : IMeasure => AllocationFree<Impl<TMeasure>>.Item;
 
+    // ToDo: Move the exponent part of all measures up to the Measure class.
+    //       Ideally, this will simplify the implementation of all Measure classes
+    //       and solve the ambiguous meaning of the exponent...
+    //       The Power measure should be able to be deleted as well as the Quotient measure.
     private sealed class Impl<TMeasure> : Measure
         where TMeasure : IMeasure
     {

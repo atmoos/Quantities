@@ -1,4 +1,5 @@
-﻿using Atmoos.Quantities.Creation;
+﻿using Atmoos.Quantities.Core.Numerics;
+using Atmoos.Quantities.Creation;
 using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Measures;
 using Atmoos.Quantities.Prefixes;
@@ -25,6 +26,6 @@ public static class Systems
         where TUnit : IImperialUnit, IDimension => new(Factory.Of<Imperial<TUnit>>());
     public static Scalar<TUnit> NonStandard<TUnit>()
         where TUnit : INonStandardUnit, IDimension => new(Factory.Of<NonStandard<TUnit>>());
-    public static Cubic<TUnit> Cubic<TUnit>(in Scalar<TUnit> scalar) where TUnit : IUnit, ILinear, IDimension => new(scalar.Factory);
-    public static Square<TUnit> Square<TUnit>(in Scalar<TUnit> scalar) where TUnit : IUnit, ILinear, IDimension => new(scalar.Factory);
+    public static Creation.Power<TUnit, Two> Square<TUnit>(in Scalar<TUnit> scalar) where TUnit : IUnit, ILinear, IDimension => new(scalar.Factory);
+    public static Creation.Power<TUnit, Three> Cubic<TUnit>(in Scalar<TUnit> scalar) where TUnit : IUnit, ILinear, IDimension => new(scalar.Factory);
 }

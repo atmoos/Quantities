@@ -1,31 +1,30 @@
-﻿namespace Atmoos.Quantities.Measures;
+﻿using Atmoos.Quantities.Core.Numerics;
+
+namespace Atmoos.Quantities.Measures;
 
 internal interface IInjectExponent<out TResult>
 {
     public TResult Inject<TExponent>() where TExponent : IExponent;
 }
 
+// ToDo: Remove interface or clean up ambiguity of Numerator and Denominator
+//       Or add an invert function to INumber...
 internal interface IExponent
 {
     public static abstract Int32 E { get; }
     public static abstract TResult Invert<TResult>(IInjectExponent<TResult> injector);
 }
 
-internal readonly struct Square : IExponent
+internal readonly struct Numerator<TNumber> : IExponent
+    where TNumber : INumber
 {
-    public static Int32 E => 2;
-    public static TResult Invert<TResult>(IInjectExponent<TResult> injector) => injector.Inject<InverseExp<Square>>();
+    public static Int32 E => TNumber.Value;
+    public static TResult Invert<TResult>(IInjectExponent<TResult> injector) => injector.Inject<Denominator<TNumber>>();
 }
 
-internal readonly struct Cubic : IExponent
+internal readonly struct Denominator<TNumber> : IExponent
+    where TNumber : INumber
 {
-    public static Int32 E => 3;
-    public static TResult Invert<TResult>(IInjectExponent<TResult> injector) => injector.Inject<InverseExp<Cubic>>();
-}
-
-internal readonly struct InverseExp<TExp> : IExponent
- where TExp : IExponent
-{
-    public static Int32 E { get; } = -TExp.E;
-    public static TResult Invert<TResult>(IInjectExponent<TResult> injector) => injector.Inject<TExp>();
+    public static Int32 E { get; } = -TNumber.Value;
+    public static TResult Invert<TResult>(IInjectExponent<TResult> injector) => injector.Inject<Numerator<TNumber>>();
 }

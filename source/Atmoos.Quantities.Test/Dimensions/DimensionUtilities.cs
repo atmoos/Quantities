@@ -1,4 +1,5 @@
-﻿using Atmoos.Quantities.Dimensions;
+﻿using Atmoos.Quantities.Core.Numerics;
+using Atmoos.Quantities.Dimensions;
 using Xunit.Sdk;
 
 namespace Atmoos.Quantities.Test.Dimensions;
@@ -57,6 +58,6 @@ internal sealed class Ampere : IElectricCurrent { }
 internal sealed class Coulomb : IElectricCharge { }
 internal sealed class AmpereHour : IElectricCharge { }
 internal sealed class DoubleTime : IDoubleTime { }
-internal interface ICubicMass : ICubic<IMass> { }
+internal interface ICubicMass : IDimension<IMass, Three> { }
 internal interface IDoubleTime : IProduct<ITime, ITime> { }
-internal interface ISquareTemperature : ISquare<ITemperature> { }
+internal interface ISquareTemperature : IDimension<ITemperature, Two> { }

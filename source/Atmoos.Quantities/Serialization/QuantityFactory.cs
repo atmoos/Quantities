@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using Atmoos.Quantities.Core.Numerics;
 using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Measures;
 
@@ -8,8 +9,8 @@ file static class Inject
 {
     public static IInject<IBuilder> Quotient { get; } = new QuotientInjector();
     public static IInject<IBuilder> Product { get; } = new ProductInjector();
-    public static IInject<IBuilder> Square { get; } = new PowerInjector<Square>();
-    public static IInject<IBuilder> Cubic { get; } = new PowerInjector<Cubic>();
+    public static IInject<IBuilder> Square { get; } = new PowerInjector<Numerator<Two>>();
+    public static IInject<IBuilder> Cubic { get; } = new PowerInjector<Numerator<Three>>();
     public static IInject<IBuilder> Scalar { get; } = new ScalarInjector();
     public static IInject<IBuilder> Inverse { get; } = new InverseInjector();
 }
@@ -17,6 +18,7 @@ file static class Inject
 public readonly struct QuantityFactory<TQuantity>
     where TQuantity : IFactory<TQuantity>
 {
+    private static readonly Type dimension = typeof(IDimension<,>);
     private static readonly Type typeofQuantity = typeof(TQuantity);
     private static readonly ConcurrentDictionary<Int32, IBuilder> complexCache = new();
     private static readonly ConcurrentDictionary<QuantityModel, IBuilder> scalarCache = new();
@@ -33,8 +35,8 @@ public readonly struct QuantityFactory<TQuantity>
     public static QuantityFactory<TQuantity> Create(UnitRepository repository, List<QuantityModel> models)
     {
         var builder = models switch {
-            { Count: 1 } => Builder(repository, models[0]),
-            [QuantityModel l, QuantityModel r] => Builder(repository, l, r),
+        [QuantityModel model] => Builder(repository, model),
+        [QuantityModel l, QuantityModel r] => Builder(repository, l, r),
             _ => throw new NotSupportedException($"Cannot build quantities with '{models.Count}' models.")
         };
         return new(builder);
@@ -43,8 +45,8 @@ public readonly struct QuantityFactory<TQuantity>
     private static IBuilder Builder(UnitRepository repository, in QuantityModel model) => model.Exponent switch {
         -1 => Create(repository, in model, typeofQuantity.InnerType(typeof(IInverse<>)), Inject.Inverse),
         1 => Create(repository, in model, scalarVerification, Inject.Scalar),
-        2 => Create(repository, in model, typeofQuantity.InnerType(typeof(ISquare<>)), Inject.Square),
-        3 => Create(repository, in model, typeofQuantity.InnerType(typeof(ICubic<>)), Inject.Cubic),
+        2 => Create(repository, in model, PowerOf<Two>(typeofQuantity), Inject.Square),
+        3 => Create(repository, in model, PowerOf<Three>(typeofQuantity), Inject.Cubic),
         _ => throw new NotSupportedException($"Cannot build a quantity with an exponent of '{model.Exponent}'.")
     };
     private static IBuilder Builder(UnitRepository repository, in QuantityModel left, in QuantityModel right)
@@ -94,5 +96,16 @@ public readonly struct QuantityFactory<TQuantity>
             }
             return key;
         }
+    }
+
+    // ToDo: This is executed for every quantity, so it might be worth to cache the results...
+    private static Type PowerOf<TExponent>(Type type)
+        where TExponent : INumber
+    {
+        return type.InnerTypes(dimension) switch {
+            { Length: < 2 } => throw new InvalidOperationException($"Expected '{type.Name}' to implement {nameof(IDimension)}<~,{typeof(TExponent).Name}>, but found less than 2 generic arguments."),
+            [Type linear, Type exponent] when exponent == typeof(TExponent) => linear,
+            [Type linear, Type exp, ..] => throw new InvalidOperationException($"Expected '{type.Name}' to be {linear.Name} to the power of {typeof(TExponent).Name}, but got a power of '{exp.Name}'."),
+        };
     }
 }

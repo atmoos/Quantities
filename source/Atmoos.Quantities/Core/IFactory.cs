@@ -1,4 +1,5 @@
-﻿using Atmoos.Quantities.Creation;
+﻿using Atmoos.Quantities.Core.Numerics;
+using Atmoos.Quantities.Creation;
 using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Units;
 
@@ -46,24 +47,6 @@ public interface IProduct<out TQuantity, in TDimension, in TLeftDimension, in TR
         where TRight : TRightDimension, IUnit;
 }
 
-public interface ISquare<out TQuantity, in TDimension, in TLinear> : IPowerOf<TQuantity, TDimension, TLinear>
-    where TQuantity : ISquare<TQuantity, TDimension, TLinear>, TDimension
-    where TDimension : ISquare<TLinear>
-    where TLinear : IDimension, ILinear
-{
-    public TQuantity To<TUnit>(in Square<TUnit> other) where TUnit : TLinear, IUnit;
-    public static abstract TQuantity Of<TUnit>(in Double value, in Square<TUnit> measure) where TUnit : TLinear, IUnit;
-}
-
-public interface ICubic<out TQuantity, in TDimension, in TLinear> : IPowerOf<TQuantity, TDimension, TLinear>
-    where TQuantity : ICubic<TQuantity, TDimension, TLinear>, TDimension
-    where TDimension : ICubic<TLinear>
-    where TLinear : IDimension, ILinear
-{
-    public TQuantity To<TUnit>(in Cubic<TUnit> other) where TUnit : TLinear, IUnit;
-    public static abstract TQuantity Of<TUnit>(in Double value, in Cubic<TUnit> measure) where TUnit : TLinear, IUnit;
-}
-
 public interface IInvertible<out TQuantity, in TDimension, in TInverse>
     where TQuantity : IInvertible<TQuantity, TDimension, TInverse>, TDimension
     where TDimension : IDimension, IInverse<TInverse>, ILinear
@@ -73,11 +56,14 @@ public interface IInvertible<out TQuantity, in TDimension, in TInverse>
     public static abstract TQuantity Of<TUnit>(in Double value, in Scalar<TUnit> measure) where TUnit : TDimension, IInvertible<TInverse>, IUnit;
 }
 
-public interface IPowerOf<out TQuantity, in TDimension, in TLinear>
-    where TQuantity : IPowerOf<TQuantity, TDimension, TLinear>, TDimension
-    where TDimension : IDimension
+public interface IPowerOf<out TQuantity, in TDimension, in TLinear, TExponent>
+    where TQuantity : IPowerOf<TQuantity, TDimension, TLinear, TExponent>, TDimension
+    where TDimension : IDimension<TLinear, TExponent>
     where TLinear : IDimension, ILinear
+    where TExponent : INumber
 {
+    public TQuantity To<TUnit>(in Power<TUnit, TExponent> other) where TUnit : TLinear, IUnit;
     public TQuantity To<TUnit>(in Scalar<TUnit> alias) where TUnit : TDimension, IPowerOf<TLinear>, IUnit;
+    public static abstract TQuantity Of<TUnit>(in Double value, in Power<TUnit, TExponent> measure) where TUnit : TLinear, IUnit;
     public static abstract TQuantity Of<TUnit>(in Double value, in Scalar<TUnit> alias) where TUnit : TDimension, IPowerOf<TLinear>, IUnit;
 }

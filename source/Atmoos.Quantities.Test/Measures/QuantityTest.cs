@@ -484,7 +484,7 @@ public class QuantityTest
     }
 
     [Fact]
-    public void Foo()
+    public void QuantityDivisionOfCubicPrefixedMeasureBySquarePrefixedMeasureIsScalarMeasure()
     {
         const Double a = 3;
         const Double b = 4;

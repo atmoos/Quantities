@@ -9,18 +9,6 @@ public interface IDerivedQuantity
 public interface ILinear
 { /* marker interface */ }
 
-public interface ISquare<out TLinear> : IDimension
-    where TLinear : IDimension
-{
-    static Dimension IDimension.D => TLinear.D.Pow(2);
-}
-
-public interface ICubic<out TLinear> : IDimension
-    where TLinear : IDimension
-{
-    static Dimension IDimension.D => TLinear.D.Pow(3);
-}
-
 public interface IProduct<out TLeft, out TRight> : IDimension
     where TLeft : IDimension
     where TRight : IDimension
@@ -28,6 +16,7 @@ public interface IProduct<out TLeft, out TRight> : IDimension
     static Dimension IDimension.D => TLeft.D * TRight.D;
 }
 
+// ToDo: Remove this interface
 public interface IQuotient<out TNominator, out TDenominator> : IDimension
     where TNominator : IDimension
     where TDenominator : IDimension
@@ -35,6 +24,7 @@ public interface IQuotient<out TNominator, out TDenominator> : IDimension
     static Dimension IDimension.D => TNominator.D / TDenominator.D;
 }
 
+// ToDo: Remove this interface
 public interface IInverse<out TBase> : IDimension
     where TBase : IDimension
 {

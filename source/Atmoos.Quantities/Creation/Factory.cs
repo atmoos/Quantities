@@ -10,11 +10,10 @@ internal abstract class Factory
     public IInject<Factory> Quotient { get; }
     private Factory(IInject<Factory> product, IInject<Factory> quotient) => (Product, Quotient) = (product, quotient);
     public abstract Measure Create();
-    public abstract Measure Square();
-    public abstract Measure Cubic();
+    public abstract Measure Create<TExponent>() where TExponent : IExponent;
     public abstract TResult Inject<TResult>(IInject<TResult> inject);
-    public abstract Measure PowerOf<TUnit, TLinear>()
-        where TUnit : IPowerOf<TLinear>, IDimension
+    public abstract Measure AliasOf<TUnit, TLinear>()
+        where TUnit : IDimension, ISystemInject<TLinear>
         where TLinear : IDimension, ILinear;
     public abstract Measure InverseOf<TUnit, TLinear>()
         where TUnit : IInvertible<TLinear>, IDimension
@@ -28,9 +27,8 @@ internal abstract class Factory
         private static readonly IInject<Factory> quotient = new QuotientInject<TMeasure>();
         public Impl() : base(product, quotient) { }
         public override Measure Create() => Measure.Of<TMeasure>();
-        public override Measure Square() => Measure.Of<Power<Square, TMeasure>>();
-        public override Measure Cubic() => Measure.Of<Power<Cubic, TMeasure>>();
-        public override Measure PowerOf<TUnit, TLinear>() => InjectionOf<TUnit, TLinear, AliasInjectionFactory<TLinear>>.Measure;
+        public override Measure Create<TExponent>() => Measure.Of<Measures.Power<TExponent, TMeasure>>();
+        public override Measure AliasOf<TUnit, TLinear>() => InjectionOf<TUnit, TLinear, AliasInjectionFactory<TLinear>>.Measure;
         public override Measure InverseOf<TUnit, TLinear>() => InjectionOf<TUnit, TLinear, InvertibleInjectionFactory<TLinear>>.Measure;
         public override TResult Inject<TResult>(IInject<TResult> inject) => inject.Inject<TMeasure>();
 

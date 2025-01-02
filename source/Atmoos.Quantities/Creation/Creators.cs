@@ -1,4 +1,6 @@
-﻿using Atmoos.Quantities.Dimensions;
+﻿using Atmoos.Quantities.Core.Numerics;
+using Atmoos.Quantities.Dimensions;
+using Atmoos.Quantities.Measures;
 using Atmoos.Quantities.Units;
 
 namespace Atmoos.Quantities.Creation;
@@ -41,20 +43,13 @@ public readonly struct Quotient<TN, TD>
     internal Quantity Transform(in Quantity other) => other.Project(this.factory.Create());
 }
 
-public readonly struct Square<TUnit>
+// ToDo: Consider renaming this to PositivePowerOf or the like...
+public readonly struct Power<TUnit, TExponent>
     where TUnit : IUnit, IDimension
+    where TExponent : INumber
 {
     private readonly Factory factory;
-    internal Square(Factory factory) => this.factory = factory;
-    internal Quantity Create(in Double value) => new(in value, this.factory.Square());
-    internal Quantity Transform(in Quantity other) => other.Project(this.factory.Square());
-}
-
-public readonly struct Cubic<TUnit>
-    where TUnit : IUnit, IDimension
-{
-    private readonly Factory factory;
-    internal Cubic(Factory factory) => this.factory = factory;
-    internal Quantity Create(in Double value) => new(in value, this.factory.Cubic());
-    internal Quantity Transform(in Quantity other) => other.Project(this.factory.Cubic());
+    internal Power(Factory factory) => this.factory = factory;
+    internal Quantity Create(in Double value) => new(in value, this.factory.Create<Numerator<TExponent>>());
+    internal Quantity Transform(in Quantity other) => other.Project(this.factory.Create<Numerator<TExponent>>());
 }

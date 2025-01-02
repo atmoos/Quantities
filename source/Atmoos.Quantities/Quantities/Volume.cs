@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using Atmoos.Quantities.Core.Numerics;
 using Atmoos.Quantities.Creation;
 using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Units;
@@ -6,7 +7,7 @@ using Atmoos.Quantities.Units;
 namespace Atmoos.Quantities;
 
 public readonly struct Volume : IQuantity<Volume>, IVolume
-    , ICubic<Volume, IVolume, ILength>
+    , IPowerOf<Volume, IVolume, ILength, Three>
     , IDivisionOperators<Volume, Area, Length>
     , IDivisionOperators<Volume, Length, Area>
 {
@@ -14,14 +15,14 @@ public readonly struct Volume : IQuantity<Volume>, IVolume
     internal Quantity Value => this.volume;
     Quantity IQuantity<Volume>.Value => this.volume;
     private Volume(in Quantity value) => this.volume = value;
-    public Volume To<TLength>(in Cubic<TLength> other)
+    public Volume To<TLength>(in Power<TLength, Three> other)
         where TLength : ILength, IUnit => new(other.Transform(in this.volume));
     public Volume To<TVolume>(in Scalar<TVolume> other)
-        where TVolume : IVolume, IPowerOf<ILength>, IUnit => new(other.Transform(in this.volume, f => f.PowerOf<TVolume, ILength>()));
-    public static Volume Of<TLength>(in Double value, in Cubic<TLength> measure)
+        where TVolume : IVolume, IPowerOf<ILength>, IUnit => new(other.Transform(in this.volume, f => f.AliasOf<TVolume, ILength>()));
+    public static Volume Of<TLength>(in Double value, in Power<TLength, Three> measure)
         where TLength : ILength, IUnit => new(measure.Create(in value));
     public static Volume Of<TVolume>(in Double value, in Scalar<TVolume> measure)
-        where TVolume : IVolume, IPowerOf<ILength>, IUnit => new(measure.Create(in value, f => f.PowerOf<TVolume, ILength>()));
+        where TVolume : IVolume, IPowerOf<ILength>, IUnit => new(measure.Create(in value, f => f.AliasOf<TVolume, ILength>()));
     static Volume IFactory<Volume>.Create(in Quantity value) => new(in value);
     internal static Volume Times(in Length length, in Area area) => new(length.Value * area.Value);
     internal static Volume Times(in Area area, in Length length) => new(area.Value * length.Value);

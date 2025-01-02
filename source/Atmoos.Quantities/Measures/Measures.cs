@@ -207,16 +207,16 @@ internal readonly struct Alias<TAlias, TLinear> : IMeasure
     public static void Write(IWriter writer, Int32 exponent) => TAlias.Write(writer, exponent >= 0 ? 1 : -1);
 }
 
-internal readonly struct Power<TDim, TLinear> : IMeasure
-    where TDim : IExponent
+internal readonly struct Power<TExp, TLinear> : IMeasure
+    where TExp : IExponent
     where TLinear : IMeasure
 {
-    static Dimension IMeasure.D { get; } = TLinear.D.Pow(TDim.E);
-    public static Polynomial Poly { get; } = TLinear.Poly.Pow(TDim.E);
-    public static Result Inverse { get; } = TDim.Invert(new PowerInverse<TLinear>());
-    public static String Representation { get; } = $"{TLinear.Representation}{Tools.ExpToString(TDim.E)}";
-    public static Result Multiply<TOtherMeasure>() where TOtherMeasure : IMeasure => HigherOrderOps<Power<TDim, TLinear>, TLinear, TOtherMeasure>.Product;
-    public static Result Divide<TOtherMeasure>() where TOtherMeasure : IMeasure => HigherOrderOps<Power<TDim, TLinear>, TLinear, TOtherMeasure>.Quotient;
+    static Dimension IMeasure.D { get; } = TLinear.D.Pow(TExp.E);
+    public static Polynomial Poly { get; } = TLinear.Poly.Pow(TExp.E);
+    public static Result Inverse { get; } = TExp.Invert(new PowerInverse<TLinear>());
+    public static String Representation { get; } = $"{TLinear.Representation}{Tools.ExpToString(TExp.E)}";
+    public static Result Multiply<TOtherMeasure>() where TOtherMeasure : IMeasure => HigherOrderOps<Power<TExp, TLinear>, TLinear, TOtherMeasure>.Product;
+    public static Result Divide<TOtherMeasure>() where TOtherMeasure : IMeasure => HigherOrderOps<Power<TExp, TLinear>, TLinear, TOtherMeasure>.Quotient;
     public static void Write(IWriter writer, Int32 exponent) => TLinear.Write(writer, exponent);
 }
 
@@ -283,8 +283,8 @@ file sealed class Scalar<TSelf> : ICompute
         return product switch {
             Unit => new(TSelf.Poly * TArgument.Poly, Measure.Of<Identity>()),
             Scalar s when s.E == 1 => new Result(TArgument.Poly, Measure.Of<TSelf>()),
-            Scalar s when s.E == 2 => new Result(TArgument.Poly / TSelf.Poly, Measure.Of<Power<Square, TSelf>>()),
-            Scalar s when s.E == 3 => new Result(TArgument.Poly / TSelf.Poly, Measure.Of<Power<Cubic, TSelf>>()),
+            Scalar s when s.E == 2 => new Result(TArgument.Poly / TSelf.Poly, Measure.Of<Power<Numerator<Two>, TSelf>>()),
+            Scalar s when s.E == 3 => new Result(TArgument.Poly / TSelf.Poly, Measure.Of<Power<Numerator<Three>, TSelf>>()),
             _ => new Result(Polynomial.One, Measure.Of<Product<TSelf, TArgument>>())
         };
     }
@@ -296,8 +296,8 @@ file sealed class Scalar<TSelf> : ICompute
         return quotient switch {
             Unit => new Result(TSelf.Poly / TArgument.Poly, Measure.Of<Identity>()),
             Scalar s when s.E == 1 => new Result(TArgument.Poly.Pow(-1), Measure.Of<TSelf>()),
-            Scalar s when s.E == 2 => new Result(TSelf.Poly / TArgument.Poly, Measure.Of<Power<Square, TSelf>>()),
-            Scalar s when s.E == 3 => new Result(TSelf.Poly / TArgument.Poly, Measure.Of<Power<Cubic, TSelf>>()),
+            Scalar s when s.E == 2 => new Result(TSelf.Poly / TArgument.Poly, Measure.Of<Power<Numerator<Two>, TSelf>>()),
+            Scalar s when s.E == 3 => new Result(TSelf.Poly / TArgument.Poly, Measure.Of<Power<Numerator<Three>, TSelf>>()),
             _ => new Result(Polynomial.One, Measure.Of<Quotient<TSelf, TArgument>>())
         };
     }
@@ -384,13 +384,13 @@ file static class Convenience
 {
     public static Measure? As<TLinear>(this Dimension d)
         where TLinear : IMeasure => d.E switch {
-            3 => Measure.Of<Power<Cubic, TLinear>>(),
-            2 => Measure.Of<Power<Square, TLinear>>(),
+            3 => Measure.Of<Power<Numerator<Three>, TLinear>>(),
+            2 => Measure.Of<Power<Numerator<Two>, TLinear>>(),
             1 => Measure.Of<TLinear>(),
             0 => Measure.Of<Identity>(),
             -1 => Measure.Of<Inverse<TLinear>>(),
-            -2 => Measure.Of<Power<InverseExp<Square>, TLinear>>(),
-            -3 => Measure.Of<Power<InverseExp<Cubic>, TLinear>>(),
+            -2 => Measure.Of<Power<Denominator<Two>, TLinear>>(),
+            -3 => Measure.Of<Power<Denominator<Three>, TLinear>>(),
             _ => null
         };
 }

@@ -59,8 +59,8 @@ internal abstract class Scalar : Dimension
     public override Int32 E => this.m;
     protected Scalar(Int32 m) => this.m = m;
     public abstract Boolean Is(Dimension other);
-    public static Scalar Of<TDim>()
-        where TDim : IDimension => new Impl<TDim>(1);
+    public static Scalar Of<TDim>(Int32 multiplicity = 1)
+        where TDim : IDimension => new Impl<TDim>(multiplicity);
     private sealed class Impl<T> : Scalar
          where T : IDimension
     {

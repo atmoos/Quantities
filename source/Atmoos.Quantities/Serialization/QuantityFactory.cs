@@ -43,7 +43,7 @@ public readonly struct QuantityFactory<TQuantity>
     }
 
     private static IBuilder Builder(UnitRepository repository, in QuantityModel model) => model.Exponent switch {
-        -1 => Create(repository, in model, typeofQuantity.InnerType(typeof(IInverse<>)), Inject.Inverse),
+        -1 => Create(repository, in model, PowerOf<Negative<One>>(typeofQuantity), Inject.Inverse),
         1 => Create(repository, in model, scalarVerification, Inject.Scalar),
         2 => Create(repository, in model, PowerOf<Two>(typeofQuantity), Inject.Square),
         3 => Create(repository, in model, PowerOf<Three>(typeofQuantity), Inject.Cubic),

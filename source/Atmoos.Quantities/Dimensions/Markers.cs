@@ -23,10 +23,3 @@ public interface IQuotient<out TNominator, out TDenominator> : IDimension
 {
     static Dimension IDimension.D => TNominator.D / TDenominator.D;
 }
-
-// ToDo: Remove this interface
-public interface IInverse<out TBase> : IDimension
-    where TBase : IDimension
-{
-    static Dimension IDimension.D => TBase.D.Pow(-1);
-}

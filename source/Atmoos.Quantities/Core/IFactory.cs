@@ -49,7 +49,7 @@ public interface IProduct<out TQuantity, in TDimension, in TLeftDimension, in TR
 
 public interface IInvertible<out TQuantity, in TDimension, in TInverse>
     where TQuantity : IInvertible<TQuantity, TDimension, TInverse>, TDimension
-    where TDimension : IDimension, IInverse<TInverse>, ILinear
+    where TDimension : IDimension<TInverse, Negative<One>>, ILinear
     where TInverse : IDimension, ILinear
 {
     public TQuantity To<TUnit>(in Scalar<TUnit> other) where TUnit : TDimension, IInvertible<TInverse>, IUnit;

@@ -10,4 +10,4 @@ public interface IForce : IQuotient<IProduct<ILength, IMass>, IDimension<ITime, 
 public interface IPower : ILinear<IPower>, IDerivedQuantity { /* marker interface */ }
 public interface IEnergy : IProduct<IPower, ITime>, IDerivedQuantity { /* marker interface */ }
 public interface IAngle : IQuotient<ILength, ILength>, IDerivedQuantity { /* marker interface */ }
-public interface IFrequency : IInverse<ITime>, ILinear, IDerivedQuantity { /* marker interface */ }
+public interface IFrequency : IDimension<ITime, Negative<One>>, ILinear, IDerivedQuantity { /* marker interface */ }

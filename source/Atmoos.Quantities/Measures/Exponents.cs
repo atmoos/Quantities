@@ -15,14 +15,14 @@ internal interface IExponent
     public static abstract TResult Invert<TResult>(IInjectExponent<TResult> injector);
 }
 
-internal readonly struct Numerator<TNumber> : IExponent
+internal readonly struct Numerator<TNumber> : IExponent, IPositive
     where TNumber : INumber
 {
     public static Int32 E => TNumber.Value;
     public static TResult Invert<TResult>(IInjectExponent<TResult> injector) => injector.Inject<Denominator<TNumber>>();
 }
 
-internal readonly struct Denominator<TNumber> : IExponent
+internal readonly struct Denominator<TNumber> : IExponent, INegative
     where TNumber : INumber
 {
     public static Int32 E { get; } = -TNumber.Value;

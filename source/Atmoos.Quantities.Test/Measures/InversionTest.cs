@@ -33,14 +33,14 @@ public class InversionTest
     }
 
     [Fact]
-    public void ProductInvertedIsInverseOfNonStandard()
+    public void ProductInvertedIsProductOfInverses()
     {
-        Expect<Inverse<Product<Si<Metre>, Metric<Hour>>>>.ToBeInverseOf<Product<Si<Metre>, Metric<Hour>>>($"m{zeroWidthNonJoiner}h⁻¹");
+        Expect<Product<Inverse<Si<Metre>>, Inverse<Metric<Hour>>>>.ToBeInverseOf<Product<Si<Metre>, Metric<Hour>>>($"m⁻¹{zeroWidthNonJoiner}h⁻¹");
     }
     [Fact]
     public void QuotientInvertedIsInvertedQuotient()
     {
-        Expect<Quotient<Metric<Hour>, Si<Metre>>>.ToBeInverseOf<Quotient<Si<Metre>, Metric<Hour>>>("h/m");
+        Expect<Product<Inverse<Si<Metre>>, Metric<Hour>>>.ToBeInverseOf<Product<Si<Metre>, Inverse<Metric<Hour>>>>("h/m");
     }
 }
 

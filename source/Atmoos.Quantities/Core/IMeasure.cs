@@ -8,9 +8,8 @@ internal interface IMeasure : IRepresentable, ISerialize
 {
     public static abstract Dimension D { get; }
     public static abstract Polynomial Poly { get; }
-    public static abstract Result Inverse { get; }
-    public static abstract Result Multiply<TMeasure>() where TMeasure : IMeasure;
-    public static abstract Result Divide<TMeasure>() where TMeasure : IMeasure;
+    public static abstract TResult InjectLinear<TResult>(IInject<TResult> inject);
+    public static abstract TResult InjectInverse<TResult>(IInject<TResult> inject);
 }
 
 internal interface IMeasure<TBasis> : IMeasure

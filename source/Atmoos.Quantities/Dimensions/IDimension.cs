@@ -14,6 +14,7 @@ public interface IDimension<TSelf, TMultiplicity> : IDimension
 {
     static Dimension IDimension.D { get; } = Scalar.Of<TSelf>(TMultiplicity.Value);
 }
+
 public interface ILinear<TSelf> : ILinear, IDimension<TSelf, One>
     where TSelf : ILinear<TSelf>
 {

@@ -85,5 +85,5 @@ file sealed class ProductInject<TLeftTerm> : IInject<Factory>
 file sealed class QuotientInject<TLeftTerm> : IInject<Factory>
     where TLeftTerm : IMeasure
 {
-    public Factory Inject<TMeasure>() where TMeasure : IMeasure => Factory.Of<Measures.Quotient<TLeftTerm, TMeasure>>();
+    public Factory Inject<TMeasure>() where TMeasure : IMeasure => Factory.Of<Measures.Product<TLeftTerm, Inverse<TMeasure>>>();
 }

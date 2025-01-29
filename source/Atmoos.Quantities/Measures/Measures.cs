@@ -4,40 +4,21 @@ using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Prefixes;
 using Atmoos.Quantities.Units;
 
+using static Atmoos.Quantities.Measures.Convenience;
+
 namespace Atmoos.Quantities.Measures;
-
-file interface IOps
-{
-    static abstract Result Product { get; }
-    static abstract Result Quotient { get; }
-}
-
-file interface ICompute
-{
-    static abstract Result Multiply<TMeasure>() where TMeasure : IMeasure;
-    static abstract Result Divide<TMeasure>() where TMeasure : IMeasure;
-}
 
 internal readonly struct Identity : IMeasure, ILinear
 {
     private static readonly String name = nameof(Identity).ToLowerInvariant();
     static Dimension IMeasure.D => Unit.Identity;
     public static Polynomial Poly => Polynomial.One;
-    public static Result Inverse => Result<Identity>.Unit;
+    public static TResult InjectLinear<TResult>(IInject<TResult> inject) => inject.Inject<Identity>();
+    public static TResult InjectInverse<TResult>(IInject<TResult> inject) => inject.Inject<Identity>();
     public static String Representation { get; } = Unit.Identity.ToString();
-    public static Result Divide<TMeasure>()
-        where TMeasure : IMeasure => TMeasure.Inverse;
-    public static Result Multiply<TMeasure>()
-        where TMeasure : IMeasure => Result<TMeasure>.Unit;
 
     // ToDo: Include this in the deserializer as a special case.
     public static void Write(IWriter writer, Int32 exponent) => writer.Write(name, Representation);
-
-    private static class Result<TMeasure>
-        where TMeasure : IMeasure
-    {
-        public static Result Unit { get; } = new(Polynomial.One, Measure.Of<TMeasure>());
-    }
 }
 
 internal readonly struct Si<TUnit> : IMeasure<TUnit>, ILinear
@@ -45,12 +26,9 @@ internal readonly struct Si<TUnit> : IMeasure<TUnit>, ILinear
 {
     private static readonly Serializer<TUnit> serializer = new(nameof(Si<TUnit>));
     public static Polynomial Poly => Polynomial.One;
-    public static Result Inverse => SafeInverse<Si<TUnit>>.Value;
+    public static TResult InjectLinear<TResult>(IInject<TResult> inject) => inject.Inject<Si<TUnit>>();
+    public static TResult InjectInverse<TResult>(IInject<TResult> inject) => inject.Inject<Inverse<Si<TUnit>>>();
     public static String Representation => TUnit.Representation;
-    public static Result Multiply<TMeasure>()
-        where TMeasure : IMeasure => ScalarOps<Si<TUnit>, TMeasure>.Product;
-    public static Result Divide<TMeasure>()
-        where TMeasure : IMeasure => ScalarOps<Si<TUnit>, TMeasure>.Quotient;
     public static void Write(IWriter writer, Int32 exponent) => serializer.Write(writer, exponent);
 }
 internal readonly struct Si<TPrefix, TUnit> : IMeasure<TUnit>, ILinear
@@ -59,12 +37,9 @@ internal readonly struct Si<TPrefix, TUnit> : IMeasure<TUnit>, ILinear
 {
     private static readonly Serializer<TUnit> serializer = new(nameof(Si<TPrefix, TUnit>));
     public static Polynomial Poly { get; } = Polynomial.Of<TPrefix>();
-    public static Result Inverse => SafeInverse<Si<TPrefix, TUnit>>.Value;
+    public static TResult InjectLinear<TResult>(IInject<TResult> inject) => inject.Inject<Si<TPrefix, TUnit>>();
+    public static TResult InjectInverse<TResult>(IInject<TResult> inject) => inject.Inject<Inverse<Si<TPrefix, TUnit>>>();
     public static String Representation { get; } = $"{TPrefix.Representation}{TUnit.Representation}";
-    public static Result Multiply<TMeasure>()
-        where TMeasure : IMeasure => ScalarOps<Si<TPrefix, TUnit>, TMeasure>.Product;
-    public static Result Divide<TMeasure>()
-        where TMeasure : IMeasure => ScalarOps<Si<TPrefix, TUnit>, TMeasure>.Quotient;
     public static void Write(IWriter writer, Int32 exponent) => serializer.Write<TPrefix>(writer, exponent);
 }
 internal readonly struct Metric<TUnit> : IMeasure<TUnit>, ILinear
@@ -72,12 +47,9 @@ internal readonly struct Metric<TUnit> : IMeasure<TUnit>, ILinear
 {
     private static readonly Serializer<TUnit> serializer = new(nameof(Metric<TUnit>));
     public static Polynomial Poly { get; } = Polynomial.Of<TUnit>();
-    public static Result Inverse => SafeInverse<Metric<TUnit>>.Value;
+    public static TResult InjectLinear<TResult>(IInject<TResult> inject) => inject.Inject<Metric<TUnit>>();
+    public static TResult InjectInverse<TResult>(IInject<TResult> inject) => inject.Inject<Inverse<Metric<TUnit>>>();
     public static String Representation => TUnit.Representation;
-    public static Result Multiply<TMeasure>()
-        where TMeasure : IMeasure => ScalarOps<Metric<TUnit>, TMeasure>.Product;
-    public static Result Divide<TMeasure>()
-        where TMeasure : IMeasure => ScalarOps<Metric<TUnit>, TMeasure>.Quotient;
     public static void Write(IWriter writer, Int32 exponent) => serializer.Write(writer, exponent);
 }
 internal readonly struct Metric<TPrefix, TUnit> : IMeasure<TUnit>, ILinear
@@ -86,12 +58,9 @@ internal readonly struct Metric<TPrefix, TUnit> : IMeasure<TUnit>, ILinear
 {
     private static readonly Serializer<TUnit> serializer = new(nameof(Metric<TPrefix, TUnit>));
     public static Polynomial Poly { get; } = Polynomial.Of<TPrefix, TUnit>();
-    public static Result Inverse => SafeInverse<Metric<TPrefix, TUnit>>.Value;
+    public static TResult InjectLinear<TResult>(IInject<TResult> inject) => inject.Inject<Metric<TPrefix, TUnit>>();
+    public static TResult InjectInverse<TResult>(IInject<TResult> inject) => inject.Inject<Inverse<Metric<TPrefix, TUnit>>>();
     public static String Representation { get; } = $"{TPrefix.Representation}{TUnit.Representation}";
-    public static Result Multiply<TMeasure>()
-        where TMeasure : IMeasure => ScalarOps<Metric<TPrefix, TUnit>, TMeasure>.Product;
-    public static Result Divide<TMeasure>()
-        where TMeasure : IMeasure => ScalarOps<Metric<TPrefix, TUnit>, TMeasure>.Quotient;
     public static void Write(IWriter writer, Int32 exponent) => serializer.Write<TPrefix>(writer, exponent);
 }
 internal readonly struct Imperial<TUnit> : IMeasure<TUnit>, ILinear
@@ -99,12 +68,9 @@ internal readonly struct Imperial<TUnit> : IMeasure<TUnit>, ILinear
 {
     private static readonly Serializer<TUnit> serializer = new(nameof(Imperial<TUnit>));
     public static Polynomial Poly { get; } = Polynomial.Of<TUnit>();
-    public static Result Inverse => SafeInverse<Imperial<TUnit>>.Value;
+    public static TResult InjectLinear<TResult>(IInject<TResult> inject) => inject.Inject<Imperial<TUnit>>();
+    public static TResult InjectInverse<TResult>(IInject<TResult> inject) => inject.Inject<Inverse<Imperial<TUnit>>>();
     public static String Representation => TUnit.Representation;
-    public static Result Multiply<TMeasure>()
-        where TMeasure : IMeasure => ScalarOps<Imperial<TUnit>, TMeasure>.Product;
-    public static Result Divide<TMeasure>()
-        where TMeasure : IMeasure => ScalarOps<Imperial<TUnit>, TMeasure>.Quotient;
     public static void Write(IWriter writer, Int32 exponent) => serializer.Write(writer, exponent);
 }
 internal readonly struct NonStandard<TUnit> : IMeasure<TUnit>, ILinear
@@ -112,12 +78,9 @@ internal readonly struct NonStandard<TUnit> : IMeasure<TUnit>, ILinear
 {
     private static readonly Serializer<TUnit> serializer = new("any");
     public static Polynomial Poly { get; } = Polynomial.Of<TUnit>();
-    public static Result Inverse => SafeInverse<NonStandard<TUnit>>.Value;
+    public static TResult InjectLinear<TResult>(IInject<TResult> inject) => inject.Inject<NonStandard<TUnit>>();
+    public static TResult InjectInverse<TResult>(IInject<TResult> inject) => inject.Inject<Inverse<NonStandard<TUnit>>>();
     public static String Representation => TUnit.Representation;
-    public static Result Multiply<TMeasure>()
-        where TMeasure : IMeasure => ScalarOps<NonStandard<TUnit>, TMeasure>.Product;
-    public static Result Divide<TMeasure>()
-        where TMeasure : IMeasure => ScalarOps<NonStandard<TUnit>, TMeasure>.Quotient;
     public static void Write(IWriter writer, Int32 exponent) => serializer.Write(writer, exponent);
 }
 
@@ -126,10 +89,9 @@ internal readonly struct Inverse<TSelf> : IMeasure, ILinear
 {
     public static Dimension D { get; } = TSelf.D.Pow(-1);
     public static Polynomial Poly { get; } = TSelf.Poly.Pow(-1);
-    static Result IMeasure.Inverse { get; } = new(Polynomial.One, Measure.Of<TSelf>());
+    public static TResult InjectLinear<TResult>(IInject<TResult> inject) => inject.Inject<Inverse<TSelf>>();
+    public static TResult InjectInverse<TResult>(IInject<TResult> inject) => inject.Inject<TSelf>();
     public static String Representation { get; } = $"{TSelf.Representation}{Tools.ExpToString(-TSelf.D.E)}";
-    public static Result Divide<TMeasure>() where TMeasure : IMeasure => ((Measure)ScalarOps<TSelf, TMeasure>.Product).Invert();
-    public static Result Multiply<TMeasure>() where TMeasure : IMeasure => ScalarOps<TMeasure, TSelf>.Quotient;
     public static void Write(IWriter writer, Int32 exponent) => TSelf.Write(writer, exponent);
 }
 
@@ -139,10 +101,9 @@ internal readonly struct Invertible<TSelf, TInverse> : IMeasure, ILinear
 {
     public static Dimension D => TSelf.D;
     public static Polynomial Poly => TSelf.Poly;
-    static Result IMeasure.Inverse { get; } = new(TInverse.Poly / TSelf.Poly, Measure.Of<TInverse>());
+    public static TResult InjectLinear<TResult>(IInject<TResult> inject) => inject.Inject<Invertible<TSelf, TInverse>>();
+    public static TResult InjectInverse<TResult>(IInject<TResult> inject) => inject.Inject<TInverse>();
     public static String Representation => TSelf.Representation;
-    public static Result Divide<TMeasure>() where TMeasure : IMeasure => ScalarOps<TSelf, TMeasure>.Quotient;
-    public static Result Multiply<TMeasure>() where TMeasure : IMeasure => ScalarOps<TSelf, TMeasure>.Product;
     // ToDo: Inversion of the exponent is not really what we want here. This must be refined.
     public static void Write(IWriter writer, Int32 exponent) => TSelf.Write(writer, -exponent);
 }
@@ -151,13 +112,13 @@ internal readonly struct Product<TLeft, TRight> : IMeasure
     where TLeft : IMeasure
     where TRight : IMeasure
 {
+    private const String division = "/";
     private const String zeroWidthNonJoiner = "\u200C"; // https://en.wikipedia.org/wiki/Zero-width_non-joiner
     static Dimension IMeasure.D { get; } = TLeft.D * TRight.D;
     public static Polynomial Poly { get; } = TLeft.Poly * TRight.Poly;
-    public static Result Inverse => SafeInverse<Product<TLeft, TRight>>.Value;
-    public static String Representation { get; } = $"{TLeft.Representation}{zeroWidthNonJoiner}{TRight.Representation}";
-    public static Result Multiply<TMeasure>() where TMeasure : IMeasure => ProductOps<TLeft, TRight, TMeasure>.Product;
-    public static Result Divide<TMeasure>() where TMeasure : IMeasure => ProductOps<TLeft, TRight, TMeasure>.Quotient;
+    public static TResult InjectLinear<TResult>(IInject<TResult> inject) => inject.Inject<Product<TLeft, TRight>>();
+    public static TResult InjectInverse<TResult>(IInject<TResult> inject) => Prod<TLeft>.Invert<TResult, TRight>(inject);
+    public static String Representation { get; } = Rep();
     public static void Write(IWriter writer, Int32 exponent)
     {
         writer.StartArray("measures");
@@ -169,29 +130,12 @@ internal readonly struct Product<TLeft, TRight> : IMeasure
         writer.End();
         writer.EndArray();
     }
-}
-internal readonly struct Quotient<TNominator, TDenominator> : IMeasure
-    where TNominator : IMeasure
-    where TDenominator : IMeasure
-{
-    private static readonly String representation = $"{TNominator.Representation}/{TDenominator.Representation}";
-    static Dimension IMeasure.D { get; } = TNominator.D / TDenominator.D;
-    public static Polynomial Poly { get; } = TNominator.Poly / TDenominator.Poly;
-    public static Result Inverse { get; } = new(Polynomial.One, Measure.Of<Quotient<TDenominator, TNominator>>());
-    public static String Representation => representation;
-    public static Result Multiply<TMeasure>() where TMeasure : IMeasure => QuotientOps<TNominator, TDenominator, TMeasure>.Product;
-    public static Result Divide<TMeasure>() where TMeasure : IMeasure => QuotientOps<TNominator, TDenominator, TMeasure>.Quotient;
-    public static void Write(IWriter writer, Int32 exponent)
-    {
-        writer.StartArray("measures");
-        writer.Start();
-        TNominator.Write(writer, exponent * TNominator.D.E);
-        writer.End();
-        writer.Start();
-        TDenominator.Write(writer, -exponent * TDenominator.D.E);
-        writer.End();
-        writer.EndArray();
-    }
+
+    private static String Rep() => (TLeft.D.E, TRight.D.E) switch {
+        ( >= 0, < 0) => $"{TLeft.Representation}{division}{InvertedRep<TRight>()}",
+        ( < 0, >= 0) => $"{TRight.Representation}{division}{InvertedRep<TLeft>()}",
+        _ => $"{TLeft.Representation}{zeroWidthNonJoiner}{TRight.Representation}",
+    };
 }
 
 internal readonly struct Alias<TAlias, TLinear> : IMeasure
@@ -200,10 +144,9 @@ internal readonly struct Alias<TAlias, TLinear> : IMeasure
 {
     static Dimension IMeasure.D { get; } = TAlias.D;
     public static Polynomial Poly => TAlias.Poly;
-    public static Result Inverse => SafeInverse<Alias<TAlias, TLinear>>.Value;
+    public static TResult InjectLinear<TResult>(IInject<TResult> inject) => inject.Inject<TLinear>();
+    public static TResult InjectInverse<TResult>(IInject<TResult> inject) => inject.Inject<Inverse<Alias<TAlias, TLinear>>>();
     public static String Representation => TAlias.Representation;
-    public static Result Divide<TMeasure>() where TMeasure : IMeasure => HigherOrderOps<TAlias, TLinear, TMeasure>.Quotient;
-    public static Result Multiply<TMeasure>() where TMeasure : IMeasure => HigherOrderOps<TAlias, TLinear, TMeasure>.Product;
     public static void Write(IWriter writer, Int32 exponent) => TAlias.Write(writer, exponent >= 0 ? 1 : -1);
 }
 
@@ -213,184 +156,28 @@ internal readonly struct Power<TExp, TLinear> : IMeasure
 {
     static Dimension IMeasure.D { get; } = TLinear.D.Pow(TExp.E);
     public static Polynomial Poly { get; } = TLinear.Poly.Pow(TExp.E);
-    public static Result Inverse { get; } = TExp.Invert(new PowerInverse<TLinear>());
+    public static TResult InjectLinear<TResult>(IInject<TResult> inject) => inject.Inject<TLinear>();
+    public static TResult InjectInverse<TResult>(IInject<TResult> inject) => TExp.Invert(new PowerInverse<TResult>(inject));
     public static String Representation { get; } = $"{TLinear.Representation}{Tools.ExpToString(TExp.E)}";
-    public static Result Multiply<TOtherMeasure>() where TOtherMeasure : IMeasure => HigherOrderOps<Power<TExp, TLinear>, TLinear, TOtherMeasure>.Product;
-    public static Result Divide<TOtherMeasure>() where TOtherMeasure : IMeasure => HigherOrderOps<Power<TExp, TLinear>, TLinear, TOtherMeasure>.Quotient;
     public static void Write(IWriter writer, Int32 exponent) => TLinear.Write(writer, exponent);
-}
 
-file sealed class PowerInverse<TLinear> : IInjectExponent<Result>
-    where TLinear : IMeasure
-{
-    public Result Inject<TExponent>() where TExponent : IExponent => new(Polynomial.One, Measure.Of<Power<TExponent, TLinear>>());
-}
-
-file static class SafeInverse<TMeasure>
-    where TMeasure : IMeasure
-{
-    public static Result Value { get; } = new(Polynomial.One, Measure.Of<Inverse<TMeasure>>());
-}
-
-file sealed class ScalarOps<TScalar, TArgument> : IOps
-    where TScalar : IMeasure
-    where TArgument : IMeasure
-{
-    public static Result Product { get; } = Scalar<TScalar>.Multiply<TArgument>();
-    public static Result Quotient { get; } = Scalar<TScalar>.Divide<TArgument>();
-}
-
-file sealed class ProductOps<TLeft, TRight, TArgument> : IOps
-    where TLeft : IMeasure
-    where TRight : IMeasure
-    where TArgument : IMeasure
-{
-    public static Result Product { get; } = Prod<TLeft, TRight>.Multiply<TArgument>();
-    public static Result Quotient { get; } = Prod<TLeft, TRight>.Divide<TArgument>();
-}
-
-file sealed class QuotientOps<TNominator, TDenominator, TArgument> : IOps
-    where TNominator : IMeasure
-    where TDenominator : IMeasure
-    where TArgument : IMeasure
-{
-    public static Result Product { get; } = Div<TNominator, TDenominator>.Multiply<TArgument>();
-    public static Result Quotient { get; } = Div<TNominator, TDenominator>.Divide<TArgument>();
-}
-
-file sealed class HigherOrderOps<THigher, TLinear, TArgument> : IOps
-    where THigher : IMeasure
-    where TLinear : IMeasure
-    where TArgument : IMeasure
-{
-    public static Result Product { get; } = HighOrder<THigher, TLinear>.Multiply<TArgument>();
-    public static Result Quotient { get; } = HighOrder<THigher, TLinear>.Divide<TArgument>();
-}
-
-// Everything in here is allowed to be comparatively inefficient, as it is
-// only ever executed once during the lifetime of any dependent app.
-
-file sealed class Scalar<TSelf> : ICompute
-    where TSelf : IMeasure
-{
-    public static Result Multiply<TArgument>()
-        where TArgument : IMeasure
+    private sealed class PowerInverse<TResult>(IInject<TResult> inject) : IInjectExponent<TResult>
     {
-        if (TArgument.D is Product) {
-            return TArgument.Multiply<TSelf>();
-        }
-        var product = TSelf.D * TArgument.D;
-        return product switch {
-            Unit => new(TSelf.Poly * TArgument.Poly, Measure.Of<Identity>()),
-            Scalar s when s.E == 1 => new Result(TArgument.Poly, Measure.Of<TSelf>()),
-            Scalar s when s.E == 2 => new Result(TArgument.Poly / TSelf.Poly, Measure.Of<Power<Numerator<Two>, TSelf>>()),
-            Scalar s when s.E == 3 => new Result(TArgument.Poly / TSelf.Poly, Measure.Of<Power<Numerator<Three>, TSelf>>()),
-            _ => new Result(Polynomial.One, Measure.Of<Product<TSelf, TArgument>>())
-        };
-    }
-
-    public static Result Divide<TArgument>()
-        where TArgument : IMeasure
-    {
-        var quotient = TSelf.D / TArgument.D;
-        return quotient switch {
-            Unit => new Result(TSelf.Poly / TArgument.Poly, Measure.Of<Identity>()),
-            Scalar s when s.E == 1 => new Result(TArgument.Poly.Pow(-1), Measure.Of<TSelf>()),
-            Scalar s when s.E == 2 => new Result(TSelf.Poly / TArgument.Poly, Measure.Of<Power<Numerator<Two>, TSelf>>()),
-            Scalar s when s.E == 3 => new Result(TSelf.Poly / TArgument.Poly, Measure.Of<Power<Numerator<Three>, TSelf>>()),
-            _ => new Result(Polynomial.One, Measure.Of<Quotient<TSelf, TArgument>>())
-        };
-    }
-}
-
-file sealed class Prod<TLeft, TRight> : ICompute
-    where TLeft : IMeasure
-    where TRight : IMeasure
-{
-    public static Result Multiply<TArgument>() where TArgument : IMeasure
-    {
-        var product = TLeft.D * TRight.D * TArgument.D;
-        var polyProduct = TLeft.Poly * TRight.Poly * TArgument.Poly;
-        if (product is Unit) {
-            return new(polyProduct, Measure.Of<Identity>());
-        }
-        Measure? measure;
-        if (product is Scalar scalar && (measure = scalar.As<TLeft>()) != null) {
-            return new(polyProduct / TLeft.Poly, measure);
-        }
-        return new(Polynomial.One, Measure.Of<Product<Product<TLeft, TRight>, TArgument>>());
-    }
-    public static Result Divide<TArgument>() where TArgument : IMeasure
-    {
-        var quotient = TLeft.D * TRight.D / TArgument.D;
-        var polyQuotient = TLeft.Poly * TRight.Poly / TArgument.Poly;
-        if (quotient is Unit) {
-            return new(polyQuotient, Measure.Of<Identity>());
-        }
-        Measure? measure;
-        if (quotient is Scalar scalar && (measure = scalar.As<TLeft>()) != null) {
-            return new(polyQuotient / TLeft.Poly, measure);
-        }
-        return new(Polynomial.One, Measure.Of<Quotient<Product<TLeft, TRight>, TArgument>>());
-    }
-}
-
-file sealed class Div<TNominator, TDenominator> : ICompute
-    where TNominator : IMeasure
-    where TDenominator : IMeasure
-{
-    public static Result Multiply<TArgument>() where TArgument : IMeasure => Product<TNominator, TArgument>.Divide<TDenominator>();
-    public static Result Divide<TArgument>() where TArgument : IMeasure
-    {
-        var quotient = TNominator.D / (TDenominator.D * TArgument.D);
-        var polyQuotient = TNominator.Poly / (TDenominator.Poly * TArgument.Poly);
-        if (quotient is Unit) {
-            return new(polyQuotient, Measure.Of<Identity>());
-        }
-        Measure? measure;
-        if (quotient is Scalar scalar && (measure = scalar.As<TNominator>()) != null) {
-            return new(polyQuotient / TNominator.Poly, measure);
-        }
-        return new(Polynomial.One, Measure.Of<Quotient<TNominator, Product<TDenominator, TArgument>>>());
-    }
-}
-file sealed class HighOrder<THigher, TLinear> : ICompute
-    where THigher : IMeasure
-    where TLinear : IMeasure
-{
-    public static Result Multiply<TArgument>() where TArgument : IMeasure
-    {
-        Dimension target = THigher.D * TArgument.D;
-        Measure? measure = target.As<TLinear>();
-        if (measure is null) {
-            return new(Polynomial.One, Measure.Of<Product<THigher, TArgument>>());
-        }
-        Polynomial conversion = TArgument.Poly * THigher.Poly / TLinear.Poly.Pow(target.E);
-        return new(in conversion, measure);
-    }
-    public static Result Divide<TArgument>() where TArgument : IMeasure
-    {
-        Dimension target = THigher.D / TArgument.D;
-        Measure? measure = target.As<TLinear>();
-        if (measure is null) {
-            return new(Polynomial.One, Measure.Of<Quotient<THigher, TArgument>>());
-        }
-        Polynomial conversion = THigher.Poly / (TLinear.Poly.Pow(target.E) * TArgument.Poly);
-        return new(in conversion, measure);
+        public TResult Inject<TExponent>() where TExponent : IExponent => inject.Inject<Power<TExponent, TLinear>>();
     }
 }
 
 file static class Convenience
 {
-    public static Measure? As<TLinear>(this Dimension d)
-        where TLinear : IMeasure => d.E switch {
-            3 => Measure.Of<Power<Numerator<Three>, TLinear>>(),
-            2 => Measure.Of<Power<Numerator<Two>, TLinear>>(),
-            1 => Measure.Of<TLinear>(),
-            0 => Measure.Of<Identity>(),
-            -1 => Measure.Of<Inverse<TLinear>>(),
-            -2 => Measure.Of<Power<Denominator<Two>, TLinear>>(),
-            -3 => Measure.Of<Power<Denominator<Three>, TLinear>>(),
-            _ => null
-        };
+    private static readonly Rep readInverse = new();
+    public static String InvertedRep<TMeasure>()
+        where TMeasure : IMeasure
+    {
+        return TMeasure.InjectInverse(readInverse);
+    }
+
+    private sealed class Rep : IInject<String>
+    {
+        public String Inject<TMeasure>() where TMeasure : IMeasure => TMeasure.Representation;
+    }
 }

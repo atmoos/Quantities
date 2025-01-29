@@ -1,14 +1,17 @@
 ﻿using Atmoos.Quantities.Core.Numerics;
 using Atmoos.Quantities.Core.Serialization;
+using Atmoos.Quantities.Dimensions;
+using Atmoos.Quantities.Measures;
 
 namespace Atmoos.Quantities.Core;
 
 internal abstract class Measure
 {
     private readonly Polynomial conversion;
-    private Measure(in Polynomial conversion) => this.conversion = conversion;
+    public Dimension D { get; }
+    private Measure(in Polynomial conversion, Dimension d) => (this.conversion, this.D) = (conversion, d);
     public Double Project(Measure other, in Double value) => this.conversion / other.conversion * value;
-    public abstract Result Invert();
+    public abstract Result Inverse { get; }
     public abstract Result Multiply(Measure other);
     protected abstract Result Multiply<TMeasure>() where TMeasure : IMeasure;
     public abstract Result Divide(Measure other);
@@ -23,13 +26,45 @@ internal abstract class Measure
     private sealed class Impl<TMeasure> : Measure
         where TMeasure : IMeasure
     {
-        public Impl() : base(TMeasure.Poly) { }
-        public override Result Invert() => TMeasure.Inverse;
+        public Impl() : base(TMeasure.Poly, TMeasure.D) { }
+        public override Result Inverse => SafeInverse<TMeasure>.Value;
         public override Result Multiply(Measure other) => other.Multiply<TMeasure>();
         public override Result Divide(Measure other) => other.Divide<TMeasure>();
         public override void Serialize(IWriter writer) => TMeasure.Write(writer, TMeasure.D.E);
         public override String ToString() => TMeasure.Representation;
-        protected override Result Multiply<TOtherMeasure>() => TOtherMeasure.Multiply<TMeasure>();
-        protected override Result Divide<TOtherMeasure>() => TOtherMeasure.Divide<TMeasure>();
+        protected override Result Multiply<TOtherMeasure>() => Multiplication<TOtherMeasure, TMeasure>.Result;
+        protected override Result Divide<TOtherMeasure>() => Division<TOtherMeasure, TMeasure>.Result;
+    }
+    private sealed class Invert : IInject<Result>
+    {
+        public Result Inject<TMeasure>() where TMeasure : IMeasure
+            => new(Polynomial.One, Of<TMeasure>());
+    }
+
+    private static class Multiplication<TLeft, TRight>
+        where TLeft : IMeasure
+        where TRight : IMeasure
+    {
+        public static Result Result { get; } = Prod<TLeft>.Multiply<TRight>();
+    }
+
+    private static class Division<TLeft, TRight>
+        where TLeft : IMeasure
+        where TRight : IMeasure
+    {
+        public static Result Result { get; } = TRight.InjectInverse(new Division<TLeft>());
+    }
+
+    private sealed class Division<TLeft> : IInject<Result>
+        where TLeft : IMeasure
+    {
+        public Result Inject<TMeasure>() where TMeasure : IMeasure
+            => Prod<TLeft>.Multiply<TMeasure>();
+    }
+
+    private static class SafeInverse<TMeasure>
+        where TMeasure : IMeasure
+    {
+        public static Result Value { get; } = TMeasure.InjectInverse(new Invert());
     }
 }

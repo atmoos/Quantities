@@ -23,6 +23,9 @@ internal readonly record struct Polynomial : IEquatable<Polynomial>
         var (n, d) = Algorithms.Simplify(this.nominator, this.denominator);
         return d >= 0 ? new(n, d, this.offset) : new(-n, -d, this.offset);
     }
+
+    public Polynomial Pow(Int32 exponent) => Algorithms.Pow(this.Simplify(), exponent);
+
     public static Polynomial Of(Transformation transformation)
     {
         var (n, d, offset) = transformation;
@@ -33,22 +36,6 @@ internal readonly record struct Polynomial : IEquatable<Polynomial>
         where TTransform : ITransform => Cache<TTransform>.Polynomial;
     public static Polynomial Of<TSecond, TFirst>()
         where TFirst : ITransform where TSecond : ITransform => Cache<TFirst, TSecond>.Polynomial;
-    public static Polynomial Pow(in Polynomial poly, Int32 exp)
-    {
-        if (exp is 0 or 1) {
-            return exp == 0 ? One : poly;
-        }
-        var (n, d, o) = poly.Simplify();
-        if (o != 0d) {
-            // Computing the new offset recursively is orders of
-            // magnitude more precise than an iterative implementation...
-            var simplified = new Polynomial(in n, in d, in o);
-            (_, _, o) = Algorithms.Pow(in simplified, exp);
-        }
-        // always using the "algebraic" inverses on the nominator and
-        // denominator, ensures the identity [p*p⁻¹ = 𝟙] holds trivially;
-        return new(Algorithms.Pow(in n, exp), Algorithms.Pow(in d, exp), in o);
-    }
 
     public static Double operator *(Polynomial left, Double right)
         => Double.FusedMultiplyAdd(left.nominator, right, left.denominator * left.offset) / left.denominator;

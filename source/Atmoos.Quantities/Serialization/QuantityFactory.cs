@@ -53,7 +53,8 @@ public readonly struct QuantityFactory<TQuantity>
     {
         var (verifications, injector) = (left.Exponent, right.Exponent) switch {
             ( > 0, > 0) => (typeofQuantity.InnerTypes(typeof(IProduct<,>)), Inject.Product),
-            ( > 0, < 0) => (typeofQuantity.InnerTypes(typeof(IQuotient<,>)), Inject.Quotient),
+            // ToDo: Unwrap Product recursively...
+            // ( > 0, < 0) => (typeofQuantity.InnerTypes(typeof(IQuotient<,>)), Inject.Quotient),
             _ => throw new NotSupportedException($"Cannot build a quantity with an exponents of '[{left.Exponent}, {right.Exponent}]'.")
         };
         return Create(repository, [left, right], verifications, injector);

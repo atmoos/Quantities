@@ -15,11 +15,3 @@ public interface IProduct<out TLeft, out TRight> : IDimension
 {
     static Dimension IDimension.D => TLeft.D * TRight.D;
 }
-
-// ToDo: Remove this interface
-public interface IQuotient<out TNominator, out TDenominator> : IDimension
-    where TNominator : IDimension
-    where TDenominator : IDimension
-{
-    static Dimension IDimension.D => TNominator.D / TDenominator.D;
-}

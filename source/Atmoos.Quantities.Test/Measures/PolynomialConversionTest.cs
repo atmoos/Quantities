@@ -59,7 +59,7 @@ public class PolynomialConversionTest
         const Double expected = 1;
 
 
-        Double actual = Evaluate<Quotient<Si<Metre>, Si<Second>>, Quotient<Imperial<Mile>, Metric<Hour>>>(value);
+        Double actual = Evaluate<Product<Si<Metre>, Inverse<Si<Second>>>, Product<Imperial<Mile>, Inverse<Metric<Hour>>>>(value);
 
         PrecisionIsBounded(expected, actual);
     }

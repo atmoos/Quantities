@@ -22,7 +22,7 @@ public class MeasureDivisionTest
     [Fact]
     public void ScalarPerOtherScalarIsQuotient()
     {
-        var conversion = Expect<Quotient<Si<Metre>, Si<Second>>>.ToBeQuotientOf<Si<Metre>, Si<Second>>();
+        var conversion = Expect<Product<Si<Metre>, Inverse<Si<Second>>>>.ToBeQuotientOf<Si<Metre>, Si<Second>>();
         Assert.Equal(One, conversion);
     }
     [Fact]
@@ -31,7 +31,6 @@ public class MeasureDivisionTest
         var conversion = Expect<Identity>.ToBeQuotientOf<Metric<Hour>, Si<Kilo, Second>>();
         Assert.Equal((Of<Hour>() / Of<Kilo>()).Simplify(), conversion);
     }
-
     [Fact]
     public void SquareScalarPerSimilarScalarIsScalar()
     {

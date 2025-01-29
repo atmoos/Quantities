@@ -193,6 +193,24 @@ public class PolynomialTest
         (actualOffset < upperBound).IsTrue();
     }
     [Fact]
+    public void NegativePowers()
+    {
+        var poly = Poly(3, 2, 6);
+        var expected = Polynomial.One / poly;
+        var actual = poly.Pow(-1);
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void NegativeHigherPowers()
+    {
+        var poly = Poly(3, 2, 2);
+        var expected = Polynomial.One / (poly * poly * poly);
+        var actual = poly.Pow(-3);
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
     public void PowerTimesInversePowerIsIdentityForPolynomialsWithoutOffset()
     {
         const Int32 exp = 7;
@@ -205,7 +223,7 @@ public class PolynomialTest
 
         var actual = power * inversePower;
 
-        var (n, d, o) = actual;
+        var (n, d, o) = actual.Simplify();
 
         Assert.Equal(1d, n);
         Assert.Equal(1d, d);
@@ -231,7 +249,7 @@ public class PolynomialTest
 
         var actual = power * inversePower;
 
-        var (n, d, o) = actual;
+        var (n, d, o) = actual.Simplify();
 
         Assert.Equal(1d, n);
         Assert.Equal(1d, d);

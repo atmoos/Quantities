@@ -21,9 +21,9 @@ public interface IScalar<out TQuantity, in TDimension>
 
 public interface IQuotient<out TQuantity, in TDimension, in TNominatorDimension, in TDenominatorDimension> : IScalar<TQuantity, TDimension>
     where TQuantity : IQuotient<TQuantity, TDimension, TNominatorDimension, TDenominatorDimension>, TDimension
-    where TDimension : IQuotient<TNominatorDimension, TDenominatorDimension>
-    where TNominatorDimension : IDimension
-    where TDenominatorDimension : IDimension
+    where TDimension : IProduct<TNominatorDimension, IDimension<TDenominatorDimension, Negative<One>>>
+    where TNominatorDimension : IDimension<TNominatorDimension, One>
+    where TDenominatorDimension : IDimension<TDenominatorDimension, One>
 {
     public TQuantity To<TNominator, TDenominator>(in Quotient<TNominator, TDenominator> other)
         where TNominator : TNominatorDimension, IUnit

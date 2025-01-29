@@ -434,7 +434,7 @@ public class QuantityTest
         const Double b = 4;
         Quantity nominator = Create<Metre>(a);
         Quantity denominator = Create<Second>(b);
-        Quantity quotient = Quantity.Of<Quotient<Si<Metre>, Si<Second>>>(a / b);
+        Quantity quotient = Quantity.Of<Product<Si<Metre>, Inverse<Si<Second>>>>(a / b);
 
         Quantity actual = nominator / denominator;
 

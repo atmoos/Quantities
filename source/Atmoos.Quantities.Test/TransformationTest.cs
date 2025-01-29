@@ -11,12 +11,15 @@ public class TransformationTest
     public void ModeratelyComplexFunction_EvaluatesCorrectly()
     {
         Double value = 3;
+        // with arbitrary precision we'd get: 4.197
         Double expected = (6.262 * value / 2 - 3) / 2 + 1;
+        // hence, we can use a tolerance as above is even less accurate than what the poly computes.
+        const Int32 tol = 15;
 
         Polynomial poly = Polynomial.Of((6.262 * new Transformation() / 2 - 3) / 2 + 1);
         Double actual = poly * value;
 
-        Assert.Equal(expected, actual);
+        Assert.Equal(expected, actual, tol);
     }
 
     [Fact]

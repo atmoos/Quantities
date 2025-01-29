@@ -42,7 +42,7 @@ internal sealed class QuotientInjector : IInject<IBuilder>
     {
         public Quantity Build(in Double value) => Quantity.Of<TNominator>(in value);
         // ... the denominator in a second step.
-        public IBuilder Inject<TMeasure>() where TMeasure : IMeasure => new Builder<Quotient<TNominator, TMeasure>>();
+        public IBuilder Inject<TMeasure>() where TMeasure : IMeasure => new Builder<Product<TNominator, Inverse<TMeasure>>>();
     }
 }
 

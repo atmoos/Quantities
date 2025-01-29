@@ -12,7 +12,7 @@ internal static class Expect<TResult>
     {
         var measure = Measure.Of<TMeasure>();
 
-        var result = measure.Invert();
+        var result = measure.Inverse;
         var actual = (Measure)result;
 
         Assert.Same(expected, actual);

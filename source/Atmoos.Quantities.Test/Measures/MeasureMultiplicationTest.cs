@@ -38,7 +38,7 @@ public class MeasureMultiplicationTest
     public void ScalarTimesSquareSimilarScalarIsCubicScalar()
     {
         var conversion = Expect<Power<Cubic, Metric<Hour>>>.ToBeProductOf<Metric<Hour>, Power<Square, Metric<Minute>>>();
-        Assert.Equal((Of<Minute>().Pow(2) / Of<Hour>()).Simplify(), conversion);
+        Assert.Equal(Of<Minute>().Pow(-2).Simplify(), conversion);
     }
     [Fact]
     public void ProductOfMeasureTimesItsInverseIsIdentity()

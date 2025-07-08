@@ -8,15 +8,26 @@ internal static class Prod<TSelf>
 {
     public static Result Multiply<TRight>() where TRight : IMeasure
     {
+        if (TSelf.D is Unit) {
+            return new(Polynomial.One, Measure.Of<TRight>());
+        }
+        if (TRight.D is Unit) {
+            return new(Polynomial.One, Measure.Of<TSelf>());
+        }
         var result = TSelf.D * TRight.D;
         if (result is Unit) {
             return new(TSelf.Poly * TRight.Poly, Measure.Of<Identity>());
         }
         var injector = new Raise<Measure>(result, new ScalarInjector());
         if (result is Scalar s) {
+            var convert = new Conversion(TSelf.Poly * TRight.Poly, result.E);
             var (measure, conversion) = (s.CommonRoot(TSelf.D), s.CommonRoot(TRight.D)) switch {
-                (true, _) => (TSelf.InjectLinear(injector), TSelf.InjectLinear(new Conversion<TRight>())),
-                (false, true) => (TRight.InjectLinear(injector), TRight.InjectLinear(new Conversion<TSelf>())),
+                (true, _) => (TSelf.InjectLinear(injector), TSelf.InjectLinear(convert)),
+                (false, true) => (TRight.InjectLinear(injector), TRight.InjectLinear(convert)),
+                // Either left or right is a compound measure that should inject one of it's components.
+                // as the resulting measure.
+                // e.g: 32 KWh / 4 h = 8 kW, "KWh" must inject "kW" as the resulting measure.
+                // e.g: 32 m/s * 4 s = 8 m, "m/s" must inject "m" as the resulting measure.
                 _ => throw new NotSupportedException($"Unknown dimension '{result}' encountered.")
             };
             return new(conversion, measure);
@@ -53,10 +64,9 @@ file sealed class LeftInjector<TResult>(IInject<TResult> resultInjector) : IInje
     }
 }
 
-file sealed class Conversion<TSelf> : IInject<Polynomial>
-    where TSelf : IMeasure
+file sealed class Conversion(Polynomial product, Int32 target) : IInject<Polynomial>
 {
-    public Polynomial Inject<TMeasure>() where TMeasure : IMeasure => TSelf.Poly / TMeasure.Poly.Pow(TSelf.D.E - TMeasure.D.E);
+    public Polynomial Inject<TLinear>() where TLinear : IMeasure => product / TLinear.Poly.Pow(target);
 }
 
 file sealed class Raise<TResult>(Dimension d, IInject<TResult> inner) : IInject<TResult>

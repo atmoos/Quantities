@@ -1,6 +1,12 @@
 ﻿using Atmoos.Quantities.Core.Numerics;
+using static Atmoos.Quantities.Test.Convenience;
 
 namespace Atmoos.Quantities.Test.Measures;
+
+file static class Identity
+{
+    public static Measure Measure = Measure.Of<Quantities.Measures.Identity>();
+}
 
 internal static class Expect<TResult>
     where TResult : IMeasure
@@ -43,5 +49,21 @@ internal static class Expect<TResult>
 
         Assert.Same(expected, (Measure)actual);
         return (Polynomial)actual;
+    }
+
+    public static Polynomial ToBeEqualTo<TMeasure>()
+    where TMeasure : IMeasure
+    {
+        var measure = Measure.Of<TMeasure>();
+
+        var ratio = measure.Divide(expected);
+        var poly = (Polynomial)ratio;
+
+        var (n, d, offset) = poly.Simplify();
+
+        Assert.Equal(1d, n, MediumPrecision);
+        Assert.Equal(1d, d, MediumPrecision);
+        Assert.Equal(0, offset, MediumPrecision);
+        return poly;
     }
 }

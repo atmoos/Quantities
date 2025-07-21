@@ -20,7 +20,9 @@ internal static class Prod<TSelf>
         }
         var injector = new Raise<Measure>(result, new ScalarInjector());
         if (result is Scalar s) {
-            var convert = new Conversion(TSelf.Poly * TRight.Poly, result.E);
+            var product = TSelf.Poly * TRight.Poly;
+            var convert = new Conversion(product, result.E);
+            var raise = new Raise<IVisitor>(s, new VisitorBuilder());
             var (measure, conversion) = (s.CommonRoot(TSelf.D), s.CommonRoot(TRight.D)) switch {
                 (true, _) => (TSelf.InjectLinear(injector), TSelf.InjectLinear(convert)),
                 (false, true) => (TRight.InjectLinear(injector), TRight.InjectLinear(convert)),
@@ -28,7 +30,7 @@ internal static class Prod<TSelf>
                 // as the resulting measure.
                 // e.g: 32 KWh / 4 h = 8 kW, "KWh" must inject "kW" as the resulting measure.
                 // e.g: 32 m/s * 4 s = 8 m, "m/s" must inject "m" as the resulting measure.
-                _ => throw new NotSupportedException($"Unknown dimension '{result}' encountered.")
+                _ => TSelf.Visit(new ScalarVisitor(raise), result).Inject<TRight>().Build(product)
             };
             return new(conversion, measure);
         }
@@ -67,6 +69,34 @@ file sealed class LeftInjector<TResult>(IInject<TResult> resultInjector) : IInje
 file sealed class Conversion(Polynomial product, Int32 target) : IInject<Polynomial>
 {
     public Polynomial Inject<TLinear>() where TLinear : IMeasure => product / TLinear.Poly.Pow(target);
+}
+
+file sealed class ScalarVisitor(IInject<IVisitor> raise) : IVisitor
+{
+    public (Measure m, Polynomial p) Build(Polynomial poly)
+    {
+        throw new ArgumentException("No measure injected yet");
+    }
+
+    public IVisitor Inject<TMeasure>()
+        where TMeasure : IMeasure => raise.Inject<TMeasure>();
+}
+
+file sealed class VisitorBuilder : IInject<IVisitor>
+{
+    public IVisitor Inject<TMeasure>() where TMeasure : IMeasure
+        => new ScalarVisitor<TMeasure>();
+}
+
+file sealed class ScalarVisitor<TInjected>() : IVisitor
+    where TInjected : IMeasure
+{
+    public (Measure m, Polynomial p) Build(Polynomial poly)
+    {
+        return (Measure.Of<TInjected>(), poly / TInjected.Poly);
+    }
+
+    public IVisitor Inject<TMeasure>() where TMeasure : IMeasure => this;
 }
 
 file sealed class Raise<TResult>(Dimension d, IInject<TResult> inner) : IInject<TResult>

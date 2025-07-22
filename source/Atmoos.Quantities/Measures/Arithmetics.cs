@@ -18,23 +18,13 @@ internal static class Prod<TSelf>
         if (result is Unit) {
             return new(TSelf.Poly * TRight.Poly, Measure.Of<Identity>());
         }
-        var injector = new Raise<Measure>(result, new ScalarInjector());
-        if (result is Scalar s) {
+        if (result is Scalar) {
             var product = TSelf.Poly * TRight.Poly;
-            var convert = new Conversion(product, result.E);
-            var raise = new Raise<IVisitor>(s, new VisitorBuilder());
-            var (measure, conversion) = (s.CommonRoot(TSelf.D), s.CommonRoot(TRight.D)) switch {
-                (true, _) => (TSelf.InjectLinear(injector), TSelf.InjectLinear(convert)),
-                (false, true) => (TRight.InjectLinear(injector), TRight.InjectLinear(convert)),
-                // Either left or right is a compound measure that should inject one of it's components.
-                // as the resulting measure.
-                // e.g: 32 KWh / 4 h = 8 kW, "KWh" must inject "kW" as the resulting measure.
-                // e.g: 32 m/s * 4 s = 8 m, "m/s" must inject "m" as the resulting measure.
-                _ => TSelf.Visit(new ScalarVisitor(raise), result).Inject<TRight>().Build(product)
-            };
-            return new(conversion, measure);
+            var raise = new Raise<IVisitor>(result, new VisitorBuilder());
+            return TRight.Visit(TSelf.Visit(new ScalarVisitor(raise), result), result).Build(product);
         }
         if (result is Product p) {
+            var injector = new Raise<Measure>(result, new ScalarInjector());
             var left = new Raise<IInject<Measure>>(p.L, new LeftInjector<Measure>(injector));
             var right = new Raise<Measure>(p.R, TSelf.InjectLinear(left));
             var measure = TRight.InjectLinear(right);
@@ -66,14 +56,9 @@ file sealed class LeftInjector<TResult>(IInject<TResult> resultInjector) : IInje
     }
 }
 
-file sealed class Conversion(Polynomial product, Int32 target) : IInject<Polynomial>
-{
-    public Polynomial Inject<TLinear>() where TLinear : IMeasure => product / TLinear.Poly.Pow(target);
-}
-
 file sealed class ScalarVisitor(IInject<IVisitor> raise) : IVisitor
 {
-    public (Measure m, Polynomial p) Build(Polynomial poly)
+    public Result Build(Polynomial poly)
     {
         throw new ArgumentException("No measure injected yet");
     }
@@ -86,17 +71,15 @@ file sealed class VisitorBuilder : IInject<IVisitor>
 {
     public IVisitor Inject<TMeasure>() where TMeasure : IMeasure
         => new ScalarVisitor<TMeasure>();
-}
-
-file sealed class ScalarVisitor<TInjected>() : IVisitor
+    private sealed class ScalarVisitor<TInjected>() : IVisitor
     where TInjected : IMeasure
-{
-    public (Measure m, Polynomial p) Build(Polynomial poly)
     {
-        return (Measure.Of<TInjected>(), poly / TInjected.Poly);
+        public Result Build(Polynomial poly)
+        {
+            return new(poly / TInjected.Poly, Measure.Of<TInjected>());
+        }
+        public IVisitor Inject<TMeasure>() where TMeasure : IMeasure => this;
     }
-
-    public IVisitor Inject<TMeasure>() where TMeasure : IMeasure => this;
 }
 
 file sealed class Raise<TResult>(Dimension d, IInject<TResult> inner) : IInject<TResult>

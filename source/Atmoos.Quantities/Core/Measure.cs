@@ -35,10 +35,10 @@ internal abstract class Measure
         protected override Result Multiply<TOtherMeasure>() => Multiplication<TOtherMeasure, TMeasure>.Result;
         protected override Result Divide<TOtherMeasure>() => Division<TOtherMeasure, TMeasure>.Result;
     }
-    private sealed class Invert : IInject<Result>
+    private sealed class Invert(Polynomial nominal) : IInject<Result>
     {
         public Result Inject<TMeasure>() where TMeasure : IMeasure
-            => new(Polynomial.One, Of<TMeasure>());
+            => new(TMeasure.Poly / nominal, Of<TMeasure>());
     }
 
     private static class Multiplication<TLeft, TRight>
@@ -65,6 +65,6 @@ internal abstract class Measure
     private static class SafeInverse<TMeasure>
         where TMeasure : IMeasure
     {
-        public static Result Value { get; } = TMeasure.InjectInverse(new Invert());
+        public static Result Value { get; } = TMeasure.InjectInverse(new Invert(TMeasure.Poly));
     }
 }

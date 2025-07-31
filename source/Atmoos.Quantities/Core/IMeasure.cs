@@ -21,5 +21,5 @@ internal interface IMeasure<TBasis> : IMeasure
 
 internal interface IVisitor : IInject<IVisitor>
 {
-    Result Build(Polynomial poly);
+    Result? Build(Polynomial poly);
 }

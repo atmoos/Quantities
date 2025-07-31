@@ -20,8 +20,10 @@ internal static class Prod<TSelf>
         }
         if (result is Scalar) {
             var product = TSelf.Poly * TRight.Poly;
-            var raise = new Raise<IVisitor>(result, new VisitorBuilder());
-            return TRight.Visit(TSelf.Visit(new ScalarVisitor(raise), result), result).Build(product);
+            var visitor = new ScalarVisitor(new Raise<IVisitor>(result, new VisitorBuilder()));
+            return TSelf.Visit(visitor, result).Build(product)
+                ?? TRight.Visit(visitor, result).Build(product)
+                ?? throw new InvalidOperationException($"Cannot build a result of dimension '{result}' with measures '{TSelf.Representation}' and '{TRight.Representation}'.");
         }
         if (result is Product p) {
             var injector = new Raise<Measure>(result, new ScalarInjector());
@@ -58,11 +60,7 @@ file sealed class LeftInjector<TResult>(IInject<TResult> resultInjector) : IInje
 
 file sealed class ScalarVisitor(IInject<IVisitor> raise) : IVisitor
 {
-    public Result Build(Polynomial poly)
-    {
-        throw new ArgumentException("No measure injected yet");
-    }
-
+    public Result? Build(Polynomial poly) => null;
     public IVisitor Inject<TMeasure>()
         where TMeasure : IMeasure => raise.Inject<TMeasure>();
 }

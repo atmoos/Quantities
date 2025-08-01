@@ -6,7 +6,7 @@ namespace Atmoos.Quantities.Measures;
 internal static class Prod<TSelf>
     where TSelf : IMeasure
 {
-    public static Result Multiply<TRight>() where TRight : IMeasure
+    public static Result Map<TRight>(in Polynomial poly, Dimension target) where TRight : IMeasure
     {
         if (TSelf.D is Unit) {
             return new(Polynomial.One, Measure.Of<TRight>());
@@ -14,25 +14,23 @@ internal static class Prod<TSelf>
         if (TRight.D is Unit) {
             return new(Polynomial.One, Measure.Of<TSelf>());
         }
-        var result = TSelf.D * TRight.D;
-        if (result is Unit) {
+        if (target is Unit) {
             return new(TSelf.Poly * TRight.Poly, Measure.Of<Identity>());
         }
-        if (result is Scalar) {
-            var product = TSelf.Poly * TRight.Poly;
-            var visitor = new ScalarVisitor(new Raise<IVisitor>(result, new VisitorBuilder()));
-            return TSelf.Visit(visitor, result).Build(product)
-                ?? TRight.Visit(visitor, result).Build(product)
-                ?? throw new InvalidOperationException($"Cannot build a result of dimension '{result}' with measures '{TSelf.Representation}' and '{TRight.Representation}'.");
+        if (target is Scalar) {
+            var visitor = new ScalarVisitor(new Raise<IVisitor>(target, new VisitorBuilder()));
+            return TSelf.Visit(visitor, target).Build(poly)
+                ?? TRight.Visit(visitor, target).Build(poly)
+                ?? throw new InvalidOperationException($"Cannot build a result of dimension '{target}' with measures '{TSelf.Representation}' and '{TRight.Representation}'.");
         }
-        if (result is Product p) {
-            var injector = new Raise<Measure>(result, new ScalarInjector());
+        if (target is Product p) {
+            var injector = new Raise<Measure>(target, new ScalarInjector());
             var left = new Raise<IInject<Measure>>(p.L, new LeftInjector<Measure>(injector));
             var right = new Raise<Measure>(p.R, TSelf.InjectLinear(left));
             var measure = TRight.InjectLinear(right);
             return new(Polynomial.One, measure);
         }
-        throw new NotImplementedException($"Unknown type '{result.GetType().Name}' of dimension '{result}' encountered.");
+        throw new NotImplementedException($"Unknown type '{target.GetType().Name}' of dimension '{target}' encountered.");
     }
 
     public static TResult Invert<TResult, TRight>(IInject<TResult> inject)

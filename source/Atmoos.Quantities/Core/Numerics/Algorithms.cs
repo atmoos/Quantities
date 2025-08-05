@@ -21,6 +21,9 @@ internal static class Algorithms
         if (nominator == denominator) {
             return nominator == 0 ? (0d, 0d) : (1d, 1d);
         }
+        if (Abs(denominator) == 1d) {
+            return denominator < 0 ? (-nominator, 1d) : (nominator, 1d);
+        }
         (Double scaledNominator, Double scaledDenominator) = Scaling(nominator, denominator);
         Double maxMag = MaxMagnitude(scaledNominator, scaledDenominator);
         Double minMag = MinMagnitude(scaledNominator, scaledDenominator);

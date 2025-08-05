@@ -6,18 +6,13 @@ namespace Atmoos.Quantities.Measures;
 internal static class Arithmetic<TSelf>
     where TSelf : IMeasure
 {
+    private static readonly IVisitor injector = new Injector();
     public static Result Map<TRight>(in Polynomial poly, Dimension target) where TRight : IMeasure
     {
-        if (TSelf.D is Unit) {
-            return new(Polynomial.One, Measure.Of<TRight>());
-        }
-        if (TRight.D is Unit) {
-            return new(Polynomial.One, Measure.Of<TSelf>());
-        }
         if (target is Unit) {
             return new(poly, Measure.Of<Identity>());
         }
-        var visitor = new Visitor(new Injector(), target);
+        var visitor = new Visitor(injector, target);
         var left = TSelf.InjectLinear(visitor);
         var builder = TRight.InjectLinear(left);
         return builder.Build(poly, target);
@@ -83,7 +78,6 @@ file sealed class Visitor : IVisitor
         this.fallback = this.fallback.Inject<TMeasure>();
         return this;
     }
-
 
     private sealed class Fallback : IVisitor
     {

@@ -45,14 +45,14 @@ internal abstract class Measure
         where TLeft : IMeasure
         where TRight : IMeasure
     {
-        public static Result Result { get; } = Prod<TLeft>.Map<TRight>(TLeft.Poly * TRight.Poly, TLeft.D * TRight.D);
+        public static Result Result { get; } = Arithmetic<TLeft>.Map<TRight>(TLeft.Poly * TRight.Poly, TLeft.D * TRight.D);
     }
 
     private static class Division<TLeft, TRight>
         where TLeft : IMeasure
         where TRight : IMeasure
     {
-        public static Result Result { get; } = Prod<TLeft>.Map<TRight>(TLeft.Poly / TRight.Poly, TLeft.D / TRight.D);
+        public static Result Result { get; } = Arithmetic<TLeft>.Map<TRight>(TLeft.Poly / TRight.Poly, TLeft.D / TRight.D);
     }
 
     private static class SafeInverse<TMeasure>

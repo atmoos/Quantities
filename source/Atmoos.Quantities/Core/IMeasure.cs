@@ -8,9 +8,8 @@ internal interface IMeasure : IRepresentable, ISerialize
 {
     public static abstract Dimension D { get; }
     public static abstract Polynomial Poly { get; }
-    public static abstract TResult InjectLinear<TResult>(IInject<TResult> inject);
+    public static abstract IVisitor InjectLinear(IVisitor inject);
     public static abstract TResult InjectInverse<TResult>(IInject<TResult> inject);
-    public static abstract IVisitor Visit(IVisitor visitor, Dimension dimension);
 }
 
 internal interface IMeasure<TBasis> : IMeasure
@@ -21,5 +20,5 @@ internal interface IMeasure<TBasis> : IMeasure
 
 internal interface IVisitor : IInject<IVisitor>
 {
-    Result? Build(Polynomial poly);
+    Result Build(Polynomial poly, Dimension target);
 }

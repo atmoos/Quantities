@@ -8,29 +8,17 @@ using static Atmoos.Quantities.Measures.Convenience;
 
 namespace Atmoos.Quantities.Measures;
 
-file static class Visits
-{
-    public static IVisitor Scalar<TMeasure>(this IVisitor visitor, Dimension dimension)
-        where TMeasure : IMeasure => dimension is Scalar s && s.CommonRoot(TMeasure.D)
-            ? visitor.Inject<TMeasure>()
-            : visitor;
-}
-
 internal readonly struct Identity : IMeasure, ILinear
 {
     private static readonly String name = nameof(Identity).ToLowerInvariant();
     static Dimension IMeasure.D => Unit.Identity;
     public static Polynomial Poly => Polynomial.One;
-    public static TResult InjectLinear<TResult>(IInject<TResult> inject) => inject.Inject<Identity>();
+    public static IVisitor InjectLinear(IVisitor inject) => inject.Inject<Identity>();
     public static TResult InjectInverse<TResult>(IInject<TResult> inject) => inject.Inject<Identity>();
     public static String Representation { get; } = Unit.Identity.ToString();
 
     // ToDo: Include this in the deserializer as a special case.
     public static void Write(IWriter writer, Int32 exponent) => writer.Write(name, Representation);
-    public static IVisitor Visit(IVisitor visitor, Dimension dimension)
-    {
-        return dimension is Unit ? visitor.Inject<Identity>() : visitor;
-    }
 }
 
 internal readonly struct Si<TUnit> : IMeasure<TUnit>, ILinear
@@ -38,11 +26,10 @@ internal readonly struct Si<TUnit> : IMeasure<TUnit>, ILinear
 {
     private static readonly Serializer<TUnit> serializer = new(nameof(Si<TUnit>));
     public static Polynomial Poly => Polynomial.One;
-    public static TResult InjectLinear<TResult>(IInject<TResult> inject) => inject.Inject<Si<TUnit>>();
+    public static IVisitor InjectLinear(IVisitor inject) => inject.Inject<Si<TUnit>>();
     public static TResult InjectInverse<TResult>(IInject<TResult> inject) => inject.Inject<Inverse<Si<TUnit>>>();
     public static String Representation => TUnit.Representation;
     public static void Write(IWriter writer, Int32 exponent) => serializer.Write(writer, exponent);
-    public static IVisitor Visit(IVisitor visitor, Dimension dimension) => visitor.Scalar<Si<TUnit>>(dimension);
 }
 internal readonly struct Si<TPrefix, TUnit> : IMeasure<TUnit>, ILinear
     where TPrefix : IPrefix
@@ -50,22 +37,20 @@ internal readonly struct Si<TPrefix, TUnit> : IMeasure<TUnit>, ILinear
 {
     private static readonly Serializer<TUnit> serializer = new(nameof(Si<TPrefix, TUnit>));
     public static Polynomial Poly { get; } = Polynomial.Of<TPrefix>();
-    public static TResult InjectLinear<TResult>(IInject<TResult> inject) => inject.Inject<Si<TPrefix, TUnit>>();
+    public static IVisitor InjectLinear(IVisitor inject) => inject.Inject<Si<TPrefix, TUnit>>();
     public static TResult InjectInverse<TResult>(IInject<TResult> inject) => inject.Inject<Inverse<Si<TPrefix, TUnit>>>();
     public static String Representation { get; } = $"{TPrefix.Representation}{TUnit.Representation}";
     public static void Write(IWriter writer, Int32 exponent) => serializer.Write<TPrefix>(writer, exponent);
-    public static IVisitor Visit(IVisitor visitor, Dimension dimension) => visitor.Scalar<Si<TPrefix, TUnit>>(dimension);
 }
 internal readonly struct Metric<TUnit> : IMeasure<TUnit>, ILinear
     where TUnit : IMetricUnit, IDimension
 {
     private static readonly Serializer<TUnit> serializer = new(nameof(Metric<TUnit>));
     public static Polynomial Poly { get; } = Polynomial.Of<TUnit>();
-    public static TResult InjectLinear<TResult>(IInject<TResult> inject) => inject.Inject<Metric<TUnit>>();
+    public static IVisitor InjectLinear(IVisitor inject) => inject.Inject<Metric<TUnit>>();
     public static TResult InjectInverse<TResult>(IInject<TResult> inject) => inject.Inject<Inverse<Metric<TUnit>>>();
     public static String Representation => TUnit.Representation;
     public static void Write(IWriter writer, Int32 exponent) => serializer.Write(writer, exponent);
-    public static IVisitor Visit(IVisitor visitor, Dimension dimension) => visitor.Scalar<Metric<TUnit>>(dimension);
 }
 internal readonly struct Metric<TPrefix, TUnit> : IMeasure<TUnit>, ILinear
     where TPrefix : IPrefix
@@ -73,33 +58,30 @@ internal readonly struct Metric<TPrefix, TUnit> : IMeasure<TUnit>, ILinear
 {
     private static readonly Serializer<TUnit> serializer = new(nameof(Metric<TPrefix, TUnit>));
     public static Polynomial Poly { get; } = Polynomial.Of<TPrefix, TUnit>();
-    public static TResult InjectLinear<TResult>(IInject<TResult> inject) => inject.Inject<Metric<TPrefix, TUnit>>();
+    public static IVisitor InjectLinear(IVisitor inject) => inject.Inject<Metric<TPrefix, TUnit>>();
     public static TResult InjectInverse<TResult>(IInject<TResult> inject) => inject.Inject<Inverse<Metric<TPrefix, TUnit>>>();
     public static String Representation { get; } = $"{TPrefix.Representation}{TUnit.Representation}";
     public static void Write(IWriter writer, Int32 exponent) => serializer.Write<TPrefix>(writer, exponent);
-    public static IVisitor Visit(IVisitor visitor, Dimension dimension) => visitor.Scalar<Metric<TPrefix, TUnit>>(dimension);
 }
 internal readonly struct Imperial<TUnit> : IMeasure<TUnit>, ILinear
     where TUnit : IImperialUnit, ITransform, IRepresentable, IDimension
 {
     private static readonly Serializer<TUnit> serializer = new(nameof(Imperial<TUnit>));
     public static Polynomial Poly { get; } = Polynomial.Of<TUnit>();
-    public static TResult InjectLinear<TResult>(IInject<TResult> inject) => inject.Inject<Imperial<TUnit>>();
+    public static IVisitor InjectLinear(IVisitor inject) => inject.Inject<Imperial<TUnit>>();
     public static TResult InjectInverse<TResult>(IInject<TResult> inject) => inject.Inject<Inverse<Imperial<TUnit>>>();
     public static String Representation => TUnit.Representation;
     public static void Write(IWriter writer, Int32 exponent) => serializer.Write(writer, exponent);
-    public static IVisitor Visit(IVisitor visitor, Dimension dimension) => visitor.Scalar<Imperial<TUnit>>(dimension);
 }
 internal readonly struct NonStandard<TUnit> : IMeasure<TUnit>, ILinear
     where TUnit : INonStandardUnit, ITransform, IRepresentable, IDimension
 {
     private static readonly Serializer<TUnit> serializer = new("any");
     public static Polynomial Poly { get; } = Polynomial.Of<TUnit>();
-    public static TResult InjectLinear<TResult>(IInject<TResult> inject) => inject.Inject<NonStandard<TUnit>>();
+    public static IVisitor InjectLinear(IVisitor inject) => inject.Inject<NonStandard<TUnit>>();
     public static TResult InjectInverse<TResult>(IInject<TResult> inject) => inject.Inject<Inverse<NonStandard<TUnit>>>();
     public static String Representation => TUnit.Representation;
     public static void Write(IWriter writer, Int32 exponent) => serializer.Write(writer, exponent);
-    public static IVisitor Visit(IVisitor visitor, Dimension dimension) => visitor.Scalar<NonStandard<TUnit>>(dimension);
 }
 
 internal readonly struct Inverse<TSelf> : IMeasure, ILinear
@@ -107,11 +89,10 @@ internal readonly struct Inverse<TSelf> : IMeasure, ILinear
 {
     public static Dimension D { get; } = TSelf.D.Pow(-1);
     public static Polynomial Poly { get; } = TSelf.Poly.Pow(-1);
-    public static TResult InjectLinear<TResult>(IInject<TResult> inject) => inject.Inject<Inverse<TSelf>>();
+    public static IVisitor InjectLinear(IVisitor inject) => inject.Inject<Inverse<TSelf>>();
     public static TResult InjectInverse<TResult>(IInject<TResult> inject) => inject.Inject<TSelf>();
     public static String Representation { get; } = $"{TSelf.Representation}{Tools.ExpToString(-TSelf.D.E)}";
     public static void Write(IWriter writer, Int32 exponent) => TSelf.Write(writer, exponent);
-    public static IVisitor Visit(IVisitor visitor, Dimension dimension) => visitor.Scalar<TSelf>(dimension);
 }
 
 internal readonly struct Invertible<TSelf, TInverse> : IMeasure, ILinear
@@ -120,12 +101,11 @@ internal readonly struct Invertible<TSelf, TInverse> : IMeasure, ILinear
 {
     public static Dimension D => TSelf.D;
     public static Polynomial Poly => TSelf.Poly;
-    public static TResult InjectLinear<TResult>(IInject<TResult> inject) => inject.Inject<Invertible<TSelf, TInverse>>();
+    public static IVisitor InjectLinear(IVisitor inject) => inject.Inject<Invertible<TSelf, TInverse>>();
     public static TResult InjectInverse<TResult>(IInject<TResult> inject) => inject.Inject<TInverse>();
     public static String Representation => TSelf.Representation;
     // ToDo: Inversion of the exponent is not really what we want here. This must be refined.
     public static void Write(IWriter writer, Int32 exponent) => TSelf.Write(writer, -exponent);
-    public static IVisitor Visit(IVisitor visitor, Dimension dimension) => visitor.Scalar<Invertible<TSelf, TInverse>>(dimension);
 }
 
 internal readonly struct Product<TLeft, TRight> : IMeasure
@@ -136,8 +116,8 @@ internal readonly struct Product<TLeft, TRight> : IMeasure
     private const String zeroWidthNonJoiner = "\u200C"; // https://en.wikipedia.org/wiki/Zero-width_non-joiner
     static Dimension IMeasure.D { get; } = TLeft.D * TRight.D;
     public static Polynomial Poly { get; } = TLeft.Poly * TRight.Poly;
-    public static TResult InjectLinear<TResult>(IInject<TResult> inject) => inject.Inject<Product<TLeft, TRight>>();
-    public static TResult InjectInverse<TResult>(IInject<TResult> inject) => Prod<TLeft>.Invert<TResult, TRight>(inject);
+    public static IVisitor InjectLinear(IVisitor inject) => inject.Inject<TLeft>().Inject<TRight>();
+    public static TResult InjectInverse<TResult>(IInject<TResult> inject) => Arithmetic<TLeft>.Invert<TResult, TRight>(inject);
     public static String Representation { get; } = Rep();
     public static void Write(IWriter writer, Int32 exponent)
     {
@@ -149,14 +129,6 @@ internal readonly struct Product<TLeft, TRight> : IMeasure
         TRight.Write(writer, exponent * TRight.D.E);
         writer.End();
         writer.EndArray();
-    }
-    public static IVisitor Visit(IVisitor visitor, Dimension dimension)
-    {
-        if (dimension is Product p) {
-            return visitor.Scalar<TLeft>(p.L).Scalar<TRight>(p.R)
-                          .Scalar<TLeft>(p.R).Scalar<TRight>(p.L);
-        }
-        return visitor.Scalar<TLeft>(dimension).Scalar<TRight>(dimension);
     }
 
     private static String Rep() => (TLeft.D.E, TRight.D.E) switch {
@@ -172,11 +144,10 @@ internal readonly struct Alias<TAlias, TLinear> : IMeasure
 {
     static Dimension IMeasure.D { get; } = TAlias.D;
     public static Polynomial Poly => TAlias.Poly;
-    public static TResult InjectLinear<TResult>(IInject<TResult> inject) => inject.Inject<TLinear>();
+    public static IVisitor InjectLinear(IVisitor inject) => inject.Inject<TLinear>().Inject<TAlias>();
     public static TResult InjectInverse<TResult>(IInject<TResult> inject) => inject.Inject<Inverse<Alias<TAlias, TLinear>>>();
     public static String Representation => TAlias.Representation;
     public static void Write(IWriter writer, Int32 exponent) => TAlias.Write(writer, exponent >= 0 ? 1 : -1);
-    public static IVisitor Visit(IVisitor visitor, Dimension dimension) => visitor.Scalar<TLinear>(dimension).Scalar<TAlias>(dimension);
 }
 
 internal readonly struct Power<TExp, TLinear> : IMeasure
@@ -185,11 +156,10 @@ internal readonly struct Power<TExp, TLinear> : IMeasure
 {
     static Dimension IMeasure.D { get; } = TLinear.D.Pow(TExp.E);
     public static Polynomial Poly { get; } = TLinear.Poly.Pow(TExp.E);
-    public static TResult InjectLinear<TResult>(IInject<TResult> inject) => inject.Inject<TLinear>();
+    public static IVisitor InjectLinear(IVisitor inject) => inject.Inject<TLinear>();
     public static TResult InjectInverse<TResult>(IInject<TResult> inject) => TExp.Invert(new PowerInverse<TResult>(inject));
     public static String Representation { get; } = $"{TLinear.Representation}{Tools.ExpToString(TExp.E)}";
     public static void Write(IWriter writer, Int32 exponent) => TLinear.Write(writer, exponent);
-    public static IVisitor Visit(IVisitor visitor, Dimension dimension) => visitor.Scalar<TLinear>(dimension);
 
     private sealed class PowerInverse<TResult>(IInject<TResult> inject) : IInjectExponent<TResult>
     {

@@ -35,8 +35,8 @@ public readonly struct QuantityFactory<TQuantity>
     public static QuantityFactory<TQuantity> Create(UnitRepository repository, List<QuantityModel> models)
     {
         var builder = models switch {
-        [QuantityModel model] => Builder(repository, model),
-        [QuantityModel l, QuantityModel r] => Builder(repository, l, r),
+            [QuantityModel model] => Builder(repository, model),
+            [QuantityModel l, QuantityModel r] => Builder(repository, l, r),
             _ => throw new NotSupportedException($"Cannot build quantities with '{models.Count}' models.")
         };
         return new(builder);
@@ -54,8 +54,8 @@ public readonly struct QuantityFactory<TQuantity>
         var (verifications, injector) = (left.Exponent, right.Exponent) switch {
             ( > 0, > 0) => (typeofQuantity.InnerTypes(typeof(IProduct<,>)), Inject.Product),
             // ToDo: Unwrap Product recursively...
-            // ( > 0, < 0) => (typeofQuantity.InnerTypes(typeof(IQuotient<,>)), Inject.Quotient),
-            _ => throw new NotSupportedException($"Cannot build a quantity with an exponents of '[{left.Exponent}, {right.Exponent}]'.")
+            ( > 0, < 0) => (typeofQuantity.InnerTypes(typeof(IProduct<,>)).Select(Unwrap).ToArray(), Inject.Quotient),
+            _ => throw new NotSupportedException($"Cannot build a quantity with exponents of '[{left.Exponent}, {right.Exponent}]'.")
         };
         return Create(repository, [left, right], verifications, injector);
     }
@@ -108,5 +108,14 @@ public readonly struct QuantityFactory<TQuantity>
             [Type linear, Type exponent] when exponent == typeof(TExponent) => linear,
             [Type linear, Type exp, ..] => throw new InvalidOperationException($"Expected '{type.Name}' to be {linear.Name} to the power of {typeof(TExponent).Name}, but got a power of '{exp.Name}'."),
         };
+    }
+
+    private static readonly Type genericDimension = typeof(IDimension<,>);
+    private static Type Unwrap(Type type)
+    {
+        if (type.ImplementsGeneric(genericDimension)) {
+            return type.InnerTypes(genericDimension)[0];
+        }
+        return type;
     }
 }

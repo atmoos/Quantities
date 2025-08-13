@@ -6,6 +6,9 @@ namespace Atmoos.Quantities.Test.Measures;
 
 public class QuantityTest
 {
+    private const Double one = 1d;
+    private static readonly IEqualityComparer<Quantity> exactlyEqual = new ExactlyEqual();
+
     [Fact]
     public void ObjectEqualQuantitiesCompareTrue()
     {
@@ -411,6 +414,31 @@ public class QuantityTest
 
         Assert.Equal(square, actual);
     }
+    [Fact]
+    public void QuantityInversionOnSimpleValues()
+    {
+        const Double a = 3;
+        const Double b = 8;
+        Quantity expected = CreateInverse<Ampere>(a / b);
+        Quantity nominal = Create<Ampere>(b / a);
+
+        Quantity actual = one / nominal;
+
+        Assert.Equal(expected, actual, exactlyEqual);
+    }
+
+    [Fact]
+    public void QuantityInversionOnPrefixedValues()
+    {
+        const Double a = 3;
+        const Double b = 8;
+        Quantity expected = CreateInverse<Kilo, Ampere>(a / b);
+        Quantity nominal = Create<Kilo, Ampere>(b / a);
+
+        Quantity actual = one / nominal;
+
+        Assert.Equal(expected, actual, exactlyEqual);
+    }
 
     [Fact]
     public void QuantityDivisionBySameMeasureCreatesIdentityMeasure()
@@ -503,6 +531,10 @@ public class QuantityTest
         where TSi : ISiUnit, IDimension => Quantity.Of<Si<TSi>>(in value);
     private static Quantity Create<TPrefix, TSi>(Double value)
         where TPrefix : IPrefix where TSi : ISiUnit, IDimension => Quantity.Of<Si<TPrefix, TSi>>(in value);
+    private static Quantity CreateInverse<TSi>(Double value)
+        where TSi : ISiUnit, IDimension => Quantity.Of<Inverse<Si<TSi>>>(in value);
+    private static Quantity CreateInverse<TPrefix, TSi>(Double value)
+        where TPrefix : IPrefix where TSi : ISiUnit, IDimension => Quantity.Of<Inverse<Si<TPrefix, TSi>>>(in value);
 
     public static IEnumerable<Object[]> Values()
     {
@@ -517,4 +549,11 @@ public class QuantityTest
             yield return Math.PI * Math.E;
         }
     }
+}
+
+file sealed class ExactlyEqual : IEqualityComparer<Quantity>
+{
+    public Boolean Equals(Quantity x, Quantity y) => x.EqualsExactly(y);
+
+    public Int32 GetHashCode(Quantity obj) => obj.GetHashCode();
 }

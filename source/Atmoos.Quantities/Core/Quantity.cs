@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Numerics;
+using Atmoos.Quantities.Core.Numerics;
 using Atmoos.Quantities.Core.Serialization;
 
 namespace Atmoos.Quantities.Core;
@@ -20,9 +21,10 @@ internal readonly struct Quantity : IEquatable<Quantity>, IFormattable
     private readonly Measure measure;
     internal Quantity(in Double value, in Measure measure) => (this.measure, this.value) = (measure, value);
     public Quantity Project(in Measure other) => ReferenceEquals(this.measure, other)
-        ? this : new Quantity(this.measure.Project(other, in this.value), in other);
+        // ToDo: Benchmark whether this.Measure.Divide(other) would be faster!
+        ? this : new Quantity(this.measure / other * this.value, in other);
     private Double Project(in Quantity other) => ReferenceEquals(this.measure, other.measure)
-        ? other.value : other.measure.Project(this.measure, in other.value);
+        ? other.value : other.measure / this.measure * other.value;
     public Double Ratio(in Quantity right)
     {
         Double rightValue = Project(in right);
@@ -45,6 +47,7 @@ internal readonly struct Quantity : IEquatable<Quantity>, IFormattable
         Double quotient = this.value / projectedOther;
         return quotient is >= min and <= max;
     }
+    internal Boolean EqualsExactly(Quantity other) => this.HasSameMeasure(in other) && this.value == other.value;
     public static Quantity Of<TMeasure>(in Double value)
         where TMeasure : IMeasure => new(in value, Measure.Of<TMeasure>());
     public Boolean HasSameMeasure(in Quantity other) => ReferenceEquals(this.measure, other.measure);
@@ -75,8 +78,9 @@ internal readonly struct Quantity : IEquatable<Quantity>, IFormattable
     public static Quantity operator /(Quantity left, Double scalar) => new(left.value / scalar, in left.measure);
     public static Quantity operator /(Double scalar, Quantity right)
     {
-        Result inverse = right.measure.Inverse;
-        return new(inverse * (scalar / right.value), inverse);
+        Measure inverse = right.measure.Inverse;
+        Polynomial conversion = right.measure * inverse;
+        return new(scalar / (conversion * right.value), inverse);
     }
     public static Quantity operator +(Quantity left, Quantity right)
     {

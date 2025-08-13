@@ -1,22 +1,33 @@
-﻿using Atmoos.Quantities.Core.Numerics;
+﻿using System.Numerics;
+using Atmoos.Quantities.Core.Numerics;
 using Atmoos.Quantities.Core.Serialization;
 using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Measures;
 
 namespace Atmoos.Quantities.Core;
 
-internal abstract class Measure
+internal abstract class Measure :
+    IMultiplyOperators<Measure, Measure, Polynomial>,
+    IDivisionOperators<Measure, Measure, Polynomial>,
+    ICastOperators<Measure, Polynomial>
 {
+    private static readonly IInject<Measure> invert = new Invert();
     private readonly Polynomial conversion;
     public Dimension D { get; }
     private Measure(in Polynomial conversion, Dimension d) => (this.conversion, this.D) = (conversion, d);
-    public Double Project(Measure other, in Double value) => this.conversion / other.conversion * value;
-    public abstract Result Inverse { get; }
+    public abstract Measure Inverse { get; }
     public abstract Result Multiply(Measure other);
     protected abstract Result Multiply<TMeasure>() where TMeasure : IMeasure;
     public abstract Result Divide(Measure other);
     protected abstract Result Divide<TMeasure>() where TMeasure : IMeasure;
     public abstract void Serialize(IWriter writer);
+
+    public static Polynomial operator *(Measure left, Measure right) => left.conversion * right.conversion;
+
+    public static Polynomial operator /(Measure left, Measure right) => left.conversion / right.conversion;
+
+    public static implicit operator Polynomial(Measure self) => self.conversion;
+
     public static Measure Of<TMeasure>() where TMeasure : IMeasure => AllocationFree<Impl<TMeasure>>.Item;
 
     // ToDo: Move the exponent part of all measures up to the Measure class.
@@ -27,18 +38,13 @@ internal abstract class Measure
         where TMeasure : IMeasure
     {
         public Impl() : base(TMeasure.Poly, TMeasure.D) { }
-        public override Result Inverse => SafeInverse<TMeasure>.Value;
+        public override Measure Inverse => SafeInverse<TMeasure>.Value;
         public override Result Multiply(Measure other) => other.Multiply<TMeasure>();
         public override Result Divide(Measure other) => other.Divide<TMeasure>();
         public override void Serialize(IWriter writer) => TMeasure.Write(writer, TMeasure.D.E);
         public override String ToString() => TMeasure.Representation;
         protected override Result Multiply<TOtherMeasure>() => Multiplication<TOtherMeasure, TMeasure>.Result;
         protected override Result Divide<TOtherMeasure>() => Division<TOtherMeasure, TMeasure>.Result;
-    }
-    private sealed class Invert(Polynomial nominal) : IInject<Result>
-    {
-        public Result Inject<TMeasure>() where TMeasure : IMeasure
-            => new(TMeasure.Poly / nominal, Of<TMeasure>());
     }
 
     private static class Multiplication<TLeft, TRight>
@@ -55,9 +61,15 @@ internal abstract class Measure
         public static Result Result { get; } = Arithmetic<TLeft>.Map<TRight>(TLeft.Poly / TRight.Poly, TLeft.D / TRight.D);
     }
 
+    private sealed class Invert : IInject<Measure>
+    {
+        public Measure Inject<TMeasure>()
+            where TMeasure : IMeasure => Of<TMeasure>();
+    }
+
     private static class SafeInverse<TMeasure>
         where TMeasure : IMeasure
     {
-        public static Result Value { get; } = TMeasure.InjectInverse(new Invert(TMeasure.Poly));
+        public static Measure Value { get; } = TMeasure.InjectInverse(invert);
     }
 }

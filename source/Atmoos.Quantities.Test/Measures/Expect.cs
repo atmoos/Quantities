@@ -18,12 +18,11 @@ internal static class Expect<TResult>
     {
         var measure = Measure.Of<TMeasure>();
 
-        var result = measure.Inverse;
-        var actual = (Measure)result;
+        var actual = measure.Inverse;
 
         Assert.Same(expected, actual);
         Assert.Equal(expectedRepresentation, actual.ToString());
-        return (Polynomial)result;
+        return actual;
     }
 
     public static Polynomial ToBeProductOf<TLeft, TRight>()

@@ -5,6 +5,7 @@ using Atmoos.Quantities.Units.Si;
 using Atmoos.Quantities.Units.Si.Metric;
 
 namespace Atmoos.Quantities.Benchmark;
+
 public class MeasureBenchmark
 {
     private const Double feetToMetre = 0.3048;
@@ -17,10 +18,10 @@ public class MeasureBenchmark
     public Double ProjectTrivial() => trivialKiloMetre.To(trivialFoot);
 
     [Benchmark]
-    public Double ProjectOntoSame() => kiloMetre.Project(kiloMetre, Math.Tau);
+    public Double ProjectOntoSame() => kiloMetre / kiloMetre * Math.Tau;
 
     [Benchmark]
-    public Double ProjectOntoOther() => kiloMetre.Project(ångström, Math.Tau);
+    public Double ProjectOntoOther() => kiloMetre / ångström * Math.Tau;
 }
 
 /* Summary

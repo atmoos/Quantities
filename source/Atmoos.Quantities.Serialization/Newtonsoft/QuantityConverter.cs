@@ -11,12 +11,23 @@ file sealed class Writer : IWriter
 {
     private readonly JsonWriter writer;
     public Writer(in JsonWriter writer) => this.writer = writer;
+    public void Start() => this.writer.WriteStartObject();
     public void Start(String propertyName)
     {
         this.writer.WritePropertyName(propertyName);
         this.writer.WriteStartObject();
     }
+    public void StartArray(String propertyName)
+    {
+        this.writer.WritePropertyName(propertyName);
+        this.writer.WriteStartArray();
+    }
     public void Write(String name, Double value)
+    {
+        this.writer.WritePropertyName(name);
+        this.writer.WriteValue(value);
+    }
+    public void Write(String name, Int32 value)
     {
         this.writer.WritePropertyName(name);
         this.writer.WriteValue(value);
@@ -26,6 +37,7 @@ file sealed class Writer : IWriter
         this.writer.WritePropertyName(name);
         this.writer.WriteValue(value);
     }
+    public void EndArray() => this.writer.WriteEndArray();
     public void End() => this.writer.WriteEndObject();
 }
 
@@ -37,30 +49,19 @@ internal sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
     public QuantityConverter(UnitRepository repository) => this.repository = repository;
     public override TQuantity ReadJson(JsonReader reader, Type objectType, TQuantity existingValue, Boolean hasExistingValue, JsonSerializer serializer)
     {
-        Int32 initialDepth = reader.Depth;
-        String type = reader.ReadNameOf(PropertyName);
+        var initialDepth = reader.Depth;
+        Double value = reader.ReadNumber();
+        String type = reader.ReadString();
         if (type != name) {
             throw new SerializationException($"Cannot deserialize '{type ?? "unknown"}'. Expected: {name}.");
         }
-        Double value = reader.ReadNumber();
         String system = reader.ReadNameOf(PropertyName);
-        QuantityFactory<TQuantity> factory = QuantityFactory<TQuantity>.Create(system, this.repository);
-        if (factory.ExpectedModelCount == 1) {
-            if (!factory.IsScalarQuantity) {
-                reader.MoveNext(StartObject);
-                system = reader.ReadNameOf(PropertyName);
-            }
-            var model = reader.Read(system);
+        try {
+            return (system == "measures" ? ReadMany(serializer, reader) : Read(serializer, reader, system)).Build(in value);
+        }
+        finally {
             reader.UnwindTo(initialDepth);
-            return factory.Build(in value, in model);
         }
-        reader.MoveNext(StartObject);
-        var models = new QuantityModel[factory.ExpectedModelCount];
-        for (var modelNumber = 0; modelNumber < models.Length; ++modelNumber) {
-            models[modelNumber] = reader.Read(reader.ReadNameOf(PropertyName));
-        }
-        reader.UnwindTo(initialDepth);
-        return factory.Build(in value, models);
     }
 
     public override void WriteJson(JsonWriter writer, TQuantity value, JsonSerializer serializer)
@@ -68,5 +69,21 @@ internal sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
         writer.WriteStartObject();
         value.Serialize(new Writer(writer));
         writer.WriteEndObject();
+    }
+    private QuantityFactory<TQuantity> ReadMany(JsonSerializer serializer, JsonReader reader)
+    {
+        reader.MoveNext(StartArray);
+        var models = new List<QuantityModel>();
+        while (reader.MoveNext(StartObject)) {
+            models.Add(serializer.Read(reader, reader.ReadNameOf(PropertyName)));
+            reader.MoveNext(EndObject);
+        }
+        reader.MoveNext(EndArray);
+        return QuantityFactory<TQuantity>.Create(this.repository, models);
+    }
+    private QuantityFactory<TQuantity> Read(JsonSerializer serializer, JsonReader reader, String system)
+    {
+        var model = serializer.Read(reader, system);
+        return QuantityFactory<TQuantity>.Create(this.repository, in model);
     }
 }

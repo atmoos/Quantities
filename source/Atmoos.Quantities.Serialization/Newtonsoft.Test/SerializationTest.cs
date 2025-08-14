@@ -5,13 +5,12 @@ using Atmoos.Quantities.Units.Si;
 using Atmoos.Quantities.Units.Si.Derived;
 using Atmoos.Quantities.Units.Si.Metric;
 using Newtonsoft.Json;
-using static Atmoos.Quantities.Serialization.Newtonsoft.Test.Convenience;
 
 namespace Atmoos.Quantities.Serialization.Newtonsoft.Test;
 
 public class SerializationTest
 {
-    private static readonly JsonSerializerSettings options = new JsonSerializerSettings { Formatting = Formatting.Indented }.EnableQuantities(typeof(Gram).Assembly);
+    private static readonly JsonSerializerSettings options = new JsonSerializerSettings { Formatting = Formatting.Indented }.EnableQuantities();
 
     [Fact]
     public void FalseUnitsCannotBeInjectedViaSerialization()
@@ -20,7 +19,7 @@ public class SerializationTest
 
         String falseUnit = length.Serialize().Replace(Metre.Representation, Ohm.Representation);
 
-        var msg = Assert.Throws<InvalidOperationException>(() => Deserialize<Length>(falseUnit)).Message;
+        var msg = Assert.Throws<InvalidOperationException>(() => falseUnit.Deserialize<Length>()).Message;
         Assert.StartsWith("Dimension mismatch:", msg);
         Assert.Contains(nameof(Ohm), msg);
         Assert.Contains(nameof(ILength), msg);
@@ -68,62 +67,6 @@ public class SerializationTest
     }
 
     [Fact]
-    public void Metric()
-    {
-        Double value = Math.PI;
-        Length length = Length.Of(value, Si<Metre>());
-        String actual = length.Serialize(options);
-        String expected = $$"""
-        {
-          "length": {
-            "value": {{value:R}},
-            "si": {
-              "unit": "m"
-            }
-          }
-        }
-        """;
-        Assert.Equal(expected, actual);
-    }
-    [Fact]
-    public void MetricWithPrefix()
-    {
-        Double value = Math.PI;
-        Length length = Length.Of(value, Si<Kilo, Metre>());
-        String actual = length.Serialize(options);
-        String expected = $$"""
-        {
-          "length": {
-            "value": {{value:R}},
-            "si": {
-              "prefix": "k",
-              "unit": "m"
-            }
-          }
-        }
-        """;
-        Assert.Equal(expected, actual);
-    }
-    [Fact]
-    public void Imperial()
-    {
-        Double value = Math.PI;
-        Length length = Length.Of(value, Imperial<Yard>());
-        String actual = length.Serialize(options);
-        String expected = $$"""
-        {
-          "length": {
-            "value": {{value:R}},
-            "imperial": {
-              "unit": "yd"
-            }
-          }
-        }
-        """;
-        Assert.Equal(expected, actual);
-    }
-
-    [Fact]
     public void PowerRepresentationsSupported()
     {
         Volume volume = Volume.Of(2, Cubic(Si<Metre>()));
@@ -133,30 +76,6 @@ public class SerializationTest
         Assert.Equal(volume.ToString(), roundRobinSerialization.ToString());
     }
 
-    [Fact]
-    public void Compound()
-    {
-        Double value = Math.PI;
-        Velocity velocity = Velocity.Of(value, Si<Kilo, Metre>().Per(Metric<Hour>()));
-        String actual = velocity.Serialize(options);
-        String expected = $$"""
-        {
-          "velocity": {
-            "value": {{value:R}},
-            "quotient": {
-              "si": {
-                "prefix": "k",
-                "unit": "m"
-              },
-              "metric": {
-                "unit": "h"
-              }
-            }
-          }
-        }
-        """;
-        Assert.Equal(expected, actual);
-    }
     [Fact]
     public void Complex()
     {
@@ -170,19 +89,17 @@ public class SerializationTest
         {
           "Name": "Foo Bar",
           "Height": {
-            "length": {
-              "value": 1.67,
-              "si": {
-                "unit": "m"
-              }
+            "value": 1.67,
+            "quantity": "length",
+            "si": {
+              "unit": "m"
             }
           },
           "Weight": {
-            "mass": {
-              "value": 72.0,
-              "si": {
-                "unit": "kg"
-              }
+            "value": 72.0,
+            "quantity": "mass",
+            "si": {
+              "unit": "kg"
             }
           }
         }

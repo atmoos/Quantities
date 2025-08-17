@@ -13,7 +13,7 @@ on:
 env:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
   DOTNET_NOLOGO: true
-  DotNetVersion: 8.0.x
+  DotNetVersion: 9.0.x
 
 jobs:
   publish:

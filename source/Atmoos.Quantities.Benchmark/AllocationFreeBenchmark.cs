@@ -1,4 +1,4 @@
-﻿namespace Atmoos.Quantities.Benchmark;
+namespace Atmoos.Quantities.Benchmark;
 
 file interface IFactory<out T>
 {
@@ -33,16 +33,16 @@ public class AllocationFreeBenchmark
 
 /* Summary
 
-BenchmarkDotNet v0.13.12, Arch Linux
+BenchmarkDotNet v0.15.2, Linux Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK 8.0.103
-  [Host]     : .NET 8.0.3 (8.0.324.11423), X64 RyuJIT AVX2
-  DefaultJob : .NET 8.0.3 (8.0.324.11423), X64 RyuJIT AVX2
+.NET SDK 9.0.109
+  [Host]     : .NET 9.0.8 (9.0.825.36511), X64 RyuJIT AVX2
+  DefaultJob : .NET 9.0.8 (9.0.825.36511), X64 RyuJIT AVX2
 
 
 | Method                | Mean      | Error     | Ratio | Allocated | Alloc Ratio |
 |---------------------- |----------:|----------:|------:|----------:|------------:|
-| Constructor           | 6.8179 ns | 0.1386 ns |  1.00 |      24 B |        1.00 |
-| AllocationFree        | 0.5802 ns | 0.0058 ns |  0.09 |         - |        0.00 |
-| AllocationFreeFactory | 0.5546 ns | 0.0034 ns |  0.08 |         - |        0.00 |
+| Constructor           | 20.698 ns | 0.1970 ns |  1.00 |      24 B |        1.00 |
+| AllocationFree        |  1.097 ns | 0.0869 ns |  0.05 |         - |        0.00 |
+| AllocationFreeFactory |  1.097 ns | 0.0669 ns |  0.05 |         - |        0.00 |
 */

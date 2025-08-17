@@ -1,4 +1,4 @@
-﻿using Atmoos.Quantities.Core.Numerics;
+using Atmoos.Quantities.Core.Numerics;
 
 using static Atmoos.Quantities.Benchmark.Convenience;
 using static Atmoos.Quantities.Benchmark.Numerics.Trivial;
@@ -37,17 +37,17 @@ public class PolynomialMultiplicationBenchmark
 
 /* Summary
 
-BenchmarkDotNet v0.13.12, Arch Linux
+BenchmarkDotNet v0.15.2, Linux Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK 8.0.103
-  [Host]     : .NET 8.0.3 (8.0.324.11423), X64 RyuJIT AVX2
-  DefaultJob : .NET 8.0.3 (8.0.324.11423), X64 RyuJIT AVX2
+.NET SDK 9.0.109
+  [Host]     : .NET 9.0.8 (9.0.825.36511), X64 RyuJIT AVX2
+  DefaultJob : .NET 9.0.8 (9.0.825.36511), X64 RyuJIT AVX2
 
 
-| Method                   | Mean      | Error     | Ratio |
-|------------------------- |----------:|----------:|------:|-
-| TrivialImplementation    |  4.175 ns | 0.0103 ns |  1.00 |
-| PolynomialMultiplication |  1.222 ns | 0.0080 ns |  0.29 |
-| PolynomialDivision       |  1.265 ns | 0.0028 ns |  0.30 |
-| PolynomialPowerOfTwo     | 17.179 ns | 0.1096 ns |  4.11 |
+| Method                   | Mean      | Error     | Ratio | 
+|------------------------- |----------:|----------:|------:|
+| TrivialImplementation    | 19.214 ns | 0.0600 ns |  1.00 | 
+| PolynomialMultiplication |  1.276 ns | 0.0488 ns |  0.07 | 
+| PolynomialDivision       |  1.269 ns | 0.0268 ns |  0.07 | 
+| PolynomialPowerOfTwo     | 50.446 ns | 0.5641 ns |  2.63 | 
 */

@@ -1,4 +1,4 @@
-﻿using Atmoos.Quantities.Prefixes;
+using Atmoos.Quantities.Prefixes;
 using Atmoos.Quantities.Units.Si;
 using Atmoos.Quantities.Units.Si.Derived;
 using Atmoos.Quantities.Units.Si.Metric;
@@ -36,20 +36,20 @@ public class DeserializationBenchmark
 
 /* Summary
 
-BenchmarkDotNet v0.13.12, Arch Linux
+BenchmarkDotNet v0.15.2, Linux Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK 8.0.103
-  [Host]     : .NET 8.0.3 (8.0.324.11423), X64 RyuJIT AVX2
-  DefaultJob : .NET 8.0.3 (8.0.324.11423), X64 RyuJIT AVX2
+.NET SDK 9.0.109
+  [Host]     : .NET 9.0.8 (9.0.825.36511), X64 RyuJIT AVX2
+  DefaultJob : .NET 9.0.8 (9.0.825.36511), X64 RyuJIT AVX2
 
 
 | Method                 | Mean       | Error   | Ratio | Allocated | Alloc Ratio |
 |----------------------- |-----------:|--------:|------:|----------:|------------:|
-| SystemTriple           |   164.9 ns | 0.53 ns |  1.00 |      40 B |        1.00 |
-| SystemQuantity         |   573.8 ns | 2.41 ns |  3.48 |     160 B |        4.00 |
-| PrefixedQuantity       |   707.4 ns | 2.51 ns |  4.29 |     224 B |        5.60 |
-| FractionalQuantity     | 1,288.6 ns | 9.17 ns |  7.81 |     744 B |       18.60 |
-| MultiplicativeQuantity | 1,267.5 ns | 6.45 ns |  7.69 |     744 B |       18.60 |
-| PowerQuantity          | 1,083.6 ns | 6.05 ns |  6.57 |     592 B |       14.80 |
-| ScalarPowerQuantity    |   756.2 ns | 6.82 ns |  4.58 |     232 B |        5.80 |
+| SystemTriple           |   336.7 ns | 1.17 ns |  1.00 |      40 B |        1.00 |
+| SystemQuantity         | 1,484.7 ns | 4.45 ns |  4.41 |     160 B |        4.00 |
+| PrefixedQuantity       | 1,854.7 ns | 5.08 ns |  5.51 |     224 B |        5.60 |
+| FractionalQuantity     | 3,446.0 ns | 4.70 ns | 10.23 |     753 B |       18.82 |
+| MultiplicativeQuantity | 3,431.1 ns | 8.94 ns | 10.19 |     753 B |       18.82 |
+| PowerQuantity          | 2,770.0 ns | 8.70 ns |  8.23 |     600 B |       15.00 |
+| ScalarPowerQuantity    | 1,995.7 ns | 4.98 ns |  5.93 |     232 B |        5.80 |
 */

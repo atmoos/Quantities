@@ -1,4 +1,4 @@
-﻿using Atmoos.Quantities.Prefixes;
+using Atmoos.Quantities.Prefixes;
 using Atmoos.Quantities.Units.Imperial.Length;
 using Atmoos.Quantities.Units.Si;
 using Atmoos.Quantities.Units.Si.Derived;
@@ -29,17 +29,17 @@ public class ConvertingQuantities
 
 /* Summary
 
-BenchmarkDotNet v0.13.12, Arch Linux
+BenchmarkDotNet v0.15.2, Linux Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK 8.0.103
-  [Host]     : .NET 8.0.3 (8.0.324.11423), X64 RyuJIT AVX2
-  DefaultJob : .NET 8.0.3 (8.0.324.11423), X64 RyuJIT AVX2
+.NET SDK 9.0.109
+  [Host]     : .NET 9.0.8 (9.0.825.36511), X64 RyuJIT AVX2
+  DefaultJob : .NET 9.0.8 (9.0.825.36511), X64 RyuJIT AVX2
 
 
-| Method                  | Mean      | Error     | Ratio | Allocated | Alloc Ratio |
-|------------------------ |----------:|----------:|------:|----------:|------------:|
-| TrivialImplementation   |  2.073 ns | 0.0135 ns |  1.00 |         - |          NA |
-| QuantityImplementation  |  3.579 ns | 0.0351 ns |  1.73 |         - |          NA |
-| QuantityToSame          | 14.795 ns | 0.0288 ns |  7.14 |         - |          NA |
-| QuantityToVeryDifferent | 15.621 ns | 0.0210 ns |  7.54 |         - |          NA |
+| Method                  | Mean       | Error     | Ratio | Allocated | Alloc Ratio |
+|------------------------ |-----------:|----------:|------:|----------:|------------:|
+| TrivialImplementation   |  0.9043 ns | 0.0536 ns |  1.00 |         - |          NA |
+| QuantityImplementation  |  3.2930 ns | 0.0536 ns |  3.65 |         - |          NA |
+| QuantityToSame          | 75.9207 ns | 0.4867 ns | 84.20 |         - |          NA |
+| QuantityToVeryDifferent | 74.5267 ns | 0.2649 ns | 82.66 |         - |          NA |
 */

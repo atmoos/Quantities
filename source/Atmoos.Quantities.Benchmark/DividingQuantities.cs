@@ -1,4 +1,4 @@
-﻿using Atmoos.Quantities.Prefixes;
+using Atmoos.Quantities.Prefixes;
 using Atmoos.Quantities.Units.Imperial.Area;
 using Atmoos.Quantities.Units.Imperial.Length;
 using Atmoos.Quantities.Units.Si;
@@ -43,19 +43,19 @@ public class DividingQuantities
 
 /* Summary
 
-BenchmarkDotNet v0.13.12, Arch Linux
+BenchmarkDotNet v0.15.2, Linux Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK 8.0.103
-  [Host]     : .NET 8.0.3 (8.0.324.11423), X64 RyuJIT AVX2
-  DefaultJob : .NET 8.0.3 (8.0.324.11423), X64 RyuJIT AVX2
+.NET SDK 9.0.109
+  [Host]     : .NET 9.0.8 (9.0.825.36511), X64 RyuJIT AVX2
+  DefaultJob : .NET 9.0.8 (9.0.825.36511), X64 RyuJIT AVX2
 
 
-| Method         | Mean      | Error     | Ratio | Allocated | Alloc Ratio |
-|--------------- |----------:|----------:|------:|----------:|------------:|
-| Trivial        | 16.767 ns | 0.0231 ns |  1.00 |         - |          NA |
-| DivideSi       |  6.172 ns | 0.0122 ns |  0.37 |         - |          NA |
-| DivideImperial |  6.470 ns | 0.0255 ns |  0.39 |         - |          NA |
-| DivideMixed    |  6.250 ns | 0.0097 ns |  0.37 |         - |          NA |
-| DivideAliased  |  6.236 ns | 0.0162 ns |  0.37 |         - |          NA |
-| DividePureSi   |  6.310 ns | 0.0149 ns |  0.38 |         - |          NA |
+| Method         | Mean     | Error    | Ratio | Allocated | Alloc Ratio |
+|--------------- |---------:|---------:|------:|----------:|------------:|
+| Trivial        | 31.64 ns | 0.096 ns |  1.00 |         - |          NA |
+| DivideSi       | 33.79 ns | 0.128 ns |  1.07 |         - |          NA |
+| DivideImperial | 33.74 ns | 0.093 ns |  1.07 |         - |          NA |
+| DivideMixed    | 33.84 ns | 0.130 ns |  1.07 |         - |          NA |
+| DivideAliased  | 33.48 ns | 0.126 ns |  1.06 |         - |          NA |
+| DividePureSi   | 35.94 ns | 0.186 ns |  1.14 |         - |          NA |
 */

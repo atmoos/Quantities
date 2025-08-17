@@ -1,4 +1,4 @@
-﻿using Atmoos.Quantities.Core.Numerics;
+using Atmoos.Quantities.Core.Numerics;
 
 using static Atmoos.Quantities.Benchmark.Convenience;
 using static Atmoos.Quantities.Benchmark.Numerics.Trivial;
@@ -22,27 +22,27 @@ public class PolynomialExponentiationBenchmark
 
 /* Summary
 
-BenchmarkDotNet v0.13.12, Arch Linux
+BenchmarkDotNet v0.15.2, Linux Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK 8.0.103
-  [Host]     : .NET 8.0.3 (8.0.324.11423), X64 RyuJIT AVX2
-  DefaultJob : .NET 8.0.3 (8.0.324.11423), X64 RyuJIT AVX2
+.NET SDK 9.0.109
+  [Host]     : .NET 9.0.8 (9.0.825.36511), X64 RyuJIT AVX2
+  DefaultJob : .NET 9.0.8 (9.0.825.36511), X64 RyuJIT AVX2
 
 
-| Method        | Exponent | Mean      | Error     | Ratio |
-|-------------- |--------- |----------:|----------:|------:|
-| TrivialExp    | -5       | 27.841 ns | 0.0733 ns |  1.00 |
-| PolynomialExp | -5       | 40.273 ns | 0.1070 ns |  1.45 |
-|               |          |           |           |       |
-| TrivialExp    | -2       | 14.962 ns | 0.0555 ns |  1.00 |
-| PolynomialExp | -2       | 26.410 ns | 0.0317 ns |  1.77 |
-|               |          |           |           |       |
-| TrivialExp    | 0        | 11.192 ns | 0.0472 ns |  1.00 |
-| PolynomialExp | 0        |  2.810 ns | 0.0073 ns |  0.25 |
-|               |          |           |           |       |
-| TrivialExp    | 2        | 15.671 ns | 0.0405 ns |  1.00 |
-| PolynomialExp | 2        | 16.801 ns | 0.0543 ns |  1.07 |
-|               |          |           |           |       |
-| TrivialExp    | 5        | 28.264 ns | 0.0615 ns |  1.00 |
-| PolynomialExp | 5        | 31.938 ns | 0.0609 ns |  1.13 |
+| Method        | Exponent | Mean      | Error    | Ratio |
+|-------------- |--------- |----------:|---------:|------:|
+| TrivialExp    | -5       |  74.51 ns | 0.350 ns |  1.00 |
+| PolynomialExp | -5       | 112.35 ns | 1.036 ns |  1.51 |
+|               |          |           |          |       |
+| TrivialExp    | -2       |  42.60 ns | 0.087 ns |  1.00 |
+| PolynomialExp | -2       |  52.58 ns | 0.492 ns |  1.23 |
+|               |          |           |          |       |
+| TrivialExp    | 0        |  21.48 ns | 0.107 ns |  1.00 |
+| PolynomialExp | 0        |  13.04 ns | 0.089 ns |  0.61 |
+|               |          |           |          |       |
+| TrivialExp    | 2        |  43.24 ns | 0.083 ns |  1.00 |
+| PolynomialExp | 2        |  50.19 ns | 0.458 ns |  1.16 |
+|               |          |           |          |       |
+| TrivialExp    | 5        |  75.56 ns | 0.291 ns |  1.00 |
+| PolynomialExp | 5        | 112.07 ns | 0.894 ns |  1.48 |
 */

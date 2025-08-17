@@ -1,4 +1,4 @@
-﻿using System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices;
 using Atmoos.Quantities.Core.Numerics;
 
 namespace Atmoos.Quantities.Benchmark;
@@ -53,17 +53,17 @@ file static class Cache<TFrom, TTo>
 
 /* Summary
 
-BenchmarkDotNet v0.13.12, Arch Linux
+BenchmarkDotNet v0.15.2, Linux Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK 8.0.103
-  [Host]     : .NET 8.0.3 (8.0.324.11423), X64 RyuJIT AVX2
-  DefaultJob : .NET 8.0.3 (8.0.324.11423), X64 RyuJIT AVX2
+.NET SDK 9.0.109
+  [Host]     : .NET 9.0.8 (9.0.825.36511), X64 RyuJIT AVX2
+  DefaultJob : .NET 9.0.8 (9.0.825.36511), X64 RyuJIT AVX2
 
 
-| Method                 | Mean      | Error     | Ratio |
-|----------------------- |----------:|----------:|------:|-
-| EvaluateTrivial        | 2.4951 ns | 0.0268 ns |  1.00 |
-| EvaluateSuccessive     | 0.8791 ns | 0.0064 ns |  0.35 |
-| EvaluateCached         | 1.5942 ns | 0.0632 ns |  0.64 |
-| EvaluateArithmetically | 0.2955 ns | 0.0082 ns |  0.12 |
+| Method                 | Mean      | Error     | Ratio | 
+|----------------------- |----------:|----------:|------:|
+| EvaluateTrivial        | 7.8754 ns | 0.1123 ns |  1.00 | 
+| EvaluateSuccessive     | 0.9432 ns | 0.0484 ns |  0.12 | 
+| EvaluateCached         | 9.5408 ns | 0.1064 ns |  1.21 | 
+| EvaluateArithmetically | 0.6016 ns | 0.0989 ns |  0.08 | 
 */

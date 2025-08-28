@@ -107,13 +107,13 @@ file static class Convenience
 {
     public static IVisitor Raise<TMeasure>(this IVisitor inner, Dimension d) where TMeasure : IMeasure
     => (d.E * Double.CopySign(1d, TMeasure.D.E)) switch {
-        3 => inner.Inject<Power<Numerator<Three>, TMeasure>>(),
-        2 => inner.Inject<Power<Numerator<Two>, TMeasure>>(),
+        3 => inner.Inject<Power<Three, TMeasure>>(),
+        2 => inner.Inject<Power<Two, TMeasure>>(),
         1 => inner.Inject<TMeasure>(),
         0 => inner.Inject<Identity>(),
         -1 => TMeasure.InjectInverse(inner),
-        -2 => inner.Inject<Power<Denominator<Two>, TMeasure>>(),
-        -3 => inner.Inject<Power<Denominator<Three>, TMeasure>>(),
+        -2 => inner.Inject<Power<Negative<Two>, TMeasure>>(),
+        -3 => inner.Inject<Power<Negative<Three>, TMeasure>>(),
         _ => throw new InvalidOperationException($"Cannot map '{d}' to a new measure. Exponent '{d.E}' is not supported.")
     };
 }

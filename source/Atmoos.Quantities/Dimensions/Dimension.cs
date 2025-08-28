@@ -17,7 +17,6 @@ internal abstract class Dimension
     public abstract Dimension Pow(Int32 n);
     public abstract Dimension Root(Int32 n);
     protected abstract Dimension Multiply(Dimension other);
-    // ToDo: Delete again?
     public abstract Boolean CommonRoot(Dimension other);
     public Boolean Equals(Dimension? other) => other is Dimension d && E == d.E && Equal(d);
     public override Boolean Equals(Object? other) => Equals(other as Dimension);

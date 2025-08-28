@@ -7,7 +7,6 @@ public interface IDimension
     internal static abstract Dimension D { get; }
 }
 
-// ToDo: Consider using a more descriptive name for this interface
 public interface IDimension<TSelf, TMultiplicity> : IDimension
     where TSelf : IDimension
     where TMultiplicity : INumber

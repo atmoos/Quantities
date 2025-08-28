@@ -1,11 +1,12 @@
 ﻿using Atmoos.Quantities.Core.Numerics;
 using Atmoos.Quantities.Dimensions;
-using Atmoos.Quantities.Measures;
 using Atmoos.Quantities.Units;
 
 namespace Atmoos.Quantities.Creation;
 
 internal delegate Measure MeasureSelector(Factory factory);
+
+// ToDo: Benchmark if these structs should be ref structs instead.
 
 public readonly struct Scalar<TUnit>
     where TUnit : IUnit, IDimension
@@ -43,13 +44,12 @@ public readonly struct Quotient<TN, TD>
     internal Quantity Transform(in Quantity other) => other.Project(this.factory.Create());
 }
 
-// ToDo: Consider renaming this to PositivePowerOf or the like...
 public readonly struct Power<TUnit, TExponent>
     where TUnit : IUnit, IDimension
     where TExponent : INumber
 {
     private readonly Factory factory;
     internal Power(Factory factory) => this.factory = factory;
-    internal Quantity Create(in Double value) => new(in value, this.factory.Create<Numerator<TExponent>>());
-    internal Quantity Transform(in Quantity other) => other.Project(this.factory.Create<Numerator<TExponent>>());
+    internal Quantity Create(in Double value) => new(in value, this.factory.Create<TExponent>());
+    internal Quantity Transform(in Quantity other) => other.Project(this.factory.Create<TExponent>());
 }

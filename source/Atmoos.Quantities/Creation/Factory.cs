@@ -1,4 +1,5 @@
-﻿using Atmoos.Quantities.Dimensions;
+﻿using Atmoos.Quantities.Core.Numerics;
+using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Measures;
 using Atmoos.Quantities.Units;
 
@@ -10,7 +11,7 @@ internal abstract class Factory
     public IInject<Factory> Quotient { get; }
     private Factory(IInject<Factory> product, IInject<Factory> quotient) => (Product, Quotient) = (product, quotient);
     public abstract Measure Create();
-    public abstract Measure Create<TExponent>() where TExponent : IExponent;
+    public abstract Measure Create<TExponent>() where TExponent : INumber;
     public abstract TResult Inject<TResult>(IInject<TResult> inject);
     public abstract Measure AliasOf<TUnit, TLinear>()
         where TUnit : IDimension, ISystemInject<TLinear>

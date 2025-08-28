@@ -142,7 +142,7 @@ internal readonly struct Alias<TAlias, TLinear> : IMeasure
     where TAlias : IMeasure
     where TLinear : IMeasure, ILinear
 {
-    static Dimension IMeasure.D { get; } = TAlias.D;
+    static Dimension IMeasure.D => TAlias.D;
     public static Polynomial Poly => TAlias.Poly;
     public static IVisitor InjectLinear(IVisitor inject) => inject.Inject<TLinear>().Inject<TAlias>();
     public static TResult InjectInverse<TResult>(IInject<TResult> inject) => inject.Inject<Inverse<Alias<TAlias, TLinear>>>();
@@ -151,19 +151,19 @@ internal readonly struct Alias<TAlias, TLinear> : IMeasure
 }
 
 internal readonly struct Power<TExp, TLinear> : IMeasure
-    where TExp : IExponent
+    where TExp : INumber
     where TLinear : IMeasure
 {
-    static Dimension IMeasure.D { get; } = TLinear.D.Pow(TExp.E);
-    public static Polynomial Poly { get; } = TLinear.Poly.Pow(TExp.E);
+    static Dimension IMeasure.D { get; } = TLinear.D.Pow(TExp.Value);
+    public static Polynomial Poly { get; } = TLinear.Poly.Pow(TExp.Value);
     public static IVisitor InjectLinear(IVisitor inject) => inject.Inject<TLinear>();
-    public static TResult InjectInverse<TResult>(IInject<TResult> inject) => TExp.Invert(new PowerInverse<TResult>(inject));
-    public static String Representation { get; } = $"{TLinear.Representation}{Tools.ExpToString(TExp.E)}";
+    public static TResult InjectInverse<TResult>(IInject<TResult> inject) => TExp.Negate(new PowerInverse<TResult>(inject));
+    public static String Representation { get; } = $"{TLinear.Representation}{Tools.ExpToString(TExp.Value)}";
     public static void Write(IWriter writer, Int32 exponent) => TLinear.Write(writer, exponent);
 
-    private sealed class PowerInverse<TResult>(IInject<TResult> inject) : IInjectExponent<TResult>
+    private sealed class PowerInverse<TResult>(IInject<TResult> inject) : IInjectNumber<TResult>
     {
-        public TResult Inject<TExponent>() where TExponent : IExponent => inject.Inject<Power<TExponent, TLinear>>();
+        public TResult Inject<TExponent>() where TExponent : INumber => inject.Inject<Power<TExponent, TLinear>>();
     }
 }
 

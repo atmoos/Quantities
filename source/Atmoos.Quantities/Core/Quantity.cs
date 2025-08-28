@@ -21,7 +21,6 @@ internal readonly struct Quantity : IEquatable<Quantity>, IFormattable
     private readonly Measure measure;
     internal Quantity(in Double value, in Measure measure) => (this.measure, this.value) = (measure, value);
     public Quantity Project(in Measure other) => ReferenceEquals(this.measure, other)
-        // ToDo: Benchmark whether this.Measure.Divide(other) would be faster!
         ? this : new Quantity(this.measure / other * this.value, in other);
     private Double Project(in Quantity other) => ReferenceEquals(this.measure, other.measure)
         ? other.value : other.measure / this.measure * other.value;

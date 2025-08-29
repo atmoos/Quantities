@@ -13,9 +13,7 @@ internal sealed class Cache<TKey, TValue>
     public TValue this[in TKey key, Create<TKey, TValue> create]
         => this.cache.TryGetValue(key, out var value) ? value : this.cache[key] = create(key);
     public TValue Get<TArg>(in TKey key, in TArg arg, CreateArg<TKey, TArg, TValue> create)
-    {
-        return this.cache.TryGetValue(key, out var value) ? value : this.cache[key] = create(key, arg);
-    }
+        => this.cache.TryGetValue(key, out var value) ? value : this.cache[key] = create(key, arg);
 }
 
 internal sealed class Cache<TKeyOne, TKeyTwo, TValue>

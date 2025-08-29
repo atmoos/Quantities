@@ -32,7 +32,7 @@ internal static class Expect<TResult>
         var left = Measure.Of<TLeft>();
         var right = Measure.Of<TRight>();
 
-        var actual = left.Multiply(right);
+        var actual = left * right;
 
         Assert.Same(expected, (Measure)actual);
         return (Polynomial)actual;
@@ -44,7 +44,7 @@ internal static class Expect<TResult>
         var numerator = Measure.Of<TNumerator>();
         var denominator = Measure.Of<TDenominator>();
 
-        var actual = numerator.Divide(denominator);
+        var actual = numerator / denominator;
 
         Assert.Same(expected, (Measure)actual);
         return (Polynomial)actual;
@@ -55,7 +55,7 @@ internal static class Expect<TResult>
     {
         var measure = Measure.Of<TMeasure>();
 
-        var ratio = measure.Divide(expected);
+        var ratio = measure / expected;
         var poly = (Polynomial)ratio;
 
         var (n, d, offset) = poly.Simplify();

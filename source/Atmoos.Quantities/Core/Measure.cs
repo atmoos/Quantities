@@ -7,8 +7,10 @@ using Atmoos.Quantities.Measures;
 namespace Atmoos.Quantities.Core;
 
 internal abstract class Measure :
-    IMultiplyOperators<Measure, Measure, Polynomial>,
-    IDivisionOperators<Measure, Measure, Polynomial>,
+    IMultiplyOperators<Measure, Measure, Result>,
+    IMultiplyOperators<Measure, Polynomial, Polynomial>,
+    IDivisionOperators<Measure, Measure, Result>,
+    IDivisionOperators<Measure, Polynomial, Polynomial>,
     ICastOperators<Measure, Polynomial>
 {
     private static readonly IInject<Measure> invert = new Invert();
@@ -16,16 +18,16 @@ internal abstract class Measure :
     public Dimension D { get; }
     private Measure(in Polynomial conversion, Dimension d) => (this.conversion, this.D) = (conversion, d);
     public abstract Measure Inverse { get; }
-    public abstract Result Multiply(Measure other);
+    protected abstract Result Multiply(Measure other);
     protected abstract Result Multiply<TMeasure>() where TMeasure : IMeasure;
-    public abstract Result Divide(Measure other);
+    protected abstract Result Divide(Measure other);
     protected abstract Result Divide<TMeasure>() where TMeasure : IMeasure;
     public abstract void Serialize(IWriter writer);
 
-    public static Polynomial operator *(Measure left, Measure right) => left.conversion * right.conversion;
-
-    public static Polynomial operator /(Measure left, Measure right) => left.conversion / right.conversion;
-
+    public static Result operator *(Measure left, Measure right) => left.Multiply(right);
+    public static Result operator /(Measure left, Measure right) => left.Divide(right);
+    public static Polynomial operator *(Measure left, Polynomial right) => left.conversion * right;
+    public static Polynomial operator /(Measure left, Polynomial right) => left.conversion / right;
     public static implicit operator Polynomial(Measure self) => self.conversion;
 
     public static Measure Of<TMeasure>() where TMeasure : IMeasure => AllocationFree<Impl<TMeasure>>.Item;
@@ -39,8 +41,8 @@ internal abstract class Measure :
     {
         public Impl() : base(TMeasure.Poly, TMeasure.D) { }
         public override Measure Inverse => SafeInverse<TMeasure>.Value;
-        public override Result Multiply(Measure other) => other.Multiply<TMeasure>();
-        public override Result Divide(Measure other) => other.Divide<TMeasure>();
+        protected override Result Multiply(Measure other) => other.Multiply<TMeasure>();
+        protected override Result Divide(Measure other) => other.Divide<TMeasure>();
         public override void Serialize(IWriter writer) => TMeasure.Write(writer, TMeasure.D.E);
         public override String ToString() => TMeasure.Representation;
         protected override Result Multiply<TOtherMeasure>() => Multiplication<TOtherMeasure, TMeasure>.Result;

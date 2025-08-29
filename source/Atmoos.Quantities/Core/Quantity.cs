@@ -21,9 +21,9 @@ internal readonly struct Quantity : IEquatable<Quantity>, IFormattable
     private readonly Measure measure;
     internal Quantity(in Double value, in Measure measure) => (this.measure, this.value) = (measure, value);
     public Quantity Project(in Measure other) => ReferenceEquals(this.measure, other)
-        ? this : new Quantity(this.measure / other * this.value, in other);
+        ? this : new Quantity(this.measure / (Polynomial)other * this.value, in other);
     private Double Project(in Quantity other) => ReferenceEquals(this.measure, other.measure)
-        ? other.value : other.measure / this.measure * other.value;
+        ? other.value : other.measure / (Polynomial)this.measure * other.value;
     public Double Ratio(in Quantity right)
     {
         Double rightValue = Project(in right);
@@ -63,12 +63,12 @@ internal readonly struct Quantity : IEquatable<Quantity>, IFormattable
     public static Boolean operator <=(Quantity left, Quantity right) => left.value <= left.Project(in right);
     public static Quantity operator *(Quantity left, Quantity right)
     {
-        Result product = left.measure.Multiply(right.measure);
+        Result product = left.measure * right.measure;
         return new(product * left.value * right.value, product);
     }
     public static Quantity operator /(Quantity left, Quantity right)
     {
-        Result quotient = left.measure.Divide(right.measure);
+        Result quotient = left.measure / right.measure;
         return new(quotient * left.value / right.value, quotient);
     }
     public static Quantity operator -(Quantity value) => new(-value.value, in value.measure);
@@ -78,7 +78,7 @@ internal readonly struct Quantity : IEquatable<Quantity>, IFormattable
     public static Quantity operator /(Double scalar, Quantity right)
     {
         Measure inverse = right.measure.Inverse;
-        Polynomial conversion = right.measure * inverse;
+        Polynomial conversion = right.measure * (Polynomial)inverse;
         return new(scalar / (conversion * right.value), inverse);
     }
     public static Quantity operator +(Quantity left, Quantity right)

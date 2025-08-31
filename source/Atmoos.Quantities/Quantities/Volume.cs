@@ -18,11 +18,11 @@ public readonly struct Volume : IQuantity<Volume>, IVolume
     public Volume To<TLength>(in Power<TLength, Three> other)
         where TLength : ILength, IUnit => new(other.Transform(in this.volume));
     public Volume To<TVolume>(in Scalar<TVolume> other)
-        where TVolume : IVolume, IPowerOf<ILength>, IUnit => new(other.Transform(in this.volume, f => f.AliasOf<TVolume, ILength>()));
+        where TVolume : IVolume, IPowerOf<ILength>, IUnit => new(other.Transform(in this.volume, static f => ref f.AliasOf<TVolume, ILength>()));
     public static Volume Of<TLength>(in Double value, in Power<TLength, Three> measure)
         where TLength : ILength, IUnit => new(measure.Create(in value));
     public static Volume Of<TVolume>(in Double value, in Scalar<TVolume> measure)
-        where TVolume : IVolume, IPowerOf<ILength>, IUnit => new(measure.Create(in value, f => f.AliasOf<TVolume, ILength>()));
+        where TVolume : IVolume, IPowerOf<ILength>, IUnit => new(measure.Create(in value, static f => ref f.AliasOf<TVolume, ILength>()));
     static Volume IFactory<Volume>.Create(in Quantity value) => new(in value);
     internal static Volume Times(in Length length, in Area area) => new(length.Value * area.Value);
     internal static Volume Times(in Area area, in Length length) => new(area.Value * length.Value);

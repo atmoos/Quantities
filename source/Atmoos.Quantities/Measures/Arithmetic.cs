@@ -10,7 +10,7 @@ internal static class Arithmetic<TSelf>
     public static Result Map<TRight>(in Polynomial poly, Dimension target) where TRight : IMeasure
     {
         if (target is Unit) {
-            return new(poly, Measure.Of<Identity>());
+            return new(poly, in Measure.Of<Identity>());
         }
         var visitor = new Visitor(injector, target);
         var left = TSelf.InjectLinear(visitor);
@@ -50,7 +50,7 @@ file sealed class Injector : IVisitor
     {
         public Result Build(Polynomial poly, Dimension target)
         {
-            return new(poly / TInjected.Poly, Measure.Of<TInjected>());
+            return new(poly / TInjected.Poly, in Measure.Of<TInjected>());
         }
         public IVisitor Inject<TMeasure>() where TMeasure : IMeasure => new Scalar<Product<TInjected, TMeasure>>();
     }
@@ -94,7 +94,7 @@ file sealed class Visitor : IVisitor
     {
         public Result Build(Polynomial poly, Dimension target)
         {
-            return new(poly / TMeasure.Poly, Measure.Of<TMeasure>());
+            return new(poly / TMeasure.Poly, in Measure.Of<TMeasure>());
         }
 
         public IVisitor Inject<TInjected>()

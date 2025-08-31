@@ -48,7 +48,7 @@ internal readonly struct Quantity : IEquatable<Quantity>, IFormattable
     }
     internal Boolean EqualsExactly(Quantity other) => this.HasSameMeasure(in other) && this.value == other.value;
     public static Quantity Of<TMeasure>(in Double value)
-        where TMeasure : IMeasure => new(in value, Measure.Of<TMeasure>());
+        where TMeasure : IMeasure => new(in value, in Measure.Of<TMeasure>());
     public Boolean HasSameMeasure(in Quantity other) => ReferenceEquals(this.measure, other.measure);
     public override Boolean Equals(Object? obj) => obj is Quantity value && Equals(value);
     public override Int32 GetHashCode() => HashCode.Combine(this.value, this.measure);

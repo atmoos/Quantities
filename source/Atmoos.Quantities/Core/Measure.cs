@@ -30,12 +30,8 @@ internal abstract class Measure :
     public static Polynomial operator /(Measure left, Polynomial right) => left.conversion / right;
     public static implicit operator Polynomial(Measure self) => self.conversion;
 
-    public static Measure Of<TMeasure>() where TMeasure : IMeasure => AllocationFree<Impl<TMeasure>>.Item;
+    public static ref readonly Measure Of<TMeasure>() where TMeasure : IMeasure => ref AllocationFree<Measure, Impl<TMeasure>>.Item;
 
-    // ToDo: Move the exponent part of all measures up to the Measure class.
-    //       Ideally, this will simplify the implementation of all Measure classes
-    //       and solve the ambiguous meaning of the exponent...
-    //       The Power measure should be able to be deleted as well as the Quotient measure.
     private sealed class Impl<TMeasure> : Measure
         where TMeasure : IMeasure
     {

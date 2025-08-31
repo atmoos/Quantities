@@ -17,12 +17,12 @@ public readonly struct Area : IQuantity<Area>, IArea
     private Area(in Quantity value) => this.area = value;
     public Area To<TLength>(in Power<TLength, Two> other)
         where TLength : ILength, IUnit => new(other.Transform(in this.area));
-    public Area To<TArea>(in Scalar<TArea> other)
-        where TArea : IArea, IPowerOf<ILength>, IUnit => new(other.Transform(in this.area, f => f.AliasOf<TArea, ILength>()));
+    public readonly Area To<TArea>(in Scalar<TArea> other)
+        where TArea : IArea, IPowerOf<ILength>, IUnit => new(other.Transform(in this.area, static f => ref f.AliasOf<TArea, ILength>()));
     public static Area Of<TLength>(in Double value, in Power<TLength, Two> measure)
         where TLength : ILength, IUnit => new(measure.Create(in value));
     public static Area Of<TArea>(in Double value, in Scalar<TArea> measure)
-        where TArea : IArea, IPowerOf<ILength>, IUnit => new(measure.Create(in value, f => f.AliasOf<TArea, ILength>()));
+        where TArea : IArea, IPowerOf<ILength>, IUnit => new(measure.Create(in value, static f => ref f.AliasOf<TArea, ILength>()));
     static Area IFactory<Area>.Create(in Quantity value) => new(in value);
     internal static Area From(in Length left, in Length right) => new(left.Value * right.Value);
     internal static Area From(in Volume volume, in Length length) => new(volume.Value / length.Value);

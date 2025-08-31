@@ -1,5 +1,4 @@
-﻿using Atmoos.Quantities.Dimensions;
-using Atmoos.Quantities.Units.Imperial.Area;
+﻿using Atmoos.Quantities.Units.Imperial.Area;
 using Atmoos.Quantities.Units.Imperial.Length;
 using Atmoos.Quantities.Units.NonStandard.Area;
 
@@ -8,9 +7,9 @@ namespace Atmoos.Quantities.Serialization.Text.Json.Test;
 public class AreaSupportTest : ISerializationTester<Area>, IInjectedUnitTester<Area>
 {
 
-    private static readonly Creation.Scalar<Are> are = Metric<Are>();
-    private static readonly Creation.Scalar<Acre> acre = Imperial<Acre>();
-    private static readonly Creation.Scalar<Perch> perch = Imperial<Perch>();
+    private static Creation.Scalar<Are> Are() => Metric<Are>();
+    private static Creation.Scalar<Acre> Acre() => Imperial<Acre>();
+    private static Creation.Scalar<Perch> Perch() => Imperial<Perch>();
     [Theory]
     [MemberData(nameof(Quantities))]
     public void SupportsSerialization(Area quantity) => quantity.SupportsSerialization();
@@ -18,9 +17,9 @@ public class AreaSupportTest : ISerializationTester<Area>, IInjectedUnitTester<A
     {
         static IEnumerable<Area> Interesting()
         {
-            yield return Area.Of(21, in are);
-            yield return Area.Of(342, in acre);
-            yield return Area.Of(6, in perch);
+            yield return Area.Of(21, Are());
+            yield return Area.Of(342, Acre());
+            yield return Area.Of(6, Perch());
             yield return Area.Of(-41, Square(Si<Metre>()));
             yield return Area.Of(1.21, Square(Si<Pico, Metre>()));
             yield return Area.Of(121, Square(Si<Kilo, Metre>()));
@@ -52,10 +51,10 @@ public class AreaSupportTest : ISerializationTester<Area>, IInjectedUnitTester<A
     {
         static IEnumerable<Area> Interesting()
         {
-            yield return Area.Of(1, in are);
-            yield return Area.Of(2, in acre);
+            yield return Area.Of(1, Are());
+            yield return Area.Of(2, Acre());
             yield return Area.Of(3, Imperial<Rood>());
-            yield return Area.Of(4, in perch);
+            yield return Area.Of(4, Perch());
             yield return Area.Of(5, NonStandard<Morgen>());
         }
         return Interesting().Select(l => new Object[] { l });

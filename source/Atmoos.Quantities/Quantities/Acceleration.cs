@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using Atmoos.Quantities.Core.Numerics;
 using Atmoos.Quantities.Creation;
 using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Units;
@@ -6,7 +7,7 @@ using Atmoos.Quantities.Units;
 namespace Atmoos.Quantities;
 
 public readonly struct Acceleration : IQuantity<Acceleration>, IAcceleration
-    /*, IQuotient<Acceleration, IAcceleration, ILength, ISquare<ITime>> */
+    , IQuotient<Acceleration, IAcceleration, ILength, ITime, Two>
     , IMultiplyOperators<Acceleration, Time, Velocity>
 {
     private readonly Quantity acceleration;
@@ -15,17 +16,13 @@ public readonly struct Acceleration : IQuantity<Acceleration>, IAcceleration
     internal Acceleration(in Quantity value) => this.acceleration = value;
     public Acceleration To<TUnit>(in Scalar<TUnit> other)
         where TUnit : IAcceleration, IUnit => new(other.Transform(in this.acceleration));
-
-    /* ToDo: enable Square divisor
-    public Acceleration To<TNominator, TDenominator>(in Quotient<TNominator, Square<TDenominator>> other)
+    public Acceleration To<TNominator, TDenominator>(in Quotient<TNominator, Power<TDenominator, Two>> other)
         where TNominator : ILength, IUnit
-        where TDenominator : ITime, IUnit => new(other.Transform(in this.acceleration)); */
+        where TDenominator : ITime, IUnit => new(other.Transform(in this.acceleration));
     public static Acceleration Of<TUnit>(in Double value, in Scalar<TUnit> measure)
         where TUnit : IAcceleration, IUnit => new(measure.Create(in value));
-
-    /* ToDo: enable Square divisor
-    public static Acceleration Of<TLength, TTime>(in Double value, in Quotient<TLength, Square<TTime>> measure)
-       where TLength : IUnit, ILength where TTime : IUnit, ITime => new(measure.Create(in value)); */
+    public static Acceleration Of<TLength, TTime>(in Double value, in Quotient<TLength, Power<TTime, Two>> measure)
+        where TLength : IUnit, ILength where TTime : IUnit, ITime => new(measure.Create(in value));
     static Acceleration IFactory<Acceleration>.Create(in Quantity value) => new(in value);
     internal static Acceleration From(in Velocity velocity, in Time time) => new(velocity.Value / time.Value);
     public Boolean Equals(Acceleration other) => this.acceleration.Equals(other.acceleration);
@@ -48,5 +45,5 @@ public readonly struct Acceleration : IQuantity<Acceleration>, IAcceleration
     public static Acceleration operator /(Acceleration left, Double scalar) => new(left.acceleration / scalar);
     public static Double operator /(Acceleration left, Acceleration right) => left.acceleration.Ratio(in right.acceleration);
 
-    public static Velocity operator *(Acceleration velocity, Time time) => Velocity.From(in velocity, in time);
+    public static Velocity operator *(Acceleration acceleration, Time time) => Velocity.From(in acceleration, in time);
 }

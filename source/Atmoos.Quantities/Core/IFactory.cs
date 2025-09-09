@@ -33,6 +33,21 @@ public interface IQuotient<out TQuantity, in TDimension, in TNominatorDimension,
         where TDenominator : TDenominatorDimension, IUnit;
 }
 
+public interface IQuotient<out TQuantity, in TDimension, in TNominatorDimension, in TDenominatorDimension, TExponent> : IScalar<TQuantity, TDimension>
+    where TQuantity : IQuotient<TQuantity, TDimension, TNominatorDimension, TDenominatorDimension, TExponent>, TDimension
+    where TDimension : IProduct<TNominatorDimension, IDimension<TDenominatorDimension, Negative<TExponent>>>
+    where TNominatorDimension : IDimension<TNominatorDimension, One>
+    where TDenominatorDimension : IDimension<TDenominatorDimension, One>
+    where TExponent : INumber, IPositive
+{
+    public TQuantity To<TNominator, TDenominator>(in Quotient<TNominator, Power<TDenominator, TExponent>> other)
+        where TNominator : TNominatorDimension, IUnit
+        where TDenominator : TDenominatorDimension, IUnit;
+    public static abstract TQuantity Of<TNominator, TDenominator>(in Double value, in Quotient<TNominator, Power<TDenominator, TExponent>> measure)
+        where TNominator : TNominatorDimension, IUnit
+        where TDenominator : TDenominatorDimension, IUnit;
+}
+
 public interface IProduct<out TQuantity, in TDimension, in TLeftDimension, in TRightDimension> : IScalar<TQuantity, TDimension>
     where TQuantity : IProduct<TQuantity, TDimension, TLeftDimension, TRightDimension>, TDimension
     where TDimension : IProduct<TLeftDimension, TRightDimension>

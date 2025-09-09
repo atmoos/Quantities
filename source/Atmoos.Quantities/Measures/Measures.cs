@@ -16,8 +16,6 @@ internal readonly struct Identity : IMeasure, ILinear
     public static IVisitor InjectLinear(IVisitor inject) => inject.Inject<Identity>();
     public static TResult InjectInverse<TResult>(IInject<TResult> inject) => inject.Inject<Identity>();
     public static String Representation { get; } = Unit.Identity.ToString();
-
-    // ToDo: Include this in the deserializer as a special case.
     public static void Write(IWriter writer, Int32 exponent) => writer.Write(name, Representation);
 }
 
@@ -171,10 +169,7 @@ file static class Convenience
 {
     private static readonly Rep readInverse = new();
     public static String InvertedRep<TMeasure>()
-        where TMeasure : IMeasure
-    {
-        return TMeasure.InjectInverse(readInverse);
-    }
+        where TMeasure : IMeasure => TMeasure.InjectInverse(readInverse);
 
     private sealed class Rep : IInject<String>
     {

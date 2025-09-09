@@ -15,9 +15,13 @@ public readonly struct Scalar<TUnit>
     internal Factory Factory => this.factory;
     internal Scalar(in Factory factory) => this.factory = factory;
     public Product<TUnit, TRight> Times<TRight>(in Scalar<TRight> rightTerm)
-        where TRight : IUnit, IDimension => new(rightTerm.factory.Inject(this.factory.Product));
+        where TRight : IUnit, IDimension => new(in this.factory.Multiply(rightTerm.Factory));
+    public Product<TUnit, TRight> Times<TRight, TExponent>(in Power<TRight, TExponent> rightTerm)
+        where TRight : IUnit, IDimension where TExponent : INumber, IPositive => new(in this.factory.Multiply(rightTerm.Factory));
     public Quotient<TUnit, TDenominator> Per<TDenominator>(in Scalar<TDenominator> denominator)
-        where TDenominator : IUnit, IDimension => new(denominator.factory.Inject(this.factory.Quotient));
+        where TDenominator : IUnit, IDimension => new(in this.factory.Divide(denominator.Factory));
+    public Quotient<TUnit, Power<TDenominator, TExponent>> Per<TDenominator, TExponent>(in Power<TDenominator, TExponent> denominator)
+        where TDenominator : IUnit, IDimension where TExponent : INumber, IPositive => new(in this.factory.Divide(denominator.Factory));
     internal Quantity Create(in Double value) => new(in value, in this.factory.Create());
     internal Quantity Create(in Double value, MeasureSelector selectMeasure) => new(in value, in selectMeasure(this.factory));
     internal Quantity Transform(in Quantity other) => other.Project(in this.factory.Create());
@@ -25,8 +29,6 @@ public readonly struct Scalar<TUnit>
 }
 
 public readonly struct Product<TLeft, TRight>
-    where TLeft : IUnit, IDimension
-    where TRight : IUnit, IDimension
 {
     private readonly Factory factory;
     internal Product(in Factory factory) => this.factory = factory;
@@ -35,8 +37,6 @@ public readonly struct Product<TLeft, TRight>
 }
 
 public readonly struct Quotient<TN, TD>
-    where TN : IUnit, IDimension
-    where TD : IUnit, IDimension
 {
     private readonly Factory factory;
     internal Quotient(in Factory factory) => this.factory = factory;
@@ -49,6 +49,7 @@ public readonly struct Power<TUnit, TExponent>
     where TExponent : INumber
 {
     private readonly Factory factory;
+    internal Factory Factory => this.factory;
     internal Power(in Factory factory) => this.factory = factory;
     internal Quantity Create(in Double value) => new(in value, in this.factory.Create<TExponent>());
     internal Quantity Transform(in Quantity other) => other.Project(in this.factory.Create<TExponent>());

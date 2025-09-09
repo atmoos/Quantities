@@ -17,11 +17,11 @@ internal abstract class Measure :
     private readonly Polynomial conversion;
     public Dimension D { get; }
     private Measure(in Polynomial conversion, Dimension d) => (this.conversion, this.D) = (conversion, d);
-    public abstract Measure Inverse { get; }
-    protected abstract Result Multiply(Measure other);
-    protected abstract Result Multiply<TMeasure>() where TMeasure : IMeasure;
-    protected abstract Result Divide(Measure other);
-    protected abstract Result Divide<TMeasure>() where TMeasure : IMeasure;
+    public abstract ref readonly Measure Inverse { get; }
+    protected abstract ref readonly Result Multiply(Measure other);
+    protected abstract ref readonly Result Multiply<TMeasure>() where TMeasure : IMeasure;
+    protected abstract ref readonly Result Divide(Measure other);
+    protected abstract ref readonly Result Divide<TMeasure>() where TMeasure : IMeasure;
     public abstract void Serialize(IWriter writer);
 
     public static Result operator *(Measure left, Measure right) => left.Multiply(right);
@@ -36,27 +36,29 @@ internal abstract class Measure :
         where TMeasure : IMeasure
     {
         public Impl() : base(TMeasure.Poly, TMeasure.D) { }
-        public override Measure Inverse => SafeInverse<TMeasure>.Value;
-        protected override Result Multiply(Measure other) => other.Multiply<TMeasure>();
-        protected override Result Divide(Measure other) => other.Divide<TMeasure>();
+        public override ref readonly Measure Inverse => ref SafeInverse<TMeasure>.Value;
+        protected override ref readonly Result Multiply(Measure other) => ref other.Multiply<TMeasure>();
+        protected override ref readonly Result Divide(Measure other) => ref other.Divide<TMeasure>();
         public override void Serialize(IWriter writer) => TMeasure.Write(writer, TMeasure.D.E);
         public override String ToString() => TMeasure.Representation;
-        protected override Result Multiply<TOtherMeasure>() => Multiplication<TOtherMeasure, TMeasure>.Result;
-        protected override Result Divide<TOtherMeasure>() => Division<TOtherMeasure, TMeasure>.Result;
+        protected override ref readonly Result Multiply<TOtherMeasure>() => ref Multiplication<TOtherMeasure, TMeasure>.Result;
+        protected override ref readonly Result Divide<TOtherMeasure>() => ref Division<TOtherMeasure, TMeasure>.Result;
     }
 
     private static class Multiplication<TLeft, TRight>
         where TLeft : IMeasure
         where TRight : IMeasure
     {
-        public static Result Result { get; } = Arithmetic<TLeft>.Map<TRight>(TLeft.Poly * TRight.Poly, TLeft.D * TRight.D);
+        private static readonly Result result = Arithmetic<TLeft>.Map<TRight>(TLeft.Poly * TRight.Poly, TLeft.D * TRight.D);
+        public static ref readonly Result Result => ref result;
     }
 
     private static class Division<TLeft, TRight>
         where TLeft : IMeasure
         where TRight : IMeasure
     {
-        public static Result Result { get; } = Arithmetic<TLeft>.Map<TRight>(TLeft.Poly / TRight.Poly, TLeft.D / TRight.D);
+        private static readonly Result result = Arithmetic<TLeft>.Map<TRight>(TLeft.Poly / TRight.Poly, TLeft.D / TRight.D);
+        public static ref readonly Result Result => ref result;
     }
 
     private sealed class Invert : IInject<Measure>
@@ -68,6 +70,7 @@ internal abstract class Measure :
     private static class SafeInverse<TMeasure>
         where TMeasure : IMeasure
     {
-        public static Measure Value { get; } = TMeasure.InjectInverse(invert);
+        private static readonly Measure value = TMeasure.InjectInverse(invert);
+        public static ref readonly Measure Value => ref value;
     }
 }

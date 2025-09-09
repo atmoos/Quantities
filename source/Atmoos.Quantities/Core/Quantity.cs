@@ -77,9 +77,9 @@ internal readonly struct Quantity : IEquatable<Quantity>, IFormattable
     public static Quantity operator /(Quantity left, Double scalar) => new(left.value / scalar, in left.measure);
     public static Quantity operator /(Double scalar, Quantity right)
     {
-        Measure inverse = right.measure.Inverse;
+        ref readonly Measure inverse = ref right.measure.Inverse;
         Polynomial conversion = right.measure * (Polynomial)inverse;
-        return new(scalar / (conversion * right.value), inverse);
+        return new(scalar / (conversion * right.value), in inverse);
     }
     public static Quantity operator +(Quantity left, Quantity right)
     {

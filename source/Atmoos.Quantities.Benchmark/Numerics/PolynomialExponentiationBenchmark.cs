@@ -29,20 +29,20 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
   DefaultJob : .NET 9.0.8 (9.0.825.36511), X64 RyuJIT AVX2
 
 
-| Method        | Exponent | Mean      | Error    | Ratio |
+| Method        | Exponent | Mean      | Error    | Ratio | 
 |-------------- |--------- |----------:|---------:|------:|
-| TrivialExp    | -5       |  74.51 ns | 0.350 ns |  1.00 |
-| PolynomialExp | -5       | 112.35 ns | 1.036 ns |  1.51 |
-|               |          |           |          |       |
-| TrivialExp    | -2       |  42.60 ns | 0.087 ns |  1.00 |
-| PolynomialExp | -2       |  52.58 ns | 0.492 ns |  1.23 |
-|               |          |           |          |       |
-| TrivialExp    | 0        |  21.48 ns | 0.107 ns |  1.00 |
-| PolynomialExp | 0        |  13.04 ns | 0.089 ns |  0.61 |
-|               |          |           |          |       |
-| TrivialExp    | 2        |  43.24 ns | 0.083 ns |  1.00 |
-| PolynomialExp | 2        |  50.19 ns | 0.458 ns |  1.16 |
-|               |          |           |          |       |
-| TrivialExp    | 5        |  75.56 ns | 0.291 ns |  1.00 |
-| PolynomialExp | 5        | 112.07 ns | 0.894 ns |  1.48 |
+| TrivialExp    | -5       |  73.73 ns | 0.218 ns |  1.00 | 
+| PolynomialExp | -5       | 403.12 ns | 1.101 ns |  5.47 | 
+|               |          |           |          |       | 
+| TrivialExp    | -2       |  42.28 ns | 0.149 ns |  1.00 | 
+| PolynomialExp | -2       | 380.56 ns | 1.225 ns |  9.00 | 
+|               |          |           |          |       | 
+| TrivialExp    | 0        |  22.40 ns | 0.157 ns |  1.00 | 
+| PolynomialExp | 0        | 379.27 ns | 1.812 ns | 16.93 | 
+|               |          |           |          |       | 
+| TrivialExp    | 2        |  42.76 ns | 0.129 ns |  1.00 | 
+| PolynomialExp | 2        | 377.14 ns | 1.491 ns |  8.82 | 
+|               |          |           |          |       | 
+| TrivialExp    | 5        |  75.13 ns | 0.255 ns |  1.00 | 
+| PolynomialExp | 5        | 402.22 ns | 1.335 ns |  5.35 | 
 */

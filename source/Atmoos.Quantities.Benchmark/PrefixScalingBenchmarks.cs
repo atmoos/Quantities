@@ -53,15 +53,15 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
 
 | Method              | Exponent | Mean      | Error     | Ratio |
 |-------------------- |--------- |----------:|----------:|------:|
-| Baseline            | -4       | 58.282 ns | 0.3611 ns |  1.00 |
-| MetricPrefixScaling | -4       | 43.596 ns | 0.2668 ns |  0.75 |
-| BinaryPrefixScaling | -4       |  8.161 ns | 0.0853 ns |  0.14 |
+| Baseline            | -4       | 56.452 ns | 0.3995 ns |  1.00 |
+| MetricPrefixScaling | -4       | 42.795 ns | 0.1965 ns |  0.76 |
+| BinaryPrefixScaling | -4       |  8.129 ns | 0.0999 ns |  0.14 |
 |                     |          |           |           |       |
-| Baseline            | 0        | 56.973 ns | 0.2776 ns |  1.00 |
-| MetricPrefixScaling | 0        |  8.958 ns | 0.0634 ns |  0.16 |
-| BinaryPrefixScaling | 0        |  8.206 ns | 0.0536 ns |  0.14 |
+| Baseline            | 0        | 56.454 ns | 0.4097 ns |  1.00 |
+| MetricPrefixScaling | 0        |  8.961 ns | 0.0667 ns |  0.16 |
+| BinaryPrefixScaling | 0        |  8.139 ns | 0.0535 ns |  0.14 |
 |                     |          |           |           |       |
-| Baseline            | 5        | 57.048 ns | 0.3186 ns |  1.00 |
-| MetricPrefixScaling | 5        | 44.039 ns | 0.1538 ns |  0.77 |
-| BinaryPrefixScaling | 5        | 41.386 ns | 0.1237 ns |  0.73 |
+| Baseline            | 5        | 56.501 ns | 0.4241 ns |  1.00 |
+| MetricPrefixScaling | 5        | 43.677 ns | 0.1191 ns |  0.77 |
+| BinaryPrefixScaling | 5        | 43.864 ns | 0.2187 ns |  0.78 |
 */

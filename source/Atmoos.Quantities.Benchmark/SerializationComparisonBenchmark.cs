@@ -29,6 +29,6 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
 
 | Method     | Mean     | Error     | Ratio | Allocated | Alloc Ratio |
 |----------- |---------:|----------:|------:|----------:|------------:|
-| TextJson   | 3.713 μs | 0.0108 μs |  1.00 |     809 B |        1.00 |
-| Newtonsoft | 5.947 μs | 0.0134 μs |  1.60 |    4051 B |        5.01 |
+| TextJson   | 5.006 μs | 0.0142 μs |  1.00 |     504 B |        1.00 |
+| Newtonsoft | 9.261 μs | 0.0198 μs |  1.85 |    3896 B |        7.73 |
 */

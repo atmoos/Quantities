@@ -33,9 +33,9 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
   DefaultJob : .NET 9.0.8 (9.0.825.36511), X64 RyuJIT AVX2
 
 
-| Method           | Mean      | Error     | Ratio | 
-|----------------- |----------:|----------:|------:|
-| ProjectTrivial   | 0.6495 ns | 0.0534 ns |  1.01 | 
-| ProjectOntoSame  | 1.1941 ns | 0.0420 ns |  1.85 | 
-| ProjectOntoOther | 1.7624 ns | 0.0313 ns |  2.73 | 
+| Method           | Mean       | Error     | Ratio | 
+|----------------- |-----------:|----------:|------:|
+| ProjectTrivial   |  0.6525 ns | 0.0751 ns |  1.01 | 
+| ProjectOntoSame  | 31.5157 ns | 0.2301 ns | 48.85 | 
+| ProjectOntoOther | 31.6438 ns | 0.1123 ns | 49.05 | 
 */

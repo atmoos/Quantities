@@ -27,15 +27,15 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
 
 | Method        | Exponent | Mean      | Error     | Ratio |
 |-------------- |--------- |----------:|----------:|------:|
-| MathPow       | 2        | 28.251 ns | 0.1409 ns |  1.00 |
-| AlgorithmsPow | 2        |  9.993 ns | 0.0517 ns |  0.35 |
+| MathPow       | 2        | 27.855 ns | 0.1787 ns |  1.00 |
+| AlgorithmsPow | 2        |  9.943 ns | 0.0783 ns |  0.36 |
 |               |          |           |           |       |
-| MathPow       | 5        | 28.252 ns | 0.1807 ns |  1.00 |
-| AlgorithmsPow | 5        | 28.760 ns | 0.0974 ns |  1.02 |
+| MathPow       | 5        | 27.966 ns | 0.1792 ns |  1.00 |
+| AlgorithmsPow | 5        | 28.676 ns | 0.1133 ns |  1.03 |
 |               |          |           |           |       |
-| MathPow       | 12       | 28.206 ns | 0.1490 ns |  1.00 |
-| AlgorithmsPow | 12       | 39.887 ns | 0.1688 ns |  1.41 |
+| MathPow       | 12       | 27.981 ns | 0.2363 ns |  1.00 |
+| AlgorithmsPow | 12       | 39.647 ns | 0.1023 ns |  1.42 |
 |               |          |           |           |       |
-| MathPow       | 23       | 28.200 ns | 0.2059 ns |  1.00 |
-| AlgorithmsPow | 23       | 49.235 ns | 0.2083 ns |  1.75 |
+| MathPow       | 23       | 27.843 ns | 0.1058 ns |  1.00 |
+| AlgorithmsPow | 23       | 49.069 ns | 0.2347 ns |  1.76 |
 */

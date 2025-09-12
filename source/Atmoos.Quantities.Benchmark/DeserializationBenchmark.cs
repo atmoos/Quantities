@@ -43,13 +43,13 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
   DefaultJob : .NET 9.0.8 (9.0.825.36511), X64 RyuJIT AVX2
 
 
-| Method                 | Mean       | Error   | Ratio | Allocated | Alloc Ratio |
-|----------------------- |-----------:|--------:|------:|----------:|------------:|
-| SystemTriple           |   336.7 ns | 1.17 ns |  1.00 |      40 B |        1.00 |
-| SystemQuantity         | 1,484.7 ns | 4.45 ns |  4.41 |     160 B |        4.00 |
-| PrefixedQuantity       | 1,854.7 ns | 5.08 ns |  5.51 |     224 B |        5.60 |
-| FractionalQuantity     | 3,446.0 ns | 4.70 ns | 10.23 |     753 B |       18.82 |
-| MultiplicativeQuantity | 3,431.1 ns | 8.94 ns | 10.19 |     753 B |       18.82 |
-| PowerQuantity          | 2,770.0 ns | 8.70 ns |  8.23 |     600 B |       15.00 |
-| ScalarPowerQuantity    | 1,995.7 ns | 4.98 ns |  5.93 |     232 B |        5.80 |
+| Method                 | Mean       | Error    | Ratio | Allocated | Alloc Ratio |
+|----------------------- |-----------:|---------:|------:|----------:|------------:|
+| SystemTriple           |   332.6 ns |  1.17 ns |  1.00 |      40 B |        1.00 |
+| SystemQuantity         | 1,978.9 ns |  7.31 ns |  5.95 |     136 B |        3.40 |
+| PrefixedQuantity       | 2,473.3 ns | 11.94 ns |  7.44 |     160 B |        4.00 |
+| FractionalQuantity     | 4,558.8 ns | 19.92 ns | 13.71 |     488 B |       12.20 |
+| MultiplicativeQuantity | 4,034.2 ns | 21.88 ns | 12.13 |     488 B |       12.20 |
+| PowerQuantity          | 2,927.2 ns | 16.58 ns |  8.80 |     160 B |        4.00 |
+| ScalarPowerQuantity    | 2,702.3 ns |  9.43 ns |  8.13 |     168 B |        4.20 |
 */

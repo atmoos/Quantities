@@ -33,7 +33,7 @@ Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical 
 
 | Method                          | Mean      | Error     | Ratio |
 |-------------------------------- |----------:|----------:|------:|
-| EvaluateTrivial                 | 9.5954 ns | 0.0745 ns |  1.00 |
-| EvaluatePolynomial              | 0.6407 ns | 0.0568 ns |  0.07 |
-| EvaluatePolynomialWithoutOffset | 0.3769 ns | 0.0449 ns |  0.04 |
+| EvaluateTrivial                 | 9.5208 ns | 0.0494 ns |  1.00 |
+| EvaluatePolynomial              | 0.5907 ns | 0.0530 ns |  0.06 |
+| EvaluatePolynomialWithoutOffset | 0.3967 ns | 0.0767 ns |  0.04 |
 */

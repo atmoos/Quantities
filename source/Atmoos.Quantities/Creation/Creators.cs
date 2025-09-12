@@ -50,7 +50,7 @@ public readonly struct Power<TUnit, TExponent>
 {
     private readonly Factory factory;
     internal Factory Factory => this.factory;
-    internal Power(in Factory factory) => this.factory = factory;
-    internal Quantity Create(in Double value) => new(in value, in this.factory.Create<TExponent>());
-    internal Quantity Transform(in Quantity other) => other.Project(in this.factory.Create<TExponent>());
+    internal Power(in Factory factory) => this.factory = factory.Power<TExponent>();
+    internal Quantity Create(in Double value) => new(in value, in this.factory.Create());
+    internal Quantity Transform(in Quantity other) => other.Project(in this.factory.Create());
 }

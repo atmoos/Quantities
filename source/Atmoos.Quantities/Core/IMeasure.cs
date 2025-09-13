@@ -10,6 +10,7 @@ internal interface IMeasure : IRepresentable, ISerialize
     public static abstract Polynomial Poly { get; }
     public static abstract IVisitor InjectLinear(IVisitor inject);
     public static abstract TResult InjectInverse<TResult>(IInject<TResult> inject);
+    public static abstract IVisitor Power(IVisitor inject, Int32 exponent);
 }
 
 internal interface IMeasure<TBasis> : IMeasure

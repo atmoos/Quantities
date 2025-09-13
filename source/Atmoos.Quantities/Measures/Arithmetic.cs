@@ -61,7 +61,6 @@ file sealed class Visitor : IVisitor
     private IVisitor fallback;
     private readonly IVisitor inject;
     private readonly List<Scalar> targets;
-
     private Visitor(IVisitor inject, List<Scalar> targets, IVisitor fallback) => (this.inject, this.targets, this.fallback) = (inject, targets, fallback);
     public Visitor(IVisitor inject, IEnumerable<Scalar> targets) => (this.inject, this.targets, this.fallback) = (inject, targets.ToList(), new Fallback());
     public Result Build(Polynomial poly, Dimension target)
@@ -73,7 +72,7 @@ file sealed class Visitor : IVisitor
         Scalar? match;
         if ((match = this.targets.FirstOrDefault(t => t.CommonRoot(TMeasure.D))) != null) {
             this.targets.Remove(match);
-            return new Visitor(this.inject.Raise<TMeasure>(match), this.targets, this.fallback);
+            return new Visitor(TMeasure.Power(this.inject, match.E), this.targets, this.fallback);
         }
         this.fallback = this.fallback.Inject<TMeasure>();
         return this;
@@ -101,19 +100,4 @@ file sealed class Visitor : IVisitor
             where TInjected : IMeasure
                 => new Fallback<Product<TMeasure, TInjected>>();
     }
-}
-
-file static class Convenience
-{
-    public static IVisitor Raise<TMeasure>(this IVisitor inner, Dimension d) where TMeasure : IMeasure
-    => (d.E * Double.CopySign(1d, TMeasure.D.E)) switch {
-        3 => inner.Inject<Power<Three, TMeasure>>(),
-        2 => inner.Inject<Power<Two, TMeasure>>(),
-        1 => inner.Inject<TMeasure>(),
-        0 => inner.Inject<Identity>(),
-        -1 => TMeasure.InjectInverse(inner),
-        -2 => inner.Inject<Power<Negative<Two>, TMeasure>>(),
-        -3 => inner.Inject<Power<Negative<Three>, TMeasure>>(),
-        _ => throw new InvalidOperationException($"Cannot map '{d}' to a new measure. Exponent '{d.E}' is not supported.")
-    };
 }

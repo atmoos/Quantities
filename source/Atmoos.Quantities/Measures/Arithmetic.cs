@@ -32,7 +32,14 @@ file sealed class Injector<TResult>(IInject<TResult> resultInjector) : IInject<I
     private sealed class Left<TLeft>(IInject<TResult> resultInjector) : IInject<TResult>
         where TLeft : IMeasure
     {
-        public TResult Inject<TRight>() where TRight : IMeasure => resultInjector.Inject<Product<TLeft, TRight>>();
+        public TResult Inject<TRight>() where TRight : IMeasure
+            => (TLeft.D.E, TRight.D.E) switch {
+                (0, 0) => resultInjector.Inject<Identity>(),
+                ( < 0, > 0) => resultInjector.Inject<Product<TRight, TLeft>>(),
+                (0, _) => resultInjector.Inject<TRight>(),
+                (_, 0) => resultInjector.Inject<TRight>(),
+                _ => resultInjector.Inject<Product<TLeft, TRight>>()
+            };
     }
 }
 

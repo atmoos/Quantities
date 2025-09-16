@@ -1,4 +1,5 @@
-﻿using Atmoos.Quantities.Dimensions;
+﻿using Atmoos.Quantities.Core.Numerics;
+using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Measures;
 using Atmoos.Quantities.Units;
 using Atmoos.Quantities.Units.Si.Metric;
@@ -11,36 +12,40 @@ public class InversionTest
     [Fact]
     public void SiInvertedIsInverseOfSi()
     {
-        Expect<Inverse<Si<Kilo, Metre>>>.ToBeInverseOf<Si<Kilo, Metre>>("km⁻¹");
+        Expect<Power<Si<Kilo, Metre>, Negative<One>>>.ToBeInverseOf<Si<Kilo, Metre>>("km⁻¹");
     }
-
+    [Fact]
+    public void InverseOfInvertedSiIsSi()
+    {
+        Expect<Si<Metre>>.ToBeInverseOf<Power<Si<Metre>, Negative<One>>>("m");
+    }
     [Fact]
     public void MetricInvertedIsInverseOfMetric()
     {
-        Expect<Inverse<Metric<Milli, Hour>>>.ToBeInverseOf<Metric<Milli, Hour>>($"m{Hour.Representation}⁻¹");
+        Expect<Power<Metric<Milli, Hour>, Negative<One>>>.ToBeInverseOf<Metric<Milli, Hour>>($"m{Hour.Representation}⁻¹");
     }
 
     [Fact]
     public void ImperialInvertedIsInverseOfImperial()
     {
-        Expect<Inverse<Imperial<Foot>>>.ToBeInverseOf<Imperial<Foot>>("ft⁻¹");
+        Expect<Power<Imperial<Foot>, Negative<One>>>.ToBeInverseOf<Imperial<Foot>>("ft⁻¹");
     }
 
     [Fact]
     public void NonStandardInvertedIsInverseOfNonStandard()
     {
-        Expect<Inverse<NonStandard<SomeNonStandardUnit>>>.ToBeInverseOf<NonStandard<SomeNonStandardUnit>>("snu⁻¹");
+        Expect<Power<NonStandard<SomeNonStandardUnit>, Negative<One>>>.ToBeInverseOf<NonStandard<SomeNonStandardUnit>>("snu⁻¹");
     }
 
     [Fact]
     public void ProductInvertedIsProductOfInverses()
     {
-        Expect<Product<Inverse<Si<Metre>>, Inverse<Metric<Hour>>>>.ToBeInverseOf<Product<Si<Metre>, Metric<Hour>>>($"m⁻¹{zeroWidthNonJoiner}h⁻¹");
+        Expect<Product<Power<Si<Metre>, Negative<One>>, Power<Metric<Hour>, Negative<One>>>>.ToBeInverseOf<Product<Si<Metre>, Metric<Hour>>>($"m⁻¹{zeroWidthNonJoiner}h⁻¹");
     }
     [Fact]
     public void QuotientInvertedIsInvertedQuotient()
     {
-        Expect<Product<Inverse<Si<Metre>>, Metric<Hour>>>.ToBeInverseOf<Product<Si<Metre>, Inverse<Metric<Hour>>>>("h/m");
+        Expect<Product<Metric<Hour>, Power<Si<Metre>, Negative<One>>>>.ToBeInverseOf<Product<Si<Metre>, Power<Metric<Hour>, Negative<One>>>>("h/m");
     }
 }
 

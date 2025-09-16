@@ -12,7 +12,7 @@ internal sealed class ScalarInjector : IInject<IBuilder>
 internal sealed class PowerInjector<TDim> : IInject<IBuilder>
     where TDim : INumber
 {
-    public IBuilder Inject<TMeasure>() where TMeasure : IMeasure => new Builder<Power<TDim, TMeasure>>();
+    public IBuilder Inject<TMeasure>() where TMeasure : IMeasure => new Builder<Power<TMeasure, TDim>>();
 }
 
 internal sealed class AliasInjector<TLinear>(IInject<IBuilder> injector) : IInject<IBuilder>
@@ -23,7 +23,7 @@ internal sealed class AliasInjector<TLinear>(IInject<IBuilder> injector) : IInje
 
 internal sealed class InverseInjector : IInject<IBuilder>
 {
-    public IBuilder Inject<TMeasure>() where TMeasure : IMeasure => new Builder<Inverse<TMeasure>>();
+    public IBuilder Inject<TMeasure>() where TMeasure : IMeasure => new Builder<Power<TMeasure, Negative<One>>>();
 }
 
 internal sealed class InvertibleInjector<TInverse>(IInject<IBuilder> injector) : IInject<IBuilder>
@@ -45,9 +45,9 @@ internal sealed class ProductInjector(Int32 leftExp, Int32 rightExp) : IInject<I
         // ... the "right term" in a second step.
         public IBuilder Inject<TMeasure>() where TMeasure : IMeasure => (leftExp, rightExp) switch {
             ( > 0, > 0) => new Builder<Product<TLeft, TMeasure>>(),
-            ( > 0, < 0) => new Builder<Product<TLeft, Inverse<TMeasure>>>(),
-            ( < 0, > 0) => new Builder<Product<Inverse<TLeft>, TMeasure>>(),
-            ( < 0, < 0) => new Builder<Inverse<Product<TLeft, TMeasure>>>(),
+            ( > 0, < 0) => new Builder<Product<TLeft, Power<TMeasure, Negative<One>>>>(),
+            ( < 0, > 0) => new Builder<Product<Power<TLeft, Negative<One>>, TMeasure>>(),
+            ( < 0, < 0) => new Builder<Power<Product<TLeft, TMeasure>, Negative<One>>>(),
             _ => throw new NotSupportedException($"Cannot build a quantity product with dimensions '({TLeft.D}, {TMeasure.D})'.")
         };
     }

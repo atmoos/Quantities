@@ -7,11 +7,12 @@ namespace Atmoos.Quantities.Creation;
 
 internal abstract class Factory
 {
+    private InjectDivision Divisor { get; }
+    private Factory(in InjectDivision divisor) => Divisor = divisor;
     public abstract ref readonly Measure Create();
     public abstract ref readonly Factory Multiply(Factory other);
     protected abstract ref readonly Factory Multiply<TMeasure>() where TMeasure : IMeasure;
     public abstract ref readonly Factory Divide(Factory other);
-    protected abstract ref readonly Factory Divide<TMeasure>() where TMeasure : IMeasure;
     public abstract ref readonly Factory Power<TExponent>() where TExponent : INumber;
     public abstract ref readonly Measure AliasOf<TUnit, TLinear>()
         where TUnit : IDimension, ISystemInject<TLinear>
@@ -24,12 +25,12 @@ internal abstract class Factory
     private sealed class Impl<TMeasure> : Factory
         where TMeasure : IMeasure
     {
+        public Impl() : base(TMeasure.InjectInverse(new DivisorInjector())) { }
         public override ref readonly Measure Create() => ref Measure.Of<TMeasure>();
         public override ref readonly Factory Multiply(Factory other) => ref other.Multiply<TMeasure>();
         protected override ref readonly Factory Multiply<TMeasure1>() => ref Of<Measures.Product<TMeasure1, TMeasure>>();
-        public override ref readonly Factory Divide(Factory other) => ref other.Divide<TMeasure>();
-        protected override ref readonly Factory Divide<TMeasure1>() => ref Of<Measures.Product<TMeasure1, Inverse<TMeasure>>>();
-        public override ref readonly Factory Power<TExponent>() => ref Of<Measures.Power<TExponent, TMeasure>>();
+        public override ref readonly Factory Divide(Factory other) => ref other.Divisor.Of<TMeasure>();
+        public override ref readonly Factory Power<TExponent>() => ref Of<Measures.Power<TMeasure, TExponent>>();
         public override ref readonly Measure AliasOf<TUnit, TLinear>() => ref InjectionOf<TUnit, TLinear, AliasInjectionFactory<TLinear>>.Measure;
         public override ref readonly Measure InverseOf<TUnit, TLinear>() => ref InjectionOf<TUnit, TLinear, InvertibleInjectionFactory<TLinear>>.Measure;
 
@@ -76,4 +77,21 @@ file static class InjectionOf<TUnit, TLinear, TFactory>
 {
     private static readonly Measure measure = TUnit.Inject(new TFactory());
     public static ref readonly Measure Measure => ref measure;
+}
+
+file sealed class DivisorInjector : IInject<InjectDivision>
+{
+    public InjectDivision Inject<TMeasure>()
+        where TMeasure : IMeasure => new InjectDivision<TMeasure>();
+}
+
+internal abstract class InjectDivision
+{
+    public abstract ref readonly Factory Of<TLeft>() where TLeft : IMeasure;
+}
+
+file sealed class InjectDivision<TDivisor> : InjectDivision
+    where TDivisor : IMeasure
+{
+    public override ref readonly Factory Of<TLeft>() => ref Factory.Of<Measures.Product<TLeft, TDivisor>>();
 }

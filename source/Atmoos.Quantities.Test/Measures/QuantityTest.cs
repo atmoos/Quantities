@@ -1,4 +1,5 @@
-﻿using Atmoos.Quantities.Dimensions;
+﻿using Atmoos.Quantities.Core.Numerics;
+using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Measures;
 using Atmoos.Quantities.Units;
 
@@ -394,7 +395,7 @@ public class QuantityTest
         const Double milli = 1e-3;
         Quantity left = Create<Metre>(a);
         Quantity right = Create<Milli, Metre>(b);
-        Quantity square = Quantity.Of<Power<Square, Si<Metre>>>(milli * a * b);
+        Quantity square = Quantity.Of<Power<Si<Metre>, Two>>(milli * a * b);
 
         Quantity actual = left * right;
 
@@ -462,7 +463,7 @@ public class QuantityTest
         const Double b = 4;
         Quantity nominator = Create<Metre>(a);
         Quantity denominator = Create<Second>(b);
-        Quantity quotient = Quantity.Of<Product<Si<Metre>, Inverse<Si<Second>>>>(a / b);
+        Quantity quotient = Quantity.Of<Product<Si<Metre>, Power<Si<Second>, Negative<One>>>>(a / b);
 
         Quantity actual = nominator / denominator;
 
@@ -474,7 +475,7 @@ public class QuantityTest
         const Double a = 3;
         const Double b = 4;
         const Double kilo = 1000;
-        Quantity nominator = Quantity.Of<Power<Square, Si<Metre>>>(a);
+        Quantity nominator = Quantity.Of<Power<Si<Metre>, Two>>(a);
         Quantity denominator = Create<Kilo, Metre>(b);
         Quantity quotient = Create<Metre>(a / (kilo * b));
 
@@ -488,9 +489,9 @@ public class QuantityTest
         const Double a = 3;
         const Double b = 4;
         const Double kilo = 1000;
-        Quantity nominator = Quantity.Of<Power<Cubic, Si<Metre>>>(a);
+        Quantity nominator = Quantity.Of<Power<Si<Metre>, Three>>(a);
         Quantity denominator = Create<Kilo, Metre>(b);
-        Quantity quotient = Quantity.Of<Power<Square, Si<Metre>>>(a / (kilo * b));
+        Quantity quotient = Quantity.Of<Power<Si<Metre>, Two>>(a / (kilo * b));
 
         Quantity actual = nominator / denominator;
 
@@ -502,8 +503,8 @@ public class QuantityTest
     {
         const Double a = 3;
         const Double b = 4;
-        Quantity nominator = Quantity.Of<Power<Cubic, Si<Metre>>>(a);
-        Quantity denominator = Quantity.Of<Power<Square, Si<Metre>>>(b);
+        Quantity nominator = Quantity.Of<Power<Si<Metre>, Three>>(a);
+        Quantity denominator = Quantity.Of<Power<Si<Metre>, Two>>(b);
         Quantity quotient = Create<Metre>(a / b);
 
         Quantity actual = nominator / denominator;
@@ -518,8 +519,8 @@ public class QuantityTest
         const Double b = 4;
         const Double deca = 1e1;
         const Double kilo = 1e3;
-        Quantity nominator = Quantity.Of<Power<Cubic, Si<Kilo, Metre>>>(a);
-        Quantity denominator = Quantity.Of<Power<Square, Si<Deca, Metre>>>(b);
+        Quantity nominator = Quantity.Of<Power<Si<Kilo, Metre>, Three>>(a);
+        Quantity denominator = Quantity.Of<Power<Si<Deca, Metre>, Two>>(b);
         Quantity quotient = Create<Kilo, Metre>(Math.Pow(kilo, 3) * a / (kilo * Math.Pow(deca, 2) * b));
 
         Quantity actual = nominator / denominator;
@@ -532,9 +533,9 @@ public class QuantityTest
     private static Quantity Create<TPrefix, TSi>(Double value)
         where TPrefix : IPrefix where TSi : ISiUnit, IDimension => Quantity.Of<Si<TPrefix, TSi>>(in value);
     private static Quantity CreateInverse<TSi>(Double value)
-        where TSi : ISiUnit, IDimension => Quantity.Of<Inverse<Si<TSi>>>(in value);
+        where TSi : ISiUnit, IDimension => Quantity.Of<Power<Si<TSi>, Negative<One>>>(in value);
     private static Quantity CreateInverse<TPrefix, TSi>(Double value)
-        where TPrefix : IPrefix where TSi : ISiUnit, IDimension => Quantity.Of<Inverse<Si<TPrefix, TSi>>>(in value);
+        where TPrefix : IPrefix where TSi : ISiUnit, IDimension => Quantity.Of<Power<Si<TPrefix, TSi>, Negative<One>>>(in value);
 
     public static IEnumerable<Object[]> Values()
     {

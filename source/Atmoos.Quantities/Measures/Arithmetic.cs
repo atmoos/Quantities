@@ -81,6 +81,7 @@ file sealed class Visitor : IVisitor
             this.targets.Remove(match);
             return new Visitor(TMeasure.Power(this.inject, match.E), this.targets, this.fallback);
         }
+        // ToDo: This fallback mechanism can fail badly. See issue #89.
         this.fallback = this.fallback.Inject<TMeasure>();
         return this;
     }

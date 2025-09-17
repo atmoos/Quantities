@@ -15,6 +15,7 @@ public interface IQuantity<TSelf> : IEquatable<TSelf>, IFormattable
     where TSelf : struct, IQuantity<TSelf>, IDimension
 {
     internal Quantity Value { get; }
+    // ToDo: Consider adding a deconstruct method... (Double value, String unit)
     static abstract TSelf operator *(Double scalar, TSelf right);
     static abstract TSelf operator /(TSelf self, Double scalar);
 }

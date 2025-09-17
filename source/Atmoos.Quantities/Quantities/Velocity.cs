@@ -9,7 +9,6 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity
     , IQuotient<Velocity, IVelocity, ILength, ITime>
     , IMultiplyOperators<Velocity, Force, Power>
     , IMultiplyOperators<Velocity, Time, Length>
-    , IDivisionOperators<Velocity, Time, Acceleration>
 {
     private readonly Quantity velocity;
     internal Quantity Value => this.velocity;
@@ -27,7 +26,6 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity
     static Velocity IFactory<Velocity>.Create(in Quantity value) => new(in value);
     internal static Velocity From(in Power power, in Force force) => new(power.Value / force.Value);
     internal static Velocity From(in Length length, in Time time) => new(length.Value / time.Value);
-    internal static Velocity From(in Acceleration acceleration, in Time time) => new(acceleration.Value * time.Value);
     public Boolean Equals(Velocity other) => this.velocity.Equals(other.velocity);
     public override Boolean Equals(Object? obj) => obj is Velocity velocity && Equals(velocity);
     public override Int32 GetHashCode() => this.velocity.GetHashCode();
@@ -50,5 +48,4 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity
 
     public static Power operator *(Velocity velocity, Force force) => Power.From(in force, in velocity);
     public static Length operator *(Velocity velocity, Time time) => Length.From(in velocity, in time);
-    public static Acceleration operator /(Velocity velocity, Time time) => Acceleration.From(in velocity, in time);
 }

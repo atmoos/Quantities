@@ -77,24 +77,24 @@ public class CreateQuantities
 
 /* Summary
 
-BenchmarkDotNet v0.15.2, Linux Arch Linux
-Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK 9.0.109
-  [Host]     : .NET 9.0.8 (9.0.825.36511), X64 RyuJIT AVX2
-  DefaultJob : .NET 9.0.8 (9.0.825.36511), X64 RyuJIT AVX2
+BenchmarkDotNet v0.15.3, Linux Arch Linux
+Intel Core i7-8565U CPU 1.80GHz (Max: 0.40GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
+.NET SDK 9.0.110
+  [Host]     : .NET 9.0.9 (9.0.9, 9.0.925.41916), X64 RyuJIT x86-64-v3
+  DefaultJob : .NET 9.0.9 (9.0.9, 9.0.925.41916), X64 RyuJIT x86-64-v3
 
 
 | Method                         | Mean      | Error     | Ratio | Allocated | Alloc Ratio |
 |------------------------------- |----------:|----------:|------:|----------:|------------:|
-| CreateObject                   | 20.635 ns | 0.2330 ns |  1.00 |      24 B |        1.00 |
-| CreateStruct                   |  8.968 ns | 0.0690 ns |  0.43 |         - |        0.00 |
-| CreateScalarQuantity           |  1.964 ns | 0.0397 ns |  0.10 |         - |        0.00 |
-| CreateScalarQuantityWithoutOpt | 21.204 ns | 0.1170 ns |  1.03 |         - |        0.00 |
-| CreateQuotientQuantity         | 33.127 ns | 0.1502 ns |  1.61 |         - |        0.00 |
-| CreateProductQuantity          | 33.304 ns | 0.1522 ns |  1.61 |         - |        0.00 |
-| CreateCachedProductQuantity    |  1.978 ns | 0.0374 ns |  0.10 |         - |        0.00 |
-| CreateScalarPowerQuantity      | 61.650 ns | 0.2440 ns |  2.99 |         - |        0.00 |
-| CreateSquarePowerQuantity      | 40.080 ns | 0.1316 ns |  1.94 |         - |        0.00 |
-| CreateInvertibleQuantity       | 61.931 ns | 0.1926 ns |  3.00 |         - |        0.00 |
-| CreateCachedInvertibleQuantity | 61.669 ns | 0.2760 ns |  2.99 |         - |        0.00 |
+| CreateObject                   | 21.356 ns | 0.1811 ns |  1.00 |      24 B |        1.00 |
+| CreateStruct                   |  9.055 ns | 0.1069 ns |  0.42 |         - |        0.00 |
+| CreateScalarQuantity           |  1.980 ns | 0.0457 ns |  0.09 |         - |        0.00 |
+| CreateScalarQuantityWithoutOpt | 21.357 ns | 0.1253 ns |  1.00 |         - |        0.00 |
+| CreateQuotientQuantity         | 32.751 ns | 0.1183 ns |  1.53 |         - |        0.00 |
+| CreateProductQuantity          | 32.288 ns | 0.1509 ns |  1.51 |         - |        0.00 |
+| CreateCachedProductQuantity    |  1.967 ns | 0.0380 ns |  0.09 |         - |        0.00 |
+| CreateScalarPowerQuantity      | 61.267 ns | 0.2160 ns |  2.87 |         - |        0.00 |
+| CreateSquarePowerQuantity      | 39.499 ns | 0.1724 ns |  1.85 |         - |        0.00 |
+| CreateInvertibleQuantity       | 64.749 ns | 0.2370 ns |  3.03 |         - |        0.00 |
+| CreateCachedInvertibleQuantity | 62.725 ns | 0.2402 ns |  2.94 |         - |        0.00 |
 */

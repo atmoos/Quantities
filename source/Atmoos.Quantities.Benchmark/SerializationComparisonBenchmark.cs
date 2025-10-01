@@ -20,8 +20,8 @@ public class SerializationComparisonBenchmark
 
 /* Summary
 
-BenchmarkDotNet v0.15.3, Linux Arch Linux
-Intel Core i7-8565U CPU 1.80GHz (Max: 0.40GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
+BenchmarkDotNet v0.15.4, Linux Arch Linux
+Intel Core i7-8565U CPU 1.80GHz (Max: 4.00GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
 .NET SDK 9.0.110
   [Host]     : .NET 9.0.9 (9.0.9, 9.0.925.41916), X64 RyuJIT x86-64-v3
   DefaultJob : .NET 9.0.9 (9.0.9, 9.0.925.41916), X64 RyuJIT x86-64-v3
@@ -29,6 +29,6 @@ Intel Core i7-8565U CPU 1.80GHz (Max: 0.40GHz) (Whiskey Lake), 1 CPU, 8 logical 
 
 | Method     | Mean     | Error     | Ratio | Allocated | Alloc Ratio |
 |----------- |---------:|----------:|------:|----------:|------------:|
-| TextJson   | 4.942 μs | 0.0141 μs |  1.00 |     504 B |        1.00 |
-| Newtonsoft | 9.319 μs | 0.0297 μs |  1.89 |    3896 B |        7.73 |
+| TextJson   | 4.896 μs | 0.0150 μs |  1.00 |     504 B |        1.00 |
+| Newtonsoft | 9.267 μs | 0.0334 μs |  1.89 |    3896 B |        7.73 |
 */

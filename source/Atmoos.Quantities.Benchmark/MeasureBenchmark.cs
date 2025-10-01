@@ -26,8 +26,8 @@ public class MeasureBenchmark
 
 /* Summary
 
-BenchmarkDotNet v0.15.3, Linux Arch Linux
-Intel Core i7-8565U CPU 1.80GHz (Max: 0.40GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
+BenchmarkDotNet v0.15.4, Linux Arch Linux
+Intel Core i7-8565U CPU 1.80GHz (Max: 4.00GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
 .NET SDK 9.0.110
   [Host]     : .NET 9.0.9 (9.0.9, 9.0.925.41916), X64 RyuJIT x86-64-v3
   DefaultJob : .NET 9.0.9 (9.0.9, 9.0.925.41916), X64 RyuJIT x86-64-v3
@@ -35,7 +35,7 @@ Intel Core i7-8565U CPU 1.80GHz (Max: 0.40GHz) (Whiskey Lake), 1 CPU, 8 logical 
 
 | Method           | Mean       | Error     | Ratio | 
 |----------------- |-----------:|----------:|------:|
-| ProjectTrivial   |  0.6372 ns | 0.0498 ns |  1.00 | 
-| ProjectOntoSame  | 30.7868 ns | 0.1710 ns | 48.51 | 
-| ProjectOntoOther | 31.8573 ns | 0.1694 ns | 50.20 | 
+| ProjectTrivial   |  0.6149 ns | 0.0656 ns |  1.01 | 
+| ProjectOntoSame  | 35.9892 ns | 0.1488 ns | 59.09 | 
+| ProjectOntoOther | 30.9130 ns | 0.1042 ns | 50.76 | 
 */

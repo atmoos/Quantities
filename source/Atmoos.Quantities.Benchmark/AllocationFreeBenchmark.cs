@@ -33,16 +33,16 @@ public class AllocationFreeBenchmark
 
 /* Summary
 
-BenchmarkDotNet v0.15.3, Linux Arch Linux
-Intel Core i7-8565U CPU 1.80GHz (Max: 0.40GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
+BenchmarkDotNet v0.15.4, Linux Arch Linux
+Intel Core i7-8565U CPU 1.80GHz (Max: 4.00GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
 .NET SDK 9.0.110
   [Host]     : .NET 9.0.9 (9.0.9, 9.0.925.41916), X64 RyuJIT x86-64-v3
   DefaultJob : .NET 9.0.9 (9.0.9, 9.0.925.41916), X64 RyuJIT x86-64-v3
 
 
-| Method                | Mean      | Error     | Ratio | Allocated | Alloc Ratio |
-|---------------------- |----------:|----------:|------:|----------:|------------:|
-| Constructor           | 20.745 ns | 0.1640 ns |  1.00 |      24 B |        1.00 |
-| AllocationFree        |  1.102 ns | 0.0893 ns |  0.05 |         - |        0.00 |
-| AllocationFreeFactory |  1.049 ns | 0.0482 ns |  0.05 |         - |        0.00 |
+| Method                | Mean       | Error     | Ratio | Allocated | Alloc Ratio |
+|---------------------- |-----------:|----------:|------:|----------:|------------:|
+| Constructor           | 20.8355 ns | 0.0907 ns |  1.00 |      24 B |        1.00 |
+| AllocationFree        |  1.0646 ns | 0.0886 ns |  0.05 |         - |        0.00 |
+| AllocationFreeFactory |  0.9594 ns | 0.0510 ns |  0.05 |         - |        0.00 |
 */

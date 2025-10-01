@@ -29,8 +29,8 @@ public class ConvertingQuantities
 
 /* Summary
 
-BenchmarkDotNet v0.15.3, Linux Arch Linux
-Intel Core i7-8565U CPU 1.80GHz (Max: 0.40GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
+BenchmarkDotNet v0.15.4, Linux Arch Linux
+Intel Core i7-8565U CPU 1.80GHz (Max: 4.00GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
 .NET SDK 9.0.110
   [Host]     : .NET 9.0.9 (9.0.9, 9.0.925.41916), X64 RyuJIT x86-64-v3
   DefaultJob : .NET 9.0.9 (9.0.9, 9.0.925.41916), X64 RyuJIT x86-64-v3
@@ -38,8 +38,8 @@ Intel Core i7-8565U CPU 1.80GHz (Max: 0.40GHz) (Whiskey Lake), 1 CPU, 8 logical 
 
 | Method                  | Mean       | Error     | Ratio | Allocated | Alloc Ratio |
 |------------------------ |-----------:|----------:|------:|----------:|------------:|
-| TrivialImplementation   |  0.9564 ns | 0.0557 ns |  1.00 |         - |          NA |
-| QuantityImplementation  | 12.2065 ns | 0.0586 ns | 12.80 |         - |          NA |
-| QuantityToSame          | 44.7001 ns | 0.2365 ns | 46.87 |         - |          NA |
-| QuantityToVeryDifferent | 42.6303 ns | 0.1387 ns | 44.70 |         - |          NA |
+| TrivialImplementation   |  0.9616 ns | 0.0695 ns |  1.00 |         - |          NA |
+| QuantityImplementation  | 12.1681 ns | 0.1376 ns | 12.71 |         - |          NA |
+| QuantityToSame          | 45.0978 ns | 0.1131 ns | 47.10 |         - |          NA |
+| QuantityToVeryDifferent | 44.7362 ns | 0.1632 ns | 46.73 |         - |          NA |
 */

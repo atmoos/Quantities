@@ -20,17 +20,17 @@ internal readonly record struct Polynomial : IEquatable<Polynomial>
     }
     internal Polynomial Simplify()
     {
-        var (n, d) = Algorithms.Simplify(this.nominator, this.denominator);
-        return d >= 0 ? new(n, d, this.offset) : new(-n, -d, this.offset);
+        var (n, d) = Algorithms.Simplify(in this.nominator, in this.denominator);
+        return new(in n, in d, this.offset);
     }
 
-    public Polynomial Pow(Int32 exponent) => Algorithms.Pow(this.Simplify(), exponent);
+    public Polynomial Pow(Int32 exponent) => Algorithms.Pow(in this, exponent);
 
     public static Polynomial Of(Transformation transformation)
     {
         var (n, d, offset) = transformation;
-        (n, d) = Algorithms.Simplify(n, d);
-        return d >= 0 ? new(n, d, offset) : new(-n, -d, offset);
+        (n, d) = Algorithms.Simplify(in n, in d);
+        return new(in n, in d, in offset);
     }
     public static Polynomial Of<TTransform>()
         where TTransform : ITransform => Cache<TTransform>.Polynomial;
@@ -62,8 +62,8 @@ internal readonly record struct Polynomial : IEquatable<Polynomial>
 
         static (String fraction, String offset) Split(in Double n, in Double d, in Double o)
         {
-            if (d == 0d || n == 0) {
-                return (d == 0d ? n >= 0 ? "∞" : "-∞" : o.ToString("g4"), String.Empty);
+            if (d == 0d || n == 0d) {
+                return (d == 0d ? n >= 0d ? "∞" : "-∞" : o.ToString("g4"), String.Empty);
             }
             var fraction = (n, d) switch {
                 (1, 1) => "x",

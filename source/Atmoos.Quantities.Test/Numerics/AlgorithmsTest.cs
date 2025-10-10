@@ -1,6 +1,7 @@
 ﻿namespace Atmoos.Quantities.Test.Numerics;
 
 using Atmoos.Quantities.Core.Numerics;
+using static System.Math;
 
 
 public class AlgorithmsTest
@@ -11,6 +12,16 @@ public class AlgorithmsTest
         Int64 expected = (Int64)(Math.Pow(3, 6) * Math.Pow(13, 4));
 
         Int64 actual = Algorithms.Gcd(expected * 11 * 23, expected * 7 * 17 * 29);
+
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void SimplifyMovesTheSignToTheNominator()
+    {
+        var expected = (n: -1d, d: 1d);
+
+        var actual = Algorithms.Simplify(1, -1);
 
         Assert.Equal(expected, actual);
     }
@@ -81,6 +92,20 @@ public class AlgorithmsTest
 
         Assert.Equal(expected, actual.nominator / actual.denominator, 15);
         Assert.NotEqual(nominator, actual.nominator); // Sanity check!
+    }
+
+    [Fact]
+    public void SimplifyRemovesMultiplicitiesCorrectly()
+    {
+        var nominator = Pow(2, 3) * Pow(3, 3) * Pow(5, 2) * Pow(7, 5) * Pow(11, 2) * 13;
+        var denominator = Pow(2, 5) * Pow(3, 1) * Pow(5, 3) * Pow(7, 2) * Pow(11, 4) * 17;
+        var expectedNominator = Pow(3, 2) * Pow(7, 3) * 13;
+        var expectedDenominator = Pow(2, 2) * Pow(5, 1) * Pow(11, 2) * 17;
+        var expected = (expectedNominator, expectedDenominator);
+
+        var actual = Algorithms.Simplify(nominator, denominator);
+
+        Assert.Equal(expected, actual);
     }
 
     [Theory]

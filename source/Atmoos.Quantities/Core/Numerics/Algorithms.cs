@@ -16,26 +16,32 @@ internal static class Algorithms
         static T Impl(T max, T min) => T.IsZero(min) ? max : Impl(min, max % min);
     }
 
-    public static (Double nominator, Double denominator) Simplify(Double nominator, Double denominator)
+    public static (Double nominator, Double denominator) Simplify(in Double nominator, in Double denominator)
     {
-        if (nominator == denominator) {
-            return nominator == 0 ? (0d, 0d) : (1d, 1d);
-        }
-        if (Abs(denominator) == 1d) {
-            return denominator < 0 ? (-nominator, 1d) : (nominator, 1d);
-        }
-        (Double scaledNominator, Double scaledDenominator) = Scaling(nominator, denominator);
-        Double maxMag = MaxMagnitude(scaledNominator, scaledDenominator);
-        Double minMag = MinMagnitude(scaledNominator, scaledDenominator);
-        if (minMag > 1d && maxMag < Int64.MaxValue) {
-            Int64 gcd = Gcd((Int64)scaledNominator, (Int64)scaledDenominator);
-            return gcd <= 1 ? (scaledNominator, scaledDenominator) : (scaledNominator / gcd, scaledDenominator / gcd);
-        }
-        return (scaledNominator, scaledDenominator);
+        var (n, d) = Implementation(in nominator, in denominator);
+        return d >= 0 ? (n, d) : (-n, -d);
 
-        static (Double nominator, Double denominator) Scaling(Double nominator, Double denominator)
+        static (Double nominator, Double denominator) Implementation(in Double nominator, in Double denominator)
         {
-            var (nonInteger, allIntegers) = SelectScalingValue(nominator, denominator);
+            if (nominator == denominator) {
+                return nominator == 0 ? (0d, 0d) : (1d, 1d);
+            }
+            if (Abs(denominator) == 1d) {
+                return (nominator, denominator);
+            }
+            (Double scaledNominator, Double scaledDenominator) = Scaling(in nominator, in denominator);
+            Double maxMag = MaxMagnitude(scaledNominator, scaledDenominator);
+            Double minMag = MinMagnitude(scaledNominator, scaledDenominator);
+            if (minMag > 1d && maxMag < Int64.MaxValue) {
+                Int64 gcd = Gcd((Int64)scaledNominator, (Int64)scaledDenominator);
+                return gcd <= 1 ? (scaledNominator, scaledDenominator) : (scaledNominator / gcd, scaledDenominator / gcd);
+            }
+            return (scaledNominator, scaledDenominator);
+        }
+
+        static (Double nominator, Double denominator) Scaling(in Double nominator, in Double denominator)
+        {
+            var (nonInteger, allIntegers) = SelectScalingValue(in nominator, in denominator);
             if (nonInteger == 0d || allIntegers) {
                 return (nominator, denominator);
             }
@@ -49,7 +55,7 @@ internal static class Algorithms
             return (scaling * nominator, scaling * denominator);
         }
 
-        static (Double scaling, Boolean allIntegers) SelectScalingValue(Double nominator, Double denominator)
+        static (Double scaling, Boolean allIntegers) SelectScalingValue(in Double nominator, in Double denominator)
             => (Double.IsInteger(nominator), Double.IsInteger(denominator)) switch {
                 (false, true) => (Abs(nominator), false),
                 (true, false) => (Abs(denominator), false),

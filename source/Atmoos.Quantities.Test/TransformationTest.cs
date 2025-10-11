@@ -19,7 +19,7 @@ public class TransformationTest
         Polynomial poly = Polynomial.Of((6.262 * new Transformation() / 2 - 3) / 2 + 1);
         Double actual = poly * value;
 
-        Assert.Equal(expected, actual, tol);
+        PrecisionIsBounded(expected, actual, tol);
     }
 
     [Fact]
@@ -47,8 +47,8 @@ public class TransformationTest
 
         var actual = polynomial * input;
 
-        // The polynomial may be more precise that pure double calc
-        // Hence medium precision does not mean it's bad...
+        // The polynomial may be more precise than pure double calc
+        // Hence, medium precision does not mean it's bad...
         Assert.Equal(expected, actual, MediumPrecision);
     }
 

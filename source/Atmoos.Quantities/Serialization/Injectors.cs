@@ -48,7 +48,7 @@ internal sealed class ProductInjector(Int32 leftExp, Int32 rightExp) : IInject<I
             ( > 0, < 0) => new Builder<Product<TLeft, Power<TMeasure, Negative<One>>>>(),
             ( < 0, > 0) => new Builder<Product<Power<TLeft, Negative<One>>, TMeasure>>(),
             ( < 0, < 0) => new Builder<Power<Product<TLeft, TMeasure>, Negative<One>>>(),
-            _ => throw new NotSupportedException($"Cannot build a quantity product with dimensions '({TLeft.D}, {TMeasure.D})'.")
+            _ => throw new NotSupportedException($"Cannot build a quantity product from dimensions; '{TLeft.D}', '{TMeasure.D}'.")
         };
     }
 }

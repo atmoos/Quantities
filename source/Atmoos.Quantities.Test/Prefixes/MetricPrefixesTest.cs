@@ -1,6 +1,4 @@
-﻿using Xunit.Sdk;
-
-namespace Atmoos.Quantities.Test.Prefixes;
+﻿namespace Atmoos.Quantities.Test.Prefixes;
 
 public class MetricPrefixesTest
 {

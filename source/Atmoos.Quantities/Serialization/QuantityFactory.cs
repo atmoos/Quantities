@@ -1,5 +1,4 @@
-﻿using System.Collections.Concurrent;
-using Atmoos.Quantities.Core.Numerics;
+﻿using Atmoos.Quantities.Core.Numerics;
 using Atmoos.Quantities.Dimensions;
 
 namespace Atmoos.Quantities.Serialization;

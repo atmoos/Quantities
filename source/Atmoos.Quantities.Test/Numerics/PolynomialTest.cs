@@ -1,5 +1,4 @@
-﻿using System.Security.AccessControl;
-using Atmoos.Quantities.Core.Numerics;
+﻿using Atmoos.Quantities.Core.Numerics;
 
 using static System.Math;
 using static Atmoos.Quantities.Test.Convenience;

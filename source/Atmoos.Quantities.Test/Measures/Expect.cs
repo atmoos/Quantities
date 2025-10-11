@@ -1,5 +1,4 @@
 ﻿using Atmoos.Quantities.Core.Numerics;
-using static Atmoos.Quantities.Test.Convenience;
 
 namespace Atmoos.Quantities.Test.Measures;
 

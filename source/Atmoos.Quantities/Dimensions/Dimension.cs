@@ -17,6 +17,7 @@ internal abstract class Dimension
     public abstract Dimension Pow(Int32 n);
     public abstract Dimension Root(Int32 n);
     protected abstract Dimension Multiply(Dimension other);
+    public abstract Boolean CommonRoot(Dimension other);
     public Boolean Equals(Dimension? other) => other is Dimension d && E == d.E && Equal(d);
     public override Boolean Equals(Object? other) => Equals(other as Dimension);
     public abstract override Int32 GetHashCode();
@@ -44,6 +45,7 @@ internal sealed class Unit : Dimension
     public override Dimension Pow(Int32 n) => this;
     public override Dimension Root(Int32 n) => this;
     protected override Dimension Multiply(Dimension other) => other;
+    public override Boolean CommonRoot(Dimension other) => ReferenceEquals(other, this);
     protected override Boolean Equal(Dimension other) => ReferenceEquals(this, other);
     public override Int32 GetHashCode() => unitSymbol.GetHashCode();
     public override IEnumerator<Scalar> GetEnumerator()
@@ -59,8 +61,9 @@ internal abstract class Scalar : Dimension
     public override Int32 E => this.m;
     protected Scalar(Int32 m) => this.m = m;
     public abstract Boolean Is(Dimension other);
-    public static Scalar Of<TDim>()
-        where TDim : IDimension => new Impl<TDim>(1);
+    public override Boolean CommonRoot(Dimension other) => this.Is(other);
+    public static Scalar Of<TDim>(Int32 multiplicity = 1)
+        where TDim : IDimension => new Impl<TDim>(multiplicity);
     private sealed class Impl<T> : Scalar
          where T : IDimension
     {
@@ -117,6 +120,10 @@ internal sealed class Product : Dimension
         _ => new Product(this.left, this.right, this.e / n)
     };
     protected override Boolean Equal(Dimension other) => other is Product p && E == p.E && Same(p);
+    public override Boolean CommonRoot(Dimension other)
+    {
+        return other is Product p && this.left.CommonRoot(p.left) && this.right.CommonRoot(p.right);
+    }
     protected override Dimension Multiply(Dimension other) => other switch {
         Unit => this,
         Scalar s when this.Any(t => t.Is(s)) => Simplify(this.Concat(s)),

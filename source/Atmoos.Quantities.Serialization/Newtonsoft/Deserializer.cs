@@ -3,6 +3,8 @@ using static Newtonsoft.Json.JsonToken;
 
 namespace Atmoos.Quantities.Serialization.Newtonsoft;
 
+file record struct Measure(Int32? exponent, String? prefix, String unit);
+
 internal static class Deserializer
 {
     public static Boolean MoveNext(this JsonReader reader, JsonToken tokenType)
@@ -41,24 +43,15 @@ internal static class Deserializer
         while (reader.Depth > depth && reader.Read()) { }
     }
 
-    public static QuantityModel Read(this JsonReader reader, String system)
+    public static QuantityModel Read(this JsonSerializer serializer, JsonReader reader, String system)
     {
         reader.MoveNext(StartObject);
-        String? unit = null, prefix = null;
-        while (unit == null) {
-            var propertyName = reader.ReadNameOf(PropertyName);
-            var propertyValue = reader.ReadString();
-            if (propertyName is nameof(prefix)) {
-                prefix = propertyValue;
-                continue;
-            }
-            if (propertyName is nameof(unit)) {
-                unit = propertyValue;
-                continue;
-            }
-            throw new InvalidDataException($"Unknown property '{propertyName}' found on '{system}-system'.");
-        }
-
-        return new QuantityModel(system, prefix, unit);
+        Measure measure = serializer.Deserialize<Measure>(reader);
+        return new QuantityModel {
+            System = system,
+            Exponent = measure.exponent ?? 1,
+            Prefix = measure.prefix,
+            Unit = measure.unit
+        };
     }
 }

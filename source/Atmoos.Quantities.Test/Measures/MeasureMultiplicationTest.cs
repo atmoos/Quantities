@@ -1,9 +1,8 @@
-﻿using Atmoos.Quantities.Dimensions;
+﻿using Atmoos.Quantities.Core.Numerics;
+using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Measures;
 using Atmoos.Quantities.Units;
 using Atmoos.Quantities.Units.Si.Metric;
-
-using static Atmoos.Quantities.Core.Numerics.Polynomial;
 
 namespace Atmoos.Quantities.Test.Measures;
 
@@ -13,38 +12,38 @@ public class MeasureMultiplicationTest
     public void IdentityTimesAnyIsAny()
     {
         var conversion = Expect<Si<Micro, Second>>.ToBeProductOf<Identity, Si<Micro, Second>>();
-        Assert.Equal(One, conversion);
+        Assert.Equal(Polynomial.One, conversion);
     }
     [Fact]
     public void AnyTimesIdentityIsAny()
     {
         var conversion = Expect<Si<Pico, Second>>.ToBeProductOf<Si<Pico, Second>, Identity>();
-        Assert.Equal(One, conversion);
+        Assert.Equal(Polynomial.One, conversion);
     }
     [Fact]
     public void ScalarTimesOtherScalarIsProduct()
     {
         var conversion = Expect<Product<Si<Metre>, Si<Second>>>.ToBeProductOf<Si<Metre>, Si<Second>>();
-        Assert.Equal(One, conversion);
+        Assert.Equal(Polynomial.One, conversion);
     }
 
     [Fact]
     public void ScalarTimesSimilarScalarIsSquareScalar()
     {
-        var conversion = Expect<Power<Square, Si<Metre>>>.ToBeProductOf<Si<Metre>, Imperial<Foot>>();
-        Assert.Equal(Of<Foot>(), conversion);
+        var conversion = Expect<Power<Si<Metre>, Two>>.ToBeProductOf<Si<Metre>, Imperial<Foot>>();
+        Assert.Equal(Polynomial.Of<Foot>(), conversion);
     }
     [Fact]
     public void ScalarTimesSquareSimilarScalarIsCubicScalar()
     {
-        var conversion = Expect<Power<Cubic, Metric<Hour>>>.ToBeProductOf<Metric<Hour>, Power<Square, Metric<Minute>>>();
-        Assert.Equal((Of<Minute>().Pow(2) / Of<Hour>()).Simplify(), conversion);
+        var conversion = Expect<Power<Metric<Hour>, Three>>.ToBeProductOf<Metric<Hour>, Power<Metric<Minute>, Two>>();
+        Assert.Equal(Polynomial.Of<Minute>().Pow(-2).Simplify(), conversion);
     }
     [Fact]
     public void ProductOfMeasureTimesItsInverseIsIdentity()
     {
         var conversion = Expect<Identity>.ToBeProductOf<Metric<Hour>, Si<InverseTime>>();
-        Assert.Equal(Of<Hour>().Simplify(), conversion);
+        Assert.Equal(Polynomial.Of<Hour>().Simplify(), conversion);
     }
 }
 

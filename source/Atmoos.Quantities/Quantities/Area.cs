@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using Atmoos.Quantities.Core.Numerics;
 using Atmoos.Quantities.Creation;
 using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Units;
@@ -6,7 +7,7 @@ using Atmoos.Quantities.Units;
 namespace Atmoos.Quantities;
 
 public readonly struct Area : IQuantity<Area>, IArea
-    , ISquare<Area, IArea, ILength>
+    , IPowerOf<Area, IArea, ILength, Two>
     , IMultiplyOperators<Area, Length, Volume>
     , IDivisionOperators<Area, Length, Length>
 {
@@ -14,14 +15,14 @@ public readonly struct Area : IQuantity<Area>, IArea
     internal Quantity Value => this.area;
     Quantity IQuantity<Area>.Value => this.area;
     private Area(in Quantity value) => this.area = value;
-    public Area To<TLength>(in Square<TLength> other)
+    public Area To<TLength>(in Power<TLength, Two> other)
         where TLength : ILength, IUnit => new(other.Transform(in this.area));
-    public Area To<TArea>(in Scalar<TArea> other)
-        where TArea : IArea, IPowerOf<ILength>, IUnit => new(other.Transform(in this.area, f => f.PowerOf<TArea, ILength>()));
-    public static Area Of<TLength>(in Double value, in Square<TLength> measure)
+    public readonly Area To<TArea>(in Scalar<TArea> other)
+        where TArea : IArea, IPowerOf<ILength>, IUnit => new(other.Transform(in this.area, static f => ref f.AliasOf<TArea, ILength>()));
+    public static Area Of<TLength>(in Double value, in Power<TLength, Two> measure)
         where TLength : ILength, IUnit => new(measure.Create(in value));
     public static Area Of<TArea>(in Double value, in Scalar<TArea> measure)
-        where TArea : IArea, IPowerOf<ILength>, IUnit => new(measure.Create(in value, f => f.PowerOf<TArea, ILength>()));
+        where TArea : IArea, IPowerOf<ILength>, IUnit => new(measure.Create(in value, static f => ref f.AliasOf<TArea, ILength>()));
     static Area IFactory<Area>.Create(in Quantity value) => new(in value);
     internal static Area From(in Length left, in Length right) => new(left.Value * right.Value);
     internal static Area From(in Volume volume, in Length length) => new(volume.Value / length.Value);

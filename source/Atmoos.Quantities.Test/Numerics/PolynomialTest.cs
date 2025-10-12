@@ -12,6 +12,19 @@ public class PolynomialTest
     private static readonly Random rand = new();
     private static Transformation Value => new();
 
+    [Fact]
+    public void PolynomialOfIsSimplified()
+    {
+        const Double commonFactor = 11;
+        var nominator = 13;
+        var denominator = 17;
+        var value = (commonFactor * nominator) * new Transformation() / (commonFactor * denominator);
+
+        (Double actualNominator, Double actualDenominator, _) = Polynomial.Of(value);
+
+        Assert.Equal((nominator, denominator), (actualNominator, actualDenominator));
+    }
+
     [Theory]
     [MemberData(nameof(Polynomials))]
     internal void SelfDividedBySelfIsTheIdentityPolynomial(Polynomial self)
@@ -99,58 +112,6 @@ public class PolynomialTest
     }
 
     [Fact]
-    public void PolynomialsSimplifyCorrectly()
-    {
-        var nominator = Pow(2, 3) * Pow(3, 3) * Pow(5, 2) * Pow(7, 5) * Pow(11, 2) * 13;
-        var denominator = Pow(2, 5) * Pow(3, 1) * Pow(5, 3) * Pow(7, 2) * Pow(11, 4) * 17;
-        var expectedNominator = Pow(3, 2) * Pow(7, 3) * 13;
-        var expectedDenominator = Pow(2, 2) * Pow(5, 1) * Pow(11, 2) * 17;
-        var poly = Poly(nominator, denominator); // this prevents prior simplification
-        var expected = Poly(expectedNominator, expectedDenominator);
-
-        var actual = poly.Simplify();
-
-        Assert.Equal(expected, actual);
-    }
-
-    [Fact]
-    public void PowerIsMaximallySimplifiedForZeroOffsetPolyNomials()
-    {
-        const Int32 exp = 5;
-        var nominator = Pow(2, 3) * Pow(3, 4) * 5;
-        var denominator = Pow(2, 5) * Pow(3, 1) * 7;
-        var expectedN = Pow(Pow(3, 3) * 5, exp);
-        var expectedD = Pow(Pow(2, 2) * 7, exp);
-        var expected = Poly(expectedN, expectedD);
-        var poly = Poly(nominator, denominator);
-
-        var actual = poly.Pow(exp);
-
-        Assert.Equal(expected, actual);
-    }
-
-    [Fact]
-    public void PowerIsMaximallySimplifiedForPolynomialsWithOffset()
-    {
-        const Int32 exp = 9;
-        const Int32 offset = 7;
-        var nominator = Pow(2, 4) * Pow(3, 2) * 7;
-        var denominator = Pow(2, 3) * Pow(3, 3) * 5;
-        var expectedNominator = Pow(Pow(2, 1) * 7, exp);
-        var expectedDenominator = Pow(Pow(3, 1) * 5, exp);
-        var poly = Poly(nominator, denominator, offset);
-
-        var actual = poly.Pow(exp);
-
-        var (actualNominator, actualDenominator, actualOffset) = actual;
-
-        Assert.Equal(expectedNominator, actualNominator);
-        Assert.Equal(expectedDenominator, actualDenominator);
-        (actualOffset > offset).IsTrue(); // account for Pow(offset,exp) > offset
-        (actualOffset < Pow(offset, exp)).IsTrue(); // account for the fact that (n/s)= (1008/1080) < 1!
-    }
-
-    [Fact]
     public void PowerOffsetIsBoundedForUpscalingPolynomials()
     {
         const Int32 exp = 9;
@@ -193,6 +154,24 @@ public class PolynomialTest
         (actualOffset < upperBound).IsTrue();
     }
     [Fact]
+    public void NegativePowers()
+    {
+        var poly = Poly(3, 2, 6);
+        var expected = Polynomial.One / poly;
+        var actual = poly.Pow(-1);
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void NegativeHigherPowers()
+    {
+        var poly = Poly(3, 2, 2);
+        var expected = Polynomial.One / (poly * poly * poly);
+        var actual = poly.Pow(-3);
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
     public void PowerTimesInversePowerIsIdentityForPolynomialsWithoutOffset()
     {
         const Int32 exp = 7;
@@ -205,7 +184,7 @@ public class PolynomialTest
 
         var actual = power * inversePower;
 
-        var (n, d, o) = actual;
+        var (n, d, o) = actual.Simplify();
 
         Assert.Equal(1d, n);
         Assert.Equal(1d, d);
@@ -231,7 +210,7 @@ public class PolynomialTest
 
         var actual = power * inversePower;
 
-        var (n, d, o) = actual;
+        var (n, d, o) = actual.Simplify();
 
         Assert.Equal(1d, n);
         Assert.Equal(1d, d);

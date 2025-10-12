@@ -2,5 +2,5 @@
 
 internal interface ISerialize
 {
-    static abstract void Write(IWriter writer);
+    static abstract void Write(IWriter writer, Int32 exponent);
 }

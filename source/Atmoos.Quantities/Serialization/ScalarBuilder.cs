@@ -2,8 +2,9 @@
 using Atmoos.Quantities.Measures;
 using Atmoos.Quantities.Prefixes;
 using Atmoos.Quantities.Units;
-using static Atmoos.Quantities.Serialization.Reflection;
 using IDim = Atmoos.Quantities.Dimensions.IDimension;
+
+using static Atmoos.Quantities.Serialization.Reflection;
 
 namespace Atmoos.Quantities.Serialization;
 
@@ -67,9 +68,9 @@ internal static class ScalarBuilder
             var aliasOf = unit.InnerTypes(typeof(IPowerOf<>));
             var inversionOf = unit.InnerTypes(typeof(IInvertible<>));
             return (aliasOf, inversionOf) switch {
-                ([Type alias], _) => (new List<Type> { unit, alias }, $"{name}Alias"),
-                (_, [Type inverse]) => (new List<Type> { unit, inverse }, $"{name}Invertible"),
-                _ => (new List<Type> { unit }, name)
+                ([Type alias], _) => ([unit, alias], $"{name}Alias"),
+                (_, [Type inverse]) => ([unit, inverse], $"{name}Invertible"),
+                _ => ([unit], name)
             };
         }
     }

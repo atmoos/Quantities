@@ -29,7 +29,7 @@ public class ProductTest
     public void EquatesToProductOfEqualQuantity_EvenWhenTheyAreNotTheSameInstance()
     {
         var left = Dim<Coulomb>.Per<Time>();
-        var right = Dim<Coulomb>.Per<Time>();
+        var right = left.Copy();
         DimAssert.Equal(left, right);
         Assert.NotSame(left, right);
     }

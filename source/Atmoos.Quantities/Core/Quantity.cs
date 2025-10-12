@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Numerics;
+using Atmoos.Quantities.Core.Numerics;
 using Atmoos.Quantities.Core.Serialization;
 
 namespace Atmoos.Quantities.Core;
@@ -20,17 +21,18 @@ internal readonly struct Quantity : IEquatable<Quantity>, IFormattable
     private readonly Measure measure;
     internal Quantity(in Double value, in Measure measure) => (this.measure, this.value) = (measure, value);
     public Quantity Project(in Measure other) => ReferenceEquals(this.measure, other)
-        ? this : new Quantity(this.measure.Project(other, in this.value), in other);
+        ? this : new Quantity(this.measure / (Polynomial)other * this.value, in other);
     private Double Project(in Quantity other) => ReferenceEquals(this.measure, other.measure)
-        ? other.value : other.measure.Project(this.measure, in other.value);
+        ? other.value : other.measure / (Polynomial)this.measure * other.value;
     public Double Ratio(in Quantity right)
     {
         Double rightValue = Project(in right);
         return this.value / rightValue;
     }
-    public void Write(IWriter writer)
+    public void Write(IWriter writer, String name)
     {
         writer.Write(nameof(this.value), this.value);
+        writer.Write("quantity", name);
         this.measure.Serialize(writer);
     }
     public Boolean Equals(Quantity other)
@@ -44,8 +46,9 @@ internal readonly struct Quantity : IEquatable<Quantity>, IFormattable
         Double quotient = this.value / projectedOther;
         return quotient is >= min and <= max;
     }
+    internal Boolean EqualsExactly(Quantity other) => this.HasSameMeasure(in other) && this.value == other.value;
     public static Quantity Of<TMeasure>(in Double value)
-        where TMeasure : IMeasure => new(in value, Measure.Of<TMeasure>());
+        where TMeasure : IMeasure => new(in value, in Measure.Of<TMeasure>());
     public Boolean HasSameMeasure(in Quantity other) => ReferenceEquals(this.measure, other.measure);
     public override Boolean Equals(Object? obj) => obj is Quantity value && Equals(value);
     public override Int32 GetHashCode() => HashCode.Combine(this.value, this.measure);
@@ -60,12 +63,12 @@ internal readonly struct Quantity : IEquatable<Quantity>, IFormattable
     public static Boolean operator <=(Quantity left, Quantity right) => left.value <= left.Project(in right);
     public static Quantity operator *(Quantity left, Quantity right)
     {
-        Result product = left.measure.Multiply(right.measure);
+        Result product = left.measure * right.measure;
         return new(product * left.value * right.value, product);
     }
     public static Quantity operator /(Quantity left, Quantity right)
     {
-        Result quotient = left.measure.Divide(right.measure);
+        Result quotient = left.measure / right.measure;
         return new(quotient * left.value / right.value, quotient);
     }
     public static Quantity operator -(Quantity value) => new(-value.value, in value.measure);
@@ -74,8 +77,9 @@ internal readonly struct Quantity : IEquatable<Quantity>, IFormattable
     public static Quantity operator /(Quantity left, Double scalar) => new(left.value / scalar, in left.measure);
     public static Quantity operator /(Double scalar, Quantity right)
     {
-        Result inverse = right.measure.Invert();
-        return new(inverse * scalar / right.value, inverse);
+        ref readonly Measure inverse = ref right.measure.Inverse;
+        Polynomial conversion = right.measure * (Polynomial)inverse;
+        return new(scalar / (conversion * right.value), in inverse);
     }
     public static Quantity operator +(Quantity left, Quantity right)
     {

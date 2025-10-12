@@ -23,7 +23,7 @@ public class ScalarTest
     public void EquatesToScalarOfEqualQuantity_EvenWhenTheyAreNotTheSameInstance()
     {
         var left = Dim<Time>.Value;
-        var right = Dim<Time>.Value;
+        var right = left.Copy();
         DimAssert.Equal(left, right);
         Assert.NotSame(left, right);
     }

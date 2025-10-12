@@ -19,6 +19,6 @@ public static class Convenience
     public static T SerializeRoundRobin<T>(this T value) => Deserialize<T>(value.Serialize());
     public static String Serialize<T>(this T value) => Serialize(value, options);
     public static String Serialize<T>(this T value, JsonSerializerSettings options) => JsonConvert.SerializeObject(value, options);
-    public static T Deserialize<T>(String value) => Deserialize<T>(value, options);
-    public static T Deserialize<T>(String value, JsonSerializerSettings options) => JsonConvert.DeserializeObject<T>(value, options) ?? throw new Exception($"Deserialization of {typeof(T).Name} failed");
+    public static T Deserialize<T>(this String value) => Deserialize<T>(value, options);
+    public static T Deserialize<T>(this String value, JsonSerializerSettings options) => JsonConvert.DeserializeObject<T>(value, options) ?? throw new Exception($"Deserialization of {typeof(T).Name} failed");
 }

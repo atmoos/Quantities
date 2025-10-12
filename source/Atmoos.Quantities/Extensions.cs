@@ -11,7 +11,6 @@ namespace Atmoos.Quantities;
 public static class Extensions
 {
     internal static String RoundTripFormat = "G17"; // https://learn.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings#RFormatString
-    internal static Polynomial Pow(this in Polynomial poly, Int32 exp) => Polynomial.Pow(in poly, exp);
     public static Double ValueOf<T>(Int32 exponent = 1) where T : ITransform => Math.Pow(Polynomial.Of<T>() * 1d, exponent);
     public static Transformation RootedIn<TSi>(this Transformation self) where TSi : ISiUnit => self;
     internal static Transformation From<TBasis>(this Transformation self) where TBasis : IPrefix => TBasis.ToSi(self);
@@ -22,9 +21,7 @@ public static class Extensions
     public static void Serialize<TQuantity>(this IQuantity<TQuantity> quantity, IWriter writer)
       where TQuantity : struct, IQuantity<TQuantity>, IDimension
     {
-        writer.Start(typeof(TQuantity).Name.ToLowerInvariant());
-        quantity.Value.Write(writer);
-        writer.End();
+        quantity.Value.Write(writer, typeof(TQuantity).Name.ToLowerInvariant());
     }
     public static NotImplementedException NotImplemented(Object self, [CallerMemberName] String memberName = "", [CallerLineNumber] Int32 line = 0)
     {

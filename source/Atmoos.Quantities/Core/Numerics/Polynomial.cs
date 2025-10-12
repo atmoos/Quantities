@@ -20,35 +20,22 @@ internal readonly record struct Polynomial : IEquatable<Polynomial>
     }
     internal Polynomial Simplify()
     {
-        var (n, d) = Algorithms.Simplify(this.nominator, this.denominator);
-        return d >= 0 ? new(n, d, this.offset) : new(-n, -d, this.offset);
+        var (n, d) = Algorithms.Simplify(in this.nominator, in this.denominator);
+        return new(in n, in d, this.offset);
     }
+
+    public Polynomial Pow(Int32 exponent) => Algorithms.Pow(in this, exponent);
+
     public static Polynomial Of(Transformation transformation)
     {
         var (n, d, offset) = transformation;
-        (n, d) = Algorithms.Simplify(n, d);
-        return d >= 0 ? new(n, d, offset) : new(-n, -d, offset);
+        (n, d) = Algorithms.Simplify(in n, in d);
+        return new(in n, in d, in offset);
     }
     public static Polynomial Of<TTransform>()
         where TTransform : ITransform => Cache<TTransform>.Polynomial;
     public static Polynomial Of<TSecond, TFirst>()
         where TFirst : ITransform where TSecond : ITransform => Cache<TFirst, TSecond>.Polynomial;
-    public static Polynomial Pow(in Polynomial poly, Int32 exp)
-    {
-        if (exp is 0 or 1) {
-            return exp == 0 ? One : poly;
-        }
-        var (n, d, o) = poly.Simplify();
-        if (o != 0d) {
-            // Computing the new offset recursively is orders of
-            // magnitude more precise than an iterative implementation...
-            var simplified = new Polynomial(in n, in d, in o);
-            (_, _, o) = Algorithms.Pow(in simplified, exp);
-        }
-        // always using the "algebraic" inverses on the nominator and
-        // denominator, ensures the identity [p*p⁻¹ = 𝟙] holds trivially;
-        return new(Algorithms.Pow(in n, exp), Algorithms.Pow(in d, exp), in o);
-    }
 
     public static Double operator *(Polynomial left, Double right)
         => Double.FusedMultiplyAdd(left.nominator, right, left.denominator * left.offset) / left.denominator;
@@ -75,8 +62,8 @@ internal readonly record struct Polynomial : IEquatable<Polynomial>
 
         static (String fraction, String offset) Split(in Double n, in Double d, in Double o)
         {
-            if (d == 0d || n == 0) {
-                return (d == 0d ? n >= 0 ? "∞" : "-∞" : o.ToString("g4"), String.Empty);
+            if (d == 0d || n == 0d) {
+                return (d == 0d ? n >= 0d ? "∞" : "-∞" : o.ToString("g4"), String.Empty);
             }
             var fraction = (n, d) switch {
                 (1, 1) => "x",

@@ -1,4 +1,5 @@
-﻿using Atmoos.Quantities.Measures;
+﻿using Atmoos.Quantities.Core.Numerics;
+using Atmoos.Quantities.Measures;
 using Atmoos.Quantities.Units.Imperial.Temperature;
 using Atmoos.Quantities.Units.Si.Derived;
 using Atmoos.Quantities.Units.Si.Metric;
@@ -25,7 +26,7 @@ public class PolynomialConversionTest
         const Double value = 3;
         const Double expected = value / (1.609344 * 1.609344);
 
-        Double actual = Evaluate<Power<Square, Si<Kilo, Metre>>, Power<Square, Imperial<Mile>>>(value);
+        Double actual = Evaluate<Power<Si<Kilo, Metre>, Two>, Power<Imperial<Mile>, Two>>(value);
 
         PrecisionIsBounded(expected, actual, LowPrecision);
     }
@@ -59,7 +60,7 @@ public class PolynomialConversionTest
         const Double expected = 1;
 
 
-        Double actual = Evaluate<Quotient<Si<Metre>, Si<Second>>, Quotient<Imperial<Mile>, Metric<Hour>>>(value);
+        Double actual = Evaluate<Product<Si<Metre>, Power<Si<Second>, Negative<One>>>, Product<Imperial<Mile>, Power<Metric<Hour>, Negative<One>>>>(value);
 
         PrecisionIsBounded(expected, actual);
     }

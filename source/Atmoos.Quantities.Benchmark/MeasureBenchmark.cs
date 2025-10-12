@@ -5,6 +5,7 @@ using Atmoos.Quantities.Units.Si;
 using Atmoos.Quantities.Units.Si.Metric;
 
 namespace Atmoos.Quantities.Benchmark;
+
 public class MeasureBenchmark
 {
     private const Double feetToMetre = 0.3048;
@@ -17,24 +18,24 @@ public class MeasureBenchmark
     public Double ProjectTrivial() => trivialKiloMetre.To(trivialFoot);
 
     [Benchmark]
-    public Double ProjectOntoSame() => kiloMetre.Project(kiloMetre, Math.Tau);
+    public Double ProjectOntoSame() => kiloMetre / kiloMetre * Math.Tau;
 
     [Benchmark]
-    public Double ProjectOntoOther() => kiloMetre.Project(ångström, Math.Tau);
+    public Double ProjectOntoOther() => kiloMetre / ångström * Math.Tau;
 }
 
 /* Summary
 
-BenchmarkDotNet v0.15.2, Linux Arch Linux
-Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK 9.0.109
-  [Host]     : .NET 9.0.8 (9.0.825.36511), X64 RyuJIT AVX2
-  DefaultJob : .NET 9.0.8 (9.0.825.36511), X64 RyuJIT AVX2
+BenchmarkDotNet v0.15.4, Linux Arch Linux
+Intel Core i7-8565U CPU 1.80GHz (Max: 4.00GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
+.NET SDK 9.0.110
+  [Host]     : .NET 9.0.9 (9.0.9, 9.0.925.41916), X64 RyuJIT x86-64-v3
+  DefaultJob : .NET 9.0.9 (9.0.9, 9.0.925.41916), X64 RyuJIT x86-64-v3
 
 
-| Method           | Mean      | Error     | Ratio | 
-|----------------- |----------:|----------:|------:|
-| ProjectTrivial   | 0.6495 ns | 0.0534 ns |  1.01 | 
-| ProjectOntoSame  | 1.1941 ns | 0.0420 ns |  1.85 | 
-| ProjectOntoOther | 1.7624 ns | 0.0313 ns |  2.73 | 
+| Method           | Mean       | Error     | Ratio | 
+|----------------- |-----------:|----------:|------:|
+| ProjectTrivial   |  0.6149 ns | 0.0656 ns |  1.01 | 
+| ProjectOntoSame  | 35.9892 ns | 0.1488 ns | 59.09 | 
+| ProjectOntoOther | 30.9130 ns | 0.1042 ns | 50.76 | 
 */

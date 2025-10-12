@@ -3,6 +3,8 @@ using static System.Text.Json.JsonTokenType;
 
 namespace Atmoos.Quantities.Serialization.Text.Json;
 
+file record struct Measure(Int32? exponent, String? prefix, String unit);
+
 internal static class Deserializer
 {
     public static Boolean MoveNext(this ref Utf8JsonReader reader, JsonTokenType tokenType)
@@ -43,22 +45,12 @@ internal static class Deserializer
 
     public static QuantityModel Read(this ref Utf8JsonReader reader, String system)
     {
-        reader.MoveNext(StartObject);
-        String? unit = null, prefix = null;
-        while (unit == null) {
-            var propertyName = reader.ReadNameOf(PropertyName);
-            var propertyValue = reader.ReadString();
-            if (propertyName is nameof(prefix)) {
-                prefix = propertyValue;
-                continue;
-            }
-            if (propertyName is nameof(unit)) {
-                unit = propertyValue;
-                continue;
-            }
-            throw new InvalidDataException($"Unknown property '{propertyName}' found on '{system}-system'.");
-        }
-
-        return new QuantityModel(system, prefix, unit);
+        var measure = JsonSerializer.Deserialize<Measure>(ref reader);
+        return new QuantityModel {
+            System = system,
+            Exponent = measure.exponent ?? 1,
+            Prefix = measure.prefix,
+            Unit = measure.unit
+        };
     }
 }

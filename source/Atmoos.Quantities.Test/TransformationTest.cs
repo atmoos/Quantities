@@ -11,12 +11,15 @@ public class TransformationTest
     public void ModeratelyComplexFunction_EvaluatesCorrectly()
     {
         Double value = 3;
+        // with arbitrary precision we'd get: 4.197
         Double expected = (6.262 * value / 2 - 3) / 2 + 1;
+        // hence, we can use a tolerance as above is even less accurate than what the poly computes.
+        const Int32 tol = 15;
 
         Polynomial poly = Polynomial.Of((6.262 * new Transformation() / 2 - 3) / 2 + 1);
         Double actual = poly * value;
 
-        Assert.Equal(expected, actual);
+        PrecisionIsBounded(expected, actual, tol);
     }
 
     [Fact]
@@ -44,8 +47,8 @@ public class TransformationTest
 
         var actual = polynomial * input;
 
-        // The polynomial may be more precise that pure double calc
-        // Hence medium precision does not mean it's bad...
+        // The polynomial may be more precise than pure double calc
+        // Hence, medium precision does not mean it's bad...
         Assert.Equal(expected, actual, MediumPrecision);
     }
 

@@ -4,28 +4,22 @@ using Atmoos.Quantities.Units;
 
 namespace Atmoos.Quantities.Measures;
 
-internal sealed class Serializer<TUnit>
+internal sealed class Serializer<TUnit>(String system)
     where TUnit : IUnit
 {
-    private readonly String system;
-    public Serializer(String system) => this.system = system.ToLowerInvariant();
-    public void Write(IWriter writer)
+    private readonly String system = system.ToLowerInvariant();
+    public void Write(IWriter writer, Int32 exponent)
+        => this.Write(writer, exponent, static _ => { });
+    public void Write<TPrefix>(IWriter writer, Int32 exponent)
+        where TPrefix : IPrefix
+            => this.Write(writer, exponent, static w => w.Write("prefix", TPrefix.Representation));
+    private void Write(IWriter writer, Int32 exponent, Action<IWriter> prefix)
     {
         writer.Start(this.system);
-        writer.Write("unit", TUnit.Representation);
-        writer.End();
-    }
-}
-internal sealed class Serializer<TUnit, TPrefix>
-    where TPrefix : IPrefix
-    where TUnit : IUnit
-{
-    private readonly String system;
-    public Serializer(String system) => this.system = system.ToLowerInvariant();
-    public void Write(IWriter writer)
-    {
-        writer.Start(this.system);
-        writer.Write("prefix", TPrefix.Representation);
+        if (exponent != 1) {
+            writer.Write("exponent", exponent);
+        }
+        prefix(writer);
         writer.Write("unit", TUnit.Representation);
         writer.End();
     }

@@ -47,11 +47,11 @@ public class CreateQuantities
     public DummyStruct CreateStruct() => DummyStruct.Of(in this.value);
 
     [Benchmark]
-    public Length CreateScalarQuantity() => Length.Of(in this.value, Si<Kilo, Metre>());
+    public Length CreateScalarQuantity() => Length.Of(in this.value, in Si<Kilo, Metre>());
 
     [Benchmark]
     [MethodImpl(MethodImplOptions.NoOptimization)]
-    public Length CreateScalarQuantityWithoutOpt() => Length.Of(in this.value, Si<Centi, Metre>());
+    public Length CreateScalarQuantityWithoutOpt() => Length.Of(in this.value, in Si<Centi, Metre>());
 
     [Benchmark]
     public Velocity CreateQuotientQuantity() => Velocity.Of(in this.value, Si<Kilo, Metre>().Per(Metric<Hour>()));
@@ -63,13 +63,13 @@ public class CreateQuantities
     public Energy CreateCachedProductQuantity() => Energy.Of(in this.value, in kwh);
 
     [Benchmark]
-    public Area CreateScalarPowerQuantity() => Area.Of(in this.value, Metric<Are>());
+    public Area CreateScalarPowerQuantity() => Area.Of(in this.value, in Metric<Are>());
 
     [Benchmark]
-    public Area CreateSquarePowerQuantity() => Area.Of(in this.value, Square(Si<Metre>()));
+    public Area CreateSquarePowerQuantity() => Area.Of(in this.value, Square(in Si<Metre>()));
 
     [Benchmark]
-    public Frequency CreateInvertibleQuantity() => Frequency.Of(in this.value, Si<Hertz>());
+    public Frequency CreateInvertibleQuantity() => Frequency.Of(in this.value, in Si<Hertz>());
 
     [Benchmark]
     public Frequency CreateCachedInvertibleQuantity() => Frequency.Of(in this.value, in kHz);
@@ -77,24 +77,24 @@ public class CreateQuantities
 
 /* Summary
 
-BenchmarkDotNet v0.15.2, Linux Arch Linux
-Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK 9.0.109
-  [Host]     : .NET 9.0.8 (9.0.825.36511), X64 RyuJIT AVX2
-  DefaultJob : .NET 9.0.8 (9.0.825.36511), X64 RyuJIT AVX2
+BenchmarkDotNet v0.15.4, Linux Arch Linux
+Intel Core i7-8565U CPU 1.80GHz (Max: 4.00GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
+.NET SDK 9.0.110
+  [Host]     : .NET 9.0.9 (9.0.9, 9.0.925.41916), X64 RyuJIT x86-64-v3
+  DefaultJob : .NET 9.0.9 (9.0.9, 9.0.925.41916), X64 RyuJIT x86-64-v3
 
 
 | Method                         | Mean      | Error     | Ratio | Allocated | Alloc Ratio |
 |------------------------------- |----------:|----------:|------:|----------:|------------:|
-| CreateObject                   | 21.443 ns | 0.1887 ns |  1.00 |      24 B |        1.00 |
-| CreateStruct                   |  9.131 ns | 0.0403 ns |  0.43 |         - |        0.00 |
-| CreateScalarQuantity           |  1.937 ns | 0.0544 ns |  0.09 |         - |        0.00 |
-| CreateScalarQuantityWithoutOpt | 26.373 ns | 0.1340 ns |  1.23 |         - |        0.00 |
-| CreateQuotientQuantity         | 76.296 ns | 0.2102 ns |  3.56 |         - |        0.00 |
-| CreateProductQuantity          | 70.632 ns | 0.2229 ns |  3.29 |         - |        0.00 |
-| CreateCachedProductQuantity    |  2.148 ns | 0.0559 ns |  0.10 |         - |        0.00 |
-| CreateScalarPowerQuantity      | 70.282 ns | 0.4174 ns |  3.28 |         - |        0.00 |
-| CreateSquarePowerQuantity      |  1.951 ns | 0.0747 ns |  0.09 |         - |        0.00 |
-| CreateInvertibleQuantity       | 69.879 ns | 0.4880 ns |  3.26 |         - |        0.00 |
-| CreateCachedInvertibleQuantity | 63.239 ns | 0.2772 ns |  2.95 |         - |        0.00 |
+| CreateObject                   | 21.317 ns | 0.1232 ns |  1.00 |      24 B |        1.00 |
+| CreateStruct                   |  8.999 ns | 0.0584 ns |  0.42 |         - |        0.00 |
+| CreateScalarQuantity           |  1.898 ns | 0.0494 ns |  0.09 |         - |        0.00 |
+| CreateScalarQuantityWithoutOpt | 21.099 ns | 0.0972 ns |  0.99 |         - |        0.00 |
+| CreateQuotientQuantity         | 32.051 ns | 0.1350 ns |  1.50 |         - |        0.00 |
+| CreateProductQuantity          | 33.453 ns | 0.1761 ns |  1.57 |         - |        0.00 |
+| CreateCachedProductQuantity    |  1.916 ns | 0.0659 ns |  0.09 |         - |        0.00 |
+| CreateScalarPowerQuantity      | 61.001 ns | 0.2802 ns |  2.86 |         - |        0.00 |
+| CreateSquarePowerQuantity      | 38.625 ns | 0.1091 ns |  1.81 |         - |        0.00 |
+| CreateInvertibleQuantity       | 60.598 ns | 0.0483 ns |  2.84 |         - |        0.00 |
+| CreateCachedInvertibleQuantity | 62.136 ns | 0.3098 ns |  2.91 |         - |        0.00 |
 */

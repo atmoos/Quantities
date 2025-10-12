@@ -4,7 +4,6 @@ using System.Text.Json.Serialization;
 using Atmoos.Quantities.Core;
 using Atmoos.Quantities.Core.Serialization;
 using Atmoos.Quantities.Dimensions;
-
 using static System.Text.Json.JsonTokenType;
 
 namespace Atmoos.Quantities.Serialization.Text.Json;
@@ -13,9 +12,13 @@ file sealed class JsonWriter : IWriter
 {
     private readonly Utf8JsonWriter writer;
     public JsonWriter(in Utf8JsonWriter writer) => this.writer = writer;
+    public void Start() => this.writer.WriteStartObject();
     public void Start(String propertyName) => this.writer.WriteStartObject(propertyName);
+    public void StartArray(String propertyName) => this.writer.WriteStartArray(propertyName);
     public void Write(String name, Double value) => this.writer.WriteNumber(name, value);
+    public void Write(String name, Int32 value) => this.writer.WriteNumber(name, value);
     public void Write(String name, String value) => this.writer.WriteString(name, value);
+    public void EndArray() => this.writer.WriteEndArray();
     public void End() => this.writer.WriteEndObject();
 }
 
@@ -28,34 +31,39 @@ internal sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
     public override TQuantity Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         var initialDepth = reader.CurrentDepth;
-        String type = reader.ReadNameOf(PropertyName);
+        Double value = reader.ReadNumber();
+        String type = reader.ReadString();
         if (type != name) {
             throw new SerializationException($"Cannot deserialize '{type ?? "unknown"}'. Expected: {name}.");
         }
-        Double value = reader.ReadNumber();
         String system = reader.ReadNameOf(PropertyName);
-        QuantityFactory<TQuantity> factory = QuantityFactory<TQuantity>.Create(system, this.repository);
-        if (factory.ExpectedModelCount == 1) {
-            if (!factory.IsScalarQuantity) {
-                reader.MoveNext(StartObject);
-                system = reader.ReadNameOf(PropertyName);
-            }
-            var model = reader.Read(system);
+        try {
+            return (system == "measures" ? ReadMany(ref reader) : Read(ref reader, system)).Build(in value);
+        }
+        finally {
             reader.UnwindTo(initialDepth);
-            return factory.Build(in value, in model);
         }
-        reader.MoveNext(StartObject);
-        var models = new QuantityModel[factory.ExpectedModelCount];
-        for (var modelNumber = 0; modelNumber < models.Length; ++modelNumber) {
-            models[modelNumber] = reader.Read(reader.ReadNameOf(PropertyName));
-        }
-        reader.UnwindTo(initialDepth);
-        return factory.Build(in value, models);
     }
     public override void Write(Utf8JsonWriter writer, TQuantity value, JsonSerializerOptions options)
     {
         writer.WriteStartObject();
         value.Serialize(new JsonWriter(writer));
         writer.WriteEndObject();
+    }
+    private QuantityFactory<TQuantity> ReadMany(ref Utf8JsonReader reader)
+    {
+        reader.MoveNext(StartArray);
+        var models = new List<QuantityModel>();
+        while (reader.MoveNext(StartObject)) {
+            models.Add(reader.Read(reader.ReadNameOf(PropertyName)));
+            reader.MoveNext(EndObject);
+        }
+        reader.MoveNext(EndArray);
+        return QuantityFactory<TQuantity>.Create(this.repository, models);
+    }
+    private QuantityFactory<TQuantity> Read(ref Utf8JsonReader reader, String system)
+    {
+        var model = reader.Read(system);
+        return QuantityFactory<TQuantity>.Create(this.repository, in model);
     }
 }

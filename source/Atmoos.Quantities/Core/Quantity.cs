@@ -52,6 +52,8 @@ internal readonly struct Quantity : IEquatable<Quantity>, IFormattable
     public Boolean HasSameMeasure(in Quantity other) => ReferenceEquals(this.measure, other.measure);
     public override Boolean Equals(Object? obj) => obj is Quantity value && Equals(value);
     public override Int32 GetHashCode() => HashCode.Combine(this.value, this.measure);
+    public void Deconstruct(out Double value, out String unit)
+        => (value, unit) = (this.value, this.measure.ToString() ?? String.Empty);
     public override String ToString() => ToString("g5", CultureInfo.CurrentCulture);
     public String ToString(String? format, IFormatProvider? provider) => $"{this.value.ToString(format, provider)} {this.measure}";
 

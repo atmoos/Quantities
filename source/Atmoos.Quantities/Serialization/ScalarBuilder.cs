@@ -1,10 +1,10 @@
-﻿using Atmoos.Quantities.Dimensions;
+﻿using Atmoos.Quantities.Common;
+using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Measures;
 using Atmoos.Quantities.Prefixes;
 using Atmoos.Quantities.Units;
+using static Atmoos.Quantities.Common.Reflection;
 using IDim = Atmoos.Quantities.Dimensions.IDimension;
-
-using static Atmoos.Quantities.Serialization.Reflection;
 
 namespace Atmoos.Quantities.Serialization;
 

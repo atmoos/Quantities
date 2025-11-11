@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using Atmoos.Quantities.Prefixes;
 using Atmoos.Quantities.Units;
-using static Atmoos.Quantities.Serialization.Reflection;
+using static Atmoos.Quantities.Common.Reflection;
 
 namespace Atmoos.Quantities.Serialization;
 

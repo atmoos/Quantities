@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Atmoos.Quantities.Serialization;
+namespace Atmoos.Quantities.Common;
 
 internal static class Reflection
 {

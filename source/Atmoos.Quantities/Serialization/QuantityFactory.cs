@@ -1,4 +1,5 @@
-﻿using Atmoos.Quantities.Core.Numerics;
+﻿using Atmoos.Quantities.Common;
+using Atmoos.Quantities.Core.Numerics;
 using Atmoos.Quantities.Dimensions;
 
 namespace Atmoos.Quantities.Serialization;
@@ -19,8 +20,8 @@ public readonly struct QuantityFactory<TQuantity>
     private static readonly Type dimension = typeof(IDimension);
     private static readonly Type genericDimension = typeof(IDimension<,>);
     private static readonly Type typeofQuantity = typeof(TQuantity);
-    private static readonly Cache<QuantityModel, QuantityModel, IBuilder> complexCache = new();
     private static readonly Cache<QuantityModel, IBuilder> scalarCache = new();
+    private static readonly Cache<QuantityModel, QuantityModel, IBuilder> complexCache = new();
     private static readonly Type scalarVerification = typeof(TQuantity).MostDerivedOf(typeof(IDimension));
     private static readonly Type[] manyVerifications = [.. typeof(TQuantity).InnerTypes(typeof(IProduct<,>)).SelectMany(Unwrap)];
     private readonly IBuilder builder;

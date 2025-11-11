@@ -1,4 +1,5 @@
-﻿using Atmoos.Quantities.Dimensions;
+﻿using Atmoos.Quantities.Common;
+using Atmoos.Quantities.Dimensions;
 
 namespace Atmoos.Quantities.Serialization;
 

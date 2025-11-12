@@ -5,6 +5,7 @@ namespace Atmoos.Quantities.Test.Parsing;
 
 public class ParserTest
 {
+    private readonly Parser parser = new(Quantities.Parsing.Systems.Create());
     private const String si = "si";
     private const String metric = "metric";
     private const String imperial = "imperial";
@@ -21,7 +22,7 @@ public class ParserTest
     [MemberData(nameof(ScalarGibberishStrings))]
     public void ScalarGibberishFailsToParse(String unit)
     {
-        var actual = Parser.Parse(unit);
+        var actual = this.parser.Parse(unit);
 
         Assert.Empty(actual);
     }
@@ -30,7 +31,7 @@ public class ParserTest
     [MemberData(nameof(ScalarStrings))]
     public void ScalarValuesCanBeParsed(String unit, QuantityModel expected)
     {
-        var actual = Parser.Parse(unit).ToArray();
+        var actual = this.parser.Parse(unit).ToArray();
 
         Assert.Equal([expected], actual);
     }
@@ -39,7 +40,7 @@ public class ParserTest
     [MemberData(nameof(CompoundStrings))]
     public void CompoundValuesCanBeParsed(String unit, IEnumerable<QuantityModel> expected)
     {
-        var actual = Parser.Parse(unit).ToArray();
+        var actual = this.parser.Parse(unit).ToArray();
 
         Assert.Equal(expected, actual);
     }
@@ -48,7 +49,7 @@ public class ParserTest
     [MemberData(nameof(CompoundGibberishStrings))]
     public void CompoundGibberishValuesFailParsing(String unit)
     {
-        var actual = Parser.Parse(unit).ToArray();
+        var actual = this.parser.Parse(unit).ToArray();
 
         Assert.Equal([], actual);
     }

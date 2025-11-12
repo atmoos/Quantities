@@ -9,13 +9,32 @@ namespace Atmoos.Quantities.Parsing;
 
 internal static class Parser
 {
+    private const Char division = '/';
+    private const Char multiplication = '\u200C';
     private static readonly List<String> prefixes = Prefixes();
     private static readonly Dictionary<String, Int32> exponents = Enumerable.Range(-9, 19).Where(e => e != 1).ToDictionary(Tools.ExpToString, i => i);
-    private static readonly Dictionary<String, List<String>> units = Units(); // <System,Unit[]>
+    private static readonly Dictionary<String, List<String>> units = Units(); // <System, Unit[]>
 
     public static IEnumerable<QuantityModel> Parse(String units)
     {
+        var divisionIndex = units.IndexOf(division);
+        if (divisionIndex > 0) {
+            var nominator = units[..divisionIndex];
+            var denominator = units[(divisionIndex + 1)..];
+            return Combine(ParseScalar(nominator, 1), ParseScalar(denominator, -1));
+        }
+
+        var multiplicationIndex = units.IndexOf(multiplication);
+        if (multiplicationIndex > 0) {
+            var leftTerm = units[..multiplicationIndex];
+            var rightTerm = units[(multiplicationIndex + 1)..];
+            return Combine(ParseScalar(leftTerm, 1), ParseScalar(rightTerm, 1));
+        }
+
         return ParseScalar(units, 1) is QuantityModel scalar ? [scalar] : [];
+
+        static IEnumerable<QuantityModel> Combine(QuantityModel? left, QuantityModel? right)
+            => left is QuantityModel l && right is QuantityModel r ? [l, r] : [];
     }
 
     private static QuantityModel? ParseScalar(String unit, Int32 outerExponent)

@@ -2,7 +2,7 @@ using Atmoos.Quantities.Serialization;
 
 namespace Atmoos.Quantities.Parsing;
 
-internal sealed class Parser(ISystems systems)
+internal sealed class ModelParser(ISystems systems)
 {
     private const Char division = '/';
     private const Char multiplication = '\u200C';

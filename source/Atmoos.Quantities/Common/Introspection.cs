@@ -18,7 +18,7 @@ internal static class Introspection
         var genericInterface = interfaces.Where(i => i.ImplementsGeneric(generic)).FirstOrDefault();
         return genericInterface?.GetGenericArguments() ?? [];
     }
-    public static Boolean Implements(this Type type, Type interfaceType) => !type.IsInterface && (type.IsAssignableTo(interfaceType) || type.GetInterfaces().Any(i => i == interfaceType));
+    public static Boolean Implements(this Type type, Type interfaceType) => type.IsAssignableTo(interfaceType) || type.GetInterfaces().Any(i => i == interfaceType);
     public static Boolean Implements<TInterface>(this Type type) where TInterface : class => type.Implements(typeof(TInterface));
     public static Boolean ImplementsGeneric(this Type type, Type openGeneric) => type.IsConstructedGenericType && type.GetGenericTypeDefinition() == openGeneric;
 }

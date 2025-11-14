@@ -5,97 +5,81 @@ namespace Atmoos.Quantities.Test.Parsing;
 
 public class ParserTest
 {
-    private readonly Parser parser = new(Quantities.Parsing.Systems.Create());
-    private const String si = "si";
-    private const String metric = "metric";
-    private const String imperial = "imperial";
-
-    private static readonly QuantityModel s = new() { System = si, Exponent = 1, Unit = "s" };
-    private static readonly QuantityModel h = new() { System = metric, Exponent = 1, Unit = "h" };
-    private static readonly QuantityModel μs = new() { System = si, Exponent = 1, Unit = "s", Prefix = "μ" };
-    private static readonly QuantityModel m = new() { System = si, Exponent = 1, Unit = "m" };
-    private static readonly QuantityModel ft = new() { System = imperial, Exponent = 1, Unit = "ft" };
-    private static readonly QuantityModel mi = new() { System = imperial, Exponent = 1, Unit = "mi" };
-    private static readonly QuantityModel km = new() { System = si, Exponent = 1, Unit = "m", Prefix = "k" };
+    private static readonly UnitRepository repository = UnitRepository.Create();
+    private readonly IParser<Length> lengthParser = Parser.Create<Length>(repository);
+    private readonly IParser<Volume> volumeParser = Parser.Create<Volume>(repository);
+    private readonly IParser<Velocity> velocityParser = Parser.Create<Velocity>(repository);
 
     [Theory]
     [MemberData(nameof(ScalarGibberishStrings))]
     public void ScalarGibberishFailsToParse(String unit)
     {
-        var actual = this.parser.Parse(unit);
+        var actual = this.lengthParser.TryParse(unit, out _);
 
-        Assert.Empty(actual);
+        Assert.False(actual);
     }
 
     [Theory]
-    [MemberData(nameof(ScalarStrings))]
-    public void ScalarValuesCanBeParsed(String unit, QuantityModel expected)
+    [MemberData(nameof(ScalarQuantities))]
+    public void ScalarValuesCanBeParsed(Length length)
     {
-        var actual = this.parser.Parse(unit).ToArray();
+        var text = length.ToString("R");
 
-        Assert.Equal([expected], actual);
+        var actual = this.lengthParser.Parse(text);
+
+        Assert.Equal(length, actual);
     }
 
     [Theory]
     [MemberData(nameof(CompoundStrings))]
-    public void CompoundValuesCanBeParsed(String unit, IEnumerable<QuantityModel> expected)
+    public void CompoundValuesCanBeParsed(Velocity velocity)
     {
-        var actual = this.parser.Parse(unit).ToArray();
+        var text = velocity.ToString("R");
 
-        Assert.Equal(expected, actual);
+        var actual = this.velocityParser.Parse(text);
+
+        Assert.Equal(velocity, actual);
     }
 
     [Theory]
     [MemberData(nameof(CompoundGibberishStrings))]
     public void CompoundGibberishValuesFailParsing(String unit)
     {
-        var actual = this.parser.Parse(unit).ToArray();
+        var actual = this.velocityParser.TryParse(unit, out _);
 
-        Assert.Equal([], actual);
+        Assert.False(actual);
     }
 
     private static String Mul(String left, String right) => Join(left, right, '\u200C');
     private static String Join(String left, String right, Char joiner) => $"{left}{joiner}{right}";
 
-    public static TheoryData<String, QuantityModel> ScalarStrings() => new() {
-                { "m", m },
-                { "m⁻¹", m with {Exponent = -1} },
-                { "ft", ft },
-                { "ft³", ft with {Exponent = 3} },
-                { "km", km },
-                { "s", s },
-                { "μs", μs },
-                { "mm", m with {Prefix = "m"}},
-                { "mi", mi },
-                { "kg", new() { System = si, Exponent = 1, Unit = "kg" } },
-                { "°C", new() { System = metric, Exponent = 1, Unit = "°C" } },
+    public static TheoryData<Length> ScalarQuantities() => new() {
+                { Length.Of(Math.PI, in Si<Metre>()) },
+                { Length.Of(Math.Tau, in Imperial<Foot>()) },
+                { Length.Of(Math.E, in Si<Kilo,Metre>()) },
+                { Length.Of(-1 * Math.PI/Math.E, in Si<Milli,Metre>()) },
+                { Length.Of(Math.E /Math.Tau, in Imperial<Mile>()) }
             };
-    public static TheoryData<String, IEnumerable<QuantityModel>> CompoundStrings() => new() {
-                { "m/s", [m, s with {Exponent = -1} ]},
-                { Mul("m","s⁻¹"), [m, s with {Exponent = -1}]},
-                { "ft/μs", [ft, μs with {Exponent = -1}]},
-                { "km/s³", [km, s with {Exponent = -3} ]},
-                { Mul("A","h"), [new() { System = si, Exponent = 1, Unit = "A" }, h ]},
-                { "°C/s", [new() { System = metric, Exponent = 1, Unit = "°C" } , s with {Exponent=-1}]},
+    public static TheoryData<Velocity> CompoundStrings() => new() {
+                { Velocity.Of(123.456, Si<Metre>().Per( Si<Second>())) },
+                { Velocity.Of(123.456, Si<Centi,Metre>().Per(Si<Milli,Second>())) },
+                { Velocity.Of(123.456, Imperial<Mile>().Per( Si<Second>())) }
             };
     public static TheoryData<String> ScalarGibberishStrings() => new() {
-                { "m3"},
-                { "m⁻⁻¹"},
-                { "ftft"},
-                { "sqft"},
-                { "KKm"},
-                { "z"},
-                { "-3m"},
-                { "°°C"},
+                { "4 m3"},
+                { "4.32 m⁻⁻¹"},
+                { "43 ftft"},
+                { "123.432 ft³"},
+                { "Km 3112"},
+                { ""},
+                { "3432.423m"}
             };
     public static TheoryData<String> CompoundGibberishStrings() => new() {
-                { "m*m"},
-                { "/s"},
-                { "ft//s"},
-                { Mul("","s")},
-                { "m/"},
-                { Mul("s","")},
-                { Mul(Mul("kA","h"),"m")},
-                { "km/s/kg"},
+                { "2 m*m"},
+                { "23 3/s"},
+                { "43 ft//s"},
+                { $"3 {Mul("m","s")}"},
+                { "2 m/"},
+                { $"3 {Mul("s","")}"}
             };
 }

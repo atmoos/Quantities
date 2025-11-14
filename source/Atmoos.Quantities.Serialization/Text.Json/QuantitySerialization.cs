@@ -17,6 +17,6 @@ internal sealed class QuantitySerialization : JsonConverterFactory
     public override JsonConverter? CreateConverter(Type typeToConvert, JsonSerializerOptions options)
     {
         Type genericType = quantityConverter.MakeGenericType(typeToConvert);
-        return Activator.CreateInstance(genericType, new Object[] { this.repository }) as JsonConverter;
+        return Activator.CreateInstance(genericType, [this.repository]) as JsonConverter;
     }
 }

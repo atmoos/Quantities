@@ -15,7 +15,7 @@ file static class Inject
 }
 
 public readonly struct QuantityFactory<TQuantity>
-    where TQuantity : IFactory<TQuantity>
+    where TQuantity : IFactory<TQuantity>, IDimension
 {
     private static readonly Type dimension = typeof(IDimension);
     private static readonly Type genericDimension = typeof(IDimension<,>);
@@ -26,7 +26,15 @@ public readonly struct QuantityFactory<TQuantity>
     private static readonly Type[] manyVerifications = [.. typeof(TQuantity).InnerTypes(typeof(IProduct<,>)).SelectMany(Unwrap)];
     private readonly IBuilder builder;
     private QuantityFactory(IBuilder builder) : this() => this.builder = builder;
-    public TQuantity Build(in Double value) => TQuantity.Create(this.builder.Build(in value));
+    public TQuantity Build(in Double value)
+    {
+        var quantity = this.builder.Build(in value);
+        if (quantity.IsOf<TQuantity>()) {
+            return TQuantity.Create(in quantity);
+        }
+
+        throw new InvalidOperationException($"Cannot build a quantity of type '{typeof(TQuantity)}' from the provided models.");
+    }
 
     public static QuantityFactory<TQuantity> Create(UnitRepository repository, in QuantityModel model)
         => new(ScalarBuilder(repository, in model));

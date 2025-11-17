@@ -1,5 +1,6 @@
 using Atmoos.Quantities.Parsing;
 using Atmoos.Quantities.Serialization;
+using Atmoos.Quantities.Units.Si.Metric;
 
 namespace Atmoos.Quantities.Test.Parsing;
 
@@ -31,12 +32,23 @@ public class ParserTest
     }
 
     [Theory]
-    [MemberData(nameof(CompoundStrings))]
-    public void CompoundValuesCanBeParsed(Velocity velocity)
+    [MemberData(nameof(QuotientsStrings))]
+    public void QuotientsCanBeParsed(Velocity velocity)
     {
         var text = velocity.ToString("R");
 
         var actual = this.velocityParser.Parse(text);
+
+        Assert.Equal(velocity, actual);
+    }
+
+    [Theory]
+    [MemberData(nameof(ExponentialStrings))]
+    public void ExponentialsCanBeParsed(Volume velocity)
+    {
+        var text = velocity.ToString("R");
+
+        var actual = this.volumeParser.Parse(text);
 
         Assert.Equal(velocity, actual);
     }
@@ -49,37 +61,41 @@ public class ParserTest
 
         Assert.False(actual);
     }
-
     private static String Mul(String left, String right) => Join(left, right, '\u200C');
     private static String Join(String left, String right, Char joiner) => $"{left}{joiner}{right}";
-
     public static TheoryData<Length> ScalarQuantities() => new() {
-                { Length.Of(Math.PI, in Si<Metre>()) },
-                { Length.Of(Math.Tau, in Imperial<Foot>()) },
-                { Length.Of(Math.E, in Si<Kilo,Metre>()) },
-                { Length.Of(-1 * Math.PI/Math.E, in Si<Milli,Metre>()) },
-                { Length.Of(Math.E /Math.Tau, in Imperial<Mile>()) }
-            };
-    public static TheoryData<Velocity> CompoundStrings() => new() {
-                { Velocity.Of(123.456, Si<Metre>().Per( Si<Second>())) },
-                { Velocity.Of(123.456, Si<Centi,Metre>().Per(Si<Milli,Second>())) },
-                { Velocity.Of(123.456, Imperial<Mile>().Per( Si<Second>())) }
-            };
+        { Length.Of(Math.PI, in Si<Metre>()) },
+        { Length.Of(Math.Tau, in Imperial<Foot>()) },
+        { Length.Of(Math.E, in Si<Kilo,Metre>()) },
+        { Length.Of(-1 * Math.PI/Math.E, in Si<Milli,Metre>()) },
+        { Length.Of(Math.E /Math.Tau, in Imperial<Mile>()) }
+    };
+    public static TheoryData<Velocity> QuotientsStrings() => new() {
+        { Velocity.Of(Math.PI, Si<Metre>().Per( Si<Second>())) },
+        { Velocity.Of(Math.Tau, Si<Centi,Metre>().Per(Si<Milli,Second>())) },
+        { Velocity.Of(Math.E, Imperial<Mile>().Per( Si<Second>())) }
+    };
+    public static TheoryData<Volume> ExponentialStrings() => new() {
+        { Volume.Of(Math.PI, Cubic(Si<Metre>())) },
+        { Volume.Of(Math.Tau,  Cubic(Si<Kilo,Metre>())) },
+        { Volume.Of(Math.Tau,  Cubic(Imperial<Foot>())) },
+        { Volume.Of(Math.E, Metric<Litre>()) }
+    };
     public static TheoryData<String> ScalarGibberishStrings() => new() {
-                { "4 m3"},
-                { "4.32 m⁻⁻¹"},
-                { "43 ftft"},
-                { "123.432 ft³"},
-                { "Km 3112"},
-                { ""},
-                { "3432.423m"}
-            };
+        { "4 m3"},
+        { "4.32 m⁻⁻¹"},
+        { "43 ftft"},
+        { "123.432 ft³"},
+        { "Km 3112"},
+        { ""},
+        { "3432.423m"}
+    };
     public static TheoryData<String> CompoundGibberishStrings() => new() {
-                { "2 m*m"},
-                { "23 3/s"},
-                { "43 ft//s"},
-                { $"3 {Mul("m","s")}"},
-                { "2 m/"},
-                { $"3 {Mul("s","")}"}
-            };
+        { "2 m*m"},
+        { "23 3/s"},
+        { "43 ft//s"},
+        { $"3 {Mul("m","s")}"},
+        { "2 m/"},
+        { $"3 {Mul("s","")}"}
+    };
 }

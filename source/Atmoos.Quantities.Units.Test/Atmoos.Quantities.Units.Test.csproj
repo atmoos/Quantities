@@ -3,8 +3,6 @@
   <Import Project="../Atmoos.Quantities.Test.props" />
 
   <ItemGroup>
-    <!-- ToDo: Remove project reference to Atmoos.Quantities -->
-    <ProjectReference Include="..\Atmoos.Quantities\Atmoos.Quantities.csproj" />
     <ProjectReference Include="..\Atmoos.Quantities.Units\Atmoos.Quantities.Units.csproj" />
     <ProjectReference Include="..\Atmoos.Quantities.TestTools\Atmoos.Quantities.TestTools.csproj" />
   </ItemGroup>

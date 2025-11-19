@@ -26,12 +26,12 @@ public readonly struct Acceleration : IQuantity<Acceleration>, IAcceleration
     static Acceleration IFactory<Acceleration>.Create(in Quantity value) => new(in value);
     internal static Acceleration From(in Velocity velocity, in Time time) => new(velocity.Value / time.Value);
     public Boolean Equals(Acceleration other) => this.acceleration.Equals(other.acceleration);
-    public override Boolean Equals(Object? obj) => obj is Acceleration velocity && Equals(velocity);
+    public override Boolean Equals(Object? obj) => obj is Acceleration acceleration && Equals(acceleration);
     public override Int32 GetHashCode() => this.acceleration.GetHashCode();
     public override String ToString() => this.acceleration.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.acceleration.ToString(format, provider);
 
-    public static implicit operator Double(Acceleration velocity) => velocity.acceleration;
+    public static implicit operator Double(Acceleration acceleration) => acceleration.acceleration;
     public static Boolean operator ==(Acceleration left, Acceleration right) => left.Equals(right);
     public static Boolean operator !=(Acceleration left, Acceleration right) => !left.Equals(right);
     public static Boolean operator >(Acceleration left, Acceleration right) => left.acceleration > right.acceleration;

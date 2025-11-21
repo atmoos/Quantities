@@ -228,7 +228,6 @@ public class ProductTest
 
         DimAssert.Equal(expected, actual);
     }
-
     [Fact]
     public void EnumeratesAllLeafScalars()
     {
@@ -237,7 +236,6 @@ public class ProductTest
 
         DimAssert.Equal(expected, actual);
     }
-
     [Fact]
     public void EnumerationResolvesProductMultiplicity()
     {
@@ -245,5 +243,69 @@ public class ProductTest
         Dimension product = (Dim<Current>.Value * Dim<Length>.Value.Pow(3)).Pow(2) * Dim<Temperature>.Value;
 
         DimAssert.Equal(expected, product);
+    }
+    [Fact]
+    public void CommonRootIsFalseOnDifferingDimensions()
+    {
+        Dimension self = Dim<Time>.Times<Temperature>();
+        Dimension other = Dim<Length>.Times<Current>();
+
+        Assert.False(self.CommonRoot(other));
+    }
+    [Fact]
+    public void CommonRootIsFalseWhenComparingToUnit()
+    {
+        Dimension self = Dim<Time>.Times<Length>();
+        Dimension other = Unit.Identity;
+
+        Assert.False(self.CommonRoot(other));
+    }
+    [Fact]
+    public void CommonRootIsFalseWhenComparingToScalars()
+    {
+        Dimension self = Dim<Time>.Times<Length>();
+        Dimension other = Dim<Time>.Value;
+
+        Assert.False(self.CommonRoot(other));
+    }
+    [Fact]
+    public void CommonRootIsTrueOnSameDimensions()
+    {
+        Dimension self = Dim<Time>.Times<Length>().Pow(3);
+        Dimension other = Dim<Time>.Times<Length>().Pow(3);
+
+        Assert.True(self.CommonRoot(other));
+    }
+    [Fact]
+    public void CommonRootIsTrueOnSameInnerDimensionsWithDifferingExponent()
+    {
+        Dimension self = Dim<Time>.Times<Length>().Pow(2);
+        Dimension other = Dim<Time>.Times<Length>().Pow(3);
+
+        Assert.True(self.CommonRoot(other));
+    }
+    [Fact]
+    public void CommonRootIsFalseOnInnerDimensionsDifferingOnlyByExponent()
+    {
+        Dimension self = (Dim<Time>.Value * Dim<Length>.Value).Pow(2);
+        Dimension other = (Dim<Time>.Value * Dim<Length>.Pow(2)).Pow(2);
+
+        Assert.False(self.CommonRoot(other));
+    }
+    [Fact]
+    public void CommonRootIsTrueWhenProductEvaluationIsInDifferingOrder()
+    {
+        Dimension self = Dim<Time>.Value * Dim<Length>.Value * Dim<Current>.Pow(3);
+        Dimension other = Dim<Time>.Value * (Dim<Length>.Value * Dim<Current>.Pow(3));
+
+        Assert.True(self.CommonRoot(other));
+    }
+    [Fact]
+    public void CommonRootIsTrueWhenProductIsInDifferingOrder()
+    {
+        Dimension self = Dim<Time>.Value * Dim<Length>.Value * Dim<Current>.Pow(3);
+        Dimension other = Dim<Length>.Value * Dim<Current>.Pow(3) * Dim<Time>.Value;
+
+        Assert.True(self.CommonRoot(other));
     }
 }

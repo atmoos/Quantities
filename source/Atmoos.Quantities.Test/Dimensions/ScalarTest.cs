@@ -219,4 +219,36 @@ public class ScalarTest
         var expected = Math.Abs(exp) == 0 ? exponent : $"Time{exponent}";
         Assert.Equal(expected, value.ToString());
     }
+    [Fact]
+    public void CommonRootIsFalseOnDifferingDimensions()
+    {
+        Dimension self = Dim<Time>.Value;
+        Dimension other = Dim<Length>.Value;
+
+        Assert.False(self.CommonRoot(other));
+    }
+    [Fact]
+    public void CommonRootIsFalseWhenComparingToProducts()
+    {
+        Dimension self = Dim<Time>.Value;
+        Dimension other = Dim<Time>.Times<Length>();
+
+        Assert.False(self.CommonRoot(other));
+    }
+    [Fact]
+    public void CommonRootIsTrueOnSameDimensions()
+    {
+        Dimension self = Dim<Time>.Pow(-2);
+        Dimension other = Dim<Time>.Pow(-2);
+
+        Assert.True(self.CommonRoot(other));
+    }
+    [Fact]
+    public void CommonRootIsTrueOnSameInnerDimensionsWithDifferingExponent()
+    {
+        Dimension self = Dim<Time>.Pow(-2);
+        Dimension other = Dim<Time>.Pow(3);
+
+        Assert.True(self.CommonRoot(other));
+    }
 }

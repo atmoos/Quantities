@@ -122,7 +122,11 @@ internal sealed class Product : Dimension
     protected override Boolean Equal(Dimension other) => other is Product p && E == p.E && Same(p);
     public override Boolean CommonRoot(Dimension other)
     {
-        return other is Product p && this.left.CommonRoot(p.left) && this.right.CommonRoot(p.right);
+        // Enumeration adds the multiplicities (by design).
+        // As the common root only cares about the inner dimensions,
+        // we need to take the root of the outer exponent to get the correct comparison.
+        var these = this.Select(t => t.Root(this.E)).ToHashSet();
+        return these.SetEquals(other.Select(o => o.Root(other.E)));
     }
     protected override Dimension Multiply(Dimension other) => other switch {
         Unit => this,

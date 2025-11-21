@@ -18,8 +18,10 @@ Atmoos.Quantities.Units
 │   │   │   └── Newton
 │   │   ├── Frequency
 │   │   │   └── Hertz
-│   │   └── Power
-│   │       └── Watt
+│   │   ├── Power
+│   │   │   └── Watt
+│   │   └── Pressure
+│   │       └── Pascal
 │   └── Metric
 │       ├── AmountOfInformation
 │       │   ├── Bit
@@ -35,6 +37,8 @@ Atmoos.Quantities.Units
 │       │   └── Tonne
 │       ├── Power
 │       │   └── HorsePower
+│       ├── Pressure
+│       │   └── Bar
 │       ├── Time
 │       │   ├── Day
 │       │   └── Week
@@ -46,6 +50,8 @@ Atmoos.Quantities.Units
 │   │   ├── Acre
 │   │   ├── Perch
 │   │   └── Rood
+│   ├── Force
+│   │   └── PoundForce
 │   ├── Length
 │   │   ├── Chain
 │   │   ├── Furlong

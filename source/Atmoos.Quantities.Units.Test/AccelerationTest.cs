@@ -1,4 +1,5 @@
-﻿using Atmoos.Quantities.Units.NonStandard.Length;
+﻿using System.ComponentModel;
+using Atmoos.Quantities.Units.NonStandard.Length;
 using Atmoos.Quantities.Units.NonStandard.Velocity;
 using Atmoos.Quantities.Units.Si.Metric;
 
@@ -39,41 +40,17 @@ public sealed class AccelerationTest
         actual.Matches(expected);
     }
 
-
     [Fact]
-    public void VelocityFromDivision_Equal_DirectVelocity()
+    [Description("Knots can be divided by hours resolving issue #89.")]
+    public void AccelerationFromKnots()
     {
-        Length length = Length.Of(18, Imperial<Mile>());
         Time time = Time.Of(2, Metric<Hour>());
-        Velocity expected = Velocity.Of(9, Imperial<Mile>().Per(Metric<Hour>()));
+        Velocity velocityInKnots = Velocity.Of(10, NonStandard<Knot>());
+        Acceleration expected = Acceleration.Of(5, NonStandard<NauticalMile>().Per(Square(in Metric<Hour>())));
 
-        Velocity actual = length / time;
+        Acceleration actual = velocityInKnots / time;
 
         Assert.Equal(expected, actual);
-    }
-
-    [Fact]
-    public void NauticalMilesPerHourToKnots()
-    {
-        const Double commonValue = 62;
-        Velocity expectedKnots = Velocity.Of(commonValue, NonStandard<Knot>());
-        Velocity nauticalMiles = Velocity.Of(commonValue, NonStandard<NauticalMile>().Per(Metric<Hour>()));
-
-        Velocity actualKnots = nauticalMiles.To(NonStandard<Knot>());
-
-        Assert.Equal(expectedKnots, actualKnots);
-    }
-
-    [Fact]
-    public void KnotsToKilometrePerHour()
-    {
-        const Double knotsValue = 6;
-        const Double knotsInKmPerH = 1.852;
-        Velocity knots = Velocity.Of(knotsValue, NonStandard<Knot>());
-        Velocity kiloMetresPerHour = Velocity.Of(knotsValue * knotsInKmPerH, Si<Kilo, Metre>().Per(Metric<Hour>()));
-
-        Velocity actualKiloMetresPerHour = knots.To(Si<Kilo, Metre>().Per(Metric<Hour>()));
-
-        Assert.Equal(kiloMetresPerHour, actualKiloMetresPerHour);
+        Assert.Equal("5 kn/h", actual.ToString());
     }
 }

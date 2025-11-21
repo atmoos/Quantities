@@ -1,4 +1,5 @@
-﻿using Atmoos.Quantities.Core.Numerics;
+﻿using System.Numerics;
+using Atmoos.Quantities.Core.Numerics;
 using Atmoos.Quantities.Creation;
 using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Units;
@@ -7,6 +8,7 @@ namespace Atmoos.Quantities;
 
 public readonly struct Pressure : IQuantity<Pressure>, IPressure
     , IQuotient<Pressure, IPressure, IForce, ILength, Two>
+    , IMultiplyOperators<Pressure, Area, Force>
 {
     private readonly Quantity pressure;
     internal Quantity Value => this.pressure;
@@ -42,4 +44,6 @@ public readonly struct Pressure : IQuantity<Pressure>, IPressure
     public static Pressure operator *(Pressure left, Double scalar) => new(scalar * left.pressure);
     public static Pressure operator /(Pressure left, Double scalar) => new(left.pressure / scalar);
     public static Double operator /(Pressure left, Pressure right) => left.pressure.Ratio(in right.pressure);
+
+    public static Force operator *(Pressure left, Area right) => Force.From(in left, in right);
 }

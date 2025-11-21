@@ -68,7 +68,6 @@ public sealed class VelocityTest
         actual.Matches(expected);
     }
 
-
     [Fact]
     public void VelocityFromDivisionOfLengthWithTime_SiUnits()
     {

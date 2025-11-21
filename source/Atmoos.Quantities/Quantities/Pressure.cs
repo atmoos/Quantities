@@ -45,5 +45,5 @@ public readonly struct Pressure : IQuantity<Pressure>, IPressure
     public static Pressure operator /(Pressure left, Double scalar) => new(left.pressure / scalar);
     public static Double operator /(Pressure left, Pressure right) => left.pressure.Ratio(in right.pressure);
 
-    public static Force operator *(Pressure left, Area right) => Force.From(in left, in right);
+    public static Force operator *(Pressure pressure, Area area) => Force.From(in pressure, in area);
 }

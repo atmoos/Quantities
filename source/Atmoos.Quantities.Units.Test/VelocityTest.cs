@@ -91,7 +91,6 @@ public sealed class VelocityTest
         actual.Matches(expected);
     }
 
-
     [Fact]
     public void VelocityFromDivision_Equal_DirectVelocity()
     {
@@ -115,7 +114,6 @@ public sealed class VelocityTest
 
         Assert.Equal(expectedKnots, actualKnots);
     }
-
     [Fact]
     public void KnotsToKilometrePerHour()
     {
@@ -127,5 +125,16 @@ public sealed class VelocityTest
         Velocity actualKiloMetresPerHour = knots.To(Si<Kilo, Metre>().Per(Metric<Hour>()));
 
         Assert.Equal(kiloMetresPerHour, actualKiloMetresPerHour);
+    }
+    [Fact]
+    public void AccelerationTimesTimeIsProperVelocity()
+    {
+        Acceleration acceleration = Acceleration.Of(13, Si<Metre>().Per(Square(Si<Second>())));
+        Time seconds = Time.Of(3, Si<Second>());
+        Velocity expected = Velocity.Of(39, Si<Metre>().Per(Si<Second>()));
+
+        Velocity actual = acceleration * seconds;
+
+        actual.Matches(expected);
     }
 }

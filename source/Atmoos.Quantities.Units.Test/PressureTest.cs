@@ -43,4 +43,16 @@ public sealed class PressureTest
         Assert.Equal(pascals, psi);
         convertedPsi.Matches(pascals);
     }
+
+    [Fact]
+    public void PressureFromForceDividedByArea()
+    {
+        Force force = Force.Of(232, in Si<Kilo, Newton>());
+        Area area = Area.Of(8, Square(in Si<Metre>()));
+        Pressure expected = Pressure.Of(29, Si<Kilo, Newton>().Per(Square(in Si<Metre>())));
+
+        Pressure actual = force / area;
+
+        expected.Matches(actual);
+    }
 }

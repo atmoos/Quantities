@@ -9,6 +9,7 @@ public readonly struct Time : IQuantity<Time>, ITime
     , IMultiplyOperators<Time, Power, Energy>
     , IMultiplyOperators<Time, Velocity, Length>
     , IMultiplyOperators<Time, DataRate, Data>
+    , IMultiplyOperators<Time, Acceleration, Velocity>
 {
     private readonly Quantity time;
     internal Quantity Value => this.time;
@@ -43,8 +44,9 @@ public readonly struct Time : IQuantity<Time>, ITime
 
     public static Energy operator *(Time time, Power power) => Energy.From(in power, in time);
     public static Length operator *(Time time, Velocity velocity) => Length.From(in velocity, in time);
+    public static Double operator *(Time time, Frequency frequency) => time.time * frequency.Value;
+    public static Velocity operator *(Time time, Acceleration acceleration) => Velocity.From(in acceleration, in time);
     public static Data operator *(Time time, DataRate rate) => Data.From(in time, in rate);
 
     public static Frequency operator /(Double scalar, Time time) => Frequency.From(scalar, in time);
-    public static Double operator *(Time time, Frequency frequency) => time.time * frequency.Value;
 }

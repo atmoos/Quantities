@@ -14,7 +14,9 @@ internal static class DimAssert
         if (expected.Equals(actual)) {
             return;
         }
-        throw EqualException.ForMismatchedValues(expected, actual);
+        var actualValue = actual.ToString() ?? "empty actual";
+        var expectedValue = expected.ToString() ?? "empty expected";
+        throw EqualException.ForMismatchedValues(expectedValue, actualValue);
     }
     public static void NotEqual(Dimension expected, Dimension actual)
     {

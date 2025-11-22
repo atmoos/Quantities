@@ -36,7 +36,7 @@ public interface IQuotient<out TQuantity, in TDimension, in TNominatorDimension,
 public interface IQuotient<out TQuantity, in TDimension, in TNominatorDimension, in TDenominatorDimension, TExponent> : IScalar<TQuantity, TDimension>
     where TQuantity : IQuotient<TQuantity, TDimension, TNominatorDimension, TDenominatorDimension, TExponent>, TDimension
     where TDimension : IProduct<TNominatorDimension, IDimension<TDenominatorDimension, Negative<TExponent>>>
-    where TNominatorDimension : IDimension<TNominatorDimension, One>
+    where TNominatorDimension : IDimension // ToDo: IDimension<TNominatorDimension, One>
     where TDenominatorDimension : IDimension<TDenominatorDimension, One>
     where TExponent : INumber, IPositive
 {

@@ -10,6 +10,7 @@ public readonly struct Area : IQuantity<Area>, IArea
     , IPowerOf<Area, IArea, ILength, Two>
     , IMultiplyOperators<Area, Length, Volume>
     , IDivisionOperators<Area, Length, Length>
+    , IMultiplyOperators<Area, Pressure, Force>
 {
     private readonly Quantity area;
     internal Quantity Value => this.area;
@@ -47,4 +48,6 @@ public readonly struct Area : IQuantity<Area>, IArea
     public static Length operator /(Area left, Length right) => Length.From(in left, in right);
     public static Area operator /(Area left, Double scalar) => new(left.area / scalar);
     public static Double operator /(Area left, Area right) => left.area.Ratio(in right.area);
+
+    public static Force operator *(Area area, Pressure pressure) => Force.From(in pressure, in area);
 }

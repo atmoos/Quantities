@@ -16,6 +16,7 @@ internal abstract class Dimension
     protected Dimension() { }
     public abstract Dimension Pow(Int32 n);
     public abstract Dimension Root(Int32 n);
+    internal abstract Dimension Swap();
     protected abstract Dimension Multiply(Dimension other);
     public abstract Boolean CommonRoot(Dimension other);
     public Boolean Equals(Dimension? other) => other is Dimension d && E == d.E && Equal(d);
@@ -44,6 +45,7 @@ internal sealed class Unit : Dimension
     public override Int32 E => 0;
     public override Dimension Pow(Int32 n) => this;
     public override Dimension Root(Int32 n) => this;
+    internal override Dimension Swap() => this;
     protected override Dimension Multiply(Dimension other) => other;
     public override Boolean CommonRoot(Dimension other) => ReferenceEquals(other, this);
     protected override Boolean Equal(Dimension other) => ReferenceEquals(this, other);
@@ -60,6 +62,7 @@ internal abstract class Scalar : Dimension
     private readonly Int32 m;
     public override Int32 E => this.m;
     protected Scalar(Int32 m) => this.m = m;
+    internal override Dimension Swap() => this;
     public abstract Boolean Is(Dimension other);
     public override Boolean CommonRoot(Dimension other) => this.Is(other);
     public static Scalar Of<TDim>(Int32 multiplicity = 1)
@@ -72,7 +75,7 @@ internal abstract class Scalar : Dimension
             Unit => this,
             Impl<T> s => this.m + s.m == 0 ? Unit.Identity : new Impl<T>(this.m + s.m),
             Scalar s => new Product(this, s),
-            _ => other * this
+            _ => (other * this).Swap()
         };
         public override Dimension Pow(Int32 n) => n switch {
             0 => Unit.Identity,
@@ -119,10 +122,15 @@ internal sealed class Product : Dimension
         1 => this,
         _ => new Product(this.left, this.right, this.e / n)
     };
+    internal override Dimension Swap() => new Product(this.right, this.left, this.e);
     protected override Boolean Equal(Dimension other) => other is Product p && E == p.E && Same(p);
     public override Boolean CommonRoot(Dimension other)
     {
-        return other is Product p && this.left.CommonRoot(p.left) && this.right.CommonRoot(p.right);
+        // Enumeration adds the multiplicities (by design).
+        // As the common root only cares about the inner dimensions,
+        // we need to take the root of the outer exponent to get the correct comparison.
+        var these = this.Select(t => t.Root(this.E)).ToHashSet();
+        return these.SetEquals(other.Select(o => o.Root(other.E)));
     }
     protected override Dimension Multiply(Dimension other) => other switch {
         Unit => this,
@@ -130,9 +138,7 @@ internal sealed class Product : Dimension
         Dimension p when this.Any(t => p.Any(pp => t.Is(pp))) => Simplify(this.Concat(p)),
         _ => new Product(this, other)
     };
-    private Boolean Same(Product other)
-        => this.left.Equals(other.left) && this.right.Equals(other.right)
-        || this.left.Equals(other.right) && this.right.Equals(other.left);
+    private Boolean Same(Product other) => this.ToHashSet().SetEquals(other);
     public override IEnumerator<Scalar> GetEnumerator()
         => WithMultiplicity(this.left, this.e).Concat(WithMultiplicity(this.right, this.e)).GetEnumerator();
     private static IEnumerable<Scalar> WithMultiplicity(Dimension dim, Int32 e)

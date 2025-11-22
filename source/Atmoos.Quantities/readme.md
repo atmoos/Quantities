@@ -52,6 +52,7 @@ The currently supported quantities are:
 
 ```text quantities
 Atmoos.Quantities
+├── Acceleration
 ├── Area
 ├── Data
 ├── DataRate
@@ -64,6 +65,7 @@ Atmoos.Quantities
 ├── Length
 ├── Mass
 ├── Power
+├── Pressure
 ├── Temperature
 ├── Time
 ├── Velocity

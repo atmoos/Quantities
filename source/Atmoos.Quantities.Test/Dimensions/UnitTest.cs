@@ -50,6 +50,35 @@ public class UnitTest
         Assert.Empty(Unit.Identity);
     }
 
+    [Fact]
+    public void CommonRootIsTrueComparedToSelf()
+    {
+        Dimension unit = Unit.Identity;
+        Assert.True(unit.CommonRoot(Unit.Identity));
+    }
+    [Fact]
+    public void CommonRootIsTrueComparedToExponentiatedUnit()
+    {
+        Dimension unit = Unit.Identity;
+        Assert.True(unit.CommonRoot(Unit.Identity.Pow(5)));
+    }
+    [Fact]
+    public void CommonRootIsFalseComparedToScalar()
+    {
+        Dimension unit = Unit.Identity;
+        Dimension scalar = Dim<Time>.Value;
+
+        Assert.False(unit.CommonRoot(scalar));
+    }
+    [Fact]
+    public void CommonRootIsFalseComparedToProduct()
+    {
+        Dimension unit = Unit.Identity;
+        Dimension scalar = Dim<Length>.Times<Angle>();
+
+        Assert.False(unit.CommonRoot(scalar));
+    }
+
     public static IEnumerable<Object[]> AnyPowers()
     {
         var any = new[] { -12, -3, -2, -1, 0, 1, 2, 3, 4, 564 };

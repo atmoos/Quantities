@@ -49,15 +49,15 @@ internal abstract class Measure :
         where TLeft : IMeasure
         where TRight : IMeasure
     {
-        private static readonly Result result = Arithmetic<TLeft>.Map<TRight>(TLeft.Poly * TRight.Poly, TLeft.D * TRight.D);
+        private static readonly Result result = Fallback.Multiply<TLeft, TRight>(Arithmetic<TLeft>.Map<TRight>(TLeft.Poly * TRight.Poly, TLeft.D * TRight.D));
         public static ref readonly Result Result => ref result;
     }
 
-    private static class Division<TLeft, TRight>
-        where TLeft : IMeasure
-        where TRight : IMeasure
+    private static class Division<TNominator, TDenominator>
+        where TNominator : IMeasure
+        where TDenominator : IMeasure
     {
-        private static readonly Result result = Arithmetic<TLeft>.Map<TRight>(TLeft.Poly / TRight.Poly, TLeft.D / TRight.D);
+        private static readonly Result result = Fallback.Divide<TNominator, TDenominator>(Arithmetic<TNominator>.Map<TDenominator>(TNominator.Poly / TDenominator.Poly, TNominator.D / TDenominator.D));
         public static ref readonly Result Result => ref result;
     }
 
@@ -72,5 +72,22 @@ internal abstract class Measure :
     {
         private static readonly Measure value = TMeasure.InjectInverse(invert);
         public static ref readonly Measure Value => ref value;
+    }
+
+    private static class Fallback
+    {
+        public static Result Multiply<TLeft, TRight>(Result? maybe)
+            where TLeft : IMeasure where TRight : IMeasure
+                => maybe is null ? new(Polynomial.One, in Of<Product<TLeft, TRight>>()) : maybe;
+        public static Result Divide<TNominator, TDenominator>(Result? maybe)
+            where TNominator : IMeasure where TDenominator : IMeasure
+                => maybe is null ? TDenominator.InjectInverse(new Division<TNominator>()) : maybe;
+
+        private sealed class Division<TNominator> : IInject<Result>
+            where TNominator : IMeasure
+        {
+            public Result Inject<TMeasure>() where TMeasure : IMeasure
+                => new(Polynomial.One, in Of<Product<TNominator, TMeasure>>());
+        }
     }
 }

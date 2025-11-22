@@ -3,14 +3,13 @@
   <Import Project="../Atmoos.Quantities.Pack.targets" />
 
   <PropertyGroup>
-    <Version>2.0.0</Version>
+    <Version>2.0.1</Version>
     <RootDirectory>../../</RootDirectory>
     <Description>Provides many more units for use with Atmoos.Atmoos.Quantities.</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- ToDo: Reference nuget packet -->
-    <ProjectReference Include="..\Atmoos.Quantities\Atmoos.Quantities.csproj" />
+    <PackageReference Include="Atmoos.Quantities" Version="2.0.1" />
   </ItemGroup>
 
 </Project>

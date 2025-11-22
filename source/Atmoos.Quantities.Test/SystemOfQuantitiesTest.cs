@@ -33,8 +33,20 @@ public class SystemOfQuantitiesTest
     [Fact]
     public void ForceIsDerivedFromLengthTimeAndMass()
     {
-        var expected = Dim<Length>.Times<Mass>() * Dim<Time>.Pow(-2);
+        var expected = Dim<Mass>.Value * Dim<Length>.Value * Dim<Time>.Pow(-2);
         Quantity<Force>.IsDerivedFrom(expected);
+    }
+    [Fact]
+    public void AccelerationIsDerivedFromLengthPerTimeSquared()
+    {
+        var expected = Dim<Length>.Value * Dim<Time>.Pow(-2);
+        Quantity<Acceleration>.IsDerivedFrom(expected);
+    }
+    [Fact]
+    public void PressureIsDerivedFromLengthTimeAndMass()
+    {
+        var expected = Dim<Mass>.Value * Dim<Length>.Pow(-1) * Dim<Time>.Pow(-2);
+        Quantity<Pressure>.IsDerivedFrom(expected);
     }
 }
 

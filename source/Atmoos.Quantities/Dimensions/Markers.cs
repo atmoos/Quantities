@@ -10,8 +10,7 @@ public interface ILinear
 { /* marker interface */ }
 
 public interface IProduct<out TLeft, out TRight> : IDimension
-    where TLeft : IDimension
-    where TRight : IDimension
+    where TLeft : IDimension where TRight : IDimension
 {
     static Dimension IDimension.D => TLeft.D * TRight.D;
 }

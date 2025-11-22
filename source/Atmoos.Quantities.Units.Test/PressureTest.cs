@@ -1,4 +1,5 @@
 using Atmoos.Quantities.Units.Imperial.Force;
+using Atmoos.Quantities.Units.NonStandard.Pressure;
 using Atmoos.Quantities.Units.Si.Derived;
 using Atmoos.Quantities.Units.Si.Metric;
 
@@ -10,9 +11,12 @@ public sealed class PressureTest
     [Fact]
     public void HectoPascalToString() => FormattingMatches(p => Pressure.Of(p, Si<Hecto, Pascal>()), "hPa");
     [Fact]
-    public void KiloNewtonPerSquareMetre() => FormattingMatches(p => Pressure.Of(p, Si<Kilo, Newton>().Per(Square(Si<Metre>()))), "kN/m²");
+    public void KiloNewtonPerSquareMetreToString() => FormattingMatches(p => Pressure.Of(p, Si<Kilo, Newton>().Per(Square(Si<Metre>()))), "kN/m²");
     [Fact]
-    public void PoundForcePerSquareFoot() => FormattingMatches(p => Pressure.Of(p, Imperial<PoundForce>().Per(Square(Imperial<Foot>()))), "lbf/ft²");
+    public void PoundForcePerSquareFootToString() => FormattingMatches(p => Pressure.Of(p, Imperial<PoundForce>().Per(Square(Imperial<Foot>()))), "lbf/ft²");
+    [Fact]
+    public void StandardAtmosphereToString() => FormattingMatches(p => Pressure.Of(p, NonStandard<StandardAtmosphere>()), "atm"); [Fact]
+    public void TorrToString() => FormattingMatches(p => Pressure.Of(p, NonStandard<Torr>()), "Torr");
 
     [Fact]
     public void PascalIsNewtonPerSquareMetre()
@@ -22,7 +26,6 @@ public sealed class PressureTest
 
         Assert.Equal(onePascal, siDefinition);
     }
-
     [Fact]
     public void BarConvertsToPascal()
     {
@@ -31,7 +34,24 @@ public sealed class PressureTest
 
         Assert.Equal(pascal, oneBar);
     }
+    [Fact]
+    public void StandardAtmosphereConvertsToPascal()
+    {
+        Pressure pascal = Pressure.Of(101325, Si<Pascal>());
+        Pressure oneStandardAtmosphere = Pressure.Of(1, NonStandard<StandardAtmosphere>());
 
+        Assert.Equal(pascal, oneStandardAtmosphere);
+    }
+    [Fact]
+    public void TorrConvertsToPascal()
+    {
+        Pressure pascal = Pressure.Of(101325d / 760d, Si<Pascal>());
+        Pressure oneTorr = Pressure.Of(1, NonStandard<Torr>());
+
+        Pressure oneTorrInPascals = oneTorr.To(Si<Pascal>());
+
+        oneTorrInPascals.Matches(pascal);
+    }
     [Fact]
     public void PsiIsConvertsToPascal()
     {
@@ -43,7 +63,6 @@ public sealed class PressureTest
         Assert.Equal(pascals, psi);
         convertedPsi.Matches(pascals);
     }
-
     [Fact]
     public void PressureFromForceDividedByArea()
     {

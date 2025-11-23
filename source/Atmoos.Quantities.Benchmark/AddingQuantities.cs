@@ -34,8 +34,8 @@ public class AddingQuantities
 
 /* Summary
 
-BenchmarkDotNet v0.15.4, Linux Arch Linux
-Intel Core i7-8565U CPU 1.80GHz (Max: 4.00GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
+BenchmarkDotNet v0.15.7, Linux Arch Linux
+Intel Core i7-8565U CPU 1.80GHz (Max: 0.40GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
 .NET SDK 9.0.110
   [Host]     : .NET 9.0.9 (9.0.9, 9.0.925.41916), X64 RyuJIT x86-64-v3
   DefaultJob : .NET 9.0.9 (9.0.9, 9.0.925.41916), X64 RyuJIT x86-64-v3
@@ -43,9 +43,9 @@ Intel Core i7-8565U CPU 1.80GHz (Max: 4.00GHz) (Whiskey Lake), 1 CPU, 8 logical 
 
 | Method      | Mean      | Error     | Ratio | Allocated | Alloc Ratio |
 |------------ |----------:|----------:|------:|----------:|------------:|
-| Trivial     | 9.7321 ns | 0.0438 ns |  1.00 |         - |          NA |
-| AddSi       | 2.1361 ns | 0.0629 ns |  0.22 |         - |          NA |
-| AddSiSame   | 0.9727 ns | 0.0311 ns |  0.10 |         - |          NA |
-| AddImperial | 2.1118 ns | 0.0658 ns |  0.22 |         - |          NA |
-| AddMixed    | 2.1025 ns | 0.0650 ns |  0.22 |         - |          NA |
+| Trivial     | 1.5031 ns | 0.0310 ns |  1.00 |         - |          NA |
+| AddSi       | 2.4070 ns | 0.0084 ns |  1.60 |         - |          NA |
+| AddSiSame   | 0.4994 ns | 0.0025 ns |  0.33 |         - |          NA |
+| AddImperial | 2.4229 ns | 0.0386 ns |  1.61 |         - |          NA |
+| AddMixed    | 2.4676 ns | 0.0127 ns |  1.64 |         - |          NA |
 */

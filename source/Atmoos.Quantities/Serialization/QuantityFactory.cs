@@ -17,13 +17,8 @@ file static class Inject
 public readonly struct QuantityFactory<TQuantity>
     where TQuantity : IFactory<TQuantity>, IDimension
 {
-    private static readonly Type dimension = typeof(IDimension);
-    private static readonly Type genericDimension = typeof(IDimension<,>);
-    private static readonly Type typeofQuantity = typeof(TQuantity);
     private static readonly Cache<QuantityModel, IBuilder> scalarCache = new();
     private static readonly Cache<QuantityModel, QuantityModel, IBuilder> complexCache = new();
-    private static readonly Type scalarVerification = typeof(TQuantity).MostDerivedOf(typeof(IDimension));
-    private static readonly Type[] manyVerifications = [.. typeof(TQuantity).InnerTypes(typeof(IProduct<,>)).SelectMany(Unwrap)];
     private readonly IBuilder builder;
     private QuantityFactory(IBuilder builder) : this() => this.builder = builder;
     public TQuantity Build(in Double value)
@@ -50,7 +45,7 @@ public readonly struct QuantityFactory<TQuantity>
 
     private static IBuilder ScalarBuilder(UnitRepository repository, in QuantityModel model) => model.Exponent switch {
         -1 => Create<Negative<One>>(repository, in model, Inject.Inverse),
-        1 => Create(repository, in model, scalarVerification, Inject.Scalar),
+        1 => Create(repository, in model, Inject.Scalar),
         2 => Create<Two>(repository, in model, Inject.Square),
         3 => Create<Three>(repository, in model, Inject.Cubic),
         4 => Create<Four>(repository, in model, Inject.Quartic),
@@ -59,49 +54,26 @@ public readonly struct QuantityFactory<TQuantity>
     };
     private static IBuilder ProductBuilder(UnitRepository repository, in QuantityModel left, in QuantityModel right)
     {
+        const Int32 terms = 2; // a product has two terms.
         return complexCache.Get(left, right, repository, static (left, right, repo) =>
         {
-            QuantityModel[] models = [left, right];
-            var verification = new TypeVerification(manyVerifications[0]);
+            QuantityModel[] models = [left, right]; ;
             IInject<IBuilder> injector = new ProductInjector(left.Exponent, right.Exponent);
-            var builder = Serialization.ScalarBuilder.Create(in left, in repo, in verification, injector);
-            for (Int32 index = 1; index < manyVerifications.Length; ++index) {
-                verification = new TypeVerification(manyVerifications[index]);
+            var builder = Serialization.ScalarBuilder.Create(in left, in repo, injector);
+            for (Int32 index = 1; index < terms; ++index) {
                 injector = builder as IInject<IBuilder> ?? throw new InvalidOperationException("Need another injector...");
-                builder = Serialization.ScalarBuilder.Create(in models[index], in repo, in verification, injector);
+                builder = Serialization.ScalarBuilder.Create(in models[index], in repo, injector);
             }
             return builder;
         });
     }
-    private static IBuilder Create(UnitRepository repo, in QuantityModel model, Type verification, IInject<IBuilder> injector)
+    private static IBuilder Create(UnitRepository repo, in QuantityModel model, IInject<IBuilder> injector)
     {
-        return scalarCache.Get(model, (repo, verification, injector), static (model, arg)
-                 => Serialization.ScalarBuilder.Create(in model, in arg.repo, new TypeVerification(arg.verification), arg.injector));
+        return scalarCache.Get(model, (repo, injector), static (model, arg)
+                 => Serialization.ScalarBuilder.Create(in model, in arg.repo, arg.injector));
     }
 
     private static IBuilder Create<TExponent>(UnitRepository repo, in QuantityModel model, IInject<IBuilder> injector)
         where TExponent : INumber
-    {
-        return scalarCache.Get(model, (repo, injector), static (model, arg) =>
-        {
-            var verification = new TypeVerification(PowerOf<TExponent>(typeofQuantity));
-            return Serialization.ScalarBuilder.Create(in model, in arg.repo, verification, arg.injector);
-        });
-    }
-    private static Type PowerOf<TExponent>(Type type)
-        where TExponent : INumber
-    {
-        return type.InnerTypes(genericDimension) switch {
-            { Length: < 2 } => throw new InvalidOperationException($"Expected '{type.Name}' to implement {nameof(IDimension)}<~,{typeof(TExponent).Name}>, but found less than 2 generic arguments."),
-            [Type linear, Type exponent] when exponent == typeof(TExponent) => linear,
-            [Type linear, Type exp, ..] => throw new InvalidOperationException($"Expected '{type.Name}' to be {linear.Name} to the power of {typeof(TExponent).Name}, but got a power of '{exp.Name}'."),
-        };
-    }
-    private static IEnumerable<Type> Unwrap(Type type)
-    {
-        if (type.ImplementsGeneric(genericDimension)) {
-            return type.InnerTypes(genericDimension).Where(t => t.Implements(dimension));
-        }
-        return [type];
-    }
+            => scalarCache.Get(model, (repo, injector), static (model, arg) => Serialization.ScalarBuilder.Create(in model, in arg.repo, arg.injector));
 }

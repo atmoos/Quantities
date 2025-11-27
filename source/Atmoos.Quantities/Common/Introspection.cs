@@ -15,8 +15,8 @@ internal static class Introspection
     public static Type[] InnerTypes(this Type type, Type generic)
     {
         var interfaces = type.IsInterface ? [type] : type.GetInterfaces();
-        var genericInterface = interfaces.Where(i => i.ImplementsGeneric(generic)).FirstOrDefault();
-        return genericInterface?.GetGenericArguments() ?? [];
+        var genericInterface = interfaces.Where(i => i.ImplementsGeneric(generic));
+        return genericInterface?.SelectMany(i => i.GetGenericArguments()).ToArray() ?? [];
     }
     public static Boolean Implements(this Type type, Type interfaceType) => type.IsAssignableTo(interfaceType) || type.GetInterfaces().Any(i => i == interfaceType);
     public static Boolean Implements<TInterface>(this Type type) where TInterface : class => type.Implements(typeof(TInterface));

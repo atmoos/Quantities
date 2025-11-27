@@ -44,13 +44,13 @@ public class ParserTest
 
     [Theory]
     [MemberData(nameof(ExponentialStrings))]
-    public void ExponentialsCanBeParsed(Volume velocity)
+    public void ExponentialsCanBeParsed(Volume volume)
     {
-        var text = velocity.ToString("R");
+        var text = volume.ToString("R");
 
         var actual = this.volumeParser.Parse(text);
 
-        Assert.Equal(velocity, actual);
+        Assert.Equal(volume, actual);
     }
 
     [Theory]

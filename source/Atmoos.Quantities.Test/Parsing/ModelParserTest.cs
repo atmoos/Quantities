@@ -1,3 +1,5 @@
+using Atmoos.Quantities.Core.Numerics;
+using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Parsing;
 using Atmoos.Quantities.Serialization;
 
@@ -5,7 +7,8 @@ namespace Atmoos.Quantities.Test.Parsing;
 
 public class ModelParserTest
 {
-    private readonly ModelParser parser = new(UnitRepository.Create());
+    private static readonly UnitRepository repository = UnitRepository.Create();
+    private static readonly ModelParser[] parsers = [.. Systems().Select(s => new ModelParser(s))];
     private const String si = "si";
     private const String metric = "metric";
     private const String imperial = "imperial";
@@ -22,7 +25,7 @@ public class ModelParserTest
     [MemberData(nameof(ScalarGibberishStrings))]
     public void ScalarGibberishFailsToParse(String unit)
     {
-        var actual = this.parser.Parse(unit);
+        var actual = Parse(unit);
 
         Assert.Empty(actual);
     }
@@ -31,16 +34,16 @@ public class ModelParserTest
     [MemberData(nameof(ScalarStrings))]
     public void ScalarValuesCanBeParsed(String unit, QuantityModel expected)
     {
-        var actual = this.parser.Parse(unit).ToArray();
+        var actual = Parse(unit).ToArray();
 
         Assert.Equal([expected], actual);
     }
 
     [Theory]
     [MemberData(nameof(CompoundStrings))]
-    public void CompoundValuesCanBeParsed(String unit, IEnumerable<QuantityModel> expected)
+    internal void CompoundValuesCanBeParsed(String unit, IEnumerable<QuantityModel> expected)
     {
-        var actual = this.parser.Parse(unit).ToArray();
+        var actual = Parse(unit).ToArray();
 
         Assert.Equal(expected, actual);
     }
@@ -49,9 +52,33 @@ public class ModelParserTest
     [MemberData(nameof(CompoundGibberishStrings))]
     public void CompoundGibberishValuesFailParsing(String unit)
     {
-        var actual = this.parser.Parse(unit).ToArray();
+        var actual = Parse(unit).ToArray();
 
         Assert.Equal([], actual);
+    }
+
+    private static QuantityModel[] Parse(String unit)
+    {
+        foreach (var parser in parsers) {
+            var models = parser.Parse(unit).ToArray();
+            if (models.Length > 0) {
+                return models;
+            }
+        }
+        return [];
+    }
+
+    private static IEnumerable<ISystems> Systems()
+    {
+        yield return repository.Subset<Length>();
+        yield return repository.Subset<Volume>();
+        yield return repository.Subset<Velocity>();
+        yield return repository.Subset<Mass>();
+        yield return repository.Subset<Time>();
+        yield return repository.Subset<ElectricCapacity>();
+        yield return repository.Subset<Temperature>();
+        yield return repository.Subset<Acceleration>();
+        yield return repository.Subset<TemperatureChange>();
     }
 
     private static String Mul(String left, String right) => Join(left, right, '\u200C');
@@ -98,4 +125,11 @@ public class ModelParserTest
                 { Mul(Mul("kA","h"),"m")},
                 { "km/s/kg"},
             };
+
+    private sealed class TemperatureChange : IProduct<ITemperature, IDimension<ITime, Negative<One>>>
+    {
+    }
+    private sealed class ElectricCapacity : IProduct<IElectricCurrent, ITime>
+    {
+    }
 }

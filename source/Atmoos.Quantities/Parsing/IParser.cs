@@ -36,7 +36,7 @@ public static class Parser
 {
     public static IParser<T> Create<T>(UnitRepository repository)
         where T : struct, IQuantity<T>, IDimension
-        => new Parser<T>(repository, new ModelParser(repository));
+        => new Parser<T>(repository, new ModelParser(repository.Subset<T>()));
 }
 
 internal sealed class Parser<T>(UnitRepository repository, ModelParser parser) : IParser<T>

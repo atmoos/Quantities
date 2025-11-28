@@ -2,6 +2,7 @@
 using System.Numerics;
 using Atmoos.Quantities.Core.Numerics;
 using Atmoos.Quantities.Core.Serialization;
+using Atmoos.Quantities.Dimensions;
 
 namespace Atmoos.Quantities.Core;
 
@@ -50,8 +51,11 @@ internal readonly struct Quantity : IEquatable<Quantity>, IFormattable
     public static Quantity Of<TMeasure>(in Double value)
         where TMeasure : IMeasure => new(in value, in Measure.Of<TMeasure>());
     public Boolean HasSameMeasure(in Quantity other) => ReferenceEquals(this.measure, other.measure);
+    public Boolean IsOf<TDimension>() where TDimension : IDimension => TDimension.D.Equals(this.measure.D);
     public override Boolean Equals(Object? obj) => obj is Quantity value && Equals(value);
     public override Int32 GetHashCode() => HashCode.Combine(this.value, this.measure);
+    public void Deconstruct(out Double value, out String unit)
+        => (value, unit) = (this.value, this.measure.ToString() ?? String.Empty);
     public override String ToString() => ToString("g5", CultureInfo.CurrentCulture);
     public String ToString(String? format, IFormatProvider? provider) => $"{this.value.ToString(format, provider)} {this.measure}";
 

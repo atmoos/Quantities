@@ -1,8 +1,24 @@
-﻿namespace Atmoos.Quantities.Dimensions;
+﻿using Atmoos.Quantities.Common;
+
+namespace Atmoos.Quantities.Dimensions;
 
 internal static class Tools
 {
-    public static String ExpToString(Int32 exp)
+    private static readonly Type product = typeof(IProduct<,>);
+    private static readonly Type dimension = typeof(IDimension);
+    private static readonly Type genericDimension = typeof(IDimension<,>);
+    public static IEnumerable<Type> Interfaces<TDimension>()
+        where TDimension : IDimension
+            => Interfaces(typeof(TDimension)).Distinct();
+    private static IEnumerable<Type> Interfaces(Type type)
+        => [type.MostDerivedOf(dimension),
+            .. type.InnerTypes(product).SelectMany(Unwrap),
+            .. type.InnerTypes(genericDimension).SelectMany(Unwrap)];
+    private static IEnumerable<Type> Unwrap(Type type)
+        => type.ImplementsGeneric(genericDimension) ?
+            type.InnerTypes(genericDimension).Where(t => t.Implements(dimension)) :
+            type.Implements(dimension) ? [type] : [];
+    public static String ToExponent(this Int32 exp)
     {
         var sign = exp >= 0 ? String.Empty : "⁻";
         var value = exp switch {

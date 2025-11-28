@@ -23,6 +23,8 @@ public static class Extensions
     {
         quantity.Value.Write(writer, typeof(TQuantity).Name.ToLowerInvariant());
     }
+    public static void Deconstruct<TQuantity>(this TQuantity quantity, out Double value, out String unit)
+        where TQuantity : struct, IQuantity<TQuantity>, IDimension => quantity.Value.Deconstruct(out value, out unit);
     public static NotImplementedException NotImplemented(Object self, [CallerMemberName] String memberName = "", [CallerLineNumber] Int32 line = 0)
     {
         return NotImplemented(self.GetType(), memberName, line);

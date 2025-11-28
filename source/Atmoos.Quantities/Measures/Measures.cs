@@ -162,7 +162,7 @@ internal readonly struct Power<TLinear, TExp> : IMeasure
     public static Polynomial Poly { get; } = TLinear.Poly.Pow(TExp.Value);
     public static IVisitor InjectLinear(IVisitor inject) => inject.Inject<TLinear>();
     public static TResult InjectInverse<TResult>(IInject<TResult> inject) => TExp.Negate(new PowerInverse<TLinear, TResult>(inject));
-    public static String Representation { get; } = $"{TLinear.Representation}{Tools.ExpToString(TExp.Value)}";
+    public static String Representation { get; } = $"{TLinear.Representation}{Tools.ToExponent(TExp.Value)}";
     public static void Write(IWriter writer, Int32 exponent) => TLinear.Write(writer, exponent);
     static IVisitor IMeasure.Power(IVisitor inject, Int32 exponent) => inject.Raise<TLinear>(exponent);
 }

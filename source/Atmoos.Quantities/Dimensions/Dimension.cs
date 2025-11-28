@@ -97,7 +97,7 @@ internal abstract class Scalar : Dimension
         public override String ToString()
         {
             var scalar = typeof(T).Name[1..];
-            return $"{scalar}{Tools.ExpToString(this.m)}";
+            return $"{scalar}{Tools.ToExponent(this.m)}";
         }
     }
 }
@@ -146,7 +146,7 @@ internal sealed class Product : Dimension
     public override String ToString()
     {
         var product = $"{this.left}{narrowSpace}{this.right}";
-        return this.e == 1 ? product : $"[{product}]{Tools.ExpToString(this.e)}";
+        return this.e == 1 ? product : $"[{product}]{Tools.ToExponent(this.e)}";
     }
     public override Int32 GetHashCode() => HashCode.Combine(this.left, this.right, this.e);
     public static Product SimplifyExponents(Dimension l, Dimension r)

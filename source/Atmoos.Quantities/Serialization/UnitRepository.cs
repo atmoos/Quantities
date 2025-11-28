@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Reflection;
-using Atmoos.Quantities.Common;
 using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Prefixes;
 using Atmoos.Quantities.Units;
 using static Atmoos.Quantities.Common.Reflection;
+using static Atmoos.Quantities.Dimensions.Tools;
 
 namespace Atmoos.Quantities.Serialization;
 
@@ -17,10 +17,6 @@ internal interface ISystems
 
 public sealed class UnitRepository
 {
-    private static readonly Type product = typeof(IProduct<,>);
-    private static readonly Type dimension = typeof(IDimension);
-    private static readonly Type genericDimension = typeof(IDimension<,>);
-
     private readonly Repository prefixes, siUnits, metricUnits, imperialUnits, nonStandardUnits;
 
     private UnitRepository(Repository prefixes, Repository siUnits, Repository metricUnits, Repository imperialUnits, Repository nonStandardUnits)
@@ -39,7 +35,7 @@ public sealed class UnitRepository
     internal ISystems Subset<TDimension>()
         where TDimension : IDimension
     {
-        Type[] interfaces = [.. Interfaces().Distinct()];
+        Type[] interfaces = [.. Interfaces<TDimension>()];
         IEnumerable<(String, IEnumerable<String>)> units = [
             ("si", [..this.siUnits.Select(interfaces)]),
             ("metric", [..this.metricUnits.Select(interfaces)]),
@@ -47,14 +43,6 @@ public sealed class UnitRepository
             ("any", [..this.nonStandardUnits.Select(interfaces)])
         ];
         return new Systems { Prefixes = this.prefixes, Units = units };
-
-        static IEnumerable<Type> Interfaces()
-        {
-            var type = typeof(TDimension);
-            return [type.MostDerivedOf(dimension),
-                    .. type.InnerTypes(product).SelectMany(Unwrap),
-                    .. type.InnerTypes(genericDimension).SelectMany(Unwrap)];
-        }
     }
     public static UnitRepository Create() => Create([]);
     public static UnitRepository Create(IEnumerable<Assembly> assemblies)
@@ -73,10 +61,6 @@ public sealed class UnitRepository
         }
         return new UnitRepository(prefixes.Build(), siUnits.Build(), metricUnits.Build(), imperialUnits.Build(), nonStandardUnits.Build());
     }
-    private static IEnumerable<Type> Unwrap(Type type)
-        => type.ImplementsGeneric(genericDimension) ?
-                type.InnerTypes(genericDimension).Where(t => t.Implements(dimension)) :
-                type.Implements(dimension) ? [type] : [];
 
     private sealed class Repository : IEnumerable<String>
     {
@@ -114,7 +98,7 @@ public sealed class UnitRepository
 
     private sealed class Systems : ISystems
     {
-        private static readonly IEnumerable<(String, Int32)> exponents = Enumerable.Range(-9, 19).Where(e => e != 1).Select(e => (Tools.ExpToString(e), e)).ToList();
+        private static readonly IEnumerable<(String, Int32)> exponents = Enumerable.Range(-9, 19).Where(e => e != 1).Select(e => (Tools.ToExponent(e), e)).ToList();
         public required IEnumerable<String> Prefixes { get; init; }
 
         public IEnumerable<(String, Int32)> Exponents => exponents;

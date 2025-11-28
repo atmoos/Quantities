@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Atmoos.Quantities.Dimensions;
 
 namespace Atmoos.Quantities.Common;
 
@@ -16,5 +17,4 @@ internal static class Reflection
         var genericMethod = declaringType.GetMethod(name, typeArgumentCount, BindingFlags.Static | BindingFlags.NonPublic, null, CallingConventions.Standard, Type.EmptyTypes, null);
         return genericMethod ?? throw new InvalidOperationException($"Method '{name}' not found");
     }
-
 }

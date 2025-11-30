@@ -1,8 +1,8 @@
-﻿using Atmoos.Quantities.Common;
-using Atmoos.Quantities.Core.Numerics;
+﻿using Atmoos.Quantities.Core.Numerics;
 using Atmoos.Quantities.Dimensions;
+using Atmoos.Quantities.Serialization;
 
-namespace Atmoos.Quantities.Serialization;
+namespace Atmoos.Quantities.Core.Construction;
 
 file static class Inject
 {
@@ -59,10 +59,10 @@ public readonly struct QuantityFactory<TQuantity>
         {
             QuantityModel[] models = [left, right]; ;
             IInject<IBuilder> injector = new ProductInjector(left.Exponent, right.Exponent);
-            var builder = Serialization.ScalarBuilder.Create(in left, in repo, injector);
+            var builder = Core.Construction.ScalarBuilder.Create(in left, in repo, injector);
             for (Int32 index = 1; index < terms; ++index) {
                 injector = builder as IInject<IBuilder> ?? throw new InvalidOperationException("Need another injector...");
-                builder = Serialization.ScalarBuilder.Create(in models[index], in repo, injector);
+                builder = Core.Construction.ScalarBuilder.Create(in models[index], in repo, injector);
             }
             return builder;
         });
@@ -70,10 +70,10 @@ public readonly struct QuantityFactory<TQuantity>
     private static IBuilder Create(UnitRepository repo, in QuantityModel model, IInject<IBuilder> injector)
     {
         return scalarCache.Get(model, (repo, injector), static (model, arg)
-                 => Serialization.ScalarBuilder.Create(in model, in arg.repo, arg.injector));
+                 => Core.Construction.ScalarBuilder.Create(in model, in arg.repo, arg.injector));
     }
 
     private static IBuilder Create<TExponent>(UnitRepository repo, in QuantityModel model, IInject<IBuilder> injector)
         where TExponent : INumber
-            => scalarCache.Get(model, (repo, injector), static (model, arg) => Serialization.ScalarBuilder.Create(in model, in arg.repo, arg.injector));
+            => scalarCache.Get(model, (repo, injector), static (model, arg) => Core.Construction.ScalarBuilder.Create(in model, in arg.repo, arg.injector));
 }

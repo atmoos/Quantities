@@ -1,8 +1,9 @@
 ﻿using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Measures;
+using Atmoos.Quantities.Serialization;
 using Atmoos.Quantities.Units;
 
-namespace Atmoos.Quantities.Serialization;
+namespace Atmoos.Quantities.Core.Construction;
 
 internal interface ICreateInjectable
 {

@@ -1,5 +1,4 @@
 using Atmoos.Quantities.Parsing;
-using Atmoos.Quantities.Serialization;
 using Atmoos.Quantities.Units.Si.Metric;
 
 using static Atmoos.Quantities.Test.Convenience;

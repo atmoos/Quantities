@@ -6,7 +6,7 @@ using Atmoos.Quantities.Units;
 using static Atmoos.Quantities.Common.Reflection;
 using static Atmoos.Quantities.Dimensions.Tools;
 
-namespace Atmoos.Quantities.Serialization;
+namespace Atmoos.Quantities.Core;
 
 internal interface ISystems
 {

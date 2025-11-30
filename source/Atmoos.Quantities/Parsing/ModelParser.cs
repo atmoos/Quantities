@@ -1,4 +1,4 @@
-using Atmoos.Quantities.Serialization;
+using Atmoos.Quantities.Core.Construction;
 
 namespace Atmoos.Quantities.Parsing;
 

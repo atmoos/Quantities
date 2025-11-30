@@ -1,5 +1,5 @@
+using Atmoos.Quantities.Core.Construction;
 using Atmoos.Quantities.Dimensions;
-using Atmoos.Quantities.Serialization;
 
 namespace Atmoos.Quantities.Parsing;
 
@@ -18,11 +18,7 @@ public interface IParser<T>
     {
         result = default;
         var parts = input.Split(' ', 2, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-        if (parts.Length != 2) {
-            return false;
-        }
-
-        if (!Double.TryParse(parts[0], out var value)) {
+        if (parts.Length != 2 || !Double.TryParse(parts[0], out var value)) {
             return false;
         }
 

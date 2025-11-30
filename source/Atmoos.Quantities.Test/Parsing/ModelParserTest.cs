@@ -1,7 +1,7 @@
+using Atmoos.Quantities.Core.Construction;
 using Atmoos.Quantities.Core.Numerics;
 using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Parsing;
-using Atmoos.Quantities.Serialization;
 
 using static Atmoos.Quantities.Test.Convenience;
 

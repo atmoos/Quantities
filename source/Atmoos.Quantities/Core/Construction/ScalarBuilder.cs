@@ -2,11 +2,12 @@
 using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Measures;
 using Atmoos.Quantities.Prefixes;
+using Atmoos.Quantities.Serialization;
 using Atmoos.Quantities.Units;
 using static Atmoos.Quantities.Common.Reflection;
 using IDim = Atmoos.Quantities.Dimensions.IDimension;
 
-namespace Atmoos.Quantities.Serialization;
+namespace Atmoos.Quantities.Core.Construction;
 
 public readonly record struct QuantityModel(String System, Int32 Exponent, String? Prefix, String Unit);
 

@@ -3,6 +3,8 @@ using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Parsing;
 using Atmoos.Quantities.Serialization;
 
+using static Atmoos.Quantities.Test.Convenience;
+
 namespace Atmoos.Quantities.Test.Parsing;
 
 public abstract class ModelParserTest
@@ -21,17 +23,9 @@ public abstract class ModelParserTest
     protected static readonly QuantityModel km = new() { System = si, Exponent = 1, Unit = "m", Prefix = "k" };
     protected static String Mul(String left, String right) => Join(left, right, '\u200C');
     protected static String Join(String left, String right, Char joiner) => $"{left}{joiner}{right}";
-
-    protected static TheoryData<TData> ToTheoryData<TData>(params TData[] data)
-        => data.Aggregate(new TheoryData<TData>(), (td, item) =>
-        {
-            td.Add(item);
-            return td;
-        });
-
     private protected static ModelParser CreateParser<TDimension>()
-        where TDimension : IDimension
-        => new(repository.Subset<TDimension>());
+         where TDimension : IDimension
+         => new(repository.Subset<TDimension>());
 
     public sealed class TemperatureChange : IProduct<ITemperature, IDimension<ITime, Negative<One>>> { }
     public sealed class ElectricCapacity : IProduct<IElectricCurrent, ITime> { }

@@ -2,6 +2,8 @@ using Atmoos.Quantities.Parsing;
 using Atmoos.Quantities.Serialization;
 using Atmoos.Quantities.Units.Si.Metric;
 
+using static Atmoos.Quantities.Test.Convenience;
+
 namespace Atmoos.Quantities.Test.Parsing;
 
 public class ParserTest
@@ -10,6 +12,7 @@ public class ParserTest
     private readonly IParser<Length> lengthParser = Parser.Create<Length>(repository);
     private readonly IParser<Volume> volumeParser = Parser.Create<Volume>(repository);
     private readonly IParser<Velocity> velocityParser = Parser.Create<Velocity>(repository);
+    private readonly IParser<Acceleration> accelerationParser = Parser.Create<Acceleration>(repository);
 
     [Theory]
     [MemberData(nameof(ScalarGibberishStrings))]
@@ -61,6 +64,17 @@ public class ParserTest
 
         Assert.False(actual);
     }
+
+    [Theory]
+    [MemberData(nameof(AlmostAcceleration))]
+    public void UnitExponentsMustMatchExactly(String unitOnly)
+    {
+        var unit = $"{3.14} {unitOnly}";
+        var actual = this.accelerationParser.TryParse(unit, out _);
+
+        Assert.False(actual, $"The unit '{unitOnly}' is not a valid acceleration unit.");
+    }
+
     private static String Mul(String left, String right) => Join(left, right, '\u200C');
     private static String Join(String left, String right, Char joiner) => $"{left}{joiner}{right}";
     public static TheoryData<Length> ScalarQuantities() => new() {
@@ -81,21 +95,10 @@ public class ParserTest
         { Volume.Of(Math.Tau,  Cubic(Imperial<Foot>())) },
         { Volume.Of(Math.E, Metric<Litre>()) }
     };
-    public static TheoryData<String> ScalarGibberishStrings() => new() {
-        { "4 m3"},
-        { "4.32 m⁻⁻¹"},
-        { "43 ftft"},
-        { "123.432 ft³"},
-        { "Km 3112"},
-        { ""},
-        { "3432.423m"}
-    };
-    public static TheoryData<String> CompoundGibberishStrings() => new() {
-        { "2 m*m"},
-        { "23 3/s"},
-        { "43 ft//s"},
-        { $"3 {Mul("m","s")}"},
-        { "2 m/"},
-        { $"3 {Mul("s","")}"}
-    };
+    public static TheoryData<String> ScalarGibberishStrings()
+        => ToTheoryData("4 m3", "4.32 m⁻⁻¹", "43 ftft", "123.432 ft³", "Km 3112", "", "3432.423m");
+    public static TheoryData<String> CompoundGibberishStrings()
+        => ToTheoryData("2 m*m", "23 3/s", "43 ft//s", $"3 {Mul("m", "s")}", "2 m/", $"3 {Mul("s", "")}");
+    public static TheoryData<String> AlmostAcceleration()
+    => ToTheoryData("s", "m/s³", "m/s", "m", "m²/s", "m/s⁴", "s²/m");
 }

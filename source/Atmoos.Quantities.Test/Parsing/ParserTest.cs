@@ -13,6 +13,26 @@ public class ParserTest
     private readonly IParser<Velocity> velocityParser = Parser.Create<Velocity>(repository);
     private readonly IParser<Acceleration> accelerationParser = Parser.Create<Acceleration>(repository);
 
+    [Fact]
+    public void ParseFullQuantity_ErrorContainsMisrepresentationAndQuantityName()
+    {
+        const String noLength = "3 s";
+        var error = Assert.Throws<FormatException>(() => this.lengthParser.Parse(noLength));
+
+        Assert.Contains($"input '{noLength}'", error.Message);
+        Assert.Contains($"'{nameof(Length)}'", error.Message);
+    }
+
+    [Fact]
+    public void ParseUnitOnly_ErrorContainsMisrepresentationAndQuantityName()
+    {
+        const String noLengthUnit = "m/s";
+        var error = Assert.Throws<FormatException>(() => this.lengthParser.Parse(3, noLengthUnit));
+
+        Assert.Contains($"unit '{noLengthUnit}'", error.Message);
+        Assert.Contains($"'{nameof(Length)}'", error.Message);
+    }
+
     [Theory]
     [MemberData(nameof(ScalarGibberishStrings))]
     public void ScalarGibberishFailsToParse(String unit)
@@ -99,5 +119,5 @@ public class ParserTest
     public static TheoryData<String> CompoundGibberishStrings()
         => ToTheoryData("2 m*m", "23 3/s", "43 ft//s", $"3 {Mul("m", "s")}", "2 m/", $"3 {Mul("s", "")}");
     public static TheoryData<String> AlmostAcceleration()
-    => ToTheoryData("s", "m/s³", "m/s", "m", "m²/s", "m/s⁴", "s²/m");
+        => ToTheoryData("s", "m/s³", "m/s", "m", "m²/s", "m/s⁴", "s²/m");
 }

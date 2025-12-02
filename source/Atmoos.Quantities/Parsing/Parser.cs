@@ -12,7 +12,15 @@ public interface IParser<T>
             return result;
         }
 
-        throw new FormatException($"The input '{input}' is not a valid representation of a quantity of type '{typeof(T)}'.");
+        throw new FormatException($"The input '{input}' is not a valid representation of a quantity of '{typeof(T).Name}'.");
+    }
+    T Parse(Double value, String unit)
+    {
+        if (this.TryParse(value, unit, out var result)) {
+            return result;
+        }
+
+        throw new FormatException($"The unit '{unit}' is not a valid unit for a quantity of '{typeof(T).Name}'.");
     }
     Boolean TryParse(String input, out T result)
     {
@@ -22,10 +30,9 @@ public interface IParser<T>
             return false;
         }
 
-        var units = parts[1];
-        return this.TryParse(value, units, out result);
+        return this.TryParse(value, parts[1], out result);
     }
-    Boolean TryParse(Double value, String units, out T result);
+    Boolean TryParse(Double value, String unit, out T result);
 }
 
 public static class Parser
@@ -38,17 +45,17 @@ public static class Parser
 internal sealed class Parser<T>(UnitRepository repository, ModelParser parser) : IParser<T>
     where T : struct, IQuantity<T>, IDimension
 {
-    public Boolean TryParse(Double value, String units, out T result)
+    public Boolean TryParse(Double value, String unit, out T result)
     {
-        List<QuantityModel> models = [.. parser.Parse(units)];
+        List<QuantityModel> models = [.. parser.Parse(unit)];
         try {
-            (var outcome, result) = models switch {
+            (var success, result) = models switch {
                 [] => (false, default),
                 [var single] => (true, QuantityFactory<T>.Create(repository, single).Build(value)),
                 [_, _] => (true, QuantityFactory<T>.Create(repository, models).Build(value)),
                 _ => (false, default),
             };
-            return outcome;
+            return success;
         }
         // ToDo: Refine exception handling, i.e. add a TryCreate method to QuantityFactory
         catch (InvalidOperationException) {

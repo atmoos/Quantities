@@ -11,6 +11,7 @@ Design principles:
   - Broad set of units available in [Atmoos.Quantities.Units](https://www.nuget.org/packages/Atmoos.Quantities.Units/).
   - Custom units are supported, too.
   - All metric and binary prefixes are supported.
+  - Parsing - including custom units - is supported.
 - Serialization is supported via *Atmoos.Quantities.Serialization*
   - [System.Text.Json](https://www.nuget.org/packages/Atmoos.Quantities.Serialization.Text.Json/)
   - [Newtonsoft](https://www.nuget.org/packages/Atmoos.Quantities.Serialization.Newtonsoft/)
@@ -37,7 +38,27 @@ Length kilometres = Length.Of(16, Si<Kilo, Metre>());
 Velocity kilometresPerHour = Velocity.Of(4, Si<Kilo, Metre>().Per(Metric<Hour>()));
 Velocity arithmeticVelocity = kilometres / hours; // 4 km/h
 Area area = volume / feet; // 4.921... m²
+
+(Double value, String unit) = hours; // Deconstructs to (4, "h")
 ```
+
+## Parsing
+
+Create dedicated parsers for units defined in your custom built assembly or units that are defined in [Atmoos.Quantities.Units](https://www.nuget.org/packages/Atmoos.Quantities.Units/).
+
+```csharp
+var unitRepository = UnitRepository.Create(typeof(MyUnit).Assembly /* and/or other assemblies */);
+
+IParser<Length> lengthParser = Parser.Create<Length>(unitRepository);
+
+Length twoMetres = lengthParser.Parse("2 m");
+
+Boolean velocityParsed = lengthParser.TryParse("2 m/s", out Velocity twoMetresPerSecond); // false
+```
+
+## Serialization
+
+Both [Newtonsoft](https://www.nuget.org/packages/Atmoos.Quantities.Serialization.Newtonsoft/) and [System.Text](https://www.nuget.org/packages/Atmoos.Quantities.Serialization.Text.Json/) are supported. Please refer to the respective documentation.
 
 ## Supported Si Prefixes
 

@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Atmoos.Quantities.Core;
 using Newtonsoft.Json;
 
 namespace Atmoos.Quantities.Serialization.Newtonsoft;

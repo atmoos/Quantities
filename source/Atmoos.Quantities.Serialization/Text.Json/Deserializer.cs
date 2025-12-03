@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using Atmoos.Quantities.Core.Construction;
 using static System.Text.Json.JsonTokenType;
 
 namespace Atmoos.Quantities.Serialization.Text.Json;

@@ -1,5 +1,6 @@
 ﻿using System.Runtime.Serialization;
 using Atmoos.Quantities.Core;
+using Atmoos.Quantities.Core.Construction;
 using Atmoos.Quantities.Core.Serialization;
 using Atmoos.Quantities.Dimensions;
 using Newtonsoft.Json;

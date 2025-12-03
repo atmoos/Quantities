@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Atmoos.Quantities.Serialization;
+namespace Atmoos.Quantities.Common;
 
 internal static class Reflection
 {
@@ -16,5 +16,4 @@ internal static class Reflection
         var genericMethod = declaringType.GetMethod(name, typeArgumentCount, BindingFlags.Static | BindingFlags.NonPublic, null, CallingConventions.Standard, Type.EmptyTypes, null);
         return genericMethod ?? throw new InvalidOperationException($"Method '{name}' not found");
     }
-
 }

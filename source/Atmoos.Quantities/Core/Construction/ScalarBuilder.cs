@@ -1,26 +1,29 @@
-﻿using Atmoos.Quantities.Dimensions;
+﻿using Atmoos.Quantities.Common;
+using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Measures;
 using Atmoos.Quantities.Prefixes;
+using Atmoos.Quantities.Serialization;
 using Atmoos.Quantities.Units;
+using static Atmoos.Quantities.Common.Reflection;
 using IDim = Atmoos.Quantities.Dimensions.IDimension;
 
-using static Atmoos.Quantities.Serialization.Reflection;
+namespace Atmoos.Quantities.Core.Construction;
 
-namespace Atmoos.Quantities.Serialization;
+public readonly record struct QuantityModel(String System, Int32 Exponent, String? Prefix, String Unit);
 
 // ToDo #72: Simplify the "CreateXYZ" methods.
 internal static class ScalarBuilder
 {
     private delegate IBuilder Creator(IInject<IBuilder> injector);
-    public static IBuilder Create(in QuantityModel model, in UnitRepository repo, in TypeVerification verification, IInject<IBuilder> injector)
+    public static IBuilder Create(in QuantityModel model, in UnitRepository repo, IInject<IBuilder> injector)
     {
-        return Create(in repo, in verification, model.System, model.Prefix is null ? null : repo.Prefix(model.Prefix), model.Unit)(injector);
+        return Create(in repo, model.System, model.Prefix is null ? null : repo.Prefix(model.Prefix), model.Unit)(injector);
 
-        static Creator Create(in UnitRepository repo, in TypeVerification verification, String system, Type? prefix, String unit) => system switch {
-            "si" => GetMethod(nameof(CreateSi), verification.Verify(repo.Si(unit)), prefix),
-            "metric" => GetMethod(nameof(CreateMetric), verification.Verify(repo.Metric(unit)), prefix),
-            "imperial" => GetMethod(nameof(CreateImperial), verification.Verify(repo.Imperial(unit)), prefix),
-            "any" => GetMethod(nameof(CreateNonStandard), verification.Verify(repo.NonStandard(unit)), prefix),
+        static Creator Create(in UnitRepository repo, String system, Type? prefix, String unit) => system switch {
+            "si" => GetMethod(nameof(CreateSi), repo.Si(unit), prefix),
+            "metric" => GetMethod(nameof(CreateMetric), repo.Metric(unit), prefix),
+            "imperial" => GetMethod(nameof(CreateImperial), repo.Imperial(unit), prefix),
+            "any" => GetMethod(nameof(CreateNonStandard), repo.NonStandard(unit), prefix),
             _ => throw new NotImplementedException($"{system} cannot be deserialized yet :-(")
         };
     }

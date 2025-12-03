@@ -1,8 +1,9 @@
 ﻿using Atmoos.Quantities.Core.Numerics;
 using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Measures;
+using Atmoos.Quantities.Serialization;
 
-namespace Atmoos.Quantities.Serialization;
+namespace Atmoos.Quantities.Core.Construction;
 
 internal sealed class ScalarInjector : IInject<IBuilder>
 {

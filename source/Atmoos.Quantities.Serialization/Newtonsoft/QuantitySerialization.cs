@@ -16,7 +16,7 @@ internal sealed class QuantitySerialization : JsonConverter
         }
         if (objectType.IsValueType && objectType.GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IQuantity<>))) {
             Type genericType = quantityConverter.MakeGenericType(objectType);
-            if (Activator.CreateInstance(genericType, new Object[] { this.repository }) is JsonConverter converter) {
+            if (Activator.CreateInstance(genericType, [this.repository]) is JsonConverter converter) {
                 this.converters[objectType] = converter;
                 return true;
             }

@@ -1,4 +1,6 @@
+using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Parsing;
+using Atmoos.Quantities.Units;
 using Atmoos.Quantities.Units.Si.Metric;
 
 using static Atmoos.Quantities.Test.Convenience;
@@ -7,6 +9,7 @@ namespace Atmoos.Quantities.Test.Parsing;
 
 public class ParserTest
 {
+    const String parsecSymbol = "pc";
     private static readonly UnitRepository repository = UnitRepository.Create();
     private readonly IParser<Length> lengthParser = Parser.Create<Length>(repository);
     private readonly IParser<Volume> volumeParser = Parser.Create<Volume>(repository);
@@ -94,6 +97,29 @@ public class ParserTest
         Assert.False(actual, $"The unit '{unitOnly}' is not a valid acceleration unit.");
     }
 
+    [Fact]
+    public void ParsingFailsWhenRespectiveUnitsAssemblyIsNotIncluded()
+    {
+        var unitRepository = UnitRepository.Create();
+        var parser = Parser.Create<Length>(unitRepository);
+
+        var parseResult = parser.TryParse($"15 {parsecSymbol}", out _);
+
+        Assert.False(parseResult);
+    }
+
+    [Fact]
+    public void ParsingSucceedsWhenRespectiveUnitsAssemblyIsIncluded()
+    {
+        var unitRepository = UnitRepository.Create([typeof(Parsec).Assembly]);
+        var parser = Parser.Create<Length>(unitRepository);
+        var expected = Length.Of(15, NonStandard<Parsec>());
+
+        var parsec = parser.Parse($"15 {parsecSymbol}");
+
+        parsec.Matches(expected);
+    }
+
     private static String Mul(String left, String right) => Join(left, right, '\u200C');
     private static String Join(String left, String right, Char joiner) => $"{left}{joiner}{right}";
     public static TheoryData<Length> ScalarQuantities() => new() {
@@ -120,4 +146,11 @@ public class ParserTest
         => ToTheoryData("2 m*m", "23 3/s", "43 ft//s", $"3 {Mul("m", "s")}", "2 m/", $"3 {Mul("s", "")}");
     public static TheoryData<String> AlmostAcceleration()
         => ToTheoryData("s", "m/s³", "m/s", "m", "m²/s", "m/s⁴", "s²/m");
+
+    public readonly struct Parsec : ILength, INonStandardUnit
+    {
+        public static String Representation => parsecSymbol;
+
+        public static Transformation ToSi(Transformation self) => 3.0856775814913673e16 * self;
+    }
 }

@@ -16,10 +16,8 @@ public class SerializationTest
         String falseUnit = length.Serialize().Replace(Metre.Representation, Ohm.Representation);
 
         var msg = Assert.Throws<InvalidOperationException>(() => falseUnit.Deserialize<Length>()).Message;
-        Assert.StartsWith("Dimension mismatch:", msg);
-        Assert.Contains(nameof(Ohm), msg);
-        Assert.Contains(nameof(ILength), msg);
-        Assert.Contains(nameof(IElectricalResistance), msg);
+        Assert.StartsWith("Cannot build a quantity of type", msg);
+        Assert.Contains(nameof(Length), msg);
     }
 
     [Fact]

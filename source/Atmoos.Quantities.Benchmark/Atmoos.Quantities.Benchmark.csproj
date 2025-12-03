@@ -21,7 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Atmoos.Quantities\Atmoos.Quantities.csproj" />
     <ProjectReference Include="..\Atmoos.Quantities.Units\Atmoos.Quantities.Units.csproj" />
     <ProjectReference Include="..\Atmoos.Quantities.Serialization\Text.Json\Atmoos.Quantities.Serialization.Text.Json.csproj" />
     <ProjectReference Include="..\Atmoos.Quantities.Serialization\Newtonsoft\Atmoos.Quantities.Serialization.Newtonsoft.csproj" />

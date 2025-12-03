@@ -45,14 +45,14 @@ public sealed class UnitRepository
         return new Systems { Prefixes = this.prefixes, Units = units };
     }
     public static UnitRepository Create() => Create([]);
-    public static UnitRepository Create(IEnumerable<Assembly> assemblies)
+    public static UnitRepository Create(params Assembly[] assemblies)
     {
         var prefixes = new RepoBuilder("prefix", typeof(IPrefix));
         var siUnits = new RepoBuilder("si unit", typeof(ISiUnit));
         var metricUnits = new RepoBuilder("metric unit", typeof(IMetricUnit));
         var imperialUnits = new RepoBuilder("imperial unit", typeof(IImperialUnit));
         var nonStandardUnits = new RepoBuilder("non standard unit", typeof(INonStandardUnit));
-        foreach (var type in assemblies.Append(typeof(UnitRepository).Assembly).Reverse().SelectMany(a => a.GetExportedTypes().Where(t => t.IsValueType))) {
+        foreach (var type in assemblies.Prepend(typeof(UnitRepository).Assembly).SelectMany(a => a.GetExportedTypes().Where(t => t.IsValueType))) {
             prefixes.TryAdd(type);
             siUnits.TryAdd(type);
             metricUnits.TryAdd(type);

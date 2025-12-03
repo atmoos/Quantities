@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Atmoos.Quantities.Core.Construction;
+using Newtonsoft.Json;
 using static Newtonsoft.Json.JsonToken;
 
 namespace Atmoos.Quantities.Serialization.Newtonsoft;

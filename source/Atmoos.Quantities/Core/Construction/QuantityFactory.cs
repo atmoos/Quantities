@@ -28,7 +28,7 @@ public readonly struct QuantityFactory<TQuantity>
             return TQuantity.Create(in quantity);
         }
 
-        throw new InvalidOperationException($"Cannot build a quantity of type '{typeof(TQuantity)}' from the provided models.");
+        throw new InvalidOperationException($"Cannot build a quantity of type '{typeof(TQuantity)}' of dimension '{TQuantity.D}' from the provided models. The dimensions do not match.");
     }
 
     public static QuantityFactory<TQuantity> Create(UnitRepository repository, in QuantityModel model)

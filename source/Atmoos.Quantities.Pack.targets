@@ -1,5 +1,5 @@
 <Project>
-<!-- Packaging info common to all projects within the quantities project -->
+  <!-- Packaging info common to all projects within the quantities project -->
 
   <PropertyGroup>
     <Authors>Thomas Kägi</Authors>
@@ -14,12 +14,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="readme.md" Pack="true" PackagePath="\"/>
-    <None Include="$(RootDirectory)assets\images\nuget.png" Pack="true" PackagePath="\icon.png"/>
+    <None Include="readme.md" Pack="true" PackagePath="\" />
+    <None Include="$(RootDirectory)assets\images\nuget.png" Pack="true" PackagePath="\icon.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="DotNet.ReproducibleBuilds" Version="1.1.1" PrivateAssets="All"/>
+    <PackageReference Include="DotNet.ReproducibleBuilds" Version="1.2.39" PrivateAssets="All" />
   </ItemGroup>
 
 </Project>

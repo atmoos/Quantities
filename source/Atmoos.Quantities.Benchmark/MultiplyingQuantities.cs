@@ -46,19 +46,19 @@ public class MultiplyingQuantities
 /* Summary
 
 BenchmarkDotNet v0.15.4, Linux Arch Linux
-Intel Core i7-8565U CPU 1.80GHz (Max: 4.00GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK 9.0.110
-  [Host]     : .NET 9.0.9 (9.0.9, 9.0.925.41916), X64 RyuJIT x86-64-v3
-  DefaultJob : .NET 9.0.9 (9.0.9, 9.0.925.41916), X64 RyuJIT x86-64-v3
+Intel Core i7-8565U CPU 1.80GHz (Max: 0.40GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
+.NET SDK 10.0.100
+  [Host]     : .NET 10.0.0 (10.0.0, 42.42.42.42424), X64 RyuJIT x86-64-v3
+  DefaultJob : .NET 10.0.0 (10.0.0, 42.42.42.42424), X64 RyuJIT x86-64-v3
 
 
-| Method                | Mean     | Error    | Ratio | Allocated | Alloc Ratio |
-|---------------------- |---------:|---------:|------:|----------:|------------:|
-| Trivial               | 31.05 ns | 0.115 ns |  1.00 |         - |          NA |
-| MultiplySi            | 32.07 ns | 0.155 ns |  1.03 |         - |          NA |
-| MultiplyImperial      | 32.00 ns | 0.105 ns |  1.03 |         - |          NA |
-| MultiplyMixed         | 32.26 ns | 0.115 ns |  1.04 |         - |          NA |
-| MultiplyPureSi        | 31.71 ns | 0.102 ns |  1.02 |         - |          NA |
-| MultiplyPowerQuantity | 35.27 ns | 0.151 ns |  1.14 |         - |          NA |
-| MultiplyAliasQuantity | 31.38 ns | 0.153 ns |  1.01 |         - |          NA |
+| Method                | Mean      | Error     | Ratio | Allocated | Alloc Ratio |
+|---------------------- |----------:|----------:|------:|----------:|------------:|
+| Trivial               | 15.812 ns | 0.0281 ns |  1.00 |         - |          NA |
+| MultiplySi            |  6.111 ns | 0.0227 ns |  0.39 |         - |          NA |
+| MultiplyImperial      |  6.265 ns | 0.0239 ns |  0.40 |         - |          NA |
+| MultiplyMixed         |  6.247 ns | 0.0238 ns |  0.40 |         - |          NA |
+| MultiplyPureSi        |  7.532 ns | 0.0024 ns |  0.48 |         - |          NA |
+| MultiplyPowerQuantity |  8.481 ns | 0.0505 ns |  0.54 |         - |          NA |
+| MultiplyAliasQuantity |  6.021 ns | 0.0096 ns |  0.38 |         - |          NA |
 */

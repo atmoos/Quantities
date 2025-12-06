@@ -24,14 +24,14 @@ public class ParsingBenchmark
 
 BenchmarkDotNet v0.15.4, Linux Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Max: 0.40GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK 9.0.110
-  [Host]     : .NET 9.0.9 (9.0.9, 9.0.925.41916), X64 RyuJIT x86-64-v3
-  DefaultJob : .NET 9.0.9 (9.0.9, 9.0.925.41916), X64 RyuJIT x86-64-v3
+.NET SDK 10.0.100
+  [Host]     : .NET 10.0.0 (10.0.0, 42.42.42.42424), X64 RyuJIT x86-64-v3
+  DefaultJob : .NET 10.0.0 (10.0.0, 42.42.42.42424), X64 RyuJIT x86-64-v3
 
 
-| Method        | Mean        | Error    | Ratio | Allocated | Alloc Ratio |
-|-------------- |------------:|---------:|------:|----------:|------------:|
-| ParseDateTime |    273.4 ns |  0.38 ns |  1.00 |         - |          NA |
-| ParseScalar   |  6,285.1 ns | 84.26 ns | 22.99 |     480 B |          NA |
-| ParseCompound | 13,078.7 ns | 27.37 ns | 47.84 |    1464 B |          NA |
+| Method        | Mean        | Error     | Ratio | Allocated | Alloc Ratio |
+|-------------- |------------:|----------:|------:|----------:|------------:|
+| ParseDateTime |    228.7 ns |   0.28 ns |  1.00 |         - |          NA |
+| ParseScalar   |  5,724.0 ns |  12.69 ns | 25.03 |     368 B |          NA |
+| ParseCompound | 12,039.6 ns | 236.00 ns | 52.65 |    1352 B |          NA |
 */

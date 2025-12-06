@@ -25,15 +25,15 @@ public class PolynomialBenchmark
 /* Summary
 
 BenchmarkDotNet v0.15.4, Linux Arch Linux
-Intel Core i7-8565U CPU 1.80GHz (Max: 4.00GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK 9.0.110
-  [Host]     : .NET 9.0.9 (9.0.9, 9.0.925.41916), X64 RyuJIT x86-64-v3
-  DefaultJob : .NET 9.0.9 (9.0.9, 9.0.925.41916), X64 RyuJIT x86-64-v3
+Intel Core i7-8565U CPU 1.80GHz (Max: 0.40GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
+.NET SDK 10.0.100
+  [Host]     : .NET 10.0.0 (10.0.0, 42.42.42.42424), X64 RyuJIT x86-64-v3
+  DefaultJob : .NET 10.0.0 (10.0.0, 42.42.42.42424), X64 RyuJIT x86-64-v3
 
 
-| Method                          | Mean      | Error     | Ratio |
+| Method                          | Mean      | Error     | Ratio | 
 |-------------------------------- |----------:|----------:|------:|
-| EvaluateTrivial                 | 9.4015 ns | 0.0592 ns |  1.00 |
-| EvaluatePolynomial              | 0.5623 ns | 0.0593 ns |  0.06 |
-| EvaluatePolynomialWithoutOffset | 0.3874 ns | 0.0602 ns |  0.04 |
+| EvaluateTrivial                 | 1.2973 ns | 0.0206 ns |  1.00 | 
+| EvaluatePolynomial              | 0.3183 ns | 0.0031 ns |  0.25 | 
+| EvaluatePolynomialWithoutOffset | 0.0888 ns | 0.0024 ns |  0.07 | 
 */

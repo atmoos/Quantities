@@ -19,23 +19,23 @@ public class AlgorithmsPowerBenchmark
 /* Summary
 
 BenchmarkDotNet v0.15.4, Linux Arch Linux
-Intel Core i7-8565U CPU 1.80GHz (Max: 4.00GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK 9.0.110
-  [Host]     : .NET 9.0.9 (9.0.9, 9.0.925.41916), X64 RyuJIT x86-64-v3
-  DefaultJob : .NET 9.0.9 (9.0.9, 9.0.925.41916), X64 RyuJIT x86-64-v3
+Intel Core i7-8565U CPU 1.80GHz (Max: 0.40GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
+.NET SDK 10.0.100
+  [Host]     : .NET 10.0.0 (10.0.0, 42.42.42.42424), X64 RyuJIT x86-64-v3
+  DefaultJob : .NET 10.0.0 (10.0.0, 42.42.42.42424), X64 RyuJIT x86-64-v3
 
 
-| Method        | Exponent | Mean      | Error     | Ratio |
+| Method        | Exponent | Mean      | Error     | Ratio | 
 |-------------- |--------- |----------:|----------:|------:|
-| MathPow       | 2        | 27.787 ns | 0.1130 ns |  1.00 |
-| AlgorithmsPow | 2        |  9.847 ns | 0.0829 ns |  0.35 |
-|               |          |           |           |       |
-| MathPow       | 5        | 27.740 ns | 0.0671 ns |  1.00 |
-| AlgorithmsPow | 5        | 28.057 ns | 0.1082 ns |  1.01 |
-|               |          |           |           |       |
-| MathPow       | 12       | 27.775 ns | 0.0718 ns |  1.00 |
-| AlgorithmsPow | 12       | 39.408 ns | 0.0845 ns |  1.42 |
-|               |          |           |           |       |
-| MathPow       | 23       | 27.745 ns | 0.1207 ns |  1.00 |
-| AlgorithmsPow | 23       | 48.422 ns | 0.2260 ns |  1.75 |
+| MathPow       | 2        | 13.877 ns | 0.0245 ns |  1.00 | 
+| AlgorithmsPow | 2        |  1.437 ns | 0.0078 ns |  0.10 | 
+|               |          |           |           |       | 
+| MathPow       | 5        | 14.090 ns | 0.2682 ns |  1.00 | 
+| AlgorithmsPow | 5        |  4.368 ns | 0.0118 ns |  0.31 | 
+|               |          |           |           |       | 
+| MathPow       | 12       | 14.043 ns | 0.0487 ns |  1.00 | 
+| AlgorithmsPow | 12       |  6.258 ns | 0.0316 ns |  0.45 | 
+|               |          |           |           |       | 
+| MathPow       | 23       | 14.070 ns | 0.0552 ns |  1.00 | 
+| AlgorithmsPow | 23       |  8.072 ns | 0.0547 ns |  0.57 | 
 */

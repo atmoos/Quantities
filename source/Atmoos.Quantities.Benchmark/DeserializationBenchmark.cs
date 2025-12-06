@@ -37,19 +37,19 @@ public class DeserializationBenchmark
 /* Summary
 
 BenchmarkDotNet v0.15.4, Linux Arch Linux
-Intel Core i7-8565U CPU 1.80GHz (Max: 4.00GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK 9.0.110
-  [Host]     : .NET 9.0.9 (9.0.9, 9.0.925.41916), X64 RyuJIT x86-64-v3
-  DefaultJob : .NET 9.0.9 (9.0.9, 9.0.925.41916), X64 RyuJIT x86-64-v3
+Intel Core i7-8565U CPU 1.80GHz (Max: 0.40GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
+.NET SDK 10.0.100
+  [Host]     : .NET 10.0.0 (10.0.0, 42.42.42.42424), X64 RyuJIT x86-64-v3
+  DefaultJob : .NET 10.0.0 (10.0.0, 42.42.42.42424), X64 RyuJIT x86-64-v3
 
 
-| Method                 | Mean       | Error    | Ratio | Allocated | Alloc Ratio |
-|----------------------- |-----------:|---------:|------:|----------:|------------:|
-| SystemTriple           |   340.4 ns |  1.29 ns |  1.00 |      40 B |        1.00 |
-| SystemQuantity         | 1,969.4 ns |  5.35 ns |  5.79 |     136 B |        3.40 |
-| PrefixedQuantity       | 2,425.5 ns | 11.77 ns |  7.13 |     160 B |        4.00 |
-| FractionalQuantity     | 4,464.2 ns | 15.81 ns | 13.11 |     488 B |       12.20 |
-| MultiplicativeQuantity | 3,986.4 ns | 16.17 ns | 11.71 |     488 B |       12.20 |
-| PowerQuantity          | 2,894.2 ns |  7.12 ns |  8.50 |     160 B |        4.00 |
-| ScalarPowerQuantity    | 2,688.1 ns | 11.18 ns |  7.90 |     168 B |        4.20 |
+| Method                 | Mean        | Error    | Ratio | Allocated | Alloc Ratio |
+|----------------------- |------------:|---------:|------:|----------:|------------:|
+| SystemTriple           |    98.31 ns | 1.849 ns |  1.00 |      40 B |        1.00 |
+| SystemQuantity         |   629.26 ns | 1.911 ns |  6.40 |     136 B |        3.40 |
+| PrefixedQuantity       |   721.74 ns | 0.921 ns |  7.34 |     160 B |        4.00 |
+| FractionalQuantity     | 1,710.91 ns | 3.068 ns | 17.41 |    1072 B |       26.80 |
+| MultiplicativeQuantity | 1,590.61 ns | 2.044 ns | 16.18 |    1072 B |       26.80 |
+| PowerQuantity          |   849.88 ns | 0.924 ns |  8.65 |     160 B |        4.00 |
+| ScalarPowerQuantity    |   813.78 ns | 2.068 ns |  8.28 |     168 B |        4.20 |
 */

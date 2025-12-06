@@ -45,23 +45,23 @@ public class PrefixScalingBenchmarks
 /* Summary
 
 BenchmarkDotNet v0.15.4, Linux Arch Linux
-Intel Core i7-8565U CPU 1.80GHz (Max: 4.00GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK 9.0.110
-  [Host]     : .NET 9.0.9 (9.0.9, 9.0.925.41916), X64 RyuJIT x86-64-v3
-  DefaultJob : .NET 9.0.9 (9.0.9, 9.0.925.41916), X64 RyuJIT x86-64-v3
+Intel Core i7-8565U CPU 1.80GHz (Max: 0.40GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
+.NET SDK 10.0.100
+  [Host]     : .NET 10.0.0 (10.0.0, 42.42.42.42424), X64 RyuJIT x86-64-v3
+  DefaultJob : .NET 10.0.0 (10.0.0, 42.42.42.42424), X64 RyuJIT x86-64-v3
 
 
-| Method              | Exponent | Mean      | Error     | Ratio |
-|-------------------- |--------- |----------:|----------:|------:|
-| Baseline            | -4       | 56.094 ns | 0.2551 ns |  1.00 |
-| MetricPrefixScaling | -4       | 42.126 ns | 0.1336 ns |  0.75 |
-| BinaryPrefixScaling | -4       |  8.088 ns | 0.0442 ns |  0.14 |
-|                     |          |           |           |       |
-| Baseline            | 0        | 49.118 ns | 0.2269 ns |  1.00 |
-| MetricPrefixScaling | 0        |  8.861 ns | 0.0656 ns |  0.18 |
-| BinaryPrefixScaling | 0        |  8.089 ns | 0.0450 ns |  0.16 |
-|                     |          |           |           |       |
-| Baseline            | 5        | 56.154 ns | 0.2031 ns |  1.00 |
-| MetricPrefixScaling | 5        | 41.835 ns | 0.1193 ns |  0.75 |
-| BinaryPrefixScaling | 5        | 40.123 ns | 0.1241 ns |  0.71 |
+| Method              | Exponent | Mean       | Error     | Ratio | 
+|-------------------- |--------- |-----------:|----------:|------:|
+| Baseline            | -4       | 22.4779 ns | 0.0151 ns |  1.00 | 
+| MetricPrefixScaling | -4       |  7.4072 ns | 0.0292 ns |  0.33 | 
+| BinaryPrefixScaling | -4       |  0.7580 ns | 0.0052 ns |  0.03 | 
+|                     |          |            |           |       | 
+| Baseline            | 0        | 22.7213 ns | 0.0827 ns |  1.00 | 
+| MetricPrefixScaling | 0        |  1.6427 ns | 0.0100 ns |  0.07 | 
+| BinaryPrefixScaling | 0        |  0.8632 ns | 0.0094 ns |  0.04 | 
+|                     |          |            |           |       | 
+| Baseline            | 5        | 22.7253 ns | 0.4565 ns |  1.00 | 
+| MetricPrefixScaling | 5        |  8.7125 ns | 0.0132 ns |  0.38 | 
+| BinaryPrefixScaling | 5        |  6.6998 ns | 0.0331 ns |  0.29 | 
 */

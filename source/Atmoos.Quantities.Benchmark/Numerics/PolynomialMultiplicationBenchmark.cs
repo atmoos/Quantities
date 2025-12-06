@@ -37,17 +37,17 @@ public class PolynomialMultiplicationBenchmark
 
 /* Summary
 
-BenchmarkDotNet v0.15.4, Linux Arch Linux
+BenchmarkDotNet v0.15.8, Linux Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Max: 0.40GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
 .NET SDK 10.0.100
   [Host]     : .NET 10.0.0 (10.0.0, 42.42.42.42424), X64 RyuJIT x86-64-v3
   DefaultJob : .NET 10.0.0 (10.0.0, 42.42.42.42424), X64 RyuJIT x86-64-v3
 
 
-| Method                   | Mean      | Error     | Ratio |
+| Method                   | Mean      | Error     | Ratio | 
 |------------------------- |----------:|----------:|------:|
-| TrivialImplementation    | 4.0603 ns | 0.0080 ns |  1.00 |
-| PolynomialMultiplication | 1.1917 ns | 0.0029 ns |  0.29 |
-| PolynomialDivision       | 1.1979 ns | 0.0193 ns |  0.30 |
-| PolynomialPowerOfTwo     | 0.7689 ns | 0.0040 ns |  0.19 |
+| TrivialImplementation    | 4.0531 ns | 0.1131 ns |  1.00 | 
+| PolynomialMultiplication | 1.2274 ns | 0.0015 ns |  0.30 | 
+| PolynomialDivision       | 1.2449 ns | 0.0086 ns |  0.31 | 
+| PolynomialPowerOfTwo     | 0.7591 ns | 0.0083 ns |  0.19 | 
 */

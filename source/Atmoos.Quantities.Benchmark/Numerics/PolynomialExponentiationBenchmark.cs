@@ -22,7 +22,7 @@ public class PolynomialExponentiationBenchmark
 
 /* Summary
 
-BenchmarkDotNet v0.15.4, Linux Arch Linux
+BenchmarkDotNet v0.15.8, Linux Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Max: 0.40GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
 .NET SDK 10.0.100
   [Host]     : .NET 10.0.0 (10.0.0, 42.42.42.42424), X64 RyuJIT x86-64-v3
@@ -31,18 +31,18 @@ Intel Core i7-8565U CPU 1.80GHz (Max: 0.40GHz) (Whiskey Lake), 1 CPU, 8 logical 
 
 | Method        | Exponent | Mean      | Error     | Ratio |
 |-------------- |--------- |----------:|----------:|------:|
-| TrivialExp    | -5       | 27.177 ns | 0.0605 ns |  1.00 |
-| PolynomialExp | -5       | 12.552 ns | 0.0898 ns |  0.46 |
+| TrivialExp    | -5       | 27.686 ns | 0.0809 ns |  1.00 |
+| PolynomialExp | -5       | 12.689 ns | 0.0134 ns |  0.46 |
 |               |          |           |           |       |
-| TrivialExp    | -2       | 14.964 ns | 0.0209 ns |  1.00 |
-| PolynomialExp | -2       |  5.930 ns | 0.0189 ns |  0.40 |
+| TrivialExp    | -2       | 14.767 ns | 0.1461 ns |  1.00 |
+| PolynomialExp | -2       |  4.840 ns | 0.0074 ns |  0.33 |
 |               |          |           |           |       |
-| TrivialExp    | 0        | 11.397 ns | 0.0254 ns |  1.00 |
-| PolynomialExp | 0        |  3.389 ns | 0.0403 ns |  0.30 |
+| TrivialExp    | 0        | 11.157 ns | 0.0718 ns |  1.00 |
+| PolynomialExp | 0        |  3.497 ns | 0.0140 ns |  0.31 |
 |               |          |           |           |       |
-| TrivialExp    | 2        | 14.882 ns | 0.0368 ns |  1.00 |
-| PolynomialExp | 2        |  3.457 ns | 0.0021 ns |  0.23 |
+| TrivialExp    | 2        | 14.514 ns | 0.0818 ns |  1.00 |
+| PolynomialExp | 2        |  3.639 ns | 0.0054 ns |  0.25 |
 |               |          |           |           |       |
-| TrivialExp    | 5        | 27.829 ns | 0.0916 ns |  1.00 |
-| PolynomialExp | 5        | 10.910 ns | 0.0438 ns |  0.39 |
+| TrivialExp    | 5        | 27.648 ns | 0.2600 ns |  1.00 |
+| PolynomialExp | 5        | 11.130 ns | 0.0601 ns |  0.40 |
 */

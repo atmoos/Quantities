@@ -22,16 +22,16 @@ public class ParsingBenchmark
 
 /* Summary
 
-BenchmarkDotNet v0.15.4, Linux Arch Linux
+BenchmarkDotNet v0.15.8, Linux Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Max: 0.40GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
 .NET SDK 10.0.100
   [Host]     : .NET 10.0.0 (10.0.0, 42.42.42.42424), X64 RyuJIT x86-64-v3
   DefaultJob : .NET 10.0.0 (10.0.0, 42.42.42.42424), X64 RyuJIT x86-64-v3
 
 
-| Method        | Mean        | Error     | Ratio | Allocated | Alloc Ratio |
-|-------------- |------------:|----------:|------:|----------:|------------:|
-| ParseDateTime |    228.7 ns |   0.28 ns |  1.00 |         - |          NA |
-| ParseScalar   |  5,724.0 ns |  12.69 ns | 25.03 |     368 B |          NA |
-| ParseCompound | 12,039.6 ns | 236.00 ns | 52.65 |    1352 B |          NA |
+| Method        | Mean        | Error    | Ratio | Allocated | Alloc Ratio |
+|-------------- |------------:|---------:|------:|----------:|------------:|
+| ParseDateTime |    232.8 ns |  0.15 ns |  1.00 |         - |          NA |
+| ParseScalar   |  5,777.2 ns | 26.46 ns | 24.82 |     368 B |          NA |
+| ParseCompound | 11,963.5 ns | 26.38 ns | 51.39 |    1352 B |          NA |
 */

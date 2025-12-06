@@ -43,7 +43,7 @@ public class DividingQuantities
 
 /* Summary
 
-BenchmarkDotNet v0.15.4, Linux Arch Linux
+BenchmarkDotNet v0.15.8, Linux Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Max: 0.40GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
 .NET SDK 10.0.100
   [Host]     : .NET 10.0.0 (10.0.0, 42.42.42.42424), X64 RyuJIT x86-64-v3
@@ -52,10 +52,10 @@ Intel Core i7-8565U CPU 1.80GHz (Max: 0.40GHz) (Whiskey Lake), 1 CPU, 8 logical 
 
 | Method         | Mean      | Error     | Ratio | Allocated | Alloc Ratio |
 |--------------- |----------:|----------:|------:|----------:|------------:|
-| Trivial        | 15.626 ns | 0.0295 ns |  1.00 |         - |          NA |
-| DivideSi       |  9.459 ns | 0.0175 ns |  0.61 |         - |          NA |
-| DivideImperial |  9.467 ns | 0.0119 ns |  0.61 |         - |          NA |
-| DivideMixed    |  7.243 ns | 0.0224 ns |  0.46 |         - |          NA |
-| DivideAliased  |  8.009 ns | 0.0169 ns |  0.51 |         - |          NA |
-| DividePureSi   |  6.330 ns | 0.0126 ns |  0.41 |         - |          NA |
+| Trivial        | 15.598 ns | 0.0320 ns |  1.00 |         - |          NA |
+| DivideSi       |  6.415 ns | 0.0599 ns |  0.41 |         - |          NA |
+| DivideImperial |  7.924 ns | 0.0144 ns |  0.51 |         - |          NA |
+| DivideMixed    |  6.477 ns | 0.0104 ns |  0.42 |         - |          NA |
+| DivideAliased  |  7.814 ns | 0.0210 ns |  0.50 |         - |          NA |
+| DividePureSi   |  7.664 ns | 0.0210 ns |  0.49 |         - |          NA |
 */

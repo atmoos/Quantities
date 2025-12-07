@@ -34,20 +34,9 @@ public readonly struct Area : IQuantity<Area>, IArea
     public String ToString(String? format, IFormatProvider? provider) => this.area.ToString(format, provider);
 
     public static implicit operator Double(Area area) => area.area;
-    public static Boolean operator ==(Area left, Area right) => left.Equals(right);
-    public static Boolean operator !=(Area left, Area right) => !left.Equals(right);
-    public static Boolean operator >(Area left, Area right) => left.area > right.area;
-    public static Boolean operator >=(Area left, Area right) => left.area >= right.area;
-    public static Boolean operator <(Area left, Area right) => left.area < right.area;
-    public static Boolean operator <=(Area left, Area right) => left.area <= right.area;
-    public static Area operator +(Area left, Area right) => new(left.area + right.area);
-    public static Area operator -(Area left, Area right) => new(left.area - right.area);
-    public static Area operator *(Double scalar, Area right) => new(scalar * right.area);
+
     public static Volume operator *(Area area, Length length) => Volume.Times(in area, in length);
-    public static Area operator *(Area left, Double scalar) => new(scalar * left.area);
     public static Length operator /(Area left, Length right) => Length.From(in left, in right);
-    public static Area operator /(Area left, Double scalar) => new(left.area / scalar);
-    public static Double operator /(Area left, Area right) => left.area.Ratio(in right.area);
 
     public static Force operator *(Area area, Pressure pressure) => Force.From(in pressure, in area);
 }

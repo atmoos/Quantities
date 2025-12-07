@@ -35,18 +35,6 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity
     public String ToString(String? format, IFormatProvider? provider) => this.velocity.ToString(format, provider);
 
     public static implicit operator Double(Velocity velocity) => velocity.velocity;
-    public static Boolean operator ==(Velocity left, Velocity right) => left.Equals(right);
-    public static Boolean operator !=(Velocity left, Velocity right) => !left.Equals(right);
-    public static Boolean operator >(Velocity left, Velocity right) => left.velocity > right.velocity;
-    public static Boolean operator >=(Velocity left, Velocity right) => left.velocity >= right.velocity;
-    public static Boolean operator <(Velocity left, Velocity right) => left.velocity < right.velocity;
-    public static Boolean operator <=(Velocity left, Velocity right) => left.velocity <= right.velocity;
-    public static Velocity operator +(Velocity left, Velocity right) => new(left.velocity + right.velocity);
-    public static Velocity operator -(Velocity left, Velocity right) => new(left.velocity - right.velocity);
-    public static Velocity operator *(Double scalar, Velocity right) => new(scalar * right.velocity);
-    public static Velocity operator *(Velocity left, Double scalar) => new(scalar * left.velocity);
-    public static Velocity operator /(Velocity left, Double scalar) => new(left.velocity / scalar);
-    public static Double operator /(Velocity left, Velocity right) => left.velocity.Ratio(in right.velocity);
 
     public static Power operator *(Velocity velocity, Force force) => Power.From(in force, in velocity);
     public static Length operator *(Velocity velocity, Time time) => Length.From(in velocity, in time);

@@ -22,16 +22,4 @@ public readonly struct Mass : IQuantity<Mass>, IMass
     public String ToString(String? format, IFormatProvider? provider) => this.mass.ToString(format, provider);
 
     public static implicit operator Double(Mass mass) => mass.mass;
-    public static Boolean operator ==(Mass left, Mass right) => left.Equals(right);
-    public static Boolean operator !=(Mass left, Mass right) => !left.Equals(right);
-    public static Boolean operator >(Mass left, Mass right) => left.mass > right.mass;
-    public static Boolean operator >=(Mass left, Mass right) => left.mass >= right.mass;
-    public static Boolean operator <(Mass left, Mass right) => left.mass < right.mass;
-    public static Boolean operator <=(Mass left, Mass right) => left.mass <= right.mass;
-    public static Mass operator +(Mass left, Mass right) => new(left.mass + right.mass);
-    public static Mass operator -(Mass left, Mass right) => new(left.mass - right.mass);
-    public static Mass operator *(Double scalar, Mass right) => new(scalar * right.mass);
-    public static Mass operator *(Mass left, Double scalar) => new(scalar * left.mass);
-    public static Mass operator /(Mass left, Double scalar) => new(left.mass / scalar);
-    public static Double operator /(Mass left, Mass right) => left.mass.Ratio(in right.mass);
 }

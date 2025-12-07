@@ -32,18 +32,6 @@ public readonly struct Pressure : IQuantity<Pressure>, IPressure
     public String ToString(String? format, IFormatProvider? provider) => this.pressure.ToString(format, provider);
 
     public static implicit operator Double(Pressure pressure) => pressure.pressure;
-    public static Boolean operator ==(Pressure left, Pressure right) => left.Equals(right);
-    public static Boolean operator !=(Pressure left, Pressure right) => !left.Equals(right);
-    public static Boolean operator >(Pressure left, Pressure right) => left.pressure > right.pressure;
-    public static Boolean operator >=(Pressure left, Pressure right) => left.pressure >= right.pressure;
-    public static Boolean operator <(Pressure left, Pressure right) => left.pressure < right.pressure;
-    public static Boolean operator <=(Pressure left, Pressure right) => left.pressure <= right.pressure;
-    public static Pressure operator +(Pressure left, Pressure right) => new(left.pressure + right.pressure);
-    public static Pressure operator -(Pressure left, Pressure right) => new(left.pressure - right.pressure);
-    public static Pressure operator *(Double scalar, Pressure right) => new(scalar * right.pressure);
-    public static Pressure operator *(Pressure left, Double scalar) => new(scalar * left.pressure);
-    public static Pressure operator /(Pressure left, Double scalar) => new(left.pressure / scalar);
-    public static Double operator /(Pressure left, Pressure right) => left.pressure.Ratio(in right.pressure);
 
     public static Force operator *(Pressure pressure, Area area) => Force.From(in pressure, in area);
 }

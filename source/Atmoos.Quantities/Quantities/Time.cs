@@ -29,18 +29,6 @@ public readonly struct Time : IQuantity<Time>, ITime
     public String ToString(String? format, IFormatProvider? provider) => this.time.ToString(format, provider);
 
     public static implicit operator Double(Time time) => time.time;
-    public static Boolean operator ==(Time left, Time right) => left.Equals(right);
-    public static Boolean operator !=(Time left, Time right) => !left.Equals(right);
-    public static Boolean operator >(Time left, Time right) => left.time > right.time;
-    public static Boolean operator >=(Time left, Time right) => left.time >= right.time;
-    public static Boolean operator <(Time left, Time right) => left.time < right.time;
-    public static Boolean operator <=(Time left, Time right) => left.time <= right.time;
-    public static Time operator +(Time left, Time right) => new(left.time + right.time);
-    public static Time operator -(Time left, Time right) => new(left.time - right.time);
-    public static Time operator *(Double scalar, Time right) => new(scalar * right.time);
-    public static Time operator *(Time left, Double scalar) => new(scalar * left.time);
-    public static Time operator /(Time left, Double scalar) => new(left.time / scalar);
-    public static Double operator /(Time left, Time right) => left.time.Ratio(in right.time);
 
     public static Energy operator *(Time time, Power power) => Energy.From(in power, in time);
     public static Length operator *(Time time, Velocity velocity) => Length.From(in velocity, in time);

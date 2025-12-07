@@ -25,18 +25,6 @@ public readonly struct Frequency : IQuantity<Frequency>, IFrequency
     public String ToString(String? format, IFormatProvider? provider) => this.frequency.ToString(format, provider);
 
     public static implicit operator Double(Frequency frequency) => frequency.frequency;
-    public static Boolean operator ==(Frequency left, Frequency right) => left.Equals(right);
-    public static Boolean operator !=(Frequency left, Frequency right) => !left.Equals(right);
-    public static Boolean operator >(Frequency left, Frequency right) => left.frequency > right.frequency;
-    public static Boolean operator >=(Frequency left, Frequency right) => left.frequency >= right.frequency;
-    public static Boolean operator <(Frequency left, Frequency right) => left.frequency < right.frequency;
-    public static Boolean operator <=(Frequency left, Frequency right) => left.frequency <= right.frequency;
-    public static Frequency operator +(Frequency left, Frequency right) => new(left.frequency + right.frequency);
-    public static Frequency operator -(Frequency left, Frequency right) => new(left.frequency - right.frequency);
-    public static Frequency operator *(Double scalar, Frequency right) => new(scalar * right.frequency);
-    public static Frequency operator *(Frequency left, Double scalar) => new(scalar * left.frequency);
-    public static Frequency operator /(Frequency left, Double scalar) => new(left.frequency / scalar);
-    public static Double operator /(Frequency left, Frequency right) => left.frequency.Ratio(in right.frequency);
 
     public static Time operator /(Double scalar, Frequency frequency) => Time.From(scalar, in frequency);
     public static Double operator *(Frequency frequency, Time time) => frequency.frequency * time.Value;

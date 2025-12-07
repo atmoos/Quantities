@@ -27,18 +27,6 @@ public readonly struct ElectricCurrent : IQuantity<ElectricCurrent>, IElectricCu
     public override String ToString() => this.current.ToString();
 
     public static implicit operator Double(ElectricCurrent current) => current.current;
-    public static Boolean operator ==(ElectricCurrent left, ElectricCurrent right) => left.Equals(right);
-    public static Boolean operator !=(ElectricCurrent left, ElectricCurrent right) => !left.Equals(right);
-    public static Boolean operator >(ElectricCurrent left, ElectricCurrent right) => left.current > right.current;
-    public static Boolean operator >=(ElectricCurrent left, ElectricCurrent right) => left.current >= right.current;
-    public static Boolean operator <(ElectricCurrent left, ElectricCurrent right) => left.current < right.current;
-    public static Boolean operator <=(ElectricCurrent left, ElectricCurrent right) => left.current <= right.current;
-    public static ElectricCurrent operator +(ElectricCurrent left, ElectricCurrent right) => new(left.current + right.current);
-    public static ElectricCurrent operator -(ElectricCurrent left, ElectricCurrent right) => new(left.current - right.current);
-    public static ElectricCurrent operator *(Double scalar, ElectricCurrent right) => new(scalar * right.current);
-    public static ElectricCurrent operator *(ElectricCurrent left, Double scalar) => new(scalar * left.current);
-    public static ElectricCurrent operator /(ElectricCurrent left, Double scalar) => new(left.current / scalar);
-    public static Double operator /(ElectricCurrent left, ElectricCurrent right) => left.current.Ratio(in right.current);
 
     // Ohm's Law
     public static ElectricPotential operator *(ElectricCurrent current, ElectricalResistance resistance) => ElectricPotential.From(in current, in resistance);

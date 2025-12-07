@@ -33,18 +33,6 @@ public readonly struct Data : IQuantity<Data>, IAmountOfInformation
     public String ToString(String? format, IFormatProvider? provider) => this.data.ToString(format, provider);
 
     public static implicit operator Double(Data data) => data.data;
-    public static Boolean operator ==(Data left, Data right) => left.Equals(right);
-    public static Boolean operator !=(Data left, Data right) => !left.Equals(right);
-    public static Boolean operator >(Data left, Data right) => left.data > right.data;
-    public static Boolean operator >=(Data left, Data right) => left.data >= right.data;
-    public static Boolean operator <(Data left, Data right) => left.data < right.data;
-    public static Boolean operator <=(Data left, Data right) => left.data <= right.data;
-    public static Data operator +(Data left, Data right) => new(left.data + right.data);
-    public static Data operator -(Data left, Data right) => new(left.data - right.data);
-    public static Data operator *(Double scalar, Data right) => new(scalar * right.data);
-    public static Data operator *(Data left, Double scalar) => new(scalar * left.data);
-    public static Data operator /(Data left, Double scalar) => new(left.data / scalar);
-    public static Double operator /(Data left, Data right) => left.data.Ratio(in right.data);
 
     public static DataRate operator /(Data data, Time time) => DataRate.From(in data, in time);
 }

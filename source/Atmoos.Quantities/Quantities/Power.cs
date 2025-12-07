@@ -31,18 +31,6 @@ public readonly struct Power : IQuantity<Power>, IPower
     public String ToString(String? format, IFormatProvider? provider) => this.power.ToString(format, provider);
 
     public static implicit operator Double(Power power) => power.power;
-    public static Boolean operator ==(Power left, Power right) => left.Equals(right);
-    public static Boolean operator !=(Power left, Power right) => !left.Equals(right);
-    public static Boolean operator >(Power left, Power right) => left.power > right.power;
-    public static Boolean operator >=(Power left, Power right) => left.power >= right.power;
-    public static Boolean operator <(Power left, Power right) => left.power < right.power;
-    public static Boolean operator <=(Power left, Power right) => left.power <= right.power;
-    public static Power operator +(Power left, Power right) => new(left.power + right.power);
-    public static Power operator -(Power left, Power right) => new(left.power - right.power);
-    public static Power operator *(Double scalar, Power right) => new(scalar * right.power);
-    public static Power operator *(Power left, Double scalar) => new(scalar * left.power);
-    public static Power operator /(Power left, Double scalar) => new(left.power / scalar);
-    public static Double operator /(Power left, Power right) => left.power.Ratio(in right.power);
 
     public static ElectricPotential operator /(Power power, ElectricCurrent current) => ElectricPotential.From(in power, in current);
     public static ElectricCurrent operator /(Power power, ElectricPotential potential) => ElectricCurrent.From(in power, in potential);

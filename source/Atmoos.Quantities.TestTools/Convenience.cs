@@ -21,13 +21,17 @@ public static class Convenience
     public static void Matches<TQuantity>(this TQuantity actual, TQuantity expected, Int32 precision = fullPrecision)
         where TQuantity : struct, IQuantity<TQuantity>, IDimension
     {
-        ReformatEqualMessage((e, a, p) => a.Equal(e, p), expected, actual, precision);
+        ReformatEqualMessage((e, a, p) => a.Equal(e, (n, d) => n.Value.Ratio(d.Value), p), expected, actual, precision);
         Assert.True(actual.Value.HasSameMeasure(expected.Value), $"Measure mismatch: {actual} != {expected}");
     }
     public static void Equal<T>(this T actual, T expected, Int32 precision = fullPrecision)
-    where T : IDivisionOperators<T, T, Double>
+        where T : IDivisionOperators<T, T, Double>
     {
-        var relativeEquality = actual / expected;
+        Equal(actual, expected, (a, e) => a / e, precision);
+    }
+    public static void Equal<T>(this T actual, T expected, Func<T, T, Double> division, Int32 precision = fullPrecision)
+    {
+        var relativeEquality = division(actual, expected);
         PrecisionIsBounded(1d, relativeEquality, precision);
     }
     public static void PrecisionIsBounded(Double expected, Double actual, Int32 precision = fullPrecision)

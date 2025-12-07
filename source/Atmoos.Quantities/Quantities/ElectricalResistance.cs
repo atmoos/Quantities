@@ -25,18 +25,6 @@ public readonly struct ElectricalResistance : IQuantity<ElectricalResistance>, I
     public String ToString(String? format, IFormatProvider? provider) => this.resistance.ToString(format, provider);
 
     public static implicit operator Double(ElectricalResistance resistance) => resistance.resistance;
-    public static Boolean operator ==(ElectricalResistance left, ElectricalResistance right) => left.Equals(right);
-    public static Boolean operator !=(ElectricalResistance left, ElectricalResistance right) => !left.Equals(right);
-    public static Boolean operator >(ElectricalResistance left, ElectricalResistance right) => left.resistance > right.resistance;
-    public static Boolean operator >=(ElectricalResistance left, ElectricalResistance right) => left.resistance >= right.resistance;
-    public static Boolean operator <(ElectricalResistance left, ElectricalResistance right) => left.resistance < right.resistance;
-    public static Boolean operator <=(ElectricalResistance left, ElectricalResistance right) => left.resistance <= right.resistance;
-    public static ElectricalResistance operator +(ElectricalResistance left, ElectricalResistance right) => new(left.resistance + right.resistance);
-    public static ElectricalResistance operator -(ElectricalResistance left, ElectricalResistance right) => new(left.resistance - right.resistance);
-    public static ElectricalResistance operator *(Double scalar, ElectricalResistance right) => new(scalar * right.resistance);
-    public static ElectricalResistance operator *(ElectricalResistance left, Double scalar) => new(scalar * left.resistance);
-    public static ElectricalResistance operator /(ElectricalResistance left, Double scalar) => new(left.resistance / scalar);
-    public static Double operator /(ElectricalResistance left, ElectricalResistance right) => left.resistance.Ratio(in right.resistance);
 
     // Ohm's Law
     public static ElectricPotential operator *(ElectricalResistance resistance, ElectricCurrent current) => ElectricPotential.From(in current, in resistance);

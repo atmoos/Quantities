@@ -29,7 +29,7 @@ public class ConvertingQuantities
 
 /* Summary
 
-BenchmarkDotNet v0.15.4, Linux Arch Linux
+BenchmarkDotNet v0.15.8, Linux Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Max: 0.40GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
 .NET SDK 10.0.100
   [Host]     : .NET 10.0.0 (10.0.0, 42.42.42.42424), X64 RyuJIT x86-64-v3
@@ -38,8 +38,8 @@ Intel Core i7-8565U CPU 1.80GHz (Max: 0.40GHz) (Whiskey Lake), 1 CPU, 8 logical 
 
 | Method                  | Mean      | Error     | Ratio | Allocated | Alloc Ratio |
 |------------------------ |----------:|----------:|------:|----------:|------------:|
-| TrivialImplementation   | 0.3399 ns | 0.0025 ns |  1.00 |         - |          NA |
-| QuantityImplementation  | 3.1839 ns | 0.0240 ns |  9.37 |         - |          NA |
-| QuantityToSame          | 7.6270 ns | 0.0258 ns | 22.44 |         - |          NA |
-| QuantityToVeryDifferent | 8.7793 ns | 0.0269 ns | 25.83 |         - |          NA |
+| TrivialImplementation   | 0.4036 ns | 0.0070 ns |  1.00 |         - |          NA |
+| QuantityImplementation  | 3.0707 ns | 0.0270 ns |  7.61 |         - |          NA |
+| QuantityToSame          | 6.4970 ns | 0.0100 ns | 16.10 |         - |          NA |
+| QuantityToVeryDifferent | 8.3149 ns | 0.0133 ns | 20.61 |         - |          NA |
 */

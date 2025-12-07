@@ -26,7 +26,7 @@ public class QuantitiesBenchmark
 
 /* Summary
 
-BenchmarkDotNet v0.15.4, Linux Arch Linux
+BenchmarkDotNet v0.15.8, Linux Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Max: 0.40GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
 .NET SDK 10.0.100
   [Host]   : .NET 10.0.0 (10.0.0, 42.42.42.42424), X64 RyuJIT x86-64-v3
@@ -37,6 +37,6 @@ WarmupCount=3
 
 | Method                       | Mean      | Error     | Allocated |
 |----------------------------- |----------:|----------:|----------:|
-| ConstructionIsAllocationFree | 0.3614 ns | 0.0205 ns |         - |
-| DeconstructIsAllocationFree  | 1.1021 ns | 0.2515 ns |         - |
+| ConstructionIsAllocationFree | 0.3908 ns | 0.0302 ns |         - |
+| DeconstructIsAllocationFree  | 1.0737 ns | 0.0779 ns |         - |
 */

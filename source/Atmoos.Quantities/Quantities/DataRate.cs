@@ -31,8 +31,5 @@ public readonly struct DataRate : IQuantity<DataRate>, IInformationRate
     public override String ToString() => this.dataRate.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.dataRate.ToString(format, provider);
 
-
-    public static implicit operator Double(DataRate rate) => rate.dataRate;
-
     public static Data operator *(DataRate rate, Time time) => Data.From(in rate, in time);
 }

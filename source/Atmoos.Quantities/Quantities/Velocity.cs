@@ -34,8 +34,6 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity
     public override String ToString() => this.velocity.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.velocity.ToString(format, provider);
 
-    public static implicit operator Double(Velocity velocity) => velocity.velocity;
-
     public static Power operator *(Velocity velocity, Force force) => Power.From(in force, in velocity);
     public static Length operator *(Velocity velocity, Time time) => Length.From(in velocity, in time);
     public static Acceleration operator /(Velocity velocity, Time time) => Acceleration.From(in velocity, in time);

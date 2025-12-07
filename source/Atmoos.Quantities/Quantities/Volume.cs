@@ -32,8 +32,6 @@ public readonly struct Volume : IQuantity<Volume>, IVolume
     public override String ToString() => this.volume.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.volume.ToString(format, provider);
 
-    public static implicit operator Double(Volume Volume) => Volume.volume;
-
     public static Area operator /(Volume volume, Length length) => Area.From(in volume, in length);
     public static Length operator /(Volume volume, Area area) => Length.From(in volume, in area);
 }

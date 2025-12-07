@@ -29,8 +29,6 @@ public readonly struct Length : IQuantity<Length>, ILength
     public override String ToString() => this.length.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.length.ToString(format, provider);
 
-    public static implicit operator Double(Length length) => length.length;
-
     public static Area operator *(Length left, Length right) => Area.From(in left, in right);
     public static Volume operator *(Length length, Area area) => Volume.Times(length, area);
 

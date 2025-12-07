@@ -31,7 +31,5 @@ public readonly struct Acceleration : IQuantity<Acceleration>, IAcceleration
     public override String ToString() => this.acceleration.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.acceleration.ToString(format, provider);
 
-    public static implicit operator Double(Acceleration acceleration) => acceleration.acceleration;
-
     public static Velocity operator *(Acceleration acceleration, Time time) => Velocity.From(in acceleration, in time);
 }

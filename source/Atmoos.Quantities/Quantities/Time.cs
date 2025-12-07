@@ -28,8 +28,6 @@ public readonly struct Time : IQuantity<Time>, ITime
     public override String ToString() => this.time.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.time.ToString(format, provider);
 
-    public static implicit operator Double(Time time) => time.time;
-
     public static Energy operator *(Time time, Power power) => Energy.From(in power, in time);
     public static Length operator *(Time time, Velocity velocity) => Length.From(in velocity, in time);
     public static Double operator *(Time time, Frequency frequency) => time.time * frequency.Value;

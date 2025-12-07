@@ -31,7 +31,5 @@ public readonly struct Pressure : IQuantity<Pressure>, IPressure
     public override String ToString() => this.pressure.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.pressure.ToString(format, provider);
 
-    public static implicit operator Double(Pressure pressure) => pressure.pressure;
-
     public static Force operator *(Pressure pressure, Area area) => Force.From(in pressure, in area);
 }

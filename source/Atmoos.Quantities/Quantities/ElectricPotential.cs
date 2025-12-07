@@ -28,8 +28,6 @@ public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectr
     public override Int32 GetHashCode() => this.potential.GetHashCode();
     public override String ToString() => this.potential.ToString();
 
-    public static implicit operator Double(ElectricPotential potential) => potential.potential;
-
     #region Ohm's Law
     public static ElectricalResistance operator /(ElectricPotential potential, ElectricCurrent current) => ElectricalResistance.From(in potential, in current);
     public static ElectricCurrent operator /(ElectricPotential potential, ElectricalResistance resistance) => ElectricCurrent.From(in potential, in resistance);

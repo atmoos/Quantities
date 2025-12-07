@@ -33,8 +33,6 @@ public readonly struct Area : IQuantity<Area>, IArea
     public override String ToString() => this.area.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.area.ToString(format, provider);
 
-    public static implicit operator Double(Area area) => area.area;
-
     public static Volume operator *(Area area, Length length) => Volume.Times(in area, in length);
     public static Length operator /(Area left, Length right) => Length.From(in left, in right);
 

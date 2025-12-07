@@ -26,8 +26,6 @@ public readonly struct Force : IQuantity<Force>, IForce
     public override String ToString() => this.force.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.force.ToString(format, provider);
 
-    public static implicit operator Double(Force force) => force.force;
-
     public static Power operator *(Force force, Velocity velocity) => Power.From(in force, in velocity);
     public static Pressure operator /(Force force, Area area) => Pressure.From(in force, in area);
 }

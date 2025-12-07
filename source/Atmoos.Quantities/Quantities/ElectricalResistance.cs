@@ -24,8 +24,6 @@ public readonly struct ElectricalResistance : IQuantity<ElectricalResistance>, I
     public override String ToString() => this.resistance.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.resistance.ToString(format, provider);
 
-    public static implicit operator Double(ElectricalResistance resistance) => resistance.resistance;
-
     // Ohm's Law
     public static ElectricPotential operator *(ElectricalResistance resistance, ElectricCurrent current) => ElectricPotential.From(in current, in resistance);
 }

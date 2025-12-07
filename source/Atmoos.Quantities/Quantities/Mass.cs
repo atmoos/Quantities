@@ -20,6 +20,4 @@ public readonly struct Mass : IQuantity<Mass>, IMass
     public override Int32 GetHashCode() => this.mass.GetHashCode();
     public override String ToString() => this.mass.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.mass.ToString(format, provider);
-
-    public static implicit operator Double(Mass mass) => mass.mass;
 }

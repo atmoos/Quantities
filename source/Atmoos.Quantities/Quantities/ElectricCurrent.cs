@@ -26,8 +26,6 @@ public readonly struct ElectricCurrent : IQuantity<ElectricCurrent>, IElectricCu
     public override Int32 GetHashCode() => this.current.GetHashCode();
     public override String ToString() => this.current.ToString();
 
-    public static implicit operator Double(ElectricCurrent current) => current.current;
-
     // Ohm's Law
     public static ElectricPotential operator *(ElectricCurrent current, ElectricalResistance resistance) => ElectricPotential.From(in current, in resistance);
     public static Power operator *(ElectricCurrent current, ElectricPotential potential) => Power.From(in potential, in current);

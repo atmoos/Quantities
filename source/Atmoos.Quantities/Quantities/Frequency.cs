@@ -24,8 +24,6 @@ public readonly struct Frequency : IQuantity<Frequency>, IFrequency
     public override String ToString() => this.frequency.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.frequency.ToString(format, provider);
 
-    public static implicit operator Double(Frequency frequency) => frequency.frequency;
-
     public static Time operator /(Double scalar, Frequency frequency) => Time.From(scalar, in frequency);
     public static Double operator *(Frequency frequency, Time time) => frequency.frequency * time.Value;
 }

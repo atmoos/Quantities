@@ -30,8 +30,6 @@ public readonly struct Energy : IQuantity<Energy>, IEnergy
     public override String ToString() => this.energy.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.energy.ToString(format, provider);
 
-    public static implicit operator Double(Energy energy) => energy.energy;
-
     public static Power operator /(Energy energy, Time time) => Power.From(in energy, in time);
     public static Time operator /(Energy energy, Power power) => Time.From(in energy, in power);
 }

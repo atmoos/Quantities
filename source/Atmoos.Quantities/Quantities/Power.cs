@@ -30,8 +30,6 @@ public readonly struct Power : IQuantity<Power>, IPower
     public override String ToString() => this.power.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.power.ToString(format, provider);
 
-    public static implicit operator Double(Power power) => power.power;
-
     public static ElectricPotential operator /(Power power, ElectricCurrent current) => ElectricPotential.From(in power, in current);
     public static ElectricCurrent operator /(Power power, ElectricPotential potential) => ElectricCurrent.From(in power, in potential);
     public static Velocity operator /(Power power, Force force) => Velocity.From(in power, in force);

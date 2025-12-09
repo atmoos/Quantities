@@ -1,16 +1,10 @@
-﻿using System.Numerics;
-using Atmoos.Quantities.Dimensions;
+﻿using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Units;
 
 namespace Atmoos.Quantities;
 
 public readonly struct Power : IQuantity<Power>, IPower
     , IScalar<Power, IPower>
-    , IMultiplyOperators<Power, Time, Energy>
-    , IDivisionOperators<Power, ElectricCurrent, ElectricPotential>
-    , IDivisionOperators<Power, ElectricPotential, ElectricCurrent>
-    , IDivisionOperators<Power, Force, Velocity>
-    , IDivisionOperators<Power, Velocity, Force>
 {
     private readonly Quantity power;
     internal Quantity Value => this.power;
@@ -29,10 +23,4 @@ public readonly struct Power : IQuantity<Power>, IPower
     public override Int32 GetHashCode() => this.power.GetHashCode();
     public override String ToString() => this.power.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.power.ToString(format, provider);
-
-    public static ElectricPotential operator /(Power power, ElectricCurrent current) => ElectricPotential.From(in power, in current);
-    public static ElectricCurrent operator /(Power power, ElectricPotential potential) => ElectricCurrent.From(in power, in potential);
-    public static Velocity operator /(Power power, Force force) => Velocity.From(in power, in force);
-    public static Force operator /(Power power, Velocity velocity) => Force.From(in power, in velocity);
-    public static Energy operator *(Power power, Time time) => Energy.From(in power, in time);
 }

@@ -1,5 +1,4 @@
-﻿using System.Numerics;
-using Atmoos.Quantities.Creation;
+﻿using Atmoos.Quantities.Creation;
 using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Units;
 
@@ -7,7 +6,6 @@ namespace Atmoos.Quantities;
 
 public readonly struct DataRate : IQuantity<DataRate>, IInformationRate
     , IQuotient<DataRate, IInformationRate, IAmountOfInformation, ITime>
-    , IMultiplyOperators<DataRate, Time, Data>
 {
     private readonly Quantity dataRate;
     internal Quantity Value => this.dataRate;
@@ -30,6 +28,4 @@ public readonly struct DataRate : IQuantity<DataRate>, IInformationRate
     public override Int32 GetHashCode() => this.dataRate.GetHashCode();
     public override String ToString() => this.dataRate.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.dataRate.ToString(format, provider);
-
-    public static Data operator *(DataRate rate, Time time) => Data.From(in rate, in time);
 }

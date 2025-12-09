@@ -1,13 +1,10 @@
-﻿using System.Numerics;
-using Atmoos.Quantities.Dimensions;
+﻿using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Units;
 
 namespace Atmoos.Quantities;
 
 public readonly struct ElectricCurrent : IQuantity<ElectricCurrent>, IElectricCurrent
     , IScalar<ElectricCurrent, IElectricCurrent>
-    , IMultiplyOperators<ElectricCurrent, ElectricPotential, Power>
-    , IMultiplyOperators<ElectricCurrent, ElectricalResistance, ElectricPotential>
 {
     private readonly Quantity current;
     internal Quantity Value => this.current;
@@ -25,8 +22,4 @@ public readonly struct ElectricCurrent : IQuantity<ElectricCurrent>, IElectricCu
     public override Boolean Equals(Object? obj) => obj is ElectricCurrent current && Equals(current);
     public override Int32 GetHashCode() => this.current.GetHashCode();
     public override String ToString() => this.current.ToString();
-
-    // Ohm's Law
-    public static ElectricPotential operator *(ElectricCurrent current, ElectricalResistance resistance) => ElectricPotential.From(in current, in resistance);
-    public static Power operator *(ElectricCurrent current, ElectricPotential potential) => Power.From(in potential, in current);
 }

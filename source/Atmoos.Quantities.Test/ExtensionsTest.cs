@@ -1,3 +1,4 @@
+using Atmoos.Quantities.Physics.Mechanics;
 using Atmoos.Quantities.Units.Si.Metric;
 
 using static System.Math;

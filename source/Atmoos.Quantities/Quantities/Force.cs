@@ -1,13 +1,10 @@
-﻿using System.Numerics;
-using Atmoos.Quantities.Dimensions;
+﻿using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Units;
 
 namespace Atmoos.Quantities;
 
 public readonly struct Force : IQuantity<Force>, IForce
     , IScalar<Force, IForce>
-    , IMultiplyOperators<Force, Velocity, Power>
-    , IDivisionOperators<Force, Area, Pressure>
 {
     private readonly Quantity force;
     internal Quantity Value => this.force;
@@ -25,7 +22,4 @@ public readonly struct Force : IQuantity<Force>, IForce
     public override Int32 GetHashCode() => this.force.GetHashCode();
     public override String ToString() => this.force.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.force.ToString(format, provider);
-
-    public static Power operator *(Force force, Velocity velocity) => Power.From(in force, in velocity);
-    public static Pressure operator /(Force force, Area area) => Pressure.From(in force, in area);
 }

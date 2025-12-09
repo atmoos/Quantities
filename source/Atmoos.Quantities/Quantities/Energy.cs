@@ -1,5 +1,4 @@
-﻿using System.Numerics;
-using Atmoos.Quantities.Creation;
+﻿using Atmoos.Quantities.Creation;
 using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Units;
 
@@ -7,8 +6,6 @@ namespace Atmoos.Quantities;
 
 public readonly struct Energy : IQuantity<Energy>, IEnergy
     , IProduct<Energy, IEnergy, IPower, ITime>
-    , IDivisionOperators<Energy, Time, Power>
-    , IDivisionOperators<Energy, Power, Time>
 {
     private readonly Quantity energy;
     internal Quantity Value => this.energy;
@@ -29,7 +26,4 @@ public readonly struct Energy : IQuantity<Energy>, IEnergy
     public override Int32 GetHashCode() => this.energy.GetHashCode();
     public override String ToString() => this.energy.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.energy.ToString(format, provider);
-
-    public static Power operator /(Energy energy, Time time) => Power.From(in energy, in time);
-    public static Time operator /(Energy energy, Power power) => Time.From(in energy, in power);
 }

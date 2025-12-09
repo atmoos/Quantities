@@ -1,5 +1,4 @@
-﻿using System.Numerics;
-using Atmoos.Quantities.Core.Numerics;
+﻿using Atmoos.Quantities.Core.Numerics;
 using Atmoos.Quantities.Creation;
 using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Units;
@@ -8,9 +7,6 @@ namespace Atmoos.Quantities;
 
 public readonly struct Area : IQuantity<Area>, IArea
     , IPowerOf<Area, IArea, ILength, Two>
-    , IMultiplyOperators<Area, Length, Volume>
-    , IDivisionOperators<Area, Length, Length>
-    , IMultiplyOperators<Area, Pressure, Force>
 {
     private readonly Quantity area;
     internal Quantity Value => this.area;
@@ -32,9 +28,4 @@ public readonly struct Area : IQuantity<Area>, IArea
     public override Int32 GetHashCode() => this.area.GetHashCode();
     public override String ToString() => this.area.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.area.ToString(format, provider);
-
-    public static Volume operator *(Area area, Length length) => Volume.Times(in area, in length);
-    public static Length operator /(Area left, Length right) => Length.From(in left, in right);
-
-    public static Force operator *(Area area, Pressure pressure) => Force.From(in pressure, in area);
 }

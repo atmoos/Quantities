@@ -1,15 +1,10 @@
-﻿using System.Numerics;
-using Atmoos.Quantities.Dimensions;
+﻿using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Units;
 
 namespace Atmoos.Quantities;
 
 public readonly struct Time : IQuantity<Time>, ITime
     , IScalar<Time, ITime>
-    , IMultiplyOperators<Time, Power, Energy>
-    , IMultiplyOperators<Time, Velocity, Length>
-    , IMultiplyOperators<Time, DataRate, Data>
-    , IMultiplyOperators<Time, Acceleration, Velocity>
 {
     private readonly Quantity time;
     internal Quantity Value => this.time;
@@ -20,6 +15,8 @@ public readonly struct Time : IQuantity<Time>, ITime
     public static Time Of<TUnit>(in Double value, in Creation.Scalar<TUnit> measure)
         where TUnit : ITime, IUnit => new(measure.Create(in value));
     static Time IFactory<Time>.Create(in Quantity value) => new(in value);
+    internal static Time From(in Length length, in Velocity velocity) => new(length.Value / velocity.Value);
+    internal static Time From(in Velocity velocity, in Acceleration acceleration) => new(velocity.Value / acceleration.Value);
     internal static Time From(in Energy energy, in Power power) => new(energy.Value / power.Value);
     internal static Time From(Double numerator, in Frequency denominator) => new(numerator / denominator.Value);
     public Boolean Equals(Time other) => this.time.Equals(other.time);
@@ -27,12 +24,4 @@ public readonly struct Time : IQuantity<Time>, ITime
     public override Int32 GetHashCode() => this.time.GetHashCode();
     public override String ToString() => this.time.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.time.ToString(format, provider);
-
-    public static Energy operator *(Time time, Power power) => Energy.From(in power, in time);
-    public static Length operator *(Time time, Velocity velocity) => Length.From(in velocity, in time);
-    public static Double operator *(Time time, Frequency frequency) => time.time * frequency.Value;
-    public static Velocity operator *(Time time, Acceleration acceleration) => Velocity.From(in acceleration, in time);
-    public static Data operator *(Time time, DataRate rate) => Data.From(in time, in rate);
-
-    public static Frequency operator /(Double scalar, Time time) => Frequency.From(scalar, in time);
 }

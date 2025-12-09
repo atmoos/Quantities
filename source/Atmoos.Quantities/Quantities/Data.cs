@@ -1,5 +1,4 @@
-﻿using System.Numerics;
-using Atmoos.Quantities.Creation;
+﻿using Atmoos.Quantities.Creation;
 using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Units;
 
@@ -13,7 +12,6 @@ namespace Atmoos.Quantities;
 // ToDo #71: Find better naming
 public readonly struct Data : IQuantity<Data>, IAmountOfInformation
     , IScalar<Data, IAmountOfInformation>
-    , IDivisionOperators<Data, Time, DataRate>
 {
     private readonly Quantity data;
     internal Quantity Value => this.data;
@@ -31,6 +29,4 @@ public readonly struct Data : IQuantity<Data>, IAmountOfInformation
     public override Int32 GetHashCode() => this.data.GetHashCode();
     public override String ToString() => this.data.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.data.ToString(format, provider);
-
-    public static DataRate operator /(Data data, Time time) => DataRate.From(in data, in time);
 }

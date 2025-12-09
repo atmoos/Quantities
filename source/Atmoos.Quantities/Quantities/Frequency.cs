@@ -1,12 +1,10 @@
-﻿using System.Numerics;
-using Atmoos.Quantities.Dimensions;
+﻿using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Units;
 
 namespace Atmoos.Quantities;
 
 public readonly struct Frequency : IQuantity<Frequency>, IFrequency
     , IInvertible<Frequency, IFrequency, ITime>
-    , IMultiplyOperators<Frequency, Time, Double>
 {
     private readonly Quantity frequency;
     internal Quantity Value => this.frequency;
@@ -23,7 +21,4 @@ public readonly struct Frequency : IQuantity<Frequency>, IFrequency
     public override Int32 GetHashCode() => this.frequency.GetHashCode();
     public override String ToString() => this.frequency.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.frequency.ToString(format, provider);
-
-    public static Time operator /(Double scalar, Frequency frequency) => Time.From(scalar, in frequency);
-    public static Double operator *(Frequency frequency, Time time) => frequency.frequency * time.Value;
 }

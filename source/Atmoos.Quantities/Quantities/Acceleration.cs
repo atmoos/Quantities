@@ -1,5 +1,4 @@
-﻿using System.Numerics;
-using Atmoos.Quantities.Core.Numerics;
+﻿using Atmoos.Quantities.Core.Numerics;
 using Atmoos.Quantities.Creation;
 using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Units;
@@ -8,7 +7,6 @@ namespace Atmoos.Quantities;
 
 public readonly struct Acceleration : IQuantity<Acceleration>, IAcceleration
     , IQuotient<Acceleration, IAcceleration, ILength, ITime, Two>
-    , IMultiplyOperators<Acceleration, Time, Velocity>
 {
     private readonly Quantity acceleration;
     internal Quantity Value => this.acceleration;
@@ -30,6 +28,4 @@ public readonly struct Acceleration : IQuantity<Acceleration>, IAcceleration
     public override Int32 GetHashCode() => this.acceleration.GetHashCode();
     public override String ToString() => this.acceleration.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.acceleration.ToString(format, provider);
-
-    public static Velocity operator *(Acceleration acceleration, Time time) => Velocity.From(in acceleration, in time);
 }

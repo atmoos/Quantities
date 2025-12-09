@@ -1,5 +1,4 @@
-﻿using System.Numerics;
-using Atmoos.Quantities.Creation;
+﻿using Atmoos.Quantities.Creation;
 using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Units;
 
@@ -7,9 +6,6 @@ namespace Atmoos.Quantities;
 
 public readonly struct Velocity : IQuantity<Velocity>, IVelocity
     , IQuotient<Velocity, IVelocity, ILength, ITime>
-    , IMultiplyOperators<Velocity, Force, Power>
-    , IMultiplyOperators<Velocity, Time, Length>
-    , IDivisionOperators<Velocity, Time, Acceleration>
 {
     private readonly Quantity velocity;
     internal Quantity Value => this.velocity;
@@ -33,8 +29,4 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity
     public override Int32 GetHashCode() => this.velocity.GetHashCode();
     public override String ToString() => this.velocity.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.velocity.ToString(format, provider);
-
-    public static Power operator *(Velocity velocity, Force force) => Power.From(in force, in velocity);
-    public static Length operator *(Velocity velocity, Time time) => Length.From(in velocity, in time);
-    public static Acceleration operator /(Velocity velocity, Time time) => Acceleration.From(in velocity, in time);
 }

@@ -1,5 +1,4 @@
-﻿using System.Numerics;
-using Atmoos.Quantities.Creation;
+﻿using Atmoos.Quantities.Creation;
 using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Units;
 
@@ -7,9 +6,6 @@ namespace Atmoos.Quantities;
 
 public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectricPotential
     , IScalar<ElectricPotential, IElectricPotential>
-    , IMultiplyOperators<ElectricPotential, ElectricCurrent, Power>
-    , IDivisionOperators<ElectricPotential, ElectricCurrent, ElectricalResistance>
-    , IDivisionOperators<ElectricPotential, ElectricalResistance, ElectricCurrent>
 {
     private readonly Quantity potential;
     internal Quantity Value => this.potential;
@@ -27,11 +23,4 @@ public readonly struct ElectricPotential : IQuantity<ElectricPotential>, IElectr
     public override Boolean Equals(Object? obj) => obj is ElectricPotential potential && Equals(potential);
     public override Int32 GetHashCode() => this.potential.GetHashCode();
     public override String ToString() => this.potential.ToString();
-
-    #region Ohm's Law
-    public static ElectricalResistance operator /(ElectricPotential potential, ElectricCurrent current) => ElectricalResistance.From(in potential, in current);
-    public static ElectricCurrent operator /(ElectricPotential potential, ElectricalResistance resistance) => ElectricCurrent.From(in potential, in resistance);
-    #endregion Ohm's Law
-
-    public static Power operator *(ElectricPotential potential, ElectricCurrent current) => Power.From(in potential, in current);
 }

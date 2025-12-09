@@ -1,5 +1,4 @@
-﻿using System.Numerics;
-using Atmoos.Quantities.Core.Numerics;
+﻿using Atmoos.Quantities.Core.Numerics;
 using Atmoos.Quantities.Creation;
 using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Units;
@@ -8,8 +7,6 @@ namespace Atmoos.Quantities;
 
 public readonly struct Volume : IQuantity<Volume>, IVolume
     , IPowerOf<Volume, IVolume, ILength, Three>
-    , IDivisionOperators<Volume, Area, Length>
-    , IDivisionOperators<Volume, Length, Area>
 {
     private readonly Quantity volume;
     internal Quantity Value => this.volume;
@@ -31,7 +28,4 @@ public readonly struct Volume : IQuantity<Volume>, IVolume
     public override Int32 GetHashCode() => this.volume.GetHashCode();
     public override String ToString() => this.volume.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.volume.ToString(format, provider);
-
-    public static Area operator /(Volume volume, Length length) => Area.From(in volume, in length);
-    public static Length operator /(Volume volume, Area area) => Length.From(in volume, in area);
 }

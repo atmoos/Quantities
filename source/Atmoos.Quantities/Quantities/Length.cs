@@ -1,5 +1,4 @@
-﻿using System.Numerics;
-using Atmoos.Quantities.Creation;
+﻿using Atmoos.Quantities.Creation;
 using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Units;
 
@@ -7,9 +6,6 @@ namespace Atmoos.Quantities;
 
 public readonly struct Length : IQuantity<Length>, ILength
     , IScalar<Length, ILength>
-    , IMultiplyOperators<Length, Length, Area>
-    , IMultiplyOperators<Length, Area, Volume>
-    , IDivisionOperators<Length, Time, Velocity>
 {
     private readonly Quantity length;
     internal Quantity Value => this.length;
@@ -28,9 +24,4 @@ public readonly struct Length : IQuantity<Length>, ILength
     public override Int32 GetHashCode() => this.length.GetHashCode();
     public override String ToString() => this.length.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.length.ToString(format, provider);
-
-    public static Area operator *(Length left, Length right) => Area.From(in left, in right);
-    public static Volume operator *(Length length, Area area) => Volume.Times(length, area);
-
-    public static Velocity operator /(Length length, Time time) => Velocity.From(in length, in time);
 }

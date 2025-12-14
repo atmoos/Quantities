@@ -10,8 +10,9 @@ public class UserDefined
         Length equivalentToFourMetres = Length.Of(1, Si<MyPrefixFour, Metre>());
 
         Length fourActualSiMetres = equivalentToFourMetres.To(Si<Metre>());
+        var (value, unit) = fourActualSiMetres;
 
-        Assert.Equal(4d, fourActualSiMetres);
+        Assert.Equal((4d, "m"), (value, unit));
     }
 
     [Fact]
@@ -28,8 +29,9 @@ public class UserDefined
         Length equivalentToOneMetre = Length.Of(2, NonStandard<MyWhackWhackUnit>());
 
         Length oneActualSiMetres = equivalentToOneMetre.To(Si<Metre>());
+        var (value, unit) = oneActualSiMetres;
 
-        Assert.Equal(1d, oneActualSiMetres);
+        Assert.Equal((1d, "m"), (value, unit));
     }
 
     [Fact]

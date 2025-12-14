@@ -2,7 +2,7 @@ using Atmoos.Quantities.Dimensions;
 
 namespace Atmoos.Quantities;
 
-internal static class Operators
+public static class Operators
 {
     extension<TQuantity>(TQuantity quantity) where TQuantity : struct, IQuantity<TQuantity>, IDimension
     {

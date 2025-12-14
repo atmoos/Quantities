@@ -1,4 +1,4 @@
-namespace Atmoos.Quantities.Physics.Electrics;
+namespace Atmoos.Quantities.Physics;
 
 
 public static class OhmsLaw

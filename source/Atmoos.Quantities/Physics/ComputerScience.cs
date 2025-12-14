@@ -1,6 +1,6 @@
-namespace Atmoos.Quantities.Physics.ComputerScience;
+namespace Atmoos.Quantities.Physics;
 
-public static class Information
+public static class ComputerScience
 {
     extension(Data)
     {

@@ -20,16 +20,16 @@ public class AddingQuantities
     public Double Trivial() => this.largeTrivial + this.smallTrivial;
 
     [Benchmark]
-    public Double AddSi() => this.largeMetric + this.smallMetric;
+    public Length AddSi() => this.largeMetric + this.smallMetric;
 
     [Benchmark]
-    public Double AddSiSame() => this.sameMetric + this.largeMetric;
+    public Length AddSiSame() => this.sameMetric + this.largeMetric;
 
     [Benchmark]
-    public Double AddImperial() => this.largeImperial + this.smallImperial;
+    public Length AddImperial() => this.largeImperial + this.smallImperial;
 
     [Benchmark]
-    public Double AddMixed() => this.smallMetric + this.largeImperial;
+    public Length AddMixed() => this.smallMetric + this.largeImperial;
 }
 
 /* Summary

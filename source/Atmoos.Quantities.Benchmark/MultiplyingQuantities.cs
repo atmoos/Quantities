@@ -1,3 +1,4 @@
+using Atmoos.Quantities.Physics;
 using Atmoos.Quantities.Prefixes;
 using Atmoos.Quantities.Units.Imperial.Length;
 using Atmoos.Quantities.Units.Si;
@@ -25,22 +26,22 @@ public class MultiplyingQuantities
     public Double Trivial() => this.largeTrivial * this.smallTrivial;
 
     [Benchmark]
-    public Double MultiplySi() => this.largeMetric * this.smallMetric;
+    public Area MultiplySi() => this.largeMetric * this.smallMetric;
 
     [Benchmark]
-    public Double MultiplyImperial() => this.largeImperial * this.smallImperial;
+    public Area MultiplyImperial() => this.largeImperial * this.smallImperial;
 
     [Benchmark]
-    public Double MultiplyMixed() => this.smallMetric * this.largeImperial;
+    public Area MultiplyMixed() => this.smallMetric * this.largeImperial;
 
     [Benchmark]
-    public Double MultiplyPureSi() => this.current * this.resistance;
+    public ElectricPotential MultiplyPureSi() => this.current * this.resistance;
 
     [Benchmark]
-    public Double MultiplyPowerQuantity() => this.powerArea * this.largeMetric;
+    public Volume MultiplyPowerQuantity() => this.powerArea * this.largeMetric;
 
     [Benchmark]
-    public Double MultiplyAliasQuantity() => this.aliasArea * this.largeMetric;
+    public Volume MultiplyAliasQuantity() => this.aliasArea * this.largeMetric;
 }
 
 /* Summary

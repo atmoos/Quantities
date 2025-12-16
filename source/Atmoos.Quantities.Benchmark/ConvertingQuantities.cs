@@ -18,13 +18,13 @@ public class ConvertingQuantities
     public Double TrivialImplementation() => trivialFoot.To(kiloMetre);
 
     [Benchmark]
-    public Double QuantityImplementation() => foot.To(Si<Kilo, Metre>());
+    public Length QuantityImplementation() => foot.To(Si<Kilo, Metre>());
 
     [Benchmark]
-    public Double QuantityToSame() => energy.To(Si<Milli, Watt>().Times(Si<Kilo, Second>()));
+    public Energy QuantityToSame() => energy.To(Si<Milli, Watt>().Times(Si<Kilo, Second>()));
 
     [Benchmark]
-    public Double QuantityToVeryDifferent() => energy.To(Si<Kilo, Watt>().Times(Si<Milli, Second>()));
+    public Energy QuantityToVeryDifferent() => energy.To(Si<Kilo, Watt>().Times(Si<Milli, Second>()));
 }
 
 /* Summary

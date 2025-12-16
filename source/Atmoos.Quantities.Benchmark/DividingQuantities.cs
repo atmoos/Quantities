@@ -1,3 +1,4 @@
+using Atmoos.Quantities.Physics;
 using Atmoos.Quantities.Prefixes;
 using Atmoos.Quantities.Units.Imperial.Area;
 using Atmoos.Quantities.Units.Imperial.Length;
@@ -26,19 +27,19 @@ public class DividingQuantities
     public Double Trivial() => this.largeTrivial / this.smallTrivial;
 
     [Benchmark]
-    public Double DivideSi() => this.metricVolume / this.metricArea;
+    public Length DivideSi() => this.metricVolume / this.metricArea;
 
     [Benchmark]
-    public Double DivideImperial() => this.imperialVolume / this.imperialArea;
+    public Length DivideImperial() => this.imperialVolume / this.imperialArea;
 
     [Benchmark]
-    public Double DivideMixed() => this.metricVolume / this.imperialArea;
+    public Length DivideMixed() => this.metricVolume / this.imperialArea;
 
     [Benchmark]
-    public Double DivideAliased() => this.metricAcceptedVolume / this.imperialPureArea;
+    public Length DivideAliased() => this.metricAcceptedVolume / this.imperialPureArea;
 
     [Benchmark]
-    public Double DividePureSi() => this.potential / this.current;
+    public ElectricalResistance DividePureSi() => this.potential / this.current;
 }
 
 /* Summary

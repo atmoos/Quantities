@@ -15,7 +15,7 @@ public class ConvertingQuantities
     private static readonly Energy energy = Energy.Of(3, Si<Milli, Watt>().Times(Si<Kilo, Second>()));
 
     [Benchmark(Baseline = true)]
-    public Double TrivialImplementation() => trivialFoot.To(kiloMetre);
+    public Si<Metre> TrivialImplementation() => trivialFoot.To(kiloMetre);
 
     [Benchmark]
     public Length QuantityImplementation() => foot.To(Si<Kilo, Metre>());

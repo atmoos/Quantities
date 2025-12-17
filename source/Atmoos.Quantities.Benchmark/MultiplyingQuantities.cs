@@ -23,7 +23,7 @@ public class MultiplyingQuantities
     private Si<Metre> smallTrivial = Si<Metre>.Of(Prefix.Micro, 12);
 
     [Benchmark(Baseline = true)]
-    public Double Trivial() => this.largeTrivial * this.smallTrivial;
+    public Si<Metre> Trivial() => this.largeTrivial * this.smallTrivial;
 
     [Benchmark]
     public Area MultiplySi() => this.largeMetric * this.smallMetric;

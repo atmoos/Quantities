@@ -21,8 +21,6 @@ public readonly struct Area : IQuantity<Area>, IArea
     public static Area Of<TArea>(in Double value, in Scalar<TArea> measure)
         where TArea : IArea, IPowerOf<ILength>, IUnit => new(measure.Create(in value, static f => ref f.AliasOf<TArea, ILength>()));
     static Area IFactory<Area>.Create(in Quantity value) => new(in value);
-    internal static Area From(in Length left, in Length right) => new(left.Value * right.Value);
-    internal static Area From(in Volume volume, in Length length) => new(volume.Value / length.Value);
     public Boolean Equals(Area other) => this.area.Equals(other.area);
     public override Boolean Equals(Object? obj) => obj is Area Area && Equals(Area);
     public override Int32 GetHashCode() => this.area.GetHashCode();

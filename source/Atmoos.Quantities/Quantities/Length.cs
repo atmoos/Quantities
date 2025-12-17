@@ -16,9 +16,6 @@ public readonly struct Length : IQuantity<Length>, ILength
     public static Length Of<TLength>(in Double value, in Scalar<TLength> measure)
         where TLength : ILength, IUnit => new(measure.Create(in value));
     static Length IFactory<Length>.Create(in Quantity value) => new(in value);
-    internal static Length From(in Area area, in Length length) => new(area.Value / length.Value);
-    internal static Length From(in Velocity velocity, in Time time) => new(velocity.Value * time.Value);
-    internal static Length From(in Volume volume, in Area area) => new(volume.Value / area.Value);
     public Boolean Equals(Length other) => this.length.Equals(other.length);
     public override Boolean Equals(Object? obj) => obj is Length length && Equals(length);
     public override Int32 GetHashCode() => this.length.GetHashCode();

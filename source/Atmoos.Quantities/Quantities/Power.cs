@@ -15,9 +15,6 @@ public readonly struct Power : IQuantity<Power>, IPower
     public static Power Of<TUnit>(in Double value, in Creation.Scalar<TUnit> measure)
         where TUnit : IPower, IUnit => new(measure.Create(in value));
     static Power IFactory<Power>.Create(in Quantity value) => new(in value);
-    internal static Power From(in ElectricPotential potential, in ElectricCurrent current) => new(potential.Value * current.Value);
-    internal static Power From(in Force force, in Velocity velocity) => new(force.Value * velocity.Value);
-    internal static Power From(in Energy energy, in Time time) => new(energy.Value / time.Value);
     public Boolean Equals(Power other) => this.power.Equals(other.power);
     public override Boolean Equals(Object? obj) => obj is Power power && Equals(power);
     public override Int32 GetHashCode() => this.power.GetHashCode();

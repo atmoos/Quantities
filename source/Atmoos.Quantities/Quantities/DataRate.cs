@@ -22,7 +22,6 @@ public readonly struct DataRate : IQuantity<DataRate>, IInformationRate
         where TNominator : IAmountOfInformation, IUnit
         where TDenominator : ITime, IUnit => new(measure.Create(in value));
     static DataRate IFactory<DataRate>.Create(in Quantity value) => new(in value);
-    internal static DataRate From(in Data data, in Time time) => new(data.Value / time.Value);
     public Boolean Equals(DataRate other) => this.dataRate.Equals(other.dataRate);
     public override Boolean Equals(Object? obj) => obj is DataRate rate && Equals(rate);
     public override Int32 GetHashCode() => this.dataRate.GetHashCode();

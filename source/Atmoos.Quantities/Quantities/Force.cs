@@ -15,8 +15,6 @@ public readonly struct Force : IQuantity<Force>, IForce
     public static Force Of<TUnit>(in Double value, in Creation.Scalar<TUnit> measure)
         where TUnit : IForce, IUnit => new(measure.Create(in value));
     static Force IFactory<Force>.Create(in Quantity value) => new(in value);
-    internal static Force From(in Power power, in Velocity velocity) => new(power.Value / velocity.Value);
-    internal static Force From(in Pressure pressure, in Area area) => new(pressure.Value * area.Value);
     public Boolean Equals(Force other) => this.force.Equals(other.force);
     public override Boolean Equals(Object? obj) => obj is Force force && Equals(force);
     public override Int32 GetHashCode() => this.force.GetHashCode();

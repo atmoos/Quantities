@@ -21,9 +21,6 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity
     public static Velocity Of<TLength, TTime>(in Double value, in Quotient<TLength, TTime> measure)
        where TLength : IUnit, ILength where TTime : IUnit, ITime => new(measure.Create(in value));
     static Velocity IFactory<Velocity>.Create(in Quantity value) => new(in value);
-    internal static Velocity From(in Power power, in Force force) => new(power.Value / force.Value);
-    internal static Velocity From(in Length length, in Time time) => new(length.Value / time.Value);
-    internal static Velocity From(in Acceleration acceleration, in Time time) => new(acceleration.Value * time.Value);
     public Boolean Equals(Velocity other) => this.velocity.Equals(other.velocity);
     public override Boolean Equals(Object? obj) => obj is Velocity velocity && Equals(velocity);
     public override Int32 GetHashCode() => this.velocity.GetHashCode();

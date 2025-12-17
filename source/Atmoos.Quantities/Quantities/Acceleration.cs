@@ -22,7 +22,6 @@ public readonly struct Acceleration : IQuantity<Acceleration>, IAcceleration
     public static Acceleration Of<TLength, TTime>(in Double value, in Quotient<TLength, Power<TTime, Two>> measure)
         where TLength : IUnit, ILength where TTime : IUnit, ITime => new(measure.Create(in value));
     static Acceleration IFactory<Acceleration>.Create(in Quantity value) => new(in value);
-    internal static Acceleration From(in Velocity velocity, in Time time) => new(velocity.Value / time.Value);
     public Boolean Equals(Acceleration other) => this.acceleration.Equals(other.acceleration);
     public override Boolean Equals(Object? obj) => obj is Acceleration acceleration && Equals(acceleration);
     public override Int32 GetHashCode() => this.acceleration.GetHashCode();

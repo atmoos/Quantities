@@ -22,7 +22,6 @@ public readonly struct Pressure : IQuantity<Pressure>, IPressure
     public static Pressure Of<TForce, TLength>(in Double value, in Quotient<TForce, Power<TLength, Two>> measure)
         where TForce : IUnit, IForce where TLength : IUnit, ILength => new(measure.Create(in value));
     static Pressure IFactory<Pressure>.Create(in Quantity value) => new(in value);
-    internal static Pressure From(in Force force, in Area area) => new(force.Value / area.Value);
     public Boolean Equals(Pressure other) => this.pressure.Equals(other.pressure);
     public override Boolean Equals(Object? obj) => obj is Pressure pressure && Equals(pressure);
     public override Int32 GetHashCode() => this.pressure.GetHashCode();

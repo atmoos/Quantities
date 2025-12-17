@@ -15,7 +15,6 @@ public readonly struct ElectricalResistance : IQuantity<ElectricalResistance>, I
     public static ElectricalResistance Of<TUnit>(in Double value, in Creation.Scalar<TUnit> measure)
         where TUnit : IElectricalResistance, IUnit => new(measure.Create(in value));
     static ElectricalResistance IFactory<ElectricalResistance>.Create(in Quantity value) => new(in value);
-    internal static ElectricalResistance From(in ElectricPotential potential, in ElectricCurrent current) => new(potential.Value / current.Value);
     public Boolean Equals(ElectricalResistance other) => this.resistance.Equals(other.resistance);
     public override Boolean Equals(Object? obj) => obj is ElectricalResistance resistance && Equals(resistance);
     public override Int32 GetHashCode() => this.resistance.GetHashCode();

@@ -1,11 +1,13 @@
+using static Atmoos.Quantities.Extensions;
+
 namespace Atmoos.Quantities.Physics;
 
 public static class Generic
 {
     extension(Double)
     {
-        public static Frequency operator /(Double scalar, in Time time) => Frequency.From(scalar, in time);
-        public static Time operator /(Double scalar, in Frequency frequency) => Time.From(scalar, in frequency);
+        public static Frequency operator /(Double scalar, in Time time) => Create<Frequency>(scalar / time.Value);
+        public static Time operator /(Double scalar, in Frequency frequency) => Create<Time>(scalar / frequency.Value);
     }
     extension(Time)
     {

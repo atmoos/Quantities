@@ -15,8 +15,6 @@ public readonly struct ElectricCurrent : IQuantity<ElectricCurrent>, IElectricCu
     public static ElectricCurrent Of<TUnit>(in Double value, in Creation.Scalar<TUnit> measure)
         where TUnit : IElectricCurrent, IUnit => new(measure.Create(in value));
     static ElectricCurrent IFactory<ElectricCurrent>.Create(in Quantity value) => new(in value);
-    internal static ElectricCurrent From(in ElectricPotential potential, in ElectricalResistance resistance) => new(potential.Value / resistance.Value);
-    internal static ElectricCurrent From(in Power power, in ElectricPotential potential) => new(power.Value / potential.Value);
     public Boolean Equals(ElectricCurrent other) => this.current.Equals(other.current);
     public String ToString(String? format, IFormatProvider? provider) => this.current.ToString(format, provider);
     public override Boolean Equals(Object? obj) => obj is ElectricCurrent current && Equals(current);

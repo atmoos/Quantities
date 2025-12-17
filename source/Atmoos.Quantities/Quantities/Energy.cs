@@ -20,7 +20,6 @@ public readonly struct Energy : IQuantity<Energy>, IEnergy
     public static Energy Of<TPower, TTime>(in Double value, in Product<TPower, TTime> measure)
         where TPower : IUnit, IPower where TTime : IUnit, ITime => new(measure.Create(in value));
     static Energy IFactory<Energy>.Create(in Quantity value) => new(in value);
-    internal static Energy From(in Power power, in Time time) => new(power.Value * time.Value);
     public Boolean Equals(Energy other) => this.energy.Equals(other.energy);
     public override Boolean Equals(Object? obj) => obj is Energy energy && Equals(energy);
     public override Int32 GetHashCode() => this.energy.GetHashCode();

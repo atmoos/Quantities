@@ -15,7 +15,6 @@ public readonly struct Frequency : IQuantity<Frequency>, IFrequency
     public static Frequency Of<TUnit>(in Double value, in Creation.Scalar<TUnit> measure)
         where TUnit : IFrequency, IInvertible<ITime>, IUnit => new(measure.Create(in value, f => ref f.InverseOf<TUnit, ITime>()));
     static Frequency IFactory<Frequency>.Create(in Quantity value) => new(in value);
-    internal static Frequency From(Double numerator, in Time denominator) => new(numerator / denominator.Value);
     public Boolean Equals(Frequency other) => this.frequency.Equals(other.frequency);
     public override Boolean Equals(Object? obj) => obj is Frequency frequency && Equals(frequency);
     public override Int32 GetHashCode() => this.frequency.GetHashCode();

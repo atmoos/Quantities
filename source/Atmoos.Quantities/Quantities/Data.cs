@@ -22,8 +22,6 @@ public readonly struct Data : IQuantity<Data>, IAmountOfInformation
     public static Data Of<TDim>(in Double value, in Scalar<TDim> measure)
         where TDim : IAmountOfInformation, IUnit => new(measure.Create(in value));
     static Data IFactory<Data>.Create(in Quantity value) => new(in value);
-    internal static Data From(in Time time, in DataRate rate) => new(time.Value * rate.Value);
-    internal static Data From(in DataRate rate, in Time time) => new(rate.Value * time.Value);
     public Boolean Equals(Data other) => this.data.Equals(other.data);
     public override Boolean Equals(Object? obj) => obj is Data data && Equals(data);
     public override Int32 GetHashCode() => this.data.GetHashCode();

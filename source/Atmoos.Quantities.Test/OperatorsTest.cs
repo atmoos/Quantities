@@ -120,7 +120,7 @@ public class OperatorsTest
     }
 
     [Fact]
-    public void GreaterOrEqualComparesTrueWisomeScalarthSmallerValue()
+    public void GreaterOrEqualComparesTrueWithSomeSmallerValue()
     {
         Assert.True(length >= length - epsilon);
     }

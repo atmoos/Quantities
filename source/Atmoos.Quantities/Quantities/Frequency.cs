@@ -11,9 +11,9 @@ public readonly struct Frequency : IQuantity<Frequency>, IFrequency
     Quantity IQuantity<Frequency>.Value => this.frequency;
     private Frequency(in Quantity value) => this.frequency = value;
     public Frequency To<TUnit>(in Creation.Scalar<TUnit> other)
-        where TUnit : IFrequency, IInvertible<ITime>, IUnit => new(other.Transform(in this.frequency, f => ref f.InverseOf<TUnit, ITime>()));
+        where TUnit : IFrequency, IInvertible<ITime>, IUnit => new(other.Transform(in this.frequency, static f => ref f.InverseOf<TUnit, ITime>()));
     public static Frequency Of<TUnit>(in Double value, in Creation.Scalar<TUnit> measure)
-        where TUnit : IFrequency, IInvertible<ITime>, IUnit => new(measure.Create(in value, f => ref f.InverseOf<TUnit, ITime>()));
+        where TUnit : IFrequency, IInvertible<ITime>, IUnit => new(measure.Create(in value, static f => ref f.InverseOf<TUnit, ITime>()));
     static Frequency IFactory<Frequency>.Create(in Quantity value) => new(in value);
     public Boolean Equals(Frequency other) => this.frequency.Equals(other.frequency);
     public override Boolean Equals(Object? obj) => obj is Frequency frequency && Equals(frequency);

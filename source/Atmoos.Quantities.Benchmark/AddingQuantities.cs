@@ -17,25 +17,25 @@ public class AddingQuantities
     private Si<Metre> smallTrivial = Si<Metre>.Of(Prefix.Micro, 12);
 
     [Benchmark(Baseline = true)]
-    public Double Trivial() => this.largeTrivial + this.smallTrivial;
+    public Si<Metre> Trivial() => this.largeTrivial + this.smallTrivial;
 
     [Benchmark]
-    public Double AddSi() => this.largeMetric + this.smallMetric;
+    public Length AddSi() => this.largeMetric + this.smallMetric;
 
     [Benchmark]
-    public Double AddSiSame() => this.sameMetric + this.largeMetric;
+    public Length AddSiSame() => this.sameMetric + this.largeMetric;
 
     [Benchmark]
-    public Double AddImperial() => this.largeImperial + this.smallImperial;
+    public Length AddImperial() => this.largeImperial + this.smallImperial;
 
     [Benchmark]
-    public Double AddMixed() => this.smallMetric + this.largeImperial;
+    public Length AddMixed() => this.smallMetric + this.largeImperial;
 }
 
 /* Summary
 
 BenchmarkDotNet v0.15.8, Linux Arch Linux
-Intel Core i7-8565U CPU 1.80GHz (Max: 0.40GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
+Intel Core i7-8565U CPU 1.80GHz (Max: 3.39GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
 .NET SDK 10.0.100
   [Host]     : .NET 10.0.0 (10.0.0, 42.42.42.42424), X64 RyuJIT x86-64-v3
   DefaultJob : .NET 10.0.0 (10.0.0, 42.42.42.42424), X64 RyuJIT x86-64-v3
@@ -43,9 +43,9 @@ Intel Core i7-8565U CPU 1.80GHz (Max: 0.40GHz) (Whiskey Lake), 1 CPU, 8 logical 
 
 | Method      | Mean      | Error     | Ratio | Allocated | Alloc Ratio |
 |------------ |----------:|----------:|------:|----------:|------------:|
-| Trivial     | 1.2829 ns | 0.0205 ns |  1.00 |         - |          NA |
-| AddSi       | 2.3519 ns | 0.0157 ns |  1.83 |         - |          NA |
-| AddSiSame   | 0.7100 ns | 0.0098 ns |  0.55 |         - |          NA |
-| AddImperial | 2.4191 ns | 0.0155 ns |  1.89 |         - |          NA |
-| AddMixed    | 2.4079 ns | 0.0126 ns |  1.88 |         - |          NA |
+| Trivial     | 1.1845 ns | 0.0304 ns |  1.00 |         - |          NA |
+| AddSi       | 2.2187 ns | 0.0091 ns |  1.87 |         - |          NA |
+| AddSiSame   | 0.5849 ns | 0.0032 ns |  0.49 |         - |          NA |
+| AddImperial | 2.2336 ns | 0.0090 ns |  1.89 |         - |          NA |
+| AddMixed    | 2.1848 ns | 0.0134 ns |  1.85 |         - |          NA |
 */

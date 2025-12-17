@@ -1,3 +1,4 @@
+using Atmoos.Quantities.Physics;
 using Atmoos.Quantities.Prefixes;
 using Atmoos.Quantities.Units.Imperial.Length;
 using Atmoos.Quantities.Units.Si;
@@ -22,31 +23,31 @@ public class MultiplyingQuantities
     private Si<Metre> smallTrivial = Si<Metre>.Of(Prefix.Micro, 12);
 
     [Benchmark(Baseline = true)]
-    public Double Trivial() => this.largeTrivial * this.smallTrivial;
+    public Si<Metre> Trivial() => this.largeTrivial * this.smallTrivial;
 
     [Benchmark]
-    public Double MultiplySi() => this.largeMetric * this.smallMetric;
+    public Area MultiplySi() => this.largeMetric * this.smallMetric;
 
     [Benchmark]
-    public Double MultiplyImperial() => this.largeImperial * this.smallImperial;
+    public Area MultiplyImperial() => this.largeImperial * this.smallImperial;
 
     [Benchmark]
-    public Double MultiplyMixed() => this.smallMetric * this.largeImperial;
+    public Area MultiplyMixed() => this.smallMetric * this.largeImperial;
 
     [Benchmark]
-    public Double MultiplyPureSi() => this.current * this.resistance;
+    public ElectricPotential MultiplyPureSi() => this.current * this.resistance;
 
     [Benchmark]
-    public Double MultiplyPowerQuantity() => this.powerArea * this.largeMetric;
+    public Volume MultiplyPowerQuantity() => this.powerArea * this.largeMetric;
 
     [Benchmark]
-    public Double MultiplyAliasQuantity() => this.aliasArea * this.largeMetric;
+    public Volume MultiplyAliasQuantity() => this.aliasArea * this.largeMetric;
 }
 
 /* Summary
 
 BenchmarkDotNet v0.15.8, Linux Arch Linux
-Intel Core i7-8565U CPU 1.80GHz (Max: 0.40GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
+Intel Core i7-8565U CPU 1.80GHz (Max: 3.39GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
 .NET SDK 10.0.100
   [Host]     : .NET 10.0.0 (10.0.0, 42.42.42.42424), X64 RyuJIT x86-64-v3
   DefaultJob : .NET 10.0.0 (10.0.0, 42.42.42.42424), X64 RyuJIT x86-64-v3
@@ -54,11 +55,11 @@ Intel Core i7-8565U CPU 1.80GHz (Max: 0.40GHz) (Whiskey Lake), 1 CPU, 8 logical 
 
 | Method                | Mean      | Error     | Ratio | Allocated | Alloc Ratio |
 |---------------------- |----------:|----------:|------:|----------:|------------:|
-| Trivial               | 15.073 ns | 0.0322 ns |  1.00 |         - |          NA |
-| MultiplySi            |  6.743 ns | 0.0425 ns |  0.45 |         - |          NA |
-| MultiplyImperial      |  6.141 ns | 0.0156 ns |  0.41 |         - |          NA |
-| MultiplyMixed         |  6.627 ns | 0.0292 ns |  0.44 |         - |          NA |
-| MultiplyPureSi        |  6.133 ns | 0.0152 ns |  0.41 |         - |          NA |
-| MultiplyPowerQuantity |  6.705 ns | 0.0074 ns |  0.44 |         - |          NA |
-| MultiplyAliasQuantity |  6.737 ns | 0.0376 ns |  0.45 |         - |          NA |
+| Trivial               | 15.875 ns | 0.0373 ns |  1.00 |         - |          NA |
+| MultiplySi            |  6.506 ns | 0.0614 ns |  0.41 |         - |          NA |
+| MultiplyImperial      |  6.128 ns | 0.0345 ns |  0.39 |         - |          NA |
+| MultiplyMixed         |  6.235 ns | 0.0233 ns |  0.39 |         - |          NA |
+| MultiplyPureSi        |  6.241 ns | 0.0248 ns |  0.39 |         - |          NA |
+| MultiplyPowerQuantity |  6.567 ns | 0.0223 ns |  0.41 |         - |          NA |
+| MultiplyAliasQuantity |  6.581 ns | 0.0181 ns |  0.41 |         - |          NA |
 */

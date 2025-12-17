@@ -1,3 +1,4 @@
+using Atmoos.Quantities.Physics;
 using Atmoos.Quantities.Prefixes;
 using Atmoos.Quantities.Units.Imperial.Area;
 using Atmoos.Quantities.Units.Imperial.Length;
@@ -23,28 +24,28 @@ public class DividingQuantities
     private Si<Metre> smallTrivial = Si<Metre>.Of(Prefix.Micro, 12);
 
     [Benchmark(Baseline = true)]
-    public Double Trivial() => this.largeTrivial / this.smallTrivial;
+    public Si<Metre> Trivial() => this.largeTrivial / this.smallTrivial;
 
     [Benchmark]
-    public Double DivideSi() => this.metricVolume / this.metricArea;
+    public Length DivideSi() => this.metricVolume / this.metricArea;
 
     [Benchmark]
-    public Double DivideImperial() => this.imperialVolume / this.imperialArea;
+    public Length DivideImperial() => this.imperialVolume / this.imperialArea;
 
     [Benchmark]
-    public Double DivideMixed() => this.metricVolume / this.imperialArea;
+    public Length DivideMixed() => this.metricVolume / this.imperialArea;
 
     [Benchmark]
-    public Double DivideAliased() => this.metricAcceptedVolume / this.imperialPureArea;
+    public Length DivideAliased() => this.metricAcceptedVolume / this.imperialPureArea;
 
     [Benchmark]
-    public Double DividePureSi() => this.potential / this.current;
+    public ElectricalResistance DividePureSi() => this.potential / this.current;
 }
 
 /* Summary
 
 BenchmarkDotNet v0.15.8, Linux Arch Linux
-Intel Core i7-8565U CPU 1.80GHz (Max: 0.40GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
+Intel Core i7-8565U CPU 1.80GHz (Max: 3.39GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
 .NET SDK 10.0.100
   [Host]     : .NET 10.0.0 (10.0.0, 42.42.42.42424), X64 RyuJIT x86-64-v3
   DefaultJob : .NET 10.0.0 (10.0.0, 42.42.42.42424), X64 RyuJIT x86-64-v3
@@ -52,10 +53,10 @@ Intel Core i7-8565U CPU 1.80GHz (Max: 0.40GHz) (Whiskey Lake), 1 CPU, 8 logical 
 
 | Method         | Mean      | Error     | Ratio | Allocated | Alloc Ratio |
 |--------------- |----------:|----------:|------:|----------:|------------:|
-| Trivial        | 15.598 ns | 0.0320 ns |  1.00 |         - |          NA |
-| DivideSi       |  6.415 ns | 0.0599 ns |  0.41 |         - |          NA |
-| DivideImperial |  7.924 ns | 0.0144 ns |  0.51 |         - |          NA |
-| DivideMixed    |  6.477 ns | 0.0104 ns |  0.42 |         - |          NA |
-| DivideAliased  |  7.814 ns | 0.0210 ns |  0.50 |         - |          NA |
-| DividePureSi   |  7.664 ns | 0.0210 ns |  0.49 |         - |          NA |
+| Trivial        | 16.115 ns | 0.0539 ns |  1.00 |         - |          NA |
+| DivideSi       |  6.757 ns | 0.0481 ns |  0.42 |         - |          NA |
+| DivideImperial |  6.758 ns | 0.0314 ns |  0.42 |         - |          NA |
+| DivideMixed    |  9.767 ns | 0.1089 ns |  0.61 |         - |          NA |
+| DivideAliased  |  7.762 ns | 0.0378 ns |  0.48 |         - |          NA |
+| DividePureSi   |  6.504 ns | 0.0350 ns |  0.40 |         - |          NA |
 */

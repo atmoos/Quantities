@@ -30,7 +30,7 @@ public class FrequencySupportTest : IInjectedUnitTester<Frequency>
     public void InverseTimeDeserializesCorrectly()
     {
         Time time = Time.Of(0.5, Si<Second>());
-        Frequency frequency = 2 / time;
+        Frequency frequency = 2d / time;
 
         String actual = frequency.Serialize(options);
 
@@ -51,7 +51,7 @@ public class FrequencySupportTest : IInjectedUnitTester<Frequency>
     public void InverseTimeSerializesRoundRobin()
     {
         Time time = Time.Of(1, Si<Second>());
-        Frequency expected = 6 / time;
+        Frequency expected = 6d / time;
 
         Frequency roundRobin = expected.SerializeRoundRobin();
 

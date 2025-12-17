@@ -24,11 +24,30 @@ public static class Convenience
         ReformatEqualMessage((e, a, p) => a.Equal(e, p), expected, actual, precision);
         Assert.True(actual.Value.HasSameMeasure(expected.Value), $"Measure mismatch: {actual} != {expected}");
     }
-    public static void Equal<T>(this T actual, T expected, Int32 precision = fullPrecision)
-    where T : IDivisionOperators<T, T, Double>
+    public static void Equal<TQuantity>(this TQuantity actual, TQuantity expected, Int32 precision = fullPrecision)
+        where TQuantity : struct, IQuantity<TQuantity>, IDimension
     {
-        var relativeEquality = actual / expected;
+        Equal(actual, expected, (a, e) => a / e, precision);
+    }
+    public static void Equal<T>(this T actual, T expected, Func<T, T, Double> division, Int32 precision = fullPrecision)
+    {
+        var relativeEquality = division(actual, expected);
         PrecisionIsBounded(1d, relativeEquality, precision);
+    }
+
+    public static void PrecisionIsBounded<TQuantity>(Double expected, TQuantity actual, Int32 precision = fullPrecision)
+        where TQuantity : struct, IQuantity<TQuantity>, IDimension
+    {
+        (Double actualValue, _) = actual;
+        PrecisionIsBounded(expected, actualValue, precision);
+    }
+
+    public static void PrecisionIsBounded<TQuantity>(TQuantity expected, TQuantity actual, Int32 precision = fullPrecision)
+        where TQuantity : struct, IQuantity<TQuantity>, IDimension
+    {
+        (Double actualValue, _) = actual;
+        (Double expectedValue, _) = expected;
+        PrecisionIsBounded(expectedValue, actualValue, precision);
     }
     public static void PrecisionIsBounded(Double expected, Double actual, Int32 precision = fullPrecision)
     {

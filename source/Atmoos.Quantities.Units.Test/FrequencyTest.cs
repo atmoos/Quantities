@@ -16,7 +16,7 @@ public sealed class FrequencyTest
         var expected = Time.Of(0.5, Si<Second>());
         var freq = Frequency.Of(2, Si<Hertz>());
 
-        Time actual = 1 / freq;
+        Time actual = 1d / freq;
 
         actual.Matches(expected);
     }
@@ -28,7 +28,7 @@ public sealed class FrequencyTest
         var expected = Time.Of(500, Si<Micro, Second>());
         var freq = Frequency.Of(2, Si<Kilo, Hertz>());
 
-        Time actual = 1 / freq;
+        Time actual = 1d / freq;
 
         // ToDo #5: actual.Matches(expected);
         Assert.Equal(expected, actual);
@@ -65,7 +65,7 @@ public sealed class FrequencyTest
         var time = Time.Of(1 / hertz, Si<Second>());
         var frequency = Frequency.Of(hertz, Si<Hertz>());
 
-        Frequency actual = 1 / time;
+        Frequency actual = 1d / time;
 
         // we'll get 4 s⁻¹. Hence, not comparing for matching units!
         Assert.Equal(frequency, actual);

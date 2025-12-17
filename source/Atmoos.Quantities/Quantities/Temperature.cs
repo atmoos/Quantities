@@ -21,18 +21,4 @@ public readonly struct Temperature : IQuantity<Temperature>, ITemperature
     public override Int32 GetHashCode() => this.temperature.GetHashCode();
     public override String ToString() => this.temperature.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.temperature.ToString(format, provider);
-
-    public static implicit operator Double(Temperature temperature) => temperature.temperature;
-    public static Boolean operator ==(Temperature left, Temperature right) => left.Equals(right);
-    public static Boolean operator !=(Temperature left, Temperature right) => !left.Equals(right);
-    public static Boolean operator >(Temperature left, Temperature right) => left.temperature > right.temperature;
-    public static Boolean operator >=(Temperature left, Temperature right) => left.temperature >= right.temperature;
-    public static Boolean operator <(Temperature left, Temperature right) => left.temperature < right.temperature;
-    public static Boolean operator <=(Temperature left, Temperature right) => left.temperature <= right.temperature;
-    public static Temperature operator +(Temperature left, Temperature right) => new(left.temperature + right.temperature);
-    public static Temperature operator -(Temperature left, Temperature right) => new(left.temperature - right.temperature);
-    public static Temperature operator *(Double scalar, Temperature right) => new(scalar * right.temperature);
-    public static Temperature operator *(Temperature left, Double scalar) => new(scalar * left.temperature);
-    public static Temperature operator /(Temperature left, Double scalar) => new(left.temperature / scalar);
-    public static Double operator /(Temperature left, Temperature right) => left.temperature.Ratio(in right.temperature);
 }

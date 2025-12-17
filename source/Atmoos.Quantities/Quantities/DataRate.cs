@@ -1,5 +1,4 @@
-﻿using System.Numerics;
-using Atmoos.Quantities.Creation;
+﻿using Atmoos.Quantities.Creation;
 using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Units;
 
@@ -7,7 +6,6 @@ namespace Atmoos.Quantities;
 
 public readonly struct DataRate : IQuantity<DataRate>, IInformationRate
     , IQuotient<DataRate, IInformationRate, IAmountOfInformation, ITime>
-    , IMultiplyOperators<DataRate, Time, Data>
 {
     private readonly Quantity dataRate;
     internal Quantity Value => this.dataRate;
@@ -24,27 +22,9 @@ public readonly struct DataRate : IQuantity<DataRate>, IInformationRate
         where TNominator : IAmountOfInformation, IUnit
         where TDenominator : ITime, IUnit => new(measure.Create(in value));
     static DataRate IFactory<DataRate>.Create(in Quantity value) => new(in value);
-    internal static DataRate From(in Data data, in Time time) => new(data.Value / time.Value);
     public Boolean Equals(DataRate other) => this.dataRate.Equals(other.dataRate);
     public override Boolean Equals(Object? obj) => obj is DataRate rate && Equals(rate);
     public override Int32 GetHashCode() => this.dataRate.GetHashCode();
     public override String ToString() => this.dataRate.ToString();
     public String ToString(String? format, IFormatProvider? provider) => this.dataRate.ToString(format, provider);
-
-
-    public static implicit operator Double(DataRate rate) => rate.dataRate;
-    public static Boolean operator ==(DataRate left, DataRate right) => left.Equals(right);
-    public static Boolean operator !=(DataRate left, DataRate right) => !left.Equals(right);
-    public static Boolean operator >(DataRate left, DataRate right) => left.dataRate > right.dataRate;
-    public static Boolean operator >=(DataRate left, DataRate right) => left.dataRate >= right.dataRate;
-    public static Boolean operator <(DataRate left, DataRate right) => left.dataRate < right.dataRate;
-    public static Boolean operator <=(DataRate left, DataRate right) => left.dataRate <= right.dataRate;
-    public static DataRate operator +(DataRate left, DataRate right) => new(left.dataRate + right.dataRate);
-    public static DataRate operator -(DataRate left, DataRate right) => new(left.dataRate - right.dataRate);
-    public static DataRate operator *(Double scalar, DataRate right) => new(scalar * right.dataRate);
-    public static DataRate operator *(DataRate left, Double scalar) => new(scalar * left.dataRate);
-    public static DataRate operator /(DataRate left, Double scalar) => new(left.dataRate / scalar);
-    public static Double operator /(DataRate left, DataRate right) => left.dataRate.Ratio(in right.dataRate);
-
-    public static Data operator *(DataRate rate, Time time) => Data.From(in rate, in time);
 }

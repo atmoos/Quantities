@@ -44,13 +44,18 @@ jobs:
       run: dotnet test --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage
 
     - name: Install dotnet coverage
+      if: matrix.os == 'ubuntu-latest'
       run: dotnet tool install --global dotnet-coverage
+
     - name: Merge Coverage Reports
-      run: dotnet-coverage merge *.cobertura.xml --recursive --output ./coverage/merged.cobertura.xml --output-format cobertura
+      if: matrix.os == 'ubuntu-latest'
+      run: dotnet-coverage merge "coverage/**/*.cobertura.xml" --output ./coverage/merged.cobertura.xml --output-format cobertura
+
     - name: Code Coverage Report
+      if: matrix.os == 'ubuntu-latest'
       uses: irongut/CodeCoverageSummary@v1.3.0
       with:
-        filename: ./coverage/merged.cobertura.xml
+        filename: source/coverage/merged.cobertura.xml 
         badge: true
         fail_below_min: true
         format: markdown
@@ -59,9 +64,10 @@ jobs:
         indicators: true
         output: both
         thresholds: '60 80'
+
     - name: Add Coverage PR Comment
+      if: matrix.os == 'ubuntu-latest' && github.event_name == 'pull_request'
       uses: marocchino/sticky-pull-request-comment@v2
-      if: github.event_name == 'pull_request'
       with:
         recreate: true
         path: code-coverage-results.md

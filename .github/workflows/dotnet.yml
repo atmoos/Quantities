@@ -72,7 +72,7 @@ jobs:
         output: both
         thresholds: '60 80'
 
-    - name: Add Coverage PR Comment
+    - name: Add code coverage PR comment
       if: matrix.os == 'ubuntu-latest' && github.event_name == 'pull_request'
       uses: marocchino/sticky-pull-request-comment@v2
       with:

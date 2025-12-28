@@ -4,7 +4,7 @@
     <DataCollectors>
       <DataCollector friendlyName="XPlat Code Coverage">
         <Configuration>
-          <Exclude>[*]*TestTools*</Exclude> <!-- [Assembly-Filter]Type-Filter -->
+          <Exclude>[Atmoos.Quantities.TestTools]*</Exclude>
           <ExcludeByAttribute>Obsolete,GeneratedCodeAttribute,CompilerGeneratedAttribute</ExcludeByAttribute>
           <!-- Exclude the test projects from coverage -->
           <IncludeTestAssembly>false</IncludeTestAssembly>

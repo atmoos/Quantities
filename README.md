@@ -8,7 +8,7 @@
 
 A library to safely handle various types of quantities, typically physical quantities.
 
-[![master status](https://github.com/atmoos/Quantities/actions/workflows/dotnet.yml/badge.svg)](https://github.com/atmoos/Quantities/actions/workflows/dotnet.yml)
+[![main status](https://github.com/atmoos/Quantities/actions/workflows/dotnet.yml/badge.svg)](https://github.com/atmoos/Quantities/actions/workflows/dotnet.yml)
 [![nuget package](https://img.shields.io/nuget/v/Atmoos.Quantities.svg?logo=nuget)](https://www.nuget.org/packages/Atmoos.Quantities)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/atmoos/Quantities/blob/master/LICENSE)
 

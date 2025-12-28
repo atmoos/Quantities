@@ -32,6 +32,7 @@ bld/
 
 # Coverage Reports
 [Cc]overage[Rr]eport/
+coverage/
 
 # Benchmark Results
 BenchmarkDotNet.Artifacts/

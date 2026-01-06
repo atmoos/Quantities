@@ -6,5 +6,4 @@
     <ProjectReference Include="..\..\Atmoos.Quantities.Units\Atmoos.Quantities.Units.csproj" />
     <ProjectReference Include="..\Newtonsoft\Atmoos.Quantities.Serialization.Newtonsoft.csproj" />
   </ItemGroup>
-
 </Project>

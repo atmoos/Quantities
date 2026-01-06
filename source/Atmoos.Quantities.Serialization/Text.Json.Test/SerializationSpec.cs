@@ -1,4 +1,4 @@
-using System.Text.Json;
+﻿using System.Text.Json;
 using Atmoos.Quantities.Units.Imperial.Length;
 using Atmoos.Quantities.Units.Imperial.Volume;
 
@@ -15,14 +15,14 @@ public sealed class SerializationSpec
         Length length = Length.Of(value, Si<Metre>());
         String actual = length.Serialize(options);
         String expected = $$"""
-        {
-          "value": {{value:R}},
-          "quantity": "length",
-          "si": {
-            "unit": "m"
-          }
-        }
-        """;
+            {
+              "value": {{value:R}},
+              "quantity": "length",
+              "si": {
+                "unit": "m"
+              }
+            }
+            """;
         Assert.Equal(expected, actual);
     }
 
@@ -33,15 +33,15 @@ public sealed class SerializationSpec
         Length length = Length.Of(value, Si<Kilo, Metre>());
         String actual = length.Serialize(options);
         String expected = $$"""
-        {
-          "value": {{value:R}},
-          "quantity": "length",
-          "si": {
-            "prefix": "k",
-            "unit": "m"
-          }
-        }
-        """;
+            {
+              "value": {{value:R}},
+              "quantity": "length",
+              "si": {
+                "prefix": "k",
+                "unit": "m"
+              }
+            }
+            """;
         Assert.Equal(expected, actual);
     }
 
@@ -52,16 +52,16 @@ public sealed class SerializationSpec
         Frequency frequency = value / Time.Of(1d, Si<Milli, Second>());
         String actual = frequency.Serialize(options);
         String expected = $$"""
-        {
-          "value": {{value:R}},
-          "quantity": "frequency",
-          "si": {
-            "exponent": -1,
-            "prefix": "m",
-            "unit": "s"
-          }
-        }
-        """;
+            {
+              "value": {{value:R}},
+              "quantity": "frequency",
+              "si": {
+                "exponent": -1,
+                "prefix": "m",
+                "unit": "s"
+              }
+            }
+            """;
         Assert.Equal(expected, actual);
     }
 
@@ -72,15 +72,15 @@ public sealed class SerializationSpec
         Area area = Area.Of(value, Square(Si<Metre>()));
         String actual = area.Serialize(options);
         String expected = $$"""
-        {
-          "value": {{value:R}},
-          "quantity": "area",
-          "si": {
-            "exponent": 2,
-            "unit": "m"
-          }
-        }
-        """;
+            {
+              "value": {{value:R}},
+              "quantity": "area",
+              "si": {
+                "exponent": 2,
+                "unit": "m"
+              }
+            }
+            """;
         Assert.Equal(expected, actual);
     }
 
@@ -91,15 +91,15 @@ public sealed class SerializationSpec
         Volume volume = Volume.Of(value, Cubic(Imperial<Foot>()));
         String actual = volume.Serialize(options);
         String expected = $$"""
-        {
-          "value": {{value:R}},
-          "quantity": "volume",
-          "imperial": {
-            "exponent": 3,
-            "unit": "ft"
-          }
-        }
-        """;
+            {
+              "value": {{value:R}},
+              "quantity": "volume",
+              "imperial": {
+                "exponent": 3,
+                "unit": "ft"
+              }
+            }
+            """;
         Assert.Equal(expected, actual);
     }
 
@@ -110,14 +110,14 @@ public sealed class SerializationSpec
         Volume volume = Volume.Of(value, Imperial<Pint>());
         String actual = volume.Serialize(options);
         String expected = $$"""
-        {
-          "value": {{value:R}},
-          "quantity": "volume",
-          "imperial": {
-            "unit": "pt"
-          }
-        }
-        """;
+            {
+              "value": {{value:R}},
+              "quantity": "volume",
+              "imperial": {
+                "unit": "pt"
+              }
+            }
+            """;
         Assert.Equal(expected, actual);
     }
 
@@ -128,15 +128,15 @@ public sealed class SerializationSpec
         Volume volume = Volume.Of(value, Metric<Hecto, Litre>());
         String actual = volume.Serialize(options);
         String expected = $$"""
-        {
-          "value": {{value:R}},
-          "quantity": "volume",
-          "metric": {
-            "prefix": "h",
-            "unit": "\u2113"
-          }
-        }
-        """;
+            {
+              "value": {{value:R}},
+              "quantity": "volume",
+              "metric": {
+                "prefix": "h",
+                "unit": "\u2113"
+              }
+            }
+            """;
         Assert.Equal(expected, actual);
     }
 
@@ -147,25 +147,25 @@ public sealed class SerializationSpec
         Velocity velocity = Velocity.Of(value, Si<Kilo, Metre>().Per(Metric<Hour>()));
         String actual = velocity.Serialize(options);
         String expected = $$"""
-        {
-          "value": {{value:R}},
-          "quantity": "velocity",
-          "measures": [
             {
-              "si": {
-                "prefix": "k",
-                "unit": "m"
-              }
-            },
-            {
-              "metric": {
-                "exponent": -1,
-                "unit": "h"
-              }
+              "value": {{value:R}},
+              "quantity": "velocity",
+              "measures": [
+                {
+                  "si": {
+                    "prefix": "k",
+                    "unit": "m"
+                  }
+                },
+                {
+                  "metric": {
+                    "exponent": -1,
+                    "unit": "h"
+                  }
+                }
+              ]
             }
-          ]
-        }
-        """;
+            """;
         Assert.Equal(expected, actual);
     }
 }

@@ -6,13 +6,16 @@ namespace Atmoos.Quantities.Serialization.Text.Json.Test;
 
 public class AreaSupportTest : ISerializationTester<Area>, IInjectedUnitTester<Area>
 {
-
     private static Creation.Scalar<Are> Are() => Metric<Are>();
+
     private static Creation.Scalar<Acre> Acre() => Imperial<Acre>();
+
     private static Creation.Scalar<Perch> Perch() => Imperial<Perch>();
+
     [Theory]
     [MemberData(nameof(Quantities))]
     public void SupportsSerialization(Area quantity) => quantity.SupportsSerialization();
+
     public static IEnumerable<Object[]> Quantities()
     {
         static IEnumerable<Area> Interesting()

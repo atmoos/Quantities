@@ -1,4 +1,4 @@
-using Atmoos.Quantities.Dimensions;
+﻿using Atmoos.Quantities.Dimensions;
 
 namespace Atmoos.Quantities.Test.Dimensions;
 
@@ -58,8 +58,9 @@ public class ToolsTest
         Assert.Equal(expected, Tools.ToExponent(exp));
     }
 
-    public static TheoryData<Int32, String> ToExponentData()
-        => new() {
+    public static TheoryData<Int32, String> ToExponentData() =>
+        new()
+        {
             { 1, "" },
             { 0, "⁰" },
             { -1, "⁻¹" },
@@ -73,7 +74,6 @@ public class ToolsTest
             { 123, "¹²³" },
             { -927829263, "⁻⁹²⁷⁸²⁹²⁶³" },
         };
-
 }
 
 file struct ElectricCharge : IElectricCharge { }

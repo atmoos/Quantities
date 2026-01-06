@@ -6,10 +6,13 @@ public sealed class FrequencyTest
 {
     [Fact]
     public void HertzToString() => FormattingMatches(v => Frequency.Of(v, Si<Hertz>()), "Hz");
+
     [Fact]
     public void KiloHertzToString() => FormattingMatches(v => Frequency.Of(v, Si<Kilo, Hertz>()), "kHz");
+
     [Fact]
     public void CentiHertzToString() => FormattingMatches(v => Frequency.Of(v, Si<Centi, Hertz>()), "cHz");
+
     [Fact]
     public void InvertedFrequencyIsTime()
     {

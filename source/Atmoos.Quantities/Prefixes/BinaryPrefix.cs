@@ -16,7 +16,7 @@ internal static class BinaryPrefix
             var giga when giga < Exbi.Factor => Build<Pebi>.Scaled(in injector, in value),
             var tera when tera < Zebi.Factor => Build<Exbi>.Scaled(in injector, in value),
             var peta when peta < Yobi.Factor => Build<Zebi>.Scaled(in injector, in value),
-            _ => Build<Yobi>.Scaled(in injector, in value)
+            _ => Build<Yobi>.Scaled(in injector, in value),
         };
     }
 }

@@ -45,12 +45,14 @@ public class UserDefined
     private sealed class MyPrefixFour : IPrefix, IMetricPrefix
     {
         public static String Representation => "2e2";
+
         public static Transformation ToSi(Transformation self) => 4d * self;
     }
 
     private sealed class MyWhackWhackUnit : IUnit, INonStandardUnit, ILength
     {
         public static String Representation => "Whack!";
+
         public static Transformation ToSi(Transformation self) => self / 2d;
     }
 }

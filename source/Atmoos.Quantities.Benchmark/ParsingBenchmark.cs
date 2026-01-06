@@ -1,4 +1,4 @@
-using Atmoos.Quantities.Parsing;
+﻿using Atmoos.Quantities.Parsing;
 
 namespace Atmoos.Quantities.Benchmark;
 

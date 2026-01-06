@@ -4,7 +4,6 @@ namespace Atmoos.Quantities.Benchmark.Numerics;
 
 public static class Trivial
 {
-
     [MethodImpl(MethodImplOptions.NoInlining)]
     public static Double Poly(in (Double a, Double b, Double c) poly, in Double value) => poly.a * value / poly.b + poly.c;
 

@@ -1,4 +1,4 @@
-using Atmoos.Quantities.Core.Construction;
+﻿using Atmoos.Quantities.Core.Construction;
 
 namespace Atmoos.Quantities.Parsing;
 
@@ -6,6 +6,7 @@ internal sealed class ModelParser(ISystems systems)
 {
     private const Char division = '/';
     private const Char multiplication = '\u200C';
+
     public IEnumerable<QuantityModel> Parse(String units)
     {
         // ToDo: Add support for more than two terms (& consider support of parentheses for grouping)
@@ -25,8 +26,7 @@ internal sealed class ModelParser(ISystems systems)
 
         return ParseScalar(units, 1) is QuantityModel scalar ? [scalar] : [];
 
-        static IEnumerable<QuantityModel> Combine(QuantityModel? left, QuantityModel? right)
-            => left is QuantityModel l && right is QuantityModel r ? [l, r] : [];
+        static IEnumerable<QuantityModel> Combine(QuantityModel? left, QuantityModel? right) => left is QuantityModel l && right is QuantityModel r ? [l, r] : [];
     }
 
     private QuantityModel? ParseScalar(String unit, Int32 outerExponent)

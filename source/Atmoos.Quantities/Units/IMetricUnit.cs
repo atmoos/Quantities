@@ -5,4 +5,8 @@
 //  SI units.
 /// </summary>
 // See: https://en.wikipedia.org/wiki/Metric_system
-public interface IMetricUnit : ITransform, IUnit { /* marker interface */ }
+public interface IMetricUnit
+    : ITransform,
+        IUnit
+{ /* marker interface */
+}

@@ -20,7 +20,7 @@ internal static class Deserializer
         if (reader.MoveNext(tokenType)) {
             return reader.GetString() ?? throw new InvalidDataException($"Encountered empty property name for token of type '{tokenType}'.");
         }
-        throw new InvalidDataException($"Failed finding next token of type '{tokenType}'."); ;
+        throw new InvalidDataException($"Failed finding next token of type '{tokenType}'.");
     }
 
     public static Double ReadNumber(this ref Utf8JsonReader reader)
@@ -51,7 +51,7 @@ internal static class Deserializer
             System = system,
             Exponent = measure.exponent ?? 1,
             Prefix = measure.prefix,
-            Unit = measure.unit
+            Unit = measure.unit,
         };
     }
 }

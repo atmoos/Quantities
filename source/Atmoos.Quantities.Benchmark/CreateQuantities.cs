@@ -1,4 +1,4 @@
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using Atmoos.Quantities.Prefixes;
 using Atmoos.Quantities.Units.Si;
 using Atmoos.Quantities.Units.Si.Derived;
@@ -11,22 +11,29 @@ internal readonly struct DummyQuantity
 {
     private readonly Double value;
     public Double Value => this.value;
+
     public DummyQuantity(in Double value) => this.value = value;
 }
 
 public sealed class DummyObject : ICastOperators<DummyObject, Double>
 {
     private readonly DummyQuantity value;
+
     private DummyObject(in DummyQuantity value) => this.value = value;
+
     public static DummyObject Of(in Double value) => new(new DummyQuantity(in value));
+
     public static implicit operator Double(DummyObject obj) => obj.value.Value;
 }
 
 public readonly struct DummyStruct : ICastOperators<DummyStruct, Double>
 {
     private readonly DummyQuantity value;
+
     private DummyStruct(in DummyQuantity value) => this.value = value;
+
     public static DummyStruct Of(in Double value) => new(new DummyQuantity(in value));
+
     public static implicit operator Double(DummyStruct obj) => obj.value.Value;
 }
 

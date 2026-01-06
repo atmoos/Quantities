@@ -12,6 +12,7 @@ public sealed class VelocityTest
         Velocity speed = Velocity.Of(5, Si<Metre>().Per(Si<Second>()));
         Assert.Equal("5 m/s", speed.ToString());
     }
+
     [Fact]
     public void KilometrePerHourToMetrePerSecond()
     {
@@ -21,6 +22,7 @@ public sealed class VelocityTest
         Velocity actual = speed.To(Si<Metre>().Per(Si<Second>()));
         Assert.Equal(expected, actual);
     }
+
     [Fact]
     public void MetrePerSecondToKilometrePerHour()
     {
@@ -30,6 +32,7 @@ public sealed class VelocityTest
         Velocity actual = speed.To(Si<Kilo, Metre>().Per(Metric<Hour>()));
         Assert.Equal(expected, actual);
     }
+
     [Fact]
     public void TrivialTransform()
     {
@@ -39,6 +42,7 @@ public sealed class VelocityTest
         Velocity actual = speed.To(Si<Metre>().Per(Si<Milli, Second>()));
         Assert.Equal(expected, actual);
     }
+
     [Fact]
     public void Transform()
     {
@@ -48,6 +52,7 @@ public sealed class VelocityTest
         Velocity actual = speed.To(Si<Milli, Metre>().Per(Si<Second>()));
         Assert.Equal(expected, actual);
     }
+
     [Fact]
     public void MilesPerHourToKilometresPerHour()
     {
@@ -57,6 +62,7 @@ public sealed class VelocityTest
         Velocity actual = speed.To(Si<Kilo, Metre>().Per(Metric<Hour>()));
         Assert.Equal(expected, actual);
     }
+
     [Fact]
     public void MetresPerSecondToMilesPerHourTo()
     {
@@ -79,6 +85,7 @@ public sealed class VelocityTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void VelocityFromDivisionOfLengthWithTime_ImperialUnits()
     {
@@ -114,6 +121,7 @@ public sealed class VelocityTest
 
         Assert.Equal(expectedKnots, actualKnots);
     }
+
     [Fact]
     public void KnotsToKilometrePerHour()
     {
@@ -126,6 +134,7 @@ public sealed class VelocityTest
 
         Assert.Equal(kiloMetresPerHour, actualKiloMetresPerHour);
     }
+
     [Fact]
     public void AccelerationTimesTimeIsProperVelocity()
     {

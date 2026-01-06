@@ -7,12 +7,16 @@ public sealed class EnergyTest
 {
     [Fact]
     public void JouleToString() => FormattingMatches(v => Energy.Of(v, Si<Joule>()), "J");
+
     [Fact]
     public void TeraJouleToString() => FormattingMatches(v => Energy.Of(v, Si<Tera, Joule>()), "TJ");
+
     [Fact]
     public void FemtoJouleToString() => FormattingMatches(v => Energy.Of(v, Si<Femto, Joule>()), "fJ");
+
     [Fact]
     public void KiloWattHourToString() => FormattingMatches(v => Energy.Of(v, Si<Kilo, Watt>().Times(Metric<Hour>())), Join("kW", "h"));
+
     [Fact]
     public void WattSecondToJoule()
     {
@@ -23,6 +27,7 @@ public sealed class EnergyTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void JouleToKiloWattHour()
     {

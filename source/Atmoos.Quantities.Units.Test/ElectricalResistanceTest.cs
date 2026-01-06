@@ -6,10 +6,13 @@ public sealed class ElectricalResistanceTest
 {
     [Fact]
     public void OhmToString() => FormattingMatches(v => ElectricalResistance.Of(v, Si<Ohm>()), "Ω");
+
     [Fact]
     public void KiloOhmToString() => FormattingMatches(v => ElectricalResistance.Of(v, Si<Kilo, Ohm>()), "kΩ");
+
     [Fact]
     public void MilliOhmToString() => FormattingMatches(v => ElectricalResistance.Of(v, Si<Milli, Ohm>()), "mΩ");
+
     [Fact]
     public void OhmsLawInBaseUnits()
     {
@@ -21,6 +24,7 @@ public sealed class ElectricalResistanceTest
 
         resistance.Equals(expected);
     }
+
     [Fact]
     public void OhmsLawInPrefixedUnits()
     {

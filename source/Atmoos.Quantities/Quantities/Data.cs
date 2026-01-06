@@ -10,21 +10,29 @@ namespace Atmoos.Quantities;
 - https://en.wikipedia.org/wiki/Byte#History
 */
 // ToDo #71: Find better naming
-public readonly struct Data : IQuantity<Data>, IAmountOfInformation
-    , IScalar<Data, IAmountOfInformation>
+public readonly struct Data : IQuantity<Data>, IAmountOfInformation, IScalar<Data, IAmountOfInformation>
 {
     private readonly Quantity data;
     internal Quantity Value => this.data;
     Quantity IQuantity<Data>.Value => this.data;
+
     private Data(in Quantity value) => this.data = value;
+
     public Data To<TDim>(in Scalar<TDim> other)
         where TDim : IAmountOfInformation, IUnit => new(other.Transform(in this.data));
+
     public static Data Of<TDim>(in Double value, in Scalar<TDim> measure)
         where TDim : IAmountOfInformation, IUnit => new(measure.Create(in value));
+
     static Data IFactory<Data>.Create(in Quantity value) => new(in value);
+
     public Boolean Equals(Data other) => this.data.Equals(other.data);
+
     public override Boolean Equals(Object? obj) => obj is Data data && Equals(data);
+
     public override Int32 GetHashCode() => this.data.GetHashCode();
+
     public override String ToString() => this.data.ToString();
+
     public String ToString(String? format, IFormatProvider? provider) => this.data.ToString(format, provider);
 }

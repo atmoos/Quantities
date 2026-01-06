@@ -9,32 +9,38 @@ public class UnitTest
     {
         Assert.IsType<Unit>(Unit.Identity);
     }
+
     [Fact]
     public void IdentitiesEquateEqual()
     {
         Assert.Equal(Unit.Identity, Unit.Identity);
     }
+
     [Fact]
     public void IdentityIsNotEqualToAnyScalar()
     {
         Assert.NotEqual(Unit.Identity, Dim<Time>.Value);
     }
+
     [Fact]
     public void IdentityIsNotEqualToAnyProduct()
     {
         Assert.NotEqual(Unit.Identity, Dim<Time>.Times<Length>());
     }
+
     [Fact]
     public void ExponentIsZero()
     {
         Assert.Equal(0, Unit.Identity.E);
     }
+
     [Theory]
     [MemberData(nameof(AnyPowers))]
     public void RaisedToAnyPowerRemainsUnit(Int32 power)
     {
         Assert.IsType<Unit>(Unit.Identity.Pow(power));
     }
+
     [Fact]
     public void TimesAnyDimensionIsTheSameDimension()
     {
@@ -44,6 +50,7 @@ public class UnitTest
 
         Assert.Same(anyDimension, actual);
     }
+
     [Fact]
     public void EnumeratesEmpty()
     {
@@ -56,12 +63,14 @@ public class UnitTest
         Dimension unit = Unit.Identity;
         Assert.True(unit.CommonRoot(Unit.Identity));
     }
+
     [Fact]
     public void CommonRootIsTrueComparedToExponentiatedUnit()
     {
         Dimension unit = Unit.Identity;
         Assert.True(unit.CommonRoot(Unit.Identity.Pow(5)));
     }
+
     [Fact]
     public void CommonRootIsFalseComparedToScalar()
     {
@@ -70,6 +79,7 @@ public class UnitTest
 
         Assert.False(unit.CommonRoot(scalar));
     }
+
     [Fact]
     public void CommonRootIsFalseComparedToProduct()
     {

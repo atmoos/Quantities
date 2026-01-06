@@ -7,5 +7,6 @@ namespace Atmoos.Quantities.Units.NonStandard.Mass;
 public readonly struct Pfund : INonStandardUnit, IMass
 {
     public static Transformation ToSi(Transformation self) => self.RootedIn<Kilogram>() / 2;
+
     public static String Representation => "℔";
 }

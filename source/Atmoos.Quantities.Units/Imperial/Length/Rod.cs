@@ -7,5 +7,6 @@ namespace Atmoos.Quantities.Units.Imperial.Length;
 public readonly struct Rod : IImperialUnit, ILength
 {
     public static Transformation ToSi(Transformation self) => 66 * self.DerivedFrom<Foot>() / 4;
+
     public static String Representation => "rod";
 }

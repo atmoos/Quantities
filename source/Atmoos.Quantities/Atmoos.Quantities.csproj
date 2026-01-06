@@ -12,5 +12,4 @@
     <InternalsVisibleTo Include="Atmoos.Quantities.Benchmark" />
     <InternalsVisibleTo Include="Atmoos.Quantities.TestTools" />
   </ItemGroup>
-
 </Project>

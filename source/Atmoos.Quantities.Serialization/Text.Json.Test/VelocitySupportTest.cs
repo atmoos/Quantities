@@ -8,6 +8,7 @@ public class VelocitySupportTest : ISerializationTester<Velocity>
     [Theory]
     [MemberData(nameof(Quantities))]
     public void SupportsSerialization(Velocity velocity) => velocity.SupportsSerialization();
+
     public static IEnumerable<Object[]> Quantities()
     {
         static IEnumerable<Velocity> Interesting()

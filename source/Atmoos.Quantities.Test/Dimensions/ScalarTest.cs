@@ -9,16 +9,19 @@ public class ScalarTest
     {
         Assert.IsAssignableFrom<Scalar>(Dim<Time>.Value);
     }
+
     [Fact]
     public void DoesNotEquateToIdentity()
     {
         DimAssert.NotEqual(Dim<Time>.Value, Unit.Identity);
     }
+
     [Fact]
     public void EquatesToScalarOfEqualQuantity()
     {
         DimAssert.Equal(Dim<Time>.Value, Dim<Time>.Value);
     }
+
     [Fact]
     public void EquatesToScalarOfEqualQuantity_EvenWhenTheyAreNotTheSameInstance()
     {
@@ -27,21 +30,25 @@ public class ScalarTest
         DimAssert.Equal(left, right);
         Assert.NotSame(left, right);
     }
+
     [Fact]
     public void EquatesToScalarOfSimilarQuantity()
     {
         DimAssert.Equal(Dim<Time>.Value, Dim<OtherTime>.Value);
     }
+
     [Fact]
     public void DoesNotEquateToScalarOfDifferingQuantity()
     {
         DimAssert.NotEqual(Dim<Time>.Value, Dim<Length>.Value);
     }
+
     [Fact]
     public void DoesNotEquateToAnyProduct()
     {
         DimAssert.NotEqual(Dim<Time>.Value, Dim<Time>.Times<Length>());
     }
+
     [Fact]
     public void DoesNotEquateToSameScalarRaisedToPowerOtherThanOne()
     {
@@ -49,6 +56,7 @@ public class ScalarTest
         var squareScalar = Dim<Time>.Pow(2);
         DimAssert.NotEqual(scalar, squareScalar);
     }
+
     [Fact]
     public void DoesNotEquateToScalarOfDifferentMultiplicity()
     {
@@ -56,6 +64,7 @@ public class ScalarTest
         var anyOther = Dim<Time>.Pow(2);
         DimAssert.NotEqual(any, anyOther);
     }
+
     [Fact]
     public void DoesNotEquateToScalarOfSameMultiplicityButDifferingQuantity()
     {
@@ -70,6 +79,7 @@ public class ScalarTest
     {
         Assert.IsType<Unit>(Dim<Length>.Pow(0));
     }
+
     [Fact]
     public void RaisedToThePowerOfOneIsTheSameInstance()
     {
@@ -79,26 +89,31 @@ public class ScalarTest
 
         Assert.Same(scalar, actual);
     }
+
     [Fact]
     public void ProductOfDifferingScalarsIsOfTypeProduct()
     {
         Assert.IsType<Product>(Dim<Time>.Value * Dim<Length>.Value);
     }
+
     [Fact]
     public void QuotientOfDifferingScalarsIsOfTypeProduct()
     {
         Assert.IsType<Product>(Dim<Time>.Value / Dim<Length>.Value);
     }
+
     [Fact]
     public void ProductOfSameScalarsIsOfTypeScalar()
     {
         Assert.IsAssignableFrom<Scalar>(Dim<Time>.Value * Dim<Time>.Value);
     }
+
     [Fact]
     public void QuotientOfSameScalarsIsOfTypeUnit()
     {
         Assert.IsType<Unit>(Dim<Time>.Value / Dim<Time>.Value);
     }
+
     [Fact]
     public void ProductOfSameQuantityIsTheSameQuantitySquared()
     {
@@ -106,6 +121,7 @@ public class ScalarTest
         var actual = Dim<Time>.Times<Time>();
         DimAssert.Equal(expected, actual);
     }
+
     [Fact]
     public void TimeSimilarQuantityResultsInASquaredQuantity()
     {
@@ -113,6 +129,7 @@ public class ScalarTest
         var actual = Dim<Time>.Times<OtherTime>();
         DimAssert.Equal(expected, actual);
     }
+
     [Fact]
     public void MultiplicationIsCommutative()
     {
@@ -135,6 +152,7 @@ public class ScalarTest
 
         Assert.Equal(left.E + right.E, actual.E);
     }
+
     [Fact]
     public void MultiplicitiesOfDifferingScalarsAreAbsorbedByProduct()
     {
@@ -156,6 +174,7 @@ public class ScalarTest
 
         Assert.Equal(left.E - right.E, actual.E);
     }
+
     [Fact]
     public void ProductsAreProperlySimplifiedOnRightHandTerm()
     {
@@ -167,6 +186,7 @@ public class ScalarTest
 
         DimAssert.Equal(expected, actual);
     }
+
     [Fact]
     public void ProductsAreProperlySimplifiedOnLeftHandTerm()
     {
@@ -178,6 +198,7 @@ public class ScalarTest
 
         DimAssert.Equal(expected, actual);
     }
+
     [Fact]
     public void EnumeratesItselfOnly()
     {
@@ -219,6 +240,7 @@ public class ScalarTest
         var expected = Math.Abs(exp) == 0 ? exponent : $"Time{exponent}";
         Assert.Equal(expected, value.ToString());
     }
+
     [Fact]
     public void CommonRootIsFalseOnDifferingDimensions()
     {
@@ -227,6 +249,7 @@ public class ScalarTest
 
         Assert.False(self.CommonRoot(other));
     }
+
     [Fact]
     public void CommonRootIsFalseWhenComparingToProducts()
     {
@@ -235,6 +258,7 @@ public class ScalarTest
 
         Assert.False(self.CommonRoot(other));
     }
+
     [Fact]
     public void CommonRootIsTrueOnSameDimensions()
     {
@@ -243,6 +267,7 @@ public class ScalarTest
 
         Assert.True(self.CommonRoot(other));
     }
+
     [Fact]
     public void CommonRootIsTrueOnSameInnerDimensionsWithDifferingExponent()
     {

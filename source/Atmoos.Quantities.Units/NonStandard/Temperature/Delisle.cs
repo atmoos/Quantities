@@ -8,5 +8,6 @@ namespace Atmoos.Quantities.Units.NonStandard.Temperature;
 public readonly struct Delisle : INonStandardUnit, ITemperature
 {
     public static Transformation ToSi(Transformation self) => -2d / 3 * self.RootedIn<Kelvin>() + 373.15;
+
     public static String Representation => "°De";
 }

@@ -1,4 +1,4 @@
-using Atmoos.Quantities.Core.Numerics;
+﻿using Atmoos.Quantities.Core.Numerics;
 using Atmoos.Quantities.Measures;
 using Atmoos.Quantities.Units.Si.Metric;
 

@@ -8,5 +8,6 @@ namespace Atmoos.Quantities.Units.NonStandard.Temperature;
 public readonly struct Réaumur : INonStandardUnit, ITemperature
 {
     public static Transformation ToSi(Transformation self) => 5 * self.RootedIn<Kelvin>() / 4 + 273.15;
+
     public static String Representation => "°Ré";
 }

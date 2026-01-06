@@ -1,12 +1,8 @@
 ﻿namespace Atmoos.Quantities.Core.Numerics;
 
-public interface IPositive
-{ /* marker interface */
-}
+public interface IPositive; // marker interface
 
-public interface INegative
-{ /* marker interface */
-}
+public interface INegative; // marker interface
 
 internal interface IInjectNumber<out TResult>
 {

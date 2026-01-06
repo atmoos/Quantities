@@ -8,6 +8,7 @@ public class TemperatureSupportTest : ISerializationTester<Temperature>
     [Theory]
     [MemberData(nameof(Quantities))]
     public void SupportsSerialization(Temperature quantity) => quantity.SupportsSerialization();
+
     public static IEnumerable<Object[]> Quantities()
     {
         static IEnumerable<Temperature> Interesting()

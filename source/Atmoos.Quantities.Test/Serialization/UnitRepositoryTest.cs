@@ -41,6 +41,7 @@ public class UnitRepositoryTest
     public readonly struct MyFancyUnit : INonStandardUnit
     {
         public static String Representation => "Fancy!";
+
         public static Transformation ToSi(Transformation self) => self * 42;
     }
 }

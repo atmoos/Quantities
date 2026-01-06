@@ -9,16 +9,19 @@ namespace Atmoos.Quantities.Test.Measures;
 public class InversionTest
 {
     private const String zeroWidthNonJoiner = "\u200C";
+
     [Fact]
     public void SiInvertedIsInverseOfSi()
     {
         Expect<Power<Si<Kilo, Metre>, Negative<One>>>.ToBeInverseOf<Si<Kilo, Metre>>("km⁻¹");
     }
+
     [Fact]
     public void InverseOfInvertedSiIsSi()
     {
         Expect<Si<Metre>>.ToBeInverseOf<Power<Si<Metre>, Negative<One>>>("m");
     }
+
     [Fact]
     public void MetricInvertedIsInverseOfMetric()
     {
@@ -42,6 +45,7 @@ public class InversionTest
     {
         Expect<Product<Power<Si<Metre>, Negative<One>>, Power<Metric<Hour>, Negative<One>>>>.ToBeInverseOf<Product<Si<Metre>, Metric<Hour>>>($"m⁻¹{zeroWidthNonJoiner}h⁻¹");
     }
+
     [Fact]
     public void QuotientInvertedIsInvertedQuotient()
     {
@@ -52,5 +56,6 @@ public class InversionTest
 file readonly struct SomeNonStandardUnit : INonStandardUnit, IVelocity
 {
     public static Transformation ToSi(Transformation self) => self * 1.234;
+
     public static String Representation => "snu";
 }

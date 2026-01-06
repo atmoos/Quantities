@@ -4,7 +4,6 @@ using System.Runtime.CompilerServices;
 using Atmoos.Quantities.Dimensions;
 using Xunit;
 using Xunit.Sdk;
-
 using static Atmoos.Quantities.Extensions;
 
 namespace Atmoos.Quantities.TestTools;
@@ -16,19 +15,24 @@ public static class Convenience
     public static Int32 MediumPrecision => fullPrecision - 1;
     public static Int32 LowPrecision => fullPrecision - 2;
     public static Int32 VeryLowPrecision => fullPrecision - 3;
+
     public static Double Uniform(this Random rand) => 2d * (rand.NextDouble() - 0.5);
+
     public static String Join(String leftUnit, String rightUnit) => $"{leftUnit}\u200C{rightUnit}";
+
     public static void Matches<TQuantity>(this TQuantity actual, TQuantity expected, Int32 precision = fullPrecision)
         where TQuantity : struct, IQuantity<TQuantity>, IDimension
     {
         ReformatEqualMessage((e, a, p) => a.Equal(e, p), expected, actual, precision);
         Assert.True(actual.Value.HasSameMeasure(expected.Value), $"Measure mismatch: {actual} != {expected}");
     }
+
     public static void Equal<TQuantity>(this TQuantity actual, TQuantity expected, Int32 precision = fullPrecision)
         where TQuantity : struct, IQuantity<TQuantity>, IDimension
     {
         Equal(actual, expected, (a, e) => a / e, precision);
     }
+
     public static void Equal<T>(this T actual, T expected, Func<T, T, Double> division, Int32 precision = fullPrecision)
     {
         var relativeEquality = division(actual, expected);
@@ -49,6 +53,7 @@ public static class Convenience
         (Double expectedValue, _) = expected;
         PrecisionIsBounded(expectedValue, actualValue, precision);
     }
+
     public static void PrecisionIsBounded(Double expected, Double actual, Int32 precision = fullPrecision)
     {
         const Int32 maxDoublePrecision = 16;
@@ -69,6 +74,7 @@ public static class Convenience
             Assert.Throws<EqualException>(() => Assert.Equal(expected, actual, precision + 1));
         }
     }
+
     public static void FormattingMatches(Func<Double, IFormattable> formatterFactory, String unit)
     {
         const String format = "f8";
@@ -79,8 +85,11 @@ public static class Convenience
         String expected = $"{value.ToString(format, formatProvider)} {unit}";
         Assert.Equal(expected, actual);
     }
+
     public static void IsTrue(this Boolean condition, [CallerArgumentExpression(nameof(condition))] String test = "") => Assert.True(condition, test);
+
     public static void IsFalse(this Boolean condition, [CallerArgumentExpression(nameof(condition))] String test = "") => Assert.False(condition, test);
+
     private static void ReformatEqualMessage<T>(Action<T, T, Int32> assertion, T expected, T actual, Int32 precision)
         where T : IFormattable
     {

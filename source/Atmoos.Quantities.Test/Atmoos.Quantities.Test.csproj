@@ -6,5 +6,4 @@
     <ProjectReference Include="..\Atmoos.Quantities\Atmoos.Quantities.csproj" />
     <ProjectReference Include="..\Atmoos.Quantities.TestTools\Atmoos.Quantities.TestTools.csproj" />
   </ItemGroup>
-
 </Project>

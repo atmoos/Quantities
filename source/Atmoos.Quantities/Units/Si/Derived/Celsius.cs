@@ -9,5 +9,6 @@ namespace Atmoos.Quantities.Units.Si.Derived;
 public readonly struct Celsius : IMetricUnit, ITemperature
 {
     public static Transformation ToSi(Transformation self) => self.RootedIn<Kelvin>() + 273.15d;
+
     public static String Representation => "°C";
 }

@@ -1,4 +1,4 @@
-namespace Atmoos.Quantities.Test.Core;
+﻿namespace Atmoos.Quantities.Test.Core;
 
 public sealed class CacheTest
 {
@@ -9,7 +9,14 @@ public sealed class CacheTest
         var createCalled = false;
         var cache = new Cache<Int32, String>();
 
-        var value = cache[key, key => { createCalled = true; return key.ToString(); }];
+        var value = cache[
+            key,
+            key =>
+            {
+                createCalled = true;
+                return key.ToString();
+            }
+        ];
 
         Assert.True(createCalled);
         Assert.Equal(key.ToString(), value);
@@ -35,7 +42,15 @@ public sealed class CacheTest
         var createCalled = false;
         var cache = new Cache<Int32, Int32, String>();
 
-        var value = cache[leftKey, rightKey, (lk, rk) => { createCalled = true; return $"{lk}+{rk}"; }];
+        var value = cache[
+            leftKey,
+            rightKey,
+            (lk, rk) =>
+            {
+                createCalled = true;
+                return $"{lk}+{rk}";
+            }
+        ];
 
         Assert.True(createCalled);
         Assert.Equal($"{leftKey}+{rightKey}", value);

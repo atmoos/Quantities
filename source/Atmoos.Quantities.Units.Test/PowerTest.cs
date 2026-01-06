@@ -7,12 +7,16 @@ public sealed class PowerTest
 {
     [Fact]
     public void WattToString() => FormattingMatches(v => Power.Of(v, Si<Watt>()), "W");
+
     [Fact]
     public void KiloWattToString() => FormattingMatches(v => Power.Of(v, Si<Kilo, Watt>()), "kW");
+
     [Fact]
     public void MicroWattToString() => FormattingMatches(v => Power.Of(v, Si<Micro, Watt>()), "μW");
+
     [Fact]
     public void VoltAmpereToString() => FormattingMatches(v => ElectricPotential.Of(v, Si<Volt>()) * ElectricCurrent.Of(1, Si<Ampere>()), Join("V", "A"));
+
     [Fact]
     public void PowerLawInBaseUnits()
     {
@@ -24,6 +28,7 @@ public sealed class PowerTest
 
         Assert.Equal(expected, actual);
     }
+
     [Fact]
     public void OhmsLawInPrefixedUnits()
     {
@@ -35,6 +40,7 @@ public sealed class PowerTest
 
         Assert.Equal(expected, actual);
     }
+
     [Fact]
     public void OhmsLawSquarePotentialPerResistance()
     {
@@ -46,6 +52,7 @@ public sealed class PowerTest
 
         Assert.Equal(expected, actual);
     }
+
     [Fact]
     public void OhmsLawSquareCurrentTimesResistance()
     {
@@ -68,6 +75,7 @@ public sealed class PowerTest
 
         watt.Matches(expected);
     }
+
     [Fact]
     public void DefinitionOfImperialHorsepower()
     {
@@ -78,6 +86,7 @@ public sealed class PowerTest
 
         watt.Matches(expected);
     }
+
     [Fact]
     public void ImperialHorsePowerIsNotEqualToMetricHorsePower()
     {
@@ -86,6 +95,7 @@ public sealed class PowerTest
 
         Assert.NotEqual(metricHorsePower, imperialHorsePower);
     }
+
     [Fact]
     public void ImperialAndMetricHorsePowerUseSameRepresentation()
     {
@@ -94,6 +104,7 @@ public sealed class PowerTest
 
         Assert.Equal(metricHorsePower.ToString(), imperialHorsePower.ToString());
     }
+
     [Fact]
     public void PowerFromEnergyDividedByTime()
     {

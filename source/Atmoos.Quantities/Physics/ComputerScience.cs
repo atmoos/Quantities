@@ -1,4 +1,4 @@
-using static Atmoos.Quantities.Extensions;
+﻿using static Atmoos.Quantities.Extensions;
 
 namespace Atmoos.Quantities.Physics;
 

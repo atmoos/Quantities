@@ -52,8 +52,6 @@ public class TransformationTest
         Assert.Equal(expected, actual, MediumPrecision);
     }
 
-
-
     [Theory]
     [MemberData(nameof(Transformations))]
     public void TransformationsBuiltInverse(Transformation transformation)
@@ -71,6 +69,7 @@ public class TransformationTest
     {
         return Computations().Select(o => o[..1]);
     }
+
     public static IEnumerable<Object[]> Computations()
     {
         static IEnumerable<(Transformation transform, Func<Double, Double> function)> FunctionsOfInterest()

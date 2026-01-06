@@ -1,4 +1,4 @@
-using Atmoos.Quantities.Prefixes;
+﻿using Atmoos.Quantities.Prefixes;
 using Atmoos.Quantities.Serialization.Newtonsoft;
 using Atmoos.Quantities.Units.Si;
 using Newtonsoft.Json;

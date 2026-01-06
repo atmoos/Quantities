@@ -16,5 +16,4 @@ public interface IDimension<TSelf, TMultiplicity> : IDimension
 
 public interface ILinear<TSelf> : ILinear, IDimension<TSelf, One>
     where TSelf : ILinear<TSelf>
-{
-}
+{ }

@@ -10,5 +10,4 @@
   <ItemGroup Condition="$(IsPackable)">
     <InternalsVisibleTo Include="$(AssemblyName).Test" />
   </ItemGroup>
-
 </Project>

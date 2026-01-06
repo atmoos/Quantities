@@ -9,7 +9,7 @@ public class MetricPrefixesTest
         ["zetta"] = new TestPrefix<Zetta>(1e21),
         ["zepto"] = new TestPrefix<Zepto>(1e-21),
         ["yocto"] = new TestPrefix<Yocto>(1e-24),
-        ["quecto"] = new TestPrefix<Quecto>(1e-30)
+        ["quecto"] = new TestPrefix<Quecto>(1e-30),
     };
 
     [Theory]
@@ -61,6 +61,7 @@ public class MetricPrefixesTest
     public void FromSiRoundRobinEquality_VariablePrecision(String prefix, Int32 precision) => PrefixTests.FromSiRoundRobinEquality(outliers[prefix], precision);
 
     public static IEnumerable<Object[]> AllMetricPrefixes() => MetricPrefixes().Select(p => new Object[] { p });
+
     public static IEnumerable<ITestPrefix> MetricPrefixes()
     {
         // Excluding prefixes that cannot round exactly.

@@ -8,6 +8,7 @@ public class DataSupportTest : ISerializationTester<Data>
     [Theory]
     [MemberData(nameof(Quantities))]
     public void SupportsSerialization(Data quantity) => quantity.SupportsSerialization();
+
     public static IEnumerable<Object[]> Quantities()
     {
         static IEnumerable<Data> Interesting()

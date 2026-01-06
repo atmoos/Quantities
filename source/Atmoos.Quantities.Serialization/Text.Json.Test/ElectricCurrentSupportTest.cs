@@ -5,6 +5,7 @@ public class ElectricCurrentSupportTest : ISerializationTester<ElectricCurrent>
     [Theory]
     [MemberData(nameof(Quantities))]
     public void SupportsSerialization(ElectricCurrent quantity) => quantity.SupportsSerialization();
+
     public static IEnumerable<Object[]> Quantities()
     {
         static IEnumerable<ElectricCurrent> Interesting()

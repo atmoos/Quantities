@@ -1,4 +1,4 @@
-using Atmoos.Quantities.Prefixes;
+﻿using Atmoos.Quantities.Prefixes;
 using Atmoos.Quantities.Units.Si;
 using Atmoos.Quantities.Units.Si.Derived;
 using Atmoos.Quantities.Units.Si.Metric;
@@ -18,16 +18,22 @@ public class DeserializationBenchmark
 
     [Benchmark(Baseline = true)]
     public (Double, String, String) SystemTriple() => triple.Deserialize<(Double, String, String)>();
+
     [Benchmark]
     public Length SystemQuantity() => simpleQuantity.Deserialize<Length>();
+
     [Benchmark]
     public Length PrefixedQuantity() => prefixedQuantity.Deserialize<Length>();
+
     [Benchmark]
     public Velocity FractionalQuantity() => fractionalQuantity.Deserialize<Velocity>();
+
     [Benchmark]
     public Energy MultiplicativeQuantity() => multiplicativeQuantity.Deserialize<Energy>();
+
     [Benchmark]
     public Volume PowerQuantity() => powerQuantity.Deserialize<Volume>();
+
     [Benchmark]
     public Volume ScalarPowerQuantity() => scalarPowerQuantity.Deserialize<Volume>();
 

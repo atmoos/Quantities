@@ -9,7 +9,9 @@ internal sealed class QuantitySerialization : JsonConverter
     private static readonly Type quantityConverter = typeof(QuantityConverter<>);
     private readonly Dictionary<Type, JsonConverter> converters = new();
     private readonly UnitRepository repository;
+
     public QuantitySerialization(Assembly[] assemblies) => this.repository = UnitRepository.Create(assemblies);
+
     public override Boolean CanConvert(Type objectType)
     {
         if (this.converters.ContainsKey(objectType)) {
@@ -32,6 +34,7 @@ internal sealed class QuantitySerialization : JsonConverter
         }
         return null;
     }
+
     public override void WriteJson(JsonWriter writer, Object? value, JsonSerializer serializer)
     {
         var type = value?.GetType();

@@ -7,5 +7,6 @@ namespace Atmoos.Quantities.Units.NonStandard.Mass;
 public readonly struct Zentner : INonStandardUnit, IMass
 {
     public static Transformation ToSi(Transformation self) => 50 * self.RootedIn<Kilogram>();
+
     public static String Representation => "Ztr";
 }

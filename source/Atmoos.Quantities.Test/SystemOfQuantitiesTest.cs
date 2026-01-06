@@ -36,12 +36,14 @@ public class SystemOfQuantitiesTest
         var expected = Dim<Mass>.Value * Dim<Length>.Value * Dim<Time>.Pow(-2);
         Quantity<Force>.IsDerivedFrom(expected);
     }
+
     [Fact]
     public void AccelerationIsDerivedFromLengthPerTimeSquared()
     {
         var expected = Dim<Length>.Value * Dim<Time>.Pow(-2);
         Quantity<Acceleration>.IsDerivedFrom(expected);
     }
+
     [Fact]
     public void PressureIsDerivedFromLengthTimeAndMass()
     {
@@ -60,11 +62,13 @@ file static class Quantity<TActual>
         Assert.Equal(1, TActual.D.E);
         Assert.Equal(name, TActual.D.ToString());
     }
+
     public static void IsDerivedFrom(Dimension expected)
     {
         Is<IDerivedQuantity>();
         DimAssert.Equal(expected, TActual.D);
     }
+
     private static void Is<TExpected>()
     {
         var msg = $"{NameOf<TActual>()} does not implement {NameOf<TExpected>()}.";

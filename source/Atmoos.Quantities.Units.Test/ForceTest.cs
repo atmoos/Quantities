@@ -1,4 +1,4 @@
-using Atmoos.Quantities.Units.Imperial.Force;
+﻿using Atmoos.Quantities.Units.Imperial.Force;
 using Atmoos.Quantities.Units.Si.Derived;
 
 namespace Atmoos.Quantities.Units.Test;
@@ -7,10 +7,13 @@ public sealed class ForceTest
 {
     [Fact]
     public void NewtonToString() => FormattingMatches(v => Force.Of(v, Si<Newton>()), "N");
+
     [Fact]
     public void KiloNewtonToString() => FormattingMatches(v => Force.Of(v, Si<Kilo, Newton>()), "kN");
+
     [Fact]
     public void PoundForceToString() => FormattingMatches(v => Force.Of(v, Imperial<PoundForce>()), "lbf");
+
     [Fact]
     public void PoundForceMatchesDefinitionInNewton()
     {
@@ -22,6 +25,7 @@ public sealed class ForceTest
         Assert.Equal(newton, poundForce);
         convertedPoundForce.Matches(newton);
     }
+
     [Fact]
     public void NewtonFromPressureAndArea()
     {

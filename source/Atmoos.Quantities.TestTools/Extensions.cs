@@ -9,7 +9,7 @@ public static class Extensions
     private static readonly EnumerationOptions repoOptions = new() {
         RecurseSubdirectories = false,
         MatchCasing = MatchCasing.CaseSensitive,
-        AttributesToSkip = FileAttributes.Archive
+        AttributesToSkip = FileAttributes.Archive,
     };
 
     public static DirectoryInfo RepoDir { get; } = FindRepoDirOf(typeof(Extensions).Assembly);

@@ -1,5 +1,4 @@
 ﻿using Atmoos.Quantities.Units.Si.Metric.UnitsOfInformation;
-
 using Bytes = Atmoos.Quantities.Units.Si.Metric.UnitsOfInformation.Byte;
 
 namespace Atmoos.Quantities.Units.Test;
@@ -12,18 +11,25 @@ public class DataTest
 
     [Fact]
     public void BitToString() => FormattingMatches(v => Data.Of(v, Metric<Bit>()), "bit");
+
     [Fact]
     public void ByteToString() => FormattingMatches(v => Data.Of(v, Metric<Bytes>()), "B");
+
     [Fact]
     public void NibbleToString() => FormattingMatches(v => Data.Of(v, Metric<Nibble>()), "N");
+
     [Fact]
     public void KibiBitToString() => FormattingMatches(v => Data.Of(v, Binary<Kibi, Bit>()), "Kibit");
+
     [Fact]
     public void KiloBitToString() => FormattingMatches(v => Data.Of(v, Metric<Kilo, Bit>()), "kbit");
+
     [Fact]
     public void KiloByteToString() => FormattingMatches(v => Data.Of(v, Metric<Kilo, Bytes>()), "kB");
+
     [Fact]
     public void KibiByteToString() => FormattingMatches(v => Data.Of(v, Binary<Kibi, Bytes>()), "KiB");
+
     [Fact]
     public void DefinitionOfNibble()
     {
@@ -32,6 +38,7 @@ public class DataTest
 
         Assert.Equal(definition, oneNibble);
     }
+
     [Fact]
     public void DefinitionOfByte()
     {
@@ -40,6 +47,7 @@ public class DataTest
 
         Assert.Equal(definition, oneByte);
     }
+
     [Fact]
     public void DefinitionOfKiloByte()
     {
@@ -48,6 +56,7 @@ public class DataTest
 
         Assert.Equal(definition, oneByte);
     }
+
     [Fact]
     public void DefinitionOfKibiByte()
     {
@@ -56,6 +65,7 @@ public class DataTest
 
         Assert.Equal(definition, oneByte);
     }
+
     [Fact]
     public void MebiByteToMegaByte()
     {
@@ -66,6 +76,7 @@ public class DataTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void GigaByteToGibiByte()
     {
@@ -76,6 +87,7 @@ public class DataTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void DataRateTimesTimeIsAmountOfData()
     {
@@ -87,6 +99,7 @@ public class DataTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void TimeTimesDataRateIsAmountOfData()
     {

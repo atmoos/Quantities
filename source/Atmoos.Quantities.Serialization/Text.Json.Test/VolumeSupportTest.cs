@@ -8,6 +8,7 @@ public class VolumeSupportTest : ISerializationTester<Volume>, IInjectedUnitTest
     [Theory]
     [MemberData(nameof(Quantities))]
     public void SupportsSerialization(Volume volume) => volume.SupportsSerialization();
+
     public static IEnumerable<Object[]> Quantities()
     {
         static IEnumerable<Volume> Interesting()
@@ -28,7 +29,6 @@ public class VolumeSupportTest : ISerializationTester<Volume>, IInjectedUnitTest
         }
         return Interesting().Select(l => new Object[] { l });
     }
-
 
     [Theory]
     [MemberData(nameof(InjectingVolumes))]

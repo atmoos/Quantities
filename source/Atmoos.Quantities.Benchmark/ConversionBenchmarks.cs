@@ -1,4 +1,4 @@
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using Atmoos.Quantities.Core.Numerics;
 
 namespace Atmoos.Quantities.Benchmark;
@@ -45,9 +45,11 @@ file readonly struct B : ITransform
 }
 
 file static class Cache<TFrom, TTo>
-    where TFrom : ITransform where TTo : ITransform
+    where TFrom : ITransform
+    where TTo : ITransform
 {
     private static readonly Polynomial polynomial = Polynomial.Of<TFrom>() / Polynomial.Of<TTo>();
+
     public static Double Convert(in Double value) => polynomial * value;
 }
 

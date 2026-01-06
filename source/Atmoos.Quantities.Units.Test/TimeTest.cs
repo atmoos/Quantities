@@ -52,6 +52,7 @@ public sealed class TimeTest
 
         hours.Matches(expected);
     }
+
     [Fact]
     public void MinuteToMilliSecond()
     {

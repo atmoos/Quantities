@@ -1,5 +1,4 @@
 ﻿using System.Numerics;
-
 using static System.Math;
 
 namespace Atmoos.Quantities.Core.Numerics;
@@ -55,12 +54,12 @@ internal static class Algorithms
             return (scaling * nominator, scaling * denominator);
         }
 
-        static (Double scaling, Boolean allIntegers) SelectScalingValue(in Double nominator, in Double denominator)
-            => (Double.IsInteger(nominator), Double.IsInteger(denominator)) switch {
+        static (Double scaling, Boolean allIntegers) SelectScalingValue(in Double nominator, in Double denominator) =>
+            (Double.IsInteger(nominator), Double.IsInteger(denominator)) switch {
                 (false, true) => (Abs(nominator), false),
                 (true, false) => (Abs(denominator), false),
                 (false, false) => (MinMagnitude(nominator, denominator), false),
-                (true, true) => (Double.NaN, true)
+                (true, true) => (Double.NaN, true),
             };
     }
 
@@ -69,15 +68,16 @@ internal static class Algorithms
         where T : IMultiplicativeIdentity<T, T>, IMultiplyOperators<T, T, T>, IDivisionOperators<T, T, T>
     {
         return exponent >= 0 ? Power(in value, exponent) : T.MultiplicativeIdentity / Power(in value, -exponent);
-        static T Power(in T value, Int32 n) => n switch {
-            0 => T.MultiplicativeIdentity,
-            1 => value,
-            2 => value * value,
-            3 => value * value * value,
-            _ => (n & 1) switch { // is the rightmost bit zero or one?
-                0 => Power(value * value, n >> 1), // right shift to divide exponent by 2
-                _ => value * Power(value * value, n >> 1)
-            }
-        };
+        static T Power(in T value, Int32 n) =>
+            n switch {
+                0 => T.MultiplicativeIdentity,
+                1 => value,
+                2 => value * value,
+                3 => value * value * value,
+                _ => (n & 1) switch { // is the rightmost bit zero or one?
+                    0 => Power(value * value, n >> 1), // right shift to divide exponent by 2
+                    _ => value * Power(value * value, n >> 1),
+                },
+            };
     }
 }

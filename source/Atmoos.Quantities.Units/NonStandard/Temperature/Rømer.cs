@@ -8,5 +8,6 @@ namespace Atmoos.Quantities.Units.NonStandard.Temperature;
 public readonly struct Rømer : INonStandardUnit, ITemperature
 {
     public static Transformation ToSi(Transformation self) => 40 * (self.RootedIn<Kelvin>() - 7.5) / 21 + 273.15;
+
     public static String Representation => "°Rø";
 }

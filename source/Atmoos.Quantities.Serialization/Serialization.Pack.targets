@@ -5,5 +5,4 @@
   <PropertyGroup>
     <PackageTags>$(PackageTags), unit-serialization, quantities-serialization, serialization</PackageTags>
   </PropertyGroup>
-
 </Project>

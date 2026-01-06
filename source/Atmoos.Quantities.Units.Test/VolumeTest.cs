@@ -7,12 +7,16 @@ public sealed class VolumeTest
 {
     [Fact]
     public void CubicMetreToString() => FormattingMatches(v => Volume.Of(v, Cubic(Si<Metre>())), "m³");
+
     [Fact]
     public void CubicKiloMetreToString() => FormattingMatches(v => Volume.Of(v, Cubic(Si<Kilo, Metre>())), "km³");
+
     [Fact]
     public void MilliLitreToString() => FormattingMatches(v => Volume.Of(v, Metric<Milli, Litre>()), "mℓ");
+
     [Fact]
     public void CubicFootToString() => FormattingMatches(v => Volume.Of(v, Cubic(Imperial<Foot>())), "ft³");
+
     [Fact]
     public void PintToString() => FormattingMatches(v => Volume.Of(v, Imperial<Pint>()), "pt");
 
@@ -27,6 +31,7 @@ public sealed class VolumeTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void FromSiToLitre()
     {
@@ -36,6 +41,7 @@ public sealed class VolumeTest
         Volume actual = si.To(Metric<Litre>());
         Assert.Equal(expected, actual);
     }
+
     [Fact]
     public void FromSiToHectoLitre()
     {
@@ -45,6 +51,7 @@ public sealed class VolumeTest
         Volume actual = si.To(Metric<Hecto, Litre>());
         Assert.Equal(expected, actual);
     }
+
     [Fact]
     public void FromComputedSiToHectoLitre()
     {
@@ -54,6 +61,7 @@ public sealed class VolumeTest
         Volume actual = computedSi.To(Metric<Hecto, Litre>());
         Assert.Equal(expected, actual);
     }
+
     [Fact]
     public void FromMilliLitreToCubicCentimetre()
     {
@@ -63,6 +71,7 @@ public sealed class VolumeTest
         Volume actual = litre.To(Cubic(Si<Centi, Metre>()));
         Assert.Equal(expected, actual);
     }
+
     [Fact]
     public void FromCubicMillimetreToMicroLitre()
     {
@@ -73,6 +82,7 @@ public sealed class VolumeTest
         Volume actual = si.To(microLitre);
         Assert.Equal(expected, actual);
     }
+
     [Fact]
     public void FromLitreToSi()
     {
@@ -82,6 +92,7 @@ public sealed class VolumeTest
         Volume actual = litres.To(Cubic(Si<Metre>()));
         Assert.Equal(expected, actual);
     }
+
     [Fact]
     public void FromCubicDeciMetreToLitre()
     {
@@ -91,6 +102,7 @@ public sealed class VolumeTest
         Volume actual = si.To(Metric<Litre>());
         Assert.Equal(expected, actual);
     }
+
     [Fact]
     public void FromGallonToLitre()
     {
@@ -100,6 +112,7 @@ public sealed class VolumeTest
         Volume actual = si.To(Metric<Litre>());
         Assert.Equal(expected, actual);
     }
+
     [Fact]
     public void FromLitreToPint()
     {
@@ -109,6 +122,7 @@ public sealed class VolumeTest
         Volume actual = si.To(Imperial<Pint>());
         Assert.Equal(expected, actual);
     }
+
     [Fact]
     public void FromCubicFootToLitre()
     {
@@ -118,6 +132,7 @@ public sealed class VolumeTest
         Volume actual = imperial.To(Metric<Litre>());
         Assert.Equal(expected, actual);
     }
+
     [Fact]
     public void FromMillilitreToImperialFluidOunce()
     {
@@ -127,6 +142,7 @@ public sealed class VolumeTest
         Volume actual = si.To(Imperial<FluidOunce>());
         Assert.Equal(expected, actual);
     }
+
     [Fact]
     public void FromStereToCubicMetre()
     {
@@ -136,6 +152,7 @@ public sealed class VolumeTest
         Volume actual = stere.To(Cubic(Si<Metre>()));
         actual.Matches(expected);
     }
+
     [Fact]
     public void FromLambdaToMicroLitre()
     {
@@ -145,6 +162,7 @@ public sealed class VolumeTest
         Volume actual = lambda.To(Metric<Micro, Litre>());
         Assert.Equal(expected, actual);
     }
+
     [Fact]
     public void FromLambdaToCubicMilliMetre()
     {
@@ -154,6 +172,7 @@ public sealed class VolumeTest
         Volume actual = lambda.To(Cubic(Si<Milli, Metre>()));
         Assert.Equal(expected, actual);
     }
+
     [Fact]
     public void DivideCubicMetreByMetre()
     {
@@ -165,6 +184,7 @@ public sealed class VolumeTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void DividePureVolumeByLength()
     {

@@ -9,8 +9,10 @@ public sealed class LengthTest
 
     [Fact]
     public void MetreToString() => FormattingMatches(v => Length.Of(v, Si<Metre>()), "m");
+
     [Fact]
     public void KiloMetreToString() => FormattingMatches(v => Length.Of(v, Si<Kilo, Metre>()), "km");
+
     [Fact]
     public void MileToString() => FormattingMatches(v => Length.Of(v, Imperial<Mile>()), "mi");
 
@@ -61,6 +63,7 @@ public sealed class LengthTest
         Length miles = kilometres.To(Imperial<Mile>());
         PrecisionIsBounded(1d, miles);
     }
+
     [Fact]
     public void FootToMile()
     {
@@ -78,6 +81,7 @@ public sealed class LengthTest
         Length result = kilometres + metres;
         PrecisionIsBounded(10.02, result);
     }
+
     [Fact]
     public void AddKilometresToMiles()
     {
@@ -86,6 +90,7 @@ public sealed class LengthTest
         Length result = miles + kilometres;
         PrecisionIsBounded(1 + kilometre_in_miles, result);
     }
+
     [Fact]
     public void AddMilesToKilometres()
     {
@@ -94,6 +99,7 @@ public sealed class LengthTest
         Length result = kilometres + miles;
         PrecisionIsBounded(2.609344, result);
     }
+
     [Fact]
     public void SubtractKilometresFromMetres()
     {
@@ -102,6 +108,7 @@ public sealed class LengthTest
         Length result = metres - kilometres;
         PrecisionIsBounded(1500d, result);
     }
+
     [Fact]
     public void SubtractMilesFromKilometres()
     {
@@ -110,6 +117,7 @@ public sealed class LengthTest
         Length result = kilometres - miles;
         PrecisionIsBounded(1d, result);
     }
+
     [Fact]
     public void OneMileInYards()
     {
@@ -120,6 +128,7 @@ public sealed class LengthTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void SiLengthBySiLengthIsSiArea()
     {
@@ -131,6 +140,7 @@ public sealed class LengthTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void ImperialLengthByImperialLengthIsImperialArea()
     {
@@ -142,6 +152,7 @@ public sealed class LengthTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void LengthByDivisionIsSameAsLengthByConstruction()
     {
@@ -154,6 +165,7 @@ public sealed class LengthTest
         actual.Matches(expected);
         Assert.Equal(expected, actual);
     }
+
     [Fact]
     public void SiLengthBySiTimeIsVelocity()
     {
@@ -165,6 +177,7 @@ public sealed class LengthTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void SiLengthByMetricTimeIsVelocity()
     {
@@ -176,6 +189,7 @@ public sealed class LengthTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void ImperialLengthByTimeIsVelocity()
     {
@@ -187,6 +201,7 @@ public sealed class LengthTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void VelocityTimesTimeIsLength()
     {

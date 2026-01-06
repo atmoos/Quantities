@@ -3,7 +3,6 @@ using Atmoos.Sphere.Text;
 using BenchmarkDotNet.Columns;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Running;
-
 using static BenchmarkDotNet.Columns.StatisticColumn;
 
 // dotnet run -c Release --project Quantities.Benchmark/

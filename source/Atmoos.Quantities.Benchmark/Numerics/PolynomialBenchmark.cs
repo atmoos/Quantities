@@ -1,5 +1,4 @@
-using Atmoos.Quantities.Core.Numerics;
-
+﻿using Atmoos.Quantities.Core.Numerics;
 using static Atmoos.Quantities.Benchmark.Convenience;
 using static Atmoos.Quantities.Benchmark.Numerics.Trivial;
 
@@ -16,8 +15,10 @@ public class PolynomialBenchmark
 
     [Benchmark(Baseline = true)]
     public Double EvaluateTrivial() => Poly(in trivial, argument);
+
     [Benchmark]
     public Double EvaluatePolynomial() => polynomial * argument;
+
     [Benchmark]
     public Double EvaluatePolynomialWithoutOffset() => polynomialWithoutOffset * argument;
 }

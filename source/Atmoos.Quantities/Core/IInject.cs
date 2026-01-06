@@ -2,5 +2,6 @@
 
 internal interface IInject<out TResult>
 {
-    TResult Inject<TMeasure>() where TMeasure : IMeasure;
+    TResult Inject<TMeasure>()
+        where TMeasure : IMeasure;
 }

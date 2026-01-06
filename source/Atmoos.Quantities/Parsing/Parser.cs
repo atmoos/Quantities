@@ -1,4 +1,4 @@
-using Atmoos.Quantities.Core.Construction;
+﻿using Atmoos.Quantities.Core.Construction;
 using Atmoos.Quantities.Dimensions;
 
 namespace Atmoos.Quantities.Parsing;
@@ -38,8 +38,7 @@ public interface IParser<T>
 public static class Parser
 {
     public static IParser<T> Create<T>(UnitRepository repository)
-        where T : struct, IQuantity<T>, IDimension
-        => new Parser<T>(repository, new ModelParser(repository.Subset<T>()));
+        where T : struct, IQuantity<T>, IDimension => new Parser<T>(repository, new ModelParser(repository.Subset<T>()));
 }
 
 internal sealed class Parser<T>(UnitRepository repository, ModelParser parser) : IParser<T>
@@ -58,12 +57,9 @@ internal sealed class Parser<T>(UnitRepository repository, ModelParser parser) :
             return success;
         }
         // ToDo: Refine exception handling, i.e. add a TryCreate method to QuantityFactory
-        catch (InvalidOperationException) {
-        }
-        catch (NotSupportedException) {
-        }
+        catch (InvalidOperationException) { }
+        catch (NotSupportedException) { }
         result = default;
         return false;
     }
 }
-

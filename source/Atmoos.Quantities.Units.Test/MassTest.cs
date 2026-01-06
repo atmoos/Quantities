@@ -7,20 +7,28 @@ public sealed class MassTest
 {
     private const Double gramsInPound = 453.59237;
     private static readonly Mass onePound = Mass.Of(1, Imperial<Pound>());
+
     [Fact]
     public void KilogramToString() => FormattingMatches(v => Mass.Of(v, Si<Kilogram>()), "kg");
+
     [Fact]
     public void GramToString() => FormattingMatches(v => Mass.Of(v, Metric<Gram>()), "g");
+
     [Fact]
     public void TonneToString() => FormattingMatches(v => Mass.Of(v, Metric<Tonne>()), "t");
+
     [Fact]
     public void KiloGramToString() => FormattingMatches(v => Mass.Of(v, Metric<Kilo, Gram>()), "kg");
+
     [Fact]
     public void MicroGramToString() => FormattingMatches(v => Mass.Of(v, Metric<Micro, Gram>()), "μg");
+
     [Fact]
     public void KiloTonneToString() => FormattingMatches(v => Mass.Of(v, Metric<Kilo, Tonne>()), "kt");
+
     [Fact]
     public void MegaTonneToString() => FormattingMatches(v => Mass.Of(v, Metric<Mega, Tonne>()), "Mt");
+
     [Fact]
     public void KilogramKiloGramEquivalence()
     {
@@ -29,6 +37,7 @@ public sealed class MassTest
 
         Assert.Equal(siKilogram, pseudoKiloGram);
     }
+
     [Fact]
     public void GramToKilogram()
     {
@@ -39,6 +48,7 @@ public sealed class MassTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void KilogramToGram()
     {
@@ -49,6 +59,7 @@ public sealed class MassTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void TonneToKilogram()
     {
@@ -59,6 +70,7 @@ public sealed class MassTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void KilogramToTonne()
     {
@@ -69,6 +81,7 @@ public sealed class MassTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void GramToTonne()
     {
@@ -79,6 +92,7 @@ public sealed class MassTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void TonneToGram()
     {
@@ -89,6 +103,7 @@ public sealed class MassTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void GramToPound()
     {
@@ -99,6 +114,7 @@ public sealed class MassTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void PoundToGram()
     {
@@ -109,6 +125,7 @@ public sealed class MassTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void PoundToStone()
     {
@@ -119,6 +136,7 @@ public sealed class MassTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void StoneToPound()
     {
@@ -129,6 +147,7 @@ public sealed class MassTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void PoundToOunce()
     {
@@ -139,6 +158,7 @@ public sealed class MassTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void OunceToPound()
     {
@@ -149,46 +169,55 @@ public sealed class MassTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void DefinitionOfGrainHolds()
     {
         Assert.Equal(onePound, Mass.Of(7000, Imperial<Grain>()));
     }
+
     [Fact]
     public void DefinitionOfDrachmHolds()
     {
         Assert.Equal(onePound, Mass.Of(256, Imperial<Drachm>()));
     }
+
     [Fact]
     public void DefinitionOfOunceHolds()
     {
         Assert.Equal(onePound, Mass.Of(16, Imperial<Ounce>()));
     }
+
     [Fact]
     public void DefinitionOfPoundHolds()
     {
         Assert.Equal(Mass.Of(1, Si<Kilogram>()), Mass.Of(1000d / gramsInPound, Imperial<Pound>()));
     }
+
     [Fact]
     public void DefinitionOfStoneHolds()
     {
         Assert.Equal(Mass.Of(14, Imperial<Pound>()), Mass.Of(1, Imperial<Stone>()));
     }
+
     [Fact]
     public void DefinitionOfQuarterHolds()
     {
         Assert.Equal(Mass.Of(28, Imperial<Pound>()), Mass.Of(1, Imperial<Quarter>()));
     }
+
     [Fact]
     public void DefinitionOfHundredweightHolds()
     {
         Assert.Equal(Mass.Of(112, Imperial<Pound>()), Mass.Of(1, Imperial<Hundredweight>()));
     }
+
     [Fact]
     public void DefinitionOfTonHolds()
     {
         Assert.Equal(Mass.Of(2240, Imperial<Pound>()), Mass.Of(1, Imperial<Ton>()));
     }
+
     [Fact]
     public void DefinitionOfSlugHolds()
     {

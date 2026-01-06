@@ -15,8 +15,10 @@ public interface IScalar<out TQuantity, in TDimension>
     where TQuantity : IScalar<TQuantity, TDimension>, TDimension
     where TDimension : IDimension
 {
-    public TQuantity To<TUnit>(in Scalar<TUnit> other) where TUnit : TDimension, IUnit;
-    public static abstract TQuantity Of<TUnit>(in Double value, in Scalar<TUnit> measure) where TUnit : TDimension, IUnit;
+    public TQuantity To<TUnit>(in Scalar<TUnit> other)
+        where TUnit : TDimension, IUnit;
+    public static abstract TQuantity Of<TUnit>(in Double value, in Scalar<TUnit> measure)
+        where TUnit : TDimension, IUnit;
 }
 
 public interface IQuotient<out TQuantity, in TDimension, in TNominatorDimension, in TDenominatorDimension> : IScalar<TQuantity, TDimension>
@@ -67,8 +69,10 @@ public interface IInvertible<out TQuantity, in TDimension, in TInverse>
     where TDimension : IDimension<TInverse, Negative<One>>, ILinear
     where TInverse : IDimension, ILinear
 {
-    public TQuantity To<TUnit>(in Scalar<TUnit> other) where TUnit : TDimension, IInvertible<TInverse>, IUnit;
-    public static abstract TQuantity Of<TUnit>(in Double value, in Scalar<TUnit> measure) where TUnit : TDimension, IInvertible<TInverse>, IUnit;
+    public TQuantity To<TUnit>(in Scalar<TUnit> other)
+        where TUnit : TDimension, IInvertible<TInverse>, IUnit;
+    public static abstract TQuantity Of<TUnit>(in Double value, in Scalar<TUnit> measure)
+        where TUnit : TDimension, IInvertible<TInverse>, IUnit;
 }
 
 public interface IPowerOf<out TQuantity, in TDimension, in TLinear, TExponent>
@@ -77,8 +81,12 @@ public interface IPowerOf<out TQuantity, in TDimension, in TLinear, TExponent>
     where TLinear : IDimension, ILinear
     where TExponent : INumber
 {
-    public TQuantity To<TUnit>(in Power<TUnit, TExponent> other) where TUnit : TLinear, IUnit;
-    public TQuantity To<TUnit>(in Scalar<TUnit> alias) where TUnit : TDimension, IPowerOf<TLinear>, IUnit;
-    public static abstract TQuantity Of<TUnit>(in Double value, in Power<TUnit, TExponent> measure) where TUnit : TLinear, IUnit;
-    public static abstract TQuantity Of<TUnit>(in Double value, in Scalar<TUnit> alias) where TUnit : TDimension, IPowerOf<TLinear>, IUnit;
+    public TQuantity To<TUnit>(in Power<TUnit, TExponent> other)
+        where TUnit : TLinear, IUnit;
+    public TQuantity To<TUnit>(in Scalar<TUnit> alias)
+        where TUnit : TDimension, IPowerOf<TLinear>, IUnit;
+    public static abstract TQuantity Of<TUnit>(in Double value, in Power<TUnit, TExponent> measure)
+        where TUnit : TLinear, IUnit;
+    public static abstract TQuantity Of<TUnit>(in Double value, in Scalar<TUnit> alias)
+        where TUnit : TDimension, IPowerOf<TLinear>, IUnit;
 }

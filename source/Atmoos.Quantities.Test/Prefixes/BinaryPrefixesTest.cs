@@ -17,10 +17,12 @@ public class BinaryPrefixesTest
     [Theory]
     [MemberData(nameof(AllBinaryPrefixes))]
     public void FromSiRoundRobinEquality(ITestPrefix prefix) => PrefixTests.FromSiRoundRobinEquality(prefix, FullPrecision);
+
     public static IEnumerable<Object[]> AllBinaryPrefixes()
     {
         return BinaryPrefixes().Select(p => new Object[] { p });
     }
+
     public static IEnumerable<ITestPrefix> BinaryPrefixes()
     {
         const Double kibi = 1024;

@@ -17,7 +17,11 @@ internal interface ISystems
 
 public sealed class UnitRepository
 {
-    private readonly Repository prefixes, siUnits, metricUnits, imperialUnits, nonStandardUnits;
+    private readonly Repository prefixes,
+        siUnits,
+        metricUnits,
+        imperialUnits,
+        nonStandardUnits;
 
     private UnitRepository(Repository prefixes, Repository siUnits, Repository metricUnits, Repository imperialUnits, Repository nonStandardUnits)
     {
@@ -27,24 +31,33 @@ public sealed class UnitRepository
         this.imperialUnits = imperialUnits;
         this.nonStandardUnits = nonStandardUnits;
     }
+
     internal Type Si(String name) => this.siUnits[name];
+
     internal Type Metric(String name) => this.metricUnits[name];
+
     internal Type Imperial(String name) => this.imperialUnits[name];
+
     internal Type NonStandard(String name) => this.nonStandardUnits[name];
+
     internal Type Prefix(String name) => this.prefixes[name];
+
     internal ISystems Subset<TDimension>()
         where TDimension : IDimension
     {
         Type[] interfaces = [.. Interfaces<TDimension>()];
-        IEnumerable<(String, IEnumerable<String>)> units = [
-            ("si", [..this.siUnits.Select(interfaces)]),
-            ("metric", [..this.metricUnits.Select(interfaces)]),
-            ("imperial", [..this.imperialUnits.Select(interfaces)]),
-            ("any", [..this.nonStandardUnits.Select(interfaces)])
+        IEnumerable<(String, IEnumerable<String>)> units =
+        [
+            ("si", [.. this.siUnits.Select(interfaces)]),
+            ("metric", [.. this.metricUnits.Select(interfaces)]),
+            ("imperial", [.. this.imperialUnits.Select(interfaces)]),
+            ("any", [.. this.nonStandardUnits.Select(interfaces)]),
         ];
         return new Systems { Prefixes = this.prefixes, Units = units };
     }
+
     public static UnitRepository Create() => Create([]);
+
     public static UnitRepository Create(params Assembly[] assemblies)
     {
         var prefixes = new RepoBuilder("prefix", typeof(IPrefix));
@@ -67,8 +80,11 @@ public sealed class UnitRepository
         private readonly String kind;
         private readonly Dictionary<String, Type> repo;
         public Type this[String name] => Retrieve(name);
+
         public Repository(String kind, Dictionary<String, Type> repo) => (this.kind, this.repo) = (kind, repo);
+
         public String[] Select(Type[] interfaces) => [.. this.repo.Where(kv => interfaces.Any(i => kv.Value.IsAssignableTo(i))).Select(kv => kv.Key)];
+
         private Type Retrieve(String name)
         {
             if (this.repo.TryGetValue(name, out var type)) {
@@ -77,7 +93,9 @@ public sealed class UnitRepository
             var message = $"Could not find the {this.kind} '{name}'. Has the assembly that defines '{name}' been registered with the deserializer?";
             throw new ArgumentException(message);
         }
+
         public IEnumerator<String> GetEnumerator() => this.repo.Keys.GetEnumerator();
+
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 
@@ -86,13 +104,16 @@ public sealed class UnitRepository
         private readonly Dictionary<String, Type> repo = new();
         private readonly String kind;
         private readonly Type interfaceType;
+
         public RepoBuilder(String kind, Type interfaceType) => (this.kind, this.interfaceType) = (kind, interfaceType);
+
         public void TryAdd(Type type)
         {
             if (type.IsAssignableTo(this.interfaceType)) {
                 this.repo[GetRepresentation(type)] = type;
             }
         }
+
         public Repository Build() => new(this.kind, this.repo);
     }
 
@@ -106,4 +127,3 @@ public sealed class UnitRepository
         public required IEnumerable<(String, IEnumerable<String>)> Units { get; init; }
     }
 }
-

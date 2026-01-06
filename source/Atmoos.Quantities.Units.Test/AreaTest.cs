@@ -14,6 +14,7 @@ public class AreaTest
         Area result = left + right;
         PrecisionIsBounded(30d, result);
     }
+
     [Fact]
     public void AddSquareHectoMetresToSquareKiloMetres()
     {
@@ -22,6 +23,7 @@ public class AreaTest
         Area result = left + right;
         PrecisionIsBounded(2.5d, result);
     }
+
     [Fact]
     public void SquareMetresToSquareKilometres()
     {
@@ -29,6 +31,7 @@ public class AreaTest
         Area squareKilometres = squareMetres.To(Square(Si<Kilo, Metre>()));
         PrecisionIsBounded(1e-3d, squareKilometres);
     }
+
     [Fact]
     public void SquareMilesToSquareKilometres()
     {
@@ -62,6 +65,7 @@ public class AreaTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void PureArealDimensionDividedByLength()
     {
@@ -73,6 +77,7 @@ public class AreaTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void SquareYardsDividedByFeet()
     {
@@ -93,6 +98,7 @@ public class AreaTest
 
         Assert.Equal(acres, squareFeet);
     }
+
     [Fact]
     public void SquareMetersTimesMetres()
     {
@@ -104,6 +110,7 @@ public class AreaTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void SquareFeetTimesYards()
     {
@@ -138,6 +145,7 @@ public class AreaTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void AreToHectare()
     {
@@ -148,6 +156,7 @@ public class AreaTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void MorgenToHectare()
     {
@@ -158,6 +167,7 @@ public class AreaTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void MorgenToSquareMetre()
     {
@@ -168,6 +178,7 @@ public class AreaTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void RoodToPerches()
     {

@@ -34,8 +34,7 @@ public static class TrivialConvenience
 public readonly struct Si<TUnit> : ITrivialQuantity<Si<TUnit>>
     where TUnit : ISiUnit
 {
-    private readonly Double value,
-        scale;
+    private readonly Double value, scale;
     public Prefix Prefix { get; }
 
     private Si(in Double value, in Prefix prefix)
@@ -100,8 +99,7 @@ public readonly struct Si<TUnit> : ITrivialQuantity<Si<TUnit>>
 public readonly struct Imperial<TUnit> : ITrivialQuantity<Imperial<TUnit>>
     where TUnit : IImperialUnit
 {
-    private readonly Double value,
-        scale;
+    private readonly Double value, scale;
 
     public Imperial(in Double value, in Double scaleToSi)
     {

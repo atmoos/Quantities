@@ -76,7 +76,7 @@ public class SerializationTest
         var person = new Person {
             Name = "Foo Bar",
             Height = Length.Of(1.67, Si<Metre>()),
-            Weight = Mass.Of(72, Si<Kilogram>()),
+            Weight = Mass.Of(72, Si<Kilogram>())
         };
         String actual = person.Serialize(options);
         String expected = """
@@ -107,7 +107,7 @@ public class SerializationTest
         var expected = new Person {
             Name = "Hello Deserialization!",
             Height = Length.Of(16.7, Si<Deci, Metre>()),
-            Weight = Mass.Of(68, Si<Kilogram>()),
+            Weight = Mass.Of(68, Si<Kilogram>())
         };
 
         Person actual = expected.SerializeRoundRobin();

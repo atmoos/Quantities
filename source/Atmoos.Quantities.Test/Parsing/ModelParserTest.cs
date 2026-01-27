@@ -13,43 +13,14 @@ public abstract class ModelParserTest
     protected const String metric = "metric";
     protected const String imperial = "imperial";
 
-    protected static readonly QuantityModel s = new() {
-        System = si,
-        Exponent = 1,
-        Unit = "s",
-    };
-    protected static readonly QuantityModel h = new() {
-        System = metric,
-        Exponent = 1,
-        Unit = "h",
-    };
-    protected static readonly QuantityModel μs = new() {
-        System = si,
-        Exponent = 1,
-        Unit = "s",
-        Prefix = "μ",
-    };
-    protected static readonly QuantityModel m = new() {
-        System = si,
-        Exponent = 1,
-        Unit = "m",
-    };
-    protected static readonly QuantityModel ft = new() {
-        System = imperial,
-        Exponent = 1,
-        Unit = "ft",
-    };
-    protected static readonly QuantityModel mi = new() {
-        System = imperial,
-        Exponent = 1,
-        Unit = "mi",
-    };
-    protected static readonly QuantityModel km = new() {
-        System = si,
-        Exponent = 1,
-        Unit = "m",
-        Prefix = "k",
-    };
+    protected static readonly QuantityModel s = new() { System = si, Exponent = 1, Unit = "s" };
+    protected static readonly QuantityModel h = new() { System = metric, Exponent = 1, Unit = "h" };
+    protected static readonly QuantityModel μs = new() { System = si, Exponent = 1, Unit = "s", Prefix = "μ" };
+    protected static readonly QuantityModel m = new() { System = si, Exponent = 1, Unit = "m" };
+    protected static readonly QuantityModel ft = new() { System = imperial, Exponent = 1, Unit = "ft" };
+    protected static readonly QuantityModel mi = new() { System = imperial, Exponent = 1, Unit = "mi" };
+    protected static readonly QuantityModel km = new() { System = si, Exponent = 1, Unit = "m", Prefix = "k" };
+    protected static readonly QuantityModel A = new() { System = si, Exponent = 1, Unit = "A" };
 
     protected static String Mul(String left, String right) => Join(left, right, '\u200C');
 
@@ -100,14 +71,13 @@ public sealed class LengthParsingTest : ModelParserTest<Length>
     [MemberData(nameof(NonLengths))]
     public void NonLengthCannotBeParsed(String unit) => ConfirmParsingFails(unit);
 
-    public static TheoryData<String, QuantityModel> Lengths() =>
-        new()
-        {
+    public static TheoryData<String, QuantityModel> Lengths()
+        => new() {
             { "m", m },
             { "ft", ft },
             { "km", km },
             { "mm", m with { Prefix = "m" } },
-            { "mi", mi },
+            { "mi", mi }
         };
 
     public static TheoryData<String> NonLengths() => ToTheoryData("mK", "s", "h", "kg");
@@ -123,21 +93,12 @@ public sealed class VolumeParsingTest : ModelParserTest<Volume>
     [MemberData(nameof(NonVolumes))]
     public void NonVolumeCannotBeParsed(String unit) => ConfirmParsingFails(unit);
 
-    public static TheoryData<String, QuantityModel> Volumes() =>
-        new()
-        {
+    public static TheoryData<String, QuantityModel> Volumes()
+        => new() {
             { "m³", m with { Exponent = 3 } },
             { "ft³", ft with { Exponent = 3 } },
             { "km³", km with { Exponent = 3 } },
-            {
-                "ℓ",
-                new()
-                {
-                    System = metric,
-                    Exponent = 1,
-                    Unit = "ℓ",
-                }
-            },
+            { "ℓ", new() { System = metric, Exponent = 1, Unit = "ℓ"} }
         };
 
     public static TheoryData<String> NonVolumes() => ToTheoryData("Pa", "m/s", "kg", "°C");
@@ -153,27 +114,14 @@ public sealed class VelocityParsingTest : ModelParserTest<Velocity>
     [MemberData(nameof(NonVelocities))]
     public void NonVelocityCannotBeParsed(String unit) => ConfirmParsingFails(unit);
 
-    public static TheoryData<String, IEnumerable<QuantityModel>> Velocities() =>
-        new()
-        {
+    public static TheoryData<String, IEnumerable<QuantityModel>> Velocities()
+        => new() {
             { "m/s", [m, s with { Exponent = -1 }] },
             { Mul("m", "s⁻¹"), [m, s with { Exponent = -1 }] },
-            {
-                "ft/μs",
-                [
-                    ft,
-                    new()
-                    {
-                        System = si,
-                        Exponent = -1,
-                        Unit = "s",
-                        Prefix = "μ",
-                    },
-                ]
-            },
+            { "ft/μs", [ft, new() { System = si, Exponent = -1, Unit = "s", Prefix = "μ" }] },
             { "km/ms", [km, s with { Exponent = -1, Prefix = "m" }] },
             { "km/h", [km, h with { Exponent = -1 }] },
-            { "mi/h", [mi, h with { Exponent = -1 }] },
+            { "mi/h", [mi, h with { Exponent = -1 }] }
         };
 
     public static TheoryData<String> NonVelocities() => ToTheoryData("kg", "°C", "A", "μK");
@@ -189,27 +137,10 @@ public sealed class MassParsingTest : ModelParserTest<Mass>
     [MemberData(nameof(NonMasses))]
     public void NonMassCannotBeParsed(String unit) => ConfirmParsingFails(unit);
 
-    public static TheoryData<String, QuantityModel> Masses() =>
-        new()
-        {
-            {
-                "kg",
-                new()
-                {
-                    System = si,
-                    Exponent = 1,
-                    Unit = "kg",
-                }
-            },
-            {
-                "lb",
-                new()
-                {
-                    System = imperial,
-                    Exponent = 1,
-                    Unit = "lb",
-                }
-            },
+    public static TheoryData<String, QuantityModel> Masses()
+        => new() {
+            { "kg", new() { System = si, Exponent =1, Unit = "kg" } },
+            { "lb", new() { System = imperial, Exponent =1, Unit = "lb"} }
         };
 
     public static TheoryData<String> NonMasses() => ToTheoryData("J", "mK", "s", "°C", "m/s");
@@ -225,12 +156,11 @@ public sealed class TimeParsingTest : ModelParserTest<Time>
     [MemberData(nameof(NonTimes))]
     public void NonTimeCannotBeParsed(String unit) => ConfirmParsingFails(unit);
 
-    public static TheoryData<String, QuantityModel> Times() =>
-        new()
-        {
+    public static TheoryData<String, QuantityModel> Times()
+        => new() {
             { "s", s },
             { "μs", μs },
-            { "h", h },
+            { "h", h }
         };
 
     public static TheoryData<String> NonTimes() => ToTheoryData("kg", "°C", "mol", "pt", "N");
@@ -246,37 +176,11 @@ public sealed class TemperatureParsingTest : ModelParserTest<Temperature>
     [MemberData(nameof(NonTemperatures))]
     public void NonTemperatureCannotBeParsed(String unit) => ConfirmParsingFails(unit);
 
-    public static TheoryData<String, QuantityModel> Temperatures() =>
-        new()
-        {
-            {
-                "°C",
-                new()
-                {
-                    System = metric,
-                    Exponent = 1,
-                    Unit = "°C",
-                }
-            },
-            {
-                "K",
-                new()
-                {
-                    System = si,
-                    Exponent = 1,
-                    Unit = "K",
-                }
-            },
-            {
-                "mK",
-                new()
-                {
-                    System = si,
-                    Exponent = 1,
-                    Unit = "K",
-                    Prefix = "m",
-                }
-            },
+    public static TheoryData<String, QuantityModel> Temperatures()
+        => new() {
+            { "°C", new() { System = metric, Exponent = 1, Unit = "°C" } },
+            { "K", new() { System = si, Exponent = 1, Unit = "K" } },
+            { "mK", new() { System = si, Exponent = 1, Unit = "K" , Prefix = "m"} }
         };
 
     public static TheoryData<String> NonTemperatures() => ToTheoryData("mol", "m", "s", "kg", "m/s", "°C/s", "°C·s", "m/s²");
@@ -292,13 +196,12 @@ public sealed class AccelerationParsingTest : ModelParserTest<Acceleration>
     [MemberData(nameof(NonAccelerations))]
     public void NonAccelerationCannotBeParsed(String unit) => ConfirmParsingFails(unit);
 
-    public static TheoryData<String, IEnumerable<QuantityModel>> Accelerations() =>
-        new()
-        {
+    public static TheoryData<String, IEnumerable<QuantityModel>> Accelerations()
+        => new() {
             { "m/s²", [m, s with { Exponent = -2 }] },
             { Mul("m", "s⁻²"), [m, s with { Exponent = -2 }] },
             { "ft/μs²", [ft, s with { Exponent = -2, Prefix = "μ" }] },
-            { "mi/h²", [mi, h with { Exponent = -2 }] },
+            { "mi/h²", [mi, h with { Exponent = -2 }] }
         };
 
     // ToDo: At the moment the exponent is entirely passive. Hence, "s", "m/s³" & "m/s" can all be parsed here.
@@ -312,34 +215,14 @@ public sealed class ElectricCapacityParsingTest : ModelParserTest<ModelParserTes
     [MemberData(nameof(ElectricCapacities))]
     public void ElectricCapacityCanBeParsed(String unit, IEnumerable<QuantityModel> expected) => TestCompoundParsing(unit, expected);
 
-    public static TheoryData<String, IEnumerable<QuantityModel>> ElectricCapacities() =>
-        new()
-        {
+    public static TheoryData<String, IEnumerable<QuantityModel>> ElectricCapacities()
+        => new() {
             {
-                Mul("A", "h"),
-                [
-                    new()
-                    {
-                        System = si,
-                        Exponent = 1,
-                        Unit = "A",
-                    },
-                    h,
-                ]
+                Mul("A", "h"), [A, h]
             },
             {
-                Mul("kA", "h"),
-                [
-                    new()
-                    {
-                        System = si,
-                        Exponent = 1,
-                        Unit = "A",
-                        Prefix = "k",
-                    },
-                    h,
-                ]
-            },
+                Mul("kA", "h"), [A with { Prefix = "k" }, h]
+            }
         };
 }
 
@@ -388,9 +271,8 @@ public sealed class GibberishParsingTest : ModelParserTest
         return [];
     }
 
-    public static TheoryData<String> ScalarGibberishStrings() =>
-        new()
-        {
+    public static TheoryData<String> ScalarGibberishStrings()
+        => new() {
             { "m3" },
             { "m⁻⁻¹" },
             { "ftft" },
@@ -398,12 +280,11 @@ public sealed class GibberishParsingTest : ModelParserTest
             { "KKm" },
             { "z" },
             { "-3m" },
-            { "°°C" },
+            { "°°C" }
         };
 
-    public static TheoryData<String> CompoundGibberishStrings() =>
-        new()
-        {
+    public static TheoryData<String> CompoundGibberishStrings()
+        => new() {
             { "m*m" },
             { "/s" },
             { "ft//s" },
@@ -411,6 +292,6 @@ public sealed class GibberishParsingTest : ModelParserTest
             { "m/" },
             { Mul("s", "") },
             { Mul(Mul("kA", "h"), "m") },
-            { "km/s/kg" },
+            { "km/s/kg" }
         };
 }

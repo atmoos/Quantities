@@ -52,7 +52,7 @@ internal static class Deserializer
             System = system,
             Exponent = measure.exponent ?? 1,
             Prefix = measure.prefix,
-            Unit = measure.unit,
+            Unit = measure.unit
         };
     }
 }

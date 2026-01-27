@@ -124,30 +124,27 @@ public class ParserTest
     private static String Join(String left, String right, Char joiner) => $"{left}{joiner}{right}";
 
     public static TheoryData<Length> ScalarQuantities() =>
-        new()
-        {
+        new() {
             { Length.Of(Math.PI, in Si<Metre>()) },
             { Length.Of(Math.Tau, in Imperial<Foot>()) },
             { Length.Of(Math.E, in Si<Kilo, Metre>()) },
             { Length.Of(-1 * Math.PI / Math.E, in Si<Milli, Metre>()) },
-            { Length.Of(Math.E / Math.Tau, in Imperial<Mile>()) },
+            { Length.Of(Math.E / Math.Tau, in Imperial<Mile>()) }
         };
 
     public static TheoryData<Velocity> QuotientsStrings() =>
-        new()
-        {
+        new() {
             { Velocity.Of(Math.PI, Si<Metre>().Per(Si<Second>())) },
             { Velocity.Of(Math.Tau, Si<Centi, Metre>().Per(Si<Milli, Second>())) },
-            { Velocity.Of(Math.E, Imperial<Mile>().Per(Si<Second>())) },
+            { Velocity.Of(Math.E, Imperial<Mile>().Per(Si<Second>())) }
         };
 
     public static TheoryData<Volume> ExponentialStrings() =>
-        new()
-        {
+        new() {
             { Volume.Of(Math.PI, Cubic(Si<Metre>())) },
             { Volume.Of(Math.Tau, Cubic(Si<Kilo, Metre>())) },
             { Volume.Of(Math.Tau, Cubic(Imperial<Foot>())) },
-            { Volume.Of(Math.E, Metric<Litre>()) },
+            { Volume.Of(Math.E, Metric<Litre>()) }
         };
 
     public static TheoryData<String> ScalarGibberishStrings() => ToTheoryData("4 m3", "4.32 m⁻⁻¹", "43 ftft", "123.432 ft³", "Km 3112", "", "3432.423m");

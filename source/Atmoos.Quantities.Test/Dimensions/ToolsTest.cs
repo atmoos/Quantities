@@ -59,8 +59,7 @@ public class ToolsTest
     }
 
     public static TheoryData<Int32, String> ToExponentData() =>
-        new()
-        {
+        new() {
             { 1, "" },
             { 0, "⁰" },
             { -1, "⁻¹" },

@@ -9,7 +9,7 @@ public class MetricPrefixesTest
         ["zetta"] = new TestPrefix<Zetta>(1e21),
         ["zepto"] = new TestPrefix<Zepto>(1e-21),
         ["yocto"] = new TestPrefix<Yocto>(1e-24),
-        ["quecto"] = new TestPrefix<Quecto>(1e-30),
+        ["quecto"] = new TestPrefix<Quecto>(1e-30)
     };
 
     [Theory]

@@ -11,13 +11,13 @@ public static class Convenience
 
     internal static Dimension Copy(this Dimension d) => d.Pow(-1).Pow(-1);
 
-    public static TheoryData<TData> ToTheoryData<TData>(params TData[] data) =>
-        data.Aggregate(
-            new TheoryData<TData>(),
-            (td, item) =>
-            {
-                td.Add(item);
-                return td;
-            }
-        );
+    public static TheoryData<TData> ToTheoryData<TData>(params TData[] data)
+    {
+        return data.Aggregate(new TheoryData<TData>(), Add);
+        static TheoryData<TData> Add(TheoryData<TData> td, TData item)
+        {
+            td.Add(item);
+            return td;
+        }
+    }
 }

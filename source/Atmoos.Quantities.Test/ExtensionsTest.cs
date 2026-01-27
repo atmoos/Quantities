@@ -38,9 +38,8 @@ public class ExtensionsTest
         Assert.Equal(expectedUnit, unit);
     }
 
-    public static TheoryData<Velocity, String> Velocities() =>
-        new()
-        {
+    public static TheoryData<Velocity, String> Velocities()
+        => new() {
             { Velocity.Of(E, Si<Metre>().Per(Si<Second>())), "m/s" },
             { Velocity.Of(PI, Si<Kilo, Metre>().Per(Metric<Hour>())), "km/h" },
             { Velocity.Of(Tau, Si<Deci, Metre>().Per(Metric<Minute>())), "dm/m" },
@@ -48,9 +47,8 @@ public class ExtensionsTest
             { Velocity.Of(E / Tau, Imperial<Mile>().Per(Metric<Hour>())), "mi/h" },
         };
 
-    public static TheoryData<Volume, String> Volumes() =>
-        new()
-        {
+    public static TheoryData<Volume, String> Volumes()
+        => new() {
             { Volume.Of(E, Cubic(in Si<Metre>())), "m³" },
             { Volume.Of(PI, Cubic(in Si<Kilo, Metre>())), "km³" },
             { Volume.Of(E / Tau, Cubic(in Imperial<Foot>())), "ft³" },

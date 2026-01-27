@@ -17,15 +17,7 @@ internal static class Reflection
 
     public static MethodInfo GetGenericMethod(Type declaringType, String name, Int32 typeArgumentCount)
     {
-        var genericMethod = declaringType.GetMethod(
-            name,
-            typeArgumentCount,
-            BindingFlags.Static | BindingFlags.NonPublic,
-            null,
-            CallingConventions.Standard,
-            Type.EmptyTypes,
-            null
-        );
+        var genericMethod = declaringType.GetMethod(name, typeArgumentCount, BindingFlags.Static | BindingFlags.NonPublic, null, CallingConventions.Standard, Type.EmptyTypes, null);
         return genericMethod ?? throw new InvalidOperationException($"Method '{name}' not found");
     }
 }

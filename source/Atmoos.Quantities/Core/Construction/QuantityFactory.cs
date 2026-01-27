@@ -60,30 +60,34 @@ public readonly struct QuantityFactory<TQuantity>
     private static IBuilder ProductBuilder(UnitRepository repository, in QuantityModel left, in QuantityModel right)
     {
         const Int32 terms = 2; // a product has two terms.
-        return complexCache.Get(
-            left,
-            right,
-            repository,
-            static (left, right, repo) =>
-            {
-                QuantityModel[] models = [left, right];
-                ;
-                IInject<IBuilder> injector = new ProductInjector(left.Exponent, right.Exponent);
-                var builder = Core.Construction.ScalarBuilder.Create(in left, in repo, injector);
-                for (Int32 index = 1; index < terms; ++index) {
-                    injector = builder as IInject<IBuilder> ?? throw new InvalidOperationException("Need another injector...");
-                    builder = Core.Construction.ScalarBuilder.Create(in models[index], in repo, injector);
-                }
-                return builder;
+        return complexCache.Get(left, right, repository, CreateBuilder);
+
+        static IBuilder CreateBuilder(QuantityModel left, QuantityModel right, UnitRepository repo)
+        {
+            QuantityModel[] models = [left, right];
+            ;
+            IInject<IBuilder> injector = new ProductInjector(left.Exponent, right.Exponent);
+            var builder = Construction.ScalarBuilder.Create(in left, in repo, injector);
+            for (Int32 index = 1; index < terms; ++index) {
+                injector = builder as IInject<IBuilder> ?? throw new InvalidOperationException("Need another injector...");
+                builder = Construction.ScalarBuilder.Create(in models[index], in repo, injector);
             }
-        );
+            return builder;
+        }
     }
 
     private static IBuilder Create(UnitRepository repo, in QuantityModel model, IInject<IBuilder> injector)
     {
-        return scalarCache.Get(model, (repo, injector), static (model, arg) => Core.Construction.ScalarBuilder.Create(in model, in arg.repo, arg.injector));
+        return scalarCache.Get(model, (repo, injector), CreateBuilder);
+
+        static IBuilder CreateBuilder(QuantityModel model, (UnitRepository repo, IInject<IBuilder> injector) arg) => Construction.ScalarBuilder.Create(in model, in arg.repo, arg.injector);
     }
 
     private static IBuilder Create<TExponent>(UnitRepository repo, in QuantityModel model, IInject<IBuilder> injector)
-        where TExponent : INumber => scalarCache.Get(model, (repo, injector), static (model, arg) => Core.Construction.ScalarBuilder.Create(in model, in arg.repo, arg.injector));
+        where TExponent : INumber
+    {
+        return scalarCache.Get(model, (repo, injector), CreateBuilder);
+
+        static IBuilder CreateBuilder(QuantityModel model, (UnitRepository repo, IInject<IBuilder> injector) arg) => Construction.ScalarBuilder.Create(in model, in arg.repo, arg.injector);
+    }
 }

@@ -16,7 +16,7 @@ public class QuantityFactoryTest
             System = "si",
             Prefix = "c",
             Exponent = 2,
-            Unit = "m",
+            Unit = "m"
         };
         var expected = Area.Of(32.923728, Square(Si<Centi, Metre>()));
 
@@ -29,21 +29,18 @@ public class QuantityFactoryTest
     public void CompoundQuantitiesCanBeBuilt()
     {
         // ToDo: Consider allowing any order of the models...
-        var models = new List<QuantityModel>
-        {
-            new()
-            {
+        var models = new List<QuantityModel> {
+            new(){
                 System = "si",
                 Prefix = "m",
                 Exponent = 1,
-                Unit = "m",
+                Unit = "m"
             },
-            new()
-            {
+            new(){
                 System = "metric",
                 Exponent = -1,
-                Unit = "h",
-            },
+                Unit = "h"
+            }
         };
         var expected = Velocity.Of(243.1792708715, Si<Milli, Metre>().Per(Metric<Hour>()));
 
@@ -59,7 +56,7 @@ public class QuantityFactoryTest
         var model = new QuantityModel {
             System = "any",
             Exponent = 1,
-            Unit = "not a knot",
+            Unit = "not a knot"
         };
         var units = UnitRepository.Create([typeof(QuantityFactoryTest).Assembly]);
         var expected = Velocity.Of(243.1792708715, NonStandard<Knot>());
@@ -75,7 +72,7 @@ public class QuantityFactoryTest
         var model = new QuantityModel {
             System = "si",
             Exponent = 1,
-            Unit = "something",
+            Unit = "something"
         };
 
         Assert.Throws<ArgumentException>(() => QuantityFactory<Velocity>.Create(unitRepository, model).Build(3));
@@ -87,7 +84,7 @@ public class QuantityFactoryTest
         var model = new QuantityModel {
             System = "si",
             Exponent = 2,
-            Unit = "m",
+            Unit = "m"
         };
 
         Assert.Throws<InvalidOperationException>(() => QuantityFactory<Velocity>.Create(unitRepository, model).Build(3));

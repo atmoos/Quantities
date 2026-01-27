@@ -44,7 +44,7 @@ public class ExtensionsTest
             { Velocity.Of(PI, Si<Kilo, Metre>().Per(Metric<Hour>())), "km/h" },
             { Velocity.Of(Tau, Si<Deci, Metre>().Per(Metric<Minute>())), "dm/m" },
             { Velocity.Of(E / PI, Si<Milli, Metre>().Per(Metric<Hour>())), "mm/h" },
-            { Velocity.Of(E / Tau, Imperial<Mile>().Per(Metric<Hour>())), "mi/h" },
+            { Velocity.Of(E / Tau, Imperial<Mile>().Per(Metric<Hour>())), "mi/h" }
         };
 
     public static TheoryData<Volume, String> Volumes()
@@ -52,6 +52,6 @@ public class ExtensionsTest
             { Volume.Of(E, Cubic(in Si<Metre>())), "m³" },
             { Volume.Of(PI, Cubic(in Si<Kilo, Metre>())), "km³" },
             { Volume.Of(E / Tau, Cubic(in Imperial<Foot>())), "ft³" },
-            { Area.Of(3, Square(Si<Metre>())) * Length.Of(2, Imperial<Foot>()), "m³" },
+            { Area.Of(3, Square(Si<Metre>())) * Length.Of(2, Imperial<Foot>()), "m³" }
         };
 }

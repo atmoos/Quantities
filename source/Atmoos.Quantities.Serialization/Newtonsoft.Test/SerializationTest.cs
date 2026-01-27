@@ -84,24 +84,24 @@ public class SerializationTest
         };
         String actual = person.Serialize(options);
         String expected = """
-        {
-          "Name": "Foo Bar",
-          "Height": {
-            "value": 1.67,
-            "quantity": "length",
-            "si": {
-              "unit": "m"
+            {
+              "Name": "Foo Bar",
+              "Height": {
+                "value": 1.67,
+                "quantity": "length",
+                "si": {
+                  "unit": "m"
+                }
+              },
+              "Weight": {
+                "value": 72.0,
+                "quantity": "mass",
+                "si": {
+                  "unit": "kg"
+                }
+              }
             }
-          },
-          "Weight": {
-            "value": 72.0,
-            "quantity": "mass",
-            "si": {
-              "unit": "kg"
-            }
-          }
-        }
-        """;
+            """;
         Assert.Equal(expected, actual);
     }
 

@@ -13,5 +13,4 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="Atmoos.Quantities" Version="2.2.0" />
   </ItemGroup>
-
 </Project>

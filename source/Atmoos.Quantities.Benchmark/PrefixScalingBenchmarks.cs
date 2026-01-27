@@ -1,4 +1,4 @@
-using Atmoos.Quantities.Prefixes;
+﻿using Atmoos.Quantities.Prefixes;
 
 namespace Atmoos.Quantities.Benchmark;
 
@@ -38,7 +38,8 @@ public class PrefixScalingBenchmarks
     {
         public Double Identity(in Double value) => value;
 
-        public Double Inject<TPrefix>(in Double value) where TPrefix : IPrefix => value;
+        public Double Inject<TPrefix>(in Double value)
+            where TPrefix : IPrefix => value;
     }
 }
 

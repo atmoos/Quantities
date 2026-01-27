@@ -6,6 +6,8 @@ namespace Atmoos.Quantities.Units.Imperial.Power;
 public readonly struct HorsePower : IImperialUnit, IPower
 {
     internal const Double InWatt = 76.0402249 * 9.80665; // ~745.700 W in 1 hp
+
     public static Transformation ToSi(Transformation self) => InWatt * self;
+
     public static String Representation => "hp";
 }

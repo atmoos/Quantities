@@ -5,6 +5,7 @@ public class PowerSupportTest : ISerializationTester<Power>
     [Theory]
     [MemberData(nameof(Quantities))]
     public void SupportsSerialization(Power quantity) => quantity.SupportsSerialization();
+
     public static IEnumerable<Object[]> Quantities()
     {
         static IEnumerable<Power> Interesting()

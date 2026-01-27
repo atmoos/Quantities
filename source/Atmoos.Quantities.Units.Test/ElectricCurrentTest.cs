@@ -6,10 +6,13 @@ public sealed class ElectricCurrentTest
 {
     [Fact]
     public void AmpereToString() => FormattingMatches(v => ElectricCurrent.Of(v, Si<Ampere>()), "A");
+
     [Fact]
     public void KiloAmpereToString() => FormattingMatches(v => ElectricCurrent.Of(v, Si<Kilo, Ampere>()), "kA");
+
     [Fact]
     public void MicroAmpereToString() => FormattingMatches(v => ElectricCurrent.Of(v, Si<Micro, Ampere>()), "μA");
+
     [Fact]
     public void OhmsLawInBaseUnits()
     {
@@ -21,6 +24,7 @@ public sealed class ElectricCurrentTest
 
         current.Equal(expected);
     }
+
     [Fact]
     public void OhmsLawInPrefixedUnits()
     {
@@ -32,6 +36,7 @@ public sealed class ElectricCurrentTest
 
         current.Equal(expected);
     }
+
     [Fact]
     public void PowerLawInBaseUnits()
     {
@@ -43,6 +48,7 @@ public sealed class ElectricCurrentTest
 
         current.Equal(expected);
     }
+
     [Fact]
     public void PowerLawInPrefixedUnits()
     {

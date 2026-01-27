@@ -24,6 +24,7 @@ public class ConvenienceTest
         // This does!
         Assert.Throws<EqualException>(() => PrecisionIsBounded(expectedValue, actualOffBy16, 16));
     }
+
     [Fact]
     public void PrecisionIsBoundedOfOnFifteenthDecimal()
     {

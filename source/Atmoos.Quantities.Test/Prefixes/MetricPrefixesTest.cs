@@ -61,6 +61,7 @@ public class MetricPrefixesTest
     public void FromSiRoundRobinEquality_VariablePrecision(String prefix, Int32 precision) => PrefixTests.FromSiRoundRobinEquality(outliers[prefix], precision);
 
     public static IEnumerable<Object[]> AllMetricPrefixes() => MetricPrefixes().Select(p => new Object[] { p });
+
     public static IEnumerable<ITestPrefix> MetricPrefixes()
     {
         // Excluding prefixes that cannot round exactly.

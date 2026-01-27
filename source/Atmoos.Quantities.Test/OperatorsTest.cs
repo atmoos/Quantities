@@ -1,4 +1,4 @@
-namespace Atmoos.Quantities.Test;
+﻿namespace Atmoos.Quantities.Test;
 
 public class OperatorsTest
 {

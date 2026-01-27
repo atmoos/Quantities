@@ -36,6 +36,7 @@ internal static class Expect<TResult>
         Assert.Same(expected, (Measure)actual);
         return (Polynomial)actual;
     }
+
     public static Polynomial ToBeQuotientOf<TNumerator, TDenominator>()
         where TNumerator : IMeasure
         where TDenominator : IMeasure
@@ -50,7 +51,7 @@ internal static class Expect<TResult>
     }
 
     public static Polynomial ToBeEqualTo<TMeasure>()
-    where TMeasure : IMeasure
+        where TMeasure : IMeasure
     {
         var measure = Measure.Of<TMeasure>();
 

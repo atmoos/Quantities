@@ -12,14 +12,23 @@ namespace Atmoos.Quantities.Serialization.Text.Json;
 file sealed class JsonWriter : IWriter
 {
     private readonly Utf8JsonWriter writer;
+
     public JsonWriter(in Utf8JsonWriter writer) => this.writer = writer;
+
     public void Start() => this.writer.WriteStartObject();
+
     public void Start(String propertyName) => this.writer.WriteStartObject(propertyName);
+
     public void StartArray(String propertyName) => this.writer.WriteStartArray(propertyName);
+
     public void Write(String name, Double value) => this.writer.WriteNumber(name, value);
+
     public void Write(String name, Int32 value) => this.writer.WriteNumber(name, value);
+
     public void Write(String name, String value) => this.writer.WriteString(name, value);
+
     public void EndArray() => this.writer.WriteEndArray();
+
     public void End() => this.writer.WriteEndObject();
 }
 
@@ -28,7 +37,9 @@ internal sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
 {
     private static readonly String name = typeof(TQuantity).Name.ToLowerInvariant();
     private readonly UnitRepository repository;
+
     public QuantityConverter(UnitRepository repository) => this.repository = repository;
+
     public override TQuantity Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         var initialDepth = reader.CurrentDepth;
@@ -45,12 +56,14 @@ internal sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
             reader.UnwindTo(initialDepth);
         }
     }
+
     public override void Write(Utf8JsonWriter writer, TQuantity value, JsonSerializerOptions options)
     {
         writer.WriteStartObject();
         value.Serialize(new JsonWriter(writer));
         writer.WriteEndObject();
     }
+
     private QuantityFactory<TQuantity> ReadMany(ref Utf8JsonReader reader)
     {
         reader.MoveNext(StartArray);
@@ -62,6 +75,7 @@ internal sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
         reader.MoveNext(EndArray);
         return QuantityFactory<TQuantity>.Create(this.repository, models);
     }
+
     private QuantityFactory<TQuantity> Read(ref Utf8JsonReader reader, String system)
     {
         var model = reader.Read(system);

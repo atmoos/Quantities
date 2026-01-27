@@ -1,6 +1,5 @@
 ﻿using Atmoos.Quantities.Units.Si.Metric;
 using Atmoos.Quantities.Units.Si.Metric.UnitsOfInformation;
-
 using Bytes = Atmoos.Quantities.Units.Si.Metric.UnitsOfInformation.Byte;
 
 namespace Atmoos.Quantities.Units.Test;
@@ -14,18 +13,25 @@ public class DataRateTest
 
     [Fact]
     public void BitPerSecondToString() => FormattingMatches(v => DataRate.Of(v, Metric<Bit>().Per(Si<Second>())), "bit/s");
+
     [Fact]
     public void BytePerSecondToString() => FormattingMatches(v => DataRate.Of(v, Metric<Bytes>().Per(Si<Second>())), "B/s");
+
     [Fact]
     public void NibblePerSecondToString() => FormattingMatches(v => DataRate.Of(v, Metric<Nibble>().Per(Si<Second>())), "N/s");
+
     [Fact]
     public void KibiBitPerSecondToString() => FormattingMatches(v => DataRate.Of(v, Binary<Kibi, Bit>().Per(Si<Second>())), "Kibit/s");
+
     [Fact]
     public void KiloBitPerSecondToString() => FormattingMatches(v => DataRate.Of(v, Metric<Kilo, Bit>().Per(Si<Second>())), "kbit/s");
+
     [Fact]
     public void KiloBytePerSecondToString() => FormattingMatches(v => DataRate.Of(v, Metric<Kilo, Bytes>().Per(Si<Second>())), "kB/s");
+
     [Fact]
     public void KibiBytePerSecondToString() => FormattingMatches(v => DataRate.Of(v, Binary<Kibi, Bytes>().Per(Si<Second>())), "KiB/s");
+
     [Fact]
     public void KibiBytePerSecondToKiloBytePerSecond()
     {
@@ -36,6 +42,7 @@ public class DataRateTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void KiloBytePerHourToBytePerSecond()
     {
@@ -46,6 +53,7 @@ public class DataRateTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void MebiBytePerHourToKiloBytePerSecond()
     {
@@ -56,6 +64,7 @@ public class DataRateTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void MebiBitPerHourToKiloBytePerSecond()
     {
@@ -66,6 +75,7 @@ public class DataRateTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void GibiBitPerHourToKiloBytePerMinute()
     {
@@ -98,6 +108,7 @@ public class DataRateTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void DataDividedByTimeIsDataRate()
     {

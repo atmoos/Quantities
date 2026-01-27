@@ -18,6 +18,7 @@ internal static class DimAssert
         var expectedValue = expected.ToString() ?? "empty expected";
         throw EqualException.ForMismatchedValues(expectedValue, actualValue);
     }
+
     public static void NotEqual(Dimension expected, Dimension actual)
     {
         if (expected.Equals(actual)) {
@@ -26,6 +27,7 @@ internal static class DimAssert
             throw NotEqualException.ForEqualValues(expectedValue, actualValue);
         }
     }
+
     public static void Equal(IEnumerable<Dimension> expected, IEnumerable<Dimension> actual)
     {
         var expectedSet = new HashSet<Dimension>(expected);
@@ -42,24 +44,45 @@ internal static class DimAssert
 // IProduct<TS,TV>, IQuotient<TS,N,D>
 // where TS stands for TSelf.
 internal sealed class Time : ITime { }
+
 internal sealed class OtherTime : ITime { }
+
 internal sealed class Length : ILength { }
+
 internal sealed class OtherLength : ILength { }
+
 internal sealed class Area : IArea { }
+
 internal sealed class OtherArea : IArea { }
+
 internal sealed class Volume : IVolume { }
+
 internal sealed class OtherVolume : IVolume { }
+
 internal sealed class Temperature : ITemperature { }
+
 internal sealed class SquareTemperature : ISquareTemperature { }
+
 internal sealed class CubicMass : ICubicMass { }
+
 internal sealed class Velocity : IVelocity { }
+
 internal sealed class OtherVelocity : IVelocity { }
+
 internal sealed class Angle : IAngle { }
+
 internal sealed class Current : IElectricCurrent { }
+
 internal sealed class Ampere : IElectricCurrent { }
+
 internal sealed class Coulomb : IElectricCharge { }
+
 internal sealed class AmpereHour : IElectricCharge { }
+
 internal sealed class DoubleTime : IDoubleTime { }
+
 internal interface ICubicMass : IDimension<IMass, Three> { }
+
 internal interface IDoubleTime : IProduct<ITime, ITime> { }
+
 internal interface ISquareTemperature : IDimension<ITemperature, Two> { }

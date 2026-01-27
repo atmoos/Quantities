@@ -16,21 +16,34 @@ public static class Extensions
         where TQuantity : struct, IQuantity<TQuantity>, IDimension
     {
         internal static TQuantity Create(in Quantity value) => TQuantity.Create(in value);
+
         public void Serialize(IWriter writer) => quantity.Value.Write(writer, typeof(TQuantity).Name.ToLowerInvariant());
+
         public void Deconstruct(out Double value, out String unit) => quantity.Value.Deconstruct(out value, out unit);
     }
 
-    public static Double ValueOf<T>(Int32 exponent = 1) where T : ITransform => Math.Pow(Polynomial.Of<T>() * 1d, exponent);
-    public static Transformation RootedIn<TSi>(this Transformation self) where TSi : ISiUnit => self;
-    internal static Transformation From<TBasis>(this Transformation self) where TBasis : IPrefix => TBasis.ToSi(self);
-    public static Transformation DerivedFrom<TBasis>(this Transformation self) where TBasis : IUnit, ITransform => TBasis.ToSi(self);
+    public static Double ValueOf<T>(Int32 exponent = 1)
+        where T : ITransform => Math.Pow(Polynomial.Of<T>() * 1d, exponent);
+
+    public static Transformation RootedIn<TSi>(this Transformation self)
+        where TSi : ISiUnit => self;
+
+    internal static Transformation From<TBasis>(this Transformation self)
+        where TBasis : IPrefix => TBasis.ToSi(self);
+
+    public static Transformation DerivedFrom<TBasis>(this Transformation self)
+        where TBasis : IUnit, ITransform => TBasis.ToSi(self);
+
     public static String ToString(this IFormattable formattable, String format) => formattable.ToString(format, CultureInfo.InvariantCulture);
+
     internal static Quantity To<TMeasure>(this in Double value)
-      where TMeasure : IMeasure => Quantity.Of<TMeasure>(in value);
+        where TMeasure : IMeasure => Quantity.Of<TMeasure>(in value);
+
     public static NotImplementedException NotImplemented(Object self, [CallerMemberName] String memberName = "", [CallerLineNumber] Int32 line = 0)
     {
         return NotImplemented(self.GetType(), memberName, line);
     }
+
     public static NotImplementedException NotImplemented<T>([CallerMemberName] String memberName = "", [CallerLineNumber] Int32 line = 0)
     {
         return NotImplemented(typeof(T), memberName, line);
@@ -42,6 +55,7 @@ public static class Extensions
     }
 
     internal static String NameOf<T>() => ClassName(typeof(T));
+
     private static String ClassName(this Type t)
     {
         const Char arityTick = '`';

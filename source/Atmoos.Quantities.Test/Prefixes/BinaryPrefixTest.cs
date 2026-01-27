@@ -18,7 +18,9 @@ public class BinaryPrefixTest
     public void ScalesAllValuesWithinOneAndThousand(Double value)
     {
         var seed = Math.Sqrt(2) * Math.E / (2d * Math.E);
-        var range = new Double[] { (1d + Math.Pow(16, -12)) / seed, 2, 4, 5, 6, 8, 9 }.Select(r => seed * r).ToArray();
+        var range = new Double[] { (1d + Math.Pow(16, -12)) / seed, 2, 4, 5, 6, 8, 9 }
+            .Select(r => seed * r)
+            .ToArray();
         var inputValues = Enumerable.Range(0, 3).SelectMany(e => range.Select(r => r * value * Math.Pow(10, e))).ToArray();
 
         var actual = inputValues.Select(v => BinaryPrefix.Scale(v, injector)).ToArray();
@@ -62,12 +64,15 @@ public class BinaryPrefixTest
 
     private static Double MaxValue<TPrefix>()
         where TPrefix : IBinaryPrefix => Metrics<TPrefix>.MaxValue();
+
     private static Double Normalize<TPrefix>(Double value)
         where TPrefix : IBinaryPrefix => Metrics<TPrefix>.Normalize(in value);
 
     private sealed class GetValue : IPrefixInject<Double>
     {
         public Double Identity(in Double value) => value;
-        public Double Inject<TPrefix>(in Double value) where TPrefix : IPrefix => value;
+
+        public Double Inject<TPrefix>(in Double value)
+            where TPrefix : IPrefix => value;
     }
 }

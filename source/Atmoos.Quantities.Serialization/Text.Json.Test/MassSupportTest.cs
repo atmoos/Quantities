@@ -8,6 +8,7 @@ public class MassSupportTest : ISerializationTester<Mass>
     [Theory]
     [MemberData(nameof(Quantities))]
     public void SupportsSerialization(Mass area) => area.SupportsSerialization();
+
     public static IEnumerable<Object[]> Quantities()
     {
         static IEnumerable<Mass> Interesting()

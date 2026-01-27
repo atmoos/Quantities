@@ -1,22 +1,21 @@
-namespace Atmoos.Quantities.Core.Numerics;
+﻿namespace Atmoos.Quantities.Core.Numerics;
 
-public interface IPositive
-{ /* marker interface */ }
+public interface IPositive; // marker interface
 
-public interface INegative
-{ /* marker interface */ }
+public interface INegative; // marker interface
 
 internal interface IInjectNumber<out TResult>
 {
-    public TResult Inject<TNumber>() where TNumber : INumber;
+    public TResult Inject<TNumber>()
+        where TNumber : INumber;
 }
 
 public interface INumber
 {
     internal static abstract Int32 Value { get; }
     internal static abstract TResult Negate<TResult>(IInjectNumber<TResult> injector);
-
 }
+
 public interface IPositive<TNumber> : IPositive, INumber
     where TNumber : INumber, IPositive
 {
@@ -27,12 +26,14 @@ public readonly record struct Negative<TNumber> : INumber, INegative
     where TNumber : INumber, IPositive
 {
     static Int32 INumber.Value { get; } = -TNumber.Value;
+
     static TResult INumber.Negate<TResult>(IInjectNumber<TResult> injector) => injector.Inject<TNumber>();
 }
 
 public readonly record struct Zero : INumber, IPositive
 {
     static Int32 INumber.Value => 0;
+
     static TResult INumber.Negate<TResult>(IInjectNumber<TResult> injector) => injector.Inject<Zero>();
 }
 

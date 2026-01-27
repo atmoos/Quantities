@@ -1,4 +1,4 @@
-using Atmoos.Quantities.Units.Imperial.Force;
+﻿using Atmoos.Quantities.Units.Imperial.Force;
 using Atmoos.Quantities.Units.NonStandard.Pressure;
 using Atmoos.Quantities.Units.Si.Derived;
 using Atmoos.Quantities.Units.Si.Metric;
@@ -7,15 +7,19 @@ namespace Atmoos.Quantities.Units.Test;
 
 public sealed class PressureTest
 {
-
     [Fact]
     public void HectoPascalToString() => FormattingMatches(p => Pressure.Of(p, Si<Hecto, Pascal>()), "hPa");
+
     [Fact]
     public void KiloNewtonPerSquareMetreToString() => FormattingMatches(p => Pressure.Of(p, Si<Kilo, Newton>().Per(Square(Si<Metre>()))), "kN/m²");
+
     [Fact]
     public void PoundForcePerSquareFootToString() => FormattingMatches(p => Pressure.Of(p, Imperial<PoundForce>().Per(Square(Imperial<Foot>()))), "lbf/ft²");
+
     [Fact]
-    public void StandardAtmosphereToString() => FormattingMatches(p => Pressure.Of(p, NonStandard<StandardAtmosphere>()), "atm"); [Fact]
+    public void StandardAtmosphereToString() => FormattingMatches(p => Pressure.Of(p, NonStandard<StandardAtmosphere>()), "atm");
+
+    [Fact]
     public void TorrToString() => FormattingMatches(p => Pressure.Of(p, NonStandard<Torr>()), "Torr");
 
     [Fact]
@@ -26,6 +30,7 @@ public sealed class PressureTest
 
         Assert.Equal(onePascal, siDefinition);
     }
+
     [Fact]
     public void BarConvertsToPascal()
     {
@@ -34,6 +39,7 @@ public sealed class PressureTest
 
         Assert.Equal(pascal, oneBar);
     }
+
     [Fact]
     public void StandardAtmosphereConvertsToPascal()
     {
@@ -42,6 +48,7 @@ public sealed class PressureTest
 
         Assert.Equal(pascal, oneStandardAtmosphere);
     }
+
     [Fact]
     public void TorrConvertsToPascal()
     {
@@ -52,6 +59,7 @@ public sealed class PressureTest
 
         oneTorrInPascals.Matches(pascal);
     }
+
     [Fact]
     public void PsiIsConvertsToPascal()
     {
@@ -63,6 +71,7 @@ public sealed class PressureTest
         Assert.Equal(pascals, psi);
         convertedPsi.Matches(pascals);
     }
+
     [Fact]
     public void PressureFromForceDividedByArea()
     {

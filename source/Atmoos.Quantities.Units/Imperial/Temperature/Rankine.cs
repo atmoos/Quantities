@@ -8,5 +8,6 @@ namespace Atmoos.Quantities.Units.Imperial.Temperature;
 public readonly struct Rankine : IImperialUnit, ITemperature
 {
     public static Transformation ToSi(Transformation self) => 5d * self.RootedIn<Kelvin>() / 9d;
+
     public static String Representation => "°R";
 }

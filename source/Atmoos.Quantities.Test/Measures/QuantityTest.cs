@@ -19,6 +19,7 @@ public class QuantityTest
 
         a.Equals((Object)b).IsTrue();
     }
+
     [Fact]
     public void ObjectEqualNonQuantityCompareFalse()
     {
@@ -26,6 +27,7 @@ public class QuantityTest
 
         quantity.Equals("This is not a quantity.").IsFalse();
     }
+
     [Fact]
     public void EqualQuantitiesCompareTrue()
     {
@@ -35,6 +37,7 @@ public class QuantityTest
 
         a.Equals(b).IsTrue();
     }
+
     [Fact]
     public void EqualQuantitiesOfSameDimensionButDifferentMeasureCompareTrue()
     {
@@ -44,6 +47,7 @@ public class QuantityTest
 
         a.Equals(b).IsTrue();
     }
+
     [Fact]
     public void UnequalQuantityValueCompareFalse()
     {
@@ -53,6 +57,7 @@ public class QuantityTest
 
         a.Equals(b).IsFalse();
     }
+
     [Fact(Skip = "Pending a design decision here.")] // Must quantities be able to detect this, or are the outer Quantity<T> responsible?
     public void UnequalQuantityDimensionsCompareFalse()
     {
@@ -62,6 +67,7 @@ public class QuantityTest
 
         a.Equals(b).IsFalse();
     }
+
     [Fact]
     public void SmallerThanOperatorOnMatchingValuesComparesTrue()
     {
@@ -71,6 +77,7 @@ public class QuantityTest
 
         (small < large).IsTrue();
     }
+
     [Fact]
     public void SmallerThanOperatorOnEqualValuesComparesFalse()
     {
@@ -80,6 +87,7 @@ public class QuantityTest
 
         (someValue < sameValue).IsFalse();
     }
+
     [Fact]
     public void GreaterThanOperatorOnMatchingValuesComparesTrue()
     {
@@ -89,6 +97,7 @@ public class QuantityTest
 
         (large > small).IsTrue();
     }
+
     [Fact]
     public void GreaterThanOperatorOnEqualValuesComparesFalse()
     {
@@ -98,6 +107,7 @@ public class QuantityTest
 
         (someValue > sameValue).IsFalse();
     }
+
     /**/
     [Fact]
     public void SmallerOrEqualThanOperatorOnMatchingValuesComparesTrue()
@@ -108,6 +118,7 @@ public class QuantityTest
 
         (small <= large).IsTrue();
     }
+
     [Fact]
     public void SmallerOrEqualThanOperatorOnEqualValuesComparesTrue()
     {
@@ -117,6 +128,7 @@ public class QuantityTest
 
         (someValue <= sameValue).IsTrue();
     }
+
     [Fact]
     public void SmallerOrEqualThanOperatorOnNonMatchingValuesComparesFalse()
     {
@@ -126,6 +138,7 @@ public class QuantityTest
 
         (large <= small).IsFalse();
     }
+
     [Fact]
     public void GreaterOrEqualThanOperatorOnMatchingValuesComparesTrue()
     {
@@ -135,6 +148,7 @@ public class QuantityTest
 
         (large >= small).IsTrue();
     }
+
     [Fact]
     public void GreaterOrEqualThanOperatorOnEqualValuesComparesTrue()
     {
@@ -144,6 +158,7 @@ public class QuantityTest
 
         (someValue >= sameValue).IsTrue();
     }
+
     [Fact]
     public void GreaterOrEqualThanOperatorOnNonMatchingValuesComparesFalse()
     {
@@ -153,6 +168,7 @@ public class QuantityTest
 
         (small >= large).IsFalse();
     }
+
     /**/
     [Theory]
     [MemberData(nameof(Values))]
@@ -206,7 +222,6 @@ public class QuantityTest
         Assert.Equal(a, addLeft);
         Assert.Equal(a, addRight);
     }
-
 
     [Theory]
     [MemberData(nameof(Values))]
@@ -331,7 +346,6 @@ public class QuantityTest
         Assert.Equal(additiveInverse, multiplyRight);
     }
 
-
     [Fact]
     public void ScalarMultiplicationByPositiveNumberPreservesOrder()
     {
@@ -345,6 +359,7 @@ public class QuantityTest
 
         (maxQuantity > minQuantity).IsTrue();
     }
+
     [Fact]
     public void ScalarMultiplicationByNegativeNumberInversesOrder()
     {
@@ -358,6 +373,7 @@ public class QuantityTest
 
         (notMax < notMin).IsTrue();
     }
+
     [Theory]
     [MemberData(nameof(Values))]
     public void ScalarDivisionIsTheInverseOfScalarMultiplication(Double value)
@@ -415,6 +431,7 @@ public class QuantityTest
 
         Assert.Equal(square, actual);
     }
+
     [Fact]
     public void QuantityInversionOnSimpleValues()
     {
@@ -456,6 +473,7 @@ public class QuantityTest
 
         Assert.Equal(identityMeasure, actual);
     }
+
     [Fact]
     public void QuantityDivisionByDifferingMeasureCreatesQuotientMeasure()
     {
@@ -469,6 +487,7 @@ public class QuantityTest
 
         Assert.Equal(quotient, actual);
     }
+
     [Fact]
     public void QuantityDivisionOfSquareMeasureByScalarMeasureIsScalarMeasure()
     {
@@ -483,6 +502,7 @@ public class QuantityTest
 
         Assert.Equal(quotient, actual);
     }
+
     [Fact]
     public void QuantityDivisionOfCubicMeasureByScalarMeasureIsSquareMeasure()
     {
@@ -530,12 +550,17 @@ public class QuantityTest
 
     private static Quantity Create<TSi>(Double value)
         where TSi : ISiUnit, IDimension => Quantity.Of<Si<TSi>>(in value);
+
     private static Quantity Create<TPrefix, TSi>(Double value)
-        where TPrefix : IPrefix where TSi : ISiUnit, IDimension => Quantity.Of<Si<TPrefix, TSi>>(in value);
+        where TPrefix : IPrefix
+        where TSi : ISiUnit, IDimension => Quantity.Of<Si<TPrefix, TSi>>(in value);
+
     private static Quantity CreateInverse<TSi>(Double value)
         where TSi : ISiUnit, IDimension => Quantity.Of<Power<Si<TSi>, Negative<One>>>(in value);
+
     private static Quantity CreateInverse<TPrefix, TSi>(Double value)
-        where TPrefix : IPrefix where TSi : ISiUnit, IDimension => Quantity.Of<Power<Si<TPrefix, TSi>, Negative<One>>>(in value);
+        where TPrefix : IPrefix
+        where TSi : ISiUnit, IDimension => Quantity.Of<Power<Si<TPrefix, TSi>, Negative<One>>>(in value);
 
     public static IEnumerable<Object[]> Values()
     {

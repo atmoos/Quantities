@@ -20,7 +20,10 @@ public readonly struct QuantityFactory<TQuantity>
     private static readonly Cache<QuantityModel, IBuilder> scalarCache = new();
     private static readonly Cache<QuantityModel, QuantityModel, IBuilder> complexCache = new();
     private readonly IBuilder builder;
-    private QuantityFactory(IBuilder builder) : this() => this.builder = builder;
+
+    private QuantityFactory(IBuilder builder)
+        : this() => this.builder = builder;
+
     public TQuantity Build(in Double value)
     {
         var quantity = this.builder.Build(in value);
@@ -31,49 +34,60 @@ public readonly struct QuantityFactory<TQuantity>
         throw new InvalidOperationException($"Cannot build a quantity of type '{typeof(TQuantity).Name}' from the provided models. The dimensions do not match.");
     }
 
-    public static QuantityFactory<TQuantity> Create(UnitRepository repository, in QuantityModel model)
-        => new(ScalarBuilder(repository, in model));
+    public static QuantityFactory<TQuantity> Create(UnitRepository repository, in QuantityModel model) => new(ScalarBuilder(repository, in model));
+
     public static QuantityFactory<TQuantity> Create(UnitRepository repository, List<QuantityModel> models)
     {
         var builder = models switch {
             [QuantityModel model] => ScalarBuilder(repository, in model),
             [QuantityModel l, QuantityModel r] => ProductBuilder(repository, in l, in r),
-            _ => throw new NotSupportedException($"Cannot build quantities with '{models.Count}' models.")
+            _ => throw new NotSupportedException($"Cannot build quantities with '{models.Count}' models."),
         };
         return new(builder);
     }
 
-    private static IBuilder ScalarBuilder(UnitRepository repository, in QuantityModel model) => model.Exponent switch {
-        -1 => Create<Negative<One>>(repository, in model, Inject.Inverse),
-        1 => Create(repository, in model, Inject.Scalar),
-        2 => Create<Two>(repository, in model, Inject.Square),
-        3 => Create<Three>(repository, in model, Inject.Cubic),
-        4 => Create<Four>(repository, in model, Inject.Quartic),
-        5 => Create<Five>(repository, in model, Inject.Quintic),
-        _ => throw new NotSupportedException($"Cannot build a quantity with an exponent of '{model.Exponent}'.")
-    };
+    private static IBuilder ScalarBuilder(UnitRepository repository, in QuantityModel model) =>
+        model.Exponent switch {
+            -1 => Create<Negative<One>>(repository, in model, Inject.Inverse),
+            1 => Create(repository, in model, Inject.Scalar),
+            2 => Create<Two>(repository, in model, Inject.Square),
+            3 => Create<Three>(repository, in model, Inject.Cubic),
+            4 => Create<Four>(repository, in model, Inject.Quartic),
+            5 => Create<Five>(repository, in model, Inject.Quintic),
+            _ => throw new NotSupportedException($"Cannot build a quantity with an exponent of '{model.Exponent}'."),
+        };
+
     private static IBuilder ProductBuilder(UnitRepository repository, in QuantityModel left, in QuantityModel right)
     {
         const Int32 terms = 2; // a product has two terms.
-        return complexCache.Get(left, right, repository, static (left, right, repo) =>
+        return complexCache.Get(left, right, repository, CreateBuilder);
+
+        static IBuilder CreateBuilder(QuantityModel left, QuantityModel right, UnitRepository repo)
         {
-            QuantityModel[] models = [left, right]; ;
+            QuantityModel[] models = [left, right];
+            ;
             IInject<IBuilder> injector = new ProductInjector(left.Exponent, right.Exponent);
-            var builder = Core.Construction.ScalarBuilder.Create(in left, in repo, injector);
+            var builder = Construction.ScalarBuilder.Create(in left, in repo, injector);
             for (Int32 index = 1; index < terms; ++index) {
                 injector = builder as IInject<IBuilder> ?? throw new InvalidOperationException("Need another injector...");
-                builder = Core.Construction.ScalarBuilder.Create(in models[index], in repo, injector);
+                builder = Construction.ScalarBuilder.Create(in models[index], in repo, injector);
             }
             return builder;
-        });
+        }
     }
+
     private static IBuilder Create(UnitRepository repo, in QuantityModel model, IInject<IBuilder> injector)
     {
-        return scalarCache.Get(model, (repo, injector), static (model, arg)
-                 => Core.Construction.ScalarBuilder.Create(in model, in arg.repo, arg.injector));
+        return scalarCache.Get(model, (repo, injector), CreateBuilder);
+
+        static IBuilder CreateBuilder(QuantityModel model, (UnitRepository repo, IInject<IBuilder> injector) arg) => Construction.ScalarBuilder.Create(in model, in arg.repo, arg.injector);
     }
 
     private static IBuilder Create<TExponent>(UnitRepository repo, in QuantityModel model, IInject<IBuilder> injector)
         where TExponent : INumber
-            => scalarCache.Get(model, (repo, injector), static (model, arg) => Core.Construction.ScalarBuilder.Create(in model, in arg.repo, arg.injector));
+    {
+        return scalarCache.Get(model, (repo, injector), CreateBuilder);
+
+        static IBuilder CreateBuilder(QuantityModel model, (UnitRepository repo, IInject<IBuilder> injector) arg) => Construction.ScalarBuilder.Create(in model, in arg.repo, arg.injector);
+    }
 }

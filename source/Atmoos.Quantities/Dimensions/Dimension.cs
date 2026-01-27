@@ -40,7 +40,7 @@ internal abstract class Dimension
         (left, right) switch {
             (null, null) => true,
             (null, _) or (_, null) => false,
-            (Dimension l, Dimension r) => l.Equal(r),
+            (Dimension l, Dimension r) => l.Equal(r)
         };
 
     public static Boolean operator !=(Dimension? left, Dimension? right) => !(left == right);
@@ -104,21 +104,21 @@ internal abstract class Scalar : Dimension
                 Unit => this,
                 Impl<T> s => this.m + s.m == 0 ? Unit.Identity : new Impl<T>(this.m + s.m),
                 Scalar s => new Product(this, s),
-                _ => (other * this).Swap(),
+                _ => (other * this).Swap()
             };
 
         public override Dimension Pow(Int32 n) =>
             n switch {
                 0 => Unit.Identity,
                 1 => this,
-                _ => new Impl<T>(this.m * n),
+                _ => new Impl<T>(this.m * n)
             };
 
         public override Dimension Root(Int32 n) =>
             n switch {
                 0 => throw new DivideByZeroException("Can't take zeroth root."),
                 1 => this,
-                _ => new Impl<T>(this.m / n),
+                _ => new Impl<T>(this.m / n)
             };
 
         public override Boolean Is(Dimension other) => other is Impl<T>;
@@ -158,14 +158,14 @@ internal sealed class Product : Dimension
         n switch {
             0 => Unit.Identity,
             1 => this,
-            _ => new Product(this.left, this.right, n * this.e),
+            _ => new Product(this.left, this.right, n * this.e)
         };
 
     public override Dimension Root(Int32 n) =>
         n switch {
             0 => throw new DivideByZeroException("Can't take zeroth root."),
             1 => this,
-            _ => new Product(this.left, this.right, this.e / n),
+            _ => new Product(this.left, this.right, this.e / n)
         };
 
     internal override Dimension Swap() => new Product(this.right, this.left, this.e);
@@ -186,7 +186,7 @@ internal sealed class Product : Dimension
             Unit => this,
             Scalar s when this.Any(t => t.Is(s)) => Simplify(this.Concat(s)),
             Dimension p when this.Any(t => p.Any(pp => t.Is(pp))) => Simplify(this.Concat(p)),
-            _ => new Product(this, other),
+            _ => new Product(this, other)
         };
 
     private Boolean Same(Product other) => this.ToHashSet().SetEquals(other);
@@ -236,6 +236,6 @@ file static class Convenience
             0 => Unit.Identity,
             1 => values[0],
             2 => Product.SimplifyExponents(values[0], values[1]),
-            var l => Product.SimplifyExponents(ReBuild(values[0..(l / 2)]), ReBuild(values[(l / 2)..])),
+            var l => Product.SimplifyExponents(ReBuild(values[0..(l / 2)]), ReBuild(values[(l / 2)..]))
         };
 }

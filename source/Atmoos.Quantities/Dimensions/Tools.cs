@@ -16,15 +16,14 @@ internal static class Tools
 
     private static IEnumerable<Type> Unwrap(Type type) =>
         type.ImplementsGeneric(genericDimension) ? type.InnerTypes(genericDimension).Where(t => t.Implements(dimension))
-        : type.Implements(dimension) ? [type]
-        : [];
+        : type.Implements(dimension) ? [type] : [];
 
     public static String ToExponent(this Int32 exp)
     {
         var sign = exp >= 0 ? String.Empty : "⁻";
         var value = exp switch {
             1 => String.Empty,
-            _ => Sup(Math.Abs(exp)),
+            _ => Sup(Math.Abs(exp))
         };
         return $"{sign}{value}";
 
@@ -33,7 +32,7 @@ internal static class Tools
                 1 => "\u00B9",
                 2 or 3 => ((Char)(0x00B0 + n)).ToString(),
                 var m when m is >= 0 and < 10 => ((Char)(0x2070 + m)).ToString(),
-                _ => Build(n),
+                _ => Build(n)
             };
         static String Build(Int32 n)
         {

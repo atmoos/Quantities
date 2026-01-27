@@ -147,7 +147,7 @@ internal readonly struct Invertible<TSelf, TInverse> : IMeasure, ILinear
     public static IVisitor Power(IVisitor inject, Int32 exponent) =>
         exponent switch {
             >= 0 => inject.Raise<Invertible<TSelf, TInverse>>(-exponent),
-            < 0 => inject.Raise<TInverse>(exponent),
+            < 0 => inject.Raise<TInverse>(exponent)
         };
 }
 
@@ -184,7 +184,7 @@ internal readonly struct Product<TLeft, TRight> : IMeasure
         (TLeft.D.E, TRight.D.E) switch {
             ( >= 0, < 0) => $"{TLeft.Representation}{division}{InvertedRep<TRight>()}",
             ( < 0, >= 0) => $"{TRight.Representation}{division}{InvertedRep<TLeft>()}",
-            _ => $"{TLeft.Representation}{zeroWidthNonJoiner}{TRight.Representation}",
+            _ => $"{TLeft.Representation}{zeroWidthNonJoiner}{TRight.Representation}"
         };
 }
 
@@ -259,6 +259,6 @@ file static class Convenience
             -3 => visitor.Inject<Power<TMeasure, Negative<Three>>>(),
             -4 => visitor.Inject<Power<TMeasure, Negative<Four>>>(),
             -5 => visitor.Inject<Power<TMeasure, Negative<Five>>>(),
-            _ => throw new InvalidOperationException($"Exponent '{exponent}' is not supported."),
+            _ => throw new InvalidOperationException($"Exponent '{exponent}' is not supported.")
         };
 }

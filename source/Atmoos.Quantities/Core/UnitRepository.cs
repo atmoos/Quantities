@@ -17,11 +17,7 @@ internal interface ISystems
 
 public sealed class UnitRepository
 {
-    private readonly Repository prefixes,
-        siUnits,
-        metricUnits,
-        imperialUnits,
-        nonStandardUnits;
+    private readonly Repository prefixes, siUnits, metricUnits, imperialUnits, nonStandardUnits;
 
     private UnitRepository(Repository prefixes, Repository siUnits, Repository metricUnits, Repository imperialUnits, Repository nonStandardUnits)
     {
@@ -46,8 +42,7 @@ public sealed class UnitRepository
         where TDimension : IDimension
     {
         Type[] interfaces = [.. Interfaces<TDimension>()];
-        IEnumerable<(String, IEnumerable<String>)> units =
-        [
+        IEnumerable<(String, IEnumerable<String>)> units = [
             ("si", [.. this.siUnits.Select(interfaces)]),
             ("metric", [.. this.metricUnits.Select(interfaces)]),
             ("imperial", [.. this.imperialUnits.Select(interfaces)]),

@@ -43,7 +43,7 @@ file sealed class Injector<TResult>(IInject<TResult> resultInjector) : IInject<I
                 ( < 0, > 0) => resultInjector.Inject<Product<TRight, TLeft>>(),
                 (0, _) => resultInjector.Inject<TRight>(),
                 (_, 0) => resultInjector.Inject<TLeft>(),
-                _ => resultInjector.Inject<Product<TLeft, TRight>>(),
+                _ => resultInjector.Inject<Product<TLeft, TRight>>()
             };
     }
 }

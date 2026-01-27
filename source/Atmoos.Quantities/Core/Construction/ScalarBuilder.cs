@@ -133,7 +133,7 @@ internal static class ScalarBuilder
             return (aliasOf, inversionOf) switch {
                 ([Type alias], _) => ([unit, alias], $"{name}Alias"),
                 (_, [Type inverse]) => ([unit, inverse], $"{name}Invertible"),
-                _ => ([unit], name),
+                _ => ([unit], name)
             };
         }
     }

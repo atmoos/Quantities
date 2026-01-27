@@ -59,7 +59,7 @@ internal static class Algorithms
                 (false, true) => (Abs(nominator), false),
                 (true, false) => (Abs(denominator), false),
                 (false, false) => (MinMagnitude(nominator, denominator), false),
-                (true, true) => (Double.NaN, true),
+                (true, true) => (Double.NaN, true)
             };
     }
 
@@ -76,7 +76,7 @@ internal static class Algorithms
                 3 => value * value * value,
                 _ => (n & 1) switch { // is the rightmost bit zero or one?
                     0 => Power(value * value, n >> 1), // right shift to divide exponent by 2
-                    _ => value * Power(value * value, n >> 1),
+                    _ => value * Power(value * value, n >> 1)
                 },
             };
     }

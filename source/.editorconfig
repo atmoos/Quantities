@@ -1,4 +1,4 @@
-# See: https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/configuration-files
+﻿# See: https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/configuration-files
 # https://kent-boogaart.com/blog/editorconfig-reference-for-c-developers
 # https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/code-style-rule-options
 
@@ -23,7 +23,7 @@ indent_size = 2
 # C# files
 [*.cs]
 indent_size = 4
-max_line_length = 180
+max_line_length = 200
 #### Core EditorConfig Options ####
 
 #### .NET Coding Conventions ####
@@ -45,7 +45,7 @@ csharp_preserve_single_line_blocks = true
 dotnet_sort_system_directives_first = true
 dotnet_style_namespace_match_folder = true:warning
 csharp_style_namespace_declarations = file_scoped:warning
-csharp_new_line_before_open_brace = methods, properties, types, lambdas
+csharp_new_line_before_open_brace = methods, properties, types, lambdas:warning
 csharp_space_after_keywords_in_control_flow_statements = false:warning
 
 #### Diagnostic configuration ####

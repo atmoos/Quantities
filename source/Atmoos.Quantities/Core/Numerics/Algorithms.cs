@@ -77,7 +77,7 @@ internal static class Algorithms
                 _ => (n & 1) switch { // is the rightmost bit zero or one?
                     0 => Power(value * value, n >> 1), // right shift to divide exponent by 2
                     _ => value * Power(value * value, n >> 1)
-                },
+                }
             };
     }
 }

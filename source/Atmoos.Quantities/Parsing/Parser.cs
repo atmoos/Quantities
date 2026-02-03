@@ -52,7 +52,7 @@ internal sealed class Parser<T>(UnitRepository repository, ModelParser parser) :
                 [] => (false, default),
                 [var single] => (true, QuantityFactory<T>.Create(repository, single).Build(value)),
                 [_, _] => (true, QuantityFactory<T>.Create(repository, models).Build(value)),
-                _ => (false, default),
+                _ => (false, default)
             };
             return success;
         }

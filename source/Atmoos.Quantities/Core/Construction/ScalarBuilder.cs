@@ -26,7 +26,7 @@ internal static class ScalarBuilder
                 "metric" => GetMethod(nameof(CreateMetric), repo.Metric(unit), prefix),
                 "imperial" => GetMethod(nameof(CreateImperial), repo.Imperial(unit), prefix),
                 "any" => GetMethod(nameof(CreateNonStandard), repo.NonStandard(unit), prefix),
-                _ => throw new NotImplementedException($"{system} cannot be deserialized yet :-("),
+                _ => throw new NotImplementedException($"{system} cannot be deserialized yet :-(")
             };
     }
 

@@ -41,7 +41,7 @@ public readonly struct QuantityFactory<TQuantity>
         var builder = models switch {
             [QuantityModel model] => ScalarBuilder(repository, in model),
             [QuantityModel l, QuantityModel r] => ProductBuilder(repository, in l, in r),
-            _ => throw new NotSupportedException($"Cannot build quantities with '{models.Count}' models."),
+            _ => throw new NotSupportedException($"Cannot build quantities with '{models.Count}' models.")
         };
         return new(builder);
     }
@@ -54,7 +54,7 @@ public readonly struct QuantityFactory<TQuantity>
             3 => Create<Three>(repository, in model, Inject.Cubic),
             4 => Create<Four>(repository, in model, Inject.Quartic),
             5 => Create<Five>(repository, in model, Inject.Quintic),
-            _ => throw new NotSupportedException($"Cannot build a quantity with an exponent of '{model.Exponent}'."),
+            _ => throw new NotSupportedException($"Cannot build a quantity with an exponent of '{model.Exponent}'.")
         };
 
     private static IBuilder ProductBuilder(UnitRepository repository, in QuantityModel left, in QuantityModel right)

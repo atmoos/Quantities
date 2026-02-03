@@ -23,7 +23,7 @@ internal static class MetricPrefix
                 var zetta when zetta < 1e24 => Build<Zetta>.Scaled(in injector, in value),
                 var yotta when yotta < 1e27 => Build<Yotta>.Scaled(in injector, in value),
                 var ronna when ronna < 1e30 => Build<Ronna>.Scaled(in injector, in value),
-                _ => Build<Quetta>.Scaled(in injector, in value),
+                _ => Build<Quetta>.Scaled(in injector, in value)
             };
 
         static T ScaleDown(in Double value, IPrefixInject<T> injector) =>
@@ -39,7 +39,7 @@ internal static class MetricPrefix
                 var zepto when zepto >= 1e-21 => Build<Zepto>.Scaled(in injector, in value),
                 var yocto when yocto >= 1e-24 => Build<Yocto>.Scaled(in injector, in value),
                 var ronto when ronto >= 1e-27 => Build<Ronto>.Scaled(in injector, in value),
-                _ => Build<Quecto>.Scaled(in injector, in value),
+                _ => Build<Quecto>.Scaled(in injector, in value)
             };
     }
 
@@ -60,7 +60,7 @@ internal static class MetricPrefix
                 var zetta when zetta < 1e24 => Build<Zetta>.Scaled(in injector, in value),
                 var yotta when yotta < 1e27 => Build<Yotta>.Scaled(in injector, in value),
                 var ronna when ronna < 1e30 => Build<Ronna>.Scaled(in injector, in value),
-                _ => Build<Quetta>.Scaled(in injector, in value),
+                _ => Build<Quetta>.Scaled(in injector, in value)
             };
 
         static T ScaleDown(in Double value, IPrefixInject<T> injector) =>
@@ -74,7 +74,7 @@ internal static class MetricPrefix
                 var zepto when zepto >= 1e-21 => Build<Zepto>.Scaled(in injector, in value),
                 var yocto when yocto >= 1e-24 => Build<Yocto>.Scaled(in injector, in value),
                 var ronto when ronto >= 1e-27 => Build<Ronto>.Scaled(in injector, in value),
-                _ => Build<Quecto>.Scaled(in injector, in value),
+                _ => Build<Quecto>.Scaled(in injector, in value)
             };
     }
 }

@@ -217,12 +217,8 @@ public sealed class ElectricCapacityParsingTest : ModelParserTest<ModelParserTes
 
     public static TheoryData<String, IEnumerable<QuantityModel>> ElectricCapacities()
         => new() {
-            {
-                Mul("A", "h"), [A, h]
-            },
-            {
-                Mul("kA", "h"), [A with { Prefix = "k" }, h]
-            }
+            { Mul("A", "h"), [A, h] },
+            { Mul("kA", "h"), [A with { Prefix = "k" }, h] }
         };
 }
 

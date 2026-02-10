@@ -144,8 +144,7 @@ internal sealed class Product : Dimension
 {
     private const String narrowSpace = "\u2006";
     private readonly Int32 e = 1;
-    private readonly Dimension left,
-        right;
+    private readonly Dimension left, right;
     public override Int32 E => this.e;
     public Dimension L => this.left;
     public Dimension R => this.right;

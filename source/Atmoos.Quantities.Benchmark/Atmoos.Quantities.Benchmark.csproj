@@ -25,5 +25,4 @@
     <ProjectReference Include="..\Atmoos.Quantities.Serialization\Text.Json\Atmoos.Quantities.Serialization.Text.Json.csproj" />
     <ProjectReference Include="..\Atmoos.Quantities.Serialization\Newtonsoft\Atmoos.Quantities.Serialization.Newtonsoft.csproj" />
   </ItemGroup>
-
 </Project>

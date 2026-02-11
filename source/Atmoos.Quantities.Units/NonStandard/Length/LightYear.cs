@@ -7,5 +7,6 @@ namespace Atmoos.Quantities.Units.NonStandard.Length;
 public readonly struct LightYear : INonStandardUnit, ILength
 {
     public static Transformation ToSi(Transformation self) => 9460730472580800 * self.RootedIn<Metre>();
+
     public static String Representation => "ly";
 }

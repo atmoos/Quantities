@@ -14,12 +14,14 @@ public class MeasureMultiplicationTest
         var conversion = Expect<Si<Micro, Second>>.ToBeProductOf<Identity, Si<Micro, Second>>();
         Assert.Equal(Polynomial.One, conversion);
     }
+
     [Fact]
     public void AnyTimesIdentityIsAny()
     {
         var conversion = Expect<Si<Pico, Second>>.ToBeProductOf<Si<Pico, Second>, Identity>();
         Assert.Equal(Polynomial.One, conversion);
     }
+
     [Fact]
     public void ScalarTimesOtherScalarIsProduct()
     {
@@ -33,12 +35,14 @@ public class MeasureMultiplicationTest
         var conversion = Expect<Power<Si<Metre>, Two>>.ToBeProductOf<Si<Metre>, Imperial<Foot>>();
         Assert.Equal(Polynomial.Of<Foot>(), conversion);
     }
+
     [Fact]
     public void ScalarTimesSquareSimilarScalarIsCubicScalar()
     {
         var conversion = Expect<Power<Metric<Hour>, Three>>.ToBeProductOf<Metric<Hour>, Power<Metric<Minute>, Two>>();
         Assert.Equal(Polynomial.Of<Minute>().Pow(-2).Simplify(), conversion);
     }
+
     [Fact]
     public void ProductOfMeasureTimesItsInverseIsIdentity()
     {
@@ -50,6 +54,8 @@ public class MeasureMultiplicationTest
 file readonly struct InverseTime : ISiUnit, IFrequency, IInvertible<ITime>
 {
     public static Transformation ToSi(Transformation self) => self;
+
     static T ISystemInject<ITime>.Inject<T>(ISystems<ITime, T> basis) => basis.Si<Second>();
+
     public static String Representation => "s⁻¹";
 }

@@ -11,34 +11,43 @@ namespace Atmoos.Quantities.Serialization.Newtonsoft;
 file sealed class Writer : IWriter
 {
     private readonly JsonWriter writer;
+
     public Writer(in JsonWriter writer) => this.writer = writer;
+
     public void Start() => this.writer.WriteStartObject();
+
     public void Start(String propertyName)
     {
         this.writer.WritePropertyName(propertyName);
         this.writer.WriteStartObject();
     }
+
     public void StartArray(String propertyName)
     {
         this.writer.WritePropertyName(propertyName);
         this.writer.WriteStartArray();
     }
+
     public void Write(String name, Double value)
     {
         this.writer.WritePropertyName(name);
         this.writer.WriteValue(value);
     }
+
     public void Write(String name, Int32 value)
     {
         this.writer.WritePropertyName(name);
         this.writer.WriteValue(value);
     }
+
     public void Write(String name, String value)
     {
         this.writer.WritePropertyName(name);
         this.writer.WriteValue(value);
     }
+
     public void EndArray() => this.writer.WriteEndArray();
+
     public void End() => this.writer.WriteEndObject();
 }
 
@@ -47,7 +56,9 @@ internal sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
 {
     private static readonly String name = typeof(TQuantity).Name.ToLowerInvariant();
     private readonly UnitRepository repository;
+
     public QuantityConverter(UnitRepository repository) => this.repository = repository;
+
     public override TQuantity ReadJson(JsonReader reader, Type objectType, TQuantity existingValue, Boolean hasExistingValue, JsonSerializer serializer)
     {
         var initialDepth = reader.Depth;
@@ -71,6 +82,7 @@ internal sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
         value.Serialize(new Writer(writer));
         writer.WriteEndObject();
     }
+
     private QuantityFactory<TQuantity> ReadMany(JsonSerializer serializer, JsonReader reader)
     {
         reader.MoveNext(StartArray);
@@ -82,6 +94,7 @@ internal sealed class QuantityConverter<TQuantity> : JsonConverter<TQuantity>
         reader.MoveNext(EndArray);
         return QuantityFactory<TQuantity>.Create(this.repository, models);
     }
+
     private QuantityFactory<TQuantity> Read(JsonSerializer serializer, JsonReader reader, String system)
     {
         var model = serializer.Read(reader, system);

@@ -8,6 +8,7 @@ public class LengthSupportTest : ISerializationTester<Length>
     [Theory]
     [MemberData(nameof(Quantities))]
     public void SupportsSerialization(Length quantity) => quantity.SupportsSerialization();
+
     public static IEnumerable<Object[]> Quantities()
     {
         static IEnumerable<Length> Interesting()

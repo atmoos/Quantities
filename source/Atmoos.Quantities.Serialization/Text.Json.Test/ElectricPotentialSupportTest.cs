@@ -5,6 +5,7 @@ public class ElectricPotentialSupportTest : ISerializationTester<ElectricPotenti
     [Theory]
     [MemberData(nameof(Quantities))]
     public void SupportsSerialization(ElectricPotential quantity) => quantity.SupportsSerialization();
+
     public static IEnumerable<Object[]> Quantities()
     {
         static IEnumerable<ElectricPotential> Interesting()

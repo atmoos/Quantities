@@ -8,7 +8,6 @@ namespace Atmoos.Quantities.Test.Measures;
 
 public class PolynomialConversionTest
 {
-
     [Fact]
     public void FromKmToMiles()
     {
@@ -58,7 +57,6 @@ public class PolynomialConversionTest
     {
         const Double value = 0.44704;
         const Double expected = 1;
-
 
         Double actual = Evaluate<Product<Si<Metre>, Power<Si<Second>, Negative<One>>>, Product<Imperial<Mile>, Power<Metric<Hour>, Negative<One>>>>(value);
 

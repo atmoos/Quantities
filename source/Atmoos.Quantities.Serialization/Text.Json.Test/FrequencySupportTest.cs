@@ -15,14 +15,14 @@ public class FrequencySupportTest : IInjectedUnitTester<Frequency>
         String actual = frequency.Serialize(options);
 
         String expected = $$"""
-        {
-          "value": {{scalar:R}},
-          "quantity": "frequency",
-          "si": {
-            "unit": "Hz"
-          }
-        }
-        """;
+            {
+              "value": {{scalar:R}},
+              "quantity": "frequency",
+              "si": {
+                "unit": "Hz"
+              }
+            }
+            """;
         Assert.Equal(expected, actual);
     }
 
@@ -35,15 +35,15 @@ public class FrequencySupportTest : IInjectedUnitTester<Frequency>
         String actual = frequency.Serialize(options);
 
         String expected = $$"""
-        {
-          "value": 4,
-          "quantity": "frequency",
-          "si": {
-            "exponent": -1,
-            "unit": "s"
-          }
-        }
-        """;
+            {
+              "value": 4,
+              "quantity": "frequency",
+              "si": {
+                "exponent": -1,
+                "unit": "s"
+              }
+            }
+            """;
         Assert.Equal(expected, actual);
     }
 

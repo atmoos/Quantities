@@ -5,6 +5,7 @@ public class TimeSupportTest : ISerializationTester<Time>
     [Theory]
     [MemberData(nameof(Quantities))]
     public void SupportsSerialization(Time time) => time.SupportsSerialization();
+
     public static IEnumerable<Object[]> Quantities()
     {
         static IEnumerable<Time> Interesting()

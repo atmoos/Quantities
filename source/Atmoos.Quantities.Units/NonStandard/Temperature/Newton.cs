@@ -8,5 +8,6 @@ namespace Atmoos.Quantities.Units.NonStandard.Temperature;
 public readonly struct Newton : INonStandardUnit, ITemperature
 {
     public static Transformation ToSi(Transformation self) => 100d / 33 * self.RootedIn<Kelvin>() + 273.15;
+
     public static String Representation => "°N";
 }

@@ -1,4 +1,4 @@
-using Atmoos.Quantities.Core.Construction;
+﻿using Atmoos.Quantities.Core.Construction;
 using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Units;
 using Atmoos.Quantities.Units.Si.Metric;
@@ -93,6 +93,7 @@ public class QuantityFactoryTest
     public readonly struct Knot : INonStandardUnit, IVelocity
     {
         public static String Representation => "not a knot";
+
         public static Transformation ToSi(Transformation self)
         {
             const Double notKnot = 2.193;

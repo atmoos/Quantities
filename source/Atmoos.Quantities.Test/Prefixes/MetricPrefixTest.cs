@@ -34,12 +34,15 @@ public class MetricPrefixTest
 
         Assert.Equal(1d, actualValue, MediumPrecision);
     }
+
     [Theory]
     [MemberData(nameof(SiMaxValues))]
     public void ScalesAllValuesWithinOneAndThousand(Double value)
     {
         var seed = Math.Sqrt(2) * Math.E / (2d * Math.E);
-        var range = new Double[] { (1d + Math.Pow(10, -12)) / seed, 2, 4, 5, 6, 8, 9 }.Select(r => seed * r).ToArray();
+        var range = new Double[] { (1d + Math.Pow(10, -12)) / seed, 2, 4, 5, 6, 8, 9 }
+            .Select(r => seed * r)
+            .ToArray();
         var inputValues = Enumerable.Range(0, 3).SelectMany(e => range.Select(r => r * value * Math.Pow(10, e))).ToArray();
 
         var actual = inputValues.Select(v => MetricPrefix.Scale(v, injector)).ToArray();
@@ -99,6 +102,7 @@ public class MetricPrefixTest
         Double kiloMaxValue = MaxValue<Kilo>();
         return AllSiMaxValues().Where(e => e >= kiloMaxValue).Select(i => new Object[] { i });
     }
+
     public static IEnumerable<Object[]> SmallPowerThreeMaxValues()
     {
         Double milliMaxValue = MaxValue<Milli>();
@@ -148,12 +152,15 @@ public class MetricPrefixTest
 
     private static Double MaxValue<TPrefix>()
         where TPrefix : IMetricPrefix => Metrics<TPrefix>.MaxValue();
+
     private static Double Normalize<TPrefix>(Double value)
         where TPrefix : IMetricPrefix => Metrics<TPrefix>.Normalize(in value);
 
     private sealed class GetValue : IPrefixInject<Double>
     {
         public Double Identity(in Double value) => value;
-        public Double Inject<TPrefix>(in Double value) where TPrefix : IPrefix => value;
+
+        public Double Inject<TPrefix>(in Double value)
+            where TPrefix : IPrefix => value;
     }
 }

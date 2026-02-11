@@ -9,9 +9,7 @@ public interface ISystemInject<out TDimension>
 }
 
 public interface IPowerOf<out TDimension> : ISystemInject<TDimension>
-    where TDimension : IDimension
-{ /* marker */ }
+    where TDimension : IDimension; // marker interface
 
 public interface IInvertible<out TDimension> : ISystemInject<TDimension>
-    where TDimension : IDimension
-{ /* marker */ }
+    where TDimension : IDimension; // marker interface

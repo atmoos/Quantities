@@ -9,14 +9,17 @@ public sealed class AccelerationTest
 {
     [Fact]
     public void SiUnitsToString() => FormattingMatches(v => Acceleration.Of(v, Si<Metre>().Per(Square(in Si<Second>()))), "m/s²");
+
     [Fact]
     public void ImperialUnitsToString() => FormattingMatches(v => Acceleration.Of(v, Imperial<Mile>().Per(Square(in Metric<Day>()))), "mi/d²");
+
     [Fact]
     public void Create()
     {
         Acceleration speed = Acceleration.Of(9.81, Si<Metre>().Per(Square(Si<Second>())));
         Assert.Equal("9.81 m/s²", speed.ToString());
     }
+
     [Fact]
     public void AccelerationFromDivisionOfVelocityWithTime()
     {
@@ -28,6 +31,7 @@ public sealed class AccelerationTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void AccelerationFromDivisionOfLengthWithSquareTime()
     {

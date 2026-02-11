@@ -3,7 +3,6 @@
 using Atmoos.Quantities.Core.Numerics;
 using static System.Math;
 
-
 public class AlgorithmsTest
 {
     [Fact]

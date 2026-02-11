@@ -8,11 +8,12 @@ internal sealed class Serializer<TUnit>(String system)
     where TUnit : IUnit
 {
     private readonly String system = system.ToLowerInvariant();
-    public void Write(IWriter writer, Int32 exponent)
-        => this.Write(writer, exponent, static _ => { });
+
+    public void Write(IWriter writer, Int32 exponent) => this.Write(writer, exponent, static _ => { });
+
     public void Write<TPrefix>(IWriter writer, Int32 exponent)
-        where TPrefix : IPrefix
-            => this.Write(writer, exponent, static w => w.Write("prefix", TPrefix.Representation));
+        where TPrefix : IPrefix => this.Write(writer, exponent, static w => w.Write("prefix", TPrefix.Representation));
+
     private void Write(IWriter writer, Int32 exponent, Action<IWriter> prefix)
     {
         writer.Start(this.system);

@@ -1,4 +1,4 @@
-using static Atmoos.Quantities.Extensions;
+﻿using static Atmoos.Quantities.Extensions;
 
 namespace Atmoos.Quantities.Physics;
 
@@ -6,8 +6,11 @@ public static class OhmsLaw
 {
     extension(ElectricPotential)
     {
-        public static ElectricCurrent operator /(in ElectricPotential electricPotential, in ElectricalResistance resistance) => Create<ElectricCurrent>(electricPotential.Value / resistance.Value);
-        public static ElectricalResistance operator /(in ElectricPotential electricPotential, in ElectricCurrent current) => Create<ElectricalResistance>(electricPotential.Value / current.Value);
+        public static ElectricCurrent operator /(in ElectricPotential electricPotential, in ElectricalResistance resistance) =>
+            Create<ElectricCurrent>(electricPotential.Value / resistance.Value);
+
+        public static ElectricalResistance operator /(in ElectricPotential electricPotential, in ElectricCurrent current) =>
+            Create<ElectricalResistance>(electricPotential.Value / current.Value);
     }
 
     extension(ElectricCurrent)
@@ -36,6 +39,7 @@ public static class PowerLaws
     extension(Power)
     {
         public static ElectricCurrent operator /(in Power power, in ElectricPotential potential) => Create<ElectricCurrent>(power.Value / potential.Value);
+
         public static ElectricPotential operator /(in Power power, in ElectricCurrent current) => Create<ElectricPotential>(power.Value / current.Value);
     }
 }

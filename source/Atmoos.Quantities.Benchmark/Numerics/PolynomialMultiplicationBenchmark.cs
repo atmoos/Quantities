@@ -1,5 +1,4 @@
-using Atmoos.Quantities.Core.Numerics;
-
+﻿using Atmoos.Quantities.Core.Numerics;
 using static Atmoos.Quantities.Benchmark.Convenience;
 using static Atmoos.Quantities.Benchmark.Numerics.Trivial;
 
@@ -25,10 +24,13 @@ public class PolynomialMultiplicationBenchmark
 
     [Benchmark(Baseline = true)]
     public Double TrivialImplementation() => Poly(in this.trivialB, Poly(in this.trivialA, in this.argument));
+
     [Benchmark]
     public Double PolynomialMultiplication() => this.left * this.right * this.argument;
+
     [Benchmark]
     public Double PolynomialDivision() => this.left / this.right * this.argument;
+
     [Benchmark]
     public Double PolynomialPowerOfTwo() => this.left.Pow(2) * this.argument;
 
@@ -44,10 +46,10 @@ Intel Core i7-8565U CPU 1.80GHz (Max: 0.40GHz) (Whiskey Lake), 1 CPU, 8 logical 
   DefaultJob : .NET 10.0.0 (10.0.0, 42.42.42.42424), X64 RyuJIT x86-64-v3
 
 
-| Method                   | Mean      | Error     | Ratio | 
+| Method                   | Mean      | Error     | Ratio |
 |------------------------- |----------:|----------:|------:|
-| TrivialImplementation    | 4.0531 ns | 0.1131 ns |  1.00 | 
-| PolynomialMultiplication | 1.2274 ns | 0.0015 ns |  0.30 | 
-| PolynomialDivision       | 1.2449 ns | 0.0086 ns |  0.31 | 
-| PolynomialPowerOfTwo     | 0.7591 ns | 0.0083 ns |  0.19 | 
+| TrivialImplementation    | 4.0531 ns | 0.1131 ns |  1.00 |
+| PolynomialMultiplication | 1.2274 ns | 0.0015 ns |  0.30 |
+| PolynomialDivision       | 1.2449 ns | 0.0086 ns |  0.31 |
+| PolynomialPowerOfTwo     | 0.7591 ns | 0.0083 ns |  0.19 |
 */

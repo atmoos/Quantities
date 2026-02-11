@@ -9,5 +9,6 @@ namespace Atmoos.Quantities.Units.NonStandard.Velocity;
 public readonly struct Knot : INonStandardUnit, IVelocity
 {
     public static Transformation ToSi(Transformation self) => self.DerivedFrom<NauticalMile>() / ValueOf<Hour>();
+
     public static String Representation => "kn";
 }

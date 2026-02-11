@@ -6,10 +6,13 @@ public sealed class ElectricPotentialTest
 {
     [Fact]
     public void VoltToString() => FormattingMatches(v => ElectricPotential.Of(v, Si<Volt>()), "V");
+
     [Fact]
     public void MegaVoltToString() => FormattingMatches(v => ElectricPotential.Of(v, Si<Mega, Volt>()), "MV");
+
     [Fact]
     public void MilliVoltToString() => FormattingMatches(v => ElectricPotential.Of(v, Si<Milli, Volt>()), "mV");
+
     [Fact]
     public void OhmsLawInBaseUnits()
     {
@@ -21,6 +24,7 @@ public sealed class ElectricPotentialTest
 
         potential.Equals(expected);
     }
+
     [Fact]
     public void OhmsLawInPrefixedUnits()
     {
@@ -32,6 +36,7 @@ public sealed class ElectricPotentialTest
 
         potential.Equals(expected);
     }
+
     [Fact]
     public void OhmsLawInPrefixedUnitsWithInBetweenVirtualPrefix()
     {
@@ -45,6 +50,7 @@ public sealed class ElectricPotentialTest
 
         potential.Equals(expected);
     }
+
     [Fact]
     public void PowerLawInBaseUnits()
     {
@@ -56,6 +62,7 @@ public sealed class ElectricPotentialTest
 
         potential.Equals(expected);
     }
+
     [Fact]
     public void PowerLawInPrefixedUnits()
     {

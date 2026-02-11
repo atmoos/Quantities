@@ -9,5 +9,6 @@ namespace Atmoos.Quantities.Units.Imperial.Temperature;
 public readonly struct Fahrenheit : IImperialUnit, ITemperature
 {
     public static Transformation ToSi(Transformation self) => 5 * (self.RootedIn<Kelvin>() + 459.67) / 9;
+
     public static String Representation => "°F";
 }

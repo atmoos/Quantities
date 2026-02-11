@@ -8,7 +8,7 @@ internal static class AllocationFree<TItem>
 }
 
 internal static class AllocationFree<TReference, TItem>
-where TReference : class
+    where TReference : class
     where TItem : class, TReference, new()
 {
     private static readonly TReference item = new TItem();

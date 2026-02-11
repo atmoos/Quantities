@@ -1,5 +1,4 @@
-using Atmoos.Quantities.Core.Numerics;
-
+﻿using Atmoos.Quantities.Core.Numerics;
 using static Atmoos.Quantities.Benchmark.Convenience;
 using static Atmoos.Quantities.Benchmark.Numerics.Trivial;
 
@@ -16,6 +15,7 @@ public class PolynomialExponentiationBenchmark
 
     [Benchmark(Baseline = true)]
     public Double TrivialExp() => Poly(PolyExp(in trivial, Exponent), argument);
+
     [Benchmark]
     public Double PolynomialExp() => polynomial.Pow(Exponent) * argument;
 }

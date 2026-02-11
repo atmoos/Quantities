@@ -10,22 +10,31 @@ public sealed class TemperatureTest
 {
     [Fact]
     public void KelvinToString() => FormattingMatches(v => Temperature.Of(v, Si<Kelvin>()), "K");
+
     [Fact]
     public void CelsiusToString() => FormattingMatches(v => Temperature.Of(v, Metric<Celsius>()), "°C");
+
     [Fact]
     public void DelisleToString() => FormattingMatches(v => Temperature.Of(v, NonStandard<Delisle>()), "°De");
+
     [Fact]
     public void NewtonToString() => FormattingMatches(v => Temperature.Of(v, NonStandard<Newton>()), "°N");
+
     [Fact]
     public void RéaumurToString() => FormattingMatches(v => Temperature.Of(v, NonStandard<Réaumur>()), "°Ré");
+
     [Fact]
     public void RømerToString() => FormattingMatches(v => Temperature.Of(v, NonStandard<Rømer>()), "°Rø");
+
     [Fact]
     public void FahrenheitToString() => FormattingMatches(v => Temperature.Of(v, Imperial<Fahrenheit>()), "°F");
+
     [Fact]
     public void RankineToString() => FormattingMatches(v => Temperature.Of(v, Imperial<Rankine>()), "°R");
+
     [Fact]
     public void GasMarkToString() => FormattingMatches(v => Temperature.Of(v, Imperial<GasMark>()), "GM");
+
     [Fact]
     public void AddThreeTemperatures()
     {
@@ -38,6 +47,7 @@ public sealed class TemperatureTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void SubtractTemperatures()
     {
@@ -60,6 +70,7 @@ public sealed class TemperatureTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void KelvinToFahrenheit()
     {
@@ -70,6 +81,7 @@ public sealed class TemperatureTest
 
         actual.Matches(expected, MediumPrecision);
     }
+
     [Fact]
     public void CelsiusToKelvin()
     {
@@ -80,6 +92,7 @@ public sealed class TemperatureTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void CelsiusToMilliKelvin()
     {
@@ -90,6 +103,7 @@ public sealed class TemperatureTest
 
         actual.Matches(expected, VeryLowPrecision - 1);
     }
+
     [Fact]
     public void CelsiusToFahrenheit()
     {
@@ -100,6 +114,7 @@ public sealed class TemperatureTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void FahrenheitToKelvin()
     {
@@ -110,6 +125,7 @@ public sealed class TemperatureTest
 
         actual.Matches(expected, MediumPrecision);
     }
+
     [Fact]
     public void CelsiusToGasMark()
     {
@@ -131,6 +147,7 @@ public sealed class TemperatureTest
 
         actual.Matches(expected, MediumPrecision);
     }
+
     [Fact]
     public void GasMarkToFahrenheit()
     {
@@ -141,6 +158,7 @@ public sealed class TemperatureTest
 
         actual.Matches(expected, MediumPrecision);
     }
+
     [Fact]
     public void GasMarkToKelvin()
     {
@@ -151,6 +169,7 @@ public sealed class TemperatureTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void KelvinToGasMark()
     {
@@ -161,6 +180,7 @@ public sealed class TemperatureTest
 
         actual.Matches(expected, MediumPrecision);
     }
+
     [Fact]
     public void KelvinToRankine()
     {
@@ -171,6 +191,7 @@ public sealed class TemperatureTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void RankineToKelvin()
     {
@@ -181,6 +202,7 @@ public sealed class TemperatureTest
 
         actual.Matches(expected, MediumPrecision);
     }
+
     [Fact]
     public void FahrenheitToRankine()
     {
@@ -191,6 +213,7 @@ public sealed class TemperatureTest
 
         actual.Matches(expected, MediumPrecision);
     }
+
     [Fact]
     public void KelvinToDelisle()
     {
@@ -201,6 +224,7 @@ public sealed class TemperatureTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void DelisleToKelvin()
     {
@@ -211,6 +235,7 @@ public sealed class TemperatureTest
 
         actual.Matches(expected, MediumPrecision);
     }
+
     [Fact]
     public void KelvinToNewton()
     {
@@ -221,6 +246,7 @@ public sealed class TemperatureTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void NewtonToKelvin()
     {
@@ -231,6 +257,7 @@ public sealed class TemperatureTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void KelvinToRéaumur()
     {
@@ -241,6 +268,7 @@ public sealed class TemperatureTest
 
         actual.Matches(expected);
     }
+
     [Fact]
     public void RéaumurToKelvin()
     {
@@ -251,6 +279,7 @@ public sealed class TemperatureTest
 
         actual.Matches(expected, MediumPrecision);
     }
+
     [Fact]
     public void KelvinToRømer()
     {
@@ -261,6 +290,7 @@ public sealed class TemperatureTest
 
         actual.Matches(expected, VeryLowPrecision);
     }
+
     [Fact]
     public void RømerToKelvin()
     {

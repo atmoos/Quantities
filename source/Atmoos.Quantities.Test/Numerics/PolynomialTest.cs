@@ -1,5 +1,4 @@
 ﻿using Atmoos.Quantities.Core.Numerics;
-
 using static System.Math;
 using static Atmoos.Quantities.Test.Convenience;
 
@@ -153,6 +152,7 @@ public class PolynomialTest
         (actualOffset > lowerBound).IsTrue();
         (actualOffset < upperBound).IsTrue();
     }
+
     [Fact]
     public void NegativePowers()
     {

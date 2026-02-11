@@ -5,6 +5,7 @@ public class ElectricalResistanceSupportTest : ISerializationTester<ElectricalRe
     [Theory]
     [MemberData(nameof(Quantities))]
     public void SupportsSerialization(ElectricalResistance quantity) => quantity.SupportsSerialization();
+
     public static IEnumerable<Object[]> Quantities()
     {
         static IEnumerable<ElectricalResistance> Interesting()

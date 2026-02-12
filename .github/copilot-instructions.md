@@ -16,6 +16,18 @@ This document describes the coding conventions and style guidelines for the Atmo
 
 ## File Organization
 
+### AI-Generated Files
+
+Files that are **completely AI-generated** should use the `.ai.` infix in their filename to clearly indicate their origin:
+
+**Pattern**: `{name}.ai.{extension}`
+
+**Examples**:
+- `NumericalStabilityProbe.ai.cs` - AI-generated C# test file
+- `Documentation.ai.md` - AI-generated markdown documentation
+
+This convention makes it immediately obvious which files were created entirely by AI tooling (like GitHub Copilot) versus human-authored code. Use this pattern consistently for full-file AI generations.
+
 ### Namespace Declarations
 
 Use **file-scoped namespaces** without braces:

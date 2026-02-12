@@ -1,0 +1,448 @@
+# GitHub Copilot Instructions
+
+**When generating, editing, or suggesting code for this project, strictly adhere to the following coding conventions and style guidelines.**
+
+---
+
+# Code Style Guidelines
+
+This document describes the coding conventions and style guidelines for the Atmoos.Quantities project.
+
+## Language and Framework
+
+- **Language**: C# (using latest language features including extensions, file-scoped types)
+- **Framework**: .NET (modern versions)
+- **Style**: Explicit, strongly-typed, performance-conscious
+
+## File Organization
+
+### Namespace Declarations
+
+Use **file-scoped namespaces** without braces:
+
+```csharp
+namespace Atmoos.Quantities.Units.Si.Metric;
+
+public readonly struct Metre : ISiUnit, ILength
+{
+    // Implementation
+}
+```
+
+### Using Directives
+
+- Place `using` directives at the top of the file
+- Use global usings in `Globals.cs` for commonly used namespaces:
+  ```csharp
+  global using Atmoos.Quantities.Core;
+  ```
+- Static imports are acceptable when they improve readability:
+  ```csharp
+  using static Atmoos.Quantities.Extensions;
+  ```
+
+## Type System
+
+### Type Aliases
+
+Always use **explicit .NET type aliases** (not C# keywords):
+
+✅ **Correct**:
+```csharp
+Double value;
+Int32 count;
+String name;
+Boolean flag;
+```
+
+❌ **Incorrect**:
+```csharp
+double value;
+int count;
+string name;
+bool flag;
+```
+
+### Struct vs Class vs Record
+
+- Use `readonly struct` for value types and lightweight data structures
+- Use `record struct` when equality semantics and deconstruction are needed
+- Use `sealed class` for reference types that shouldn't be inherited
+- Use `interface` extensively for contracts and marker interfaces
+
+### Generic Constraints
+
+Apply comprehensive generic constraints with clear `where` clauses:
+
+```csharp
+public static ref readonly Scalar<TUnit> Si<TPrefix, TUnit>()
+    where TPrefix : IMetricPrefix
+    where TUnit : ISiUnit, IDimension => ref Cache<TUnit, Si<TPrefix, TUnit>>.Value;
+```
+
+## Method Parameters
+
+### `in` Modifier
+
+Use the `in` modifier extensively for passing structs by reference:
+
+```csharp
+public static Length Of<TLength>(in Double value, in Scalar<TLength> measure)
+    where TLength : ILength, IUnit => new(measure.Create(in value));
+```
+
+### `ref readonly` Returns
+
+Use `ref readonly` for returning references without allowing mutation:
+
+```csharp
+public static ref readonly Scalar<TUnit> Si<TUnit>()
+    where TUnit : ISiUnit, IDimension => ref Cache<TUnit, Si<TUnit>>.Value;
+```
+
+## Naming Conventions
+
+### Fields
+
+- Private fields use `this.` prefix explicitly:
+  ```csharp
+  private readonly Double nominator, denominator, offset;
+  
+  public Polynomial() => (this.nominator, this.denominator, this.offset) = (1, 1, 0);
+  ```
+
+### Methods and Properties
+
+- Use PascalCase for public members
+- Use camelCase for parameters and local variables
+- Use descriptive names that convey intent
+
+### Factory Methods
+
+Use static factory methods with the pattern `Of<T>()`:
+
+```csharp
+public static Length Of<TLength>(in Double value, in Scalar<TLength> measure)
+    where TLength : ILength, IUnit => new(measure.Create(in value));
+```
+
+### Constants
+
+Use `static readonly` fields for constants:
+
+```csharp
+internal static String RoundTripFormat = "G17";
+```
+
+## Code Structure
+
+### File-Scoped Types
+
+Use the `file` keyword for types that should only be visible within the file:
+
+```csharp
+file static class Cache<T>
+    where T : ITransform
+{
+    public static readonly Polynomial Polynomial = Polynomial.Of(T.ToSi(new Transformation()));
+}
+```
+
+### Extension Methods
+
+Use the modern `extension<T>()` syntax:
+
+```csharp
+extension<TQuantity>(TQuantity quantity)
+    where TQuantity : struct, IQuantity<TQuantity>, IDimension
+{
+    internal static TQuantity Create(in Quantity value) => TQuantity.Create(in value);
+    
+    public void Serialize(IWriter writer) => quantity.Value.Write(writer, typeof(TQuantity).Name.ToLowerInvariant());
+}
+```
+
+For operators:
+
+```csharp
+extension<TQuantity>(TQuantity)
+    where TQuantity : struct, IQuantity<TQuantity>, IDimension
+{
+    public static Boolean operator ==(in TQuantity left, in TQuantity right) => left.Equals(right);
+    public static TQuantity operator +(in TQuantity left, in TQuantity right) => TQuantity.Create(left.Value + right.Value);
+}
+```
+
+### Access Modifiers
+
+- Use `public` for API surface
+- Use `internal` for implementation details that cross file boundaries
+- Use `private` for encapsulated implementation
+- Always specify access modifiers explicitly
+
+## Operators
+
+### Operator Overloading
+
+Overload operators consistently for quantity types:
+
+```csharp
+public static Boolean operator ==(in TQuantity left, in TQuantity right) => left.Equals(right);
+public static Boolean operator !=(in TQuantity left, in TQuantity right) => !left.Equals(right);
+public static TQuantity operator +(in TQuantity left, in TQuantity right) => TQuantity.Create(left.Value + right.Value);
+public static TQuantity operator *(Double scalar, in TQuantity right) => TQuantity.Create(scalar * right.Value);
+```
+
+### Numeric Operators
+
+Implement standard .NET numeric operator interfaces:
+
+```csharp
+public sealed class Transformation
+    : IAdditionOperators<Transformation, Double, Transformation>,
+      ISubtractionOperators<Transformation, Double, Transformation>,
+      IMultiplyOperators<Transformation, Double, Transformation>,
+      IDivisionOperators<Transformation, Double, Transformation>
+```
+
+## Interfaces
+
+### Marker Interfaces
+
+Use marker interfaces for categorization:
+
+```csharp
+public interface IUnit : IRepresentable; // marker interface
+```
+
+### Interface Implementation
+
+Implement interfaces explicitly when needed:
+
+```csharp
+internal Quantity Value => this.length;
+Quantity IQuantity<Length>.Value => this.length;
+
+static Length IFactory<Length>.Create(in Quantity value) => new(in value);
+```
+
+## Comments and Documentation
+
+### Inline Comments
+
+- Use comments to explain **why**, not **what**
+- Reference external sources for physical constants and formulas:
+  ```csharp
+  // See: https://en.wikipedia.org/wiki/Foot_(unit)
+  public readonly struct Foot : IImperialUnit, ILength
+  ```
+
+### Format Strings
+
+Document format string choices:
+
+```csharp
+internal static String RoundTripFormat = "G17"; // https://learn.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings#RFormatString
+```
+
+### TODOs
+
+Use `ToDo:` prefix for future work:
+
+```csharp
+/* ToDo: re-introduce when C# supports roles.
+, IComparisonOperators<TSelf, TSelf, Boolean>
+, IEqualityOperators<TSelf, TSelf, Boolean> */
+```
+
+## Testing
+
+### Test Structure
+
+- Use xUnit framework
+- One test class per production class (e.g., `ExtensionsTest` for `Extensions`)
+- Use `Fact` for single tests, `Theory` with `MemberData` for parameterized tests
+
+### Test Naming
+
+Use descriptive method names that explain what is being tested:
+
+```csharp
+[Fact]
+public void DeconstructionOfScalarQuantities()
+
+[Theory]
+[MemberData(nameof(Velocities))]
+public void DeconstructionOfCompoundQuotientQuantities(Velocity velocity, String expectedUnit)
+```
+
+### Test Data
+
+Use `TheoryData<T>` for type-safe test data:
+
+```csharp
+public static TheoryData<Velocity, String> Velocities()
+    => new() {
+        { Velocity.Of(E, Si<Metre>().Per(Si<Second>())), "m/s" },
+        { Velocity.Of(PI, Si<Kilo, Metre>().Per(Metric<Hour>())), "km/h" }
+    };
+```
+
+### Test Constants
+
+Use static readonly fields for test data:
+
+```csharp
+private static readonly Length length = Length.Of(23, Si<Metre>());
+private static readonly Length epsilon = Length.Of(2, Si<Pico, Metre>());
+```
+
+## Expression and Statement Style
+
+### Expression-Bodied Members
+
+Use expression-bodied members for simple implementations:
+
+```csharp
+internal Quantity Value => this.length;
+public override Int32 GetHashCode() => this.length.GetHashCode();
+public override String ToString() => this.length.ToString();
+```
+
+### Tuple Deconstruction
+
+Support and use tuple deconstruction:
+
+```csharp
+public void Deconstruct(out Double value, out String unit) => (value, unit) = (this.value, this.measure.ToString() ?? String.Empty);
+
+// Usage:
+(Double value, String unit) = length;
+```
+
+### Pattern Matching
+
+Use modern pattern matching:
+
+```csharp
+var offset = o switch {
+    < 0d => $" - {-o:g4}",
+    > 0d => $" + {o:g4}",
+    _ => String.Empty
+};
+```
+
+### Tuple Patterns
+
+Use tuple patterns in switch expressions:
+
+```csharp
+var fraction = (n, d) switch {
+    (1, 1) => "x",
+    (1, _) => $"x/{d:g4}",
+    (-1, 1) => "-x",
+    _ => $"{n:g4}*x/{d:g4}"
+};
+```
+
+## Formatting
+
+### Indentation
+
+- Use **4 spaces** (not tabs)
+- Brace-less namespaces (file-scoped)
+- Opening braces on same line for methods when using expression bodies
+- New line for opening braces on types and control flow
+
+### Line Length
+
+- Keep lines reasonably short
+- Break long method signatures across multiple lines with proper indentation
+
+### Spacing
+
+- Space after keywords: `if (`, `for (`, `while (`
+- No space between method name and parentheses: `ToString()`
+- Space around operators: `a + b`, `x == y`
+
+## Performance Considerations
+
+### Struct Passing
+
+Use `in` parameters to avoid unnecessary struct copies:
+
+```csharp
+public static Boolean operator ==(in TQuantity left, in TQuantity right) => left.Equals(right);
+```
+
+### Caching
+
+Use static caching patterns for computed values:
+
+```csharp
+file static class Cache<TUnit, TMeasure>
+    where TMeasure : IMeasure
+    where TUnit : IUnit, IDimension
+{
+    private static readonly Scalar<TUnit> scalar = new(in Factory.Of<TMeasure>());
+    public static ref readonly Scalar<TUnit> Value => ref scalar;
+}
+```
+
+### Boxing Avoidance
+
+Use generic constraints to avoid boxing:
+
+```csharp
+where TQuantity : struct, IQuantity<TQuantity>, IDimension
+```
+
+## Error Handling
+
+### Exception Factory Methods
+
+Use helper methods for creating exceptions:
+
+```csharp
+public static NotImplementedException NotImplemented<T>([CallerMemberName] String memberName = "", [CallerLineNumber] Int32 line = 0)
+{
+    return NotImplemented(typeof(T), memberName, line);
+}
+```
+
+### Caller Information
+
+Use `CallerMemberName` and `CallerLineNumber` attributes for debugging:
+
+```csharp
+public static NotImplementedException NotImplemented(Object self, [CallerMemberName] String memberName = "", [CallerLineNumber] Int32 line = 0)
+```
+
+## Culture and Formatting
+
+### Invariant Culture
+
+Use `CultureInfo.InvariantCulture` for formatting when locale-independence is required:
+
+```csharp
+public static String ToString(this IFormattable formattable, String format) 
+    => formattable.ToString(format, CultureInfo.InvariantCulture);
+```
+
+### Number Formatting
+
+Use standard format strings with explicit precision:
+
+```csharp
+public override String ToString() => ToString("g5", CultureInfo.CurrentCulture);
+```
+
+## Summary
+
+This code style emphasizes:
+- **Explicitness**: Explicit types, explicit modifiers, explicit intent
+- **Performance**: By-reference passing, caching, struct optimization
+- **Type Safety**: Strong generic constraints, marker interfaces
+- **Immutability**: Readonly structs, readonly fields, in parameters
+- **Modern C#**: Latest language features including extensions, file-scoped types, pattern matching
+- **Consistency**: Uniform naming, formatting, and structural patterns

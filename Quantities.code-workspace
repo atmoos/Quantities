@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"path": ".github"
+		},
+		{
+			"path": "source"
+		}
+	],
+	"settings": {
+		"chat.tools.terminal.autoApprove": {
+			"dotnet test": true
+		}
+	}
+}

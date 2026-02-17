@@ -479,6 +479,5 @@ dotnet build source/Atmoos.Quantities.sln
 4. **Constructor access**: `private` for scalar, power-of, product, and invertible quantities; `internal` for quotient quantities.
 5. **.NET type aliases**: Always use `Double`, `Boolean`, `Int32`, `String`, `Object` — never `double`, `bool`, `int`, `string`, `object`.
 6. **`in` modifier**: Use `in` for all struct parameters consistently.
-7. **File naming for AI-generated files**: Since these files follow established patterns, use the standard `{Name}.cs` naming (not `.ai.cs`), matching all existing quantities.
-8. **Cross-quantity operators** use `Create<TQuantity>(...)` from `Extensions` via `using static Atmoos.Quantities.Extensions;`.
-9. **Operators class**: Do NOT modify `Operators.cs` — it automatically provides `==`, `!=`, `>`, `>=`, `<`, `<=`, `+`, `-`, `*`, `/` for all `IQuantity<T>` types via extensions.
+7. **Cross-quantity operators** use `Create<TQuantity>(...)` from `Extensions` via `using static Atmoos.Quantities.Extensions;`.
+8. **Operators class**: Do NOT modify `Operators.cs` — it automatically provides `==`, `!=`, `>`, `>=`, `<`, `<=`, `+`, `-`, `*`, `/` for all `IQuantity<T>` types via extensions.

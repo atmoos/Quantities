@@ -396,5 +396,4 @@ dotnet build source/Atmoos.Quantities.sln
 6. **No constructor needed**: Units are marker structs — they carry no instance state.
 7. **Wikipedia references**: Add `// See: https://en.wikipedia.org/wiki/{UnitArticle}` comments.
 8. **Conversion accuracy**: Prefer exact integer/rational arithmetic in `ToSi` over floating-point approximations.
-9. **File naming for AI-generated files**: Since units follow established patterns, use the standard `{Name}.cs` naming (not `.ai.cs`), matching all existing units.
-10. **`using` directives**: Always include `using Atmoos.Quantities.Dimensions;`. Add other `using` directives only as needed (e.g., `using static Atmoos.Quantities.Extensions;` when using `ValueOf<T>()`).
+9. **`using` directives**: Always include `using Atmoos.Quantities.Dimensions;`. Add other `using` directives only as needed (e.g., `using static Atmoos.Quantities.Extensions;` when using `ValueOf<T>()`).

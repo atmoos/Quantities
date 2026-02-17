@@ -1,4 +1,5 @@
-﻿using Atmoos.Quantities.Dimensions;
+﻿using Atmoos.Quantities.Creation;
+using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Units;
 
 namespace Atmoos.Quantities;
@@ -11,10 +12,10 @@ public readonly struct Power : IQuantity<Power>, IPower, IScalar<Power, IPower>
 
     private Power(in Quantity value) => this.power = value;
 
-    public Power To<TUnit>(in Creation.Scalar<TUnit> other)
+    public Power To<TUnit>(in Scalar<TUnit> other)
         where TUnit : IPower, IUnit => new(other.Transform(in this.power));
 
-    public static Power Of<TUnit>(in Double value, in Creation.Scalar<TUnit> measure)
+    public static Power Of<TUnit>(in Double value, in Scalar<TUnit> measure)
         where TUnit : IPower, IUnit => new(measure.Create(in value));
 
     static Power IFactory<Power>.Create(in Quantity value) => new(in value);

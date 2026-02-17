@@ -1,4 +1,5 @@
-﻿using Atmoos.Quantities.Dimensions;
+﻿using Atmoos.Quantities.Creation;
+using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Units;
 
 namespace Atmoos.Quantities;
@@ -11,10 +12,10 @@ public readonly struct Time : IQuantity<Time>, ITime, IScalar<Time, ITime>
 
     private Time(in Quantity value) => this.time = value;
 
-    public Time To<TUnit>(in Creation.Scalar<TUnit> other)
+    public Time To<TUnit>(in Scalar<TUnit> other)
         where TUnit : ITime, IUnit => new(other.Transform(in this.time));
 
-    public static Time Of<TUnit>(in Double value, in Creation.Scalar<TUnit> measure)
+    public static Time Of<TUnit>(in Double value, in Scalar<TUnit> measure)
         where TUnit : ITime, IUnit => new(measure.Create(in value));
 
     static Time IFactory<Time>.Create(in Quantity value) => new(in value);

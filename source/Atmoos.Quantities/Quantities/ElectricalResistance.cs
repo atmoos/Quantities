@@ -1,31 +1,32 @@
-﻿using Atmoos.Quantities.Dimensions;
+﻿using Atmoos.Quantities.Creation;
+using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Units;
 
 namespace Atmoos.Quantities;
 
 public readonly struct ElectricalResistance : IQuantity<ElectricalResistance>, IElectricalResistance, IScalar<ElectricalResistance, IElectricalResistance>
 {
-    private readonly Quantity resistance;
-    internal Quantity Value => this.resistance;
-    Quantity IQuantity<ElectricalResistance>.Value => this.resistance;
+    private readonly Quantity electricalResistance;
+    internal Quantity Value => this.electricalResistance;
+    Quantity IQuantity<ElectricalResistance>.Value => this.electricalResistance;
 
-    private ElectricalResistance(in Quantity value) => this.resistance = value;
+    private ElectricalResistance(in Quantity value) => this.electricalResistance = value;
 
-    public ElectricalResistance To<TUnit>(in Creation.Scalar<TUnit> other)
-        where TUnit : IElectricalResistance, IUnit => new(other.Transform(in this.resistance));
+    public ElectricalResistance To<TUnit>(in Scalar<TUnit> other)
+        where TUnit : IElectricalResistance, IUnit => new(other.Transform(in this.electricalResistance));
 
-    public static ElectricalResistance Of<TUnit>(in Double value, in Creation.Scalar<TUnit> measure)
+    public static ElectricalResistance Of<TUnit>(in Double value, in Scalar<TUnit> measure)
         where TUnit : IElectricalResistance, IUnit => new(measure.Create(in value));
 
     static ElectricalResistance IFactory<ElectricalResistance>.Create(in Quantity value) => new(in value);
 
-    public Boolean Equals(ElectricalResistance other) => this.resistance.Equals(other.resistance);
+    public Boolean Equals(ElectricalResistance other) => this.electricalResistance.Equals(other.electricalResistance);
 
-    public override Boolean Equals(Object? obj) => obj is ElectricalResistance resistance && Equals(resistance);
+    public override Boolean Equals(Object? obj) => obj is ElectricalResistance electricalResistance && Equals(electricalResistance);
 
-    public override Int32 GetHashCode() => this.resistance.GetHashCode();
+    public override Int32 GetHashCode() => this.electricalResistance.GetHashCode();
 
-    public override String ToString() => this.resistance.ToString();
+    public override String ToString() => this.electricalResistance.ToString();
 
-    public String ToString(String? format, IFormatProvider? provider) => this.resistance.ToString(format, provider);
+    public String ToString(String? format, IFormatProvider? provider) => this.electricalResistance.ToString(format, provider);
 }

@@ -1,4 +1,5 @@
-﻿using Atmoos.Quantities.Dimensions;
+﻿using Atmoos.Quantities.Creation;
+using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Units;
 
 namespace Atmoos.Quantities;
@@ -11,10 +12,10 @@ public readonly struct Force : IQuantity<Force>, IForce, IScalar<Force, IForce>
 
     private Force(in Quantity value) => this.force = value;
 
-    public Force To<TUnit>(in Creation.Scalar<TUnit> other)
+    public Force To<TUnit>(in Scalar<TUnit> other)
         where TUnit : IForce, IUnit => new(other.Transform(in this.force));
 
-    public static Force Of<TUnit>(in Double value, in Creation.Scalar<TUnit> measure)
+    public static Force Of<TUnit>(in Double value, in Scalar<TUnit> measure)
         where TUnit : IForce, IUnit => new(measure.Create(in value));
 
     static Force IFactory<Force>.Create(in Quantity value) => new(in value);

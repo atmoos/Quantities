@@ -58,7 +58,7 @@ Both [ElectricCurrent.cs](../../source/Atmoos.Quantities/Quantities/ElectricCurr
 
 All other quotient types (Velocity, Acceleration, Pressure) correctly use `IUnit, IDimension` order in `Of` while using `IDimension, IUnit` in `To`.
 
-### Issue 7: Missing `readonly` on alias `To` method (1 file)
+### ~~Issue 7: Missing `readonly` on alias `To` method (1 file)~~ FALSE POSITIVE
 
 [Volume.cs](../../source/Atmoos.Quantities/Quantities/Volume.cs#L20): The alias `To<TVolume>` method is `public Volume To<TVolume>(...)` but [Area.cs](../../source/Atmoos.Quantities/Quantities/Area.cs#L20) (same category) and the template both use `public readonly Area To<TArea>(...)`.
 
@@ -78,7 +78,7 @@ All other quotient types (Velocity, Acceleration, Pressure) correctly use `IUnit
 
 6. **Fix Issue 6** — In [DataRate.cs](../../source/Atmoos.Quantities/Quantities/DataRate.cs): swap constraint order in the quotient `Of` method to `IUnit, IDimension`.
 
-7. **Fix Issue 7** — In [Volume.cs](../../source/Atmoos.Quantities/Quantities/Volume.cs): add `readonly` modifier to the alias `To<TVolume>` method.
+7. ~~**Fix Issue 7**~~ — In [Volume.cs](../../source/Atmoos.Quantities/Quantities/Volume.cs): add `readonly` modifier to the alias `To<TVolume>` method.
 
 8. **Build** — Run `dotnet build ../../source/Atmoos.Quantities.sln` to verify all changes compile.
 

@@ -23,14 +23,14 @@ public readonly struct DataRate : IQuantity<DataRate>, IInformationRate, IQuotie
         where TUnit : IInformationRate, IUnit => new(measure.Create(in value));
 
     public static DataRate Of<TNominator, TDenominator>(in Double value, in Quotient<TNominator, TDenominator> measure)
-        where TNominator : IAmountOfInformation, IUnit
-        where TDenominator : ITime, IUnit => new(measure.Create(in value));
+        where TNominator : IUnit, IAmountOfInformation
+        where TDenominator : IUnit, ITime => new(measure.Create(in value));
 
     static DataRate IFactory<DataRate>.Create(in Quantity value) => new(in value);
 
     public Boolean Equals(DataRate other) => this.dataRate.Equals(other.dataRate);
 
-    public override Boolean Equals(Object? obj) => obj is DataRate rate && Equals(rate);
+    public override Boolean Equals(Object? obj) => obj is DataRate dataRate && Equals(dataRate);
 
     public override Int32 GetHashCode() => this.dataRate.GetHashCode();
 

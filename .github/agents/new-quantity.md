@@ -104,7 +104,7 @@ public readonly struct {Name} : IQuantity<{Name}>, I{Name}, IPowerOf<{Name}, I{N
     public {Name} To<TUnit>(in Power<TUnit, {Exponent}> other)
         where TUnit : I{Linear}, IUnit => new(other.Transform(in this.{fieldName}));
 
-    public readonly {Name} To<TAlias>(in Scalar<TAlias> other)
+    public {Name} To<TAlias>(in Scalar<TAlias> other)
         where TAlias : I{Name}, IPowerOf<I{Linear}>, IUnit => new(other.Transform(in this.{fieldName}, static f => ref f.AliasOf<TAlias, I{Linear}>()));
 
     public static {Name} Of<TUnit>(in Double value, in Power<TUnit, {Exponent}> measure)

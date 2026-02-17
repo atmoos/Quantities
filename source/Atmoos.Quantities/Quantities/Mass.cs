@@ -1,4 +1,5 @@
-﻿using Atmoos.Quantities.Dimensions;
+﻿using Atmoos.Quantities.Creation;
+using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Units;
 
 namespace Atmoos.Quantities;
@@ -6,14 +7,15 @@ namespace Atmoos.Quantities;
 public readonly struct Mass : IQuantity<Mass>, IMass, IScalar<Mass, IMass>
 {
     private readonly Quantity mass;
+    internal Quantity Value => this.mass;
     Quantity IQuantity<Mass>.Value => this.mass;
 
     private Mass(in Quantity value) => this.mass = value;
 
-    public Mass To<TUnit>(in Creation.Scalar<TUnit> other)
+    public Mass To<TUnit>(in Scalar<TUnit> other)
         where TUnit : IMass, IUnit => new(other.Transform(in this.mass));
 
-    public static Mass Of<TUnit>(in Double value, in Creation.Scalar<TUnit> measure)
+    public static Mass Of<TUnit>(in Double value, in Scalar<TUnit> measure)
         where TUnit : IMass, IUnit => new(measure.Create(in value));
 
     static Mass IFactory<Mass>.Create(in Quantity value) => new(in value);

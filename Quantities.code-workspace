@@ -1,29 +1,20 @@
 {
-	"folders": [
-		{
-			"path": ".vscode"
-		},
-		{
-			"path": ".github"
-		},
-		{
-			"path": "source"
-		}
-	],
-	"settings": {
-		"chat.tools.terminal.autoApprove": {
-			"dotnet test": true
-		},
-		"mcp": {
-			"servers": {
-				"microsoftdocs/mcp": {
-					"type": "http",
-					"url": "https://learn.microsoft.com/api/mcp",
-					"gallery": "https://api.mcp.github.com",
-					"version": "1.0.0"
-				}
-			},
-			"inputs": []
-		}
-	}
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "assets": true,
+      "documentation": true,
+      ".gitattributes": true,
+      ".gitignore": true,
+      "LICENSE": true,
+      "Quantities.code-workspace": true
+    },
+    "chat.tools.terminal.autoApprove": {
+      "dotnet test": true
+    }
+  }
 }

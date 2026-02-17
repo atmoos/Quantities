@@ -12,7 +12,7 @@ These scalar quantities omit the `using` directive and qualify `Creation.Scalar<
 - [Mass.cs](../../source/Atmoos.Quantities/Quantities/Mass.cs)
 - [Temperature.cs](../../source/Atmoos.Quantities/Quantities/Temperature.cs)
 - [ElectricCurrent.cs](../../source/Atmoos.Quantities/Quantities/ElectricCurrent.cs)
-- [LuminousIntensity.cs](../../source/Atmoos.Quantities/Quantities/LuminousIntensity.cs)
+- [LuminousIntensity.ai.cs](../../source/Atmoos.Quantities/Quantities/LuminousIntensity.ai.cs)
 - [Force.cs](../../source/Atmoos.Quantities/Quantities/Force.cs)
 - [Power.cs](../../source/Atmoos.Quantities/Quantities/Power.cs)
 - [ElectricalResistance.cs](../../source/Atmoos.Quantities/Quantities/ElectricalResistance.cs)

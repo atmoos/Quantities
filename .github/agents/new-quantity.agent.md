@@ -123,7 +123,7 @@ public readonly struct {Name} : IQuantity<{Name}>, I{Name}, IPowerOf<{Name}, I{N
 
     public Boolean Equals({Name} other) => this.{fieldName}.Equals(other.{fieldName});
 
-    public override Boolean Equals(Object? obj) => obj is {Name} {localVar} && Equals({localVar});
+    public override Boolean Equals(Object? obj) => obj is {Name} {fieldName} && Equals({fieldName});
 
     public override Int32 GetHashCode() => this.{fieldName}.GetHashCode();
 
@@ -178,8 +178,8 @@ public readonly struct {Name} : IQuantity<{Name}>, I{Name}, IQuotient<{Name}, I{
         where TUnit : I{Name}, IUnit => new(measure.Create(in value));
 
     public static {Name} Of<TNominator, TDenominator>(in Double value, in Quotient<TNominator, TDenominator> measure)
-        where TNominator : IUnit, I{Nominator}
-        where TDenominator : IUnit, I{Denominator} => new(measure.Create(in value));
+        where TNominator : I{Nominator}, IUnit
+        where TDenominator : I{Denominator}, IUnit => new(measure.Create(in value));
 
     static {Name} IFactory<{Name}>.Create(in Quantity value) => new(in value);
 
@@ -240,8 +240,8 @@ public readonly struct {Name} : IQuantity<{Name}>, I{Name}, IQuotient<{Name}, I{
         where TUnit : I{Name}, IUnit => new(measure.Create(in value));
 
     public static {Name} Of<TNominator, TDenominator>(in Double value, in Quotient<TNominator, Power<TDenominator, {Exponent}>> measure)
-        where TNominator : IUnit, I{Nominator}
-        where TDenominator : IUnit, I{Denominator} => new(measure.Create(in value));
+        where TNominator : I{Nominator}, IUnit
+        where TDenominator : I{Denominator}, IUnit => new(measure.Create(in value));
 
     static {Name} IFactory<{Name}>.Create(in Quantity value) => new(in value);
 
@@ -292,18 +292,18 @@ public readonly struct {Name} : IQuantity<{Name}>, I{Name}, IProduct<{Name}, I{N
     private {Name}(in Quantity value) => this.{fieldName} = value;
 
     public {Name} To<TUnit>(in Scalar<TUnit> other)
-        where TUnit : IUnit, I{Name} => new(other.Transform(in this.{fieldName}));
+        where TUnit : I{Name}, IUnit => new(other.Transform(in this.{fieldName}));
 
     public {Name} To<TLeft, TRight>(in Product<TLeft, TRight> other)
-        where TLeft : IUnit, I{Left}
-        where TRight : IUnit, I{Right} => new(other.Transform(in this.{fieldName}));
+        where TLeft : I{Left}, IUnit
+        where TRight : I{Right}, IUnit => new(other.Transform(in this.{fieldName}));
 
     public static {Name} Of<TUnit>(in Double value, in Scalar<TUnit> measure)
-        where TUnit : IUnit, I{Name} => new(measure.Create(in value));
+        where TUnit : I{Name}, IUnit => new(measure.Create(in value));
 
     public static {Name} Of<TLeft, TRight>(in Double value, in Product<TLeft, TRight> measure)
-        where TLeft : IUnit, I{Left}
-        where TRight : IUnit, I{Right} => new(measure.Create(in value));
+        where TLeft : I{Left}, IUnit
+        where TRight : I{Right}, IUnit => new(measure.Create(in value));
 
     static {Name} IFactory<{Name}>.Create(in Quantity value) => new(in value);
 

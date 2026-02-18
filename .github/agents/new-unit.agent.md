@@ -1,7 +1,7 @@
 ---
 name: New Unit
 description: Generate a new unit of measurement for the Atmoos.Quantities library.
-tools: ['editFiles', 'codebase', 'terminal', 'fetch']
+tools: ['edit/editFiles', 'search/codebase', 'read/terminalLastCommand', 'web/fetch']
 ---
 
 # New Unit Generation Agent

@@ -1,7 +1,7 @@
 ---
 name: New Quantity
 description: Generate a new physical quantity type for the Atmoos.Quantities library.
-tools: ['editFiles', 'codebase', 'terminal', 'fetch']
+tools: ['edit/editFiles', 'search/codebase', 'read/terminalLastCommand', 'web/fetch']
 ---
 
 # New Quantity Generation Agent

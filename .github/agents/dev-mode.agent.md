@@ -1,7 +1,7 @@
 ---
 name: Dev Mode
 description: Toggle the repo between development mode (project references) and release mode (NuGet package references).
-tools: ['editFiles', 'codebase', 'terminal']
+tools: ['edit/editFiles', 'search/codebase', 'read/terminalLastCommand']
 ---
 
 # Development / Release Mode Agent

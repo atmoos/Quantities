@@ -79,8 +79,8 @@ public sealed class PowerTest
     [Fact]
     public void DefinitionOfImperialHorsepower()
     {
-        Power imperialHorsePower = Power.Of(1, Imperial<Units.Imperial.Power.HorsePower>());
-        Power expected = Power.Of(745.699871515585, Si<Watt>());
+        Power imperialHorsePower = Power.Of(1, Imperial<Imperial.Power.HorsePower>());
+        Power expected = Power.Of(745.69987158227022, Si<Watt>());
 
         Power watt = imperialHorsePower.To(Si<Watt>());
 

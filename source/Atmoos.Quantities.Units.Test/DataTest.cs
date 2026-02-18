@@ -16,7 +16,7 @@ public class DataTest
     public void ByteToString() => FormattingMatches(v => Data.Of(v, Metric<Bytes>()), "B");
 
     [Fact]
-    public void NibbleToString() => FormattingMatches(v => Data.Of(v, Metric<Nibble>()), "N");
+    public void NibbleToString() => FormattingMatches(v => Data.Of(v, Metric<Nibble>()), "nib");
 
     [Fact]
     public void KibiBitToString() => FormattingMatches(v => Data.Of(v, Binary<Kibi, Bit>()), "Kibit");

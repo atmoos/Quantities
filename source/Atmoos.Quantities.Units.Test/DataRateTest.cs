@@ -18,7 +18,7 @@ public class DataRateTest
     public void BytePerSecondToString() => FormattingMatches(v => DataRate.Of(v, Metric<Bytes>().Per(Si<Second>())), "B/s");
 
     [Fact]
-    public void NibblePerSecondToString() => FormattingMatches(v => DataRate.Of(v, Metric<Nibble>().Per(Si<Second>())), "N/s");
+    public void NibblePerSecondToString() => FormattingMatches(v => DataRate.Of(v, Metric<Nibble>().Per(Si<Second>())), "nib/s");
 
     [Fact]
     public void KibiBitPerSecondToString() => FormattingMatches(v => DataRate.Of(v, Binary<Kibi, Bit>().Per(Si<Second>())), "Kibit/s");

@@ -7,5 +7,5 @@ public readonly struct Minute : IMetricUnit, ITime
 {
     public static Transformation ToSi(Transformation self) => 60 * self.RootedIn<Second>();
 
-    public static String Representation => "m";
+    public static String Representation => "min";
 }

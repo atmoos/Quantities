@@ -42,7 +42,7 @@ public class ExtensionsTest
         => new() {
             { Velocity.Of(E, Si<Metre>().Per(Si<Second>())), "m/s" },
             { Velocity.Of(PI, Si<Kilo, Metre>().Per(Metric<Hour>())), "km/h" },
-            { Velocity.Of(Tau, Si<Deci, Metre>().Per(Metric<Minute>())), "dm/m" },
+            { Velocity.Of(Tau, Si<Deci, Metre>().Per(Metric<Minute>())), "dm/min" },
             { Velocity.Of(E / PI, Si<Milli, Metre>().Per(Metric<Hour>())), "mm/h" },
             { Velocity.Of(E / Tau, Imperial<Mile>().Per(Metric<Hour>())), "mi/h" }
         };

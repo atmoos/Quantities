@@ -97,12 +97,12 @@ public sealed class PowerTest
     }
 
     [Fact]
-    public void ImperialAndMetricHorsePowerUseSameRepresentation()
+    public void ImperialAndMetricHorsePowerUseDifferentRepresentation()
     {
         Power metricHorsePower = Power.Of(1, Metric<HorsePower>());
         Power imperialHorsePower = Power.Of(1, Imperial<Units.Imperial.Power.HorsePower>());
 
-        Assert.Equal(metricHorsePower.ToString(), imperialHorsePower.ToString());
+        Assert.NotEqual(metricHorsePower.ToString(), imperialHorsePower.ToString());
     }
 
     [Fact]

@@ -10,7 +10,7 @@
 
 | # | Quantity | Category | SI Formula | New Units |
 |---|---------|----------|-----------|-------|
-| 1 | **Angle** | Quotient (ILength/ILength, dimensionless) | L·L⁻¹ | Radian (SI), Degree, Gradian, Revolution, Arcminute |
+| 1 | **Angle** | Quotient (ILength/ILength, dimensionless) | L·L⁻¹ | Radian (SI), Degree, Gradian, Revolution, Arcminute, Arcsecond |
 | 2 | **ElectricCharge** | Product (ITime × IElectricCurrent) | T·I | Coulomb (SI) |
 | 3 | **AmountOfSubstance** | Scalar (base) | N | Mole (SI) |
 | 4 | **Density** | Quotient (IMass / ILength³) | M·L⁻³ | _(implied)_ |
@@ -18,8 +18,8 @@
 | 6 | **VolumetricFlow** | Quotient (IVolume / ITime) — i.e. L³·T⁻¹ | L³·T⁻¹ | _(implied)_ |
 | 7 | **Momentum** | Product (IMass × IVelocity) | M·L·T⁻¹ | _(implied)_ |
 | 8 | **Capacitance** | Quotient (IElectricCharge / IElectricPotential) | T⁴·I²·M⁻¹·L⁻² | Farad (SI) |
-| 9 | **AngularVelocity** | Quotient (IAngle / ITime) | T⁻¹ | _(implied)_ |
-| 10 | **DynamicViscosity** | Product (IPressure × ITime) | M·L⁻¹·T⁻¹ | Poise |
+| 9 | **AngularVelocity** | Quotient (IAngle / ITime) | T⁻¹ | RevolutionPerMinute |
+| 10 | **DynamicViscosity** | Product (IPressure × ITime) | M·L⁻¹·T⁻¹ | Poise, Reyn |
 
 ### Notes
 

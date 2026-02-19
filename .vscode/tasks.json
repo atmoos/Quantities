@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/source/Quantities.sln",
+                "${workspaceFolder}/source/Atmoos.Quantities.sln",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/source/Quantities.sln",
+                "${workspaceFolder}/source/Atmoos.Quantities.sln",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -31,9 +31,9 @@
             "type": "process",
             "args": [
                 "watch",
-                "run",
                 "--project",
-                "${workspaceFolder}/source/Quantities.sln"
+                "${workspaceFolder}/source/Atmoos.Quantities.sln",
+                "test"
             ],
             "problemMatcher": "$msCompile"
         }

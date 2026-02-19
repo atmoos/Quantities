@@ -14,8 +14,11 @@
       "Quantities.code-workspace": true
     },
     "chat.tools.terminal.autoApprove": {
-        "dotnet test": true,
-        "dotnet build": true
+      "dotnet test": true,
+      "dotnet build": true
+    },
+    "chat.tools.urls.autoApprove": {
+      "https://*.wikipedia.org/*": true
     }
   }
 }

@@ -24,8 +24,8 @@ public readonly struct Pressure : IQuantity<Pressure>, IPressure, IQuotient<Pres
         where TUnit : IPressure, IUnit => new(measure.Create(in value));
 
     public static Pressure Of<TForce, TLength>(in Double value, in Quotient<TForce, Power<TLength, Two>> measure)
-        where TForce : IUnit, IForce
-        where TLength : IUnit, ILength => new(measure.Create(in value));
+        where TForce : IForce, IUnit
+        where TLength : ILength, IUnit => new(measure.Create(in value));
 
     static Pressure IFactory<Pressure>.Create(in Quantity value) => new(in value);
 

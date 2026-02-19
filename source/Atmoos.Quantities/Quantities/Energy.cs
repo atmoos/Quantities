@@ -13,18 +13,18 @@ public readonly struct Energy : IQuantity<Energy>, IEnergy, IProduct<Energy, IEn
     private Energy(in Quantity value) => this.energy = value;
 
     public Energy To<TEnergy>(in Scalar<TEnergy> other)
-        where TEnergy : IUnit, IEnergy => new(other.Transform(in this.energy));
+        where TEnergy : IEnergy, IUnit => new(other.Transform(in this.energy));
 
     public Energy To<TPower, TTime>(in Product<TPower, TTime> other)
-        where TPower : IUnit, IPower
-        where TTime : IUnit, ITime => new(other.Transform(in this.energy));
+        where TPower : IPower, IUnit
+        where TTime : ITime, IUnit => new(other.Transform(in this.energy));
 
     public static Energy Of<TEnergy>(in Double value, in Scalar<TEnergy> measure)
-        where TEnergy : IUnit, IEnergy => new(measure.Create(in value));
+        where TEnergy : IEnergy, IUnit => new(measure.Create(in value));
 
     public static Energy Of<TPower, TTime>(in Double value, in Product<TPower, TTime> measure)
-        where TPower : IUnit, IPower
-        where TTime : IUnit, ITime => new(measure.Create(in value));
+        where TPower : IPower, IUnit
+        where TTime : ITime, IUnit => new(measure.Create(in value));
 
     static Energy IFactory<Energy>.Create(in Quantity value) => new(in value);
 

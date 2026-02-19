@@ -23,8 +23,8 @@ public readonly struct DataRate : IQuantity<DataRate>, IInformationRate, IQuotie
         where TUnit : IInformationRate, IUnit => new(measure.Create(in value));
 
     public static DataRate Of<TNominator, TDenominator>(in Double value, in Quotient<TNominator, TDenominator> measure)
-        where TNominator : IUnit, IAmountOfInformation
-        where TDenominator : IUnit, ITime => new(measure.Create(in value));
+        where TNominator : IAmountOfInformation, IUnit
+        where TDenominator : ITime, IUnit => new(measure.Create(in value));
 
     static DataRate IFactory<DataRate>.Create(in Quantity value) => new(in value);
 

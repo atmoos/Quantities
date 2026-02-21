@@ -51,7 +51,7 @@ internal readonly record struct Polynomial
 
     public static Polynomial operator /(Polynomial left, Polynomial right) => new(left.nominator * right.denominator, left.denominator * right.nominator, right / left.offset);
 
-    public static Double operator /(Polynomial left, Double right) => left.denominator * (right - left.offset) / left.nominator;
+    public static Double operator /(Polynomial left, Double right) => Math.FusedMultiplyAdd(left.denominator, right, -left.denominator * left.offset) / left.nominator;
 
     internal void Deconstruct(out Double nominator, out Double denominator, out Double offset)
     {

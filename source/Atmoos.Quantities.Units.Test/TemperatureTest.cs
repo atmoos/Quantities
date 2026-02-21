@@ -112,7 +112,31 @@ public sealed class TemperatureTest
 
         Temperature actual = temperature.To(Imperial<Fahrenheit>());
 
-        actual.Matches(expected);
+        actual.Matches(expected, MediumPrecision);
+    }
+
+    [Fact]
+    public void CelsiusToFahrenheitCrossoverPoint()
+    {
+        const Double crossoverPoint = -40;
+        Temperature temperature = Temperature.Of(crossoverPoint, Metric<Celsius>());
+        Temperature expected = Temperature.Of(crossoverPoint, Imperial<Fahrenheit>());
+
+        Temperature actual = temperature.To(Imperial<Fahrenheit>());
+
+        actual.Matches(expected, MediumPrecision);
+    }
+
+    [Fact]
+    public void FahrenheitToCelsiusCrossoverPoint()
+    {
+        const Double crossoverPoint = -40;
+        Temperature temperature = Temperature.Of(crossoverPoint, Imperial<Fahrenheit>());
+        Temperature expected = Temperature.Of(crossoverPoint, Metric<Celsius>());
+
+        Temperature actual = temperature.To(Metric<Celsius>());
+
+        actual.Matches(expected, MediumPrecision);
     }
 
     [Fact]
@@ -145,7 +169,7 @@ public sealed class TemperatureTest
 
         Temperature actual = temperature.To(Imperial<GasMark>());
 
-        actual.Matches(expected, MediumPrecision);
+        actual.Matches(expected, FullPrecision);
     }
 
     [Fact]

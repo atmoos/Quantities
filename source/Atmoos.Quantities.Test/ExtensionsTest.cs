@@ -1,6 +1,7 @@
 ﻿using Atmoos.Quantities.Physics;
 using Atmoos.Quantities.Units.Si.Metric;
 using static System.Math;
+using static Atmoos.Quantities.Extensions;
 
 namespace Atmoos.Quantities.Test;
 
@@ -54,4 +55,70 @@ public class ExtensionsTest
             { Volume.Of(E / Tau, Cubic(in Imperial<Foot>())), "ft³" },
             { Area.Of(3, Square(Si<Metre>())) * Length.Of(2, Imperial<Foot>()), "m³" }
         };
+
+    [Fact]
+    public void ValueOfReturnsConversionFactor()
+    {
+        Double actual = ValueOf<Kilo>();
+
+        Assert.Equal(1000.0, actual);
+    }
+
+    [Fact]
+    public void ValueOfWithExponentReturnsScaledFactor()
+    {
+        Double actual = ValueOf<Kilo>(2);
+
+        Assert.Equal(1_000_000.0, actual);
+    }
+
+    [Fact]
+    public void ValueOfWithNegativeExponentReturnsInverse()
+    {
+        Double actual = ValueOf<Kilo>(-1);
+
+        Assert.Equal(0.001, actual, precision: 15);
+    }
+
+    [Fact]
+    public void ToStringUsesInvariantCulture()
+    {
+        Length length = Length.Of(1234.5, Si<Metre>());
+        IFormattable formattable = length;
+
+        String actual = formattable.ToString("G4");
+
+        Assert.DoesNotContain(",", actual);
+        Assert.Contains("1234", actual);
+    }
+
+    [Fact]
+    public void NotImplementedContainsTypeName()
+    {
+        var instance = new Object();
+
+        NotImplementedException exception = NotImplemented(instance);
+
+        Assert.Contains("Object", exception.Message);
+    }
+
+    [Fact]
+    public void GenericNotImplementedContainsTypeName()
+    {
+        NotImplementedException exception = NotImplemented<Length>();
+
+        Assert.Contains("Length", exception.Message);
+    }
+
+    [Fact]
+    public void DeconstructionOfNegativeValuePreservesSign()
+    {
+        Double expectedValue = -42.5;
+        Length length = Length.Of(in expectedValue, in Si<Metre>());
+
+        (Double value, String unit) = length;
+
+        Assert.Equal(expectedValue, value);
+        Assert.Equal("m", unit);
+    }
 }

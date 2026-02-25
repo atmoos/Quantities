@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Collections.Concurrent;
+using System.Reflection;
 using Atmoos.Quantities.Core;
 using Newtonsoft.Json;
 
@@ -7,7 +8,7 @@ namespace Atmoos.Quantities.Serialization.Newtonsoft;
 internal sealed class QuantitySerialization : JsonConverter
 {
     private static readonly Type quantityConverter = typeof(QuantityConverter<>);
-    private readonly Dictionary<Type, JsonConverter> converters = new();
+    private readonly ConcurrentDictionary<Type, JsonConverter> converters = new();
     private readonly UnitRepository repository;
 
     public QuantitySerialization(Assembly[] assemblies) => this.repository = UnitRepository.Create(assemblies);
@@ -20,7 +21,7 @@ internal sealed class QuantitySerialization : JsonConverter
         if (objectType.IsValueType && objectType.GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IQuantity<>))) {
             Type genericType = quantityConverter.MakeGenericType(objectType);
             if (Activator.CreateInstance(genericType, [this.repository]) is JsonConverter converter) {
-                this.converters[objectType] = converter;
+                this.converters.TryAdd(objectType, converter);
                 return true;
             }
         }

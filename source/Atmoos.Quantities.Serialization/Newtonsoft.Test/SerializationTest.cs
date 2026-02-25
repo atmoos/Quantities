@@ -127,4 +127,32 @@ public class SerializationTest
         public required Length Height { get; init; }
         public required Mass Weight { get; init; }
     }
+
+    [Fact]
+    public void InvertibleUnitsAreSupported()
+    {
+        Frequency expected = Frequency.Of(50, Si<Hertz>());
+
+        Frequency actual = expected.SerializeRoundRobin();
+
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void CompoundQuantityRoundTrip()
+    {
+        Velocity expected = Velocity.Of(120, Si<Kilo, Metre>().Per(Metric<Hour>()));
+
+        Velocity actual = expected.SerializeRoundRobin();
+
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void UnsupportedExponentThrows()
+    {
+        String json = """{"value":1.0,"quantity":"length","si":{"exponent":6,"unit":"m"}}""";
+
+        Assert.Throws<NotSupportedException>(() => json.Deserialize<Length>());
+    }
 }

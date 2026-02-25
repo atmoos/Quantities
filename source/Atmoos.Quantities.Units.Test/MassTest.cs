@@ -1,4 +1,5 @@
 ﻿using Atmoos.Quantities.Units.Imperial.Mass;
+using Atmoos.Quantities.Units.NonStandard.Mass;
 using Atmoos.Quantities.Units.Si.Metric;
 
 namespace Atmoos.Quantities.Units.Test;
@@ -222,5 +223,30 @@ public sealed class MassTest
     public void DefinitionOfSlugHolds()
     {
         Assert.Equal(Mass.Of(14.59390294, Si<Kilogram>()), Mass.Of(1, Imperial<Slug>()));
+    }
+
+    [Fact]
+    public void ZentnerToString() => FormattingMatches(v => Mass.Of(v, NonStandard<Zentner>()), "Ztr");
+
+    [Fact]
+    public void ZentnerToKilogram()
+    {
+        Mass zentner = Mass.Of(1, NonStandard<Zentner>());
+        Mass expected = Mass.Of(50, Si<Kilogram>());
+
+        Mass actual = zentner.To(Si<Kilogram>());
+
+        actual.Matches(expected);
+    }
+
+    [Fact]
+    public void KilogramToZentner()
+    {
+        Mass kilograms = Mass.Of(150, Si<Kilogram>());
+        Mass expected = Mass.Of(3, NonStandard<Zentner>());
+
+        Mass actual = kilograms.To(NonStandard<Zentner>());
+
+        actual.Matches(expected);
     }
 }

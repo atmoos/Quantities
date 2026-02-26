@@ -102,6 +102,28 @@ public class ProductTest
     }
 
     [Fact]
+    public void RootByZeroThrows()
+    {
+        Assert.Throws<DivideByZeroException>(() => someProduct.Root(0));
+    }
+
+    [Fact]
+    public void RootByOneIsTheSameInstance()
+    {
+        var actual = someProduct.Root(1);
+
+        Assert.Same(someProduct, actual);
+    }
+
+    [Fact]
+    public void ProductByIdentityIsTheSameInstance()
+    {
+        var actual = someProduct * Unit.Identity;
+
+        Assert.Same(someProduct, actual);
+    }
+
+    [Fact]
     public void ProductOfWithScalarIsOfTypeProduct()
     {
         Assert.IsType<Product>(Dim<Time>.Times<Length>() * Dim<Ampere>.Value);
@@ -174,6 +196,15 @@ public class ProductTest
     {
         var expected = (Dim<Length>.Pow(3) * Dim<Time>.Pow(2)).Pow(-2);
         var actual = Product.SimplifyExponents(Dim<Length>.Pow(-6), Dim<Time>.Pow(-4));
+        DimAssert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void SimplifyExponentsWithCoPrimeExponentsKeepsOuterExponentAtOne()
+    {
+        var expected = Dim<Length>.Pow(5) * Dim<Time>.Pow(3);
+        var actual = Product.SimplifyExponents(Dim<Length>.Pow(5), Dim<Time>.Pow(3));
+
         DimAssert.Equal(expected, actual);
     }
 

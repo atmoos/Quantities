@@ -1,6 +1,7 @@
 ﻿using Atmoos.Quantities.Core.Construction;
 using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Units;
+using Atmoos.Quantities.Units.Imperial.Volume;
 using Atmoos.Quantities.Units.Si.Metric;
 
 namespace Atmoos.Quantities.Test.Serialization;
@@ -8,6 +9,24 @@ namespace Atmoos.Quantities.Test.Serialization;
 public class QuantityFactoryTest
 {
     private static readonly UnitRepository unitRepository = UnitRepository.Create();
+
+    [Theory]
+    [MemberData(nameof(ScalarModels))]
+    public void ScalarQuantitiesCanBeBuiltAcrossSystems(QuantityModel model, Func<Double, Object> createExpected)
+    {
+        const Double value = 23.081;
+        var expected = createExpected(value);
+
+        Object actual = model.Unit switch {
+            "m" => QuantityFactory<Length>.Create(unitRepository, model).Build(value),
+            "h" => QuantityFactory<Time>.Create(unitRepository, model).Build(value),
+            "ℓ" => QuantityFactory<Volume>.Create(unitRepository, model).Build(value),
+            "pt" => QuantityFactory<Volume>.Create(unitRepository, model).Build(value),
+            _ => throw new NotSupportedException(model.Unit)
+        };
+
+        Assert.Equal(expected, actual);
+    }
 
     [Fact]
     public void ScalarQuantitiesCanBeBuilt()
@@ -79,6 +98,31 @@ public class QuantityFactoryTest
     }
 
     [Fact]
+    public void UnknownPrefixCannotBeBuilt()
+    {
+        var model = new QuantityModel {
+            System = "si",
+            Prefix = "definitely-unknown",
+            Exponent = 1,
+            Unit = "m"
+        };
+
+        Assert.Throws<ArgumentException>(() => QuantityFactory<Length>.Create(unitRepository, model).Build(3));
+    }
+
+    [Fact]
+    public void UnknownSystemCannotBeBuilt()
+    {
+        var model = new QuantityModel {
+            System = "mystery",
+            Exponent = 1,
+            Unit = "m"
+        };
+
+        Assert.Throws<NotImplementedException>(() => QuantityFactory<Length>.Create(unitRepository, model).Build(3));
+    }
+
+    [Fact]
     public void WrongExponent()
     {
         var model = new QuantityModel {
@@ -89,6 +133,44 @@ public class QuantityFactoryTest
 
         Assert.Throws<InvalidOperationException>(() => QuantityFactory<Velocity>.Create(unitRepository, model).Build(3));
     }
+
+    public static TheoryData<QuantityModel, Func<Double, Object>> ScalarModels()
+        => new() {
+            {
+                new() {
+                    System = "si",
+                    Exponent = 1,
+                    Unit = "m"
+                },
+                value => Length.Of(value, Si<Metre>())
+            },
+            {
+                new() {
+                    System = "metric",
+                    Prefix = "k",
+                    Exponent = 1,
+                    Unit = "h"
+                },
+                value => Time.Of(value, Metric<Kilo, Hour>())
+            },
+            {
+                new() {
+                    System = "metric",
+                    Prefix = "k",
+                    Exponent = 1,
+                    Unit = "ℓ"
+                },
+                value => Volume.Of(value, Metric<Kilo, Litre>())
+            },
+            {
+                new() {
+                    System = "imperial",
+                    Exponent = 1,
+                    Unit = "pt"
+                },
+                value => Volume.Of(value, Imperial<Pint>())
+            }
+        };
 
     public readonly struct Knot : INonStandardUnit, IVelocity
     {

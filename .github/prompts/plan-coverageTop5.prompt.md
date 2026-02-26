@@ -1,4 +1,3 @@
-```prompt
 ## Plan: Improve Coverage for Top 5 Opportunities
 
 **TL;DR** — Coverage analysis identified 5 high-impact targets: `ScalarBuilder`, `Product`, `Quantity`, `ModelParser`, and `BinaryPrefix`. This plan prioritizes branch-heavy paths first, adds focused xUnit theories for combinatorial behavior, and validates impact after each phase using line + branch deltas.
@@ -147,5 +146,3 @@ Recommended success criteria:
 - Favor branch-complete tests over snapshot-style assertion volume.
 - Keep tests minimal and behavior-focused; avoid asserting unstable formatting text unless part of contract.
 - Re-prioritize within the five targets after each phase based on observed coverage ROI.
-
-```

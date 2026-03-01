@@ -1,4 +1,5 @@
-﻿using Atmoos.Quantities.Units.Imperial.Area;
+﻿using System.Globalization;
+using Atmoos.Quantities.Units.Imperial.Area;
 using Atmoos.Quantities.Units.NonStandard.Area;
 using Atmoos.Quantities.Units.Si.Metric;
 
@@ -188,5 +189,78 @@ public class AreaTest
         Area actual = rood.To(Imperial<Perch>());
 
         actual.Matches(expected);
+    }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
+    public void EqualAreasHaveEqualHashCode()
+    {
+        Area left = Area.Of(100, Square(Si<Metre>()));
+        Area right = Area.Of(100, Square(Si<Metre>()));
+
+        Assert.Equal(left, right);
+        Assert.Equal(left.GetHashCode(), right.GetHashCode());
+    }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
+    public void AreaDoesNotEqualObjectOfDifferentType()
+    {
+        Area area = Area.Of(50, Square(Si<Metre>()));
+        Object other = Length.Of(5, Si<Metre>());
+
+        Assert.False(area.Equals(other));
+    }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
+    public void AreaEqualsMatchingObjectType()
+    {
+        Area area = Area.Of(50, Square(Si<Metre>()));
+        Object other = Area.Of(50, Square(Si<Metre>()));
+
+        Assert.True(area.Equals(other));
+    }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
+    public void AreaObjectEqualityCoversBothOutcomes()
+    {
+        var left = Area.Of(50, Square(Si<Metre>()));
+        Object equal = Area.Of(50, Square(Si<Metre>()));
+        Object different = Area.Of(51, Square(Si<Metre>()));
+
+        Assert.True(left.Equals(equal));
+        Assert.False(left.Equals(different));
+    }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
+    public void AreaDoesNotEqualDifferentMatchingObjectType()
+    {
+        Area area = Area.Of(50, Square(Si<Metre>()));
+        Object other = Area.Of(51, Square(Si<Metre>()));
+
+        Assert.False(area.Equals(other));
+    }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
+    public void AreaToStringForwardsToUnderlyingQuantity()
+    {
+        Area area = Area.Of(12, Square(Si<Metre>()));
+
+        Assert.Equal("12 m²", area.ToString());
+    }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
+    public void FormattedAreaToStringMatchesExpected()
+    {
+        Area area = Area.Of(1234.56789, Square(Si<Metre>()));
+
+        String actual = area.ToString("f1", CultureInfo.InvariantCulture);
+
+        Assert.Equal("1234.6 m²", actual);
     }
 }

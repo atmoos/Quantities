@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="../Atmoos.Quantities.Build.props" />
   <Import Project="../Atmoos.Quantities.Pack.targets" />
 
@@ -9,6 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Atmoos.Quantities" Version="2.2.0" />
+    <ProjectReference Include="..\Atmoos.Quantities\Atmoos.Quantities.csproj" />
   </ItemGroup>
 </Project>

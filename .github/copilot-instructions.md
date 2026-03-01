@@ -28,6 +28,20 @@ Files that are **completely AI-generated** should use the `.ai.` infix in their 
 
 This convention makes it immediately obvious which files were created entirely by AI tooling (like GitHub Copilot) versus human-authored code. Use this pattern consistently for full-file AI generations.
 
+### AI-Generated Public Methods
+
+Any **AI-generated `public` method** must be annotated with `AiAttribute` from `AiAttribute.cs`.
+
+Set the attribute metadata to the model used for the prompt that produced the method.
+
+Example:
+
+```csharp
+[Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
+public static Length Of<TLength>(in Double value, in Scalar<TLength> measure)
+    where TLength : ILength, IUnit => new(measure.Create(in value));
+```
+
 ### Namespace Declarations
 
 Use **file-scoped namespaces** without braces:

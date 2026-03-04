@@ -377,4 +377,73 @@ public class ProductTest
 
         Assert.True(self.CommonRoot(other));
     }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
+    public void RootByOtherDividesOuterExponent()
+    {
+        Dimension self = Dim<Time>.Times<Length>().Pow(6);
+
+        Dimension actual = self.Root(3);
+
+        DimAssert.Equal(Dim<Time>.Times<Length>().Pow(2), actual);
+    }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
+    public void SwapInvertsLeftAndRightOrder()
+    {
+        var self = new Product(Dim<Time>.Value, Dim<Length>.Value);
+
+        Dimension actual = self.Swap();
+
+        DimAssert.Equal(Dim<Length>.Value * Dim<Time>.Value, actual);
+    }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
+    public void LeftAndRightExposeCtorArguments()
+    {
+        Dimension left = Dim<Current>.Value;
+        Dimension right = Dim<Temperature>.Value;
+
+        var self = new Product(left, right);
+
+        Assert.Same(left, self.L);
+        Assert.Same(right, self.R);
+    }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
+    public void ToStringOnExponentiatedProductContainsBracketsAndOuterExponent()
+    {
+        Dimension self = Dim<Time>.Times<Length>().Pow(2);
+
+        var actual = self.ToString() ?? String.Empty;
+
+        Assert.Contains("[", actual);
+        Assert.Contains("]", actual);
+        Assert.Contains("²", actual);
+    }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
+    public void MultiplyWithPartialOverlapSimplifiesSharedScalarOnly()
+    {
+        Dimension left = Dim<Time>.Times<Length>();
+        Dimension right = Dim<Length>.Times<Current>();
+
+        Dimension actual = left * right;
+
+        DimAssert.Equal(Dim<Time>.Value * Dim<Length>.Pow(2) * Dim<Current>.Value, actual);
+    }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
+    public void SimplifyExponentsWithAllNegativeAndCoPrimeMovesSignToOuterExponent()
+    {
+        Dimension actual = Product.SimplifyExponents(Dim<Length>.Pow(-2), Dim<Time>.Pow(-3));
+
+        DimAssert.Equal((Dim<Length>.Pow(2) * Dim<Time>.Pow(3)).Pow(-1), actual);
+    }
 }

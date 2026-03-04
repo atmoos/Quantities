@@ -1,9 +1,9 @@
-<Project>
+﻿<Project>
   <!-- Test info common to all test projects within the quantities project -->
 
   <PropertyGroup>
     <IsPackable>false</IsPackable>
-    <RunSettingsFilePath>$(MSBuildStartupDirectory)\.runsettings</RunSettingsFilePath>
+    <RunSettingsFilePath>$(SolutionDir)\.runsettings</RunSettingsFilePath>
   </PropertyGroup>
 
   <ItemGroup>

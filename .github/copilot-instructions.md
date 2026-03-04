@@ -64,6 +64,21 @@ public static Length Of<TLength>(in Double value, in Scalar<TLength> measure)
     where TLength : ILength, IUnit => new(measure.Create(in value));
 ```
 
+Example for **test methods**:
+
+```csharp
+[Fact]
+[Ai(Model = "Claude", Version = "4.5", Variant = "Sonnet")]
+public void RootByOtherDividesOuterExponent()
+{
+    Dimension self = Dim<Time>.Times<Length>().Pow(6);
+
+    Dimension actual = self.Root(3);
+
+    DimAssert.Equal(Dim<Time>.Times<Length>().Pow(2), actual);
+}
+```
+
 ## File Organization
 
 ### Namespaces Match Folder Structure

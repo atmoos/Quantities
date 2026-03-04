@@ -150,3 +150,28 @@ Recommended success criteria:
 - prioritize branch-complete tests over assertion volume
 - for deserializers, prefer compact malformed-payload matrices over many near-duplicate tests
 - re-prioritize within the five targets after each phase based on observed ROI
+
+#### Outcome (verified)
+
+Verification run completed on 2026-03-04 against fresh snapshot `source/coveragereport/round3f/Cobertura.xml`, compared to baseline `source/coveragereport/round3e/Cobertura.xml`.
+
+Required checks:
+
+- `dotnet build ../../source/Atmoos.Quantities.sln`: passed
+- `dotnet test ../../source/Atmoos.Quantities.sln --collect:"XPlat Code Coverage"`: passed (`1447` total, `0` failed, `1` skipped)
+
+Target deltas (`uncovered-lines`, `uncovered-branches`, `score = lines + 2 * branches`):
+
+- `ProductInjector`: `4/8/20` to `0/0/0`
+- `Introspection`: `8/4/16` to `1/2/5`
+- `Deserializer (Newtonsoft)`: `3/6/15` to `0/2/4`
+- `Deserializer (Text.Json)`: `3/5/13` to `0/2/4`
+- `Dimensions.Product`: `6/3/12` to `1/1/3`
+
+Combined score for the 5 targets: `76` to `16` (`-60`).
+
+Success criteria result:
+
+- each target improved in either line or branch coverage: met (5/5)
+- at least `3/5` targets improved in both line and branch coverage: met (5/5)
+- combined target score decreased materially from `76`: met

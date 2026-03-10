@@ -54,7 +54,10 @@ public readonly struct RevolutionsPerMinute : INonStandardUnit, IFrequency, IInv
 
 Any **AI-generated `public` method** must be annotated with `AiAttribute` from `AiAttribute.cs`.
 
-Exception: The method is within an AI-generated type.
+*Exceptions*
+
+- The method is within an AI-generated type that is already annotated with `AiAttribute`.
+- The method was only *changed* by AI tooling but was originally human-authored. In this case, the method should not be annotated to avoid confusion about its origin.
 
 Example:
 

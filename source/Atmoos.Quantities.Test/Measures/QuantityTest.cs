@@ -550,6 +550,7 @@ public class QuantityTest
     }
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void HasSameMeasureIsTrueForSameMeasureAndFalseForDifferentMeasure()
     {
         Quantity left = Create<Metre>(2);
@@ -561,6 +562,7 @@ public class QuantityTest
     }
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void RatioProjectsRightHandMeasure()
     {
         Quantity left = Create<Metre>(4);
@@ -572,6 +574,7 @@ public class QuantityTest
     }
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void ZeroQuantitiesOfConvertibleMeasuresAreEqual()
     {
         Quantity zeroMetre = Create<Metre>(0);
@@ -581,6 +584,7 @@ public class QuantityTest
     }
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void NonZeroQuantityDoesNotEqualZeroQuantity()
     {
         Quantity oneMetre = Create<Metre>(1);
@@ -590,6 +594,7 @@ public class QuantityTest
     }
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void ToStringUsesProvidedFormatAndProvider()
     {
         Quantity quantity = Create<Metre>(1.25);
@@ -602,6 +607,7 @@ public class QuantityTest
     }
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void EqualQuantitiesHaveEqualHashCode()
     {
         Quantity left = Create<Metre>(6.5);
@@ -611,6 +617,7 @@ public class QuantityTest
     }
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void ProjectWithSameMeasureReturnsExactlyEqualQuantity()
     {
         Quantity quantity = Create<Metre>(17.25);
@@ -622,6 +629,7 @@ public class QuantityTest
     }
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void IsOfReturnsFalseForMismatchedDimension()
     {
         Quantity length = Create<Metre>(3);
@@ -631,6 +639,7 @@ public class QuantityTest
     }
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void NotEqualOperatorReturnsTrueForDifferentValues()
     {
         Quantity left = Create<Metre>(2);
@@ -640,6 +649,7 @@ public class QuantityTest
     }
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void ExactlyEqualComparerReturnsFalseForSameMeasureDifferentValue()
     {
         Quantity left = Create<Metre>(2);
@@ -649,6 +659,7 @@ public class QuantityTest
     }
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void ExactlyEqualComparerReturnsFalseForDifferentMeasure()
     {
         Quantity left = Create<Metre>(2);
@@ -658,6 +669,7 @@ public class QuantityTest
     }
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void DeconstructUsesEmptyStringWhenMeasureRepresentationIsNull()
     {
         Quantity quantity = Quantity.Of<Si<NullRepresentationLength>>(3);

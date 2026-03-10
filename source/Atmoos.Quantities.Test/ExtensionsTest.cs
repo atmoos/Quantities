@@ -57,6 +57,7 @@ public class ExtensionsTest
         };
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void ValueOfReturnsConversionFactor()
     {
         Double actual = ValueOf<Kilo>();
@@ -65,6 +66,7 @@ public class ExtensionsTest
     }
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void ValueOfWithExponentReturnsScaledFactor()
     {
         Double actual = ValueOf<Kilo>(2);
@@ -73,6 +75,7 @@ public class ExtensionsTest
     }
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void ValueOfWithNegativeExponentReturnsInverse()
     {
         Double actual = ValueOf<Kilo>(-1);
@@ -81,6 +84,7 @@ public class ExtensionsTest
     }
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void ToStringUsesInvariantCulture()
     {
         Length length = Length.Of(1234.5, Si<Metre>());
@@ -93,6 +97,7 @@ public class ExtensionsTest
     }
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void NotImplementedContainsTypeName()
     {
         var instance = new Object();
@@ -103,6 +108,7 @@ public class ExtensionsTest
     }
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void GenericNotImplementedContainsTypeName()
     {
         NotImplementedException exception = NotImplemented<Length>();
@@ -111,6 +117,7 @@ public class ExtensionsTest
     }
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void DeconstructionOfNegativeValuePreservesSign()
     {
         Double expectedValue = -42.5;

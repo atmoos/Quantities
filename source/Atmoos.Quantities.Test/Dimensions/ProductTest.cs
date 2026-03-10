@@ -102,12 +102,14 @@ public class ProductTest
     }
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void RootByZeroThrows()
     {
         Assert.Throws<DivideByZeroException>(() => someProduct.Root(0));
     }
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void RootByOneIsTheSameInstance()
     {
         var actual = someProduct.Root(1);
@@ -116,6 +118,7 @@ public class ProductTest
     }
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void ProductByIdentityIsTheSameInstance()
     {
         var actual = someProduct * Unit.Identity;
@@ -200,6 +203,7 @@ public class ProductTest
     }
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void SimplifyExponentsWithCoPrimeExponentsKeepsOuterExponentAtOne()
     {
         var expected = Dim<Length>.Pow(5) * Dim<Time>.Pow(3);

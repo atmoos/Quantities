@@ -129,6 +129,7 @@ public class SerializationTest
     }
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void InvertibleUnitsAreSupported()
     {
         Frequency expected = Frequency.Of(50, Si<Hertz>());
@@ -139,6 +140,7 @@ public class SerializationTest
     }
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void CompoundQuantityRoundTrip()
     {
         Velocity expected = Velocity.Of(120, Si<Kilo, Metre>().Per(Metric<Hour>()));
@@ -149,6 +151,7 @@ public class SerializationTest
     }
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void UnsupportedExponentThrows()
     {
         String json = """{"value":1.0,"quantity":"length","si":{"exponent":6,"unit":"m"}}""";

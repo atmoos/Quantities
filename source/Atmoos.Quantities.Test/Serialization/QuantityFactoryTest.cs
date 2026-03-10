@@ -12,6 +12,7 @@ public class QuantityFactoryTest
 
     [Theory]
     [MemberData(nameof(ScalarModels))]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void ScalarQuantitiesCanBeBuiltAcrossSystems(QuantityModel model, Func<Double, Object> createExpected)
     {
         const Double value = 23.081;
@@ -146,6 +147,7 @@ public class QuantityFactoryTest
     }
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void UnknownPrefixCannotBeBuilt()
     {
         var model = new QuantityModel {
@@ -159,6 +161,7 @@ public class QuantityFactoryTest
     }
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void UnknownSystemCannotBeBuilt()
     {
         var model = new QuantityModel {
@@ -295,6 +298,7 @@ public class QuantityFactoryTest
         Assert.Equal(expected, actual);
     }
 
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public static TheoryData<QuantityModel, Func<Double, Object>> ScalarModels()
         => new() {
             {
@@ -333,6 +337,7 @@ public class QuantityFactoryTest
             }
         };
 
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public static TheoryData<QuantityModel, Func<Double, Object>, Boolean, String> ScalarBuilderModels()
         => new() {
             {
@@ -502,6 +507,7 @@ public class QuantityFactoryTest
         }
     }
 
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public readonly struct SiAliasArea : ISiUnit, IArea, IPowerOf<ILength>
     {
         public static String Representation => "si-area";
@@ -511,6 +517,7 @@ public class QuantityFactoryTest
         static T ISystemInject<ILength>.Inject<T>(ISystems<ILength, T> basis) => basis.Si<Metre>();
     }
 
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public readonly struct NonStandardAliasArea : INonStandardUnit, IArea, IPowerOf<ILength>
     {
         public static String Representation => "fancy-area";
@@ -520,6 +527,7 @@ public class QuantityFactoryTest
         static T ISystemInject<ILength>.Inject<T>(ISystems<ILength, T> basis) => basis.Si<Metre>();
     }
 
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public readonly struct MultiAliasArea : ISiUnit, IArea, IPowerOf<ILength>, IPowerOf<ITime>
     {
         public static String Representation => "multi-alias-area";
@@ -531,6 +539,7 @@ public class QuantityFactoryTest
         static T ISystemInject<ITime>.Inject<T>(ISystems<ITime, T> basis) => basis.Si<Second>();
     }
 
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public readonly struct AliasAndInvertibleArea : ISiUnit, IArea, IPowerOf<ILength>, IInvertible<ITime>
     {
         public static String Representation => "alias-invertible-area";
@@ -542,6 +551,7 @@ public class QuantityFactoryTest
         static T ISystemInject<ITime>.Inject<T>(ISystems<ITime, T> basis) => basis.Si<Second>();
     }
 
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public readonly struct SiInvertibleFrequency : ISiUnit, IFrequency, IInvertible<ITime>
     {
         public static String Representation => "si-freq";
@@ -551,6 +561,7 @@ public class QuantityFactoryTest
         static T ISystemInject<ITime>.Inject<T>(ISystems<ITime, T> basis) => basis.Si<Second>();
     }
 
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public readonly struct MultiInvertibleFrequency : ISiUnit, IFrequency, IInvertible<ITime>, IInvertible<ILength>
     {
         public static String Representation => "multi-invertible-frequency";
@@ -562,6 +573,7 @@ public class QuantityFactoryTest
         static T ISystemInject<ILength>.Inject<T>(ISystems<ILength, T> basis) => basis.Si<Metre>();
     }
 
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public readonly struct MetricInvertibleFrequency : IMetricUnit, IFrequency, IInvertible<ITime>
     {
         public static String Representation => "metric-freq";
@@ -571,6 +583,7 @@ public class QuantityFactoryTest
         static T ISystemInject<ITime>.Inject<T>(ISystems<ITime, T> basis) => basis.Si<Second>();
     }
 
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public readonly struct ImperialInvertibleFrequency : IImperialUnit, IFrequency, IInvertible<ITime>
     {
         public static String Representation => "imperial-freq";
@@ -580,6 +593,7 @@ public class QuantityFactoryTest
         static T ISystemInject<ITime>.Inject<T>(ISystems<ITime, T> basis) => basis.Si<Second>();
     }
 
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public readonly struct InvertibleFancyFrequency : INonStandardUnit, IFrequency, IInvertible<ITime>
     {
         public static String Representation => "fancy-freq";

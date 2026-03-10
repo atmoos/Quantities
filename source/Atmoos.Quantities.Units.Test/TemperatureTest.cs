@@ -116,6 +116,7 @@ public sealed class TemperatureTest
     }
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void CelsiusToFahrenheitCrossoverPoint()
     {
         const Double crossoverPoint = -40;
@@ -128,6 +129,7 @@ public sealed class TemperatureTest
     }
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void FahrenheitToCelsiusCrossoverPoint()
     {
         const Double crossoverPoint = -40;

@@ -215,9 +215,11 @@ public sealed class LengthTest
     }
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void ChainToString() => FormattingMatches(v => Length.Of(v, Imperial<Chain>()), "ch");
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void ChainToMetre()
     {
         Length chain = Length.Of(1, Imperial<Chain>());
@@ -229,6 +231,7 @@ public sealed class LengthTest
     }
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void MetreToChain()
     {
         Length metres = Length.Of(20.1168, Si<Metre>());
@@ -240,6 +243,7 @@ public sealed class LengthTest
     }
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void DefinitionOfChainInFeet()
     {
         Length chain = Length.Of(1, Imperial<Chain>());
@@ -249,9 +253,11 @@ public sealed class LengthTest
     }
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void FurlongToString() => FormattingMatches(v => Length.Of(v, Imperial<Furlong>()), "fur");
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void FurlongToMetre()
     {
         Length furlong = Length.Of(1, Imperial<Furlong>());
@@ -263,6 +269,7 @@ public sealed class LengthTest
     }
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void MetreToFurlong()
     {
         Length metres = Length.Of(201.168, Si<Metre>());
@@ -274,6 +281,7 @@ public sealed class LengthTest
     }
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void DefinitionOfFurlongInMiles()
     {
         Length furlongs = Length.Of(8, Imperial<Furlong>());

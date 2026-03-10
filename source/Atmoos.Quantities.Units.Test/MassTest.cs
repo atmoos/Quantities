@@ -226,9 +226,11 @@ public sealed class MassTest
     }
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void ZentnerToString() => FormattingMatches(v => Mass.Of(v, NonStandard<Zentner>()), "Ztr");
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void ZentnerToKilogram()
     {
         Mass zentner = Mass.Of(1, NonStandard<Zentner>());
@@ -240,6 +242,7 @@ public sealed class MassTest
     }
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void KilogramToZentner()
     {
         Mass kilograms = Mass.Of(150, Si<Kilogram>());

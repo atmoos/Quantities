@@ -18,6 +18,7 @@ public class DataRateTest
     public void BytePerSecondToString() => FormattingMatches(v => DataRate.Of(v, Metric<Bytes>().Per(Si<Second>())), "B/s");
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void NibblePerSecondToString() => FormattingMatches(v => DataRate.Of(v, Metric<Nibble>().Per(Si<Second>())), "nib/s");
 
     [Fact]

@@ -16,7 +16,6 @@ public class DataTest
     public void ByteToString() => FormattingMatches(v => Data.Of(v, Metric<Bytes>()), "B");
 
     [Fact]
-    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void NibbleToString() => FormattingMatches(v => Data.Of(v, Metric<Nibble>()), "nib");
 
     [Fact]

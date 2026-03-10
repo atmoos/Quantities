@@ -1,13 +1,12 @@
 ﻿using Atmoos.Quantities.Core.Serialization;
 using Atmoos.Quantities.Measures;
-using Atmoos.Quantities.Units.Si;
 
 namespace Atmoos.Quantities.Test.Serialization;
 
+[Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
 public sealed class SerializerTest
 {
     [Fact]
-    [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
     public void ExponentOneOmitsExponentField()
     {
         var writer = new SpyWriter();
@@ -19,7 +18,6 @@ public sealed class SerializerTest
     }
 
     [Fact]
-    [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
     public void ExponentOtherThanOneWritesExponentField()
     {
         var writer = new SpyWriter();
@@ -31,7 +29,6 @@ public sealed class SerializerTest
     }
 
     [Fact]
-    [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
     public void PrefixedSerializationWritesPrefixBetweenExponentAndUnit()
     {
         var writer = new SpyWriter();
@@ -43,7 +40,6 @@ public sealed class SerializerTest
     }
 
     [Fact]
-    [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
     public void SystemNameIsNormalizedToLowerInvariant()
     {
         var writer = new SpyWriter();

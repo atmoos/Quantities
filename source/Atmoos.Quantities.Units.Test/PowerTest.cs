@@ -97,7 +97,6 @@ public sealed class PowerTest
     }
 
     [Fact]
-    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
     public void ImperialAndMetricHorsePowerUseDifferentRepresentation()
     {
         Power metricHorsePower = Power.Of(1, Metric<HorsePower>());

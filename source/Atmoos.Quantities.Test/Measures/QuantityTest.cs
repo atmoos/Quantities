@@ -708,6 +708,7 @@ public class QuantityTest
     }
 }
 
+[Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
 file readonly struct NullRepresentationLength : ISiUnit, ILength
 {
     public static String Representation => null!;

@@ -10,6 +10,7 @@ namespace Atmoos.Quantities.Test.Numerics;
 // where naive double arithmetic accumulates error, while the Polynomial
 // representation (rational fraction + FMA + GCD simplification) retains
 // significantly more precision.
+[Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
 public class NumericalStabilityTest
 {
     // Scenario 1: Chained scaling

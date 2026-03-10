@@ -3,6 +3,7 @@ using Bytes = Atmoos.Quantities.Units.Si.Metric.UnitsOfInformation.Byte;
 
 namespace Atmoos.Quantities.Serialization.Newtonsoft.Test;
 
+[Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
 public class DataSupportTest : ISerializationTester<Data>
 {
     [Theory]

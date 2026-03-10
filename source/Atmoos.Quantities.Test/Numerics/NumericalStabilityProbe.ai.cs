@@ -17,6 +17,7 @@ namespace Atmoos.Quantities.Test.Numerics;
 // offsets must cancel — but they've already been rounded, leaving a
 // residual. Sequential step-by-step evaluation avoids this because the
 // offset stays small (just the constant 'b') at every step.
+[Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
 public sealed class NumericalStabilityProbe(ITestOutputHelper output)
 {
     // Counterexample 1: Upscaling power with exact integer coefficients.

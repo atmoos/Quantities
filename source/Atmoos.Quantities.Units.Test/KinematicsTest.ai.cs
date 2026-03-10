@@ -3,6 +3,7 @@ using Atmoos.Quantities.Units.Si.Metric;
 
 namespace Atmoos.Quantities.Units.Test;
 
+[Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
 public sealed class KinematicsTest
 {
     [Fact]

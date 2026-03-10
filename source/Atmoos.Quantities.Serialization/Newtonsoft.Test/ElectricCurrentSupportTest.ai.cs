@@ -1,5 +1,6 @@
 ﻿namespace Atmoos.Quantities.Serialization.Newtonsoft.Test;
 
+[Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
 public class ElectricCurrentSupportTest : ISerializationTester<ElectricCurrent>
 {
     [Theory]

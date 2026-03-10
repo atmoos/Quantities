@@ -4,6 +4,7 @@ using Atmoos.Quantities.Units.NonStandard.Area;
 
 namespace Atmoos.Quantities.Serialization.Newtonsoft.Test;
 
+[Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
 public class AreaSupportTest : ISerializationTester<Area>
 {
     private static Creation.Scalar<Are> Are() => Metric<Are>();

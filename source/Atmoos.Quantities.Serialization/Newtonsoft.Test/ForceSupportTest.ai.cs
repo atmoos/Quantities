@@ -3,6 +3,7 @@ using Atmoos.Quantities.Units.Imperial.Length;
 
 namespace Atmoos.Quantities.Serialization.Newtonsoft.Test;
 
+[Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
 public class ForceSupportTest : ISerializationTester<Force>
 {
     [Theory]

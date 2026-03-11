@@ -1,9 +1,4 @@
-﻿using Atmoos.Quantities.Physics;
-using Atmoos.Quantities.Prefixes;
-using Atmoos.Quantities.Units.Imperial.Length;
-using Atmoos.Quantities.Units.Si;
-using Atmoos.Quantities.Units.Si.Derived;
-using Atmoos.Quantities.Units.Si.Metric;
+﻿using Atmoos.Quantities.Units.Imperial.Length;
 using Newtonsoft.Json;
 
 namespace Atmoos.Quantities.Serialization.Newtonsoft.Test;
@@ -157,5 +152,93 @@ public class SerializationTest
         String json = """{"value":1.0,"quantity":"length","si":{"exponent":6,"unit":"m"}}""";
 
         Assert.Throws<NotSupportedException>(() => json.Deserialize<Length>());
+    }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.4")]
+    public void QuantityConverterCachesKnownQuantityTypes()
+    {
+        JsonConverter converter = QuantityConverter();
+
+        Assert.True(converter.CanConvert(typeof(Length)));
+        Assert.True(converter.CanConvert(typeof(Length)));
+    }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.4")]
+    public void QuantityConverterRejectsNonQuantityTypes()
+    {
+        JsonConverter converter = QuantityConverter();
+
+        Assert.False(converter.CanConvert(typeof(Int32)));
+        Assert.False(converter.CanConvert(typeof(Person)));
+    }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.4")]
+    public void QuantityConverterReadJsonReturnsNullForUncachedTypes()
+    {
+        JsonConverter converter = QuantityConverter();
+        using StringReader text = new("""{"value":1.0}""");
+        using JsonTextReader reader = new(text);
+        JsonSerializer serializer = JsonSerializer.CreateDefault();
+
+        Object? actual = converter.ReadJson(reader, typeof(Length), null, serializer);
+
+        Assert.Null(actual);
+    }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.4")]
+    public void QuantityConverterReadJsonUsesCachedConverter()
+    {
+        JsonConverter converter = QuantityConverter();
+        Length expected = Length.Of(1.67, Si<Metre>());
+        JsonSerializer serializer = JsonSerializer.CreateDefault();
+        Assert.True(converter.CanConvert(typeof(Length)));
+        using StringReader text = new(expected.Serialize());
+        using JsonTextReader reader = new(text);
+
+        Object? actual = converter.ReadJson(reader, typeof(Length), null, serializer);
+
+        Assert.Equal(expected, Assert.IsType<Length>(actual));
+    }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.4")]
+    public void QuantityConverterWriteJsonSkipsNullAndUncachedValues()
+    {
+        JsonConverter converter = QuantityConverter();
+        JsonSerializer serializer = JsonSerializer.CreateDefault();
+        using StringWriter text = new();
+        using JsonTextWriter writer = new(text);
+
+        converter.WriteJson(writer, null, serializer);
+        converter.WriteJson(writer, Length.Of(2, Si<Metre>()), serializer);
+
+        Assert.Equal(String.Empty, text.ToString());
+    }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.4")]
+    public void QuantityConverterWriteJsonUsesCachedConverter()
+    {
+        JsonConverter converter = QuantityConverter();
+        Length expected = Length.Of(2, Si<Metre>());
+        JsonSerializer serializer = JsonSerializer.CreateDefault();
+        Assert.True(converter.CanConvert(typeof(Length)));
+        using StringWriter text = new();
+        using JsonTextWriter writer = new(text);
+
+        converter.WriteJson(writer, expected, serializer);
+
+        Assert.Equal(expected.Serialize(), text.ToString());
+    }
+
+    private static JsonConverter QuantityConverter()
+    {
+        JsonSerializerSettings settings = new JsonSerializerSettings().EnableQuantities(typeof(Gram).Assembly);
+
+        return Assert.Single(settings.Converters);
     }
 }

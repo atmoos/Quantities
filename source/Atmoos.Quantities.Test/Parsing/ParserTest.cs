@@ -36,6 +36,33 @@ public class ParserTest
     }
 
     [Theory]
+    [InlineData("")]
+    [InlineData("15")]
+    [InlineData("m")]
+    [InlineData("15m")]
+    [InlineData("three m")]
+    [Ai(Model = "GPT", Version = "5.4")]
+    public void FullQuantityInputMustContainParsableValueAndUnit(String input)
+    {
+        Boolean actual = this.lengthParser.TryParse(input, out Length result);
+
+        Assert.False(actual);
+        Assert.Equal(default, result);
+    }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.4")]
+    public void FullQuantityTryParseHandsOffToUnitParser()
+    {
+        Length expected = Length.Of(15, in Si<Metre>());
+
+        Boolean actual = this.lengthParser.TryParse("15 m", out Length result);
+
+        Assert.True(actual);
+        Assert.Equal(expected, result);
+    }
+
+    [Theory]
     [MemberData(nameof(ScalarGibberishStrings))]
     public void ScalarGibberishFailsToParse(String unit)
     {
@@ -117,6 +144,60 @@ public class ParserTest
         var parsec = parser.Parse($"15 {parsecSymbol}");
 
         parsec.Matches(expected);
+    }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.4")]
+    public void TryParseUnitOnlyReturnsFalseWhenNoUnitModelMatches()
+    {
+        Boolean actual = this.lengthParser.TryParse(3, "lightyears", out Length result);
+
+        Assert.False(actual);
+        Assert.Equal(default, result);
+    }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.4")]
+    public void TryParseUnitOnlyReturnsScalarQuantity()
+    {
+        Length expected = Length.Of(7.25, in Si<Kilo, Metre>());
+
+        Boolean actual = this.lengthParser.TryParse(7.25, "km", out Length result);
+
+        Assert.True(actual);
+        Assert.Equal(expected, result);
+    }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.4")]
+    public void TryParseUnitOnlyReturnsCompoundQuantity()
+    {
+        Velocity expected = Velocity.Of(12.5, Si<Metre>().Per(Si<Second>()));
+
+        Boolean actual = this.velocityParser.TryParse(12.5, "m/s", out Velocity result);
+
+        Assert.True(actual);
+        Assert.Equal(expected, result);
+    }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.4")]
+    public void TryParseUnitOnlyReturnsFalseWhenQuantityBuildFails()
+    {
+        Boolean actual = this.lengthParser.TryParse(3, "m²", out Length result);
+
+        Assert.False(actual);
+        Assert.Equal(default, result);
+    }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.4")]
+    public void TryParseUnitOnlyReturnsFalseWhenExponentIsUnsupported()
+    {
+        Boolean actual = this.lengthParser.TryParse(3, "m⁶", out Length result);
+
+        Assert.False(actual);
+        Assert.Equal(default, result);
     }
 
     private static String Mul(String left, String right) => Join(left, right, '\u200C');

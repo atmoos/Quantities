@@ -153,3 +153,4 @@ Recommended success criteria:
 - Prioritize branch-complete tests over assertion volume.
 - Prefer compact theory datasets that cover multiple switch arms per test group.
 - Re-prioritize within the five targets after each phase based on observed ROI.
+- Avoid creating new tests classes (files) unless absolutely necessary; prefer adding to existing relevant test classes for cohesion.

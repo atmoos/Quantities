@@ -2,6 +2,10 @@
 
 **When generating, editing, or suggesting code for this project, strictly adhere to the following coding conventions and style guidelines.**
 
+## Language and Locale
+
+- Use **en-GB** for all generated content (for example: spelling, grammar, and phrasing in code, comments, generated plans & agents, docs, commit messages, and explanations).
+
 ---
 
 # Code Style Guidelines

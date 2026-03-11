@@ -54,4 +54,18 @@ public class MeasureDivisionTest
         var conversion = Expect<Si<Metre>>.ToBeQuotientOf<Power<Si<Metre>, Three>, Power<Si<Metre>, Two>>();
         Assert.Equal(Polynomial.One, conversion);
     }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.4")]
+    public void ProductRepresentationUsesLeftOverInverseRightBranch()
+    {
+        Assert.Equal("m/s", Product<Si<Metre>, Power<Si<Second>, Negative<One>>>.Representation);
+    }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.4")]
+    public void ProductRepresentationUsesRightOverInverseLeftBranch()
+    {
+        Assert.Equal("s/m", Product<Power<Si<Metre>, Negative<One>>, Si<Second>>.Representation);
+    }
 }

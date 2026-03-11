@@ -139,6 +139,19 @@ public class ProductTest
     }
 
     [Fact]
+    [Ai(Model = "GPT", Version = "5.4")]
+    public void ProductTimesDisjointProductFallsBackToProduct()
+    {
+        Dimension left = Dim<Time>.Times<Length>();
+        Dimension right = Dim<Current>.Times<Temperature>();
+
+        Dimension actual = left * right;
+
+        Assert.IsType<Product>(actual);
+        DimAssert.Equal(Dim<Time>.Value * Dim<Length>.Value * Dim<Current>.Value * Dim<Temperature>.Value, actual);
+    }
+
+    [Fact]
     public void QuotientOfDifferingProductsIsOfTypeProduct()
     {
         Assert.IsType<Product>(Dim<Time>.Times<Length>() * Dim<Angle>.Per<Current>());

@@ -11,6 +11,39 @@ public class ScalarTest
     }
 
     [Fact]
+    [Ai(Model = "GPT", Version = "5.4")]
+    public void EqualityOperatorOnNullValuesReturnsTrue()
+    {
+        Dimension? left = null;
+        Dimension? right = null;
+
+        Assert.True(left == right);
+        Assert.False(left != right);
+    }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.4")]
+    public void EqualityOperatorOnLeftNullAndRightValueReturnsFalse()
+    {
+        Dimension? left = null;
+        Dimension? right = Unit.Identity;
+
+        Assert.False(left == right);
+        Assert.True(left != right);
+    }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.4")]
+    public void EqualityOperatorOnLeftValueAndRightNullReturnsFalse()
+    {
+        Dimension? left = Unit.Identity;
+        Dimension? right = null;
+
+        Assert.False(left == right);
+        Assert.True(left != right);
+    }
+
+    [Fact]
     public void DoesNotEquateToIdentity()
     {
         DimAssert.NotEqual(Dim<Time>.Value, Unit.Identity);
@@ -91,6 +124,15 @@ public class ScalarTest
     }
 
     [Fact]
+    [Ai(Model = "GPT", Version = "5.4")]
+    public void RootByZeroThrows()
+    {
+        Dimension scalar = Dim<Time>.Value;
+
+        Assert.Throws<DivideByZeroException>(() => scalar.Root(0));
+    }
+
+    [Fact]
     public void ProductOfDifferingScalarsIsOfTypeProduct()
     {
         Assert.IsType<Product>(Dim<Time>.Value * Dim<Length>.Value);
@@ -106,6 +148,17 @@ public class ScalarTest
     public void ProductOfSameScalarsIsOfTypeScalar()
     {
         Assert.IsAssignableFrom<Scalar>(Dim<Time>.Value * Dim<Time>.Value);
+    }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.4")]
+    public void ScalarTimesUnitReturnsSameInstance()
+    {
+        Dimension scalar = Dim<Length>.Value;
+
+        Dimension actual = scalar * Unit.Identity;
+
+        Assert.Same(scalar, actual);
     }
 
     [Fact]
@@ -185,6 +238,18 @@ public class ScalarTest
         var actual = scalar * rhProduct;
 
         DimAssert.Equal(expected, actual);
+    }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.4")]
+    public void ScalarTimesDisjointProductUsesFallbackPath()
+    {
+        Dimension scalar = Dim<Time>.Value;
+        Dimension product = Dim<Current>.Times<Length>();
+
+        Dimension actual = scalar * product;
+
+        DimAssert.Equal(Dim<Time>.Value * Dim<Current>.Value * Dim<Length>.Value, actual);
     }
 
     [Fact]

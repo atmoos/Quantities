@@ -693,19 +693,14 @@ public class QuantityTest
         where TPrefix : IPrefix
         where TSi : ISiUnit, IDimension => Quantity.Of<Power<Si<TPrefix, TSi>, Negative<One>>>(in value);
 
-    public static IEnumerable<Object[]> Values()
-    {
-        return Interesting().Select(v => new Object[] { v });
-        static IEnumerable<Double> Interesting()
-        {
-            yield return 1;
-            yield return 0;
-            yield return -1;
-            yield return 2;
-            yield return Math.E;
-            yield return Math.PI * Math.E;
-        }
-    }
+    public static TheoryData<Double> Values() => [
+            1,
+            0,
+            -1,
+            2,
+            Math.E,
+            Math.PI * Math.E
+        ];
 }
 
 [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]

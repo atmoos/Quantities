@@ -16,20 +16,15 @@ public class AreaSupportTest : ISerializationTester<Area>
     [MemberData(nameof(Quantities))]
     public void SupportsSerialization(Area quantity) => quantity.SupportsSerialization();
 
-    public static IEnumerable<Object[]> Quantities()
-    {
-        static IEnumerable<Area> Interesting()
-        {
-            yield return Area.Of(21, Are());
-            yield return Area.Of(342, Acre());
-            yield return Area.Of(6, Perch());
-            yield return Area.Of(-41, Square(Si<Metre>()));
-            yield return Area.Of(1.21, Square(Si<Pico, Metre>()));
-            yield return Area.Of(121, Square(Si<Kilo, Metre>()));
-            yield return Area.Of(95.2, Square(Metric<Ångström>()));
-            yield return Area.Of(-11, Square(Imperial<Yard>()));
-            yield return Area.Of(9, Square(Imperial<Foot>()));
-        }
-        return Interesting().Select(l => new Object[] { l });
-    }
+    public static TheoryData<Area> Quantities() => [
+            Area.Of(21, Are()),
+            Area.Of(342, Acre()),
+            Area.Of(6, Perch()),
+            Area.Of(-41, Square(Si<Metre>())),
+            Area.Of(1.21, Square(Si<Pico, Metre>())),
+            Area.Of(121, Square(Si<Kilo, Metre>())),
+            Area.Of(95.2, Square(Metric<Ångström>())),
+            Area.Of(-11, Square(Imperial<Yard>())),
+            Area.Of(9, Square(Imperial<Foot>())),
+        ];
 }

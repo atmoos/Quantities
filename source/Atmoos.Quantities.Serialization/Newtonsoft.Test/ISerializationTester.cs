@@ -3,5 +3,5 @@
 internal interface ISerializationTester<TQuantity>
 {
     void SupportsSerialization(TQuantity quantity);
-    static abstract IEnumerable<Object[]> Quantities();
+    static abstract TheoryData<TQuantity> Quantities();
 }

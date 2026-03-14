@@ -42,14 +42,9 @@ public class FrequencySupportTest : ISerializationTester<Frequency>
     [MemberData(nameof(Quantities))]
     public void SupportsSerialization(Frequency quantity) => quantity.SupportsSerialization();
 
-    public static IEnumerable<Object[]> Quantities()
-    {
-        static IEnumerable<Frequency> Interesting()
-        {
-            yield return Frequency.Of(2, Si<Hertz>());
-            yield return Frequency.Of(-1, Si<Centi, Hertz>());
-            yield return Frequency.Of(3, Si<Kilo, Hertz>());
-        }
-        return Interesting().Select(l => new Object[] { l });
-    }
+    public static TheoryData<Frequency> Quantities() => [
+            Frequency.Of(2, Si<Hertz>()),
+            Frequency.Of(-1, Si<Centi, Hertz>()),
+            Frequency.Of(3, Si<Kilo, Hertz>()),
+        ];
 }

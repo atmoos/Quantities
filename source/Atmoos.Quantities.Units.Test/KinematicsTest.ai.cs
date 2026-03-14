@@ -1,5 +1,4 @@
 ﻿using Atmoos.Quantities.Units.Si.Derived;
-using Atmoos.Quantities.Units.Si.Metric;
 
 namespace Atmoos.Quantities.Units.Test;
 

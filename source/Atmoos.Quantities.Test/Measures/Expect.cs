@@ -1,6 +1,5 @@
 ﻿using Atmoos.Quantities.Core.Numerics;
 using Atmoos.Quantities.Dimensions;
-using Atmoos.Quantities.Measures;
 
 namespace Atmoos.Quantities.Test.Measures;
 

@@ -2,7 +2,6 @@
 using Atmoos.Quantities.Core.Numerics;
 using Atmoos.Quantities.Measures;
 using Atmoos.Quantities.Serialization;
-using Atmoos.Quantities.Units.Si;
 using Atmoos.Quantities.Units.Si.Metric;
 
 namespace Atmoos.Quantities.Test.Core;

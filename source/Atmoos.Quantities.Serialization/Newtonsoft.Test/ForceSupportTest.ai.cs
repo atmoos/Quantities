@@ -1,5 +1,4 @@
 ﻿using Atmoos.Quantities.Units.Imperial.Force;
-using Atmoos.Quantities.Units.Imperial.Length;
 
 namespace Atmoos.Quantities.Serialization.Newtonsoft.Test;
 

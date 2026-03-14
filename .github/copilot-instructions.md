@@ -377,6 +377,18 @@ private static readonly Length length = Length.Of(23, Si<Metre>());
 private static readonly Length epsilon = Length.Of(2, Si<Pico, Metre>());
 ```
 
+### Running Tests
+
+- When running tests from the command line, either run them from the `source/` directory or pass the `.runsettings` file explicitly.
+- This repository resolves `RunSettingsFilePath` via `$(SolutionDir)`, so project-level `dotnet test` outside `source/` can misresolve the path.
+- Preferred commands:
+    ```bash
+    cd source && dotnet test Atmoos.Quantities.sln
+    ```
+    ```bash
+    dotnet test source/Atmoos.Quantities.sln --settings source/.runsettings
+    ```
+
 ## Expression and Statement Style
 
 ### Expression-Bodied Members

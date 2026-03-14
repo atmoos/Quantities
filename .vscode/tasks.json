@@ -36,6 +36,37 @@
                 "test"
             ],
             "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "test",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "test",
+                "${workspaceFolder}/source/Atmoos.Quantities.sln",
+                "--settings",
+                "${workspaceFolder}/source/.runsettings",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "clean test results",
+            "type": "shell",
+            "command": "find \"${workspaceFolder}/source\" -type d -name TestResults -prune -exec rm -rf {} + && rm -rf \"${workspaceFolder}/source/coveragereport\"",
+            "problemMatcher": []
+        },
+        {
+            "label": "coverage",
+            "type": "shell",
+            "dependsOn": [
+                "clean test results",
+                "test"
+            ],
+            "dependsOrder": "sequence",
+            "command": "dotnet tool restore && dotnet tool run reportgenerator \"-reports:${workspaceFolder}/source/**/TestResults/**/coverage.cobertura.xml\" \"-targetdir:${workspaceFolder}/source/coveragereport\" \"-reporttypes:Html;HtmlSummary\"",
+            "problemMatcher": []
         }
     ]
 }

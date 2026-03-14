@@ -213,4 +213,80 @@ public sealed class LengthTest
 
         actual.Matches(expected);
     }
+
+    [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
+    public void ChainToString() => FormattingMatches(v => Length.Of(v, Imperial<Chain>()), "ch");
+
+    [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
+    public void ChainToMetre()
+    {
+        Length chain = Length.Of(1, Imperial<Chain>());
+        Length expected = Length.Of(20.1168, Si<Metre>());
+
+        Length actual = chain.To(Si<Metre>());
+
+        actual.Matches(expected);
+    }
+
+    [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
+    public void MetreToChain()
+    {
+        Length metres = Length.Of(20.1168, Si<Metre>());
+        Length expected = Length.Of(1, Imperial<Chain>());
+
+        Length actual = metres.To(Imperial<Chain>());
+
+        actual.Matches(expected);
+    }
+
+    [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
+    public void DefinitionOfChainInFeet()
+    {
+        Length chain = Length.Of(1, Imperial<Chain>());
+        Length feet = Length.Of(66, Imperial<Foot>());
+
+        Assert.Equal(chain, feet);
+    }
+
+    [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
+    public void FurlongToString() => FormattingMatches(v => Length.Of(v, Imperial<Furlong>()), "fur");
+
+    [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
+    public void FurlongToMetre()
+    {
+        Length furlong = Length.Of(1, Imperial<Furlong>());
+        Length expected = Length.Of(201.168, Si<Metre>());
+
+        Length actual = furlong.To(Si<Metre>());
+
+        actual.Matches(expected);
+    }
+
+    [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
+    public void MetreToFurlong()
+    {
+        Length metres = Length.Of(201.168, Si<Metre>());
+        Length expected = Length.Of(1, Imperial<Furlong>());
+
+        Length actual = metres.To(Imperial<Furlong>());
+
+        actual.Matches(expected);
+    }
+
+    [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
+    public void DefinitionOfFurlongInMiles()
+    {
+        Length furlongs = Length.Of(8, Imperial<Furlong>());
+        Length mile = Length.Of(1, Imperial<Mile>());
+
+        Assert.Equal(furlongs, mile);
+    }
 }

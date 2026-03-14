@@ -71,14 +71,9 @@ public class FrequencySupportTest : IInjectedUnitTester<Frequency>
         Assert.Equal(expectedTime.ToString(), actualTimeFromDeserializedFrequency.ToString());
     }
 
-    public static IEnumerable<Object[]> InjectingFrequencies()
-    {
-        static IEnumerable<Frequency> Interesting()
-        {
-            yield return Frequency.Of(2, Si<Hertz>());
-            yield return Frequency.Of(-1, Si<Centi, Hertz>());
-            yield return Frequency.Of(3, Si<Kilo, Hertz>());
-        }
-        return Interesting().Select(l => new Object[] { l });
-    }
+    public static TheoryData<Frequency> InjectingFrequencies() => [
+            Frequency.Of(2, Si<Hertz>()),
+            Frequency.Of(-1, Si<Centi, Hertz>()),
+            Frequency.Of(3, Si<Kilo, Hertz>()),
+        ];
 }

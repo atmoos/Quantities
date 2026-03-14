@@ -30,7 +30,7 @@ public readonly struct DataRate : IQuantity<DataRate>, IInformationRate, IQuotie
 
     public Boolean Equals(DataRate other) => this.dataRate.Equals(other.dataRate);
 
-    public override Boolean Equals(Object? obj) => obj is DataRate rate && Equals(rate);
+    public override Boolean Equals(Object? obj) => obj is DataRate dataRate && Equals(dataRate);
 
     public override Int32 GetHashCode() => this.dataRate.GetHashCode();
 

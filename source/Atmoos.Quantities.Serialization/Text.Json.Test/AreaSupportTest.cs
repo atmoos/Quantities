@@ -16,22 +16,17 @@ public class AreaSupportTest : ISerializationTester<Area>, IInjectedUnitTester<A
     [MemberData(nameof(Quantities))]
     public void SupportsSerialization(Area quantity) => quantity.SupportsSerialization();
 
-    public static IEnumerable<Object[]> Quantities()
-    {
-        static IEnumerable<Area> Interesting()
-        {
-            yield return Area.Of(21, Are());
-            yield return Area.Of(342, Acre());
-            yield return Area.Of(6, Perch());
-            yield return Area.Of(-41, Square(Si<Metre>()));
-            yield return Area.Of(1.21, Square(Si<Pico, Metre>()));
-            yield return Area.Of(121, Square(Si<Kilo, Metre>()));
-            yield return Area.Of(95.2, Square(Metric<Ångström>()));
-            yield return Area.Of(-11, Square(Imperial<Yard>()));
-            yield return Area.Of(9, Square(Imperial<Foot>()));
-        }
-        return Interesting().Select(l => new Object[] { l });
-    }
+    public static TheoryData<Area> Quantities() => [
+            Area.Of(21, Are()),
+            Area.Of(342, Acre()),
+            Area.Of(6, Perch()),
+            Area.Of(-41, Square(Si<Metre>())),
+            Area.Of(1.21, Square(Si<Pico, Metre>())),
+            Area.Of(121, Square(Si<Kilo, Metre>())),
+            Area.Of(95.2, Square(Metric<Ångström>())),
+            Area.Of(-11, Square(Imperial<Yard>())),
+            Area.Of(9, Square(Imperial<Foot>())),
+        ];
 
     [Theory]
     [MemberData(nameof(InjectingAreas))]
@@ -50,16 +45,11 @@ public class AreaSupportTest : ISerializationTester<Area>, IInjectedUnitTester<A
         Assert.Equal(expectedLength, actualLength);
     }
 
-    public static IEnumerable<Object[]> InjectingAreas()
-    {
-        static IEnumerable<Area> Interesting()
-        {
-            yield return Area.Of(1, Are());
-            yield return Area.Of(2, Acre());
-            yield return Area.Of(3, Imperial<Rood>());
-            yield return Area.Of(4, Perch());
-            yield return Area.Of(5, NonStandard<Morgen>());
-        }
-        return Interesting().Select(l => new Object[] { l });
-    }
+    public static TheoryData<Area> InjectingAreas() => [
+            Area.Of(1, Are()),
+            Area.Of(2, Acre()),
+            Area.Of(3, Imperial<Rood>()),
+            Area.Of(4, Perch()),
+            Area.Of(5, NonStandard<Morgen>()),
+        ];
 }

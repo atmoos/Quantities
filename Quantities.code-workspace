@@ -1,0 +1,24 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "assets": true,
+      ".gitattributes": true,
+      ".gitignore": true,
+      "LICENSE": true,
+      "Quantities.code-workspace": true,
+      "BenchmarkDotNet.Artifacts":true
+    },
+    "chat.tools.terminal.autoApprove": {
+      "dotnet test": true,
+      "dotnet build": true
+    },
+    "chat.tools.urls.autoApprove": {
+      "https://*.wikipedia.org/*": true
+    }
+  }
+}

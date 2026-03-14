@@ -1,4 +1,5 @@
-﻿using Atmoos.Quantities.Core.Numerics;
+﻿using System.Globalization;
+using Atmoos.Quantities.Core.Numerics;
 using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Measures;
 using Atmoos.Quantities.Units;
@@ -548,6 +549,136 @@ public class QuantityTest
         Assert.Equal(quotient, actual);
     }
 
+    [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
+    public void HasSameMeasureIsTrueForSameMeasureAndFalseForDifferentMeasure()
+    {
+        Quantity left = Create<Metre>(2);
+        Quantity rightSame = Create<Metre>(8);
+        Quantity rightDifferent = Create<Kilo, Metre>(8);
+
+        left.HasSameMeasure(in rightSame).IsTrue();
+        left.HasSameMeasure(in rightDifferent).IsFalse();
+    }
+
+    [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
+    public void RatioProjectsRightHandMeasure()
+    {
+        Quantity left = Create<Metre>(4);
+        Quantity right = Create<Kilo, Metre>(0.002);
+
+        Double actual = left.Ratio(in right);
+
+        PrecisionIsBounded(2d, actual);
+    }
+
+    [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
+    public void ZeroQuantitiesOfConvertibleMeasuresAreEqual()
+    {
+        Quantity zeroMetre = Create<Metre>(0);
+        Quantity zeroKilometre = Create<Kilo, Metre>(0);
+
+        zeroMetre.Equals(zeroKilometre).IsTrue();
+    }
+
+    [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
+    public void NonZeroQuantityDoesNotEqualZeroQuantity()
+    {
+        Quantity oneMetre = Create<Metre>(1);
+        Quantity zeroKilometre = Create<Kilo, Metre>(0);
+
+        oneMetre.Equals(zeroKilometre).IsFalse();
+    }
+
+    [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
+    public void ToStringUsesProvidedFormatAndProvider()
+    {
+        Quantity quantity = Create<Metre>(1.25);
+        var culture = CultureInfo.GetCultureInfo("de-DE");
+
+        String actual = quantity.ToString("F2", culture);
+
+        Assert.StartsWith("1,25", actual);
+        Assert.EndsWith(" m", actual);
+    }
+
+    [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
+    public void EqualQuantitiesHaveEqualHashCode()
+    {
+        Quantity left = Create<Metre>(6.5);
+        Quantity right = Create<Metre>(6.5);
+
+        Assert.Equal(left.GetHashCode(), right.GetHashCode());
+    }
+
+    [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
+    public void ProjectWithSameMeasureReturnsExactlyEqualQuantity()
+    {
+        Quantity quantity = Create<Metre>(17.25);
+        var metre = Measure.Of<Si<Metre>>();
+
+        Quantity projected = quantity.Project(in metre);
+
+        Assert.Equal(quantity, projected, exactlyEqual);
+    }
+
+    [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
+    public void IsOfReturnsFalseForMismatchedDimension()
+    {
+        Quantity length = Create<Metre>(3);
+
+        length.IsOf<Length>().IsTrue();
+        length.IsOf<Time>().IsFalse();
+    }
+
+    [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
+    public void NotEqualOperatorReturnsTrueForDifferentValues()
+    {
+        Quantity left = Create<Metre>(2);
+        Quantity right = Create<Metre>(3);
+
+        (left != right).IsTrue();
+    }
+
+    [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
+    public void ExactlyEqualComparerReturnsFalseForSameMeasureDifferentValue()
+    {
+        Quantity left = Create<Metre>(2);
+        Quantity right = Create<Metre>(3);
+
+        Assert.NotEqual(left, right, exactlyEqual);
+    }
+
+    [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
+    public void ExactlyEqualComparerReturnsFalseForDifferentMeasure()
+    {
+        Quantity left = Create<Metre>(2);
+        Quantity right = Create<Kilo, Metre>(0.002);
+
+        Assert.NotEqual(left, right, exactlyEqual);
+    }
+
+    [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
+    public void DeconstructUsesEmptyStringWhenMeasureRepresentationIsNull()
+    {
+        Quantity quantity = Quantity.Of<Si<NullRepresentationLength>>(3);
+
+        quantity.Deconstruct(out _, out String unit);
+
+        Assert.Equal(String.Empty, unit);
+    }
+
     private static Quantity Create<TSi>(Double value)
         where TSi : ISiUnit, IDimension => Quantity.Of<Si<TSi>>(in value);
 
@@ -562,19 +693,20 @@ public class QuantityTest
         where TPrefix : IPrefix
         where TSi : ISiUnit, IDimension => Quantity.Of<Power<Si<TPrefix, TSi>, Negative<One>>>(in value);
 
-    public static IEnumerable<Object[]> Values()
-    {
-        return Interesting().Select(v => new Object[] { v });
-        static IEnumerable<Double> Interesting()
-        {
-            yield return 1;
-            yield return 0;
-            yield return -1;
-            yield return 2;
-            yield return Math.E;
-            yield return Math.PI * Math.E;
-        }
-    }
+    public static TheoryData<Double> Values() => [
+            1,
+            0,
+            -1,
+            2,
+            Math.E,
+            Math.PI * Math.E
+        ];
+}
+
+[Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
+file readonly struct NullRepresentationLength : ISiUnit, ILength
+{
+    public static String Representation => null!;
 }
 
 file sealed class ExactlyEqual : IEqualityComparer<Quantity>

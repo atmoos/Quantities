@@ -33,7 +33,7 @@ public readonly struct Volume : IQuantity<Volume>, IVolume, IPowerOf<Volume, IVo
 
     public Boolean Equals(Volume other) => this.volume.Equals(other.volume);
 
-    public override Boolean Equals(Object? obj) => obj is Volume Volume && Equals(Volume);
+    public override Boolean Equals(Object? obj) => obj is Volume volume && Equals(volume);
 
     public override Int32 GetHashCode() => this.volume.GetHashCode();
 

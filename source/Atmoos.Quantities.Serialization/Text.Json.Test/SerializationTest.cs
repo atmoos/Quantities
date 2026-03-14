@@ -1,5 +1,4 @@
 ﻿using System.Text.Json;
-using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Units.Imperial.Length;
 
 namespace Atmoos.Quantities.Serialization.Text.Json.Test;

@@ -6,5 +6,5 @@ public readonly struct Week : IMetricUnit, ITime
 {
     public static Transformation ToSi(Transformation self) => 7 * self.DerivedFrom<Day>();
 
-    public static String Representation => "w";
+    public static String Representation => "wk";
 }

@@ -24,8 +24,8 @@ public readonly struct Acceleration : IQuantity<Acceleration>, IAcceleration, IQ
         where TUnit : IAcceleration, IUnit => new(measure.Create(in value));
 
     public static Acceleration Of<TLength, TTime>(in Double value, in Quotient<TLength, Power<TTime, Two>> measure)
-        where TLength : IUnit, ILength
-        where TTime : IUnit, ITime => new(measure.Create(in value));
+        where TLength : ILength, IUnit
+        where TTime : ITime, IUnit => new(measure.Create(in value));
 
     static Acceleration IFactory<Acceleration>.Create(in Quantity value) => new(in value);
 

@@ -1,4 +1,5 @@
 ﻿using Atmoos.Quantities.Core.Numerics;
+using Atmoos.Quantities.Dimensions;
 
 namespace Atmoos.Quantities.Test.Measures;
 
@@ -64,5 +65,37 @@ internal static class Expect<TResult>
         Assert.Equal(1d, d, MediumPrecision);
         Assert.Equal(0, offset, MediumPrecision);
         return poly;
+    }
+}
+
+
+[Ai(Model = "GPT", Version = "5.4")]
+internal static class ExpectRepresentation
+{
+    public static String Of<TMeasure>(Int32 exponent)
+        where TMeasure : IMeasure
+    {
+        RepresentationVisitor visitor = new();
+
+        TMeasure.Power(visitor, exponent);
+
+        return visitor.Result;
+    }
+
+    private sealed class RepresentationVisitor : IVisitor
+    {
+        public String Result { get; private set; } = String.Empty;
+
+        public Result? Build(Polynomial poly, Dimension target)
+        {
+            throw new NotSupportedException("Build is not needed for these tests.");
+        }
+
+        public IVisitor Inject<TMeasure>()
+            where TMeasure : IMeasure
+        {
+            this.Result = TMeasure.Representation;
+            return this;
+        }
     }
 }

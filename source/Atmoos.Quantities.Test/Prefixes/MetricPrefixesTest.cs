@@ -60,30 +60,27 @@ public class MetricPrefixesTest
     [InlineData("quecto", fullPrecision)]
     public void FromSiRoundRobinEquality_VariablePrecision(String prefix, Int32 precision) => PrefixTests.FromSiRoundRobinEquality(outliers[prefix], precision);
 
-    public static IEnumerable<Object[]> AllMetricPrefixes() => MetricPrefixes().Select(p => new Object[] { p });
-
-    public static IEnumerable<ITestPrefix> MetricPrefixes()
-    {
-        // Excluding prefixes that cannot round exactly.
-        // They are covered with the "outlier" tests.
-        yield return new TestPrefix<Ronna>(1e27);
-        yield return new TestPrefix<Yotta>(1e24);
-        yield return new TestPrefix<Exa>(1e18);
-        yield return new TestPrefix<Peta>(1e15);
-        yield return new TestPrefix<Tera>(1e12);
-        yield return new TestPrefix<Giga>(1e9);
-        yield return new TestPrefix<Mega>(1e6);
-        yield return new TestPrefix<Kilo>(1e3);
-        yield return new TestPrefix<Hecto>(1e2);
-        yield return new TestPrefix<Deca>(1e1);
-        yield return new TestPrefix<Deci>(1e-1);
-        yield return new TestPrefix<Centi>(1e-2);
-        yield return new TestPrefix<Milli>(1e-3);
-        yield return new TestPrefix<Micro>(1e-6);
-        yield return new TestPrefix<Nano>(1e-9);
-        yield return new TestPrefix<Pico>(1e-12);
-        yield return new TestPrefix<Femto>(1e-15);
-        yield return new TestPrefix<Atto>(1e-18);
-        yield return new TestPrefix<Ronto>(1e-27);
-    }
+    public static TheoryData<ITestPrefix> AllMetricPrefixes() => [
+            // Excluding prefixes that cannot round exactly.
+            // They are covered with the "outlier" tests.
+            new TestPrefix<Ronna>(1e27),
+            new TestPrefix<Yotta>(1e24),
+            new TestPrefix<Exa>(1e18),
+            new TestPrefix<Peta>(1e15),
+            new TestPrefix<Tera>(1e12),
+            new TestPrefix<Giga>(1e9),
+            new TestPrefix<Mega>(1e6),
+            new TestPrefix<Kilo>(1e3),
+            new TestPrefix<Hecto>(1e2),
+            new TestPrefix<Deca>(1e1),
+            new TestPrefix<Deci>(1e-1),
+            new TestPrefix<Centi>(1e-2),
+            new TestPrefix<Milli>(1e-3),
+            new TestPrefix<Micro>(1e-6),
+            new TestPrefix<Nano>(1e-9),
+            new TestPrefix<Pico>(1e-12),
+            new TestPrefix<Femto>(1e-15),
+            new TestPrefix<Atto>(1e-18),
+            new TestPrefix<Ronto>(1e-27)
+        ];
 }

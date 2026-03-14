@@ -38,28 +38,22 @@ public class BinaryPrefixTest
         Assert.Equal(expectedValue, actualValue);
     }
 
-    public static IEnumerable<Object[]> BinaryMaxValues()
-    {
-        return AllBinaryMaxValues().Select(i => new Object[] { i });
-    }
+    public static TheoryData<Double> BinaryMaxValues() => [
+        MaxValue<Yobi>(),
+        MaxValue<Zebi>(),
+        MaxValue<Exbi>(),
+        MaxValue<Pebi>(),
+        MaxValue<Tebi>(),
+        MaxValue<Gibi>(),
+        MaxValue<Mebi>(),
+        MaxValue<Kibi>(),
+        1d // unit prefix
+    ];
 
-    public static IEnumerable<Object[]> VeryLargeMaxValues()
+    public static TheoryData<Double> VeryLargeMaxValues()
     {
         Double quettaMaxValue = MaxValue<Yobi>();
-        return Enumerable.Range(0, 5).Select(e => new Object[] { Math.Pow(16, e) * quettaMaxValue });
-    }
-
-    private static IEnumerable<Double> AllBinaryMaxValues()
-    {
-        yield return MaxValue<Yobi>();
-        yield return MaxValue<Zebi>();
-        yield return MaxValue<Exbi>();
-        yield return MaxValue<Pebi>();
-        yield return MaxValue<Tebi>();
-        yield return MaxValue<Gibi>();
-        yield return MaxValue<Mebi>();
-        yield return MaxValue<Kibi>();
-        yield return 1d; // unit prefix
+        return Enumerable.Range(0, 5).Select(e => Math.Pow(16, e) * quettaMaxValue).ToTheoryData();
     }
 
     private static Double MaxValue<TPrefix>()

@@ -60,7 +60,3 @@ publish/
 # JetBrains Rider
 .idea/
 *.sln.iml
-
-# VsCode
-.vscode/
-*.code-workspace

@@ -16,7 +16,7 @@ public readonly struct Area : IQuantity<Area>, IArea, IPowerOf<Area, IArea, ILen
     public Area To<TLength>(in Power<TLength, Two> other)
         where TLength : ILength, IUnit => new(other.Transform(in this.area));
 
-    public readonly Area To<TArea>(in Scalar<TArea> other)
+    public Area To<TArea>(in Scalar<TArea> other)
         where TArea : IArea, IPowerOf<ILength>, IUnit => new(other.Transform(in this.area, static f => ref f.AliasOf<TArea, ILength>()));
 
     public static Area Of<TLength>(in Double value, in Power<TLength, Two> measure)
@@ -29,7 +29,7 @@ public readonly struct Area : IQuantity<Area>, IArea, IPowerOf<Area, IArea, ILen
 
     public Boolean Equals(Area other) => this.area.Equals(other.area);
 
-    public override Boolean Equals(Object? obj) => obj is Area Area && Equals(Area);
+    public override Boolean Equals(Object? obj) => obj is Area area && Equals(area);
 
     public override Int32 GetHashCode() => this.area.GetHashCode();
 

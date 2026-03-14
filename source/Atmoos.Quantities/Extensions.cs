@@ -23,7 +23,7 @@ public static class Extensions
     }
 
     public static Double ValueOf<T>(Int32 exponent = 1)
-        where T : ITransform => Math.Pow(Polynomial.Of<T>() * 1d, exponent);
+        where T : ITransform => Algorithms.Pow(Polynomial.Of<T>() * 1d, exponent);
 
     public static Transformation RootedIn<TSi>(this Transformation self)
         where TSi : ISiUnit => self;

@@ -92,63 +92,57 @@ public class MetricPrefixTest
         Assert.Equal(expectedValue, actualValue);
     }
 
-    public static IEnumerable<Object[]> SiMaxValues()
-    {
-        return AllSiMaxValues().Select(i => new Object[] { i });
-    }
-
-    public static IEnumerable<Object[]> LargePowerThreeMaxValues()
+    public static TheoryData<Double> LargePowerThreeMaxValues()
     {
         Double kiloMaxValue = MaxValue<Kilo>();
-        return AllSiMaxValues().Where(e => e >= kiloMaxValue).Select(i => new Object[] { i });
+        return ((IEnumerable<Double>)SiMaxValues()).Where(e => e >= kiloMaxValue).ToTheoryData();
     }
 
-    public static IEnumerable<Object[]> SmallPowerThreeMaxValues()
+    public static TheoryData<Double> SmallPowerThreeMaxValues()
     {
         Double milliMaxValue = MaxValue<Milli>();
-        return AllSiMaxValues().Where(e => e < milliMaxValue).Select(i => new Object[] { i });
+        return ((IEnumerable<Double>)SiMaxValues()).Where(e => e < milliMaxValue).ToTheoryData();
     }
 
-    public static IEnumerable<Object[]> VeryLargeMaxValues()
+    public static TheoryData<Double> VeryLargeMaxValues()
     {
         Double quettaMaxValue = MaxValue<Quetta>();
-        return Enumerable.Range(0, 5).Select(e => new Object[] { Math.Pow(10, e) * quettaMaxValue });
+        return Enumerable.Range(0, 5).Select(e => Math.Pow(10, e) * quettaMaxValue).ToTheoryData();
     }
 
-    public static IEnumerable<Object[]> VerySmallMaxValues()
+    public static TheoryData<Double> VerySmallMaxValues()
     {
         Double quectoMaxValue = MaxValue<Quecto>();
-        return Enumerable.Range(0, 5).Select(e => new Object[] { quectoMaxValue / Math.Pow(10, e) });
+        return Enumerable.Range(0, 5).Select(e => quectoMaxValue / Math.Pow(10, e)).ToTheoryData();
     }
 
-    private static IEnumerable<Double> AllSiMaxValues()
-    {
-        yield return MaxValue<Quetta>();
-        yield return MaxValue<Ronna>();
-        yield return MaxValue<Yotta>();
-        yield return MaxValue<Zetta>();
-        yield return MaxValue<Exa>();
-        yield return MaxValue<Peta>();
-        yield return MaxValue<Tera>();
-        yield return MaxValue<Giga>();
-        yield return MaxValue<Mega>();
-        yield return MaxValue<Kilo>();
-        yield return MaxValue<Hecto>();
-        yield return MaxValue<Deca>();
-        yield return 1d; // unit prefix
-        yield return MaxValue<Deci>();
-        yield return MaxValue<Centi>();
-        yield return MaxValue<Milli>();
-        yield return MaxValue<Micro>();
-        yield return MaxValue<Nano>();
-        yield return MaxValue<Pico>();
-        yield return MaxValue<Femto>();
-        yield return MaxValue<Atto>();
-        yield return MaxValue<Zepto>();
-        yield return MaxValue<Yocto>();
-        yield return MaxValue<Ronto>();
-        yield return MaxValue<Quecto>();
-    }
+    public static TheoryData<Double> SiMaxValues() => [
+        MaxValue<Quetta>(),
+        MaxValue<Ronna>(),
+        MaxValue<Yotta>(),
+        MaxValue<Zetta>(),
+        MaxValue<Exa>(),
+        MaxValue<Peta>(),
+        MaxValue<Tera>(),
+        MaxValue<Giga>(),
+        MaxValue<Mega>(),
+        MaxValue<Kilo>(),
+        MaxValue<Hecto>(),
+        MaxValue<Deca>(),
+        1d, // unit prefix
+        MaxValue<Deci>(),
+        MaxValue<Centi>(),
+        MaxValue<Milli>(),
+        MaxValue<Micro>(),
+        MaxValue<Nano>(),
+        MaxValue<Pico>(),
+        MaxValue<Femto>(),
+        MaxValue<Atto>(),
+        MaxValue<Zepto>(),
+        MaxValue<Yocto>(),
+        MaxValue<Ronto>(),
+        MaxValue<Quecto>()
+    ];
 
     private static Double MaxValue<TPrefix>()
         where TPrefix : IMetricPrefix => Metrics<TPrefix>.MaxValue();

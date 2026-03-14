@@ -89,9 +89,5 @@ public class UnitTest
         Assert.False(unit.CommonRoot(scalar));
     }
 
-    public static IEnumerable<Object[]> AnyPowers()
-    {
-        var any = new[] { -12, -3, -2, -1, 0, 1, 2, 3, 4, 564 };
-        return any.Select(p => new Object[] { p });
-    }
+    public static TheoryData<Int32> AnyPowers() => new() { -12, -3, -2, -1, 0, 1, 2, 3, 4, 564 };
 }

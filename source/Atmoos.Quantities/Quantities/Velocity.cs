@@ -23,8 +23,8 @@ public readonly struct Velocity : IQuantity<Velocity>, IVelocity, IQuotient<Velo
         where TUnit : IVelocity, IUnit => new(measure.Create(in value));
 
     public static Velocity Of<TLength, TTime>(in Double value, in Quotient<TLength, TTime> measure)
-        where TLength : IUnit, ILength
-        where TTime : IUnit, ITime => new(measure.Create(in value));
+        where TLength : ILength, IUnit
+        where TTime : ITime, IUnit => new(measure.Create(in value));
 
     static Velocity IFactory<Velocity>.Create(in Quantity value) => new(in value);
 

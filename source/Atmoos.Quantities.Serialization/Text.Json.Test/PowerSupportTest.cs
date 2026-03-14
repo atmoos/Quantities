@@ -6,16 +6,11 @@ public class PowerSupportTest : ISerializationTester<Power>
     [MemberData(nameof(Quantities))]
     public void SupportsSerialization(Power quantity) => quantity.SupportsSerialization();
 
-    public static IEnumerable<Object[]> Quantities()
-    {
-        static IEnumerable<Power> Interesting()
-        {
-            yield return Power.Of(21, Si<Watt>());
-            yield return Power.Of(342, Si<Milli, Watt>());
-            yield return Power.Of(6, Si<Peta, Watt>());
-            yield return Power.Of(-41, Metric<HorsePower>());
-            yield return Power.Of(-11, Imperial<Units.Imperial.Power.HorsePower>());
-        }
-        return Interesting().Select(l => new Object[] { l });
-    }
+    public static TheoryData<Power> Quantities() => [
+            Power.Of(21, Si<Watt>()),
+            Power.Of(342, Si<Milli, Watt>()),
+            Power.Of(6, Si<Peta, Watt>()),
+            Power.Of(-41, Metric<HorsePower>()),
+            Power.Of(-11, Imperial<Units.Imperial.Power.HorsePower>()),
+        ];
 }

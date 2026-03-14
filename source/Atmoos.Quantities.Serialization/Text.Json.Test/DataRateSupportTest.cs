@@ -9,16 +9,11 @@ public class DataRateSupportTest : ISerializationTester<DataRate>
     [MemberData(nameof(Quantities))]
     public void SupportsSerialization(DataRate quantity) => quantity.SupportsSerialization();
 
-    public static IEnumerable<Object[]> Quantities()
-    {
-        static IEnumerable<DataRate> Interesting()
-        {
-            yield return DataRate.Of(21, Metric<Bit>().Per(Si<Second>()));
-            yield return DataRate.Of(342, Metric<Mega, Bytes>().Per(Si<Second>()));
-            yield return DataRate.Of(6, Metric<Nibble>().Per(Si<Milli, Second>()));
-            yield return DataRate.Of(-41, Binary<Pebi, Bit>().Per(Metric<Minute>()));
-            yield return DataRate.Of(1.21, Binary<Mebi, Bytes>().Per(Si<Micro, Second>()));
-        }
-        return Interesting().Select(l => new Object[] { l });
-    }
+    public static TheoryData<DataRate> Quantities() => [
+            DataRate.Of(21, Metric<Bit>().Per(Si<Second>())),
+            DataRate.Of(342, Metric<Mega, Bytes>().Per(Si<Second>())),
+            DataRate.Of(6, Metric<Nibble>().Per(Si<Milli, Second>())),
+            DataRate.Of(-41, Binary<Pebi, Bit>().Per(Metric<Minute>())),
+            DataRate.Of(1.21, Binary<Mebi, Bytes>().Per(Si<Micro, Second>())),
+        ];
 }

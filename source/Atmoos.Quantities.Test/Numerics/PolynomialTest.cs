@@ -26,8 +26,9 @@ public class PolynomialTest
 
     [Theory]
     [MemberData(nameof(Polynomials))]
-    internal void SelfDividedBySelfIsTheIdentityPolynomial(Polynomial self)
+    internal void SelfDividedBySelfIsTheIdentityPolynomial(Transformation transform)
     {
+        var self = Polynomial.Of(transform);
         var expected = rand.Uniform();
         var identity = self / self;
 
@@ -38,8 +39,9 @@ public class PolynomialTest
 
     [Theory]
     [MemberData(nameof(Polynomials))]
-    internal void CompositionOfPolynomialsIsTheSameAsApplyingPolynomialsSuccessively(Polynomial self)
+    internal void CompositionOfPolynomialsIsTheSameAsApplyingPolynomialsSuccessively(Transformation transform)
     {
+        var self = Polynomial.Of(transform);
         var argument = rand.Uniform();
         var composition = some * self;
         var expected = some * (self * argument);
@@ -253,18 +255,13 @@ public class PolynomialTest
         Assert.Equal(expected, actual);
     }
 
-    public static IEnumerable<Object[]> Polynomials()
-    {
-        static IEnumerable<Transformation> FunctionsOfInterest()
-        {
-            yield return Value;
-            yield return Value - 3;
-            yield return 3.4 * Value;
-            yield return Value / 9.28;
-            yield return 5.21 * Value / 12.34;
-            yield return 2 * Value / 3 + 3.42;
-            yield return (9.23 * (0.12 * Value - 2) + 32) / 8;
-        }
-        return FunctionsOfInterest().Select(f => new Object[] { Polynomial.Of(f) });
-    }
+    public static TheoryData<Transformation> Polynomials() => [
+            Value,
+            Value - 3,
+            3.4 * Value,
+            Value / 9.28,
+            5.21 * Value / 12.34,
+            2 * Value / 3 + 3.42,
+            (9.23 * (0.12 * Value - 2) + 32) / 8
+        ];
 }

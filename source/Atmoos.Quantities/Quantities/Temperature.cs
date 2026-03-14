@@ -1,4 +1,5 @@
-﻿using Atmoos.Quantities.Dimensions;
+﻿using Atmoos.Quantities.Creation;
+using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Units;
 
 namespace Atmoos.Quantities;
@@ -11,10 +12,10 @@ public readonly struct Temperature : IQuantity<Temperature>, ITemperature, IScal
 
     private Temperature(in Quantity value) => this.temperature = value;
 
-    public Temperature To<TUnit>(in Creation.Scalar<TUnit> other)
+    public Temperature To<TUnit>(in Scalar<TUnit> other)
         where TUnit : ITemperature, IUnit => new(other.Transform(in this.temperature));
 
-    public static Temperature Of<TUnit>(in Double value, in Creation.Scalar<TUnit> measure)
+    public static Temperature Of<TUnit>(in Double value, in Scalar<TUnit> measure)
         where TUnit : ITemperature, IUnit => new(measure.Create(in value));
 
     static Temperature IFactory<Temperature>.Create(in Quantity value) => new(in value);

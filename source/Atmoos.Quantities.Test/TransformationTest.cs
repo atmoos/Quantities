@@ -65,23 +65,24 @@ public class TransformationTest
         Assert.Equal(input, actual, LowPrecision);
     }
 
-    public static IEnumerable<Object[]> Transformations()
-    {
-        return Computations().Select(o => o[..1]);
-    }
+    public static TheoryData<Transformation> Transformations() => [
+            Value,
+            Value - 3,
+            3.4 * Value,
+            Value / 9.28,
+            5.21 * Value / 12.34,
+            2 * Value / 3 + 3.42,
+            (9.23 * (0.12 * Value - 2) + 32) / 8
+        ];
 
-    public static IEnumerable<Object[]> Computations()
-    {
-        static IEnumerable<(Transformation transform, Func<Double, Double> function)> FunctionsOfInterest()
-        {
-            yield return (Value, value => value);
-            yield return (Value - 3, value => value - 3);
-            yield return (3.4 * Value, value => 3.4 * value);
-            yield return (Value / 9.28, value => value / 9.28);
-            yield return (5.21 * Value / 12.34, value => 5.21 * value / 12.34);
-            yield return (2 * Value / 3 + 3.42, value => 2 * value / 3 + 3.42);
-            yield return ((9.23 * (0.12 * Value - 2) + 32) / 8, value => (9.23 * (0.12 * value - 2) + 32) / 8);
-        }
-        return FunctionsOfInterest().Select(f => new Object[] { f.transform, f.function });
-    }
+    public static TheoryData<Transformation, Func<Double, Double>> Computations() =>
+        new() {
+            { Value, value => value },
+            { Value - 3, value => value - 3 },
+            { 3.4 * Value, value => 3.4 * value },
+            { Value / 9.28, value => value / 9.28 },
+            { 5.21 * Value / 12.34, value => 5.21 * value / 12.34 },
+            { 2 * Value / 3 + 3.42, value => 2 * value / 3 + 3.42 },
+            { (9.23 * (0.12 * Value - 2) + 32) / 8, value => (9.23 * (0.12 * value - 2) + 32) / 8 }
+        };
 }

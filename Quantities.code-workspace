@@ -7,11 +7,11 @@
   "settings": {
     "files.exclude": {
       "assets": true,
-      "documentation": true,
       ".gitattributes": true,
       ".gitignore": true,
       "LICENSE": true,
-      "Quantities.code-workspace": true
+      "Quantities.code-workspace": true,
+      "BenchmarkDotNet.Artifacts":true
     },
     "chat.tools.terminal.autoApprove": {
       "dotnet test": true,

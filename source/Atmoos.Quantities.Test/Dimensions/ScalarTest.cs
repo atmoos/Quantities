@@ -56,6 +56,28 @@ public class ScalarTest
     }
 
     [Fact]
+    [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
+    public void EqualityOperatorOnEquivalentNonNullScalarsReturnsTrue()
+    {
+        Dimension left = Dim<Time>.Pow(2);
+        Dimension right = Dim<OtherTime>.Pow(2);
+
+        Assert.True(left == right);
+        Assert.False(left != right);
+    }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
+    public void EqualityOperatorOnDifferentNonNullScalarsReturnsFalse()
+    {
+        Dimension left = Dim<Time>.Pow(2);
+        Dimension right = Dim<Length>.Pow(2);
+
+        Assert.False(left == right);
+        Assert.True(left != right);
+    }
+
+    [Fact]
     public void EquatesToScalarOfEqualQuantity_EvenWhenTheyAreNotTheSameInstance()
     {
         var left = Dim<Time>.Value;
@@ -124,12 +146,45 @@ public class ScalarTest
     }
 
     [Fact]
+    [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
+    public void RaisedToOtherPowerScalesMultiplicity()
+    {
+        Dimension scalar = Dim<Time>.Pow(2);
+
+        Dimension actual = scalar.Pow(3);
+
+        DimAssert.Equal(Dim<Time>.Pow(6), actual);
+    }
+
+    [Fact]
     [Ai(Model = "GPT", Version = "5.4")]
     public void RootByZeroThrows()
     {
         Dimension scalar = Dim<Time>.Value;
 
         Assert.Throws<DivideByZeroException>(() => scalar.Root(0));
+    }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
+    public void RootByOneReturnsSameInstance()
+    {
+        Dimension scalar = Dim<Time>.Pow(4);
+
+        Dimension actual = scalar.Root(1);
+
+        Assert.Same(scalar, actual);
+    }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
+    public void RootByOtherDividesMultiplicity()
+    {
+        Dimension scalar = Dim<Time>.Pow(6);
+
+        Dimension actual = scalar.Root(3);
+
+        DimAssert.Equal(Dim<Time>.Pow(2), actual);
     }
 
     [Fact]

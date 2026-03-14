@@ -1,4 +1,5 @@
-﻿using Atmoos.Quantities.Physics;
+﻿using System.Globalization;
+using Atmoos.Quantities.Physics;
 using Atmoos.Quantities.Units.Si.Metric;
 using static System.Math;
 using static Atmoos.Quantities.Extensions;
@@ -84,16 +85,31 @@ public class ExtensionsTest
     }
 
     [Fact]
-    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
+    [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
+    public void ValueOfWithZeroExponentReturnsOne()
+    {
+        Double actual = ValueOf<Kilo>(0);
+
+        Assert.Equal(1d, actual);
+    }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
     public void ToStringUsesInvariantCulture()
     {
-        Length length = Length.Of(1234.5, Si<Metre>());
-        IFormattable formattable = length;
+        var original = CultureInfo.CurrentCulture;
+        CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("de-DE");
 
-        String actual = formattable.ToString("G4");
+        IFormattable formattable = 1234.5;
 
-        Assert.DoesNotContain(",", actual);
-        Assert.Contains("1234", actual);
+        try {
+            String actual = formattable.ToString("N1");
+
+            Assert.Equal("1,234.5", actual);
+        }
+        finally {
+            CultureInfo.CurrentCulture = original;
+        }
     }
 
     [Fact]
@@ -114,6 +130,26 @@ public class ExtensionsTest
         NotImplementedException exception = NotImplemented<Length>();
 
         Assert.Contains("Length", exception.Message);
+    }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
+    public void NotImplementedContainsMemberAndLine()
+    {
+        var instance = new Object();
+
+        NotImplementedException exception = NotImplemented(instance, memberName: "Probe", line: 321);
+
+        Assert.Equal("Object is missing 'Probe' on line #321.", exception.Message);
+    }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
+    public void GenericNotImplementedFormatsNestedGenericTypeName()
+    {
+        NotImplementedException exception = NotImplemented<Dictionary<String, List<Int32>>>(memberName: "Create", line: 7);
+
+        Assert.Contains("Dictionary<String, List<Int32>> is missing 'Create' on line #7.", exception.Message);
     }
 
     [Fact]

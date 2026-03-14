@@ -186,6 +186,44 @@ public sealed class TemperatureParsingTest : ModelParserTest<Temperature>
     public static TheoryData<String> NonTemperatures() => ToTheoryData("mol", "m", "s", "kg", "m/s", "°C/s", "°C·s", "m/s²");
 }
 
+[Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
+public sealed class AmountOfSubstanceParsingTest : ModelParserTest<AmountOfSubstance>
+{
+    [Theory]
+    [MemberData(nameof(AmountsOfSubstance))]
+    public void AmountOfSubstanceCanBeParsed(String unit, QuantityModel expected) => TestScalarParsing(unit, expected);
+
+    [Theory]
+    [MemberData(nameof(NonAmountsOfSubstance))]
+    public void NonAmountOfSubstanceCannotBeParsed(String unit) => ConfirmParsingFails(unit);
+
+    public static TheoryData<String, QuantityModel> AmountsOfSubstance()
+        => new() {
+            { "mol", new() { System = si, Exponent = 1, Unit = "mol" } }
+        };
+
+    public static TheoryData<String> NonAmountsOfSubstance() => ToTheoryData("kg", "cd", "m", "s", "K");
+}
+
+[Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
+public sealed class LuminousIntensityParsingTest : ModelParserTest<LuminousIntensity>
+{
+    [Theory]
+    [MemberData(nameof(LuminousIntensities))]
+    public void LuminousIntensityCanBeParsed(String unit, QuantityModel expected) => TestScalarParsing(unit, expected);
+
+    [Theory]
+    [MemberData(nameof(NonLuminousIntensities))]
+    public void NonLuminousIntensityCannotBeParsed(String unit) => ConfirmParsingFails(unit);
+
+    public static TheoryData<String, QuantityModel> LuminousIntensities()
+        => new() {
+            { "cd", new() { System = si, Exponent = 1, Unit = "cd" } }
+        };
+
+    public static TheoryData<String> NonLuminousIntensities() => ToTheoryData("kg", "mol", "m", "s", "K");
+}
+
 public sealed class AccelerationParsingTest : ModelParserTest<Acceleration>
 {
     [Theory]

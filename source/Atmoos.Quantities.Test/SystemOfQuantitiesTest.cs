@@ -20,6 +20,12 @@ public class SystemOfQuantitiesTest
 
     [Fact]
     public void TemperatureIsBaseQuantity() => Quantity<Temperature>.IsBaseQuantity(nameof(Temperature));
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
+    public void AmountOfSubstanceIsBaseQuantity() => Quantity<AmountOfSubstance>.IsBaseQuantity(nameof(AmountOfSubstance));
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
+    public void LuminousIntensityIsBaseQuantity() => Quantity<LuminousIntensity>.IsBaseQuantity(nameof(LuminousIntensity));
 
     [Fact]
     public void AreaIsDerivedFromLength() => Quantity<Area>.IsDerivedFrom(Dim<Length>.Pow(2));

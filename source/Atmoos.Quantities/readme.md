@@ -75,10 +75,12 @@ The currently supported quantities are:
 Atmoos.Quantities
 ├── Acceleration
 ├── AmountOfSubstance
+├── Angle
 ├── Area
 ├── Data
 ├── DataRate
 ├── ElectricalResistance
+├── ElectricCharge
 ├── ElectricCurrent
 ├── ElectricPotential
 ├── Energy

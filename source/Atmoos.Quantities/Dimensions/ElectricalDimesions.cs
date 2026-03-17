@@ -6,7 +6,7 @@ public interface IElectricPotential : ILinear<IElectricPotential>; // marker int
 
 public interface IElectricalResistance : ILinear<IElectricalResistance>; // marker interface
 
-public interface IElectricCharge : IProduct<ITime, IElectricCurrent>; // marker interface
+public interface IElectricCharge : IProduct<IElectricCurrent, ITime>; // marker interface
 
 public interface IAmountOfInformation : ILinear<IAmountOfInformation>; // marker interface
 

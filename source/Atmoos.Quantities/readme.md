@@ -79,6 +79,7 @@ Atmoos.Quantities
 ├── Area
 ├── Data
 ├── DataRate
+├── Density
 ├── ElectricalResistance
 ├── ElectricCharge
 ├── ElectricCurrent
@@ -89,12 +90,14 @@ Atmoos.Quantities
 ├── Length
 ├── LuminousIntensity
 ├── Mass
+├── MassFlowRate
 ├── Power
 ├── Pressure
 ├── Temperature
 ├── Time
 ├── Velocity
-└── Volume
+├── Volume
+└── VolumetricFlowRate
 ```
 
 They support a broad range of compatible units as indicated by the examples above.

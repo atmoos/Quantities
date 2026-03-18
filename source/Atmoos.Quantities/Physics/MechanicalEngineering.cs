@@ -93,3 +93,57 @@ public static class Kinematics
         public static Time operator /(in Energy energy, in Power power) => Create<Time>(energy.Value / power.Value);
     }
 }
+
+[Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
+public static class FluidDynamics
+{
+    extension(Mass)
+    {
+        public static Density operator /(in Mass mass, in Volume volume) => Create<Density>(mass.Value / volume.Value);
+
+        public static MassFlowRate operator /(in Mass mass, in Time time) => Create<MassFlowRate>(mass.Value / time.Value);
+
+        public static Volume operator /(in Mass mass, in Density density) => Create<Volume>(mass.Value / density.Value);
+
+        public static Time operator /(in Mass mass, in MassFlowRate massFlowRate) => Create<Time>(mass.Value / massFlowRate.Value);
+    }
+
+    extension(Volume)
+    {
+        public static VolumetricFlowRate operator /(in Volume volume, in Time time) => Create<VolumetricFlowRate>(volume.Value / time.Value);
+
+        public static Time operator /(in Volume volume, in VolumetricFlowRate volumetricFlowRate) => Create<Time>(volume.Value / volumetricFlowRate.Value);
+
+        public static Mass operator *(in Volume volume, in Density density) => Create<Mass>(volume.Value * density.Value);
+    }
+
+    extension(Density)
+    {
+        public static Mass operator *(in Density density, in Volume volume) => Create<Mass>(density.Value * volume.Value);
+
+        public static MassFlowRate operator *(in Density density, in VolumetricFlowRate volumetricFlowRate) => Create<MassFlowRate>(density.Value * volumetricFlowRate.Value);
+    }
+
+    extension(VolumetricFlowRate)
+    {
+        public static Volume operator *(in VolumetricFlowRate volumetricFlowRate, in Time time) => Create<Volume>(volumetricFlowRate.Value * time.Value);
+
+        public static MassFlowRate operator *(in VolumetricFlowRate volumetricFlowRate, in Density density) => Create<MassFlowRate>(volumetricFlowRate.Value * density.Value);
+    }
+
+    extension(MassFlowRate)
+    {
+        public static Mass operator *(in MassFlowRate massFlowRate, in Time time) => Create<Mass>(massFlowRate.Value * time.Value);
+
+        public static VolumetricFlowRate operator /(in MassFlowRate massFlowRate, in Density density) => Create<VolumetricFlowRate>(massFlowRate.Value / density.Value);
+
+        public static Density operator /(in MassFlowRate massFlowRate, in VolumetricFlowRate volumetricFlowRate) => Create<Density>(massFlowRate.Value / volumetricFlowRate.Value);
+    }
+
+    extension(Time)
+    {
+        public static Volume operator *(in Time time, in VolumetricFlowRate volumetricFlowRate) => Create<Volume>(time.Value * volumetricFlowRate.Value);
+
+        public static Mass operator *(in Time time, in MassFlowRate massFlowRate) => Create<Mass>(time.Value * massFlowRate.Value);
+    }
+}

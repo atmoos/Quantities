@@ -56,6 +56,30 @@ public class SystemOfQuantitiesTest
         var expected = Dim<Mass>.Value * Dim<Length>.Pow(-1) * Dim<Time>.Pow(-2);
         Quantity<Pressure>.IsDerivedFrom(expected);
     }
+
+    [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
+    public void DensityIsDerivedFromMassPerVolume()
+    {
+        var expected = Dim<Mass>.Value * Dim<Length>.Pow(-3);
+        Quantity<Density>.IsDerivedFrom(expected);
+    }
+
+    [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
+    public void VolumetricFlowRateIsDerivedFromVolumePerTime()
+    {
+        var expected = Dim<Length>.Pow(3) * Dim<Time>.Pow(-1);
+        Quantity<VolumetricFlowRate>.IsDerivedFrom(expected);
+    }
+
+    [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
+    public void MassFlowRateIsDerivedFromMassPerTime()
+    {
+        var expected = Dim<Mass>.Per<Time>();
+        Quantity<MassFlowRate>.IsDerivedFrom(expected);
+    }
 }
 
 file static class Quantity<TActual>

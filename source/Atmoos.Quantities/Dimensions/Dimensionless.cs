@@ -1,4 +1,6 @@
-﻿namespace Atmoos.Quantities.Dimensions;
+﻿using Atmoos.Quantities.Core.Numerics;
+
+namespace Atmoos.Quantities.Dimensions;
 
 public interface IDimensionless<TSelf> : IDimension
     where TSelf : IDimensionless<TSelf>
@@ -7,4 +9,4 @@ public interface IDimensionless<TSelf> : IDimension
 }
 
 // By SI definition, angle is dimensionless and a derived quantity: https://en.wikipedia.org/wiki/SI_derived_unit
-public interface IAngle : IDimensionless<IAngle>, IDerivedQuantity; // marker interface
+public interface IAngle : IDimensionless<IAngle>, IMultiplicity<IAngle, One>, IDerivedQuantity; // marker interface

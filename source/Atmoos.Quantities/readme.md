@@ -87,12 +87,15 @@ Atmoos.Quantities
 ├── Energy
 ├── Force
 ├── Frequency
+├── Impulse
 ├── Length
 ├── LuminousIntensity
 ├── Mass
 ├── MassFlowRate
+├── Momentum
 ├── Power
 ├── Pressure
+├── SpecificEnergy
 ├── Temperature
 ├── Time
 ├── Velocity

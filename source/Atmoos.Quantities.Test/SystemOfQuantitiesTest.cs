@@ -80,6 +80,30 @@ public class SystemOfQuantitiesTest
         var expected = Dim<Mass>.Per<Time>();
         Quantity<MassFlowRate>.IsDerivedFrom(expected);
     }
+
+    [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
+    public void MomentumIsDerivedFromMassTimesVelocity()
+    {
+        var expected = Dim<Mass>.Value * Dim<Length>.Value * Dim<Time>.Pow(-1);
+        Quantity<Momentum>.IsDerivedFrom(expected);
+    }
+
+    [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
+    public void ImpulseIsDerivedFromForceTimesTime()
+    {
+        var expected = Dim<Mass>.Value * Dim<Length>.Value * Dim<Time>.Pow(-2) * Dim<Time>.Value;
+        Quantity<Impulse>.IsDerivedFrom(expected);
+    }
+
+    [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
+    public void SpecificEnergyIsDerivedFromEnergyPerMass()
+    {
+        var expected = Dim<Power>.Value * Dim<Time>.Value * Dim<Mass>.Pow(-1);
+        Quantity<SpecificEnergy>.IsDerivedFrom(expected);
+    }
 }
 
 file static class Quantity<TActual>

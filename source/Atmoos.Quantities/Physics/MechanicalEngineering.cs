@@ -44,6 +44,8 @@ public static class Kinematics
         public static Acceleration operator /(in Velocity velocity, in Time time) => Create<Acceleration>(velocity.Value / time.Value);
 
         public static Power operator *(in Velocity velocity, in Force force) => Create<Power>(force.Value * velocity.Value);
+
+        public static Momentum operator *(in Velocity velocity, in Mass mass) => Create<Momentum>(velocity.Value * mass.Value);
     }
 
     extension(Acceleration)
@@ -63,6 +65,8 @@ public static class Kinematics
         public static Length operator *(in Time time, in Velocity velocity) => Create<Length>(velocity.Value * time.Value);
 
         public static Velocity operator *(in Time time, in Acceleration acceleration) => Create<Velocity>(acceleration.Value * time.Value);
+
+        public static Impulse operator *(in Time time, in Force force) => Create<Impulse>(time.Value * force.Value);
     }
 
     extension(Pressure)
@@ -75,6 +79,8 @@ public static class Kinematics
         public static Pressure operator /(in Force force, in Area area) => Create<Pressure>(force.Value / area.Value);
 
         public static Power operator *(in Force force, in Velocity velocity) => Create<Power>(force.Value * velocity.Value);
+
+        public static Impulse operator *(in Force force, in Time time) => Create<Impulse>(force.Value * time.Value);
     }
 
     extension(Power)
@@ -91,6 +97,36 @@ public static class Kinematics
         public static Power operator /(in Energy energy, in Time time) => Create<Power>(energy.Value / time.Value);
 
         public static Time operator /(in Energy energy, in Power power) => Create<Time>(energy.Value / power.Value);
+
+        public static SpecificEnergy operator /(in Energy energy, in Mass mass) => Create<SpecificEnergy>(energy.Value / mass.Value);
+
+        public static Mass operator /(in Energy energy, in SpecificEnergy specificEnergy) => Create<Mass>(energy.Value / specificEnergy.Value);
+    }
+
+    extension(Mass)
+    {
+        public static Momentum operator *(in Mass mass, in Velocity velocity) => Create<Momentum>(mass.Value * velocity.Value);
+
+        public static Energy operator *(in Mass mass, in SpecificEnergy specificEnergy) => Create<Energy>(mass.Value * specificEnergy.Value);
+    }
+
+    extension(Momentum)
+    {
+        public static Velocity operator /(in Momentum momentum, in Mass mass) => Create<Velocity>(momentum.Value / mass.Value);
+
+        public static Mass operator /(in Momentum momentum, in Velocity velocity) => Create<Mass>(momentum.Value / velocity.Value);
+    }
+
+    extension(Impulse)
+    {
+        public static Time operator /(in Impulse impulse, in Force force) => Create<Time>(impulse.Value / force.Value);
+
+        public static Force operator /(in Impulse impulse, in Time time) => Create<Force>(impulse.Value / time.Value);
+    }
+
+    extension(SpecificEnergy)
+    {
+        public static Energy operator *(in SpecificEnergy specificEnergy, in Mass mass) => Create<Energy>(specificEnergy.Value * mass.Value);
     }
 }
 

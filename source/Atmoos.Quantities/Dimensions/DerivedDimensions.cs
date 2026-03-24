@@ -25,3 +25,9 @@ public interface IDensity : IProduct<IMass, IDimension<ILength, Negative<Three>>
 public interface IVolumetricFlowRate : IProduct<IVolume, IDimension<ITime, Negative<One>>>, IMultiplicity<IVolumetricFlowRate, One>, IDerivedQuantity; // marker interface
 
 public interface IMassFlowRate : IProduct<IMass, IDimension<ITime, Negative<One>>>, IMultiplicity<IMassFlowRate, One>, IDerivedQuantity; // marker interface
+
+public interface IMomentum : IProduct<IMass, IVelocity>, IMultiplicity<IMomentum, One>, IDerivedQuantity; // marker interface
+
+public interface IImpulse : IProduct<IForce, ITime>, IMultiplicity<IImpulse, One>, IDerivedQuantity; // marker interface
+
+public interface ISpecificEnergy : IProduct<IEnergy, IDimension<IMass, Negative<One>>>, IMultiplicity<ISpecificEnergy, One>, IDerivedQuantity; // marker interface

@@ -1,5 +1,6 @@
 ﻿using Atmoos.Quantities.Units.NonStandard.Angle;
 using Atmoos.Quantities.Units.Si.Derived;
+using Atmoos.Quantities.Units.Si.Metric;
 
 namespace Atmoos.Quantities.Units.Test;
 
@@ -13,7 +14,7 @@ public sealed class AngleTest
     public void MilliRadianToString() => FormattingMatches(v => Angle.Of(v, Si<Milli, Radian>()), "mrad");
 
     [Fact]
-    public void DegreeToString() => FormattingMatches(v => Angle.Of(v, NonStandard<Degree>()), "°");
+    public void DegreeToString() => FormattingMatches(v => Angle.Of(v, Metric<Degree>()), "°");
 
     [Fact]
     public void GradianToString() => FormattingMatches(v => Angle.Of(v, NonStandard<Gradian>()), "gon");
@@ -35,7 +36,7 @@ public sealed class AngleTest
     [Fact]
     public void OneHundredAndEightyDegreesToPiRadians()
     {
-        Angle degrees = Angle.Of(180, NonStandard<Degree>());
+        Angle degrees = Angle.Of(180, Metric<Degree>());
         Angle expected = Angle.Of(Math.PI, Si<Radian>());
 
         Angle actual = degrees.To(Si<Radian>());
@@ -46,7 +47,7 @@ public sealed class AngleTest
     [Fact]
     public void ThreeHundredAndSixtyDegreesToTwoPiRadians()
     {
-        Angle degrees = Angle.Of(360, NonStandard<Degree>());
+        Angle degrees = Angle.Of(360, Metric<Degree>());
         Angle expected = Angle.Of(2 * Math.PI, Si<Radian>());
 
         Angle actual = degrees.To(Si<Radian>());
@@ -59,7 +60,7 @@ public sealed class AngleTest
     {
         Angle original = Angle.Of(1.5, Si<Radian>());
 
-        Angle roundTrip = original.To(NonStandard<Degree>()).To(Si<Radian>());
+        Angle roundTrip = original.To(Metric<Degree>()).To(Si<Radian>());
 
         roundTrip.Matches(original);
     }
@@ -78,7 +79,7 @@ public sealed class AngleTest
     [Fact]
     public void NinetyDegreesToOneHundredGradians()
     {
-        Angle degrees = Angle.Of(90, NonStandard<Degree>());
+        Angle degrees = Angle.Of(90, Metric<Degree>());
         Angle expected = Angle.Of(100, NonStandard<Gradian>());
 
         Angle actual = degrees.To(NonStandard<Gradian>());
@@ -90,9 +91,9 @@ public sealed class AngleTest
     public void OneTurnToThreeHundredAndSixtyDegrees()
     {
         Angle turn = Angle.Of(1, NonStandard<Turn>());
-        Angle expected = Angle.Of(360, NonStandard<Degree>());
+        Angle expected = Angle.Of(360, Metric<Degree>());
 
-        Angle actual = turn.To(NonStandard<Degree>());
+        Angle actual = turn.To(Metric<Degree>());
 
         actual.Matches(expected);
     }

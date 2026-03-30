@@ -31,6 +31,8 @@ Atmoos.Quantities.Units
 │       │   ├── Bit
 │       │   ├── Byte
 │       │   └── Nibble
+│       ├── Angle
+│       │   └── Degree
 │       ├── Area
 │       │   └── Are
 │       ├── Length
@@ -82,7 +84,6 @@ Atmoos.Quantities.Units
 │       └── Quart
 └── NonStandard
     ├── Angle
-    │   ├── Degree
     │   ├── Gradian
     │   └── Turn
     ├── Area

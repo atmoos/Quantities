@@ -8,8 +8,12 @@ Extends [Atmoos.Quantities](https://www.nuget.org/packages/Atmoos.Quantities/) w
 Atmoos.Quantities.Units
 ├── Si
 │   ├── Derived
+│   │   ├── Angle
+│   │   │   └── Radian
 │   │   ├── ElectricalResistance
 │   │   │   └── Ohm
+│   │   ├── ElectricCharge
+│   │   │   └── Coulomb
 │   │   ├── ElectricPotential
 │   │   │   └── Volt
 │   │   ├── Energy

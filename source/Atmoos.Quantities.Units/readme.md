@@ -8,8 +8,12 @@ Extends [Atmoos.Quantities](https://www.nuget.org/packages/Atmoos.Quantities/) w
 Atmoos.Quantities.Units
 ├── Si
 │   ├── Derived
+│   │   ├── Angle
+│   │   │   └── Radian
 │   │   ├── ElectricalResistance
 │   │   │   └── Ohm
+│   │   ├── ElectricCharge
+│   │   │   └── Coulomb
 │   │   ├── ElectricPotential
 │   │   │   └── Volt
 │   │   ├── Energy
@@ -27,6 +31,8 @@ Atmoos.Quantities.Units
 │       │   ├── Bit
 │       │   ├── Byte
 │       │   └── Nibble
+│       ├── Angle
+│       │   └── Degree
 │       ├── Area
 │       │   └── Are
 │       ├── Length
@@ -77,6 +83,9 @@ Atmoos.Quantities.Units
 │       ├── Gill
 │       └── Quart
 └── NonStandard
+    ├── Angle
+    │   ├── Gradian
+    │   └── Turn
     ├── Area
     │   └── Morgen
     ├── Length

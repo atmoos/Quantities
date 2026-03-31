@@ -8,6 +8,22 @@
 
 ---
 
+# Domain Knowledge
+
+This repository is a C# library for physical quantities and units of measurement. It provides a type-safe, extensible, and performant framework for representing and manipulating physical quantities in code.
+
+Each C# project has a `readme.md` file that describes the domain knowledge and design principles of the project. This file should be used as a reference when generating code for the project to ensure that the generated code aligns with the project's goals and design.
+
+- [Quantities](../source/Atmoos.Quantities/readme.md)
+  - exhaustive lists all quantities
+  - also lists units that are predefined in the library
+- [Units](../source/Atmoos.Quantities.Units/readme.md)
+  - lists all other units
+- Serialization
+  - [System.Text.Json](../source/Atmoos.Quantities.Serialization/Text.Json/readme.md)
+  - [Newtonsoft](../source/Atmoos.Quantities.Serialization/Newtonsoft/readme.md)
+
+
 # Code Style Guidelines
 
 This document describes the coding conventions and style guidelines for the Atmoos.Quantities project.

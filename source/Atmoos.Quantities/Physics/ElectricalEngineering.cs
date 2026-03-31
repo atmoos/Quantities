@@ -43,3 +43,24 @@ public static class PowerLaws
         public static ElectricPotential operator /(in Power power, in ElectricCurrent current) => Create<ElectricPotential>(power.Value / current.Value);
     }
 }
+
+[Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
+public static class ChargeLaws
+{
+    extension(ElectricCurrent)
+    {
+        public static ElectricCharge operator *(in ElectricCurrent current, in Time time) => Create<ElectricCharge>(current.Value * time.Value);
+    }
+
+    extension(Time)
+    {
+        public static ElectricCharge operator *(in Time time, in ElectricCurrent current) => Create<ElectricCharge>(time.Value * current.Value);
+    }
+
+    extension(ElectricCharge)
+    {
+        public static ElectricCurrent operator /(in ElectricCharge charge, in Time time) => Create<ElectricCurrent>(charge.Value / time.Value);
+
+        public static Time operator /(in ElectricCharge charge, in ElectricCurrent current) => Create<Time>(charge.Value / current.Value);
+    }
+}

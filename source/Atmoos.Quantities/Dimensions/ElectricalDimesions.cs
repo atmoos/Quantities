@@ -1,5 +1,7 @@
 ﻿using Atmoos.Quantities.Core.Numerics;
 
+// ToDo: These should be defined in terms of the base dimensions or other derived dimensions, not as fresh interface definitions.
+
 namespace Atmoos.Quantities.Dimensions;
 
 public interface IElectricPotential : ILinear<IElectricPotential>; // marker interface

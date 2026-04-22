@@ -9,7 +9,7 @@ public interface IElectricPotential : ILinear<IElectricPotential>; // marker int
 public interface IElectricalResistance : ILinear<IElectricalResistance>; // marker interface
 
 [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
-public interface IElectricalConductance : ILinear<IElectricalConductance>, IDerivedQuantity; // marker interface
+public interface IElectricalConductance : IDimension<IElectricalResistance, Negative<One>>, IMultiplicity<IElectricalConductance, One>, ILinear, IDerivedQuantity; // marker interface
 
 [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
 public interface ICapacitance : ILinear<ICapacitance>, IDerivedQuantity; // marker interface

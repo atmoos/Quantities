@@ -16,11 +16,29 @@ public static class OhmsLaw
     extension(ElectricCurrent)
     {
         public static ElectricPotential operator *(in ElectricCurrent current, in ElectricalResistance resistance) => Create<ElectricPotential>(current.Value * resistance.Value);
+
+        [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
+        public static ElectricalConductance operator /(in ElectricCurrent current, in ElectricPotential electricPotential) => Create<ElectricalConductance>(current.Value / electricPotential.Value);
     }
 
     extension(ElectricalResistance)
     {
         public static ElectricPotential operator *(in ElectricalResistance resistance, in ElectricCurrent current) => Create<ElectricPotential>(current.Value * resistance.Value);
+    }
+
+    extension(ElectricPotential)
+    {
+        [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
+        public static ElectricCurrent operator *(in ElectricPotential potential, in ElectricalConductance conductance) => Create<ElectricCurrent>(potential.Value * conductance.Value);
+    }
+
+    extension(ElectricalConductance)
+    {
+        [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
+        public static ElectricCurrent operator *(in ElectricalConductance conductance, in ElectricPotential potential) => Create<ElectricCurrent>(conductance.Value * potential.Value);
+
+        [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
+        public static ElectricPotential operator /(in ElectricCurrent current, in ElectricalConductance conductance) => Create<ElectricPotential>(current.Value / conductance.Value);
     }
 }
 

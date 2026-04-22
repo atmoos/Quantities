@@ -37,6 +37,10 @@ public class SystemOfQuantitiesTest
     public void VelocityIsDerivedFromLengthPerTime() => Quantity<Velocity>.IsDerivedFrom(Dim<Length>.Per<Time>());
 
     [Fact]
+    [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
+    public void AngularVelocityIsDerivedFromAnglePerTime() => Quantity<AngularVelocity>.IsDerivedFrom(Dim<Angle>.Per<Time>());
+
+    [Fact]
     public void ForceIsDerivedFromLengthTimeAndMass()
     {
         var expected = Dim<Mass>.Value * Dim<Length>.Value * Dim<Time>.Pow(-2);
@@ -48,6 +52,14 @@ public class SystemOfQuantitiesTest
     {
         var expected = Dim<Length>.Value * Dim<Time>.Pow(-2);
         Quantity<Acceleration>.IsDerivedFrom(expected);
+    }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
+    public void AngularAccelerationIsDerivedFromAnglePerTimeSquared()
+    {
+        var expected = Dim<Angle>.Value * Dim<Time>.Pow(-2);
+        Quantity<AngularAcceleration>.IsDerivedFrom(expected);
     }
 
     [Fact]
@@ -103,6 +115,14 @@ public class SystemOfQuantitiesTest
     {
         var expected = Dim<Power>.Value * Dim<Time>.Value * Dim<Mass>.Pow(-1);
         Quantity<SpecificEnergy>.IsDerivedFrom(expected);
+    }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
+    public void ElectricalConductanceIsDerivedFromInverseResistance()
+    {
+        var expected = Dim<ElectricalResistance>.Pow(-1);
+        Quantity<ElectricalConductance>.IsDerivedFrom(expected);
     }
 }
 

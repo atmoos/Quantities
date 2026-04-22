@@ -69,6 +69,33 @@ public static class Kinematics
         public static Impulse operator *(in Time time, in Force force) => Create<Impulse>(time.Value * force.Value);
     }
 
+    extension(Angle)
+    {
+        [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
+        public static Time operator /(in Angle angle, in AngularVelocity angularVelocity) => Create<Time>(angle.Value / angularVelocity.Value);
+
+        [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
+        public static AngularVelocity operator /(in Angle angle, in Time time) => Create<AngularVelocity>(angle.Value / time.Value);
+    }
+
+    extension(AngularVelocity)
+    {
+        [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
+        public static Angle operator *(in AngularVelocity angularVelocity, in Time time) => Create<Angle>(angularVelocity.Value * time.Value);
+
+        [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
+        public static Time operator /(in AngularVelocity angularVelocity, in AngularAcceleration angularAcceleration) => Create<Time>(angularVelocity.Value / angularAcceleration.Value);
+
+        [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
+        public static AngularAcceleration operator /(in AngularVelocity angularVelocity, in Time time) => Create<AngularAcceleration>(angularVelocity.Value / time.Value);
+    }
+
+    extension(AngularAcceleration)
+    {
+        [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
+        public static AngularVelocity operator *(in AngularAcceleration angularAcceleration, in Time time) => Create<AngularVelocity>(angularAcceleration.Value * time.Value);
+    }
+
     extension(Pressure)
     {
         public static Force operator *(in Pressure pressure, in Area area) => Create<Force>(pressure.Value * area.Value);

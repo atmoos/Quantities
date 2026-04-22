@@ -76,10 +76,13 @@ Atmoos.Quantities
 ├── Acceleration
 ├── AmountOfSubstance
 ├── Angle
+├── AngularAcceleration
+├── AngularVelocity
 ├── Area
 ├── Data
 ├── DataRate
 ├── Density
+├── ElectricalConductance
 ├── ElectricalResistance
 ├── ElectricCharge
 ├── ElectricCurrent

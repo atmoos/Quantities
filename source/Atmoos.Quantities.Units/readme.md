@@ -10,6 +10,10 @@ Atmoos.Quantities.Units
 │   ├── Derived
 │   │   ├── Angle
 │   │   │   └── Radian
+│   │   ├── Capacitance
+│   │   │   └── Farad
+│   │   ├── ElectricalConductance
+│   │   │   └── Siemens
 │   │   ├── ElectricalResistance
 │   │   │   └── Ohm
 │   │   ├── ElectricCharge
@@ -22,6 +26,14 @@ Atmoos.Quantities.Units
 │   │   │   └── Newton
 │   │   ├── Frequency
 │   │   │   └── Hertz
+│   │   ├── Illuminance
+│   │   │   └── Lux
+│   │   ├── LuminousFlux
+│   │   │   └── Lumen
+│   │   ├── MagneticFlux
+│   │   │   └── Weber
+│   │   ├── MagneticFluxDensity
+│   │   │   └── Tesla
 │   │   ├── Power
 │   │   │   └── Watt
 │   │   └── Pressure
@@ -88,9 +100,17 @@ Atmoos.Quantities.Units
     │   └── Turn
     ├── Area
     │   └── Morgen
+    ├── DynamicViscosity
+    │   └── Poise
+    ├── Illuminance
+    │   └── FootCandle
     ├── Length
     │   ├── LightYear
     │   └── NauticalMile
+    ├── MagneticFlux
+    │   └── Maxwell
+    ├── MagneticFluxDensity
+    │   └── Gauss
     ├── Mass
     │   ├── Pfund
     │   └── Zentner

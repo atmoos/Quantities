@@ -1,6 +1,7 @@
-﻿using Atmoos.Quantities.Units.Si.Derived;
+﻿using Atmoos.Quantities;
+using Atmoos.Quantities.Units.Si.Derived;
 
-namespace Atmoos.Quantities.Units.Test;
+namespace Atmoos.Quantities.Units.Test.Operators;
 
 [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
 public sealed class DynamicsTest

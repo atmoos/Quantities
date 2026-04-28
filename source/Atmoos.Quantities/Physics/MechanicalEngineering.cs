@@ -208,5 +208,19 @@ public static class FluidDynamics
         public static Volume operator *(in Time time, in VolumetricFlowRate volumetricFlowRate) => Create<Volume>(time.Value * volumetricFlowRate.Value);
 
         public static Mass operator *(in Time time, in MassFlowRate massFlowRate) => Create<Mass>(time.Value * massFlowRate.Value);
+
+        public static DynamicViscosity operator *(in Time time, in Pressure pressure) => Create<DynamicViscosity>(time.Value * pressure.Value);
+    }
+
+    extension(Pressure)
+    {
+        public static DynamicViscosity operator *(in Pressure pressure, in Time time) => Create<DynamicViscosity>(pressure.Value * time.Value);
+    }
+
+    extension(DynamicViscosity)
+    {
+        public static Pressure operator /(in DynamicViscosity dynamicViscosity, in Time time) => Create<Pressure>(dynamicViscosity.Value / time.Value);
+
+        public static Time operator /(in DynamicViscosity dynamicViscosity, in Pressure pressure) => Create<Time>(dynamicViscosity.Value / pressure.Value);
     }
 }

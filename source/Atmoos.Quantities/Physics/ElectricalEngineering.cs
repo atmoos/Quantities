@@ -82,3 +82,24 @@ public static class ChargeLaws
         public static Time operator /(in ElectricCharge charge, in ElectricCurrent current) => Create<Time>(charge.Value / current.Value);
     }
 }
+
+[Ai(Model = "Claude", Version = "4.5", Variant = "Haiku")]
+public static class CapacitanceLaws
+{
+    extension(ElectricCharge)
+    {
+        public static Capacitance operator /(in ElectricCharge charge, in ElectricPotential potential) => Create<Capacitance>(charge.Value / potential.Value);
+    }
+
+    extension(ElectricPotential)
+    {
+        public static ElectricCharge operator *(in ElectricPotential potential, in Capacitance capacitance) => Create<ElectricCharge>(potential.Value * capacitance.Value);
+    }
+
+    extension(Capacitance)
+    {
+        public static ElectricCharge operator *(in Capacitance capacitance, in ElectricPotential potential) => Create<ElectricCharge>(capacitance.Value * potential.Value);
+
+        public static ElectricPotential operator /(in ElectricCharge charge, in Capacitance capacitance) => Create<ElectricPotential>(charge.Value / capacitance.Value);
+    }
+}

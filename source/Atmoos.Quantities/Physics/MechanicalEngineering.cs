@@ -224,3 +224,24 @@ public static class FluidDynamics
         public static Time operator /(in DynamicViscosity dynamicViscosity, in Pressure pressure) => Create<Time>(dynamicViscosity.Value / pressure.Value);
     }
 }
+
+[Ai(Model = "Claude", Version = "4.5", Variant = "Haiku")]
+public static class PhotometryLaws
+{
+    extension(LuminousFlux)
+    {
+        public static Illuminance operator /(in LuminousFlux luminousFlux, in Area area) => Create<Illuminance>(luminousFlux.Value / area.Value);
+    }
+
+    extension(Area)
+    {
+        public static Illuminance operator /(in Area area, in LuminousFlux luminousFlux) => Create<Illuminance>(area.Value / luminousFlux.Value);
+    }
+
+    extension(Illuminance)
+    {
+        public static LuminousFlux operator *(in Illuminance illuminance, in Area area) => Create<LuminousFlux>(illuminance.Value * area.Value);
+
+        public static Area operator /(in LuminousFlux luminousFlux, in Illuminance illuminance) => Create<Area>(luminousFlux.Value / illuminance.Value);
+    }
+}

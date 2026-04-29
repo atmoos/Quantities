@@ -103,3 +103,45 @@ public static class CapacitanceLaws
         public static ElectricPotential operator /(in ElectricCharge charge, in Capacitance capacitance) => Create<ElectricPotential>(charge.Value / capacitance.Value);
     }
 }
+
+[Ai(Model = "Claude", Version = "4.5", Variant = "Haiku")]
+public static class MagneticFluxLaws
+{
+    extension(ElectricPotential)
+    {
+        public static MagneticFlux operator *(in ElectricPotential potential, in Time time) => Create<MagneticFlux>(potential.Value * time.Value);
+    }
+
+    extension(Time)
+    {
+        public static MagneticFlux operator *(in Time time, in ElectricPotential potential) => Create<MagneticFlux>(time.Value * potential.Value);
+    }
+
+    extension(MagneticFlux)
+    {
+        public static ElectricPotential operator /(in MagneticFlux magneticFlux, in Time time) => Create<ElectricPotential>(magneticFlux.Value / time.Value);
+
+        public static Time operator /(in MagneticFlux magneticFlux, in ElectricPotential potential) => Create<Time>(magneticFlux.Value / potential.Value);
+    }
+}
+
+[Ai(Model = "Claude", Version = "4.5", Variant = "Haiku")]
+public static class MagneticFluxDensityLaws
+{
+    extension(MagneticFlux)
+    {
+        public static MagneticFluxDensity operator /(in MagneticFlux magneticFlux, in Area area) => Create<MagneticFluxDensity>(magneticFlux.Value / area.Value);
+    }
+
+    extension(Area)
+    {
+        public static MagneticFluxDensity operator /(in Area area, in MagneticFlux magneticFlux) => Create<MagneticFluxDensity>(area.Value / magneticFlux.Value);
+    }
+
+    extension(MagneticFluxDensity)
+    {
+        public static MagneticFlux operator *(in MagneticFluxDensity density, in Area area) => Create<MagneticFlux>(density.Value * area.Value);
+
+        public static Area operator /(in MagneticFlux magneticFlux, in MagneticFluxDensity density) => Create<Area>(magneticFlux.Value / density.Value);
+    }
+}

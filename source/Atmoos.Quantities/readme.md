@@ -1,4 +1,4 @@
-﻿# Atmoos.Quantities
+# Atmoos.Quantities
 
 This library enables type-safe handling of quantities. It is a general purpose library that allows third parties to define their own units if needed. Many units are predefined in this library or are available on nuget [here](https://www.nuget.org/packages/Atmoos.Quantities.Units/).
 
@@ -92,10 +92,13 @@ Atmoos.Quantities
 ├── Energy
 ├── Force
 ├── Frequency
+├── Illuminance
 ├── Impulse
 ├── Length
 ├── LuminousFlux
 ├── LuminousIntensity
+├── MagneticFlux
+├── MagneticFluxDensity
 ├── Mass
 ├── MassFlowRate
 ├── Momentum

@@ -1,4 +1,5 @@
-﻿using Atmoos.Quantities.Creation;
+﻿using Atmoos.Quantities.Core.Numerics;
+using Atmoos.Quantities.Creation;
 using Atmoos.Quantities.Dimensions;
 using Atmoos.Quantities.Units;
 
@@ -20,10 +21,18 @@ public readonly struct VolumetricFlowRate : IQuantity<VolumetricFlowRate>, IVolu
         where TNominator : IVolume, IUnit
         where TDenominator : ITime, IUnit => new(other.Transform(in this.volumetricFlowRate));
 
+    public VolumetricFlowRate To<TNominator, TDenominator>(in Quotient<Power<TNominator, Three>, TDenominator> other)
+        where TNominator : ILength, IUnit
+        where TDenominator : ITime, IUnit => new(other.Transform(in this.volumetricFlowRate));
+
     public static VolumetricFlowRate Of<TUnit>(in Double value, in Scalar<TUnit> measure)
         where TUnit : IVolumetricFlowRate, IUnit => new(measure.Create(in value));
     public static VolumetricFlowRate Of<TNominator, TDenominator>(in Double value, in Quotient<TNominator, TDenominator> measure)
         where TNominator : IVolume, IUnit
+        where TDenominator : ITime, IUnit => new(measure.Create(in value));
+
+    public static VolumetricFlowRate Of<TNominator, TDenominator>(in Double value, in Quotient<Power<TNominator, Three>, TDenominator> measure)
+        where TNominator : ILength, IUnit
         where TDenominator : ITime, IUnit => new(measure.Create(in value));
 
     static VolumetricFlowRate IFactory<VolumetricFlowRate>.Create(in Quantity value) => new(in value);

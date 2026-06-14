@@ -6,7 +6,7 @@ namespace Atmoos.Quantities.Dimensions;
 
 public interface IElectricPotential : ILinear<IElectricPotential>; // marker interface
 
-public interface IElectricalResistance : ILinear<IElectricalResistance>; // marker interface
+public interface IElectricalResistance : ILinear<IElectricalResistance>, IMultiplicity<IElectricalConductance, Negative<One>>; // marker interface
 
 [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
 public interface IElectricalConductance : IDimension<IElectricalResistance, Negative<One>>, IMultiplicity<IElectricalConductance, One>, ILinear, IDerivedQuantity; // marker interface

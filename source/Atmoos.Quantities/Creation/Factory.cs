@@ -12,10 +12,10 @@ internal abstract class Factory
     private Factory(in InjectDivision divisor) => Divisor = divisor;
 
     public abstract ref readonly Measure Create();
-    public abstract ref readonly Factory Multiply(Factory other);
+    public abstract ref readonly Factory Multiply(in Factory other);
     protected abstract ref readonly Factory Multiply<TMeasure>()
         where TMeasure : IMeasure;
-    public abstract ref readonly Factory Divide(Factory other);
+    public abstract ref readonly Factory Divide(in Factory other);
     public abstract ref readonly Factory Power<TExponent>()
         where TExponent : INumber;
     public abstract ref readonly Measure AliasOf<TUnit, TLinear>()
@@ -36,11 +36,11 @@ internal abstract class Factory
 
         public override ref readonly Measure Create() => ref Measure.Of<TMeasure>();
 
-        public override ref readonly Factory Multiply(Factory other) => ref other.Multiply<TMeasure>();
+        public override ref readonly Factory Multiply(in Factory other) => ref other.Multiply<TMeasure>();
 
         protected override ref readonly Factory Multiply<TMeasure1>() => ref Of<Measures.Product<TMeasure1, TMeasure>>();
 
-        public override ref readonly Factory Divide(Factory other) => ref other.Divisor.Of<TMeasure>();
+        public override ref readonly Factory Divide(in Factory other) => ref other.Divisor.Of<TMeasure>();
 
         public override ref readonly Factory Power<TExponent>() => ref Of<Measures.Power<TMeasure, TExponent>>();
 

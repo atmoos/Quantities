@@ -107,7 +107,21 @@ public static class Kinematics
 
         public static Power operator *(in Force force, in Velocity velocity) => Create<Power>(force.Value * velocity.Value);
 
+        public static Torque operator *(in Force force, in Length length) => Create<Torque>(force.Value * length.Value);
+
         public static Impulse operator *(in Force force, in Time time) => Create<Impulse>(force.Value * time.Value);
+    }
+
+    extension(Length)
+    {
+        public static Torque operator *(in Length length, in Force force) => Create<Torque>(length.Value * force.Value);
+    }
+
+    extension(Torque)
+    {
+        public static Force operator /(in Torque torque, in Length length) => Create<Force>(torque.Value / length.Value);
+
+        public static Length operator /(in Torque torque, in Force force) => Create<Length>(torque.Value / force.Value);
     }
 
     extension(Power)

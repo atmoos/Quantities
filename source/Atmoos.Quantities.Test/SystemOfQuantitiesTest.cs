@@ -63,6 +63,14 @@ public class SystemOfQuantitiesTest
     }
 
     [Fact]
+    [Ai(Model = "GPT", Version = "5.4", Variant = "Copilot")]
+    public void TorqueIsDerivedFromForceTimesLength()
+    {
+        var expected = Dim<Force>.Value * Dim<Length>.Value;
+        Quantity<Torque>.IsDerivedFrom(expected);
+    }
+
+    [Fact]
     public void PressureIsDerivedFromLengthTimeAndMass()
     {
         var expected = Dim<Mass>.Value * Dim<Length>.Pow(-1) * Dim<Time>.Pow(-2);
@@ -123,6 +131,38 @@ public class SystemOfQuantitiesTest
     {
         var expected = Dim<ElectricalResistance>.Pow(-1);
         Quantity<ElectricalConductance>.IsDerivedFrom(expected);
+    }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.4", Variant = "Copilot")]
+    public void MagneticFluxIsDerivedFromPotentialTimesTime()
+    {
+        var expected = Dim<ElectricPotential>.Value * Dim<Time>.Value;
+        Quantity<MagneticFlux>.IsDerivedFrom(expected);
+    }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.4", Variant = "Copilot")]
+    public void MagneticFluxDensityIsDerivedFromFluxPerArea()
+    {
+        var expected = Dim<MagneticFlux>.Value * Dim<Length>.Pow(-2);
+        Quantity<MagneticFluxDensity>.IsDerivedFrom(expected);
+    }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.4", Variant = "Copilot")]
+    public void IlluminanceIsDerivedFromLuminousFluxPerArea()
+    {
+        var expected = Dim<LuminousFlux>.Value * Dim<Length>.Pow(-2);
+        Quantity<Illuminance>.IsDerivedFrom(expected);
+    }
+
+    [Fact]
+    [Ai(Model = "GPT", Version = "5.4", Variant = "Copilot")]
+    public void DynamicViscosityIsDerivedFromPressureTimesTime()
+    {
+        var expected = Dim<Pressure>.Value * Dim<Time>.Value;
+        Quantity<DynamicViscosity>.IsDerivedFrom(expected);
     }
 }
 

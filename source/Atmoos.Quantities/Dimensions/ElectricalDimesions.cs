@@ -6,13 +6,13 @@ namespace Atmoos.Quantities.Dimensions;
 
 public interface IElectricPotential : ILinear<IElectricPotential>; // marker interface
 
-public interface IElectricalResistance : ILinear<IElectricalResistance>, IMultiplicity<IElectricalConductance, Negative<One>>; // marker interface
+public interface IElectricalResistance : IProduct<IElectricPotential, IDimension<IElectricCurrent, Negative<One>>>, IMultiplicity<IElectricalResistance, One>, IMultiplicity<IElectricalConductance, Negative<One>>, ILinear, IDerivedQuantity; // marker interface
 
 [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
-public interface IElectricalConductance : IDimension<IElectricalResistance, Negative<One>>, IMultiplicity<IElectricalConductance, One>, ILinear, IDerivedQuantity; // marker interface
+public interface IElectricalConductance : IProduct<IElectricCurrent, IDimension<IElectricPotential, Negative<One>>>, IMultiplicity<IElectricalConductance, One>, IMultiplicity<IElectricalResistance, Negative<One>>, ILinear, IDerivedQuantity; // marker interface
 
 [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
-public interface ICapacitance : ILinear<ICapacitance>, IDerivedQuantity; // marker interface
+public interface ICapacitance : IProduct<IElectricCharge, IDimension<IElectricPotential, Negative<One>>>, IMultiplicity<ICapacitance, One>, IDerivedQuantity; // marker interface
 
 public interface IElectricCharge : IProduct<IElectricCurrent, ITime>, IMultiplicity<IElectricCharge, One>, IDerivedQuantity; // marker interface
 

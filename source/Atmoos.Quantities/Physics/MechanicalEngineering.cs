@@ -247,11 +247,6 @@ public static class PhotometryLaws
         public static Illuminance operator /(in LuminousFlux luminousFlux, in Area area) => Create<Illuminance>(luminousFlux.Value / area.Value);
     }
 
-    extension(Area)
-    {
-        public static Illuminance operator /(in Area area, in LuminousFlux luminousFlux) => Create<Illuminance>(area.Value / luminousFlux.Value);
-    }
-
     extension(Illuminance)
     {
         public static LuminousFlux operator *(in Illuminance illuminance, in Area area) => Create<LuminousFlux>(illuminance.Value * area.Value);

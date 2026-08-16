@@ -133,11 +133,6 @@ public static class MagneticFluxDensityLaws
         public static MagneticFluxDensity operator /(in MagneticFlux magneticFlux, in Area area) => Create<MagneticFluxDensity>(magneticFlux.Value / area.Value);
     }
 
-    extension(Area)
-    {
-        public static MagneticFluxDensity operator /(in Area area, in MagneticFlux magneticFlux) => Create<MagneticFluxDensity>(area.Value / magneticFlux.Value);
-    }
-
     extension(MagneticFluxDensity)
     {
         public static MagneticFlux operator *(in MagneticFluxDensity density, in Area area) => Create<MagneticFlux>(density.Value * area.Value);

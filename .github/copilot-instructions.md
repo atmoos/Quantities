@@ -15,7 +15,7 @@ This repository is a C# library for physical quantities and units of measurement
 Each C# project has a `readme.md` file that describes the domain knowledge and design principles of the project. This file should be used as a reference when generating code for the project to ensure that the generated code aligns with the project's goals and design.
 
 - [Quantities](../source/Atmoos.Quantities/readme.md)
-  - exhaustive lists all quantities
+  - exhaustively lists all quantities
   - also lists units that are predefined in the library
 - [Units](../source/Atmoos.Quantities.Units/readme.md)
   - lists all other units

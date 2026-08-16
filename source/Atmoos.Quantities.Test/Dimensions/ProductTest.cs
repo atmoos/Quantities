@@ -88,6 +88,26 @@ public class ProductTest
     }
 
     [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
+    public void EquatesToInverseOfProductWithDifferentOuterExponent()
+    {
+        // (A * B⁻¹)⁻¹ carries an outer exponent of -1, whereas B * A⁻¹ carries one of 1;
+        // both represent the same dimension and must compare equal regardless of that outer exponent.
+        var expected = Dim<Length>.Per<Time>().Pow(-1);
+        var actual = Dim<Time>.Per<Length>();
+        DimAssert.Equal(expected, actual);
+    }
+
+    [Fact]
+    [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
+    public void EquatesToInverseOfProductWithDifferentOuterExponentAndYieldsSameHashCode()
+    {
+        var expected = Dim<Length>.Per<Time>().Pow(-1);
+        var actual = Dim<Time>.Per<Length>();
+        Assert.Equal(expected.GetHashCode(), actual.GetHashCode());
+    }
+
+    [Fact]
     public void ZerothPowerOfProductIsUnit()
     {
         Assert.IsType<Unit>(someProduct.Pow(0));

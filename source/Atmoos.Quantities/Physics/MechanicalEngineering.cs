@@ -45,6 +45,7 @@ public static class Kinematics
 
         public static Power operator *(in Velocity velocity, in Force force) => Create<Power>(force.Value * velocity.Value);
 
+        [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
         public static Momentum operator *(in Velocity velocity, in Mass mass) => Create<Momentum>(velocity.Value * mass.Value);
     }
 
@@ -66,6 +67,7 @@ public static class Kinematics
 
         public static Velocity operator *(in Time time, in Acceleration acceleration) => Create<Velocity>(acceleration.Value * time.Value);
 
+        [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
         public static Impulse operator *(in Time time, in Force force) => Create<Impulse>(time.Value * force.Value);
     }
 
@@ -107,20 +109,25 @@ public static class Kinematics
 
         public static Power operator *(in Force force, in Velocity velocity) => Create<Power>(force.Value * velocity.Value);
 
+        [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
         public static Torque operator *(in Force force, in Length length) => Create<Torque>(force.Value * length.Value);
 
+        [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
         public static Impulse operator *(in Force force, in Time time) => Create<Impulse>(force.Value * time.Value);
     }
 
     extension(Length)
     {
+        [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
         public static Torque operator *(in Length length, in Force force) => Create<Torque>(length.Value * force.Value);
     }
 
     extension(Torque)
     {
+        [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
         public static Force operator /(in Torque torque, in Length length) => Create<Force>(torque.Value / length.Value);
 
+        [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
         public static Length operator /(in Torque torque, in Force force) => Create<Length>(torque.Value / force.Value);
     }
 
@@ -139,34 +146,43 @@ public static class Kinematics
 
         public static Time operator /(in Energy energy, in Power power) => Create<Time>(energy.Value / power.Value);
 
+        [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
         public static SpecificEnergy operator /(in Energy energy, in Mass mass) => Create<SpecificEnergy>(energy.Value / mass.Value);
 
+        [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
         public static Mass operator /(in Energy energy, in SpecificEnergy specificEnergy) => Create<Mass>(energy.Value / specificEnergy.Value);
     }
 
     extension(Mass)
     {
+        [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
         public static Momentum operator *(in Mass mass, in Velocity velocity) => Create<Momentum>(mass.Value * velocity.Value);
 
+        [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
         public static Energy operator *(in Mass mass, in SpecificEnergy specificEnergy) => Create<Energy>(mass.Value * specificEnergy.Value);
     }
 
     extension(Momentum)
     {
+        [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
         public static Velocity operator /(in Momentum momentum, in Mass mass) => Create<Velocity>(momentum.Value / mass.Value);
 
+        [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
         public static Mass operator /(in Momentum momentum, in Velocity velocity) => Create<Mass>(momentum.Value / velocity.Value);
     }
 
     extension(Impulse)
     {
+        [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
         public static Time operator /(in Impulse impulse, in Force force) => Create<Time>(impulse.Value / force.Value);
 
+        [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
         public static Force operator /(in Impulse impulse, in Time time) => Create<Force>(impulse.Value / time.Value);
     }
 
     extension(SpecificEnergy)
     {
+        [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
         public static Energy operator *(in SpecificEnergy specificEnergy, in Mass mass) => Create<Energy>(specificEnergy.Value * mass.Value);
     }
 }

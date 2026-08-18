@@ -5,7 +5,7 @@ using Atmoos.Quantities.Units;
 namespace Atmoos.Quantities;
 
 [Ai(Model = "Claude", Version = "4.5", Variant = "Haiku")]
-public readonly struct Capacitance : IQuantity<Capacitance>, ICapacitance, IScalar<Capacitance, ICapacitance>
+public readonly struct Capacitance : IQuantity<Capacitance>, ICapacitance, IQuotient<Capacitance, ICapacitance, IElectricCharge, IElectricPotential>
 {
     private readonly Quantity capacitance;
     internal Quantity Value => this.capacitance;
@@ -16,8 +16,16 @@ public readonly struct Capacitance : IQuantity<Capacitance>, ICapacitance, IScal
     public Capacitance To<TUnit>(in Scalar<TUnit> other)
         where TUnit : ICapacitance, IUnit => new(other.Transform(in this.capacitance));
 
+    public Capacitance To<TCharge, TPotential>(in Quotient<TCharge, TPotential> other)
+        where TCharge : IElectricCharge, IUnit
+        where TPotential : IElectricPotential, IUnit => new(other.Transform(in this.capacitance));
+
     public static Capacitance Of<TUnit>(in Double value, in Scalar<TUnit> measure)
         where TUnit : ICapacitance, IUnit => new(measure.Create(in value));
+
+    public static Capacitance Of<TCharge, TPotential>(in Double value, in Quotient<TCharge, TPotential> measure)
+        where TCharge : IElectricCharge, IUnit
+        where TPotential : IElectricPotential, IUnit => new(measure.Create(in value));
 
     static Capacitance IFactory<Capacitance>.Create(in Quantity value) => new(in value);
 

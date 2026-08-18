@@ -1,4 +1,5 @@
-﻿using Atmoos.Quantities.Core.Numerics;
+﻿using System.Globalization;
+using Atmoos.Quantities.Core.Numerics;
 using Atmoos.Quantities.Measures;
 using Atmoos.Quantities.Units.Si.Metric;
 
@@ -129,6 +130,66 @@ public class CreatorsTest
 
         Quantity converted = si.Transform(actual);
         converted.Matches(Quantity.Of<Product<Product<Si<Metre>, Power<Metric<Hour>, Negative<One>>>, Power<Metric<Minute>, Negative<Two>>>>(432_000_000));
+        chained.Transform(converted).Matches(actual);
+    }
+
+    [Fact]
+    public void PowerTimesScalarMeasurePreservesPowersAndConversionFactor()
+    {
+        var powered = Square(Si<Kilo, Metre>());
+        var chained = powered.Times(Si<Second>());
+        var si = Square(Si<Metre>()).Times(Si<Second>());
+
+        Quantity actual = chained.Create(2);
+        actual.Matches(Quantity.Of<Product<Power<Si<Kilo, Metre>, Two>, Si<Second>>>(2));
+
+        Quantity converted = si.Transform(actual);
+        converted.Matches(Quantity.Of<Product<Power<Si<Metre>, Two>, Si<Second>>>(2_000_000));
+        chained.Transform(converted).Matches(actual);
+    }
+
+    [Fact]
+    public void PowerTimesPoweredMeasurePreservesPowersAndConversionFactor()
+    {
+        var powered = Square(Si<Kilo, Metre>());
+        var chained = powered.Times(Square(Si<Second>()));
+        var si = Square(Si<Metre>()).Times(Square(Si<Second>()));
+
+        Quantity actual = chained.Create(2);
+        actual.Matches(Quantity.Of<Product<Power<Si<Kilo, Metre>, Two>, Power<Si<Second>, Two>>>(2));
+
+        Quantity converted = si.Transform(actual);
+        converted.Matches(Quantity.Of<Product<Power<Si<Metre>, Two>, Power<Si<Second>, Two>>>(2_000_000));
+        chained.Transform(converted).Matches(actual);
+    }
+
+    [Fact]
+    public void PowerPerScalarMeasurePreservesPowersAndConversionFactor()
+    {
+        var powered = Square(Si<Kilo, Metre>());
+        var chained = powered.Per(Si<Second>());
+        var si = Square(Si<Metre>()).Per(Si<Second>());
+
+        Quantity actual = chained.Create(2);
+        actual.Matches(Quantity.Of<Product<Power<Si<Kilo, Metre>, Two>, Power<Si<Second>, Negative<One>>>>(2));
+
+        Quantity converted = si.Transform(actual);
+        converted.Matches(Quantity.Of<Product<Power<Si<Metre>, Two>, Power<Si<Second>, Negative<One>>>>(2_000_000));
+        chained.Transform(converted).Matches(actual);
+    }
+
+    [Fact]
+    public void PowerPerPoweredMeasurePreservesPowersAndConversionFactor()
+    {
+        var powered = Square(Si<Kilo, Metre>());
+        var chained = powered.Per(Square(Si<Second>()));
+        var si = Square(Si<Metre>()).Per(Square(Si<Second>()));
+
+        Quantity actual = chained.Create(2);
+        actual.Matches(Quantity.Of<Product<Power<Si<Kilo, Metre>, Two>, Power<Si<Second>, Negative<Two>>>>(2));
+
+        Quantity converted = si.Transform(actual);
+        converted.Matches(Quantity.Of<Product<Power<Si<Metre>, Two>, Power<Si<Second>, Negative<Two>>>>(2_000_000));
         chained.Transform(converted).Matches(actual);
     }
 }

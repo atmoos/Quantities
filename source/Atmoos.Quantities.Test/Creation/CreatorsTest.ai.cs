@@ -1,4 +1,5 @@
-﻿using Atmoos.Quantities.Creation;
+﻿using Atmoos.Quantities.Core.Numerics;
+using Atmoos.Quantities.Measures;
 using Atmoos.Quantities.Units.Si.Metric;
 
 namespace Atmoos.Quantities.Test.Creation;
@@ -6,77 +7,63 @@ namespace Atmoos.Quantities.Test.Creation;
 [Ai(Model = "GPT", Version = "5.4")]
 public class CreatorsTest
 {
-    private const String zeroWidthNonJoiner = "\u200C";
-
     [Fact]
     public void ProductTimesScalarMeasurePreservesTermsAndConversionFactor()
     {
-        Product<Metre, Hour> product = Si<Kilo, Metre>().Times(Metric<Hour>());
+        var product = Si<Kilo, Metre>().Times(Metric<Hour>());
         var chained = product.Times(Si<Second>());
         var si = Si<Metre>().Times(Square(Si<Second>()));
 
         Quantity actual = chained.Create(2);
-        (Double value, String unit) = actual;
-
-        Assert.Equal(2d, value);
-        Assert.Equal($"km{zeroWidthNonJoiner}h{zeroWidthNonJoiner}s", unit);
+        actual.Matches(Quantity.Of<Product<Product<Si<Kilo, Metre>, Metric<Hour>>, Si<Second>>>(2));
 
         Quantity converted = si.Transform(actual);
-        Assert.Equal(7_200_000d, (Double)converted);
-        Assert.Equal(2d, (Double)chained.Transform(converted));
+        converted.Matches(Quantity.Of<Product<Si<Metre>, Power<Si<Second>, Two>>>(7_200_000));
+        chained.Transform(converted).Matches(actual);
     }
 
     [Fact]
     public void ProductTimesPoweredMeasurePreservesTermsAndConversionFactor()
     {
-        Product<Metre, Hour> product = Si<Kilo, Metre>().Times(Metric<Hour>());
+        var product = Si<Kilo, Metre>().Times(Metric<Hour>());
         var chained = product.Times(Square(Si<Second>()));
         var si = Si<Metre>().Times(Metric<Hour>()).Times(Square(Si<Second>()));
 
         Quantity actual = chained.Create(2);
-        (Double value, String unit) = actual;
-
-        Assert.Equal(2d, value);
-        Assert.Equal($"km{zeroWidthNonJoiner}h{zeroWidthNonJoiner}s²", unit);
+        actual.Matches(Quantity.Of<Product<Product<Si<Kilo, Metre>, Metric<Hour>>, Power<Si<Second>, Two>>>(2));
 
         Quantity converted = si.Transform(actual);
-        Assert.Equal(2_000d, (Double)converted);
-        Assert.Equal(2d, (Double)chained.Transform(converted));
+        converted.Matches(Quantity.Of<Product<Product<Si<Metre>, Metric<Hour>>, Power<Si<Second>, Two>>>(2_000));
+        chained.Transform(converted).Matches(actual);
     }
 
     [Fact]
     public void ProductPerScalarMeasurePreservesTermsAndConversionFactor()
     {
-        Product<Metre, Hour> product = Si<Kilo, Metre>().Times(Metric<Hour>());
+        var product = Si<Kilo, Metre>().Times(Metric<Hour>());
         var chained = product.Per(Metric<Minute>());
         var si = Si<Metre>();
 
         Quantity actual = chained.Create(2);
-        (Double value, String unit) = actual;
-
-        Assert.Equal(2d, value);
-        Assert.Equal($"km{zeroWidthNonJoiner}h/min", unit);
+        actual.Matches(Quantity.Of<Product<Product<Si<Kilo, Metre>, Metric<Hour>>, Power<Metric<Minute>, Negative<One>>>>(2));
 
         Quantity converted = si.Transform(actual);
-        Assert.Equal(120_000d, (Double)converted);
-        Assert.Equal(2d, (Double)chained.Transform(converted));
+        converted.Matches(Quantity.Of<Si<Metre>>(120_000));
+        chained.Transform(converted).Matches(actual);
     }
 
     [Fact]
     public void ProductPerPoweredMeasurePreservesTermsAndConversionFactor()
     {
-        Product<Metre, Hour> product = Si<Kilo, Metre>().Times(Metric<Hour>());
+        var product = Si<Kilo, Metre>().Times(Metric<Hour>());
         var chained = product.Per(Square(Si<Second>()));
         var si = Si<Metre>().Per(Si<Second>());
 
         Quantity actual = chained.Create(2);
-        (Double value, String unit) = actual;
-
-        Assert.Equal(2d, value);
-        Assert.Equal($"km{zeroWidthNonJoiner}h/s²", unit);
+        actual.Matches(Quantity.Of<Product<Product<Si<Kilo, Metre>, Metric<Hour>>, Power<Si<Second>, Negative<Two>>>>(2));
 
         Quantity converted = si.Transform(actual);
-        Assert.Equal(7_200_000d, (Double)converted);
-        Assert.Equal(2d, (Double)chained.Transform(converted));
+        converted.Matches(Quantity.Of<Product<Si<Metre>, Power<Si<Second>, Negative<One>>>>(7_200_000));
+        chained.Transform(converted).Matches(actual);
     }
 }

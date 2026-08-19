@@ -42,7 +42,7 @@ public interface IImpulse : IProduct<IForce, ITime>, IMultiplicity<IImpulse, One
 public interface ISpecificEnergy : IProduct<IEnergy, IDimension<IMass, Negative<One>>>, IMultiplicity<ISpecificEnergy, One>, IDerivedQuantity; // marker interface
 
 [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
-public interface ILuminousFlux : ILinear<ILuminousFlux>, IDerivedQuantity; // marker interface
+public interface ILuminousFlux : IProduct<ILuminousIntensity, ISolidAngle>, IMultiplicity<ILuminousFlux, One>, IDerivedQuantity; // marker interface
 
 [Ai(Model = "GPT", Version = "5.3", Variant = "Codex")]
 public interface IIlluminance : IProduct<ILuminousFlux, IDimension<ILength, Negative<Two>>>, IMultiplicity<IIlluminance, One>, IDerivedQuantity; // marker interface

@@ -19,6 +19,18 @@ public sealed class KinematicsTest
     }
 
     [Fact]
+    public void AngleDividedByTimeRetainsRadianUnitInFormatting()
+    {
+        Angle angle = Angle.Of(Math.PI, Si<Radian>());
+        Time time = Time.Of(2, Si<Second>());
+
+        AngularVelocity actual = angle / time;
+        (_, String unit) = actual;
+
+        Assert.Equal("rad/s", unit);
+    }
+
+    [Fact]
     public void AngularVelocityDividedByTimeYieldsAngularAcceleration()
     {
         AngularVelocity angularVelocity = AngularVelocity.Of(Math.PI, Si<Radian>().Per(Si<Second>()));

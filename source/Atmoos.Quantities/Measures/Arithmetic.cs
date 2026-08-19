@@ -89,6 +89,11 @@ file sealed class Visitor : IVisitor
     {
         Scalar? match;
         this.fallback.Inject<TMeasure>();
+        // A named but dimensionless measure (e.g. Radian) carries no dimension to match against,
+        // yet must still be preserved in the result instead of being silently dropped.
+        if (TMeasure.D is Unit && typeof(TMeasure) != typeof(Identity)) {
+            return new Visitor(TMeasure.Power(this.inject, 1), this.targets, this.fallback);
+        }
         if ((match = this.targets.FirstOrDefault(t => t.CommonRoot(TMeasure.D))) != null) {
             this.targets.Remove(match);
             return new Visitor(TMeasure.Power(this.inject, match.E), this.targets, this.fallback);

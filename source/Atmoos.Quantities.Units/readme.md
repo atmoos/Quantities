@@ -36,8 +36,10 @@ Atmoos.Quantities.Units
 │   │   │   └── Tesla
 │   │   ├── Power
 │   │   │   └── Watt
-│   │   └── Pressure
-│   │       └── Pascal
+│   │   ├── Pressure
+│   │   │   └── Pascal
+│   │   └── SolidAngle
+│   │       └── Steradian
 │   └── Metric
 │       ├── AmountOfInformation
 │       │   ├── Bit

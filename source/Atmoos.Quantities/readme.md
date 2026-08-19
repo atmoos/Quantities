@@ -104,6 +104,7 @@ Atmoos.Quantities
 ├── Momentum
 ├── Power
 ├── Pressure
+├── SolidAngle
 ├── SpecificEnergy
 ├── Temperature
 ├── Time

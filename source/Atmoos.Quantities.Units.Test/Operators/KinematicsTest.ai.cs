@@ -43,6 +43,30 @@ public sealed class KinematicsTest
     }
 
     [Fact]
+    public void AngularVelocityTimesTimeRetainsRadianUnitInFormatting()
+    {
+        AngularVelocity angularVelocity = AngularVelocity.Of(Math.PI, Si<Radian>().Per(Si<Second>()));
+        Time time = Time.Of(2, Si<Second>());
+        Angle expected = Angle.Of(2 * Math.PI, Si<Radian>());
+
+        Angle actual = angularVelocity * time;
+
+        actual.Matches(expected);
+    }
+
+    [Fact]
+    public void AngleDividedByAngularVelocityYieldsTimeWithoutResidualRadians()
+    {
+        Angle angle = Angle.Of(Math.PI, Si<Radian>());
+        AngularVelocity angularVelocity = AngularVelocity.Of(Math.PI / 2, Si<Radian>().Per(Si<Second>()));
+        Time expected = Time.Of(2, Si<Second>());
+
+        Time actual = angle / angularVelocity;
+
+        actual.Matches(expected);
+    }
+
+    [Fact]
     public void LengthDividedByVelocityYieldsTime()
     {
         Length distance = Length.Of(100, Si<Metre>());

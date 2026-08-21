@@ -1,5 +1,7 @@
 ﻿using Atmoos.Quantities;
+using Atmoos.Quantities.Units.NonStandard.Angle;
 using Atmoos.Quantities.Units.Si.Derived;
+using Atmoos.Quantities.Units.Si.Metric;
 
 namespace Atmoos.Quantities.Units.Test.Operators;
 
@@ -58,6 +60,18 @@ public sealed class KinematicsTest
     public void AngleDividedByAngularVelocityYieldsTimeWithoutResidualRadians()
     {
         Angle angle = Angle.Of(Math.PI, Si<Radian>());
+        AngularVelocity angularVelocity = AngularVelocity.Of(Math.PI / 2, Si<Radian>().Per(Si<Second>()));
+        Time expected = Time.Of(2, Si<Second>());
+
+        Time actual = angle / angularVelocity;
+
+        actual.Matches(expected);
+    }
+
+    [Fact]
+    public void AngleInDegreesDividedByAngularVelocityInRadiansYieldsTimeWithoutResidualAngleUnits()
+    {
+        Angle angle = Angle.Of(180, Metric<Degree>());
         AngularVelocity angularVelocity = AngularVelocity.Of(Math.PI / 2, Si<Radian>().Per(Si<Second>()));
         Time expected = Time.Of(2, Si<Second>());
 

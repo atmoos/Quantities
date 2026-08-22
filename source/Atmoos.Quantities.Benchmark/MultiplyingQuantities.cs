@@ -1,4 +1,4 @@
-﻿using Atmoos.Quantities.Physics;
+using Atmoos.Quantities.Physics;
 using Atmoos.Quantities.Prefixes;
 using Atmoos.Quantities.Units.Imperial.Length;
 using Atmoos.Quantities.Units.Si;
@@ -47,19 +47,19 @@ public class MultiplyingQuantities
 /* Summary
 
 BenchmarkDotNet v0.15.8, Linux Arch Linux
-Intel Core i7-8565U CPU 1.80GHz (Max: 3.39GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK 10.0.100
-  [Host]     : .NET 10.0.0 (10.0.0, 42.42.42.42424), X64 RyuJIT x86-64-v3
-  DefaultJob : .NET 10.0.0 (10.0.0, 42.42.42.42424), X64 RyuJIT x86-64-v3
+Intel Core i7-8565U CPU 1.80GHz (Max: 0.40GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
+.NET SDK 10.0.111
+  [Host]     : .NET 10.0.11 (10.0.11, 42.42.42.42424), X64 RyuJIT x86-64-v3
+  DefaultJob : .NET 10.0.11 (10.0.11, 42.42.42.42424), X64 RyuJIT x86-64-v3
 
 
 | Method                | Mean      | Error     | Ratio | Allocated | Alloc Ratio |
 |---------------------- |----------:|----------:|------:|----------:|------------:|
-| Trivial               | 15.875 ns | 0.0373 ns |  1.00 |         - |          NA |
-| MultiplySi            |  6.506 ns | 0.0614 ns |  0.41 |         - |          NA |
-| MultiplyImperial      |  6.128 ns | 0.0345 ns |  0.39 |         - |          NA |
-| MultiplyMixed         |  6.235 ns | 0.0233 ns |  0.39 |         - |          NA |
-| MultiplyPureSi        |  6.241 ns | 0.0248 ns |  0.39 |         - |          NA |
-| MultiplyPowerQuantity |  6.567 ns | 0.0223 ns |  0.41 |         - |          NA |
-| MultiplyAliasQuantity |  6.581 ns | 0.0181 ns |  0.41 |         - |          NA |
+| Trivial               | 15.906 ns | 0.0154 ns |  1.00 |         - |          NA |
+| MultiplySi            |  6.199 ns | 0.0635 ns |  0.39 |         - |          NA |
+| MultiplyImperial      |  6.263 ns | 0.0112 ns |  0.39 |         - |          NA |
+| MultiplyMixed         |  6.202 ns | 0.0127 ns |  0.39 |         - |          NA |
+| MultiplyPureSi        |  6.472 ns | 0.0238 ns |  0.41 |         - |          NA |
+| MultiplyPowerQuantity |  6.891 ns | 0.0436 ns |  0.43 |         - |          NA |
+| MultiplyAliasQuantity |  6.154 ns | 0.0047 ns |  0.39 |         - |          NA |
 */

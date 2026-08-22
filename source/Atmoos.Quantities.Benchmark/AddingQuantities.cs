@@ -1,4 +1,4 @@
-﻿using Atmoos.Quantities.Prefixes;
+using Atmoos.Quantities.Prefixes;
 using Atmoos.Quantities.Units.Imperial.Length;
 using Atmoos.Quantities.Units.Si;
 using BenchmarkDotNet.Diagnosers;
@@ -35,17 +35,17 @@ public class AddingQuantities
 /* Summary
 
 BenchmarkDotNet v0.15.8, Linux Arch Linux
-Intel Core i7-8565U CPU 1.80GHz (Max: 3.39GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK 10.0.100
-  [Host]     : .NET 10.0.0 (10.0.0, 42.42.42.42424), X64 RyuJIT x86-64-v3
-  DefaultJob : .NET 10.0.0 (10.0.0, 42.42.42.42424), X64 RyuJIT x86-64-v3
+Intel Core i7-8565U CPU 1.80GHz (Max: 0.40GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
+.NET SDK 10.0.111
+  [Host]     : .NET 10.0.11 (10.0.11, 42.42.42.42424), X64 RyuJIT x86-64-v3
+  DefaultJob : .NET 10.0.11 (10.0.11, 42.42.42.42424), X64 RyuJIT x86-64-v3
 
 
-| Method      | Mean      | Error     | Ratio | Allocated | Alloc Ratio |
-|------------ |----------:|----------:|------:|----------:|------------:|
-| Trivial     | 1.1845 ns | 0.0304 ns |  1.00 |         - |          NA |
-| AddSi       | 2.2187 ns | 0.0091 ns |  1.87 |         - |          NA |
-| AddSiSame   | 0.5849 ns | 0.0032 ns |  0.49 |         - |          NA |
-| AddImperial | 2.2336 ns | 0.0090 ns |  1.89 |         - |          NA |
-| AddMixed    | 2.1848 ns | 0.0134 ns |  1.85 |         - |          NA |
+| Method      | Mean     | Error     | Ratio | Allocated | Alloc Ratio |
+|------------ |---------:|----------:|------:|----------:|------------:|
+| Trivial     | 1.779 ns | 0.0224 ns |  1.00 |         - |          NA |
+| AddSi       | 2.372 ns | 0.0106 ns |  1.33 |         - |          NA |
+| AddSiSame   | 1.429 ns | 0.0037 ns |  0.80 |         - |          NA |
+| AddImperial | 2.369 ns | 0.0173 ns |  1.33 |         - |          NA |
+| AddMixed    | 2.475 ns | 0.0103 ns |  1.39 |         - |          NA |
 */

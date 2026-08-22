@@ -1,4 +1,4 @@
-﻿using Atmoos.Quantities.Core.Numerics;
+using Atmoos.Quantities.Core.Numerics;
 using static Atmoos.Quantities.Benchmark.Convenience;
 using static Atmoos.Quantities.Benchmark.Numerics.Trivial;
 
@@ -27,14 +27,14 @@ public class PolynomialBenchmark
 
 BenchmarkDotNet v0.15.8, Linux Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Max: 0.40GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK 10.0.100
-  [Host]     : .NET 10.0.0 (10.0.0, 42.42.42.42424), X64 RyuJIT x86-64-v3
-  DefaultJob : .NET 10.0.0 (10.0.0, 42.42.42.42424), X64 RyuJIT x86-64-v3
+.NET SDK 10.0.111
+  [Host]     : .NET 10.0.11 (10.0.11, 42.42.42.42424), X64 RyuJIT x86-64-v3
+  DefaultJob : .NET 10.0.11 (10.0.11, 42.42.42.42424), X64 RyuJIT x86-64-v3
 
 
 | Method                          | Mean      | Error     | Ratio |
 |-------------------------------- |----------:|----------:|------:|
-| EvaluateTrivial                 | 1.4201 ns | 0.0116 ns |  1.00 |
-| EvaluatePolynomial              | 0.1059 ns | 0.0028 ns |  0.07 |
-| EvaluatePolynomialWithoutOffset | 0.0688 ns | 0.0107 ns |  0.05 |
+| EvaluateTrivial                 | 1.4085 ns | 0.0031 ns |  1.00 |
+| EvaluatePolynomial              | 0.1306 ns | 0.0040 ns |  0.09 |
+| EvaluatePolynomialWithoutOffset | 0.0562 ns | 0.0010 ns |  0.04 |
 */

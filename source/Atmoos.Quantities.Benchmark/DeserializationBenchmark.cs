@@ -1,4 +1,4 @@
-﻿using Atmoos.Quantities.Prefixes;
+using Atmoos.Quantities.Prefixes;
 using Atmoos.Quantities.Units.Si;
 using Atmoos.Quantities.Units.Si.Derived;
 using Atmoos.Quantities.Units.Si.Metric;
@@ -44,18 +44,18 @@ public class DeserializationBenchmark
 
 BenchmarkDotNet v0.15.8, Linux Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Max: 0.40GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK 10.0.100
-  [Host]     : .NET 10.0.0 (10.0.0, 42.42.42.42424), X64 RyuJIT x86-64-v3
-  DefaultJob : .NET 10.0.0 (10.0.0, 42.42.42.42424), X64 RyuJIT x86-64-v3
+.NET SDK 10.0.111
+  [Host]     : .NET 10.0.11 (10.0.11, 42.42.42.42424), X64 RyuJIT x86-64-v3
+  DefaultJob : .NET 10.0.11 (10.0.11, 42.42.42.42424), X64 RyuJIT x86-64-v3
 
 
-| Method                 | Mean        | Error     | Ratio | Allocated | Alloc Ratio |
-|----------------------- |------------:|----------:|------:|----------:|------------:|
-| SystemTriple           |    90.43 ns |  0.210 ns |  1.00 |      40 B |        1.00 |
-| SystemQuantity         |   601.12 ns |  2.522 ns |  6.65 |     136 B |        3.40 |
-| PrefixedQuantity       |   749.78 ns |  0.692 ns |  8.29 |     160 B |        4.00 |
-| FractionalQuantity     | 1,699.11 ns |  5.587 ns | 18.79 |    1072 B |       26.80 |
-| MultiplicativeQuantity | 1,551.93 ns |  4.149 ns | 17.16 |    1072 B |       26.80 |
-| PowerQuantity          |   891.16 ns |  2.414 ns |  9.85 |     160 B |        4.00 |
-| ScalarPowerQuantity    |   811.53 ns | 10.979 ns |  8.97 |     168 B |        4.20 |
+| Method                 | Mean        | Error    | Ratio | Allocated | Alloc Ratio |
+|----------------------- |------------:|---------:|------:|----------:|------------:|
+| SystemTriple           |    95.70 ns | 0.100 ns |  1.00 |      40 B |        1.00 |
+| SystemQuantity         |   629.59 ns | 0.760 ns |  6.58 |     136 B |        3.40 |
+| PrefixedQuantity       |   751.49 ns | 9.819 ns |  7.85 |     160 B |        4.00 |
+| FractionalQuantity     | 1,777.99 ns | 4.545 ns | 18.58 |    1072 B |       26.80 |
+| MultiplicativeQuantity | 1,635.35 ns | 7.143 ns | 17.09 |    1072 B |       26.80 |
+| PowerQuantity          |   881.82 ns | 3.613 ns |  9.21 |     160 B |        4.00 |
+| ScalarPowerQuantity    |   841.39 ns | 0.953 ns |  8.79 |     168 B |        4.20 |
 */

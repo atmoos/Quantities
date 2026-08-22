@@ -1,4 +1,4 @@
-﻿using Atmoos.Quantities.Prefixes;
+using Atmoos.Quantities.Prefixes;
 using Atmoos.Quantities.Units.Si;
 
 namespace Atmoos.Quantities.Benchmark;
@@ -28,15 +28,15 @@ public class QuantitiesBenchmark
 
 BenchmarkDotNet v0.15.8, Linux Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Max: 0.40GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK 10.0.100
-  [Host]   : .NET 10.0.0 (10.0.0, 42.42.42.42424), X64 RyuJIT x86-64-v3
-  ShortRun : .NET 10.0.0 (10.0.0, 42.42.42.42424), X64 RyuJIT x86-64-v3
+.NET SDK 10.0.111
+  [Host]   : .NET 10.0.11 (10.0.11, 42.42.42.42424), X64 RyuJIT x86-64-v3
+  ShortRun : .NET 10.0.11 (10.0.11, 42.42.42.42424), X64 RyuJIT x86-64-v3
 
-Job=ShortRun  IterationCount=3  LaunchCount=1
-WarmupCount=3
+Job=ShortRun  IterationCount=3  LaunchCount=1  
+WarmupCount=3  
 
 | Method                       | Mean      | Error     | Allocated |
 |----------------------------- |----------:|----------:|----------:|
-| ConstructionIsAllocationFree | 0.3908 ns | 0.0302 ns |         - |
-| DeconstructIsAllocationFree  | 1.0737 ns | 0.0779 ns |         - |
+| ConstructionIsAllocationFree | 0.3951 ns | 0.2861 ns |         - |
+| DeconstructIsAllocationFree  | 1.0870 ns | 0.0746 ns |         - |
 */

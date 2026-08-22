@@ -1,9 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="../Atmoos.Quantities.Build.props" />
   <Import Project="../Atmoos.Quantities.Pack.targets" />
 
   <PropertyGroup>
-    <Version>2.2.0</Version>
+    <Version>2.3.0</Version>
     <RootDirectory>../../</RootDirectory>
     <Description>Type-safe and efficient handling of physical quantities.</Description>
   </PropertyGroup>

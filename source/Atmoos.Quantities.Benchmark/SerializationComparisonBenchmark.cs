@@ -1,4 +1,4 @@
-﻿using Atmoos.Quantities.Prefixes;
+using Atmoos.Quantities.Prefixes;
 using Atmoos.Quantities.Serialization.Newtonsoft;
 using Atmoos.Quantities.Units.Si;
 using Newtonsoft.Json;
@@ -22,13 +22,13 @@ public class SerializationComparisonBenchmark
 
 BenchmarkDotNet v0.15.8, Linux Arch Linux
 Intel Core i7-8565U CPU 1.80GHz (Max: 0.40GHz) (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK 10.0.100
-  [Host]     : .NET 10.0.0 (10.0.0, 42.42.42.42424), X64 RyuJIT x86-64-v3
-  DefaultJob : .NET 10.0.0 (10.0.0, 42.42.42.42424), X64 RyuJIT x86-64-v3
+.NET SDK 10.0.111
+  [Host]     : .NET 10.0.11 (10.0.11, 42.42.42.42424), X64 RyuJIT x86-64-v3
+  DefaultJob : .NET 10.0.11 (10.0.11, 42.42.42.42424), X64 RyuJIT x86-64-v3
 
 
 | Method     | Mean     | Error     | Ratio | Allocated | Alloc Ratio |
 |----------- |---------:|----------:|------:|----------:|------------:|
-| TextJson   | 1.853 μs | 0.0025 μs |  1.00 |   1.06 KB |        1.00 |
-| Newtonsoft | 2.763 μs | 0.0062 μs |  1.49 |   4.35 KB |        4.10 |
+| TextJson   | 1.866 μs | 0.0079 μs |  1.00 |   1.06 KB |        1.00 |
+| Newtonsoft | 2.804 μs | 0.0115 μs |  1.50 |   4.35 KB |        4.10 |
 */

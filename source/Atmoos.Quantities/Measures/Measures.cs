@@ -9,8 +9,14 @@ namespace Atmoos.Quantities.Measures;
 
 internal readonly struct Identity : IMeasure, ILinear
 {
+    private interface IIdentity : IDimension
+    {
+        static Dimension IDimension.D => Unit.Identity;
+        static ref readonly Kind IDimension.Kind => ref Kind.Of<IIdentity>();
+    }
     private static readonly String name = nameof(Identity).ToLowerInvariant();
     static Dimension IMeasure.D => Unit.Identity;
+    static ref readonly Kind IMeasure.Kind => ref Kind.Of<IIdentity>();
     public static Polynomial Poly => Polynomial.One;
 
     public static IVisitor InjectLinear(IVisitor inject) => inject.Inject<Identity>();
@@ -133,6 +139,7 @@ internal readonly struct Invertible<TSelf, TInverse> : IMeasure, ILinear
     where TInverse : IMeasure, ILinear
 {
     public static Dimension D => TSelf.D;
+    public static ref readonly Kind Kind => ref TSelf.Kind;
     public static Polynomial Poly => TSelf.Poly;
 
     public static IVisitor InjectLinear(IVisitor inject) => inject.Inject<Invertible<TSelf, TInverse>>();

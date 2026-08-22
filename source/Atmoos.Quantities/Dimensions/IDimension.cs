@@ -4,6 +4,7 @@ namespace Atmoos.Quantities.Dimensions;
 
 public interface IDimension
 {
+    internal static abstract ref readonly Kind Kind { get; }
     internal static abstract Dimension D { get; }
 }
 
@@ -18,7 +19,3 @@ public interface IDimension<TBase, TMultiplicity> : IMultiplicity<TBase, TMultip
 {
     static Dimension IDimension.D { get; } = Scalar.Of<TBase>(TMultiplicity.Value);
 }
-
-// ToDo: Remove ILinear
-public interface ILinear<TSelf> : ILinear, IDimension<TSelf, One>
-    where TSelf : ILinear<TSelf>;

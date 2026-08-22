@@ -6,6 +6,7 @@ namespace Atmoos.Quantities.Core;
 
 internal interface IMeasure : IRepresentable, ISerialize
 {
+    public static abstract ref readonly Kind Kind { get; }
     public static abstract Dimension D { get; }
     public static abstract Polynomial Poly { get; }
     public static abstract IVisitor InjectLinear(IVisitor inject);
@@ -16,7 +17,8 @@ internal interface IMeasure : IRepresentable, ISerialize
 internal interface IMeasure<TBasis> : IMeasure
     where TBasis : IDimension
 {
-    static Dimension IMeasure.D => TBasis.D;
+    static ref readonly Kind IMeasure.Kind => ref TBasis.Kind;
+    static Dimension IMeasure.D { get; } = TBasis.D;
 }
 
 internal interface IVisitor : IInject<IVisitor>

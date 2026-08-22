@@ -20,10 +20,10 @@ internal abstract class Factory
         where TExponent : INumber;
     public abstract ref readonly Measure AliasOf<TUnit, TLinear>()
         where TUnit : IDimension, ISystemInject<TLinear>
-        where TLinear : IDimension, ILinear;
+        where TLinear : IMultiplicity<TLinear, One>, IDimension;
     public abstract ref readonly Measure InverseOf<TUnit, TLinear>()
         where TUnit : IInvertible<TLinear>, IDimension
-        where TLinear : IDimension, ILinear;
+        where TLinear : IMultiplicity<TLinear, One>, IDimension;
 
     public static ref readonly Factory Of<TMeasure>()
         where TMeasure : IMeasure => ref AllocationFree<Factory, Impl<TMeasure>>.Item;

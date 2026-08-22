@@ -23,7 +23,7 @@ public interface IScalar<out TQuantity, in TDimension>
 
 public interface IQuotient<out TQuantity, in TDimension, in TNominatorDimension, in TDenominatorDimension> : IScalar<TQuantity, TDimension>
     where TQuantity : IQuotient<TQuantity, TDimension, TNominatorDimension, TDenominatorDimension>, TDimension
-    where TDimension : IProduct<TNominatorDimension, IDimension<TDenominatorDimension, Negative<One>>>, IMultiplicity<TDimension, One>
+    where TDimension : IProduct<TNominatorDimension, Factor<TDenominatorDimension, Negative<One>>>, IMultiplicity<TDimension, One>
     where TNominatorDimension : IMultiplicity<TNominatorDimension, One>, IDimension
     where TDenominatorDimension : IMultiplicity<TDenominatorDimension, One>, IDimension
 {
@@ -37,7 +37,7 @@ public interface IQuotient<out TQuantity, in TDimension, in TNominatorDimension,
 
 public interface IQuotient<out TQuantity, in TDimension, in TNominatorDimension, in TDenominatorDimension, TExponent> : IScalar<TQuantity, TDimension>
     where TQuantity : IQuotient<TQuantity, TDimension, TNominatorDimension, TDenominatorDimension, TExponent>, TDimension
-    where TDimension : IProduct<TNominatorDimension, IDimension<TDenominatorDimension, Negative<TExponent>>>, IMultiplicity<TDimension, One>
+    where TDimension : IProduct<TNominatorDimension, Factor<TDenominatorDimension, Negative<TExponent>>>, IMultiplicity<TDimension, One>
     where TNominatorDimension : IMultiplicity<TNominatorDimension, One>, IDimension
     where TDenominatorDimension : IMultiplicity<TDenominatorDimension, One>, IDimension
     where TExponent : INumber, IPositive
@@ -78,7 +78,7 @@ public interface IInvertible<out TQuantity, in TDimension, in TInverse>
 public interface IPowerOf<out TQuantity, in TDimension, in TLinear, TExponent>
     where TQuantity : IPowerOf<TQuantity, TDimension, TLinear, TExponent>, TDimension
     where TDimension : IDimension<TLinear, TExponent>, IMultiplicity<TDimension, One>, IMultiplicity<TLinear, TExponent>
-    where TLinear : IMultiplicity<TLinear, One>, IDimension, ILinear
+    where TLinear : IMultiplicity<TLinear, One>, IDimension
     where TExponent : INumber
 {
     public TQuantity To<TUnit>(in Power<TUnit, TExponent> other)

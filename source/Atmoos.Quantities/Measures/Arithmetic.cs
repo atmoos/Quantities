@@ -64,10 +64,10 @@ file sealed class Visitor : IVisitor
     private readonly IVisitor fallback;
     private readonly IVisitor inject;
     private readonly List<Scalar> targets;
-    private readonly Dictionary<Type, IDimensionless> dimensionless;
+    private readonly Dictionary<Kind, IDimensionless> dimensionless;
     private readonly Boolean invert;
 
-    private Visitor(IVisitor inject, List<Scalar> targets, IVisitor fallback, Dictionary<Type, IDimensionless> dimensionless, Boolean invert) =>
+    private Visitor(IVisitor inject, List<Scalar> targets, IVisitor fallback, Dictionary<Kind, IDimensionless> dimensionless, Boolean invert) =>
         (this.inject, this.targets, this.fallback, this.dimensionless, this.invert) = (inject, targets, fallback, dimensionless, invert);
 
     public Visitor(IVisitor inject, IEnumerable<Scalar> targets) : this(inject, targets.ToList(), new Fallback(), [], false) { }
@@ -100,11 +100,11 @@ file sealed class Visitor : IVisitor
         return this;
     }
 
-    private static Dictionary<Type, IDimensionless> Accumulate<TMeasure>(Dictionary<Type, IDimensionless> dimensionless, Boolean invert)
+    private static Dictionary<Kind, IDimensionless> Accumulate<TMeasure>(Dictionary<Kind, IDimensionless> dimensionless, Boolean invert)
         where TMeasure : IMeasure
     {
         var delta = invert ? -1 : 1;
-        var key = typeof(TMeasure);
+        var key = TMeasure.Kind;
         dimensionless[key] = dimensionless.TryGetValue(key, out var existing) ? existing.IncrementExponent(delta) : new Dimensionless<TMeasure>(delta);
         return dimensionless;
     }

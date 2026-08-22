@@ -2,16 +2,16 @@
 
 namespace Atmoos.Quantities.Dimensions;
 
-public interface ITime : ILinear<ITime>, IBaseQuantity; // marker interface
+public interface ITime : IBaseQuantity<ITime>; // marker interface
 
-public interface ILength : ILinear<ILength>, IBaseQuantity; // marker interface
+public interface ILength : IBaseQuantity<ILength>; // marker interface
 
-public interface IMass : ILinear<IMass>, IBaseQuantity; // marker interface
+public interface IMass : IBaseQuantity<IMass>; // marker interface
 
-public interface IElectricCurrent : ILinear<IElectricCurrent>, IBaseQuantity; // marker interface
+public interface IElectricCurrent : IBaseQuantity<IElectricCurrent>; // marker interface
 
-public interface ITemperature : ILinear<ITemperature>, IBaseQuantity; // marker interface
+public interface ITemperature : IBaseQuantity<ITemperature>; // marker interface
 
-public interface IAmountOfSubstance : ILinear<IAmountOfSubstance>, IBaseQuantity; // marker interface
+public interface IAmountOfSubstance : IBaseQuantity<IAmountOfSubstance>; // marker interface
 
-public interface ILuminousIntensity : ILinear<ILuminousIntensity>, IBaseQuantity; // marker interface
+public interface ILuminousIntensity : IBaseQuantity<ILuminousIntensity>; // marker interface

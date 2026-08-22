@@ -56,7 +56,7 @@ public readonly struct {Name} : ISiUnit, I{Dimension}
 
 ### 2. Metric Unit (`IMetricUnit`)
 
-**When**: The unit is accepted by the SI system but is not itself an SI unit. Metric units support SI metric prefixes (`Kilo`, `Mega`, `Milli`, etc.).
+**When**: The unit is accepted by the SI system but is not itself an SI unit. This includes all units listed in the SI Brochure as ["non-SI units accepted for use with SI"](https://en.wikipedia.org/wiki/International_System_of_Units#Non-SI_units_accepted_for_use_with_SI) (e.g. minute, hour, day, degree, arcminute, arcsecond, astronomical unit, hectare, litre, tonne, dalton, electronvolt). Metric units support SI metric prefixes (`Kilo`, `Mega`, `Milli`, etc.).
 
 **Key property**: Must implement `ITransform` via `ToSi(Transformation)`. Support metric prefixes by default.
 
@@ -80,7 +80,7 @@ public readonly struct {Name} : IMetricUnit, I{Dimension}
 }
 ```
 
-**Examples**: `Hour`, `Minute`, `Gram`, `Tonne`, `Day`, `Week`, `Are`, `Bar`, `AstronomicalUnit`, `Ångström`, `HorsePower`, `Bit`, `Byte`
+**Examples**: `Hour`, `Minute`, `Gram`, `Tonne`, `Day`, `Week`, `Are`, `Bar`, `AstronomicalUnit`, `Ångström`, `Degree`, `HorsePower`, `Bit`, `Byte`
 
 ---
 
@@ -304,6 +304,10 @@ public static Transformation ToSi(Transformation self) => self.FusedMultiplyAdd(
 3. **Chained conversions**: Use `DerivedFrom<T>()` to build on existing unit conversions.
 4. **Keep conversions exact**: Use integer arithmetic or exact decimal fractions where possible.
 5. **Internal constants**: Use `internal const` fields for conversion factors that may be reused.
+6. **Preserve numerator/denominator separation**: The `Polynomial` type stores nominator and denominator separately. Structure conversions so that irrational or large factors remain in the numerator and integer divisors remain in the denominator, rather than pre-computing their quotient as a single `Double`. This yields higher precision in round-trip conversions.
+   - ✅ `Math.PI * self.RootedIn<Radian>() / 180` — stores π as nominator, 180 as denominator.
+   - ❌ `Math.PI / 180 * self.RootedIn<Radian>()` — pre-computes π÷180 into a single `Double`, losing precision.
+   - Note: cross-unit conversions that chain two irrational factors (e.g. Turn → Gradian, both via π) may still exhibit IEEE 754 limits and require `MediumPrecision` in test assertions.
 
 ---
 

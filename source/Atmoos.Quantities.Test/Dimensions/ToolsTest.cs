@@ -28,7 +28,7 @@ public class ToolsTest
         var rootInterface = typeof(IElectricCharge);
         var result = Tools.Interfaces<ElectricCharge>().ToList();
 
-        Assert.Equal([rootInterface, typeof(ITime), typeof(IElectricCurrent)], result);
+        Assert.Equal([rootInterface, typeof(IElectricCurrent), typeof(ITime)], result);
     }
 
     [Fact]

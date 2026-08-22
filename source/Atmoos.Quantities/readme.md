@@ -74,23 +74,44 @@ The currently supported quantities are:
 ```text quantities
 Atmoos.Quantities
 ├── Acceleration
+├── AmountOfSubstance
+├── Angle
+├── AngularAcceleration
+├── AngularVelocity
 ├── Area
+├── Capacitance
 ├── Data
 ├── DataRate
+├── Density
+├── DynamicViscosity
+├── ElectricalConductance
 ├── ElectricalResistance
+├── ElectricCharge
 ├── ElectricCurrent
 ├── ElectricPotential
 ├── Energy
 ├── Force
 ├── Frequency
+├── Illuminance
+├── Impulse
 ├── Length
+├── LuminousFlux
+├── LuminousIntensity
+├── MagneticFlux
+├── MagneticFluxDensity
 ├── Mass
+├── MassFlowRate
+├── Momentum
 ├── Power
 ├── Pressure
+├── SolidAngle
+├── SpecificEnergy
 ├── Temperature
 ├── Time
+├── Torque
 ├── Velocity
-└── Volume
+├── Volume
+└── VolumetricFlowRate
 ```
 
 They support a broad range of compatible units as indicated by the examples above.

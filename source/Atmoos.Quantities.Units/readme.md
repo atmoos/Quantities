@@ -8,8 +8,16 @@ Extends [Atmoos.Quantities](https://www.nuget.org/packages/Atmoos.Quantities/) w
 Atmoos.Quantities.Units
 ├── Si
 │   ├── Derived
+│   │   ├── Angle
+│   │   │   └── Radian
+│   │   ├── Capacitance
+│   │   │   └── Farad
+│   │   ├── ElectricalConductance
+│   │   │   └── Siemens
 │   │   ├── ElectricalResistance
 │   │   │   └── Ohm
+│   │   ├── ElectricCharge
+│   │   │   └── Coulomb
 │   │   ├── ElectricPotential
 │   │   │   └── Volt
 │   │   ├── Energy
@@ -18,15 +26,27 @@ Atmoos.Quantities.Units
 │   │   │   └── Newton
 │   │   ├── Frequency
 │   │   │   └── Hertz
+│   │   ├── Illuminance
+│   │   │   └── Lux
+│   │   ├── LuminousFlux
+│   │   │   └── Lumen
+│   │   ├── MagneticFlux
+│   │   │   └── Weber
+│   │   ├── MagneticFluxDensity
+│   │   │   └── Tesla
 │   │   ├── Power
 │   │   │   └── Watt
-│   │   └── Pressure
-│   │       └── Pascal
+│   │   ├── Pressure
+│   │   │   └── Pascal
+│   │   └── SolidAngle
+│   │       └── Steradian
 │   └── Metric
 │       ├── AmountOfInformation
 │       │   ├── Bit
 │       │   ├── Byte
 │       │   └── Nibble
+│       ├── Angle
+│       │   └── Degree
 │       ├── Area
 │       │   └── Are
 │       ├── Length
@@ -77,11 +97,22 @@ Atmoos.Quantities.Units
 │       ├── Gill
 │       └── Quart
 └── NonStandard
+    ├── Angle
+    │   ├── Gradian
+    │   └── Turn
     ├── Area
     │   └── Morgen
+    ├── DynamicViscosity
+    │   └── Poise
+    ├── Illuminance
+    │   └── FootCandle
     ├── Length
     │   ├── LightYear
     │   └── NauticalMile
+    ├── MagneticFlux
+    │   └── Maxwell
+    ├── MagneticFluxDensity
+    │   └── Gauss
     ├── Mass
     │   ├── Pfund
     │   └── Zentner

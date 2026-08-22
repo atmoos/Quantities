@@ -1,10 +1,71 @@
-﻿using Atmoos.Quantities.Units.Si.Derived;
+﻿using Atmoos.Quantities;
+using Atmoos.Quantities.Units.Si.Derived;
 
-namespace Atmoos.Quantities.Units.Test;
+namespace Atmoos.Quantities.Units.Test.Operators;
 
 [Ai(Model = "Claude", Version = "4.6", Variant = "Opus")]
 public sealed class KinematicsTest
 {
+    [Fact]
+    public void AngleDividedByTimeYieldsAngularVelocity()
+    {
+        Angle angle = Angle.Of(Math.PI, Si<Radian>());
+        Time time = Time.Of(2, Si<Second>());
+        AngularVelocity expected = AngularVelocity.Of(Math.PI / 2, Si<Radian>().Per(Si<Second>()));
+
+        AngularVelocity actual = angle / time;
+
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void AngleDividedByTimeRetainsRadianUnitInFormatting()
+    {
+        Angle angle = Angle.Of(Math.PI, Si<Radian>());
+        Time time = Time.Of(2, Si<Second>());
+
+        AngularVelocity actual = angle / time;
+        (_, String unit) = actual;
+
+        Assert.Equal("rad/s", unit);
+    }
+
+    [Fact]
+    public void AngularVelocityDividedByTimeYieldsAngularAcceleration()
+    {
+        AngularVelocity angularVelocity = AngularVelocity.Of(Math.PI, Si<Radian>().Per(Si<Second>()));
+        Time time = Time.Of(2, Si<Second>());
+        AngularAcceleration expected = AngularAcceleration.Of(Math.PI / 2, Si<Radian>().Per(Square(Si<Second>())));
+
+        AngularAcceleration actual = angularVelocity / time;
+
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void AngularVelocityTimesTimeRetainsRadianUnitInFormatting()
+    {
+        AngularVelocity angularVelocity = AngularVelocity.Of(Math.PI, Si<Radian>().Per(Si<Second>()));
+        Time time = Time.Of(2, Si<Second>());
+        Angle expected = Angle.Of(2 * Math.PI, Si<Radian>());
+
+        Angle actual = angularVelocity * time;
+
+        actual.Matches(expected);
+    }
+
+    [Fact]
+    public void AngleDividedByAngularVelocityYieldsTimeWithoutResidualRadians()
+    {
+        Angle angle = Angle.Of(Math.PI, Si<Radian>());
+        AngularVelocity angularVelocity = AngularVelocity.Of(Math.PI / 2, Si<Radian>().Per(Si<Second>()));
+        Time expected = Time.Of(2, Si<Second>());
+
+        Time actual = angle / angularVelocity;
+
+        actual.Matches(expected);
+    }
+
     [Fact]
     public void LengthDividedByVelocityYieldsTime()
     {

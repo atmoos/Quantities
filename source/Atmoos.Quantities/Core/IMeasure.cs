@@ -22,4 +22,7 @@ internal interface IMeasure<TBasis> : IMeasure
 internal interface IVisitor : IInject<IVisitor>
 {
     Result? Build(Polynomial poly, Dimension target);
+
+    // Only the Arithmetic<TSelf>.Visitor cares about numerator/denominator polarity; everyone else is unaffected.
+    IVisitor AsDenominator() => this;
 }

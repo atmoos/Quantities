@@ -6,17 +6,14 @@ namespace Atmoos.Quantities.Measures;
 internal static class Arithmetic<TSelf>
     where TSelf : IMeasure
 {
-    private static readonly IVisitor injector = new Injector();
-
-    public static Result? Map<TRight>(in Polynomial poly, Dimension target)
+    // invertRight distinguishes division (TRight is the denominator) from multiplication, so that named
+    // dimensionless measures (e.g. Radian) surviving on the denominator side cancel rather than accumulate.
+    public static Result? Map<TRight>(in Polynomial poly, Dimension target, Boolean invertRight = false)
         where TRight : IMeasure
     {
-        if (target is Unit) {
-            return new(poly, in Measure.Of<Identity>());
-        }
-        var visitor = new Visitor(injector, target);
+        var visitor = new Visitor(AllocationFree<IVisitor, Scalar<Identity>>.Item, target);
         var left = TSelf.InjectLinear(visitor);
-        var builder = TRight.InjectLinear(left);
+        var builder = TRight.InjectLinear(invertRight ? left.AsDenominator() : left);
         return builder.Build(poly, target);
     }
 
@@ -48,18 +45,7 @@ file sealed class Injector<TResult>(IInject<TResult> resultInjector) : IInject<I
     }
 }
 
-file sealed class Injector : IVisitor
-{
-    public Result? Build(Polynomial poly, Dimension target)
-    {
-        throw new InvalidOperationException($"Cannot build a result for '{target}'. The target dimension is not supported.");
-    }
-
-    public IVisitor Inject<TMeasure>()
-        where TMeasure : IMeasure => new Scalar<TMeasure>();
-}
-
-file sealed class Scalar<TInjected>() : IVisitor
+file sealed class Scalar<TInjected> : IVisitor
     where TInjected : IMeasure
 {
     public Result? Build(Polynomial poly, Dimension target)
@@ -68,32 +54,72 @@ file sealed class Scalar<TInjected>() : IVisitor
     }
 
     public IVisitor Inject<TMeasure>()
-        where TMeasure : IMeasure => new Scalar<Product<TInjected, TMeasure>>();
+        where TMeasure : IMeasure => typeof(TInjected) == typeof(Identity)
+            ? AllocationFree<IVisitor, Scalar<TMeasure>>.Item
+            : AllocationFree<IVisitor, Scalar<Product<TInjected, TMeasure>>>.Item;
 }
 
 file sealed class Visitor : IVisitor
 {
-    private static readonly Injector injector = new();
     private readonly IVisitor fallback;
     private readonly IVisitor inject;
     private readonly List<Scalar> targets;
+    private readonly Dictionary<Type, IDimensionless> dimensionless;
+    private readonly Boolean invert;
 
-    private Visitor(IVisitor inject, List<Scalar> targets, IVisitor fallback) => (this.inject, this.targets, this.fallback) = (inject, targets, fallback);
+    private Visitor(IVisitor inject, List<Scalar> targets, IVisitor fallback, Dictionary<Type, IDimensionless> dimensionless, Boolean invert) =>
+        (this.inject, this.targets, this.fallback, this.dimensionless, this.invert) = (inject, targets, fallback, dimensionless, invert);
 
-    public Visitor(IVisitor inject, IEnumerable<Scalar> targets) => (this.inject, this.targets, this.fallback) = (inject, targets.ToList(), new Fallback());
+    public Visitor(IVisitor inject, IEnumerable<Scalar> targets) : this(inject, targets.ToList(), new Fallback(), [], false) { }
 
-    public Result? Build(Polynomial poly, Dimension target) => this.targets.Count == 0 ? this.inject.Build(poly, target) : this.fallback.Build(poly, target);
+    // Marks subsequent measures as denominator-side, so a named dimensionless measure (e.g. Radian)
+    // cancels rather than adds to one already captured from the numerator.
+    public IVisitor AsDenominator() => new Visitor(this.inject, this.targets, this.fallback, this.dimensionless, true);
+
+    public Result? Build(Polynomial poly, Dimension target)
+    {
+        var accumulator = this.dimensionless.Values.Aggregate(this.inject, (acc, d) => d.Apply(acc));
+        return this.targets.Count == 0 ? accumulator.Build(poly, target) : this.fallback.Build(poly, target);
+    }
 
     public IVisitor Inject<TMeasure>()
         where TMeasure : IMeasure
     {
         Scalar? match;
         this.fallback.Inject<TMeasure>();
+        // A named but dimensionless measure (e.g. Radian) carries no dimension to match against, yet must
+        // still be preserved; its net exponent (accounting for numerator/denominator polarity) is only
+        // resolved once traversal completes, so equal and opposite contributions correctly cancel.
+        if (TMeasure.D is Unit && typeof(TMeasure) != typeof(Identity)) {
+            return new Visitor(this.inject, this.targets, this.fallback, Accumulate<TMeasure>(this.dimensionless, this.invert), this.invert);
+        }
         if ((match = this.targets.FirstOrDefault(t => t.CommonRoot(TMeasure.D))) != null) {
             this.targets.Remove(match);
-            return new Visitor(TMeasure.Power(this.inject, match.E), this.targets, this.fallback);
+            return new Visitor(TMeasure.Power(this.inject, match.E), this.targets, this.fallback, this.dimensionless, this.invert);
         }
         return this;
+    }
+
+    private static Dictionary<Type, IDimensionless> Accumulate<TMeasure>(Dictionary<Type, IDimensionless> dimensionless, Boolean invert)
+        where TMeasure : IMeasure
+    {
+        var delta = invert ? -1 : 1;
+        var key = typeof(TMeasure);
+        dimensionless[key] = dimensionless.TryGetValue(key, out var existing) ? existing.IncrementExponent(delta) : new Dimensionless<TMeasure>(delta);
+        return dimensionless;
+    }
+
+    private interface IDimensionless
+    {
+        IDimensionless IncrementExponent(Int32 increment);
+        IVisitor Apply(IVisitor accumulator);
+    }
+
+    private sealed class Dimensionless<TMeasure>(Int32 exponent) : IDimensionless
+        where TMeasure : IMeasure
+    {
+        public IDimensionless IncrementExponent(Int32 increment) => new Dimensionless<TMeasure>(exponent + increment);
+        public IVisitor Apply(IVisitor accumulator) => exponent == 0 ? accumulator : TMeasure.Power(accumulator, exponent);
     }
 
     private sealed class Fallback : IVisitor
@@ -102,14 +128,14 @@ file sealed class Visitor : IVisitor
 
         public Result? Build(Polynomial poly, Dimension target)
         {
-            var builder = this.factories.Select(f => f.Matches(target)).FirstOrDefault(b => b is not null);
+            var builder = Find(target);
             if (builder is not null) {
                 return builder.Build(poly);
             }
             // ToDo: This is a bit wonky. Probably we should expand over all dimensions...
             if (target is Product p) {
-                var leftArgument = this.factories.Select(f => f.Matches(p.L)).FirstOrDefault(b => b is not null);
-                var rightArgument = this.factories.Select(f => f.Matches(p.R)).FirstOrDefault(b => b is not null);
+                var leftArgument = Find(p.L);
+                var rightArgument = Find(p.R);
                 if (leftArgument is not null && rightArgument is not null) {
                     var chain = leftArgument.Chain(rightArgument);
                     return chain.Build(poly, target);
@@ -117,6 +143,9 @@ file sealed class Visitor : IVisitor
             }
             return null;
         }
+
+        private IFallbackBuilder? Find(Dimension target) =>
+            this.factories.Select(f => f.Matches(target)).FirstOrDefault(b => b is not null);
 
         public IVisitor Inject<TInjected>()
             where TInjected : IMeasure
@@ -153,7 +182,7 @@ file sealed class Visitor : IVisitor
     private sealed class Builder<TMeasure>(Dimension target) : IFallbackBuilder
         where TMeasure : IMeasure
     {
-        public Result? Build(Polynomial poly) => TMeasure.Power(new Injector(), target.E).Build(poly, target);
+        public Result? Build(Polynomial poly) => TMeasure.Power(AllocationFree<IVisitor, Scalar<Identity>>.Item, target.E).Build(poly, target);
 
         public IChain Chain(IFallbackBuilder next) => next.Chain<TMeasure>(target);
 
@@ -167,7 +196,7 @@ file sealed class Visitor : IVisitor
     {
         public Result? Build(Polynomial poly, Dimension target)
         {
-            var leftPower = TLeft.Power(injector, left.E);
+            var leftPower = TLeft.Power(AllocationFree<IVisitor, Scalar<Identity>>.Item, left.E);
             var combo = TRight.Power(leftPower, right.E);
             return combo.Build(poly, target);
         }

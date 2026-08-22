@@ -1,4 +1,6 @@
-﻿namespace Atmoos.Quantities.Dimensions;
+﻿using Atmoos.Quantities.Core.Numerics;
+
+namespace Atmoos.Quantities.Dimensions;
 
 public interface ITime : ILinear<ITime>, IBaseQuantity; // marker interface
 

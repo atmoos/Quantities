@@ -22,7 +22,7 @@ internal abstract class Dimension
     protected abstract Dimension Multiply(Dimension other);
     public abstract Boolean CommonRoot(Dimension other);
 
-    public Boolean Equals(Dimension? other) => other is Dimension d && E == d.E && Equal(d);
+    public Boolean Equals(Dimension? other) => other is Dimension d && Equal(d);
 
     public override Boolean Equals(Object? other) => Equals(other as Dimension);
 
@@ -169,7 +169,7 @@ internal sealed class Product : Dimension
 
     internal override Dimension Swap() => new Product(this.right, this.left, this.e);
 
-    protected override Boolean Equal(Dimension other) => other is Product p && E == p.E && Same(p);
+    protected override Boolean Equal(Dimension other) => other is Product p && Same(p);
 
     public override Boolean CommonRoot(Dimension other)
     {
@@ -200,7 +200,16 @@ internal sealed class Product : Dimension
         return this.e == 1 ? product : $"[{product}]{Tools.ToExponent(this.e)}";
     }
 
-    public override Int32 GetHashCode() => HashCode.Combine(this.left, this.right, this.e);
+    // The outer exponent is only a canonical-form artefact, not an invariant of the represented dimension,
+    // so the hash must be derived from the (order-independent) fully expanded set of scalars instead.
+    public override Int32 GetHashCode()
+    {
+        var hash = 0;
+        foreach (var item in this) {
+            hash ^= item.GetHashCode();
+        }
+        return hash;
+    }
 
     public static Product SimplifyExponents(Dimension l, Dimension r)
     {

@@ -16,8 +16,13 @@ When asked to create a new quantity, follow these steps:
 2. **Create or verify the dimension interface** in the appropriate dimensions file.
 3. **Create the quantity struct** in `source/Atmoos.Quantities/Quantities/`.
 4. **Add cross-quantity operators** in the appropriate file under `source/Atmoos.Quantities/Physics/`.
+5. **Classify nearby worktree changes correctly**: if a modified file (for example docs/readme listings) reflects quantities added in the same change-set, treat it as a related change, not unrelated noise.
 
 Always adhere to the coding conventions defined in `.github/copilot-instructions.md`.
+
+## Change Classification Rule
+
+Before deciding that an existing modification is unrelated, check whether it is a companion update caused by the quantity work (for example, supported-quantities documentation updates). If it reflects the same newly introduced quantity types, keep it and classify it as related.
 
 ---
 

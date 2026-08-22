@@ -74,7 +74,7 @@ internal abstract class Measure
         where TNominator : IMeasure
         where TDenominator : IMeasure
     {
-        private static readonly Result result = Fallback.Divide<TNominator, TDenominator>(Arithmetic<TNominator>.Map<TDenominator>(TNominator.Poly / TDenominator.Poly, TNominator.D / TDenominator.D));
+        private static readonly Result result = Fallback.Divide<TNominator, TDenominator>(Arithmetic<TNominator>.Map<TDenominator>(TNominator.Poly / TDenominator.Poly, TNominator.D / TDenominator.D, invertRight: true));
         public static ref readonly Result Result => ref result;
     }
 

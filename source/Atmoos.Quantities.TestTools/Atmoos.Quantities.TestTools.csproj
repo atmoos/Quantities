@@ -15,4 +15,9 @@
     <PackageReference Include="Atmoos.Sphere" Version="0.4.1" />
     <PackageReference Include="xunit.assert" Version="2.9.3" />
   </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Atmoos.Quantities.Test" />
+    <InternalsVisibleTo Include="Atmoos.Quantities.Units.Test" />
+  </ItemGroup>
 </Project>

@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Runtime.CompilerServices;
+using Atmoos.Quantities.Core;
 using Atmoos.Quantities.Dimensions;
 using Xunit;
 using Xunit.Sdk;
@@ -22,14 +23,24 @@ public static class Convenience
     public static void Matches<TQuantity>(this TQuantity actual, TQuantity expected, Int32 precision = fullPrecision)
         where TQuantity : struct, IQuantity<TQuantity>, IDimension
     {
+        actual.Value.Matches(expected.Value, precision);
+    }
+
+    internal static void Matches(this Quantity actual, Quantity expected, Int32 precision = fullPrecision)
+    {
         ReformatEqualMessage((e, a, p) => a.Equal(e, p), expected, actual, precision);
-        Assert.True(actual.Value.HasSameMeasure(expected.Value), $"Measure mismatch: {actual} != {expected}");
+        Assert.True(actual.HasSameMeasure(expected), $"Measure mismatch: {actual} != {expected}");
+    }
+
+    internal static void Equal(this Quantity actual, Quantity expected, Int32 precision = fullPrecision)
+    {
+        Equal(actual, expected, (a, e) => a.Ratio(e), precision);
     }
 
     public static void Equal<TQuantity>(this TQuantity actual, TQuantity expected, Int32 precision = fullPrecision)
         where TQuantity : struct, IQuantity<TQuantity>, IDimension
     {
-        Equal(actual, expected, (a, e) => a / e, precision);
+        actual.Value.Equal(expected.Value, precision);
     }
 
     public static void Equal<T>(this T actual, T expected, Func<T, T, Double> division, Int32 precision = fullPrecision)

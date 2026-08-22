@@ -21,6 +21,8 @@ public class QuantityFactoryTest
         Object actual = model.Unit switch {
             "m" => QuantityFactory<Length>.Create(unitRepository, model).Build(value),
             "h" => QuantityFactory<Time>.Create(unitRepository, model).Build(value),
+            "mol" => QuantityFactory<AmountOfSubstance>.Create(unitRepository, model).Build(value),
+            "cd" => QuantityFactory<LuminousIntensity>.Create(unitRepository, model).Build(value),
             "ℓ" => QuantityFactory<Volume>.Create(unitRepository, model).Build(value),
             "pt" => QuantityFactory<Volume>.Create(unitRepository, model).Build(value),
             _ => throw new NotSupportedException(model.Unit)
@@ -317,6 +319,22 @@ public class QuantityFactoryTest
                     Unit = "h"
                 },
                 value => Time.Of(value, Metric<Kilo, Hour>())
+            },
+            {
+                new() {
+                    System = "si",
+                    Exponent = 1,
+                    Unit = "mol"
+                },
+                value => AmountOfSubstance.Of(value, Si<Mole>())
+            },
+            {
+                new() {
+                    System = "si",
+                    Exponent = 1,
+                    Unit = "cd"
+                },
+                value => LuminousIntensity.Of(value, Si<Candela>())
             },
             {
                 new() {

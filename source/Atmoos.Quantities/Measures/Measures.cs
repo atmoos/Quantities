@@ -141,8 +141,9 @@ internal readonly struct Invertible<TSelf, TInverse> : IMeasure, ILinear
 
     public static String Representation => TSelf.Representation;
 
-    // ToDo: Inversion of the exponent is not really what we want here. This must be refined.
-    public static void Write(IWriter writer, Int32 exponent) => TSelf.Write(writer, -exponent);
+    // exponent carries TSelf.D.E as a factor (see Dimension.Pow); dividing it back out here recovers
+    // the declared power of TSelf itself, rather than assuming a fixed sign as a plain negation would.
+    public static void Write(IWriter writer, Int32 exponent) => TSelf.Write(writer, exponent * TSelf.D.E);
 
     public static IVisitor Power(IVisitor inject, Int32 exponent) =>
         exponent switch {

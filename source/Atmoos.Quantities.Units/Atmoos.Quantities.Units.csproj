@@ -3,7 +3,7 @@
   <Import Project="../Atmoos.Quantities.Pack.targets" />
 
   <PropertyGroup>
-    <Version>2.2.0</Version>
+    <Version>2.3.0</Version>
     <RootDirectory>../../</RootDirectory>
     <Description>Provides many more units for use with Atmoos.Atmoos.Quantities.</Description>
   </PropertyGroup>

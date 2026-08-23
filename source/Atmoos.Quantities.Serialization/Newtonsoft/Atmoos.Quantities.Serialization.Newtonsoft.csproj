@@ -11,6 +11,6 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-    <PackageReference Include="Atmoos.Quantities" Version="2.3.0" />
+    <ProjectReference Include="..\..\Atmoos.Quantities\Atmoos.Quantities.csproj" />
   </ItemGroup>
 </Project>

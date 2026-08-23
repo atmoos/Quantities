@@ -12,6 +12,12 @@ Toggle the repository between **development mode** and **release mode** for the 
 
 When developing new features or quantities in `Atmoos.Quantities`, downstream projects (`Atmoos.Quantities.Units`, `Atmoos.Quantities.Serialization.Text.Json`, `Atmoos.Quantities.Serialization.Newtonsoft`) reference it as a **NuGet package**. This means changes to `Atmoos.Quantities` are invisible to those projects until a release is published.
 
+## Repository Layout
+
+Treat the workspace/repository root as the base directory for every path in this agent. All projects are located under the `#file:source` folder. Resolve project paths from the repository root, not from the agent file location or the current working directory.
+
+The solution is `#file:source/Atmoos.Quantities.sln`.
+
 This agent switches the three downstream `.csproj` files between:
 
 - **Development mode**: `ProjectReference` — enables rapid prototyping with unreleased changes.
@@ -23,13 +29,13 @@ When the user asks to switch to **development mode** or **release mode**, follow
 
 ### Identifying the Current Mode
 
-Inspect the three target files for the presence of `PackageReference` or `ProjectReference` to `Atmoos.Quantities`:
+From the repository root, inspect the three target files for the presence of `PackageReference` or `ProjectReference` to `Atmoos.Quantities`:
 
 | File | Path |
 |------|------|
-| Units | `source/Atmoos.Quantities.Units/Atmoos.Quantities.Units.csproj` |
-| Text.Json | `source/Atmoos.Quantities.Serialization/Text.Json/Atmoos.Quantities.Serialization.Text.Json.csproj` |
-| Newtonsoft | `source/Atmoos.Quantities.Serialization/Newtonsoft/Atmoos.Quantities.Serialization.Newtonsoft.csproj` |
+| Units | `#file:source/Atmoos.Quantities.Units/Atmoos.Quantities.Units.csproj` |
+| Text.Json | `#file:source/Atmoos.Quantities.Serialization/Text.Json/Atmoos.Quantities.Serialization.Text.Json.csproj` |
+| Newtonsoft | `#file:source/Atmoos.Quantities.Serialization/Newtonsoft/Atmoos.Quantities.Serialization.Newtonsoft.csproj` |
 
 - If they contain `<PackageReference Include="Atmoos.Quantities" ... />` → currently in **release mode**.
 - If they contain `<ProjectReference Include="...Atmoos.Quantities.csproj" />` → currently in **development mode**.
@@ -44,7 +50,7 @@ Replace every `PackageReference` to `Atmoos.Quantities` with the corresponding `
 
 #### Replacements
 
-**`source/Atmoos.Quantities.Units/Atmoos.Quantities.Units.csproj`**
+**`#file:source/Atmoos.Quantities.Units/Atmoos.Quantities.Units.csproj`**
 
 Replace:
 ```xml
@@ -55,7 +61,7 @@ With:
 <ProjectReference Include="..\Atmoos.Quantities\Atmoos.Quantities.csproj" />
 ```
 
-**`source/Atmoos.Quantities.Serialization/Text.Json/Atmoos.Quantities.Serialization.Text.Json.csproj`**
+**`#file:source/Atmoos.Quantities.Serialization/Text.Json/Atmoos.Quantities.Serialization.Text.Json.csproj`**
 
 Replace:
 ```xml
@@ -66,7 +72,7 @@ With:
 <ProjectReference Include="..\..\Atmoos.Quantities\Atmoos.Quantities.csproj" />
 ```
 
-**`source/Atmoos.Quantities.Serialization/Newtonsoft/Atmoos.Quantities.Serialization.Newtonsoft.csproj`**
+**`#file:source/Atmoos.Quantities.Serialization/Newtonsoft/Atmoos.Quantities.Serialization.Newtonsoft.csproj`**
 
 Replace:
 ```xml
@@ -91,7 +97,7 @@ Reverse the development mode changes: replace every `ProjectReference` to `Atmoo
 
 #### Determining the Version
 
-Before making changes, read the version from `source/Atmoos.Quantities/Atmoos.Quantities.csproj`:
+Before making changes, read the version from `#file:source/Atmoos.Quantities/Atmoos.Quantities.csproj`:
 
 ```xml
 <Version>2.2.0</Version>
@@ -101,7 +107,7 @@ Use this version for all `PackageReference` entries to ensure consistency.
 
 #### Replacements
 
-**`source/Atmoos.Quantities.Units/Atmoos.Quantities.Units.csproj`**
+**`#file:source/Atmoos.Quantities.Units/Atmoos.Quantities.Units.csproj`**
 
 Replace:
 ```xml
@@ -112,7 +118,7 @@ With:
 <PackageReference Include="Atmoos.Quantities" Version="{version}" />
 ```
 
-**`source/Atmoos.Quantities.Serialization/Text.Json/Atmoos.Quantities.Serialization.Text.Json.csproj`**
+**`#file:source/Atmoos.Quantities.Serialization/Text.Json/Atmoos.Quantities.Serialization.Text.Json.csproj`**
 
 Replace:
 ```xml
@@ -123,7 +129,7 @@ With:
 <PackageReference Include="Atmoos.Quantities" Version="{version}" />
 ```
 
-**`source/Atmoos.Quantities.Serialization/Newtonsoft/Atmoos.Quantities.Serialization.Newtonsoft.csproj`**
+**`#file:source/Atmoos.Quantities.Serialization/Newtonsoft/Atmoos.Quantities.Serialization.Newtonsoft.csproj`**
 
 Replace:
 ```xml
@@ -134,16 +140,17 @@ With:
 <PackageReference Include="Atmoos.Quantities" Version="{version}" />
 ```
 
-Where `{version}` is the value read from `source/Atmoos.Quantities/Atmoos.Quantities.csproj`.
+Where `{version}` is the value read from `#file:source/Atmoos.Quantities/Atmoos.Quantities.csproj`.
 
 ---
 
 ## Verification
 
-After making changes, **always** build the solution to confirm everything compiles:
+After making changes, **always** change to the repository root and build `#file:source/Atmoos.Quantities.sln` to confirm everything compiles:
 
 ```bash
-dotnet build source/Quantities.sln
+cd <repository-root>
+dotnet build source/Atmoos.Quantities.sln
 ```
 
 Report the result to the user.
@@ -152,7 +159,7 @@ Report the result to the user.
 
 ## Safety Rules
 
-1. **Never** modify `source/Atmoos.Quantities/Atmoos.Quantities.csproj` itself.
+1. **Never** modify `#file:source/Atmoos.Quantities/Atmoos.Quantities.csproj` itself.
 2. **Never** change references other than `Atmoos.Quantities` (e.g., `Newtonsoft.Json`, `Atmoos.Sphere`).
 3. **Never** change version numbers in `<PropertyGroup>` — only the `PackageReference` version attribute.
 4. If any of the three files are already in the target mode, skip them and inform the user.

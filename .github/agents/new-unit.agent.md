@@ -18,7 +18,7 @@ When asked to create a new unit, follow these steps:
 4. **Create the unit struct** in the correct project and namespace.
 5. **Build and verify** the solution compiles.
 
-Always adhere to the coding conventions defined in `.github/copilot-instructions.md`.
+Always adhere to the coding conventions defined in `AGENTS.md`.
 
 ---
 

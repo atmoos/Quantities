@@ -1,4 +1,4 @@
-# GitHub Copilot Instructions
+# Repository Guidelines
 
 **When generating, editing, or suggesting code for this project, strictly adhere to the following coding conventions and style guidelines.**
 
@@ -16,14 +16,14 @@ The internal `Quantity` core type is used only by the outer quantity structs (su
 
 Each C# project has a `readme.md` file that describes the domain knowledge and design principles of the project. This file should be used as a reference when generating code for the project to ensure that the generated code aligns with the project's goals and design.
 
-- [Quantities](../source/Atmoos.Quantities/readme.md)
+- [Quantities](source/Atmoos.Quantities/readme.md)
   - exhaustively lists all quantities
   - also lists units that are predefined in the library
-- [Units](../source/Atmoos.Quantities.Units/readme.md)
+- [Units](source/Atmoos.Quantities.Units/readme.md)
   - lists all other units
 - Serialization
-  - [System.Text.Json](../source/Atmoos.Quantities.Serialization/Text.Json/readme.md)
-  - [Newtonsoft](../source/Atmoos.Quantities.Serialization/Newtonsoft/readme.md)
+  - [System.Text.Json](source/Atmoos.Quantities.Serialization/Text.Json/readme.md)
+  - [Newtonsoft](source/Atmoos.Quantities.Serialization/Newtonsoft/readme.md)
 
 
 # Code Style Guidelines

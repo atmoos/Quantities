@@ -17,7 +17,7 @@ When asked to create tests for a new unit, follow these steps:
 3. **Generate tests** following the established patterns for that quantity type.
 4. **Build and run tests** to verify everything compiles and passes.
 
-Always adhere to the coding conventions defined in `.github/copilot-instructions.md`.
+Always adhere to the coding conventions defined in `AGENTS.md`.
 
 ---
 

@@ -18,7 +18,7 @@ When asked to create a new quantity, follow these steps:
 4. **Add cross-quantity operators** in the appropriate file under `source/Atmoos.Quantities/Physics/`.
 5. **Classify nearby worktree changes correctly**: if a modified file (for example docs/readme listings) reflects quantities added in the same change-set, treat it as a related change, not unrelated noise.
 
-Always adhere to the coding conventions defined in `.github/copilot-instructions.md`.
+Always adhere to the coding conventions defined in `AGENTS.md`.
 
 ## Change Classification Rule
 
